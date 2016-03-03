@@ -17,7 +17,7 @@ The specification of the CORDET Framework is language-independent. This project 
 These characteristics make the C2 Implementation especially well-suited for use in embedded and mission-critical applications. 
 
 # Releases
-* Version [0.7.0](http://pnp-software.com/cordetfw/CordetFw_C2_Impl_LGPLv3_0.7.0.zip), LGPLv3
+* Version [0.7.1](http://pnp-software.com/cordetfw/CordetFw_C2_Impl_LGPLv3_0.7.1.zip), LGPLv3
 
 # Ownership
 
