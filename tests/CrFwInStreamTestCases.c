@@ -148,14 +148,16 @@ CrFwBool_t CrFwInStreamTestCase2() {
 	CrFwInStreamStubSetPcktDest(CR_FW_HOST_APP_ID);
 	CrFwInStreamStubSetPcktGroup(0);		/* First InStream only has one group */
 	CrFwInStreamStubSetPcktCollectionCnt(2);
+	CrFwInStreamStubSetPcktSeqCnt(5555);
 
 	/* Send PACKET_AVAILABLE command to InStream */
+	CrFwInStreamSetSeqCnt(inStream0, 0, 5555);
 	CrFwInStreamPcktAvail(inStream0);
 	if (!CrFwInStreamIsInPcktAvail(inStream0))
 		return 0;
 	if (CrFwInStreamGetNOfPendingPckts(inStream0) != 2)
 		return 0;
-	if (CrFwInStreamGetSeqCnt(inStream0,0) != 2)
+	if (CrFwInStreamGetSeqCnt(inStream0,0) != (5555+2))
 		return 0;
 
 	/* Send first GET_PCKT command to InStream */
@@ -164,7 +166,7 @@ CrFwBool_t CrFwInStreamTestCase2() {
 		return 0;
 	if (CrFwInStreamGetNOfPendingPckts(inStream0) != 1)
 		return 0;
-	if (CrFwPcktGetSeqCnt(pckt1) != 1)
+	if (CrFwPcktGetSeqCnt(pckt1) != 5556)
 		return 0;
 
 	/* Send second GET_PCKT command to InStream */
@@ -173,7 +175,7 @@ CrFwBool_t CrFwInStreamTestCase2() {
 		return 0;
 	if (CrFwInStreamGetNOfPendingPckts(inStream0) != 0)
 		return 0;
-	if (CrFwPcktGetSeqCnt(pckt2) != 2)
+	if (CrFwPcktGetSeqCnt(pckt2) != 5557)
 		return 0;
 
 	/* De-allocate packets */

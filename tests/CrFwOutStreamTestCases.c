@@ -699,6 +699,7 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 	CrFwPcktSetSeqCnt(pckt3,99);
 
 	/* Send the packets to the OutStream and check outcome */
+	CrFwOutStreamSetSeqCnt(outStream1, 1, 2222);
 	CrFwOutStreamSend(outStream1, pckt1);
 	CrFwOutStreamSend(outStream1, pckt2);
 	CrFwOutStreamSend(outStream1, pckt3);
@@ -708,11 +709,11 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 		return 0;
 	if (CrFwOutStreamGetSeqCnt(outStream1,0) != 2)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream1,1) != 2)
+	if (CrFwOutStreamGetSeqCnt(outStream1,1) != 2223)
 		return 0;
 	if (CrFwPcktGetSeqCnt(pckt1) != 1)
 		return 0;
-	if (CrFwPcktGetSeqCnt(pckt2) != 1)
+	if (CrFwPcktGetSeqCnt(pckt2) != 2222)
 		return 0;
 	if (CrFwPcktGetSeqCnt(pckt3) != 99)
 		return 0;
@@ -750,7 +751,7 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 		return 0;
 	if (CrFwOutStreamGetSeqCnt(outStream1,0) != 2)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream1,1) != 2)
+	if (CrFwOutStreamGetSeqCnt(outStream1,1) != 2223)
 		return 0;
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+1)
 		return 0;
@@ -769,7 +770,7 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 		return 0;
 	if (CrFwOutStreamGetSeqCnt(outStream1,0) != 3)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream1,1) != 3)
+	if (CrFwOutStreamGetSeqCnt(outStream1,1) != 2224)
 		return 0;
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+2)
 		return 0;

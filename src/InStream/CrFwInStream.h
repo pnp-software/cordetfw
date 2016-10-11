@@ -201,6 +201,16 @@ void CrFwInStreamDefShutdownAction(FwSmDesc_t smDesc);
 CrFwSeqCnt_t CrFwInStreamGetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group);
 
 /**
+ * Overwrites the sequence counter value of the last packet for a group.
+ * Can be used to update the expected sequence counter value for the next
+ * packet.
+ * @param smDesc the descriptor of the InStream State Machine
+ * @param group the identifier of the group
+ * @param seqCnt the InStream sequence counter
+ */
+void CrFwInStreamSetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group, CrFwSeqCnt_t seqCnt);
+
+/**
  * Return the number of packets currently in the packet queue of an InStream.
  * @param smDesc the descriptor of the InStream State Machine
  * @return the number of packets currently in the packet queue of the InStream.
