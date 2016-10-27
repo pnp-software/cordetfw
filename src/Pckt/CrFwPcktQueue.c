@@ -107,7 +107,7 @@ void CrFwPcktQueueInit(CrFwPcktQueue_t pcktQueue, CrFwCounterU1_t size) {
 	if (pcktQueue->pckt != NULL)
 		return;
 
-	pcktQueue->pckt = malloc(size*sizeof(CrFwPckt_t*));
+	pcktQueue->pckt = malloc(size*sizeof(CrFwPckt_t));
 	for (i=0; i<size; i++)
 		pcktQueue->pckt[i] = NULL;
 	pcktQueue->isEmpty = 1;
