@@ -44,8 +44,8 @@ ifeq ($(CC), gcc)
 endif	
 
 clean:
-	@$(RM) -r $(ODIR)
 	@$(RM) *.gcov
+	@$(RM) -r $(ODIR)
 
 create_dir:
 	@mkdir -p $(OBJS_DIR)
