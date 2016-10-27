@@ -33,10 +33,10 @@
 #include "CrFwInRep.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 /* FW Profile Files */
-#include "FwProfile/FwPrConstants.h"
-#include "FwProfile/FwPrDCreate.h"
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrCore.h"
+#include "FwPrConstants.h"
+#include "FwPrDCreate.h"
+#include "FwPrConfig.h"
+#include "FwPrCore.h"
 
 /**
  * Function implementing the action of the single node in the Report Execution Procedure.

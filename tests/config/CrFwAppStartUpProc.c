@@ -38,10 +38,10 @@
 
 #include <stdlib.h>
 /* Include FW Profile Files */
-#include "FwProfile/FwPrDCreate.h"
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrCore.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwPrDCreate.h"
+#include "FwPrConfig.h"
+#include "FwPrCore.h"
+#include "FwPrConstants.h"
 /* Include Framework Files */
 #include "CrFwConstants.h"
 #include "AppStartUp/CrFwAppResetProc.h"

@@ -14,4 +14,9 @@ env:
 
 sudo: false
 
-script: scons
+script: 
+  - make clean
+  - make test && make run-test && make coverage-info
+  
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

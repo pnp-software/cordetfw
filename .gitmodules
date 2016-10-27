@@ -1,0 +1,4 @@
+[submodule "lib/fwprofile"]
+	path = lib/fwprofile
+	url = https://github.com/pnp-software/fwprofile.git
+	branch = master

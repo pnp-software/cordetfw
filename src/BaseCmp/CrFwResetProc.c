@@ -29,10 +29,10 @@
 #include "CrFwResetProc.h"
 #include "CrFwBaseCmp.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
-#include "FwProfile/FwPrConstants.h"
-#include "FwProfile/FwPrDCreate.h"
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrCore.h"
+#include "FwPrConstants.h"
+#include "FwPrDCreate.h"
+#include "FwPrConfig.h"
+#include "FwPrCore.h"
 #include "CrFwCmpData.h"
 
 /** The singleton instance of the CRP. */

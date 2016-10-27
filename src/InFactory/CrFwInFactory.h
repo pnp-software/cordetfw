@@ -79,8 +79,8 @@
 /* Include Framework files */
 #include "CrFwConstants.h"
 /* Include FW Profile files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwSmCore.h"
+#include "FwSmConstants.h"
+#include "FwSmCore.h"
 
 /**
  * Factory function for the singleton instance of the InFactory.

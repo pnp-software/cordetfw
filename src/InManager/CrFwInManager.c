@@ -45,14 +45,14 @@
 #include "InCmd/CrFwInCmd.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 /* Include FW Profile files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwSmDCreate.h"
-#include "FwProfile/FwSmConfig.h"
-#include "FwProfile/FwSmCore.h"
-#include "FwProfile/FwPrConstants.h"
-#include "FwProfile/FwPrDCreate.h"
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrCore.h"
+#include "FwSmConstants.h"
+#include "FwSmDCreate.h"
+#include "FwSmConfig.h"
+#include "FwSmCore.h"
+#include "FwPrConstants.h"
+#include "FwPrDCreate.h"
+#include "FwPrConfig.h"
+#include "FwPrCore.h"
 
 /** The sizes of the PCRL in the InManager components. */
 static CrFwCounterU2_t inManagerPcrlSize[CR_FW_NOF_INMANAGER] = CR_FW_INMANAGER_PCRLSIZE;
