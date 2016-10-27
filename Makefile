@@ -15,9 +15,12 @@ GCOV = $(patsubst %,$(ODIR)/%,$(SRCS:.c=.gcov))
 OBJS_DIR = $(shell dirname $(OBJS))
 MAIN = $(ODIR)/testsuite
 
-.PHONY: clean test create_dir coverage run-test coverage-info
+.PHONY: clean test create_dir coverage run-test coverage-info coverage-cp info
 
 all: test
+
+info:
+	@echo $(shell echo $$0)
 
 test: create_dir $(MAIN)
 $(MAIN): $(OBJS)

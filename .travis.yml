@@ -3,7 +3,7 @@
 language: c
 
 compiler:
-  - clang
+#  - clang
   - gcc
 
 os:
@@ -15,8 +15,11 @@ env:
 sudo: false
 
 script: 
+  - make info
   - make clean
-  - make test && make run-test && make coverage-info
-  
+  - make test 
+  - make run-test 
+  - make coverage-info
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
