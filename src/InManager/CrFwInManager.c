@@ -155,9 +155,9 @@ FwSmDesc_t CrFwInManagerMake(CrFwInstanceId_t i) {
 
 /*-----------------------------------------------------------------------------------------*/
 static void InManagerExecAction(FwPrDesc_t prDesc) {
-	CrFwCmpData_t* inManagerData = (CrFwCmpData_t*)FwPrGetData(prDesc);
-	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerData->cmpSpecificData;
-	CrFwInstanceId_t id = inManagerData->instanceId;
+	CrFwCmpData_t* inManagerDataLocal = (CrFwCmpData_t*)FwPrGetData(prDesc);
+	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerDataLocal->cmpSpecificData;
+	CrFwInstanceId_t id = inManagerDataLocal->instanceId;
 	FwSmDesc_t inCmp;
 	CrFwCmpData_t* inCmpData;
 	CrFwCounterU2_t i;
@@ -196,9 +196,9 @@ static void InManagerExecAction(FwPrDesc_t prDesc) {
 
 /*-----------------------------------------------------------------------------------------*/
 CrFwBool_t CrFwInManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t inCmp) {
-	CrFwCmpData_t* inManagerData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerData->cmpSpecificData;
-	CrFwInstanceId_t id = inManagerData->instanceId;
+	CrFwCmpData_t* inManagerDataLocal = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerDataLocal->cmpSpecificData;
+	CrFwInstanceId_t id = inManagerDataLocal->instanceId;
 	CrFwCounterU2_t i, j, freePos, size;
 
 	freePos = inManagerCSData->nextFreePcrlPos;
@@ -206,7 +206,7 @@ CrFwBool_t CrFwInManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t inCmp) {
 
 	/* Check if PCRL is already full */
 	if (freePos == size) {
-		CrFwRepErr(crInManagerPcrlFull, inManagerData->typeId, inManagerData->instanceId);
+		CrFwRepErr(crInManagerPcrlFull, inManagerDataLocal->typeId, inManagerDataLocal->instanceId);
 		return 0;
 	}
 
@@ -240,21 +240,21 @@ CrFwBool_t CrFwInManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t inCmp) {
 /*-----------------------------------------------------------------------------------------*/
 static void InManagerInitAction(FwPrDesc_t initPr) {
 	CrFwCounterU1_t i;
-	CrFwCmpData_t* inManagerData = (CrFwCmpData_t*)FwPrGetData(initPr);
-	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerData->cmpSpecificData;
-	CrFwInstanceId_t id = inManagerData->instanceId;
+	CrFwCmpData_t* inManagerDataLocal = (CrFwCmpData_t*)FwPrGetData(initPr);
+	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerDataLocal->cmpSpecificData;
+	CrFwInstanceId_t id = inManagerDataLocal->instanceId;
 	inManagerCSData->pcrl = malloc(sizeof(FwSmDesc_t)*inManagerPcrlSize[id]);
 	for (i=0; i<inManagerPcrlSize[id]; i++)
 		inManagerCSData->pcrl[i] = NULL;
 	inManagerCSData->nOfInCmpInPcrl = 0;
-	inManagerData->outcome = 1;
+	inManagerDataLocal->outcome = 1;
 }
 
 /*-----------------------------------------------------------------------------------------*/
 static void InManagerConfigAction(FwPrDesc_t initPr) {
-	CrFwCmpData_t* inManagerData = (CrFwCmpData_t*)FwPrGetData(initPr);
-	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerData->cmpSpecificData;
-	CrFwInstanceId_t id = inManagerData->instanceId;
+	CrFwCmpData_t* inManagerDataLocal = (CrFwCmpData_t*)FwPrGetData(initPr);
+	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerDataLocal->cmpSpecificData;
+	CrFwInstanceId_t id = inManagerDataLocal->instanceId;
 	CrFwCmpData_t* inCmpData;
 	CrFwCounterU1_t i;
 
@@ -271,14 +271,14 @@ static void InManagerConfigAction(FwPrDesc_t initPr) {
 	inManagerCSData->nOfInCmpInPcrl = 0;
 	inManagerCSData->nOfLoadedInCmp = 0;
 	inManagerCSData->nextFreePcrlPos = 0;
-	inManagerData->outcome = 1;
+	inManagerDataLocal->outcome = 1;
 }
 
 /*-----------------------------------------------------------------------------------------*/
 static void InManagerShutdownAction(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* inManagerData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerData->cmpSpecificData;
-	CrFwInstanceId_t id = inManagerData->instanceId;
+	CrFwCmpData_t* inManagerDataLocal = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerDataLocal->cmpSpecificData;
+	CrFwInstanceId_t id = inManagerDataLocal->instanceId;
 	CrFwCmpData_t* inCmpData;
 	CrFwCounterU1_t i;
 
