@@ -44,10 +44,10 @@ ifeq ($(CC), gcc)
 endif	
 
 clean:
-	$(shell rm -drf $(ODIR))
-	$(shell rm *.gcov)
+	@$(RM) -r $(ODIR)
+	@$(RM) *.gcov
 
 create_dir:
-	$(shell mkdir -p $(OBJS_DIR))
+	@mkdir -p $(OBJS_DIR)
 
 print-%: ; @echo $*=$($*)
