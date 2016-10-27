@@ -12,7 +12,7 @@ SRCS = $(SRCS_FW) $(SRCS_CR) $(SRCS_TS)
 ODIR = bin
 OBJS = $(patsubst %,$(ODIR)/%,$(SRCS:.c=.o))
 GCOV = $(patsubst %,$(ODIR)/%,$(SRCS:.c=.gcov))
-OBJS_DIR = $(shell dirname $(OBJS))
+OBJS_DIR = $(dir $(OBJS))
 MAIN = $(ODIR)/testsuite
 
 .PHONY: clean test create_dir coverage run-test coverage-info coverage-cp info
