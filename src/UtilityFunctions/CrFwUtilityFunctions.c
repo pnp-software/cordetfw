@@ -124,7 +124,6 @@ CrFwCmdRepKindIndex_t CrFwFindCmdRepKindIndex(CrFwCmdRepKindKey_t* cmdRepKindArr
 	CrFwCmdRepKindIndex_t pos_lower, pos_upper, pos_half;
 
 	pos_lower = 0;
-	pos_half = length/2;
 	pos_upper = (CrFwCmdRepKindIndex_t)(length-1);
 
 	while (pos_lower < pos_upper) {
