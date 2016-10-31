@@ -92,13 +92,17 @@ CrFwBool_t CrFwAuxOutRegistryConfigCheck() {
 
 	for (i=0; i<(CR_FW_OUTREGISTRY_NSERV-1); i++) {
 		if (servDesc[i].servType > servDesc[i+1].servType)
+			/* The following can be dead code, depending on the specific
+			 * instantiation of the FW Profile.*/
 			return 0;
 		if (servDesc[i].servType == servDesc[i+1].servType)
 			if (servDesc[i].servSubType > servDesc[i+1].servSubType)
+				/* The following can be dead code, depending on the specific
+				 * instantiation of the FW Profile.*/
 				return 0;
 	}
 
-	for (i=0; i<(CR_FW_OUTREGISTRY_NSERV-1); i++) {
+	for (i=0; i<CR_FW_OUTREGISTRY_NSERV; i++) {
 		servType = servDesc[i].servType;
 		servSubType = servDesc[i].servSubType;
 		found = 0;
@@ -112,18 +116,26 @@ CrFwBool_t CrFwAuxOutRegistryConfigCheck() {
 				break;
 		}
 		if (found == 0)
+			/* The following can be dead code, depending on the specific
+			 * instantiation of the FW Profile.*/
 			return 0;
 	}
 
 	for (k=0; k<CR_FW_NOF_INSTREAM; k++)
+		/* The following can be dead code, depending on the specific
+		 * instantiation of the FW Profile.*/
 		if (inStreamPcktQueueSize[k]<1)
 			return 0;
 
 	for (k=0; k<CR_FW_NOF_OUTSTREAM; k++)
+		/* The following can be dead code, depending on the specific
+		 * instantiation of the FW Profile.*/
 		if (outStreamPcktQueueSize[k]<1)
 			return 0;
 
 	for (k=0; k<CR_FW_NOF_OUTMANAGER; k++)
+		/* The following can be dead code, depending on the specific
+		 * instantiation of the FW Profile.*/
 		if (outManagerPoclSize[k]<1)
 			return 0;
 
