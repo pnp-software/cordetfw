@@ -30,7 +30,7 @@
 #ifndef CRFW_USERCONSTANTS_H_
 #define CRFW_USERCONSTANTS_H_
 
-#include "FwProfile/FwPrConstants.h"
+#include "FwPrConstants.h"
 
 /** Type used for instance identifiers. */
 typedef unsigned short CrFwInstanceId_t;

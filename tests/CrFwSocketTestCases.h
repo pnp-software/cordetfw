@@ -32,7 +32,7 @@
 /* Include framework files */
 #include "CrFwConstants.h"
 /* Include FW Profile files */
-#include "FwProfile/FwSmConstants.h"
+#include "FwSmConstants.h"
 
 /**
  * Test the initialization and configuration of the socket-based InStream and

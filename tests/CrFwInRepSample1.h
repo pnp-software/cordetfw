@@ -41,7 +41,7 @@
 /* Include framework components */
 #include "CrFwConstants.h"
 /* Include FW Profile components */
-#include "FwProfile/FwSmCore.h"
+#include "FwSmCore.h"
 
 /**
  * Implementation of the Validity Check Operation for the Sample 1 InReport.

@@ -44,12 +44,12 @@
 #include "InRegistry/CrFwInRegistry.h"
 #include "CrFwInFactory.h"
 /* Include FW Profile files */
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrDCreate.h"
-#include "FwProfile/FwSmConfig.h"
-#include "FwProfile/FwSmCore.h"
-#include "FwProfile/FwSmDCreate.h"
-#include "FwProfile/FwPrCore.h"
+#include "FwPrConfig.h"
+#include "FwPrDCreate.h"
+#include "FwSmConfig.h"
+#include "FwSmCore.h"
+#include "FwSmDCreate.h"
+#include "FwPrCore.h"
 
 /** Array holding the keys of the InCommand kinds */
 static CrFwCmdRepKindKey_t inCmdKindKey[CR_FW_INCMD_NKINDS];

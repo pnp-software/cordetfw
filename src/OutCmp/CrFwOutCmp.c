@@ -42,11 +42,11 @@
 #include "Pckt/CrFwPckt.h"
 #include "CrFwTime.h"
 /* Include FW Profile files */
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrDCreate.h"
-#include "FwProfile/FwSmConfig.h"
-#include "FwProfile/FwSmDCreate.h"
-#include "FwProfile/FwPrCore.h"
+#include "FwPrConfig.h"
+#include "FwPrDCreate.h"
+#include "FwSmConfig.h"
+#include "FwSmDCreate.h"
+#include "FwPrCore.h"
 
 /** Base OutComponent from which all other OutComponents are derived. */
 static FwSmDesc_t baseOutCmpSmDesc = NULL;

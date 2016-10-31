@@ -65,8 +65,8 @@
 #define CRFW_INCMD_H_
 
 /* Include FW Profile files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwSmConstants.h"
+#include "FwPrConstants.h"
 /* Include configuration files */
 #include "Pckt/CrFwPcktQueue.h"
 #include "CrFwUserConstants.h"
