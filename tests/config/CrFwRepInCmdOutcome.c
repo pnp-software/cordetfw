@@ -84,7 +84,7 @@ void CrFwRepInCmdOutcomeStubReset() {
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanceId, CrFwServType_t servType,
-                         CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode, FwSmDesc_t inCmd) {
+                         CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode, __attribute__((unused)) FwSmDesc_t inCmd) {
 
 	inCmdOutcomeRepArray[inCmdOutcomeRepPos].outcome = outcome;
 	inCmdOutcomeRepArray[inCmdOutcomeRepPos].instanceId = instanceId;
