@@ -30,8 +30,8 @@
 #ifndef CRFW_CONSTANTS_H_
 #define CRFW_CONSTANTS_H_
 
-#include "FwProfile/FwPrConstants.h"
-#include "FwProfile/FwSmConstants.h"
+#include "FwPrConstants.h"
+#include "FwSmConstants.h"
 #include "CrFwUserConstants.h"
 
 /** A macro that can be used to specify that a function parameter is not used */

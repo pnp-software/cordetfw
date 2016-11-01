@@ -39,11 +39,11 @@
 #include "BaseCmp/CrFwDummyExecProc.h"
 #include "CrFwOutRegistry.h"
 /* Include FW Profile files */
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrDCreate.h"
-#include "FwProfile/FwSmConfig.h"
-#include "FwProfile/FwSmDCreate.h"
-#include "FwProfile/FwPrCore.h"
+#include "FwPrConfig.h"
+#include "FwPrDCreate.h"
+#include "FwSmConfig.h"
+#include "FwSmDCreate.h"
+#include "FwPrCore.h"
 
 /** Array of service descriptors (see <code>CrFwServDesc_t</code>). */
 static CrFwServDesc_t servDesc[CR_FW_OUTREGISTRY_NSERV] = CR_FW_OUTREGISTRY_INIT_SERV_DESC;

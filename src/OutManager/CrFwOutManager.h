@@ -79,8 +79,8 @@
 #define CRFW_OUT_MANAGER_H_
 
 /* Include FW Profile Files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwSmConstants.h"
+#include "FwPrConstants.h"
 /* Include Framework Files */
 #include "CrFwConstants.h"
 /* Include Configuration Files */

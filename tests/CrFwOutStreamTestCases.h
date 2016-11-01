@@ -31,7 +31,7 @@
 /* Include framework files */
 #include "CrFwConstants.h"
 /* Include FW Profile files */
-#include "FwProfile/FwSmCore.h"
+#include "FwSmCore.h"
 
 /**
  * Test the initialization and packet queue (PQ) management of the OutStream.

@@ -44,8 +44,8 @@
 #ifndef CRFW_INIT_PROC_H_
 #define CRFW_INIT_PROC_H_
 
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwSmConstants.h"
+#include "FwPrConstants.h"
 #include "CrFwConstants.h"
 
 /**

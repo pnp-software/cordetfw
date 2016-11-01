@@ -35,12 +35,12 @@
 /* Include Configuration Files */
 #include "CrFwUserConstants.h"
 /* Include FW Profile files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwSmConfig.h"
-#include "FwProfile/FwSmCore.h"
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrCore.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwSmConstants.h"
+#include "FwSmConfig.h"
+#include "FwSmCore.h"
+#include "FwPrConfig.h"
+#include "FwPrCore.h"
+#include "FwPrConstants.h"
 
 /**
  * Stub function implementing the packet collect operation for the InStream

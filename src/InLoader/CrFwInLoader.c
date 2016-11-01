@@ -49,14 +49,14 @@
 #include "OutStream/CrFwOutStream.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 /* Include FW Profile files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwSmDCreate.h"
-#include "FwProfile/FwSmConfig.h"
-#include "FwProfile/FwSmCore.h"
-#include "FwProfile/FwPrConstants.h"
-#include "FwProfile/FwPrDCreate.h"
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrCore.h"
+#include "FwSmConstants.h"
+#include "FwSmDCreate.h"
+#include "FwSmConfig.h"
+#include "FwSmCore.h"
+#include "FwPrConstants.h"
+#include "FwPrDCreate.h"
+#include "FwPrConfig.h"
+#include "FwPrCore.h"
 
 /** The InLoader singleton */
 static FwSmDesc_t inLoader = NULL;

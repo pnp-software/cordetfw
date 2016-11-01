@@ -71,8 +71,8 @@
 #define CRFW_INSTREAM_H_
 
 /* Include FW Profile Files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwSmConstants.h"
+#include "FwPrConstants.h"
 /* Include Configuration Files */
 #include "Pckt/CrFwPcktQueue.h"
 #include "CrFwUserConstants.h"

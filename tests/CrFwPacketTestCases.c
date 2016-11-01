@@ -29,12 +29,12 @@
 #include <stdlib.h>
 #include "CrFwPacketTestCases.h"
 /* Include FW Profile Files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwSmConfig.h"
-#include "FwProfile/FwSmCore.h"
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrCore.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwSmConstants.h"
+#include "FwSmConfig.h"
+#include "FwSmCore.h"
+#include "FwPrConfig.h"
+#include "FwPrCore.h"
+#include "FwPrConstants.h"
 /* Include Framework Files */
 #include "Pckt/CrFwPckt.h"
 #include "Pckt/CrFwPcktQueue.h"
