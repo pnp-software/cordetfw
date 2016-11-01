@@ -330,6 +330,10 @@ static void EnqueuePckt(FwSmDesc_t smDesc) {
 	CrFwPcktLength_t len = CrFwPcktGetLength(pckt);
 
 	pcktCopy = CrFwPcktMake(CrFwPcktGetLength(pckt));
+	if (pcktCopy == NULL) {
+		CrFwRepErr(crOutStreamNoMorePckt, outStreamBaseData->typeId, outStreamBaseData->instanceId);
+		return;
+	}
 	memcpy(pcktCopy,pckt,len);
 	if (!CrFwPcktQueuePush(pcktQueue, pcktCopy)) {
 		CrFwRepErr(crOutStreamPQFull, outStreamBaseData->typeId, outStreamBaseData->instanceId);
@@ -399,6 +403,10 @@ static void SendOrEnqueue(FwSmDesc_t smDesc) {
 		pcktQueue = &(cmpSpecificData->pcktQueue);
 		len = CrFwPcktGetLength(pckt);
 		pcktCopy = CrFwPcktMake(len);
+		if (pcktCopy == NULL) {
+			CrFwRepErr(crOutStreamNoMorePckt, outStreamBaseData->typeId, outStreamBaseData->instanceId);
+			return;
+		}
 		memcpy(pcktCopy,pckt,len);
 		CrFwPcktQueuePush(pcktQueue,pcktCopy);	/* Enqueue packet, queue is empty at entry in READY */
 	} else {

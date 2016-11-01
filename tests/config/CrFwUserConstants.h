@@ -126,7 +126,9 @@ typedef enum {
 	/** An OutComponent has an illegal group */
 	crOutStreamIllGroup = 10,
 	/** An incoming command or report has an illegal group */
-	crInStreamIllGroup = 11
+	crInStreamIllGroup = 11,
+	/** An OutStream cannot buffer an out-going packet because no more packets are available (see <code>CrFwOutStream.h</code>) */
+	crOutStreamNoMorePckt =12
 } CrFwRepErrCode_t;
 
 /**

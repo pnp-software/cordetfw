@@ -163,6 +163,7 @@ static void InManagerExecAction(FwPrDesc_t prDesc) {
 	CrFwCounterU2_t i;
 	CrFwInRegistryCmdRepState_t inCmpState;
 
+	inManagerCSData->nextFreePcrlPos = 0;
 	for (i=0; i<inManagerPcrlSize[id]; i++) {
 		inCmp = inManagerCSData->pcrl[i];
 		if (inCmp != NULL) {
@@ -184,7 +185,6 @@ static void InManagerExecAction(FwPrDesc_t prDesc) {
 				/* Remove inCmp from PCRL */
 				inManagerCSData->pcrl[i] = NULL;
 				inManagerCSData->nOfInCmpInPcrl--;
-				inManagerCSData->nextFreePcrlPos = (CrFwCounterU1_t)i;
 				if (inCmpData->typeId == CR_FW_INREPORT_TYPE)
 					CrFwInFactoryReleaseInRep(inCmp);
 				else
@@ -199,16 +199,28 @@ CrFwBool_t CrFwInManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t inCmp) {
 	CrFwCmpData_t* inManagerData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerData->cmpSpecificData;
 	CrFwInstanceId_t id = inManagerData->instanceId;
-	CrFwCounterU2_t i, j, freePos, size;
+	CrFwCounterU2_t i, freePos, size;
 
 	freePos = inManagerCSData->nextFreePcrlPos;
 	size = inManagerPcrlSize[id];
 
 	/* Check if PCRL is already full */
-	if (freePos == size) {
+	if (inManagerCSData->nOfInCmpInPcrl == size) {
 		CrFwRepErr(crInManagerPcrlFull, inManagerData->typeId, inManagerData->instanceId);
 		return 0;
 	}
+
+	/* Check if this is the first load request after the OutManager was reset or after it was executed.
+	 * If this is the case, find the first free position in the PCRL.
+	 * NB: Since the for-loop is only entered if the PCRL is not full, it will always terminate
+	 *     through the break. This means that, when measuring branch coverage, the fall-through case
+	 *     at the for-loop will never occur. */
+	if (freePos == 0)
+		for (i=0; i<size; i++)
+			if (inManagerCSData->pcrl[i] == NULL) {
+				freePos = i;
+				break;
+			}
 
 	/* PCRL is not full --> load inCmp */
 	inManagerCSData->pcrl[freePos] = inCmp;
@@ -218,21 +230,12 @@ CrFwBool_t CrFwInManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t inCmp) {
 	/* Start tracking inCmp */
 	CrFwInRegistryStartTracking(inCmp);
 
-	/* Identify next free position in PCRL. This is done by moving backward from the current
-	 * free position. We move backward in order to improve the chances of finding a free position
-	 * quickly (recall that InManagerExecAction moves forward when executing InReports/InCommands) */
-	j = freePos;
-	for (i=0; i<(size-1); i++) {
-		if (j == 0)
-			j = (CrFwCounterU2_t)(size-1);
-		else
-			j--;
-		if (inManagerCSData->pcrl[j] == NULL) {
-			inManagerCSData->nextFreePcrlPos = (CrFwCounterU1_t)j;
+	/* Identify next free position in PCRL */
+	for (i=freePos+1; i<size; i++)
+		if (inManagerCSData->pcrl[i] == NULL) {
+			inManagerCSData->nextFreePcrlPos = (CrFwCounterU1_t)i;
 			return 1; /* a free position has been found */
 		}
-	}
-	inManagerCSData->nextFreePcrlPos = (CrFwCounterU1_t)size;	/* no free position was found */
 
 	return 1;
 }

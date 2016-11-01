@@ -110,11 +110,30 @@ FwSmDesc_t CrFwInManagerMake(CrFwInstanceId_t inManagerId);
 /**
  * Load a new InReport or InCommand into the InManager.
  * The behaviour implemented by this function is shown in the activity diagram below.
- * The algorithm to search for a free position in the Pending Command/Report List (PCRL)
- * is optimized for a situation where multiple load operations are performed before
- * the InManager is executed.
- * However, in a worst-case, the algorithm may have to scan the entire PCRL to find a
- * free position where to insert the InCommand or InReport.
+ * If the PCRL is not full, the function identifies a free position in the PCRL where
+ * to store the InReport/InCommand.
+ * This function adds InReport/InCommand to the PCRL. The PCRL is flushed when the InManager
+ * is executed (i.e. it is flushed by function <code>::InManagerExecAction</code>).
+ * The algorithms to identify a free position in the PCRL and to process the PCRL
+ * entries when the InManager is executed are optimized for a situation where multiple
+ * load operations are performed before the InManager is executed.
+ *
+ * Additionally, these algorithms guarantee the following ordering constraint.
+ * Let InReports/InCommands C1 to Cn be successfully loaded into an InManager through a sequence
+ * of calls to function <code>::CrFwInManagerLoad</code> and assume that this sequence
+ * of load operations is not interrupted by an execution of the InManager.
+ * Under these conditions, when the InManager is executed next, the InReport/InCommand C1 to
+ * Cn will be processed in the order in which they have been loaded.
+ *
+ * The implementation of function <code>::CrFwInManagerLoad</code> is based on the
+ * internal variable <code>freePos</code>. This variable has the following
+ * characteristics:
+ * - it is initialized to point to the first entry in the PCRL;
+ * - after the execution of the load function, <code>freePos</code> either points to the next
+ * free position in the PCRL or is equal to the PCRL size if the PCRL is full;
+ * - after execution of the InManager, it is re-initialized to point to the first position
+ * in the PCRL.
+ * .
  * @image html InManagerLoad.png
  * @param smDesc the descriptor of the InManager State Machine.
  * @param inCmp the descriptor of the InCommand or InReport to be loaded in the InManager

@@ -158,8 +158,8 @@ FwSmDesc_t CrFwInStreamMake(CrFwInstanceId_t i) {
 		FwSmAddTransCpsToSta(esm, CPS_1, CR_FW_INSTREAM_STATE_WAITING, NULL, NULL);	/* Else Transition */
 		FwSmAddTransStaToSta(esm, CR_FW_INSTREAM_TR_PACKET_AVAILABLE, CR_FW_INSTREAM_STATE_PCKT_AVAIL,
 		                     CR_FW_INSTREAM_STATE_PCKT_AVAIL, &DoActionB, NULL);
-		FwSmAddTransStaToSta(esm, CR_FW_INSTREAM_TR_PACKET_AVAILABLE, CR_FW_INSTREAM_STATE_WAITING,
-		                     CR_FW_INSTREAM_STATE_PCKT_AVAIL, &DoActionB, NULL);
+		FwSmAddTransStaToCps(esm, CR_FW_INSTREAM_TR_PACKET_AVAILABLE, CR_FW_INSTREAM_STATE_WAITING,
+							 CPS_2, &DoActionB, NULL);
 		FwSmAddTransStaToCps(esm, CR_FW_INSTREAM_TR_GET_PCKT, CR_FW_INSTREAM_STATE_PCKT_AVAIL,
 		                     CPS_2, &DoActionA, NULL);
 		FwSmAddTransCpsToSta(esm, CPS_2, CR_FW_INSTREAM_STATE_WAITING, NULL, &IsPcktQueueEmpty);

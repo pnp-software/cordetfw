@@ -30,6 +30,7 @@
  *   outcome is being reported.
  * - The failure code: an integer parameter which identifies the type of failure
  *   (only applicable for 'failed' outcomes).
+ * - The InCommand component representing the command whose outcome is being reported.
  * .
  * In general, the implementation of this interface is entirely application-specific
  * but a simple default implementation is provided in <code>CrFwInCmdOutcome.c</code>.
@@ -81,21 +82,29 @@ typedef enum {
 	/** Progress success */
 	crCmdAckPrgSucc = 6,
 	/** Termination failure */
-	crCmdAckTrmFail = 1,
+	crCmdAckTrmFail = 7,
 	/** Termination success */
-	crCmdAckTrmSucc = 1
+	crCmdAckTrmSucc = 8
 } CrFwRepInCmdOutcome_t;
 
 /**
  * Report the outcome of an InCommand.
+ * The last parameter of this function is the InCommand whose outcome is being reported.
+ * This is a pointer variable. The owner of the pointer is the caller of the function.
+ * The function can use it in read-only mode to access the values of command parameters.
+ * If, at the time the function is called, the InCommand component has not yet been built,
+ * the value of this parameter should be set to NULL.
+ *
  * @param outcome the InCommand outcome
  * @param instanceId the instance identifier of the InCommand
  * @param servType the service type of the InCommand
  * @param servSubType the service sub-type of the InCommand
  * @param disc the discriminant of the InCommand
  * @param failCode the failure code (don't care in case of a "successful" outcome)
+ * @param inCmd the InCommand component whose outcome is being reported or NULL if the InCommand
+ * component does not exist
  */
 void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanceId, CrFwServType_t servType,
-                         CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode);
+                         CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode, FwSmDesc_t inCmd);
 
 #endif /* CRFW_REPINCMDOUTCOME_H_ */

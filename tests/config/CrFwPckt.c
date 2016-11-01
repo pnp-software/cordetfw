@@ -180,6 +180,26 @@ void CrFwPcktRelease(CrFwPckt_t pckt) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
+CrFwBool_t CrFwPcktIsAvail(CrFwPcktLength_t pcktLength) {
+	CrFwCounterU2_t i;
+
+	if (pcktLength > CR_FW_MAX_PCKT_LENGTH)
+		return 0;
+
+	if (pcktLength < 1)
+		return 0;
+
+	for (i=0; i<CR_FW_MAX_NOF_PCKTS; i++) {
+		if (pcktInUse[i] == 0)
+			return 1;
+	}
+
+	return 0;
+}
+
+
+
+/*-----------------------------------------------------------------------------------------*/
 CrFwCounterU2_t CrFwPcktGetNOfAllocated() {
 	return nOfAllocatedPckts;
 }
