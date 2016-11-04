@@ -498,7 +498,7 @@ CrFwBool_t CrFwInManagerTestCase5() {
 /* ---------------------------------------------------------------------------------------------*/
 CrFwBool_t CrFwInManagerTestCase6() {
 	FwSmDesc_t inManager2, inRegistry, inFactory;
-	FwSmDesc_t sampleInCmd1, sampleInCmd2, inRep1, inRep2;
+	FwSmDesc_t sampleInCmd1, sampleInCmd2, inRep1, inRep2, inRep3, inRep4;
 	CrFwPckt_t pckt;
 
 	/* Instantiate an InManager */
@@ -564,8 +564,8 @@ CrFwBool_t CrFwInManagerTestCase6() {
 
 	/* Load InCommands and InReports in InManager */
 	CrFwInManagerLoad(inManager2, sampleInCmd1);
-	CrFwInManagerLoad(inManager2, sampleInCmd2);
 	CrFwInManagerLoad(inManager2, inRep1);
+	CrFwInManagerLoad(inManager2, sampleInCmd2);
 	CrFwInManagerLoad(inManager2, inRep2);
 	if (CrFwInManagerGetNOfPendingInCmp(inManager2) != 4)
 		return 0;
@@ -594,6 +594,40 @@ CrFwBool_t CrFwInManagerTestCase6() {
 	if (CrFwInRegistryGetState(CrFwCmpGetInstanceId(sampleInCmd1)) != crInRegistryPending)
 		return 0;
 	if (CrFwInRegistryGetState(CrFwCmpGetInstanceId(sampleInCmd2)) != crInRegistryPending)
+		return 0;
+
+	/* Allocate two more InReport instances */
+	pckt = CrFwPcktMake(100);
+	CrFwPcktSetServType(pckt,5);
+	CrFwPcktSetServSubType(pckt,1);
+	CrFwPcktSetDiscriminant(pckt,1);
+	inRep3 = CrFwInFactoryMakeInRep(pckt);
+
+	pckt = CrFwPcktMake(100);
+	CrFwPcktSetServType(pckt,5);
+	CrFwPcktSetServSubType(pckt,1);
+	CrFwPcktSetDiscriminant(pckt,1);
+	inRep4 = CrFwInFactoryMakeInRep(pckt);
+
+	/* Load InReports in InManager */
+	CrFwInManagerLoad(inManager2, inRep3);
+	CrFwInManagerLoad(inManager2, inRep4);
+	if (CrFwInManagerGetNOfPendingInCmp(inManager2) != 4)
+		return 0;
+	if (CrFwInManagerGetNOfLoadedInCmp(inManager2) != 6)
+		return 0;
+
+	/* Execute the InManager */
+	CrFwCmpExecute(inManager2);	/* this causes the InReports to be unloaded */
+
+	/* Check that InReports were unloaded and released */
+	if (CrFwInManagerGetNOfPendingInCmp(inManager2) != 2)
+		return 0;
+	if (CrFwInFactoryGetNOfAllocatedInRep() != 0)
+		return 0;
+	if (CrFwInFactoryGetNOfAllocatedInCmd() != 2)
+		return 0;
+	if (CrFwInManagerGetNOfLoadedInCmp(inManager2) != 6)
 		return 0;
 
 	/* Configure InCommands to be terminated */

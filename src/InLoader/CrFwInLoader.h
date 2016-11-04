@@ -13,7 +13,27 @@
  * The Load/Command Report Procedure is shown in the next figure:
  * @image html InLoaderLoadCommandReport.png
  *
- * The InLoader should be executed when one or more packets have become available at an InStream.
+ * Execution of the InLoader causes a query to be made on InStream to check whether a packet is
+ * available at that InStream. If a packet is available, it is collected and if, it passes
+ * its acceptance check, it is loaded in an InManager. The selection of the InManager is an
+ * adaptation point implemented through a function pointer defined in
+ * <code>CrFwInLoaderUserPar.h</code>.
+ *
+ * The acceptance check is split into four sub-checks:
+ * - The type/sub-type/discriminant of the incoming command or report is valid (i.e. it is
+ *   defined in <code>CrFwInFactoryUserPar.h</code> and is therefore known to the application);
+ * - The InFactory has sufficient resources to provide an InCommand or InReport component
+ *   to hold the command or report encapsulated in the packet;
+ * - The InCommand or InReport is successfully configured (i.e. it enters state CONFIGURED);
+ * - The InCommand or InReport is successfully loaded in the InManager.
+ * .
+ * Sub-checks 1, 2 and 4 are fully implemented at framework level.
+ * Sub-check 3 is application-specific.
+ * It is called the <i>Validity Check</i> because it verifies the validity of the parameters of the
+ * incoming report or command and is implemented by a user-provided function which must conform
+ * to the prototype of function pointers <code>::CrFwInRepValidityCheck_t</code> for incoming
+ * reports or <code>::CrFwInCmdValidityCheck_t</code> for incoming commands.
+ * The functions implementing the validity checks are defined in <code>CrFwInFactoryUserPar.h</code>.
  *
  * <b>Mode of Use of an InLoader Component</b>
  *
@@ -29,16 +49,15 @@
  *
  * After an InLoader has been configured, it can be executed by means of function
  * <code>FwSmExecute</code>.
- * Execution of an InLoader causes its Execution Procedure (see figure below) to be
+ * Execution of an InLoader causes its Execution Procedure (see figure above) to be
  * executed.
  *
- * The InLoader should be executed whenever there is a need to collect one or more packets
- * from an InStream.
- * During one execution cycle, the InLoader processes packets from one single InStream.
+ * The InLoader should be executed either when it is known that a packet has arrived at an InStream
+ * or periodically to check whether a packet is available and, if it is, to process it.
+ * During one execution cycle, the InLoader processes one single packet from one single InStream.
  * The target InStream is conceptually an argument of the execution command; in practice, the target
  * InStream is passed to the InLoader through function <code>::CrFwInLoaderSetInStream</code>.
  *
- * @image html InLoaderExecution.png
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved

@@ -51,12 +51,17 @@ CrFwBool_t CrFwPacketTestCase1();
  * Test the creation and release functions for a packet.
  * The test performs the following actions:
  * - It creates the maximum allowed number of packets.
+ * - It verifies that the packet availability check returns false
  * - It attempts to create a new packet and checks that the attempt
  *   fails.
- * - It releases one packet and then attempts to create the new packet
- *   and checks that this time the attempt succeeds.
+ * - It releases one packet, verifies that the packet availability check
+ *   now returns true and then attempts to create the new packet
+ *   and verifies that this time the attempt succeeds.
  * - It releases all created packets and then checks that the same
  *   number of packets can again be created.
+ * - It verifies that the packet availability check returns false
+ *   when the packet length is either negative or zero or
+ *   greater than the allowed maximum.
  * .
  * @verify Application Error: crPcktAllocationFail
  * @verify Application Error: crPcktRelErr

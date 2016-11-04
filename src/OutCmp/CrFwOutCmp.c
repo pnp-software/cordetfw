@@ -264,6 +264,13 @@ CrFwDiscriminant_t CrFwOutCmpGetDiscriminant(FwSmDesc_t smDesc) {
 }
 
 /* --------------------------------------------------------------------------------- */
+void CrFwOutCmpSetDiscriminant(FwSmDesc_t smDesc, CrFwDiscriminant_t discriminant) {
+	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwOutCmpData_t* cmpSpecificData = (CrFwOutCmpData_t*)(cmpData->cmpSpecificData);
+	CrFwPcktSetDiscriminant(cmpSpecificData->pckt, discriminant);
+}
+
+/* --------------------------------------------------------------------------------- */
 void CrFwOutCmpSetAckLevel(FwSmDesc_t smDesc, CrFwBool_t accept, CrFwBool_t start,
                            CrFwBool_t progress, CrFwBool_t term) {
 	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);

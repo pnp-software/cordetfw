@@ -68,7 +68,7 @@ typedef void (*CrFwInRepUpdateAction_t)(FwPrDesc_t);
  * an InReport.
  * The Validity Check Operation is one of the adaptation points of the framework.
  * A function which implements this operation takes the InReport descriptor
- * as an argument and returns true if the data in the InReport packets are valid
+ * as an argument and returns true if the data in the InReport packet are valid
  * and returns false otherwise.
  */
 typedef CrFwBool_t (*CrFwInRepValidityCheck_t)(FwPrDesc_t);
@@ -78,7 +78,7 @@ typedef CrFwBool_t (*CrFwInRepValidityCheck_t)(FwPrDesc_t);
  * an InReport.
  * The Validity Check Operation is one of the adaptation points of the framework.
  * A function which implements this operation takes the InReport procedure descriptor
- * as an argument and returns true if the data in the InReport packets are valid
+ * as an argument and returns true if the data in the InReport packet are valid
  * and returns false otherwise.
  */
 typedef CrFwBool_t (*CrFwInCmdValidityCheck_t)(FwPrDesc_t);
@@ -206,6 +206,10 @@ typedef void (*CrFwOutCmpSerialize_t)(FwSmDesc_t);
  * The packet returned by this function must be created through function
  * <code>::CrFwPcktMake</code> (release of the packet is the responsibility of the
  * user of the InStream).
+ *
+ * If there is a need to verify whether a packet is available for collection through
+ * the Packet Collect Operation, this can be done using the Packet Available Check Operation.
+ *
  */
 typedef CrFwPckt_t (*CrFwPcktCollect_t)(CrFwDestSrc_t);
 
@@ -216,6 +220,8 @@ typedef CrFwPckt_t (*CrFwPcktCollect_t)(CrFwDestSrc_t);
  * A function which implements this operation takes the packet source as its argument and
  * returns 1 if a new packet is available at the middleware interface associated to the packet
  * source or 0 if no packet is available.
+ * Hence, a return value of 1 implies that a call to the Packet Collect Operation will return
+ * one packet.
  */
 typedef CrFwBool_t (*CrFwPcktAvailCheck_t)(CrFwDestSrc_t);
 

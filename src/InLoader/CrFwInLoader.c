@@ -188,7 +188,7 @@ static void InLoaderLoadCmdRep(CrFwPckt_t pckt) {
 	if (CrFwPcktGetCmdRepType(pckt) == crCmdType) {
 		inCmp = CrFwInFactoryMakeInCmd(pckt);
 		if (inCmp == NULL) {	/* InCmd had invalid type or no more resources are available */
-			CrFwRepInCmdOutcome(crCmdAckAccFail, instanceId, servType, servSubType, disc, 0);
+			CrFwRepInCmdOutcome(crCmdAckAccFail, instanceId, servType, servSubType, disc, 0, NULL);
 			CrFwPcktRelease(pckt);
 			return;
 		}
@@ -211,7 +211,7 @@ static void InLoaderLoadCmdRep(CrFwPckt_t pckt) {
 			return;
 		} else {
 			CrFwInFactoryReleaseInCmd(inCmp);
-			CrFwRepInCmdOutcome(crCmdAckAccFail, instanceId, servType, servSubType, disc, inCmpData->outcome);
+			CrFwRepInCmdOutcome(crCmdAckAccFail, instanceId, servType, servSubType, disc, inCmpData->outcome, inCmp);
 			return;
 		}
 	}
@@ -229,13 +229,13 @@ static void InLoaderLoadCmdRep(CrFwPckt_t pckt) {
 			return;
 		} else {
 			CrFwInFactoryReleaseInCmd(inCmp);
-			CrFwRepInCmdOutcome(crCmdAckAccFail, instanceId, servType, servSubType, disc, 0);
+			CrFwRepInCmdOutcome(crCmdAckAccFail, instanceId, servType, servSubType, disc, 0, inCmp);
 			return;
 		}
 	} else 	/* Load operation was successful */
 		if (cmdRepFlag == crCmdType)
 			if (CrFwInCmdIsAcceptAck(inCmp) == 1)
-				CrFwRepInCmdOutcome(crCmdAckAccSucc, instanceId, servType, servSubType, disc, 0);
+				CrFwRepInCmdOutcome(crCmdAckAccSucc, instanceId, servType, servSubType, disc, 0, inCmp);
 }
 
 /*-----------------------------------------------------------------------------------------*/

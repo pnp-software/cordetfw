@@ -161,6 +161,7 @@ static void OutManagerExecAction(FwPrDesc_t prDesc) {
 	CrFwCounterU2_t i;
 	CrFwOutRegistryCmdRepState_t outCmpState;
 
+	outManagerCSData->nextFreePoclPos = 0;
 	for (i=0; i<outManagerPoclSize[id]; i++) {
 		outCmp = outManagerCSData->pocl[i];
 		if (outCmp != NULL) {
@@ -178,7 +179,6 @@ static void OutManagerExecAction(FwPrDesc_t prDesc) {
 				CrFwOutFactoryReleaseOutCmp(outCmp);
 				outManagerCSData->pocl[i] = NULL;
 				outManagerCSData->nOfOutCmpInPocl--;
-				outManagerCSData->nextFreePoclPos = (CrFwCounterU1_t)i;
 			}
 		}
 	}
@@ -189,17 +189,29 @@ void CrFwOutManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t outCmp) {
 	CrFwCmpData_t* outManagerDataLocal = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwOutManagerData_t* outManagerCSData = (CrFwOutManagerData_t*)outManagerDataLocal->cmpSpecificData;
 	CrFwInstanceId_t id = outManagerDataLocal->instanceId;
-	CrFwCounterU2_t i, j, freePos, size;
+	CrFwCounterU2_t i, freePos, size;
 
 	freePos = outManagerCSData->nextFreePoclPos;
 	size = outManagerPoclSize[id];
 
 	/* Check if POCL is already full */
-	if (freePos == size) {
+	if (outManagerCSData->nOfOutCmpInPocl == size) {
 		CrFwRepErr(crOutManagerPoclFull, outManagerDataLocal->typeId, outManagerDataLocal->instanceId);
 		CrFwOutFactoryReleaseOutCmp(outCmp);
 		return;
 	}
+
+	/* Check if this is the first load request after the OutManager was reset or after it was executed.
+	 * If this is the case, find the first free position in the POCL.
+	 * NB: Since the for-loop is only entered if the POCL is not full, it will always terminate
+	 *     through the break. This means that, when measuring branch coverage, the fall-through case
+	 *     at the for-loop will never occur. */
+	if (freePos == 0)
+		for (i=0; i<size; i++)
+			if (outManagerCSData->pocl[i] == NULL) {
+				freePos = i;
+				break;
+			}
 
 	/* POCL is not full --> load outCmp */
 	outManagerCSData->pocl[freePos] = outCmp;
@@ -209,20 +221,13 @@ void CrFwOutManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t outCmp) {
 	/* Start tracking OutComponent */
 	CrFwOutRegistryStartTracking(outCmp);
 
-	/* Identify next free position in POCL. This is done by moving backward from the current
-	 * free position. We move backward in order to improve the chances of finding a free position
-	 * quickly (recall that OutManagerExecAction moves forward when executing OutComponents) */
-	j = freePos;
-	for (i=0; i<(size-1); i++) {
-		if (j == 0)
-			j = (CrFwCounterU2_t)(size-1);
-		else
-			j--;
-		if (outManagerCSData->pocl[j] == NULL) {
-			outManagerCSData->nextFreePoclPos = (CrFwCounterU1_t)j;
+	/* Identify next free position in POCL */
+	for (i=freePos+1; i<size; i++)
+		if (outManagerCSData->pocl[i] == NULL) {
+			outManagerCSData->nextFreePoclPos = (CrFwCounterU1_t)i;
 			return; /* a free position has been found */
 		}
-	}
+
 	outManagerCSData->nextFreePoclPos = (CrFwCounterU1_t)size;	/* no free position was found */
 }
 

@@ -202,6 +202,10 @@ CrFwBool_t CrFwPacketTestCase2() {
 	if (CrFwGetAppErrCode() != crNoAppErr)
 		return 0;
 
+	/* Verify that packet availability check returns 'no packet available' */
+	if (CrFwPcktIsAvail(1) != 0)
+		return 0;
+
 	/* Attempt to create a new packet */
 	extraPckt = CrFwPcktMake(CrFwPcktGetMaxLength());
 	if ((extraPckt != NULL) || (CrFwGetAppErrCode() != crPcktAllocationFail))
@@ -211,6 +215,8 @@ CrFwBool_t CrFwPacketTestCase2() {
 	/* Release one packet and then attempt creation again */
 	if (CR_FW_MAX_NOF_PCKTS>1) {
 		CrFwPcktRelease(pckt[CR_FW_MAX_NOF_PCKTS-1]);
+		if (CrFwPcktIsAvail(1) != 1)
+			return 0;	/* Verify that packet availability check returns 'packet is available' */
 		pckt[CR_FW_MAX_NOF_PCKTS-1] = NULL;
 		extraPckt = CrFwPcktMake(CrFwPcktGetMaxLength());
 		if (extraPckt == NULL)
@@ -243,6 +249,12 @@ CrFwBool_t CrFwPacketTestCase2() {
 	if (CrFwGetAppErrCode() != crPcktRelErr)
 		return 0;
 	CrFwSetAppErrCode(crNoAppErr); 	/* reset application error code */
+
+	/* Verify the packet availability check with illegal packet lengths */
+	if (CrFwPcktIsAvail(0) != 0)
+		return 0;
+	if (CrFwPcktIsAvail(CrFwPcktGetMaxLength()+1) != 0)
+		return 0;
 
 	/* Free the memory allocated to the packet array */
 	free(pckt);

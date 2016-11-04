@@ -121,6 +121,11 @@ CrFwBool_t CrFwOutCmpTestCase1() {
 	if (CrFwOutCmpGetDest(outCmp1) != 4)
 		return 0;
 
+	/* Check discriminant set and read-back */
+	CrFwOutCmpSetDiscriminant(outCmp1, 7);
+	if (CrFwOutCmpGetDiscriminant(outCmp1) != 7)
+		return 0;
+
 	/* Check time stamp set and read-back */
 	CrFwOutCmpSetTimeStamp(outCmp1, 33);
 	if (CrFwOutCmpGetTimeStamp(outCmp1) != 33)

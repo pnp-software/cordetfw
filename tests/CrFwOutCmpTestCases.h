@@ -42,6 +42,7 @@
  *   OutComponent are correct.
  * - It is checked that the default value of the OutComponent group is correct.
  * - The destination of the OutComponent is set and then read back.
+ * - The discriminant of the OutComponent is set and then read back.
  * - The group of the OutComponent is set and then read back.
  * - The time stamp of the OutComponent is set and then read back.
  * - The acknowledge levels are set and then read back.

@@ -38,6 +38,10 @@
  *   a new packet to its destination. This command is sent with the
  *   the <code>::CrFwOutStreamConnectionAvail</code> function.
  * .
+ * If at the time the Send command is received, the middleware is not ready to receive
+ * the packet, the packet is stored in Packet Queue.
+ * The next attempt to send it out will be made when command ConnectionAvailable is sent.
+ *
  * @image html OutStream.png
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
@@ -133,7 +137,16 @@ FwSmDesc_t CrFwOutStreamGet(CrFwDestSrc_t dest);
  * This function hands over the argument packet to the OutStream and then it sends
  * command "Send" to its state machine.
  * This causes the OutStream to try to send the packet to the destination associated
- * to the OutStream (or to make a copy of the packet and buffer the copy internally
+ * to the OutStream.
+ * If the middleware is not ready to accept the packet, then a copy of the packet
+ * is made and is stored in the OutStream's Packet Queue from where it will be sent to
+ * the middleware at a later time.
+ * If the packet copy cannot be done because no more free packets
+ * are available, error <code>::crOutStreamNoMorePckt</code> is generated.
+ * If the Packet Queue is full, the packet is released and error
+ * <code>::crOutStreamPQFull</code> is generated.
+ *
+ * If packet cannot be sent to the middleware  (or to make a copy of the packet and buffer the copy internally
  * if the middleware is currently not available).
  *
  * The argument <code>pckt</code> is a pointer to the out-going packet.

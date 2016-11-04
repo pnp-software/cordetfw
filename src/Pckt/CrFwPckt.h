@@ -13,7 +13,7 @@
  * the framework defines, through this header file, an interface for creating and
  * accessing the data in a packet.
  *
- * This interface defines a packet factory, namely a component which allows
+ * This interface defines a packet factory, namely a function which allows
  * a new packet to be created and an existing packet to be released.
  *
  * A packet encapsulates either a command or a report.
@@ -27,10 +27,10 @@
  * of the parameters of the command or report encapsulated by the packet.
  *
  * In general, the implementation of this interface is entirely application-specific
- * but a simple default implementation is provided in <code>CrFwPacket.c</code>.
+ * but a simple default implementation is provided in <code>CrFwPckt.c</code>.
  * This default implementation is primarily intended for testing and demonstration
  * purposes.
- * 
+ *
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
@@ -106,6 +106,25 @@ CrFwPckt_t CrFwPcktMake(CrFwPcktLength_t pcktLength);
  * @param pckt the packet to be released
  */
 void CrFwPcktRelease(CrFwPckt_t pckt);
+
+/**
+ * Check whether a packet of a specified length is available.
+ * A packet of length L is available if a call to function <code>::CrFwPcktMake</code>
+ * with argument L would return a non-NULL value.
+ * Applications typically implement the <code>CrFwPckt.h</code> interface to manage a pool of
+ * pre-allocated memory from which packets are allocated using function
+ * <code>::CrFwPcktMake</code> and are released using function <code>::CrFwPcktRelease</code>.
+ * This function does not change the state of the pool from which the packets
+ * are allocated. It only verifies whether the allocation of a packet of a given
+ * length would be possible at the time the function is called.
+ *
+ * The packet length must be a positive integer.
+ * If a negative or a zero value is used, the function returns false.
+ * @param pcktLength the length of the packet in bytes (a positive integer)
+ * @return true if a packet of the specified length is available, false otherwise
+ * of if the length is not a positive integer
+ */
+CrFwBool_t CrFwPcktIsAvail(CrFwPcktLength_t pcktLength);
 
 /**
  * Return the number of packets which are currently allocated.

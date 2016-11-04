@@ -272,7 +272,9 @@ CrFwBool_t CrFwOutStreamTestCase2() {
 CrFwBool_t CrFwOutStreamTestCase3() {
 	FwSmDesc_t outStream0;
 	CrFwPckt_t pckt1, pckt2, pckt3, pckt;
+	CrFwPckt_t  pcktArray[CR_FW_MAX_NOF_PCKTS];
 	CrFwCounterU2_t i;
+	CrFwCounterU2_t errRepPosLocal;
 
 	/* Retrieve the first OutStream */
 	outStream0 = CrFwOutStreamMake(0);
@@ -356,6 +358,26 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 	CrFwPcktRelease(pckt2);
 	CrFwPcktRelease(pckt3);
 
+	/* Empty the packet factory and then attempt to send one more packet to the OutStream
+	 * and verify that this results in error crOutStreamNoMorePckt */
+	for (i=0; i<CR_FW_MAX_NOF_PCKTS; i++)
+		pcktArray[i] = CrFwPcktMake(CrFwPcktGetMaxLength());
+
+	errRepPosLocal = CrFwRepErrStubGetPos(); /* Store the current value of the error report counter */
+	CrFwOutStreamSend(outStream0, pcktArray[0]);
+	if (CrFwRepErrStubGetPos() != errRepPosLocal+1)
+		return 0;
+	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crOutStreamNoMorePckt)
+		return 0;
+	if (CrFwRepErrStubGetTypeId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != CR_FW_OUTSTREAM_TYPE)
+		return 0;
+
+	CrFwSetAppErrCode(crNoAppErr);	/* Reset application error code */
+
+	for (i=0; i<CR_FW_MAX_NOF_PCKTS; i++)
+		if (pcktArray[i] != NULL)
+			CrFwPcktRelease(pcktArray[i]);
+
 	/* Configure the Packet Hand-Over Operation to return "hand-over successful" */
 	CrFwOutStreamStubSetHandoverFlag(1);
 
@@ -399,6 +421,33 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 0)
 		return 0;
+
+	/* Configure the middleware to be not ready to receive packets,
+	 * empty the packet factory and then attempt to send one more packet to the OutStream
+	 * and verify that this results in error crOutStreamNoMorePckt */
+	CrFwOutStreamStubSetHandoverFlag(0);
+
+	for (i=0; i<CR_FW_MAX_NOF_PCKTS; i++)
+		pcktArray[i] = CrFwPcktMake(CrFwPcktGetMaxLength());
+
+	errRepPosLocal = CrFwRepErrStubGetPos(); /* Store the current value of the error report counter */
+	CrFwOutStreamSend(outStream0, pcktArray[0]);
+	if (CrFwRepErrStubGetPos() != errRepPosLocal+1)
+		return 0;
+	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crOutStreamNoMorePckt)
+		return 0;
+	if (CrFwRepErrStubGetTypeId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != CR_FW_OUTSTREAM_TYPE)
+		return 0;
+	if (!CrFwOutStreamIsInReady(outStream0))
+		return 0;
+	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 0)
+		return 0;
+
+	CrFwSetAppErrCode(crNoAppErr);	/* Reset application error code */
+
+	for (i=0; i<CR_FW_MAX_NOF_PCKTS; i++)
+		if (pcktArray[i] != NULL)
+			CrFwPcktRelease(pcktArray[i]);
 
 	/* Reset the OutStream and check new state */
 	CrFwCmpReset(outStream0);
