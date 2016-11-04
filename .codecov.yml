@@ -1,0 +1,5 @@
+ignore:
+  - "lib"
+  - "tests"
+  - "src/Aux"
+
