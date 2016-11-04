@@ -114,11 +114,16 @@ CrFwBool_t CrFwOutStreamTestCase2();
  * - The Packet Hand-Over Operation is configured to return "hand-over failed",
  *   two packets are sent to the OutStream, and it is checked that they are
  *   buffered.
+ * - The packet factory is configured to be empty and then a packet is sent to the
+ *   OutStream and it is checked that error <code>::crOutStreamNoMorePckt</code> is raised.
  * - The ConnectionAvailable signal is sent to the OutStream and it is checked that
  *   the packet queue remains unchanged.
  * - The Packet Hand-Over Operation is configured to return "hand-over successful",
  *   the ConnectionAvailable signal is sent again to the OutStream and it is
  *   checked that the packet queue is successfully flushed.
+ * - The Packet Hand-Over Operation is configured to return "hand-over failed",
+ *   the packet factory is configured to be empty, and then a packet is sent to the
+ *   OutStream and it is checked that error <code>::crOutStreamNoMorePckt</code> is raised.
  * - The OutStream is reset and it is checked that its state is correctly reset
  * In all cases, the packets sent to an OutStream are configured to belong to the
  * first group associated to the OutStream.
@@ -130,11 +135,13 @@ CrFwBool_t CrFwOutStreamTestCase2();
  * @verify OutStream SM Transition: IPS->READY
  * @verify OutStream SM Transition: READY->BUFFERING
  * @verify OutStream SM Transition: BUFFERING->READY
+ * @verify OutStream SM Transition: Enqueue Action with No More Packets Available
  * @verify OutStream SM Transition: Enqueue Action with PQ Not Full
  * @verify OutStream SM Transition: Flush Packet Queue Action with Middleware Accepting Packet
  * @verify OutStream SM Transition: Flush Packet Queue Action with Middleware Rejecting Packet
  * @verify OutStream SM Transition: Flush Packet Queue Action with Packet Originating in Application
  * @verify OutStream SM Transition: Flush Packet Queue Action with Legal Packet Group
+ * @verify OutStream SM Transition: Send or Enqueue Action with No More Packets Available
  * @verify OutStream SM Transition: Send or Enqueue Action with Middleware Accepting Packet
  * @verify OutStream SM Transition: Send or Enqueue Action with Middleware Rejecting Packet
  * @verify OutStream SM Transition: Send or Enqueue Action with Packet Originating in Application
@@ -145,6 +152,7 @@ CrFwBool_t CrFwOutStreamTestCase2();
  * @verify Initialization Procedure: Initialization Check Successful
  * @verify Reset Procedure: Configuration Action Successful
  * @verify Reset Procedure: Configuration Check Successful
+ * @verify Application Error: crOutStreamUndefDest
  *
  * @return true if the test was successful, false otherwise.
  */

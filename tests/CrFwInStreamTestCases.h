@@ -65,6 +65,9 @@ CrFwBool_t CrFwInStreamTestCase1();
  * This test must be executed as a follow-on to <code>::CrFwInStreamTestCase1</code>.
  * The following actions are performed in this test:
  * - It is verified that the first InStream is in state CONFIGURED and WAITING.
+ * - The PACKET_AVAILABLE command is sent to the InStream and it is verified that
+ *   the InStream remains in state WAITING
+ * - The GET_PCKT command is sent to the InStream and it is verified that it returns NULL
  * - The stub functions are set up to simulate a situation where two packets have
  *   arrived.
  * - The PACKET_AVAILABLE command is sent to the InStream and it is verified that a
@@ -74,9 +77,11 @@ CrFwBool_t CrFwInStreamTestCase1();
  * - The GET_PCKT command is sent to the InStream and it is verified that a packet
  *   is returned and the InStream moves to WAITING.
  * .
- * @verify InStream SM Transition: WAITING->PCKT_AVAIL
+ * @verify InStream SM Transition: WAITING->WAITING (through CPS)
+ * @verify InStream SM Transition: WAITING->PCKT_AVAIL (through CPS)
  * @verify InStream SM Transition: PCKT_AVAIL->PCKT_AVAIL (through CPS)
  * @verify InStream SM Transition: PCKT_AVAIL->WAITING
+ * @verify Packet Collect Procedure: MW is in state WAITING and loop is not entered
  * @verify Packet Collect Procedure: Flag_1 is true; PQ is not full; MW is in state PCKT_AVAIL
  * @verify Packet Collect Procedure: Flag_1 is true; PQ is not full; MW is not in state PCKT_AVAIL
  *
@@ -88,7 +93,7 @@ CrFwBool_t CrFwInStreamTestCase2();
  * Test the self-transition on state PCKT_AVAIL and the shutdown of an InStream.
  * This test must be executed as a follow-on to <code>::CrFwInStreamTestCase2</code>.
  * The following actions are performed in this test:
- * - It is verified that the first InStream is in state CONFIGURED and WATING.
+ * - It is verified that the first InStream is in state CONFIGURED and WAITING.
  * - The stub functions are set up to simulate a situation where one packet has
  *   arrived.
  * - The PACKET_AVAILABLE command is sent to the InStream and it is verified that a
@@ -123,7 +128,7 @@ CrFwBool_t CrFwInStreamTestCase3();
  * - The PACKET_AVAILABLE command is sent to the InStream and it is verified that a
  *   transition is made to PCKT_AVAIL.
  * - The stub functions are set up to simulate a situation where one more packet for the
- *   host applicaton has arrived and where the sequence counter of the packet is wrong.
+ *   host application has arrived and where the sequence counter of the packet is wrong.
  * - The PACKET_AVAILABLE command is sent again to the InStream and it is verified that
  *   the InStream remains in PCKT_AVAIL, that its packet queue contains two items and
  *   that a "sequence counter error" is generated.

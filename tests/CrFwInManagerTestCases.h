@@ -152,6 +152,10 @@ CrFwBool_t CrFwInManagerTestCase5();
  * - The InReport and InCommand instances are loaded in the InManager
  * - The InManager is repeatedly executed and it is checked that the InReports are unloaded
  *   and that the InCommands remain loaded.
+ * - Two more standard InReports are loaded in the InManager and the InManager is
+ *   executed once.
+ * - The InManager is executed and it is checked that the standard InReports are
+ *   unloaded while the sample InComponents remain pending.
  * - The Sample InCommands are configured to be terminated.
  * - The correct update of the counter of successfully loaded commands and reports is checked
  * - The InManager is executed and it is checked that the InCommands are unloaded.

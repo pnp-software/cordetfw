@@ -315,7 +315,7 @@ CrFwBool_t CrFwOutManagerTestCase3() {
 /* ---------------------------------------------------------------------------------------------*/
 CrFwBool_t CrFwOutManagerTestCase4() {
 	FwSmDesc_t outManager4, outRegistry, outFactory, outStream1;
-	FwSmDesc_t sampleOutCmp1, sampleOutCmp2, stdOutCmp1, stdOutCmp2;
+	FwSmDesc_t sampleOutCmp1, sampleOutCmp2, stdOutCmp1, stdOutCmp2, stdOutCmp3, stdOutCmp4;
 
 	/* Instantiate the second OutManager */
 	outManager4 = CrFwOutManagerMake(3);
@@ -353,6 +353,8 @@ CrFwBool_t CrFwOutManagerTestCase4() {
 	sampleOutCmp2 = CrFwOutFactoryMakeOutCmp(50,1,0,0);
 	stdOutCmp1 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
 	stdOutCmp2 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
+	stdOutCmp3 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
+	stdOutCmp4 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
 	if (!CrFwOutCmpIsInLoaded(sampleOutCmp1))
 		return 0;
 	if (!CrFwOutCmpIsInLoaded(sampleOutCmp2))
@@ -361,12 +363,18 @@ CrFwBool_t CrFwOutManagerTestCase4() {
 		return 0;
 	if (!CrFwOutCmpIsInLoaded(stdOutCmp2))
 		return 0;
+	if (!CrFwOutCmpIsInLoaded(stdOutCmp3))
+		return 0;
+	if (!CrFwOutCmpIsInLoaded(stdOutCmp4))
+		return 0;
 
 	/* Set destination of OutComponents to be the same as the destination of the OutStream */
 	CrFwOutCmpSetDest(sampleOutCmp1, CrFwOutStreamGetDest(outStream1));
 	CrFwOutCmpSetDest(sampleOutCmp2, CrFwOutStreamGetDest(outStream1));
 	CrFwOutCmpSetDest(stdOutCmp1, CrFwOutStreamGetDest(outStream1));
 	CrFwOutCmpSetDest(stdOutCmp2, CrFwOutStreamGetDest(outStream1));
+	CrFwOutCmpSetDest(stdOutCmp3, CrFwOutStreamGetDest(outStream1));
+	CrFwOutCmpSetDest(stdOutCmp4, CrFwOutStreamGetDest(outStream1));
 
 	/* Set up enable and ready check of the sample OutComponents */
 	CrFwOutCmpSample1SetEnableFlag(1);
@@ -374,8 +382,8 @@ CrFwBool_t CrFwOutManagerTestCase4() {
 
 	/* Load OutComponents in OutManager */
 	CrFwOutManagerLoad(outManager4, sampleOutCmp1);
-	CrFwOutManagerLoad(outManager4, sampleOutCmp2);
 	CrFwOutManagerLoad(outManager4, stdOutCmp1);
+	CrFwOutManagerLoad(outManager4, sampleOutCmp2);
 	CrFwOutManagerLoad(outManager4, stdOutCmp2);
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager4) != 4)
 		return 0;
@@ -410,7 +418,32 @@ CrFwBool_t CrFwOutManagerTestCase4() {
 	if (CrFwOutManagerGetNOfLoadedOutCmp(outManager4) != 4)
 		return 0;
 
-	/* Check that Standard OutComponents have been released */
+	/* Load the third and fourth standard OutComponent */
+	CrFwOutManagerLoad(outManager4, stdOutCmp3);
+	CrFwOutManagerLoad(outManager4, stdOutCmp4);
+	if (CrFwOutManagerGetNOfPendingOutCmp(outManager4) != 4)
+		return 0;
+	if (CrFwOutManagerGetNOfLoadedOutCmp(outManager4) != 6)
+		return 0;
+
+	/* Execute the OutManager once */
+	CrFwCmpExecute(outManager4);
+
+	/* Check that Sample OutComponents are still loaded */
+	if (CrFwOutManagerGetNOfPendingOutCmp(outManager4) != 2)
+		return 0;
+	if (CrFwOutRegistryGetState(CrFwCmpGetInstanceId(sampleOutCmp1)) != crOutRegistryPending)
+		return 0;
+	if (CrFwOutRegistryGetState(CrFwCmpGetInstanceId(sampleOutCmp2)) != crOutRegistryPending)
+		return 0;
+	if (CrFwOutRegistryGetState(CrFwCmpGetInstanceId(stdOutCmp3)) != crOutRegistryTerminated)
+		return 0;
+	if (CrFwOutRegistryGetState(CrFwCmpGetInstanceId(stdOutCmp4)) != crOutRegistryTerminated)
+		return 0;
+	if (CrFwOutManagerGetNOfLoadedOutCmp(outManager4) != 6)
+		return 0;
+
+	/* Check that the Standard OutComponents have been released */
 	if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 2)
 		return 0;
 
