@@ -1,4 +1,5 @@
 # CORDET Framework
+[![Build Status](https://travis-ci.org/pnp-software/cordetfw.svg?branch=master)](https://travis-ci.org/pnp-software/cordetfw)
 
 The CORDET Framework is a software framework for service-oriented applications. The CORDET Framework defines an application in terms of the services it provides to other applications and in terms of the services it uses from other applications. A service is implemented by a set of commands through which an application is asked to perform certain activities and by a set of reports through which an application gives visibility over its internal state. The CORDET Framework defines the components to receive, send, distribute, and process commands and reports. The CORDET service concepts supports the definition of distributed systems where individual applications residing on distribution nodes interact with each other by exchanging commands and reports.
 
