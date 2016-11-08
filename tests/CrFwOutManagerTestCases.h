@@ -103,15 +103,19 @@ CrFwBool_t CrFwOutManagerTestCase3();
  * - The OutRegistry is created, initialized and configured.
  * - The OutFactory is created, initialized and configured.
  * - The first OutStream is created, initialized and configured.
- * - Two instances of Sample 1 OutComponents and two instances of "standard" OutComponents
+ * - Two instances of Sample 1 OutComponents and two instances of "standard" OutComponent
  *   with default enable and ready checks are created.
  * - The destination of all OutComponent instances is set to be the same as the destination
  *   of the first OutStream (this is important when the OutComponents enter state TERMINATED
  *   and need a valid destination).
- * - The Sample OutComponents are configured to be enabled not to be ready.
+ * - The Sample OutComponents are configured to be enabled and not to be ready.
  * - The OutManager is repeatedly executed and it is checked that the execution is
  *   propagated to the OutComponents.
  * - The Sample OutComponent is configured to be ready but not enabled.
+ * - The OutManager is executed and it is checked that the standard OutComponents are
+ *   unloaded while the Sample OutComponents remain pending.
+ * - Two more standard OutComponents are loaded in the OutManager and the OutManager is
+ *   executed once.
  * - The OutManager is executed and it is checked that the standard OutComponents are
  *   unloaded while the Sample OutComponents remain pending.
  * - It is checked that the OutRegistry correctly tracks the change of state in the

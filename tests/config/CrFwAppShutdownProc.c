@@ -13,7 +13,6 @@
  *
  * This implementation defines a dummy procedure as in the figure below.
  * @image html DummyApp.png
- *
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
@@ -38,10 +37,10 @@
 
 #include <stdlib.h>
 /* Include FW Profile Files */
-#include "FwProfile/FwPrDCreate.h"
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrCore.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwPrDCreate.h"
+#include "FwPrConfig.h"
+#include "FwPrCore.h"
+#include "FwPrConstants.h"
 /* Include Framework Files */
 #include "CrFwConstants.h"
 #include "AppStartUp/CrFwAppResetProc.h"

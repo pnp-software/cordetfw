@@ -79,8 +79,8 @@
 #ifndef CRFW_OUT_LOADER_H_
 #define CRFW_OUT_LOADER_H_
 
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwSmConstants.h"
+#include "FwPrConstants.h"
 #include "Pckt/CrFwPcktQueue.h"
 #include "CrFwConstants.h"
 

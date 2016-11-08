@@ -46,7 +46,7 @@
 #include "CrFwRepErrStub.h"
 
 /** The size of the error report array */
-#define CR_FW_ERR_REP_ARRAY_SIZE 10
+#define CR_FW_ERR_REP_ARRAY_SIZE 100
 
 /** The size in number of bytes of the parameter part of an error report */
 #define CR_FW_ERR_REP_PAR_SIZE 12

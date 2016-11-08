@@ -30,12 +30,12 @@
 #include "CrFwOutCmpTestCases.h"
 #include "CrFwOutStreamStub.h"
 /* Include FW Profile files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwSmConfig.h"
-#include "FwProfile/FwSmCore.h"
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrCore.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwSmConstants.h"
+#include "FwSmConfig.h"
+#include "FwSmCore.h"
+#include "FwPrConfig.h"
+#include "FwPrCore.h"
+#include "FwPrConstants.h"
 /* Include framework files */
 #include "CrFwOutRegistryUserPar.h"
 #include "OutRegistry/CrFwOutRegistry.h"
@@ -119,6 +119,11 @@ CrFwBool_t CrFwOutCmpTestCase1() {
 	/* Check destination set and read-back */
 	CrFwOutCmpSetDest(outCmp1, 4);
 	if (CrFwOutCmpGetDest(outCmp1) != 4)
+		return 0;
+
+	/* Check discriminant set and read-back */
+	CrFwOutCmpSetDiscriminant(outCmp1, 7);
+	if (CrFwOutCmpGetDiscriminant(outCmp1) != 7)
 		return 0;
 
 	/* Check time stamp set and read-back */

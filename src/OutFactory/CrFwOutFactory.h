@@ -70,8 +70,8 @@
 /* Include Framework files */
 #include "CrFwConstants.h"
 /* Include FW Profile files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwSmCore.h"
+#include "FwSmConstants.h"
+#include "FwSmCore.h"
 
 /**
  * Factory function for the singleton instance of the OutFactory.
@@ -124,7 +124,9 @@ FwSmDesc_t CrFwOutFactoryMake();
  * - The OutComponent instance identifier
  * .
  * The values of type, sub-type, command/report flag and discriminant are derived from the information in the
- * <code>::CR_FW_OUTCMP_INIT_KIND_DESC</code> initializer.
+ * <code>::CR_FW_OUTCMP_INIT_KIND_DESC</code> initializer. The type and sub-type cannot be changed after
+ * an OutComponent has been created. Applications can instead override the default setting of the
+ * discriminant by using function <code>::CrFwOutCmpSetDiscriminant</code>.
  *
  * As explained above, the value of the packet length is either derived from the
  * <code>::CR_FW_OUTCMP_INIT_KIND_DESC</code> initializer (if the function is called with the

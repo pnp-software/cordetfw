@@ -16,7 +16,7 @@
  * Applications create OutComponents dynamically through calls to the factory
  * function <code>::CrFwOutFactoryMakeOutCmp</code>.
  * OutComponents thus returned are expected to be in state CREATED (if this
- * is not the case - perhaps because the OutComponent's confguration action
+ * is not the case - perhaps because the OutComponent's configuration action
  * has failed to complete successfully - the OutComponent will remain permanently
  * pending and will never be sent to its destination).
  *
@@ -28,6 +28,8 @@
  * by modifying one or more of the following:
  * - The Enable Check Operation
  * - The Ready Check Operation
+ * - The Repeat Check Operation
+ * - The Update Action Operation
  * - The Serialize Operation
  * .
  * These operations are statically defined for each kind of OutComponent in
@@ -35,10 +37,10 @@
  *
  * This header file defines default values for all configurable operations listed
  * above.
- * The default implementations for the Enable Check and Ready Check will often
- * be suitable for many kinds of out-going reports or commands but
- * dedicated Serialize implementations will probably have to be provided
- * for application-specific out-going reports or commands.
+ * The default implementations for the Enable Check, Ready Check and Repeat Check will
+ * often be suitable for many kinds of out-going reports or commands but
+ * dedicated implementations of the Serialize and Update Action will probably have to
+ * be provided for application-specific out-going reports or commands.
  *
  * @image html OutComponent.png
  * <center>-</center>
@@ -69,8 +71,8 @@
 #define CRFW_OUTCMP_H_
 
 /* Include FW Profile files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwSmConstants.h"
+#include "FwPrConstants.h"
 /* Include configuration files */
 #include "Pckt/CrFwPcktQueue.h"
 #include "CrFwUserConstants.h"
@@ -242,12 +244,23 @@ CrFwServType_t CrFwOutCmpGetServSubType(FwSmDesc_t smDesc);
 /**
  * Return the discriminant of the OutComponent.
  * The discriminant of the OutComponent is set when the OutComponent is
- * created by function <code>::CrFwOutFactoryMakeOutCmp</code> and cannot be changed
- * afterwards.
+ * created by function <code>::CrFwOutFactoryMakeOutCmp</code> but
+ * can subsequently be changed through function
+ * <code>::CrFwOutCmpSetDiscriminant</code>.
  * @param smDesc the descriptor of the Base State Machine of the OutComponent
  * @return the discriminant of the OutComponent
  */
 CrFwDiscriminant_t CrFwOutCmpGetDiscriminant(FwSmDesc_t smDesc);
+
+/**
+ * Set the discriminant of the OutComponent.
+ * The default value of the discriminant of the OutComponent is set when the OutComponent
+ * is created by function <code>::CrFwOutFactoryMakeOutCmp</code>.
+ * This function allows this default value to be changed.
+ * @param smDesc the descriptor of the Base State Machine of the OutComponent
+ * @param discriminant the discriminant of the OutComponent
+ */
+void CrFwOutCmpSetDiscriminant(FwSmDesc_t smDesc, CrFwDiscriminant_t discriminant);
 
 /**
  * Set the acknowledge level for the command encapsulated in the OutComponent.

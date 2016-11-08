@@ -50,7 +50,7 @@
 #define CRFW_COMPDATA_H_
 
 #include "CrFwUserConstants.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwPrConstants.h"
 #include "OutStream/CrFwOutStream.h"
 #include "InStream/CrFwInStream.h"
 #include "InCmd/CrFwInCmd.h"

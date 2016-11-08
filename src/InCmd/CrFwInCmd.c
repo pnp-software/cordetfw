@@ -42,11 +42,11 @@
 #include "Pckt/CrFwPckt.h"
 #include "CrFwRepInCmdOutcome.h"
 /* Include FW Profile files */
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrDCreate.h"
-#include "FwProfile/FwSmConfig.h"
-#include "FwProfile/FwSmDCreate.h"
-#include "FwProfile/FwPrCore.h"
+#include "FwPrConfig.h"
+#include "FwPrDCreate.h"
+#include "FwSmConfig.h"
+#include "FwSmDCreate.h"
+#include "FwPrCore.h"
 
 /** Base OutComponent from which all other InCommands are derived. */
 static FwSmDesc_t baseInCmdSmDesc = NULL;
@@ -225,7 +225,7 @@ void ReportTerminationFailed(FwSmDesc_t smDesc) {
 	                    CrFwPcktGetServType(cmpSpecificData->pckt),
 	                    CrFwPcktGetServSubType(cmpSpecificData->pckt),
 	                    CrFwPcktGetDiscriminant(cmpSpecificData->pckt),
-	                    cmpData->outcome);
+	                    cmpData->outcome, smDesc);
 }
 
 /* --------------------------------------------------------------------------------- */
@@ -237,7 +237,7 @@ void ReportStartFailed(FwSmDesc_t smDesc) {
 	                    CrFwPcktGetServType(cmpSpecificData->pckt),
 	                    CrFwPcktGetServSubType(cmpSpecificData->pckt),
 	                    CrFwPcktGetDiscriminant(cmpSpecificData->pckt),
-	                    cmpData->outcome);
+	                    cmpData->outcome, smDesc);
 }
 
 /* --------------------------------------------------------------------------------- */
@@ -249,7 +249,7 @@ void ReportProgressFailed(FwSmDesc_t smDesc) {
 	                    CrFwPcktGetServType(cmpSpecificData->pckt),
 	                    CrFwPcktGetServSubType(cmpSpecificData->pckt),
 	                    CrFwPcktGetDiscriminant(cmpSpecificData->pckt),
-	                    cmpData->outcome);
+	                    cmpData->outcome, smDesc);
 }
 
 /* --------------------------------------------------------------------------------- */
@@ -262,7 +262,7 @@ void ReportStartSuccess(FwSmDesc_t smDesc) {
 		                    CrFwPcktGetServType(cmpSpecificData->pckt),
 		                    CrFwPcktGetServSubType(cmpSpecificData->pckt),
 		                    CrFwPcktGetDiscriminant(cmpSpecificData->pckt),
-		                    cmpData->outcome);
+		                    cmpData->outcome, smDesc);
 }
 
 /* --------------------------------------------------------------------------------- */
@@ -275,7 +275,7 @@ void ReportTerminationSuccess(FwSmDesc_t smDesc) {
 		                    CrFwPcktGetServType(cmpSpecificData->pckt),
 		                    CrFwPcktGetServSubType(cmpSpecificData->pckt),
 		                    CrFwPcktGetDiscriminant(cmpSpecificData->pckt),
-		                    cmpData->outcome);
+		                    cmpData->outcome, smDesc);
 }
 
 /* --------------------------------------------------------------------------------- */
@@ -300,7 +300,7 @@ static void DoProgressAction(FwSmDesc_t smDesc) {
 		                    CrFwPcktGetServType(cmpSpecificData->pckt),
 		                    CrFwPcktGetServSubType(cmpSpecificData->pckt),
 		                    CrFwPcktGetDiscriminant(cmpSpecificData->pckt),
-		                    cmpData->outcome);
+		                    cmpData->outcome, smDesc);
 }
 
 /* --------------------------------------------------------------------------------- */

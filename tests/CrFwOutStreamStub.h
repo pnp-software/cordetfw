@@ -35,12 +35,12 @@
 /* Include Framework Files */
 #include "CrFwConstants.h"
 /* Include FW Profile files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwSmConfig.h"
-#include "FwProfile/FwSmCore.h"
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrCore.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwSmConstants.h"
+#include "FwSmConfig.h"
+#include "FwSmCore.h"
+#include "FwPrConfig.h"
+#include "FwPrCore.h"
+#include "FwPrConstants.h"
 
 /**
  * Dummy implementation of an initialization or configuration check for an OutStream.

@@ -30,12 +30,12 @@
 #include "CrFwInStreamTestCases.h"
 #include "CrFwInStreamStub.h"
 /* Include FW Profile files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwSmConfig.h"
-#include "FwProfile/FwSmCore.h"
-#include "FwProfile/FwPrConfig.h"
-#include "FwProfile/FwPrCore.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwSmConstants.h"
+#include "FwSmConfig.h"
+#include "FwSmCore.h"
+#include "FwPrConfig.h"
+#include "FwPrCore.h"
+#include "FwPrConstants.h"
 /* Include configuration files */
 #include "CrFwInStreamUserPar.h"
 #include "CrFwCmpData.h"
@@ -90,7 +90,7 @@ CrFwBool_t CrFwInStreamTestCase1() {
 	if (!CrFwCmpIsInConfigured(inStream0))
 		return 0;
 
-	/* Since the packet available stub declares "packet is available", the InStream is in WAITING */
+	/* Since the packet available stub declares "packet is not available", the InStream is in WAITING */
 	if (!CrFwInStreamIsInWaiting(inStream0))
 		return 0;
 
@@ -142,6 +142,27 @@ CrFwBool_t CrFwInStreamTestCase2() {
 	/* Retrieve the first InStream */
 	inStream0 = CrFwInStreamMake(0);
 	if (inStream0 == NULL)
+		return 0;
+
+	/* Verify that InStream is in WAITING */
+	if (!CrFwInStreamIsInWaiting(inStream0))
+		return 0;
+
+	/* Send PACKET_AVAILABLE command to InStream at a time when no packets are available and
+	 * verify that InStream remains in WAITING */
+	CrFwInStreamPcktAvail(inStream0);
+	if (!CrFwInStreamIsInWaiting(inStream0))
+		return 0;
+	if (CrFwInStreamGetNOfPendingPckts(inStream0) != 0)
+		return 0;
+
+	/* Send GET_PCKT command to InStream and verify that nothing is returned */
+	pckt1 = CrFwInStreamGetPckt(inStream0);
+	if (pckt1 != NULL)
+		return 0;
+	if (!CrFwInStreamIsInWaiting(inStream0))
+		return 0;
+	if (CrFwInStreamGetNOfPendingPckts(inStream0) != 0)
 		return 0;
 
 	/* Set up stub to simulate presence of two packets for the host application */

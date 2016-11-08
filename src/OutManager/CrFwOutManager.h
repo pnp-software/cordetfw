@@ -32,13 +32,13 @@
  * in state CONFIGURED (this can be checked by verifying that function <code>FwSmGetCurState</code>
  * returns CR_FW_BASE_STATE_CONFIGURED).
  *
- * Note that an application can have any number of OutManagers.
+ * An application can have any number of OutManagers.
  *
  * An OutManager offers a Load operation (<code>::CrFwOutManagerLoad</code>) through which
  * an OutComponent can be added to the POCL.
  * This operation is normally called by the OutLoader (see <code>CrFwOutLoader.h</code>).
  *
- * Note that there is no mechanism to “unload” a pending OutComponent.
+ * There is no mechanism to “unload” a pending OutComponent.
  * The OutManager autonomously returns an OutComponent to the OutFactory when the
  * OutComponent has been sent to its destination (i.e. when the OutComponent is in
  * state TERMINATED) or when it has been aborted (i.e. when the OutComponent is in
@@ -79,8 +79,8 @@
 #define CRFW_OUT_MANAGER_H_
 
 /* Include FW Profile Files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwSmConstants.h"
+#include "FwPrConstants.h"
 /* Include Framework Files */
 #include "CrFwConstants.h"
 /* Include Configuration Files */
@@ -109,11 +109,30 @@ FwSmDesc_t CrFwOutManagerMake(CrFwInstanceId_t outManagerId);
 /**
  * Load a new OutComponent into the OutManager.
  * The behaviour implemented by this function is shown in the activity diagram below.
- * The algorithm to search for a free position in the Pending OutComponent List (POCL)
- * is optimized for a situation where multiple load operations are performed before
- * the OutManager is executed.
- * However, in a worst-case, the algorithm may have to scan the entire POCL to find a
- * free position where to insert the OutComponent.
+ * If the POCL is not full, the function identifies a free position in the POCL where
+ * to store the OutComponent.
+ * This function adds OutComponents to the POCL. The POCL is flushed when the OutManager
+ * is executed (i.e. it is flushed by function <code>::OutManagerExecAction</code>).
+ * The algorithms to identify a free position in the POCL and to process the POCL
+ * entries when the OutManager is executed are optimized for a situation where multiple
+ * load operations are performed before the OutManager is executed.
+ *
+ * Additionally, these algorithms guarantee the following ordering constraint.
+ * Let OutComponents C1 to Cn be successfully loaded into an OutManager through a sequence
+ * of calls to function <code>::CrFwOutManagerLoad</code> and assume that this sequence
+ * of load operations is not interrupted by an execution of the OutManager.
+ * Under these conditions, when the OutManager is executed next, the OutComponents C1 to
+ * Cn will be processed in the order in which they have been loaded.
+ *
+ * The implementation of function <code>::CrFwOutManagerLoad</code> is based on the
+ * internal variable <code>freePos</code>. This variable has the following
+ * characteristics:
+ * - it is initialized to point to the first entry in the POCL;
+ * - after the execution of the load function, <code>freePos</code> either points to the next
+ * free position in the POCL or is equal to the POCL size if the POCL is full;
+ * - after execution of the OutManager, it is re-initialized to point to the first position
+ * in the POCL.
+ * .
  * @image html OutManagerLoad.png
  * @param smDesc the descriptor of the OutManager State Machine.
  * @param outCmp the descriptor of the OutComponent to be loaded in the OutManager

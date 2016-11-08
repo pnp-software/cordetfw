@@ -8,10 +8,18 @@
  * An InStream is implemented by the InStream State Machine (see figures below)
  * embedded within state CONFIGURED of a Base State Machine.
  *
+ * The InStream State Machine has two states. State PCKT_AVAIL represents a situation
+ * where one or more packets have been collected from the middleware and are waiting
+ * to be processed by the application.
+ * State WAITING represents a situation where no packets are pending in the InStream.
+ * The packets in the InStream are stored in a <i>Packet Queue</i>.
+ *
  * An application can instantiate several InStream Components.
  * Each InStream instance has an identifier which uniquely identifies it
  * within the set of InStream Components.
  * This identifier is an integer in the range 0 to: <code>#CR_FW_NOF_INSTREAM</code>-1.
+ * An application should instantiated one InStream for each source of incoming commands
+ * or reports.
  *
  * <b>Mode of Use of an InStream Component</b>
  *
@@ -26,12 +34,13 @@
  * returns CR_FW_BASE_STATE_CONFIGURED).
  *
  * After it has been configured, an InStream can process two transition commands:
- * - A GetPacket command to collect a packet (representing either a command or a report)
- *   from the middleware connection attached to the InStream.
+ * - A GetPacket command to retrieve one packet (representing either a command or a report)
+ *   from the InStream's Packet Queue. The GetPacket command returns packets in the order in
+ *   which they were collected from the middleware.
  *   This command is sent through function <code>::CrFwInStreamGetPckt</code>.
- * - A PacketAvailable command to signal the arrival of one or more packets at
- *   the middleware connection attached to the InStream. This command is sent with the
- *   the <code>::CrFwInStreamPcktAvail</code> function.
+ * - A PacketAvailable command to check whether any packets are available at the middleware
+ *   interface and, if they are available, to collect them and store them in the InStream's Packet
+ *   Queue. This command is sent with the <code>::CrFwInStreamPcktAvail</code> function.
  * .
  * @image html InStream.png
  * The InStream State Machine runs the Packet Collect Procedure shown in the following figure:
@@ -62,8 +71,8 @@
 #define CRFW_INSTREAM_H_
 
 /* Include FW Profile Files */
-#include "FwProfile/FwSmConstants.h"
-#include "FwProfile/FwPrConstants.h"
+#include "FwSmConstants.h"
+#include "FwPrConstants.h"
 /* Include Configuration Files */
 #include "Pckt/CrFwPcktQueue.h"
 #include "CrFwUserConstants.h"
@@ -110,7 +119,7 @@ FwSmDesc_t CrFwInStreamMake(CrFwInstanceId_t inStreamId);
 FwSmDesc_t CrFwInStreamGet(CrFwDestSrc_t src);
 
 /**
- * Collect a packet from the InStream.
+ * Retrieve a packet from the InStream.
  * This function sends the GetPacket command to the InStream State Machine.
  * If, at the time the function is called, the InStream is in state PCKT_AVAIL (i.e. if
  * the InStream is configured and its packet queue is not empty), the function
@@ -123,10 +132,13 @@ FwSmDesc_t CrFwInStreamGet(CrFwDestSrc_t src);
 CrFwPckt_t CrFwInStreamGetPckt(FwSmDesc_t smDesc);
 
 /**
- * Signal the availability of a packet to the InStream.
+ * Query the middleware for available packets and collect them if they are available.
  * This function sends the PacketAvailable command to the InStream State Machine.
- * This command is normally sent to the InStream by the middleware to signal
- * the arrival of a new packet at the connection controlled by the InStream.
+ * This command may be sent to the InStream by the middleware to signal
+ * the arrival of a new packet at the connection controlled by the InStream or
+ * it may be sent to poll the middleware and check whether any packets are
+ * available. If packets are available at the middleware, they are collected
+ * and stored in the InStream's Packet Queue.
  * @param smDesc the descriptor of the Base State Machine of the InStream.
  */
 void CrFwInStreamPcktAvail(FwSmDesc_t smDesc);
