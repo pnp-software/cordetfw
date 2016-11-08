@@ -1,0 +1,16 @@
+Category,Id,AP,CmdVerOutComponents,HkRepOutComponent
+OCM,1,Initialization Check in Initialization Procedure of OutComponent,Same value as in OutComponent,Same value as in OutComponent
+OCM,2,Initialization Action in Initialization Procedure of OutComponent,Same value as in OutComponent,Same value as in OutComponent
+OCM,3,Configuration Check in Reset Procedure of OutComponent,Same value as in OutComponent,Same value as in OutComponent
+OCM,4,Configuration Action in Reset Procedure of OutComponent,Same value as in OutComponent,Same value as in OutComponent
+OCM,5,Shutdown Action in Base Component of OutComponent,Same value as in OutComponent,Same value as in OutComponent
+OCM,7,Service Type Attribute of OutComponent,Set equal to S\_CV,Set equal to S\_DR
+OCM,8,Command/Report Sub-Type Attribute of OutComponent,Set as specified in table \ref{tab:cmdVer}.,Set equal to 25
+OCM,9,Destination Attribute of OutComponent,Set destination equal to source of command being verified,Set destination equal to value specified in RDL for the given SID
+OCM,11,Discriminant Attribute of OutComponent,Set equal to zero,Set equal to SID
+OCM,12,Parameter Attribute of OutComponent,Set as specified in table \ref{tab:cmdVer}.,Values of the Data Items associated to the SID
+OCM,13,Enable Check Operation of OutComponent,Query the OutRegistry for the enable status of the command or report encapsulated in the OutComponent and set value of isEnable accordingly,Query the OutRegistry for the enable status of the command or report encapsulated in the OutComponent and set value of isEnable accordingly
+OCM,14,Ready Check Operation of OutComponent,Same value as in OutComponent,Same value as in OutComponent
+OCM,15,Repeat Check Operation of OutComponent,Same value as in OutComponent,"If the period associated to the SID in the RDL is zero, the Repeat Check always returns: 'no repeat'; if the period is equal to N and is non-zero, then the Repeat Check returns 'repeat' once every N executions of the check"
+OCM,16,Update Action of OutComponent,Same value as in OutComponent,Read the values of the Data Items associated to the SID in the RDL
+OCM,18,Operation to Report Invalid Destination of an OutComponent,Same value as in OutComponent,Same value as in OutComponent

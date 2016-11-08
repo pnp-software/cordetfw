@@ -1,0 +1,129 @@
+/** @defgroup appSmgroup Application Start-Up
+ * Implementation of the Application State Machine.
+ * The Application State Machine implements the application start-up behaviour
+ * (see figures below).
+ * @image html ApplicationSM.png 
+ */
+
+/** @defgroup baseCmpGroup Base Component
+ *  Implementation of the Base Component.
+ * A Base Component implements the behaviour of the Base Component State Machine
+ * (see figures below).
+ * All components used in the framework are derived from the Base Component
+ * (i.e. all framework components are implemented by state machines which are
+ * derived from the Base Component State Machine).
+ * Hence, all framework components inherit the behaviour of the Base Component
+ * State Machine.
+ * @image html BaseSM.png
+ */
+
+/** @defgroup inMngGroup Management of Incoming Commands and Reports
+ * Management of incoming commands and reports.
+ * Incoming commands are commands in a provider application (namely in an application 
+ * which receives commands from a service user) and incoming reports are reports in 
+ * a user application (namely in an application which receives reports from a service provider).
+ *
+ * Incoming commands and incoming reports are handled together because their management is 
+ * performed in a similar way. 
+ *
+ * The management model specified by the framework for incoming commands and reports is based 
+ * on the definition of the following components:
+ * - InCommand: this component models the generic behaviour of a command on a provider application 
+ *   (namely of an incoming command). 
+ *   Concrete incoming commands are defined as extensions of the base InCommand component.
+ * - InReport: this component models the generic behaviour of a report on a user application 
+ *   (namely of an incoming report). 
+ *   Concrete incoming reports are defined as extensions of the base InReport component.
+ * - InStream. this component models the interface through which incoming commands and 
+ *   reports are received by an application. 
+ * - InFactory: the InStream delivers an incoming command or incoming report as a packet 
+ *   consisting of a stream of bytes which must be de-serialized to create an InCommand or 
+ *   InReport instance to represent it. 
+ *   The InFactory component encapsulates the component instance creation process.
+ * - InLoader: this component is responsible for retrieving packets which become available 
+ *   at the InStreams. 
+ *   The InLoader may either forward an incoming packet (if its destination is not the 
+ *   host application), or it may process it as an incoming report (if the packet holds a report), 
+ *   or it may process it as an incoming command (if the packet holds a command). 
+ *   The processing of incoming commands or reports is as follows. 
+ *   The InLoader deserializes the packet and creates an InCommand or InReport instance to represent 
+ *   it and then loads it into an InManager. 
+ *   The InManager will be responsible for executing the InCommand or InReport.
+ * - InManager: this component controls the execution of an incoming command or incoming report 
+ *   until all its actions have been completed.
+ * - InRegistry: this component acts as a registry for pending InCommand and InReport. 
+ *   It can provide information about their state to other parts of the applications.  
+ * .
+ * Note that InFactory, InLoader, InRegistry and InStream are singletons. 
+ * 
+ * The process through which an application processes an incoming command or incoming report 
+ * is shown using an information notation in the figure below and can be summarized as follows:
+ * - The InStreams receive packets from other applications. The packets are collected from the InStreams by the InLoader.
+ * - The InLoader checks the destination of the packet. If it is the host application itself (namely the application within which the InLoader is running), it processes the packet as described below. If it is another application, the InLoader forwards the packet to another application (either its eventual destination or a routing application on the way to its eventual application).
+ * - An incoming packet may represent either a command or a report. The InLoader identifies the type of the command or report and asks the InFactory to provide an instance of an InCommand (if the packet represents a command) or of an InReport (if the packet represents a report) of that type. 
+ * - The InCommand or InReport are initially unconfigured. They are configured by deserializing the packet representing the incoming command or incoming report. Henceforth the incoming command or report is represented by the configured InCommand or InReport instance. 
+ * - The InLoader loads the command or report into an InManager. The InManager is responsible for executing the command or report. In the case of incoming commands, this may require several execution cycles. In the case of incoming reports, at most one execution cycle is sufficient. Depending on the outcome of the conditional checks associated to the incoming command or report, execution may result either in a normal termination or in the command or report being aborted.
+ * - When the command or report has terminated execution or has been aborted, the InManager returns the InCommand or InReport component instance that held it to the InFactory.
+ * - The InRegistry is notified of the arrival of incoming commands and reports and of changes of their state. The Inregistry makes this information available to other parts of the host application.
+ * .
+ * @image html IncomingCmdAndRep.png
+ */
+
+/** @defgroup outMngGroup Management of Outgoing Commands and Reports
+ * Management of outgoing commands and reports.
+ * Out-going commands are commands in a user application (namely in an application which sends commands 
+ * to a service provider) and out-going reports are reports in a provider application 
+ * (namely in an application which sends reports to a service user).
+ * 
+ * Out-going commands and out-going reports are handled together because their management is performed 
+ * in the same way and is based on the following components:
+ * - OutComponent: this component models the generic behaviour of an out-going command or report. Concrete commands or report generated by an application are defined as extensions of the base OutComponent component. 
+ * - OutFactory: this is a component factory which provides unconfigured instances of OutComponents to encapsulate out-going commands or reports.
+ * - OutLoader: after an application has configured an OutComponent representing an out-going command or report, it loads it into the OutLoader. This component is responsible for selecting the appropriate OutManager to process the out-going command or report. 
+ * - OutManager: this component is responsible for controlling the out-going command and the out-going report until the OutComponent which encapsulates them is serialized to the OutStream and sent to its destination as a packet.
+ * - OutStream: this component models the interface through which out-going commands and reports are sent to their destination.
+ * - OutRegistry: this component acts as a registry for pending OutComponents. It provides information about the state of the OutComponent to other parts of the host applications. 
+ * .
+ * Note that the OutFactory, OutLoader, and OutRegistry components are singletons and it is therefore assumed that only one instance of each exists in an application. It is also assumed that there is one (and only one) OutStream for each destination to which commands may be sent.
+ *
+ * The lifecycle of an out-going report or command is shown in the figure below using and informal notation and can be
+ * summarized as follows:
+ * - When the host application decides that it must issue a command or a report, it asks the OutFactory for an unconfigured OutComponent instance to encapsulate the out-going command or report.
+ * - The application configures the OutComponent and then loads it in the OutLoader.
+ * - The OutLoader selects an OutManager and loads the OutComponent into it. The selection of the OutManager will often be based on the urgency with which the command or report must be issued (e.g. each OutManager component is characterized by a certain priority level). 
+ * - The OutManager component processes the out-going command or report. If the command or report is disabled, it is aborted and the component which encapsulated it is returned to its factory (where it is either destroyed or is reused). If instead the command or report is enabled, it remains pending in the OutManager until its ready check indicates that the conditions are in place for it to be issued. 
+ * - The report or command is issued by serializing its OutComponent to a packet which is then handed over to the OutStream. The OutStream is responsible for sending the packet to its destination. After the OutComponent encapsulating the command or report has been serialized, it is returned to its factory.
+ *.
+ * @image html OutGoingCmdAndRep.png
+ */
+ 
+/** @defgroup crConfigGroup Configurable Header Files
+ * The files in this module must be modified by application developers to
+ * adapt them to the needs of their target application.
+ * These files customize the behaviour of the
+ * framework components by being included (via <code>include</code> directives) into the component
+ * bodies.
+ * The default value of the parameters in the configurable header files are those used for the
+ * Test Suite Application.
+ */
+
+/** @defgroup crOpenIfGroup Unimplemented Interfaces
+ * Declaration of Interfaces not implemented at Framework Level.
+ * These interfaces represent Adaptation Points which must be closed by the application developer when he 
+ * instantiates the framework.
+ * The application developers must therefore provide implementations for all these interfaces as part
+ * of the instantiation process.
+ * Default implementations are provided with the Test Suite.
+ */
+
+/** @defgroup auxGroup Auxiliary Functions
+ *  Implementation of Functions to check Component Configuration.
+ */
+
+/** @defgroup utilityFunctionsGroup Utility Functions
+ *  Implementation of Utility Functions.
+ */
+
+/** @defgroup CrTestSuiteGroup Test Suite
+ *  Test Suite for the CORDET Framework.
+ */

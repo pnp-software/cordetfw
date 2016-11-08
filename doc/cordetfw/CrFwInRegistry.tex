@@ -1,0 +1,20 @@
+This component acts as a registry for incoming commands and reports (namely for commands and reports which have been loaded into an InManager).
+
+The function of the InRegistry is to keep track of an incoming command state or of an incoming report state.
+
+The InRegistry maintains a list of the last N commands or report to have been loaded in one of the InManagers in an application. For each such command or report, the InRegistry maintains a record of its state. The command or report state in the InRegistry can have one of the following values:
+\begin{fw_itemize}
+\item PENDING: the command or report is executing
+\item ABORTED: the command was aborted during its execution by the InManager
+\item TERMINATED: the command or report has successfully completed its execution
+\end{fw_itemize}
+Note that state ABORTED only applies to incoming commands.
+
+The value of N (the maximum number of commands or reports which are tracked by the InRegistry) is fixed and is an initialization parameter.
+
+An InCommand or InReport is first registered with the InRegistry when it is loaded into the InManager through the latter \texttt{Load} operation. Subsequently,the information in the InRegistry is updated by an InManager every time a command or report is executed. Normally, a command or report state in the InRegistry eventually becomes either ABORTED or TERMINATED. The only situation where this is not the case is when an InManager is reset. In that case, commands and reports which were pending in the InManager at the time it was reset may never terminate \footnote{This is due to the fact that, when the InManager is reset, its list of pending commands and reports is cleared. It might be argued that the InRegistry should be notified of this fact so as to give it a chance to update the information it holds about commands which are currently in state PENDING. This is not done for reasons of simplicity and because it is expected that applications which reset an InManager will also  reset the InRegistry.}.
+
+The InRegistry uses the command identifier attribute (see section \ref{sec:CmdAttributes}) as the key through which the command state is classified.
+
+In order to perform the tasks described above, the InRegistry offers two operations: \texttt{StartTracking} and \texttt{Update}. These operations implement the same behaviour as the operations of the same name in the OutRegistry, namely they run, respectively, the Registry Start Tracking Procedure and the Registry Update Procedure (see figure \ref{fig:RegistryStartTrackingAndUpdate}). Operation \texttt{StartTracking} is called by the \texttt{Load} operation of an InManager to register an InCommand or InReport with the InRegistry. Operation \texttt{Update} is called by the \textit{Execution Procedure} of an InManager to ask the InRegistry to update its information about an InCommand or InReport state.
+

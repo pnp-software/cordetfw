@@ -1,0 +1,41 @@
+Although, the CORDET Framework does not specify the middleware through which applications may exchange packets with each other, it assumes this middleware to satisfy certain, very generic, assumptions. The next two sub-sections define the assumptions made by the CORDET Framework on, respectively, out-going interfaces (interfaces through which packets are sent to another application over a physical connection) and incoming interfaces (interfaces through which packets are received from other applications over a physical connection).
+
+%---------------------------------------------------------------------------------
+\subsubsection{Out-Going Interface}\label{sec:OutGoingConnections}
+
+An out-going interface is an interface through which an application sends packets to another application over a physical connection provided by a middleware. The following assumptions are made by the CORDET Framework about out-going connections:
+
+\begin{fw_itemize}
+\item[A1]{A connection may be in one of two states: AVAIL or NOT\_AVAIL.}
+\item[A2]{If a connection is in state AVAIL, then it is capable of accepting at least one entire packet for eventual transfer to its destination.}
+\item[A3]{A connection offers a non-blocking \texttt{Send} operation through which an application can make a request for a packet to be sent to its destination.}
+\item[A4]{The \texttt{Send} operation either forwards a packet to its destination (if the middleware is in state AVAIL when the \texttt{Send} request is made) or else it does nothing but notify the caller that the packet cannot be forwarded (if the middleware is in state NOT\_AVAIL when the \texttt{Send} request is made).}
+\item[A5]{A connection may make a transition between the AVAIL and NOT\_AVAIL states at any time.}
+\item[A6]{A connection may be queried for its current state.}
+\end{fw_itemize}
+
+These assumptions correspond to a middleware which accepts packets one at a time and which implements a potentially complex protocol to deliver them to their destination. This protocol may include buffering of packets (to bridge periods of non-availability of the physical link), splitting of packets into smaller messages (to accommodate restrictions on the maximum length of a transmission message), and re-sending of packets which have not been successfully delivered (to ensure continuity of service). 
+
+These protocol complexities manifest themselves at the application level exclusively as transitions between states AVAIL and NOT\_AVAIL (e.g. the middleware connection  becomes unavailable when the middleware buffer is full, or when a packet has to be broken up into messages which have to be sent separately, or when a packet has to be re-sent). Thus, the application is shielded from protocol-level complexity and is only required to be able to handle periods of non-availability of the middleware connection.
+
+Note also that there is no assumption that the middleware be able to signal a change of state of a connection from NOT\_AVAIL to AVAIL. Such a capability could be exploited by an application but is not mandated by the CORDET Framework. Thus, applications are compatible both with a “polling architecture” where the middleware connection is periodically queried for its availability status and with a “call-back architecture” where the application waits to be notified of the middleware's availability. 
+
+%---------------------------------------------------------------------------------
+\subsubsection{Incoming Interface}\label{sec:IncomingConnections}
+
+An incoming interface is an interface through which an application receives packets from another application over a physical connection provided by a middleware. The following assumptions are made by the CORDET Framework about incoming connections:
+
+\begin{fw_itemize}
+\item[B1]{A connection may be in one of two states: WAITING or PCKT\_AVAIL.}
+\item[B2]{If a connection is in state PCKT\_AVAIL, then there is at least one packet that is ready to be collected by the application.}
+\item[B3]{A connection offers an operation through which a packet that is waiting to be collected can be collected.}
+\item[B4]{A connection may make a transition from state PCKT\_AVAIL to WAITING exclusively as a result of the call to the operation to collect a packet.}
+\item[B5]{A connection may make a transition from state WAITING to PCKT\_AVAIL at any time.}
+\item[B6]{A connection may be queried for its current state.}
+\end{fw_itemize}
+
+These assumptions correspond to a middleware which implements a potentially complex protocol for processing incoming packets. This protocol may include: the defragmentation of packets which are transferred in several messages; the multiplexing of channels from several packet sources; the generation of low-level acknowledgements for incoming packets; the buffering of incoming packets. 
+
+These protocol complexities manifest themselves at the application level exclusively as transitions between state PCKT\_AVAIL and WAITING (e.g. the middleware connection  is in state WAITING when no packet has arrived, or when messages are being spliced together to compose a complete packet, or when an acknowledgement is being generated). Thus, the application is shielded from protocol-level complexity and is only required to be able to handle periods when no incoming packet is present.
+
+Note also that there is no assumption that the middleware be able to signal a change of state of a connection from WAITING to PCKT\_AVAIL. Such a capability, if it exists, can be exploited by an application but is not mandated by the CORDET Framework. Thus, an application is compatible both with a “polling architecture” where the middleware connection is periodically queried for the presence of incoming packets and with a “call-back architecture” where the application waits to be notified of the arrival of a packet. 
