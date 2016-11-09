@@ -1,0 +1,1684 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage{array}
+\usepackage[pdftex]{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{color, colortbl}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage[compact]{titlesec}		% The 'compact' argument reduces spacing before and after headings
+\usepackage{pdflscape}					% provides 'landscape mode' for selected pages
+
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+\usepackage{datatool}	% Management of external databases
+\usepackage{chngcntr}	% Management of figure and table numberings
+\usepackage[ddmmyyyy]{datetime}
+
+%---------------------------------------------
+% Management of Figure and Table Numbering
+%---------------------------------------------
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+
+%---------------------------------------------
+% Management of Captions
+%---------------------------------------------
+\usepackage[labelfont=bf]{caption}	% The caption label for tables and figures is bolded
+\setlength{\abovecaptionskip}{2pt}	% Bring caption close to figure or table
+\setlength{\belowcaptionskip}{-8pt}	% Bring caption close to text after it
+\renewcommand{\figurename}{Fig.}	% The caption label for figures is: "Fig."
+%\captionsetup[table]{singlelinecheck=off,justification=raggedright}	% Justify the table captions to the left
+\captionsetup[table]{position=bottom,skip=-1pt}	% controls spacing between caption and table
+
+\pagestyle{fancy}
+
+%------------------------------------------------------------------------------------------
+% Directories holding image files:
+% Figures from FW Profile Project and Figures from CORDET FW Project
+%------------------------------------------------------------------------------------------
+\graphicspath{ {../../lib/fwprofile/doc/images/} {../images/} }	
+
+%---------------------------------------------
+% Definition of custom properties
+%---------------------------------------------
+\newcommand{\docIssue}{0.7.1}						% issue number
+\newcommand{\docDate}{3 March 2016}			% document date
+\newcommand{\docRefNumber}{PP-UM-COR-00002}		% document reference number
+
+%------------------------------------------------------------------------------------------
+% Management of Headings
+%------------------------------------------------------------------------------------------
+% Define spacing to the left, before and after a subsection heading
+%\titlespacing\subsubsection{8pt}{12pt plus 4pt minus 2pt}{-10pt plus 0pt minus 0pt}
+
+% Introduce a page break before each section
+\let\stdsection\section
+\renewcommand\section{\newpage\stdsection}
+
+%---------------------------------------------
+% Paragraph Layout
+%---------------------------------------------
+\setlength{\parindent}{0in}						% No indentation on first line of a new paragraph
+
+%---------------------------------------------
+% Headers and Footers
+%---------------------------------------------
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\lhead{\docRefNumber{}}
+\chead{}
+\rhead{Revision \docIssue{}}
+\lfoot{\textcopyright2013 P\&P Software GmbH. All Rights Reserved.} 
+\cfoot{\vspace{5mm}
+{\color{red}\verbatiminput{../commercial/LicensedTo.txt}}}
+\rfoot{\thepage}
+
+%---------------------------------------------
+% Management of lists
+%---------------------------------------------
+\setlist{nolistsep}								% No extra vertical space around a list		
+\newenvironment{fw_itemize}						% Control spacing between items in a list
+{\begin{itemize}
+  \setlength{\itemsep}{1mm}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}}
+{\end{itemize}}
+
+\newenvironment{fw_enumerate}					% Control spacing between items in an enumeration
+{\begin{enumerate}
+  \setlength{\itemsep}{1mm}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}}
+{\end{enumerate}}
+
+\newenvironment{fw_description}					% Control spacing between items in a description
+{\begin{description}
+  \setlength{\itemsep}{1mm}
+  \setlength{\parskip}{5pt}			% Line spacing between paragraphs in an item
+  \setlength{\parsep}{0pt}}
+{\end{description}}
+
+%---------------------------------------------
+% Definition of colours
+%---------------------------------------------
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{light-gray}{gray}{0.85}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{lightblue}{RGB}{128,179,255}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+ 
+%---------------------------------------------
+% Options for the code listing boxes
+%---------------------------------------------
+\lstset{ 
+  language=C,                % the language of the code
+  aboveskip=\bigskipamount,			% vertical space above listing box
+  basicstyle=\footnotesize\ttfamily,    % use small size and mono-space font
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+  stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{lbcolor},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{dkgreen},       % comment style
+  stringstyle=\color{mauve},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add a comment within your code
+  morekeywords={*,...}               % if you want to add more keywords to the set
+}
+
+%---------------------------------------------
+% Title Page
+%---------------------------------------------
+\title{\textsc{The CORDET Framework} \\ \textsc{C2 Implementation} \\ \textsc{- USER MANUAL -}}
+\author{Alessandro Pasetti \& Vaclav Cechticky}
+\date{Created on: \today{}, at: \currenttime{}}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+Revision \docIssue{} \\
+\docRefNumber{}
+\end{center}
+
+\begin{center}
+P\&P Software GmbH \\
+High Tech Center 1 \\
+8274 T\"{a}gerwilen \\
+Switzerland \\
+\vspace{2mm}
+Web site: \url{www.pnp-software.com}\\
+E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-software.com}} 
+\end{center}
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{p{11.7cm}}
+\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+\begin{abstract}
+This document is the User Manual for the C2 Implementation of the CORDET Framework. The CORDET Framework is a software framework for service-oriented applications. The CORDET Framework defines an application in terms of the services it provides to other applications and in terms of the services it uses from other applications.
+\par
+A service is implemented by a set of commands through which an application is asked to perform certain activities and by a set of reports through which an application gives visibility over its internal state. The CORDET Framework defines the components to receive, send, distribute, and process commands and reports.
+\par
+The CORDET Framework is implementation-independent. The C2 Implementation is a C-language implementation of the CORDET components. It is provided with a Qualification Data Package which can be used to support the certification of applications built using its components.
+
+\end{abstract}
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{p{11.7cm}}
+\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+%---------------------------------------------
+% Table of contents and list of figures and tables
+%---------------------------------------------
+\newpage
+\tableofcontents
+
+\newpage
+\listoffigures
+\listoftables
+%\lstlistoflistings
+
+%---------------------------------------------
+% Copyright notice
+%---------------------------------------------
+\newpage
+\vspace*{\fill}
+\begin{center}
+No part of this publication may be reproduced, transmitted, transcribed, stored in any retrieval system, or translated into any language by any means without express prior written permission of P\&P Software GmbH.
+\end{center}
+
+\begin{center}
+Copyright \textcopyright 2013 P\&P Software GmbH. All Rights Reserved. 
+\end{center}
+\vspace*{\fill}
+
+%---------------------------------------------
+% Adjust distance between paragraphs (this cannot be done earlier or it also affects the TOC)
+%---------------------------------------------
+\setlength{\parskip}{3mm}						% Set distance between paragraphs
+
+%---------------------------------------------
+% Start of document text
+%---------------------------------------------
+\newpage
+\section{Introduction}
+This document is the User Manual for the \textit{C2 Implementation}. 
+The C2 Implementation is a C-language implementation of the \textit{CORDET Framework}.
+The CORDET Framework is a software framework for service-oriented applications. 
+
+The CORDET Framework defines an application in terms of the services it provides to other applications and in terms of the services it uses from other applications.
+A \textit{service} is implemented by a set of \textit{commands} through which an application is asked to perform certain activities and by a set of \textit{reports} through which an application gives visibility over its internal state.
+
+A service is implemented by a set of commands through which an application is asked to perform certain activities and by a set of reports through which an application gives visibility over its internal state. The CORDET Framework defines the components to receive, send, distribute, and process commands and reports (the \textit{CORDET Components}).
+
+The CORDET service concepts supports the implementation of distributed systems of applications where individual applications residing on different distribution nodes interact through the exchange of commands and reports.
+
+The CORDET Framework is specified in \cite{ref:cordetfw}. This specification is implementation-independent. The C2 Implementation is an implementation of the CORDET Components in the ANSI C language.
+
+The main features of the C2 Implementation are:
+\input{CrFwMainFeatures.tex}
+
+The behaviour of the CORDET components is modelled by means of state machines and procedures (activitiy diagrams). The semantics of the state machines and procedure is the one defined by the FW Profile of \cite{ref:fwprofile}. The C2 Implementation of the CORDET Framework implements these state machines and procedures using a C-language implementation of the FW Profile \footnote{The implementation of the FW Profile state machines and procedure is also available as a separate and self-contained delivery under the name of C1 Implementation, see \cite{ref:C1Implementation}}. 
+
+%------------------------------------------------------------------------------------------
+\section{Installation \& Content Overview}\label{sec:InstAndContentOverview}
+The C2 Implementation is delivered as one single zip file (the \emph{delivery file}).
+This file should be expanded in a dedicated directory. 
+This directory becomes the \emph{host directory} for the C2 Implementation.
+Table \ref{tab:HostDir} gives an overview of the structure of the host directory.
+More details are found in subsequent subsections.
+
+The C2 Implementation software is delivered as source code and therefore no further installation operations are needed. A Test Suite and a Demo Application are provided as illustrations of how the framework can be instantiated by users. Unix script files are also provided to compile and link the Test Suite and the Demo Application.
+
+\begin{longtable}{|l|p{7cm}|}
+\caption{Structure of Host Directory}\label{tab:HostDir} \\
+\hline
+\rowcolor{light-gray}
+\textbf{Sub-Directory} & \textbf{Sub-Directory Description}\\
+\hline\hline
+\texttt{/docs} & Holds the support documentation for the C2 Implementation. See section \ref{sec:SupportDoc}.\\
+\hline
+\texttt{/scripts} & Holds the support shell scripts to build the executables for the Test Suite and for the Demo Application. See section \ref{sec:script}.\\
+\hline
+\texttt{/reports} & Holds the test reports generated by the Acceptance Test Procedure. See section \ref{sec:atp}.\\
+\hline
+\texttt{/src} & Holds the source code for the CORDET Framework, for the Test Suite and for the Demo Applications. See section \ref{sec:fwSrcCode}.\\
+\hline
+\end{longtable}
+
+%--------------------------------------------------------------------------------------------
+\subsection{Dependency on C1 Implementation}\label{sec:depC1}
+The behaviour of the CORDET Framework is specified by means of state machines and procedures (activity diagrams). The implementation of the framework therefore requires an implementation of state machines and procedures. The C2 Implementation does not include an own implementation of state machines and procedures. Instead, it uses the state machine and procedure modules of the C1 Implementation of the FW Profile (see references \cite{ref:fwprofile} and \cite{ref:C1Implementation}). These modules can be downloaded from: \texttt{http://pnp-software.com/fwprofile} but, for convenience, they are also included in the C2 Implementation Delivery File.
+
+Note that the C1 Implementation consists of three modules covering the implementation of, respectively, state machines, procedures and RT Containers (encapsulations of threads). The third module is not used by the CORDET Framework and is therefore not included in the Delivery File.
+
+%--------------------------------------------------------------------------------------------
+\subsection{Dependency on External Libraries}
+The C2 Implementation (namely the CORDET Components in directory \texttt{/src/crFramework}) only needs the \texttt{stdlib} and the \texttt{string} libraries of the C language and the State Machine and Procedure Modules of the C1 Implementation of the FW Profile. The C1 Implementation modules are delivered together with the C2 Implementation (see previous section). 
+
+The Test Suite and the Demo Application (namely the components in directories \texttt{/src/crTestSuite}, \texttt{/src/crDemoMaster}, \texttt{/src/crDemoSlave1} and \texttt{/src/crDemoSlave2}) use additional libraries and POSIX services. In particular, the shell scripts which are delivered with the C2 Implementation (see section \ref{sec:script}) to generate the executables for the Test Suite and the Demo Applications need an implementation of the POSIX library. The scripts link the POSIX library with option \texttt{-lpthread}. Users with different implementations of the POSIX library will have to modify the Shell scripts accordingly. Users without a POSIX library implementation will not be able to build the Test Suite and the Demo Application (but will, of course, still be able to use the CORDET Components in their own applications).
+
+%--------------------------------------------------------------------------------------------
+\subsection{Source Code}\label{sec:fwSrcCode}
+
+The source code in the CORDET delivery file covers four distinct instantiations of the CORDET Framework. The first instantation is the \textit{Test Suite} (see section \ref{sec:TestSuite}). The other three instantiations constitute the Demo Application for the CORDET Framework and are called the \textit{Master Application}, the \textit{Slave 1 Application} and the \textit{Slave 2 Application} (see section \ref{sec:DemoApp}).
+
+At source code level, an instantiation of the CORDET Framework to implement an application within the framework's domain can be split into four parts:
+
+\begin{fw_itemize}
+\item \textit{Invariant Framework Software} consisting of the implementation of the CORDET Components. This part is common to all instantiations of the CORDET Framework. 
+\item \textit{Configurable Framework Software} consisting of the part of the framework which must be modified to be adapted to the needs of each end-application (the adaptation model for the framework is described in section \ref{sec:AdaptationModel}). This part is customized for each instantiations of the CORDET Framework. 
+\item \textit{C1 Implementation Software} providing an implementation of the state machine and procedure (activity diagram) concepts (see section \ref{sec:depC1}). This part is common to all instantiations of the CORDET Framework.
+\item \textit{Application-Specific Software} implementing the application-specific (i.e. non-framework) part of the target application. 
+\end{fw_itemize}
+
+The souce code in the CORDET delivery file is accordingly split into several directories as presented in table \ref{tab:srcCrDeliveryFile}. Users who wish to build a new application by instantiating the CORDET Framework would normally take the software in directories \texttt{/src/crFramework} and \texttt{/src/FwProfile} without changes and would customize the software in one of the \texttt{Config} directories to match their needs. The instantiation process is described in greater detail in section \ref{sec:FwInstantiation}.
+
+\begin{longtable}{|l|p{7cm}|}
+\caption{Source Code in CORDET Delivery File}\label{tab:srcCrDeliveryFile} \\
+\hline
+\rowcolor{light-gray}
+\textbf{Sub-Directory} & \textbf{Sub-Directory Description}\\
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Sub-Directory} & \textbf{Sub-Directory Description}\\
+\hline\hline
+\endhead
+
+\texttt{/src/crFramework} & Invariant Framework Software implementin the CORDET Components. For each CORDET Component, a dedicated sub-directory is present which holds the code implementing the component. The name of the sub-directory is the same as the name of the component. The code in this directory is used unchanged in all applications instantiated from the CORDET Framework. \\
+\hline
+\texttt{/src/FwProfile} & Source code for the State Machine and Procedure modules of the C1 Implementation of the FW Profile. The code in this directory is used unchanged in all applications instantiated from the CORDET Framework. \\
+\hline
+\texttt{/src/CrTestSuite} & Application-Specific Software for the Test Suite application. \\
+\hline
+\texttt{/src/CrConfigTestSuite} & Configurable Framework Software for the Test Suite application. \\
+\hline
+\texttt{/src/CrDemoMaster} & Application-Specific Software for the Master Application of the Demo Application. \\
+\hline
+\texttt{/src/CrConfigDemoMaster} & Configurable Framework Software for the Master Application of the Demo Application. \\
+\hline
+\texttt{/src/CrDemoSlave1} & Application-Specific Software for the Slave 1 Application of the Demo Application. \\
+\hline
+\texttt{/src/CrConfigDemoSlave1} & Configurable Framework Software for the Slave 1 Application of the Demo Application. \\
+\hline
+\texttt{/src/CrDemoSlave2} & Application-Specific Software for the Slave 2 Application of the Demo Application. \\
+\hline
+\texttt{/src/CrConfigDemoSlave2} & Configurable Framework Software for the Slave 2 Application of the Demo Application. \\
+\hline
+\end{longtable}
+
+
+%------------------------------------------------------------------------------------
+\subsection{Support Documentation}\label{sec:SupportDoc}
+The C2 Implementation is delivered with the following support documents: 
+
+\begin{fw_itemize}
+\item The \textbf{CORDET Framework Definition Document} which specifies the framework implemented by the C2 Implementation
+\item A \textbf{User Manual} (this document) which describes how the C2 Implementation is used
+\item A \textbf{User Requirement Document} which formally specifies the C2 Implementation
+through a set of requirements and provides validation and verification evidence for each requirement
+\end{fw_itemize}
+
+These documents, together with the Test Suite and the detailed software documentation in the Doxygen web site, constitute the \textbf{Qualification Data Package} (QDP) for the C2 Implementation. The QDP is provided for users who need to certify their application or, more generally, who need to provide evidence of its correctness. The QDP contains the typical information which is required for software certification purposes. It can therefore be included in the certification data package of end-applications and it relieves the user of the need to produce such information for the C2 Implementation part of their applications.
+
+%------------------------------------------------------------------------------------
+\subsection{Doxygen Documentation}\label{sec:DoxygenDoc}
+All the source code in the C2 Implementation (including the test suite and the demo application code) is documented in accordance with doxygen rules. The entry point to the Doxygen documentation is the \texttt{index.html} file in the \texttt{/docs/doxygen} directory.
+
+%------------------------------------------------------------------------------------
+\subsection{Test Suite}\label{sec:TestSuite}
+The Test Suite is a complete application which demonstrates all aspects of the behaviour of the CORDET Components.
+
+The main program of the Test Suite application is in file \texttt{CrTestSuite.c}. This program consists of a set of test cases. For each CORDET Component, one or more test cases are defined. Each test case exercises a specific aspect of the behaviour of a CORDET Component. The Test Suite offers 100\% code, branch, and condition coverage of the CORDET Components.
+
+On a Unix platform, the Test Suite application can be built by running one of the support scripts delivered with the C2 Implementation (see section \ref{sec:script}). 
+
+%------------------------------------------------------------------------------------
+\subsection{Demo Application}\label{sec:DemoAppFull}
+The Demo Application is a set of three complete applications which demonstrate the use of the C2 Implementation. The three applications are called: Master Application, Slave 1 Application and Slave 2 Application.
+
+The three Demo Applications are connected to each other through TCP sockets and they interact by exchanging commands and reports. One of the three applications acts as master and the other two act as slaves. The master application is responsible for monitoring the state of the two slave applications. The three applications execute 100 cycles in each of which the Master Application may send commands to the Slave Applications and the two Slave Application perform a temperature monitoring action and raise an alarm if they detect a temperature limit violation.
+
+The Demo Application thus constitutes a simple example of a distributed monitoring function of the kind often used in embedded control systems. The Demo Applications are described in section \ref{sec:DemoAppFull}.
+
+On a Unix platform, the Demo Applications can be built by running one of the support scripts delivered with the C2 Implementation (see section \ref{sec:script}). 
+
+%----------------------------------------------------------------------------------------------
+\subsection{Acceptance Test Procedure and Test Reports}\label{sec:atp}
+The C2 Implementation is passed through an Acceptance Test Procedure (ATP) prior to its release. The ATP is executed as a sequence of steps which are defined in table \ref{tab:atp}. For each step, a pass-fail criterium is defined. An execution of the ATP is successful if all the ATP steps satisfy their pass-fail criteria.
+
+\begin{longtable}{|l|p{5.2cm}|p{5.2cm}|}
+\caption{Execution Steps and Pass-Fail Criteria for ATP}\label{tab:atp} \\
+\hline
+\rowcolor{light-gray}
+\textbf{N} & \textbf{Step} & \textbf{Pass-Fail Criterium} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{N} & \textbf{Step} & \textbf{Pass-Fail Criterium} \\
+\hline\hline
+\endhead
+
+1 & Run Doxygen using Doxygen Configuration File on the entire source code of the C2 Implementation delivery &
+Neither errors nor warnings are reported by Doxygen \\
+\hline
+2 & Compile the C2 Implementation source code with "all warnings" enabled and with the options required to run GCov for both branch and statement coverage &
+Neither errors nor warnings are reported by the compiler \\
+\hline
+3 & Compile the Test Suite source code files with "all warnings" enabled &
+Neither errors nor warnings are reported by the compiler \\
+\hline
+4 & Build the executable to run the Test Suite for the C2 Implementation and to generate the \texttt{*.gcno} and \texttt{*.gcda} files &
+Neither errors nor warnings are reported by the linker \\
+\hline
+5 & Run the Test Suite with Valgrind &
+The Test Suite runs to completion; all test cases are declared to have completed successfully; no errors are reported by Valgrind in addition to, possibly, the errors discussed below \\
+\hline
+6 & Run GCov on all the C2 Implementation Files to which coverage requirements apply &
+For each C2 Implementation File to which coverage requirements apply, a \texttt{*.c.gcov}
+file is created and the file shows full statement and branch coverage with exception of
+branches entered as a result of a failure of \texttt{malloc} \\
+\hline
+7 & Compile the Demo Application Files with "all warnings" enabled &
+Neither errors nor warnings are reported by the compiler \\
+\hline
+8 & Build the executable to run the Demo Application for the C2 Implementation &
+Neither errors nor warnings are reported by The linker \\
+\hline
+\end{longtable}
+
+With reference to point 5, it is noted that, on many platforms, Valgrind will report 3 possible memory leaks originating in function \texttt{pthread\_create}. This is a known issue in many POSIX libraries and is not related to the CORDET Framework code.
+
+The \texttt{RunAcceptanceTest.sh} shell script (not included in the delivery for end customers) automatically executes all the procedure steps described in the table and it generates a test report which is included in directory \texttt{\\reports} of the delivery file.
+
+%------------------------------------------------------------------------------------
+\subsection{Support Shell Scripts}\label{sec:script}
+Several bash shell scripts are provided to build and run the executables of the C1 Implementation (Test Suite and Demo Applications). These support scripts are located in the \texttt{/scripts} sub-directory. Their content and function is described in their headers. One simple way of using them is as follows:
+
+\begin{fw_itemize}
+\item Open a terminal and go the \texttt{/scripts} directory
+\item Compile and link the State Machine and Procedure implementation with the \texttt{CompileAndLinkFw.sh} script by entering at the prompt:\\ \texttt{./CompileAndLinkFw.sh ../src .}
+\item Compile and link the Test Suite application with the \texttt{CompileAndLinkTs.sh} script by entering at the prompt:\\ \texttt{./CompileAndLinkTs.sh ../src ../src .}
+\item Compile and link the Master Application with the \texttt{CompileAndLinkMa.sh} script by entering at the prompt:\\ \texttt{./CompileAndLinkMa.sh ../src ../src .}
+\item Compile and link the Slave 1 Application with the \texttt{CompileAndLinkS1.sh} script by entering at the prompt:\\ \texttt{./CompileAndLinkS1.sh ../src ../src .}
+\item Compile and link the Slave 2 Application with the \texttt{CompileAndLinkS2.sh} script by entering at the prompt:\\ \texttt{./CompileAndLinkS2.sh ../src ../src .}
+\end{fw_itemize}
+
+The above steps result in the compilation and linking of the following applications provided in the Delivery File:
+
+\begin{fw_itemize}
+\item \texttt{cr\_test} for the Test Suite 
+\item \texttt{cr\_demo\_master} for the Master Demo Application 
+\item \texttt{cr\_demo\_slave1} and \texttt{scr\_demo\_slave2} for the two Slave Demo Applications 
+\end{fw_itemize}
+
+Both the object files and the executables are created in the \texttt{/scripts} directory but this can be changed by changing the parameters with which the script is called (see instructions in the header of the script). 
+
+The Test Suite can be run by executing the \texttt{cr\_test} file by entering at the command prompt: \texttt{./cr\_test}. 
+
+The three Demo Applications must be run together in three separate processes and must be started in a specific order. For this purpose, the script \texttt{RunDemoApp.sh} is provided which can be run by entering at the prompt in the \texttt{/scripts} directory: "\texttt{./RunDemoApp.sh} .". Execution of this script takes about 2 minutes and results in the generation of three files (\texttt{DemoAppOut\_Master.txt}, \texttt{DemoAppOut\_Slave1.txt} and \texttt{DemoAppOut\_Slave2.txt}) which hold the outputs of the three Demo Applications. The Demo Application output consists of a statement which is output at each cycle by ech application indicating what the application has done in that cycle (send a command; send a report; start execution of a command; detected a temperature violation etc). Each application executes 100 cycles. Socket errors in the last few cycles are nominal and are due to the system shutdown. 
+
+%------------------------------------------------------------------------------------
+\subsection{Naming Conventions}
+The C2 Implementation exports the following items towards users:
+
+\begin{fw_itemize}
+\item Header and body files
+\item Global functions
+\item Types defined through \texttt{typedef} 
+\item Constants and macros defined through \texttt{\#define} directives
+\end{fw_itemize}
+
+The naming conventions for these items are as follows.
+ 
+The names of the header and body files of the C2 Implementation and of the global 
+functions they export are written as a concatenation of strings (without underscores). 
+The first letter in each string is capitalized. The names have the following form: 
+\texttt{Cr<Xx><Name>}. The prefix "\texttt{Cr}" identifies a name as belonging to the CORDET Framework implementation. 
+The string "\texttt{Xx}" identifies the domain within the CORDET world 
+to which the name belongs. The following values are possible for this string: 
+
+\begin{fw_itemize}
+\item "\texttt{Fw}" identifies a name related to the implementation of the CORDET Framework and of its Test Suite, 
+\item "\texttt{Da}" identifies a name related to the Demo Application for the CORDET Framework.
+\end{fw_itemize}
+
+The string "\texttt{Name}" is the proper name of the function or file and it is made up of a concatenation of other strings. The following abbreviations are used in forming this name:
+
+\begin{fw_itemize}
+\item "\texttt{A}": "\texttt{action}" (as in "action node")
+\item "\texttt{Act}": "\texttt{action}" (as in "action attached to a procedure node")
+\item "\texttt{App}": "\texttt{application}" (as in "the Demo Application")
+\item "\texttt{Aux}": "\texttt{auxiliary}" (as in "auxiliary function")
+\item "\texttt{Config}": "\texttt{configuration}" (as in "the configuration of a component")
+\item "\texttt{Cmd}": "\texttt{command}"
+\item "\texttt{Cmp}": "\texttt{component}"
+\item "\texttt{Cnt}": "\texttt{counter}"
+\item "\texttt{Cps}": "\texttt{choice pseudo-state}"
+\item "\texttt{Cr}": "\texttt{CORDET}" 
+\item "\texttt{Cur}": "\texttt{current}" (as in "current state of a state machine")
+\item "\texttt{D}": "\texttt{decision}" (as in "decision node")
+\item "\texttt{Da}": "\texttt{demo application}" 
+\item "\texttt{Dec}": "\texttt{decision}" (as in "decision node in a procedure")
+\item "\texttt{Demo}": "\texttt{demo}" (as in "demo application")
+\item "\texttt{Der}": "\texttt{derived}" (as in "the derived state machine")
+\item "\texttt{Desc}": "\texttt{descriptor}" (as in "the descriptor of a state machine")
+\item "\texttt{Fin}": "\texttt{final}" (as in "final node")
+\item "\texttt{Fw}": "\texttt{framework}" 
+\item "\texttt{Err}": "\texttt{error}" (as in "the application error code")
+\item "\texttt{Emb}": "\texttt{embedded}" (as in "embedded state machine")
+\item "\texttt{Fps}": "\texttt{final pseudo-state}"
+\item "\texttt{Ini}": "\texttt{initial}" (as in "initial mode")
+\item "\texttt{Init}": "\texttt{initialization}" (as in "initialization of a component")
+\item "\texttt{Ips}": "\texttt{initial pseudo-state}"
+\item "\texttt{Ma}": "\texttt{master}" (as in "master application")
+\item "\texttt{Pckt}": "\texttt{packet}" (as in "the command is encapsulated in a packet")
+\item "\texttt{Pr}": "\texttt{procedure}"
+\item "\texttt{Rec}": "\texttt{recursive}" (as in "recursive function")
+\item "\texttt{Rep}": "\texttt{report}"
+\item "\texttt{S1}": "\texttt{slave 1}" (as in "slave 1 application")
+\item "\texttt{S2}": "\texttt{slave 2}" (as in "slave 2 application")
+\item "\texttt{Sm}": "\texttt{state machine}"
+\item "\texttt{Sta}": "\texttt{state}" (as in "the state of a state machine")
+\item "\texttt{Temp}": "\texttt{temperature}"
+\item "\texttt{Trans}": "\texttt{transition}" (as in "the transition between two states")
+\end{fw_itemize}
+
+The names of the types defined through \texttt{typedef} start with the string "\texttt{CrFw}" and 
+terminate with the string: "\texttt{\_t}".
+
+The names of the \texttt{\#define} constants are written in capitals and are made 
+up of strings concatenated with underscores.
+
+%---------------------------------------------------------------------------------
+\section{Framework and Service Concepts}
+The CORDET Framework is a software framework to support the instantiation of service-oriented applications. 
+This section gives an overview of the software framework concept and of the service concept assumed in the CORDET project.
+A fuller version of the material presented in this section can be found in \cite{ref:cordetfw}.
+
+%----------------------------------------------------------------------------------------
+\subsection{Software Framework Concept}\label{sec:SwFwConcept} 
+\input{../cordetfw/CrFwSwFwConcept.tex}
+
+%----------------------------------------------------------------------------------------
+\subsection{Service Concept}\label{sec:ServConcept} 
+\input{../cordetfw/CrFwServConcept.tex}
+
+%----------------------------------------------------------------------------------------
+\subsection{Objectives of CORDET Framework}\label{sec:ObjectivesOfCrFw} 
+
+In general terms, the goal of the CORDET Framework is to foster software reusability in the development of service-oriented embedded control applications. 
+
+With a service-oriented concept, an application is specified in terms of the services it offers to other applications and of the services it needs from other applications and the services are in turn specified by the commands and reports which implement them.
+
+In this perspective, the CORDET Framework supports reusability in the following ways:
+
+\begin{fw_enumerate}
+\item{} It provides a formal definition of the abstract (implementation-independent) concept of commands and reports,
+\item{} It specifies the components (the CORDET Components) which implement the abstract command and report concepts and the CORDET Standard Services, and
+\item{} It allows services of general applicability for a specific domain to be pre-defined and to be available as building blocks for the development of applications in that domain.
+\end{fw_enumerate}
+
+Each of the above three points is discussed in greater detail in a dedicated sub-section below. 
+
+%----------------------------------------------------------------------------------------
+\subsubsection{Definition of Command and Report Concepts}\label{sec:DefCmdRepConcepts}
+
+The first objective of the CORDET Framework is to provide a formal definition of the abstract command concept and of the abstract report concept. 
+
+This is done by building behavioural models of commands and of reports which:
+
+\begin{fw_enumerate}
+\item{} capture the aspects of the behaviour of commands and reports which is common to all commands and reports independently of the definition and implementation of a concrete command or report, and
+\item{} identify the adaptation points where service- and implementation-specific behaviour can be added.
+\end{fw_enumerate}
+
+An example may clarify the definition given above. 
+In section \ref{sec:CmdCondChecks}, the concept of Acceptance Check for commands is introduced. 
+An acceptance check is a check that is performed upon incoming commands to determine whether the command can be accepted or whether it should be rejected. 
+The abstract concept of command includes the following behavioural property: “an incoming command shall be considered for execution by a service provider only if it has passed its Acceptance Check”. 
+This property is part of the abstract command concept because it is common to all commands. 
+The content of the Acceptance Check (i.e. the type of check that is done on a specific incoming command) is, however, not part of the abstract command concept because it depends on the concrete service to which a command belongs.
+
+Thus, the behavioural model for commands must guarantee that a successful Acceptance Check is a pre-condition for the execution of a command and it must identify the content of the Acceptance Check as an adaptation point for the command.
+
+Note that the definition of an abstract command and report concept allows the specification of services to be standardized and it therefore is a precondition for the second and third objectives of the CORDET Framework. 
+
+The abstract command concept and the abstract report concept are defined in, respectively, sections \ref{sec:CmdConcept} and \ref{sec:RepConcept}.
+
+%----------------------------------------------------------------------------------------
+\subsubsection{Definition of CORDET Components}\label{sec:DefCrCmp}
+The second objective of the CORDET Framework is to specify the components which implement the abstract command and report concepts (the \textit{CORDET Components}). 
+These components are intended for deployment in service-oriented applications. 
+More specifically, the CORDET Components cover, on the service user side, the sending of commands and the reception and distribution of reports and, on the service provider side, the processing of incoming commands and the generation of reports.
+
+The CORDET Framework only specifies the CORDET Components but does not implement them. 
+The specification is, however, done using the FW Profile and it therefore consists of a complete behavioural model. 
+An implementation could in principle be automatically generated from the model. 
+
+The CORDET Framework defines the behavioural models for the service components. 
+Multiple implementations can be derived from these models. 
+All implementations are functionally equivalent (because they implement the same behavioural model) but they differ in the choice of implementation language, of implementation technology, or of other implementation-level aspects. 
+
+Note that the CORDET components are framework-level components. 
+Hence, application developers may have to specialize them further before using them. 
+Two approaches are possible in this respect: (a) the application takes over an existing implementation of the CORDET components and specializes them, or (b) the application specializes the models of the CORDET Framework and then implements the specialized models.
+
+%----------------------------------------------------------------------------------------
+\subsubsection{Definition of Standard Services}\label{sec:StdServ}
+The third objective of the CORDET Framework is to allow sets of \textit{standard services} to be defined. 
+These services are intended to cover functionalities which are common to applications within a certain domain. 
+The standard services are therefore offered as building blocks for the applications in that domain: 
+an application in the domain is specified and built as a combination of standard services (which are re-used) and application-specific services (which are developed for each specific application).
+
+The standard services are defined by defining their commands and reports and the commands and reports are defined as specializations of the abstract command and report concepts (see section \ref{sec:DefCmdRepConcepts}). 
+Thus, a standard service is defined by “closing” the adaptation points identified in the abstract command and report concepts.
+
+The CORDET Framework promotes a hierarchical definition of services as illustrated in figure \ref{fig:HierarchicalDefServ}. 
+At the top layer, there is the abstract definition of commands and reports. 
+This definition is entirely generic and applicable to all services in all application. 
+At the intermediate level, standard services are defined which capture concrete behaviour which is common to a large number of applications. 
+These standard services could be defined either by the CORDET Framework itself or by organizations which identify commonalities among the applications of interest to them. 
+Finally, at the bottom level, end-applications define their own services which are entirely specific to their needs. 
+The application-level services may be either taken over from the standard services or they may be created as instantiations of the generic service concept (if they are entirely application-specific).
+
+\begin{figure}[ht]
+ \centering
+ \includegraphics[scale=0.3,keepaspectratio=true]{HierarchicalDefServ.png}
+ \caption{Hierarchical Definition of Services}
+ \label{fig:HierarchicalDefServ}
+\end{figure}
+
+%-----------------------------------------------------------------------------------
+\subsection{Objectives of C2 Implementation}\label{sec:ObjectivesC2Impl} 
+
+The CORDET Framework is specified in \cite{ref:cordetfw} as an implementation-independent framework.
+The C2 Implementation is a C-language implementation of the framework in the sense that it provides C implementations of the CORDET Components.
+
+The CORDET Framework supports the development of service-oriented applications \textit{at specification level} by providing concepts which facilitate the specification of such applications.
+The C2 Implementation supports the development of the same applications \textit{at implementation level} by providing pre-defined components which facilitate the specification of the same applications.
+
+%------------------------------------------------------------------------------------
+\subsection{Relationship To Packet Utilization Standard (PUS)}\label{sec:RelationshipToPUS}
+\input{../cordetfw/CrFwRelationshipToPUS.tex}
+
+%-------------------------------------------------------------------------------------------
+\subsection{Middleware Layer}\label{sec:MwLayer} 
+\input{../cordetfw/CrFwMwLayer.tex}
+
+%=============================================================================================
+\section{State Machine and Procedure Model}\label{sec:SmAndPrModel}
+The C2 Implementation implements the specification of the CORDET Framework given in reference \cite{ref:cordetfw}. The behaviour of the CORDET Framework is specified through \textit{state machines} and \textit{procedures}. The semantics of the state machines and procedures in reference \cite{ref:cordetfw} is that of the \textit{FW Profile} of reference \cite{ref:fwprofile}. 
+
+The FW Profile is a restriction of UML. It retains a simple but unambiguous subset of the UML features. Its state machines match the functional part of UML's state machines and its procedures match the functional part of UML's activity diagrams. For convenience, appendices \ref{sec:SmModelOfTheFwProfile} and \ref{sec:PrModelOfTheFwProfile} describe the state machine and procedure model of the FW Profile.
+
+The C2 Implementation uses the C1 Implementation of \cite{ref:C1Implementation}. This is a library of C-language functions which implement the state machine and procedure concepts of the FW Profile. The C2 Implementation wraps all calls to functions of the C1 Implementation. Hence, in most cases, users will not need to interact with C1 Implementation functions.
+
+Syntactically, a state machine in the C2 Implementation is represented by a variable of type \texttt{FwSmDesc\_t}. This type is a pointer to a structure (the \textit{state machine descriptor}) which holds all the information required to describe the state machine (its states and pseudo-states, its actions, its guards, and its transitions) and its current state. 
+
+Similarly, a procedure in the C2 Implementation is represented by a variable of type \texttt{FwPrDesc\_t}. This type is a pointer to a structure (the \textit{procedure descriptor}) which holds all the information required to describe the procedure (its nodes, its actions, and its guards) and its current state. 
+
+Users do not need to understand the internal structure of either the state machine or procedure descriptor.
+
+%-------------------------------------------------------------------------------------------
+\subsection{State Machine Extension}\label{sec:SmExtension} 
+The C1 Implementation supports an extension mechanism for state machines which is similar to the inheritance-based extension mechanism of object-oriented languages. The C2 Implementation relies on this extension mechanism.
+
+This section presents a brief overview of the state machine extension mechanism. More details can be found in \cite{ref:C1Implementation}. 
+
+A state machine (the \emph{base state machine}) can be \emph{extended} to create a new state machine (the \emph{derived state machine}). Initially, after being created, a derived state machine is a clone of its base (it has the same states with the same actions linked by the same transitions with the same actions and guards as the base state machines). The derived state machine can then be configured by performing one or more of the following operations: 
+
+\begin{fw_itemize}
+\item Overriding one or more of its actions 
+\item Overriding one or more of its guards 
+\item Embedding new state machines in its states
+\end{fw_itemize}
+
+The extension mechanism is useful where there is a need to define a large number of state machines which share the same topology (same set of states, of choice pseudo-states, and of transitions) but differ either in their actions, or in their guards, or in the internal behaviour of their states.
+
+As an example consider the CORDET Components. All these components share the same initialization and reset logic which is described in section \ref{sec:BaseCmp} but they differ from each other in the specific actions and checks which they perform when they are initialized or reset. The C2 Implementation accordingly defines a base state machine to capture the generic behaviour of all components (see figure \ref{fig:BaseSM}) and then extends this base state machine to create the state machines representing specific component types. 
+
+Using an object-oriented terminology, one could say that the C2 Implementation offers a base class implementing the generic initialization and reset behaviour of all components and it offers derived classes to represent the initialization and reset behaviour of specific component types.
+
+Note, finally, that the C1 Implementation also supports an extension mechanism for procedures as well as for state machines. This procedure extension mechanism is not used in the C2 Implementation and is therefore not discussed further in this document. 
+
+%=============================================================================================
+\section{Component Model}\label{sec:CmpModel}\label{sec:BaseCmp}
+The C2 Implementation is organized as a set of \textit{adaptable components}. The components provided by the C2 Implementation are called \textit{Framework Components}. A Framework Component consists of:
+
+\begin{fw_itemize}
+\item A state machine derived\footnote{The term "derived" is used here in the sense of section \ref{sec:SmExtension}} from the \textit{Base State Machine} of figure \ref{fig:BaseSM};
+\item The procedures which are started or executed by this state machine;
+\item Any other procedure which supports the operation of this state machine.
+\end{fw_itemize}
+
+The Base State Machine defines the process through which a component is initialized and configured. Thus, the definition of a Framework Component implies that all Framework Component share the same initialization and reset logic. 
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[scale=0.3,keepaspectratio=true]{BaseSM.png}
+ \caption{Base State Machine}
+ \label{fig:BaseSM}
+\end{figure}
+
+The logic of the Base State Machine is as follows. Initially, after being instantiated, framework components are in state CREATED. The hosting application is then expected to provide to each component the information it needs to perform its initialization. The type of this information is component-specific. After the necessary information has been provided, the application sends an \texttt{Init} command to the component. The component responds by running its \textit{Initialization Procedure}. This procedure is responsible for initializing the component and is defined in figure \ref{fig:InitializationAndReset}. 
+
+The \textit{Initialization Procedure} is based on an \textit{Initialization Check} and an \textit{Initialization Action}. Both the check and the action are adaptation points which must be defined for each individual component. The Initialization Check normally checks that all parameters required for the component initialization have legal values.  The Initialization Action is only performed if the Initialization Check was successful.  This action normally creates all data structures required by the component and it performs other initialization actions as required. The Initialization Action can either fail or succeed.
+
+The Initialization Procedure terminates in one single cycle with an outcome of either “Success” of “Failure”. Only the “Success” outcome is nominal and leads to the component making a transition to state INITIALIZED.
+
+After successful initialization, the application provides to the component the information required to configure it and then sends a \texttt{Reset} command to it. The component responds by running its \textit{Reset Procedure}.  This procedure is responsible for configuring the component and is defined in figure  \ref{fig:InitializationAndReset}.
+ 
+The \textit{Reset Procedure} is based on a \textit{Configuration Check} and a \textit{Configuration Action}. Both the check and the action are adaptation points which must be defined for each individual componet. The Configuration Check normally checks that all parameters required for the component configuration have legal values.  The Configuration Action is only performed if the Configuration Check was successful. This action normally initializes the value of all data structures required by the component and it performs other configuration actions as required. The Configuration Action can either fail or succeed.
+
+The Reset Procedure terminates in one single cycle with an outcome of either “Success” of “Failure”. Only the “Success” outcome is nominal and leads to the component making a transition to state CONFIGURED.
+
+\begin{figure}[ht]
+ \centering
+ \includegraphics[scale=0.3,keepaspectratio=true]{InitializationAndReset.png}
+ \caption{Initialization and Reset Procedures}
+ \label{fig:InitializationAndReset}
+\end{figure}
+
+State CONFIGURED is the normal operational state of a component. In this state, the component executes its \textit{Execution Procedure}. This procedure must be entirely defined at application level. 
+
+A component can be reset at any time by sending it command \texttt{Reset}. Nominally, this results in the component executing again its configuration actions and re-entering its CONFIGURED state. However, if any of the component parameters are found to have non-nominal values or if any of the configuration actions fail, then the component makes a transition to state INITIALIZED. This is a non-nominal situation.
+
+Thus, the distinction between initialization actions and configuration actions is that the former are actions that, nominally, are performed only once during the life of an application whereas the latter are actions which may be performed more than once.
+
+Note that there is no distinction between the actions that are performed when a component is configured for the first time during application start-up and the actions that are performed when a component is reset at run-time. This is intentional because resetting a component should bring it to the same state in which it was when the application had completed its start-up.
+
+All framework components implement the behaviour defined by the Base State Machine. In general, the “meaningful” behaviour of a framework component is defined within the CONFIGURED state. This “meaningful” behaviour is defined either by implementing an \textit{Execution Procedure} or by embedding a state machine within the CONFIGURED state.
+
+Components are shut down by sending them command \texttt{Shutdown}. This command results in the shutdown action being executed on the component. This action undoes the effects of the component initialization. Note that components can only be shutdown from state CONFIGURED. This is because the \texttt{Shutdown} operation models an orderly shutdown which should only be performed after an application has successfully completed its start-up. 
+
+The C2 Implementation provides default implementations for the actions and checks of the Initialization and Reset Procedures and for the Execution Procedure:
+
+\begin{fw_itemize}
+\item The default Initialization Check always returns "success".
+\item The default Initialization Action sets the action outcome to "success" and then returns.
+\item The default Configuration Check always returns "success".
+\item The default Configuration Action sets the action outcome to "success" and then returns.
+\item The default Execution Procedure executes the same empty action node at every cycle.
+\end{fw_itemize}
+
+These defaults may be overridden when the Base Component is extended to create other Framework Components. Application developers will normally never use a Base Component directly (they only use components derived from the Base Component). 
+
+%-------------------------------------------------------------------------------------------
+\subsection{Component Hierarchy}\label{sec:CmpHierarchy} 
+Figure \ref{fig:CmpHierarchy} show the components offered by the C2 Implementation in their hierarchical relationship. The Base Component at the top of the hierarchy encapsulates the Base State Machine. This component is not used directly. It only serves as a base from which the other components are derived.
+
+Table \ref{tab:CmpList} lists the components offered by the C2 Implementation. Each component is described in a dedicated section of this document. Each component is implemented in a dedicated C-module. The rightmost column in the table gives the name of the C module.
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.37,keepaspectratio=true]{CmpHierarchy.png}
+ \caption{Component Hierarchy}
+ \label{fig:CmpHierarchy}
+\end{figure}
+
+\begin{longtable}{|p{2.4cm}|p{5.5cm}|p{2.7cm}|}
+\caption{List of Framework Components} \label{tab:CmpList}\\
+\hline
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Function Within Framework} & \textbf{C-Module} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Function Within Framework} & \textbf{C-Module} \\
+\hline\hline
+\endhead
+Base & Base component from which all framework components are derived. See section \ref{sec:CmpInst}. & \texttt{CrFwBaseCmp} \\
+\hline
+InStream & Reception of incoming commands and reports from communication middleware. See section \ref{sec:InStream}. & \texttt{CrFwInStream} \\
+\hline
+OutStream & Serializazion of outgoing commands and reports to the communication middleware. See section \ref{sec:OutStream}. & \texttt{CrFwOutStream} \\
+\hline
+InReport & Encapsulation of an incoming report. See section \ref{sec:InReport}. & \texttt{CrFwInRep} \\
+\hline
+InCommand & Encapsulation of an incoming command. See section \ref{sec:InCommand}. & \texttt{CrFwInCmd} \\
+\hline
+OutComponent & Encapsulation of an outgoing command or report. See section \ref{sec:OutComponent}. & \texttt{CrFwOutCmp} \\
+\hline
+InFactory & Dynamic creation of InCommands and InReports. See section \ref{sec:CmpImpl}. & \texttt{CrFwInFactory} \\
+\hline
+OutFactory & Dynamic creation of OutComponents. See section \ref{sec:CmpImpl}. & \texttt{CrFwOutFactory} \\
+\hline
+InLoader & Loading and re-routing of incoming commands and reports. See section \ref{sec:InLoader}. & \texttt{CrFwInLoader} \\
+\hline
+OutLoader & Loading of out-going command and reports into an OutStream. See section \ref{sec:OutLoader}. & \texttt{CrFwOutLoader} \\
+\hline
+InManager & Execution and processing of incoming commands and reports. See section \ref{sec:InManager}. & \texttt{CrFwInManager} \\
+\hline
+OutManager & Processing of outgoing commands and reports. See section \ref{sec:OutManager}. & \texttt{CrFwOutManager} \\
+\hline
+InRegistry & Tracking of the state of incoming commands and reports. See section \ref{sec:InRegistry}. & \texttt{CrFwInRegistry} \\
+\hline
+OutRegistry & Tracking of the state of outgoing commands and reports. See section \ref{sec:OutRegistry}. & \texttt{CrFwOutRegistry} \\
+\hline
+\end{longtable}
+
+
+%-------------------------------------------------------------------------------------------
+\subsection{Component Implementation}\label{sec:CmpImpl} 
+
+Each component is implemented in either one single C module or in a small number of C modules. The modules implementing a component are gathered in a dedicated sub-directory which carries the name of the component. Thus, for instance, the modules implementing the Base Component are stored in a sub-directory called: \texttt{src/CrFramework/BaseCmp}.
+
+From a syntactical point of view, a Framework Component is represented by the descriptor of its state machine (a variable of type \texttt{FwSmDesc\_t}, see section \ref{sec:SmAndPrModel}). Thus, syntactically, all framework components are of the same type (i.e. they are all represented by variables of type \texttt{FwSmDesc\_t}). 
+
+Framework Components are instantiated by \textit{factory functions} which are provided by the framework. A factory function is a function with a name either like: \texttt{CrFwXxxMakeYyy} or like: \texttt{CrFwXxxMake}. The meaning of the strings 'Xxx' and 'Yyy' is discussed in section  \ref{sec:CmpInst}.
+
+Components which are instantiated from the same factory function are said to be of the same \textit{component type}. Thus, each factory function defines a component type. Each component instance carries a \textit{type identifier} which uniquely identifies its type. The type identifier can be accessed with function \texttt{CrFwCmpGetTypeId}.
+
+When a component instance is created, it is assigned an \textit{instance identifier} which uniquely identifies a component instance within the set of components of a certain type. The first instance to be created by a factory function is assigned the instance identifier of 0. The second instance is assigned the instance identifier 1. And so on. The instance identifier can be accessed with function \texttt{CrFwCmpGetInstanceId}.
+
+There is a limited number of standard operations which can be performed on a framework component (executing it, querying it for its state, etc). An operation is performed by calling a function on the component. Table \ref{tab:CmpOperations} lists the most commonly used functions available for this purpose. 
+
+Some of the functions listed in the table are only intended to operate upon a component instance of a certain type. For instance, function \texttt{CrFwInStreamGetPckt} should only be called with an argument representing an InStream component. This constraint cannot be enforced statically because, as indicated above, all components have the same syntactical type (they are all instances of type \texttt{FwSmDesc\_t}). It is therefore the responsibility of the application to enforce this constraint. The error arising when a function is called with a component of the incorrect type is not handled by the C2 Implementation. 
+
+Although type checking is not possible statically owing to the limitations of the implementation language, it could be performed at run-time using the type information which every component carries with itself. Thus, functions could be modified or extended through a wrapper to check that the argument which they receive is of the expected type and to raise an error if this is not the case. 
+
+\begin{longtable}{|p{5.0cm}|p{6.2cm}|}
+\caption{List of Framework Component Operations} \label{tab:CmpOperations}\\
+\hline
+\rowcolor{light-gray}
+\textbf{Operation} & \textbf{Description} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Function} & \textbf{Description of Operation} \\
+\hline\hline
+\endhead
+\texttt{CrFwCmpExecute($\langle$Inst$\rangle$)} & Execute the state machine of the component instance \texttt{Inst}. \\
+\hline
+\texttt{CrFwCmpInit($\langle$Inst$\rangle$)} & Initialize the Base State Machine of the component instance \texttt{Inst}. \\
+\hline
+\texttt{CrFwCmpReset($\langle$Inst$\rangle$)} & Reset the Base State Machine of the component instance \texttt{Inst}. \\
+\hline
+\texttt{CrFwCmpShutdown($\langle$Inst$\rangle$)} & Shutdown the Base State Machine of the component instance \texttt{Inst}. \\
+\hline
+\texttt{CrFwCmpIsInCreated($\langle$Inst$\rangle$)} & Return true if the Base State Machine of the component instance \texttt{Inst} is in state CREATED. \\
+\hline
+\texttt{CrFwCmpIsInInitialized($\langle$Inst$\rangle$)} & Return true if the Base State Machine of the component instance \texttt{Inst} is in state INITIALIZED. \\
+\hline
+\texttt{CrFwCmpIsInConfigured($\langle$Inst$\rangle$)} & Return true if the Base State Machine of the component instance \texttt{Inst} is in state CONFIGURED. \\
+\hline
+\texttt{CrFw$\langle$Type$\rangle\langle$Cmd$\rangle$($\langle$Inst$\rangle$)} & Send command \texttt{Cmd} to the state machine embedded in state CONFIGURED of the component instance \texttt{Inst} of type \texttt{Type}. \\
+\hline
+\texttt{CrFw$\langle$Type$\rangle$IsIn$\langle$State$\rangle$($\langle$Inst$\rangle$)} & Return true if the state machine embedded in state CONFIGURED of the component instance \texttt{Inst} of type \texttt{Type} is in state \texttt{State}. \\
+\hline
+\texttt{CrFwCmpGetInstanceId($\langle$Inst$\rangle$)} & Return the instance identifier of the component instance \texttt{Inst}. \\
+\hline
+\texttt{CrFwCmpGetTypeId($\langle$Inst$\rangle$)} & Return the type identifier of the component instance \texttt{Inst}. \\
+\hline
+\end{longtable}
+
+%-----------------------------------------------------------------------------------------
+\subsection{Component Data}\label{sec:CmpData}
+ 
+A component instance is a variable of type \texttt{FwSmDesc\_t}. This type is defined by the C1 Implementation (see reference \cite{ref:C1Implementation}). It represents a pointer to the \textit{state machine descriptor}.
+
+The state machine descriptor consists of two parts (see figure \ref{fig:CmpData}). The first part (in yellow in the figure) is defined by the C1 Implementation and is the same for all state machines. This part holds the information about the state machine topology (its states, pseudo-states and transitions), its actions and guards, and its current state. The last field of this first part of the state machine descriptor is a pointer to the \textit{component data} (shown in light blue in the figure). 
+
+The component data is the second part of the state machine descriptor. It consists of a data structure of type \texttt{CrFwCmpData\_t}. This data structure is in turn divided into two parts. The upper segment holds the data which are common to all framework components, namely:
+
+\begin{fw_itemize}
+\item The component instance identifier
+\item The component type identifier
+\item The outcome of the last action executed by the component
+\item The pointers to the Initialization, Reset and Execution Procedures of the component (see figure \ref{fig:BaseSM} -- it is recalled that these procedures are common to all framework components)
+\end{fw_itemize}
+
+The lower segment of the component is a pointer to the \textit{component-specific data} (shown in green in the figure) namely data which are only used by components of a certain type. Syntactically, this type-specific data is implemented as a pointer to \texttt{void} which must be cast to a pointer to a structure. The type of the structure depends on the component type. These structure types are defined in \texttt{CrFwConstants.h}.
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[scale=0.37,keepaspectratio=true]{CmpData.png}
+ \caption{Component Data}
+ \label{fig:CmpData}
+\end{figure}
+
+%-----------------------------------------------------------------------------------------
+\section{Adaptation Model}\label{sec:AdaptationModel}
+The C2 Implementation offers a set of generic components which application developers can use to build their applications. These components must be adapted to fit the needs of the end applications. The points where the component behaviour can be adapted are called \textit{Adaptation Points}.
+
+The Adaptation Points are therefore the points where application developers may modify the pre-defined behaviour of the framework components. In some cases, the C2 Implementation pre-defines a default value for an Adaptation Point which application developers may either take unchanged or may modify. In other cases, no default behaviour is defined at framework level. 
+
+Four types of Adaptation Points (AP) are supported by the C2 Implementation:
+
+\begin{fw_itemize}
+\item Define Constant: a framework component uses a \texttt{\#DEFINE} constant whose value may be overridden by application developers.
+\item Define Function: a framework component uses a function pointer and application developers must provide an implementation for the missing function (or, if available, may choose to use the default implementation provided at framework level)
+\item Implement Interface: the framework defines an interface as a C header file and application developers must provide an implementation for it.
+\item Define Type: a framework component uses a variables of a type defined as a \texttt{typedef} and application developers may override the default type definition.
+\end{fw_itemize}
+
+The adaptable part of the framework is located in the \texttt{/cr/src/CrConfigTestSuite} directory of the C2 Implementation delivery (see section \ref{sec:InstAndContentOverview}. This directory holds: (a) a number of header files which define all the \texttt{\#DEFINE} constants and function pointers of the framework; and (b) a number of C body files which implement the interfaces which are left open at framework level. Thus, during the framework instantiation process, application developers adapt the framework components by updating the content of the files in the \texttt{/cr/src/CrConfigTestSuite} directory. The initial content of these files in the C2 Implementation delivery is that used for the Test Suite of the C2 Implementation (see \ref{sec:TestSuite}). 
+
+Appendix \ref{sec:AdaptationPoints} lists the adaptation points of the framework component. Their detailed description is in the Doxygen documentation of the header and interface files which implement the adaptation points. 
+
+Where applicable, the doxygen comments attached to the \texttt{\#DEFINE} constants and function pointers also identify their default values. For the implementation of the interface files, only test stubs are provided as default by the framework.
+
+The default definitions of the \texttt{typedef} should be suitable for the vast majority of applications. Hence, in most cases, application developers may ignore them.
+
+Manipulations of function pointers is fraught with dangers in C. It is therefore important to stress that, in the C2 Implementation, function pointers are exclusively used \textit{within} the framework components (where their use has been extensively checked and validated). Application developers will normally not have to use the framework function pointers and are therefore protected from the attendant risks.
+
+Adaptation is done at compile-time only. During the framework instantiation process, the application developer closes the framework's adaptation points (or, where appopriate, takes over the default values defined at framework level). The choices made at this time cannot be modified at run-time: the C2 Implementation provides no mechanism to re-configure the framework dynamically. This limitation is dictated both by reasons of CPU and memory efficiency and by the desire to enhance static predictability of behaviour.
+
+%=======================================================================================
+\section{Application Start-Up and Shut-Down}\label{sec:AppStartUpAndShutdown}
+
+The application start-up process is divided into two stages: \textit{initialization} and \textit{configuration}. The initialization stage covers actions which are performed only at start-up time and which cannot be repeated until the application (or a part of it) is shutdown. The configuration stage covers actions which are performed at start-up time but which may also be performed at a later stage if there is a need to reset either the entire application or a part of it. 
+
+In the CORDET Framework document, the term \textit{shutdown} is used to designate the orderly shutdown of an application or of a component. Obviously, applications and components may also undergo an emergency shutdown. This is entirely uncontrolled and is not covered in any way by the CORDET Framework.
+
+The start-up and shutdown processes are specified at two levels: at the level of \textit{individual components} and at the level of the \textit{entire application} which are described in, respectively, sections \ref{sec:CmpModel} and \ref{sec:AppStartUp}.
+
+Before they are initialized and configured, components must be \textit{instantiated}. Most components required by an application are instantiated as part of that application start-up (\textit{early component instantiation}). In some cases, components may need to be instantiated during the application's normal operation (\textit{late component instantiation}). The two forms of components instantation are discussed in section \ref{sec:CmpInst}.
+
+%-----------------------------------------------------------------------------------------
+\subsection{Component Instantiation}\label{sec:CmpInst}
+Components may be instantiated either \textit{early} or \textit{late}. Early instantiation takes place as part of the application start-up. This is required by the logic of the \textit{Application State Machine} of section \ref{sec:AppStartUp}.
+
+Late instantiation can take place at any time during the application's normal operation (i.e. while the \textit{Application State Machine} of section \ref{sec:AppStartUp} is in state NORMAL). Late instantiation is only foreseen for components which encapsulate commands or reports. These components must be created during the normal operation phase of an application because commands and reports are sent and received dynamically by an application. All other components are instantiated during the application start-up phase (early instantiation).
+
+Component instantiation (both early and late) is done through \textit{factory functions} which are provided by the framework. For components subject to early instantiation, factory functions have names like \texttt{CrFwXxxMake} where 'Xxx' is the name of the component type. Thus, for instance, the factory function which generates InStream components is called \texttt{CrFwInStreamMake}.  
+
+Only a fixed and statically pre-defined number of instances of components can be instantiated statically. If only one instance may be instantiated (singleton components), the factory function \texttt{CrFwXxxMake} takes no argument. The first time it is called, it creates the singleton instance. Subsequent calls return the same instance.
+
+If N instances may be instantiated (with N greater than 1), the factory function \texttt{CrFwXxxMake} takes as argument an integer in the range 0 to N-1. The first time the function is called with an argument i, the function creates the (i+1)-th instance of the component. Subsequent calls with the same argument value return the same instance. An out-of-range value of the argument results in the function returning NULL. If this is an error situation, it must be handled by the caller (i.e. the factory function itself does not perform any error handling for an out-of-limit argument).
+
+For non-singleton components, the maximum number of instances which can be created is an adaptation point.
+
+The memory resources for the components subject to early instantiation are allocated through calls to \texttt{malloc}. This is acceptable because these calls are only performed in the application start-up phase and for a fixed and statically pre-defined number of times. Hence, it is possible to guarantee by static analysis that all \texttt{malloc} calls will succeed and predictability of behaviour is thus ensured (see also discussion in section \ref{sec:MemMng}).
+
+The instantiation of a component subject to early instantiation is irreversible: the resources which are allocated to the component will only be released if the application is terminated. Note in particular that the Shutdown Procedure of the Application Start-Up State Machine (see section \ref{sec:AppStartUp}) does \underline{not} release the resources claimed during the early component instantiation process. 
+
+For components subject to early instantiation, factory functions are provided by factory components and have names like \texttt{CrFwYyyMakeXxx} where 'Xxx' is the name of the component type and 'Yyy' is the name of the factory component. Thus, for instance, components encapsulating incoming commands are generated by the factory function \texttt{CrFwInCmdFactoryMakeInCmd} which belongs to the factory component InCmdFactory.  
+
+The CORDET Framework defines two factory components: the OutFactory to instantiate components encapsulating out-going commands and reports and the InFactory to instantiate component encapsulating incoming commands and reports (see the overview in sections \ref{sec:ManagementOfOutGoingCmdAndRep} and \ref{sec:ManagementOfIncomingCmdAndRep}. The C2 Implementation implements these factories in modules \texttt{CrFwOutFactory} and \texttt{CrFwInFactory}. 
+
+In addition to the \texttt{Make} function which creates a new component instance, factory components also offer \texttt{Release} functions with names like \texttt{CrFwYyyReleaseXxx}. The \texttt{Release} functions take a component instance as argument and reclaim the resources allocated to that component instance.
+
+As part of their initialization, factory components pre-allocate a pool of memory. When they receive a \texttt{Make} request, they allocate memory for the component-to-be-instantiated from this pool. The memory is released when the user of the component instance calls \texttt{Release}. The memory allocation algorithm is deterministic. Each factory can only create a fixed number of component instances (the factory's \textit{capacity}). A \texttt{Make} request at a time when all factory instances are already in use will fail by returning \texttt{NULL}. The capacity of a factory is an adaptation point.
+
+Note that, if a failure of the \texttt{Make} operation represents an error, this must be handled by the user of the factory. The factory itself does not perform any error handling.
+
+%----------------------------------------------------------------------------------------
+\subsection{Application Start-Up}\label{sec:AppStartUp}
+\input{../cordetfw/CrFwAppStartUp.tex}
+
+The C2 Implementation implements the \textit{Application State Machine} in module \texttt{CrFwAppSm}. The three procedures controlled by the \textit{Application State Machine} are not provided by the C2 Implementation because they are application-specific. The C2 Implementation provides three header files \texttt{CrFwAppStartUpProc.h}, \texttt{CrFwAppResetProc.h}, and \texttt{CrFwAppShutdownProc.h} which defines the point of access to the three procedures. Application developers should provide implementations for these three header files as part of the framework instantiation process.
+
+Also as part of the framework instantiation process, application developers may want to add behaviour to the four states of the \textit{Application State Machine} by embedding state machines within these states. Embedding of state machines is done using function \texttt{FwSmEmbed} defined by the C1 Implementation (see reference \cite{ref:C1Implementation}).
+
+%===========================================================================
+\section{Command and Report Concepts}\label{sec:CmdAndRepModel}
+This section describes the command and report concepts assumed by the CORDET Framework and implemented by the C2 Implementation. 
+
+This section considers commands and reports at the abstract level only. The commanding and reporting concepts described here are therefore applicable to any command or report, irrespective of the specific service to which they belong or of the specific activities which the command triggers or of the specific information which the report carries. Concrete commands and reports are defined by applications according to their needs.These concrete commands and reports are defined as specializations of the generic command and report concepts described in the present section. 
+
+%---------------------------------------------------------------------------------
+\subsection{Command Concept }\label{sec:CmdConcept}
+\input{../cordetfw/CrFwCmdConcept.tex}
+
+\subsubsection{Mapping to C-Level Constructs}\label{sec:CmdConceptMapping}
+The C2 Implementation maps commands to software-level components as follows: out-going commands are mapped to OutComponent components which are implemented in the C module \texttt{CrFwOutCmp} (see section \ref{sec:OutComponent}); incoming commands are mapped to InCommand components which are implemented in the C module \texttt{CrFwInCmd} (see section \ref{sec:InCommand}). Table \ref{tab:CmdConceptMapping} shows how the attributes, conditional checks, and actions of commands are mapped to C-level constructs in the C2 Implementation. Note that, in most cases, the mapping depends on whether the command is out-going (i.e. the host application is a user application) or incoming (i.e. the host application is a provider application).
+
+\begin{longtable}{|>{\raggedright}p{2.0cm}|p{9.3cm}|}
+\caption{Mapping of Commands to C-Level Constructs} \label{tab:CmdConceptMapping}\\
+\hline
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Mapping to C-Level Construct} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Mapping to C-Level Construct} \\
+\hline\hline
+\endhead
+Service Type Attribute & \texttt{ServType} attribute in \texttt{CrFwOutCmp} and \texttt{CrFwInCmd} modules. Value set when component is created by its factory and accessible through getter function. \\
+\hline
+Command Sub-Type Attribute & \texttt{ServSubType} attribute in \texttt{CrFwOutCmp} and \texttt{CrFwInCmd} modules. Value set when component is created by its factory and accessible through getter function. \\
+\hline
+Command Identifier Attribute & \texttt{InstanceId} attribute inherited from base component \texttt{CrFwbaseCmp}. Value set when component is created by its factory and accessible through getter function. \\
+\hline
+Destination Attribute & \texttt{Dest} attribute in \texttt{CrFwOutCmp}, accessible through getter and setter functions. Attribute not explicitly present in \texttt{CrFwInCmd} since the destination of an InCommand is, by definition, the host application. \\
+\hline
+Source Attribute & \texttt{Src} attribute in \texttt{CrFwOutCmp} and \texttt{CrFwInCmd} modules. Value set when component is created by its factory and accessible through getter function. \\
+\hline
+Time Stamp Attribute & \texttt{TimeStamp} attribute in \texttt{CrFwOutCmp} module. Value accessible and controllable through getter and setter functions. Attribute is not present in \texttt{CrFwInCmd} module. \\
+\hline
+Group Attribute & \texttt{Group} attribute in \texttt{CrFwOutCmp} and \texttt{CrFwInCmd} modules. Value accessible and controllable through getter and setter functions in the \texttt{CrFwOutCmp} module and in read-only mode through a getter function in the \texttt{CrFwInCmd} module.  \\
+\hline
+Sequence Counter Attribute & \texttt{SeqCnt} attribute in \texttt{CrFwInCmd} module. Value set when the component is created by its factory and accessible through getter function. Attribute is not present in \texttt{CrFwOutCmp} module since the sequence counter of out-going commands is set at the time the command is sent out. \\
+\hline
+Acknowledge Level Attribute & \texttt{AckLevel} attribute in \texttt{CrFwOutCmp} and \texttt{CrFwInCmd} modules. Value controllable and accessible through setter and getter functions in \texttt{CrFwOutCmp} module but only accessible in read mode in \texttt{CrFwInCmd} module. \\
+\hline
+Discriminant Attribute & \texttt{Discriminant} attribute in \texttt{CrFwOutCmp} and \texttt{CrFwInCmd} modules. Value set when component is created by its factory and accessible through getter function. Update possible through a setter function in \texttt{CrFwOutCmp} module.  \\
+\hline
+Command Parameter Attributes & These attributes are application-specific.  \\
+\hline
+Enable Check & Function implementing the Enable Check Operation for an out-going command specified through a function pointer in the CR\_FW\_OUTCMP\_INIT\_KIND\_DESC initializer.  \\
+\hline
+Ready Check & Function implementing the Ready Check Operation for an out-going command specified through a function pointer in the CR\_FW\_OUTCMP\_INIT\_KIND\_DESC initializer. Function implementing the Ready Check Operation for an incoming command specified through a function pointer in the CR\_FW\_INCMD\_INIT\_KIND\_DESC initializer. \\
+\hline
+Repeat Check & Function implementing the Repeat Check Operation for an out-going command specified through a function pointer in the CR\_FW\_OUTCMP\_INIT\_KIND\_DESC initializer.  \\
+\hline
+Acceptance Check & The part of the acceptance check which verifies validity of the command type and availability of resources is implemented in the Load Command/Report Procedure of the InLoader (see section \ref{sec:InLoader}). The command-specific part of the acceptance check is implemented in the Validity Check Operation specified through a function pointer in the CR\_FW\_INCMD\_INIT\_KIND\_DESC initializer.  \\
+\hline
+Update Action & Function implementing the Update Action Operation for an out-going command specified through a function pointer in the CR\_FW\_OUTCMP\_INIT\_KIND\_DESC initializer.  \\
+\hline
+Start Action & Function implementing the Start Action Operation for an incoming command specified through a function pointer in the CR\_FW\_INCMD\_INIT\_KIND\_DESC initializer. \\
+\hline
+Progress Action & Function implementing the Progress Action Operation for an incoming command specified through a function pointer in the CR\_FW\_INCMD\_INIT\_KIND\_DESC initializer. \\
+\hline
+Termination Action & Function implementing the Termination Action Operation for an incoming command specified through a function pointer in the CR\_FW\_INCMD\_INIT\_KIND\_DESC initializer. \\
+\hline
+Abort Action & Function implementing the Abort Action Operation for an incoming command specified through a function pointer in the CR\_FW\_INCMD\_INIT\_KIND\_DESC initializer. \\
+\hline
+\end{longtable}
+
+
+%---------------------------------------------------------------------------------
+\subsection{Report Concept }\label{sec:RepConcept}
+\input{../cordetfw/CrFwRepConcept.tex}
+
+\subsubsection{Mapping to C-Level Constructs}\label{sec:RepConceptMapping}
+The C2 Implementation maps reports to software-level components as follows: out-going reports are mapped to OutComponent components which are implemented in the C module \texttt{CrFwOutCmp} (see section \ref{sec:OutComponent}); incoming reports are mapped to InReport components which are implemented in the C module \texttt{CrFwInRep} (see section \ref{sec:InReport}). Table \ref{tab:RepConceptMapping} shows how the attributes, conditional checks, and actions of reports are mapped to C-level constructs in the C2 Implementation. Note that, in most cases, the mapping depends on whether the report is out-going (i.e. the host application is a provider application) or incoming (i.e. the host application is a user application).
+
+\begin{longtable}{|>{\raggedright}p{2.0cm}|p{9.3cm}|}
+\caption{Mapping of Reports to C-Level Constructs} \label{tab:RepConceptMapping}\\
+\hline
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Mapping to C-Level Construct} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Mapping to C-Level Construct} \\
+\hline\hline
+\endhead
+Service Type Attribute & \texttt{ServType} attribute in \texttt{CrFwOutCmp} and \texttt{CrFwInRep} modules. Value set when component is created by its factory and accessible through getter function. \\
+\hline
+Report Sub-Type Attribute & \texttt{ServSubType} attribute in \texttt{CrFwOutCmp} and \texttt{CrFwInRep} modules. Value set when component is created by its factory and accessible through getter function. \\
+\hline
+Report Identifier Attribute & \texttt{InstanceId} attribute inherited from base component \texttt{CrFwbaseCmp}. Value set when component is created by its factory and accessible through getter function. \\
+\hline
+Destination Attribute & \texttt{Dest} attribute in \texttt{CrFwOutCmp}, accessible through getter and setter functions. Attribute not explicitly present in \texttt{CrFwInRep} since the destination of an InReport is, by definition, the host application. \\
+\hline
+Source Attribute & \texttt{Src} attribute in \texttt{CrFwOutCmp} and \texttt{CrFwInRep} modules. Value set when component is created by its factory and accessible through getter function. \\
+\hline
+Time Stamp Attribute & \texttt{TimeStamp} attribute in \texttt{CrFwOutCmp} module. Value accessible and controllable through getter and setter functions. Attribute is not present in \texttt{CrFwInRep} module. \\
+\hline
+Group Attribute & \texttt{Group} attribute in \texttt{CrFwOutCmp} and \texttt{CrFwInRep} modules. Value accessible and controllable through getter and setter functions in the \texttt{CrFwOutCmp} module and in read-only mode through a getter function in the \texttt{CrFwInRep} module.  \\
+\hline
+Sequence Counter Attribute & \texttt{SeqCnt} attribute in \texttt{CrFwInRep} module. Value set when the component is created by its factory and accessible through getter function. Attribute is not present in \texttt{CrFwOutCmp} module since the sequence counter of out-going reports is set at the time the report is sent out. \\
+\hline
+Discriminant Attribute & \texttt{Discriminant} attribute in \texttt{CrFwOutCmp} and \texttt{CrFwInRep} modules. Value set when component is created by its factory and accessible through getter function. Update possible through a setter function in \texttt{CrFwOutCmp} module. \\
+\hline
+Report Parameter Attributes & These attributes are application-specific.  \\
+\hline
+Enable Check & Function implementing the Enable Check Operation for an out-going report specified through a function pointer in the CR\_FW\_OUTCMP\_INIT\_KIND\_DESC initializer.  \\
+\hline
+Ready Check & Function implementing the Ready Check Operation for an out-going report specified through a function pointer in the CR\_FW\_OUTCMP\_INIT\_KIND\_DESC initializer. \\
+\hline
+Repeat Check & Function implementing the Repeat Check Operation for an out-going report specified through a function pointer in the CR\_FW\_OUTCMP\_INIT\_KIND\_DESC initializer.  \\
+\hline
+Acceptance Check & The part of the acceptance check which verifies validity of the report type and availability of resources is implemented in the Load Command/Report Procedure of the InLoader (see section \ref{sec:InLoader}). The report-specific part of the acceptance check is implemented in the Validity Check Operation specified through a function pointer in the CR\_FW\_INREP\_INIT\_KIND\_DESC initializer.  \\
+\hline
+Update Action & Function implementing the Update Action Operation for an out-going report specified through a function pointer in the CR\_FW\_OUTCMP\_INIT\_KIND\_DESC initializer. Function implementing the Update Action Operation for an incoming report specified through a function pointer in the CR\_FW\_INREP\_INIT\_KIND\_DESC initializer. \\
+\hline
+\end{longtable}
+
+
+
+
+%===========================================================================
+\section{Packet Interface}\label{sec:PcktInterface}
+CORDET applications interact with each other by exchanging commands and reports. Within an application, commands and reports are encapsulated in components but, when they travel from one application to another (over some communication channel which is provided by some middleware external to the applications themselves), they take the form of \textit{packets} (see section \ref{sec:MwLayer}). A report or command packet is an ordered sequence of bytes that contains all the information required to reconstruct a report or command. 
+
+Thus, the interface between two CORDET applications is packet-based. More precisely, an application needs an \textit{out-going interface} through which it can send to another application a packet representing a command or a report and it needs an \textit{incoming interface} through which it can receive from other applications packets representing commands or reports.  
+
+The CORDET Framework assumes that a middleware is present which offers \textit{physical connections} through which two applications can send packets to each other. A physical connection then is a data channel provided by a middleware and capable of transporting packets from one application to another application. 
+
+A CORDET system (namely a set of CORDET applications connected to each other by a middleware) builds a set of \textit{logical connections} on top of the physical connections offered by the middleware. A logical connection allows two applications A1 and A2 to exchange packets either directly through a physical connection linking A1 to A2 (in which case the logical connection coincides with a physical connection) or through a chain of other applications which are linked to each other and to A1 and A2 by physical connections. This is illustrated in figure \ref{fig:PhysicalAndLogicalConnections}. The figure shows a CORDET system consisting of four applications (yellow boxes in the figure). The applications are linked to each other by three physical connections (black lines in the figure). In this system, the following kinds of logical connections might, for instance, be defined:
+
+\begin{fw_enumerate}
+\item A logical connection between applications A and B which is built upon physical connection C1;
+\item A logical connection between applications B and D which is built upon physical connection C3;
+\item A logical connection between applications A and C which is built upon physical connections C1 and C2 and application B acting as re-routing node.
+\end{fw_enumerate}
+
+When a packet travels through an application en route to another application, it is said to be \textit{re-routed}. Packet re-routing is a function which is defined by the CORDET Framework and is therefore supported by default by CORDET Systems. In figure \ref{fig:PhysicalAndLogicalConnections} a packet travelling along a logical connection from application A to application C is re-routed by application B.
+
+This section specifies the interfaces through which applications send packets to and receive them from the middleware and it specifies the re-routing logic which allows applications to exchange packets even in the absence of a direct physical connection linking them. 
+
+\begin{figure}[ht]
+ \centering
+ \includegraphics[scale=0.45,keepaspectratio=true]{PhysicalAndLogicalConnections.png}
+ \caption{Physical And Logical Connections}
+ \label{fig:PhysicalAndLogicalConnections}
+\end{figure} 
+
+%---------------------------------------------------------------------------------
+\subsection{Middleware Assumptions}\label{sec:MwAssumptions}
+\input{../cordetfw/CrFwMwAssumptions.tex} 
+
+%---------------------------------------------------------------------------------
+\subsection{Packet Implementation}\label{sec:PcktImpl}
+
+At implementation level, a packet is an array of bytes. The C2 Implementation pre-defines type \texttt{CrFwPckt\_t} to represent packets.
+
+The layout of packets is entirely defined at application level. The C2 Implementation specifies an interface (in header file \texttt{CrFwPckt.h}) through which a new packet can be created and its various fields can be accessed. 
+
+Packet creation is managed through two functions (\texttt{CrFwPcktMake} and \texttt{CrFwPcktRelease}) which can be used to, respectively, create and release a packet. The creation function takes as an argument the length of the packet. Function \texttt{CrFwPcktIsAvail} can be used to query the interface for the availability of a packet of a given length. The implementation of these functions is left open. In the simple case of an application developer who is not concerned about dynamic memory allocation, these functions can be implemented simply as wrappers for \texttt{malloc} and \texttt{free}. Other users who wish to avoid dynamic memory allocation operations at run-time must implement their own memory management scheme.
+
+For each command or report attribute, the packet interface \texttt{CrFwPckt.h} specifies a function to read and write the value of the attribute. The implementation of these functions depends on the way the attributes of commands and reports are encoded in a packet. The implementation of these functions (i.e. the body file \texttt{CrFwPckt.c}) must therefore be provided by application developers. A stub implementation, which is used in the Test Suite of the C2 Implementation, is provided in the configuration directory \texttt{/cr/src/CrConfigTestSuite}.
+
+Since the framework provides one single interface for decoding and encoding packets, the simplest option for application developers is to use the same layout for all packets used by the application, irrespective of their type or of their destination or source. If this is not possible, then the getter and setter functions of interface \texttt{CrFwPckt.h} must implement logic which makes their outcome dependent on the content of the packet itself. Thus, for instance, if different packet sources use different layouts, the getter functions will have to inspect the source of a packet before deciding how to decode the value of a packet's attribute. In the case of the setter functions, this approach requires that the order in which the packet attributes are set be specified. The only place in the CORDET Framework where packets are configured is the function to create a new OutComponent (\texttt{CrFwOutFactoryMakeOutCmp}). This function accordingly guarantees the order in which the packet attribute are set (the order is: packet report/command flag (which determines whether the packet holds a report or a command), packet source (i.e. the host application), packet group, packet type, packet sub-type, and packet discriminant).
+
+%---------------------------------------------------------------------------------
+\subsection{Packet Interface Management}
+
+The packet interface concept for CORDET applications is illustrated in figure \ref{fig:PcktInterfaceConcept} using an information notation.
+
+The management of the out-going packet interface is performed by one or more OutStream components. An OutStream component encapsulates an out-going interface through which packets are sent to a certain destination. An application has one OutStream component for each destination to which it may send packets.
+
+The management of the incoming packet interface is performed by an InStream component. An InStream component encapsulates the incoming interface through which an application receives packets from a certain packet source. An application has one InStream component for each source from which it may receive packets.
+
+Packets which are received by an InStream in application A and which have application A as their destination are made available to the internal components of application A. Packets which are received by an InStream in application A and which have an application other than A as their destination are instead re-routed. This means that they are handed over to an OutStream for forwarding to another application (either their final destination or another intermediate application on the way to their final destination).
+
+As an example, consider again the CORDET System of figure \ref{fig:PhysicalAndLogicalConnections} and consider first the case of a packet which is sent by application A to application B over connection C1. This packet is placed on connection C1 by an OutStream in application A and is received by an InStream in application B. Since the destination of the packet is application B itself, the InStream makes the packet available to the internal components of application B.
+
+Consider next the case of a packet which is sent by application A to application C and which must therefore be re-routed by application B. This packet is initially placed on connection C1 by an OutStream in application A and is received by an InStream in application B. This InStream recognizes that the packet destination is not B and therefore re-routes it by directly handing it over to an OutStream which places it on connection C2. At the other end of this connection, the packet is received by an InStream in application C which recognizes that the packet has arrived at its final destination and therefore makes it available to the internal components of application C. 
+
+\begin{figure}[ht]
+ \centering
+ \includegraphics[scale=0.35,keepaspectratio=true]{PcktInterfaceConcept.png}
+ \caption{Packet Interface Concept}
+ \label{fig:PcktInterfaceConcept}
+\end{figure}
+
+
+%---------------------------------------------------------------------------------
+\subsubsection{The OutStream Component}\label{sec:OutStream}
+\input{../cordetfw/CrFwOutStream.tex}
+
+The C2 Implementation implements the OutStream component in module \texttt{CrFwOutStream}. 
+
+
+%---------------------------------------------------------------------------------
+\subsubsection{The OutStreamRegistry Component}\label{sec:OutStreamRegistry}
+\input{../cordetfw/CrFwOutStreamRegistry.tex}
+
+In the C2 Implementation, the OutStreamRegistry component is merged with the OutStream component and is therefore implemented in module \texttt{../cordetfw/CrFwOutStream} (i.e. it is implemented in the same module which implements the OutStream component). This module, in addition to defining the functions implementing the OutStream operations, also defines function \texttt{CrFwOutStreamGet} to implement the \texttt{OutStreamGet} operation. 
+
+
+%---------------------------------------------------------------------------------
+\subsubsection{The InStream Component}\label{sec:InStream}
+\input{../cordetfw/CrFwInStream.tex}
+
+The C2 Implementation implements the InStream component in module \texttt{CrFwInStream}. This implementation follows the specification of the CORDET Framework with one restriction: an InStream component can only handle packets from one single packet source. Thus, an application must instantiate one InStream for each source from which it may receive packets. More precisely, the rules for deciding the number of InStreams in an application are as follows:
+
+\begin{fw_itemize}
+\item[R1]{If an application receives packets from source S1, then it must have a dedicated InStream for source S1.}
+\item[R2]{If an application re-routes packets from source S2 to other destinations, then it must have a dedicated InStream for source S2.}
+\item[R3]{If an application receives packets from a source S and also re-routes packets from the same source S, then it must use the same InStream for both kinds of packets.}
+\end{fw_itemize}
+
+Thus, for each command or report source, one (and only one) InStream component must be instantiated by an application. Function \texttt{CrFwInStreamGet} lets a user retrieve the InStream corresponding to a certain command or report source. 
+
+If an invalid source is provided to the \texttt{CrFwInStreamGet} operation, nothing is returned by the operation itself but this is not treated as an error by the \texttt{CrFwInStreamGet} operation. If the use of an invalid packet source represents an error, this must be handled by the caller of \texttt{CrFwInStreamGet}.
+
+The collection of packets from the middleware is mediated by two functions which implement two framework adaptation points: function \texttt{CrFwPcktCollect\_t} implements the Packet Collection Operation and function CrFwPcktAvailCheck\_t implements the Packet Available Check Operation. 
+
+The Packet Collect Operation (function \texttt{CrFwPcktCollect\_t}) collects a packet from the middleware. Its return value is a packet in the sense of section \ref{sec:PcktImpl}. The Packet Collect Operation must therefore create the packet it returns using the \texttt{CrFwPcktMake} function. Hence, the Packet Collect Operation only returns a packet if a command or report has arrived at the middleware and if function \texttt{CrFwPcktMake} is capable of returning an empty packet where the newly arrived command or report can be stored. 
+
+The Packet Available Check Operation (function \texttt{CrFwPcktAvailCheck\_t}) can be used to query the middleware for the availability of a packet to be collected. More precisely, if this operation returns: 'a packet is available', then a call to the Packet Collect Operation will return a non-NULL packet. Note that this means that the Packet Available Check Operation must perform a double check: it must check whether a command or report has been received by the middleware and it must verify whether the \texttt{CrFwPcktMake} function would be able to return a packet capable of holding the newly arrived command or report. The latter check can be done with function \texttt{CrFwPcktIsAvail}.
+
+
+%=============================================================================================
+\section{Command and Report Management}\label{sec:CmdAndRepManagement}
+This section describes the mechanisms which the CORDET framework makes available for the management of commands and reports in a CORDET application. These mechanisms are entirely independent of the concrete actions and checks attached to a specific command or report. It is precisely this independent that makes it possible for the framework to provide generic report and command handling components which can be reused by applications.
+
+This section introduces the components which are responsible for the management of commands and reports and describes their interrelationships. The following sections describe each kind of component in greater detail with the exception of the InStream and OutStream components which are already covered in sections \ref{sec:InStream} and \ref{sec:OutStream} and of the factory components which are already covered in section \ref{sec:CmpImpl}.
+
+%---------------------------------------------------------------------------------
+\subsection{Management of Out-Going Commands and Reports}\label{sec:ManagementOfOutGoingCmdAndRep}
+\input{../cordetfw/CrFwManagementOfOutGoingCmdAndRep.tex}
+
+The C2 Implementation provides implementations for each of the CORDET components discussed above. Table \ref{tab:CmpList} shows the mapping to the C-modules which implement them.
+
+%---------------------------------------------------------------------------------
+\subsection{Management of Incoming Commands and Reports}\label{sec:ManagementOfIncomingCmdAndRep}
+\input{../cordetfw/CrFwManagementOfIncomingCmdAndRep.tex}
+
+The C2 Implementation provides implementations for each of the CORDET components discussed above. Table \ref{tab:CmpList} shows the mapping to the C-modules which implement them.
+
+
+%=================================================================================
+\section{The OutComponent Component}\label{sec:OutComponent}
+\input{../cordetfw/CrFwOutCmp.tex} 
+
+The C2 Implementation implements the OutComponent component in module \texttt{CrFwOutComponent}. Its adaptation points are defined in \texttt{CrFwOutFactoryUserPar.h}. This header file allows the application developer to define the kinds of OutComponents which must be supported by the application and to define, for each kind of OutComponent, the functions which implement their Ready Check, their Enable Check, and their Serialization operation. The "kind" of OutComponent is identified by the triplet: [service type, command/report sub-type, discriminant value]. 
+
+OutComponents are instantiated dynamically by an application when it needs to generate an out-going command or report. The instantiation is done by means of a \texttt{make} function provided by the OutFactory. The argument to the \texttt{make} function is the OutComponent kind. The release of the OutComponent is done by the framework at the time the OutComponent is handed over to the OutStream.
+
+%=================================================================================
+\section{The OutLoader Component}\label{sec:OutLoader}
+\input{../cordetfw/CrFwOutLoader.tex}
+
+The C2 Implementation implements the OutLoader component in module \texttt{CrFwOutLoader}. Its adaptation points are defined in \texttt{CrFwOutLoaderUserPar.h}. In most cases, the only adaptation point for which a non-default implementation is required is the one covering the definition of the function which selects the OutManager where an out-going command or report should be loaded. 
+
+By default, the initialization, reset and shutdown operations of the OutLoader are the same as on the Base Component but these operations are implemented as adaptation points so that the user has a chance to use them to initialize or reset the data structures which are used to control the selection of the OutManager where an out-going command or report is loaded.
+
+%=================================================================================
+\section{The OutManager Component}\label{sec:OutManager}
+\input{../cordetfw/CrFwOutManager.tex}
+
+The C2 Implementation implements the OutManager component in module \texttt{CrFwOutManager}. Its adaptation points are defined in \texttt{CrFwOutManagerUserPar.h} and only consist of the definition of the number of OutManagers in the application and of the size of their queue of pending OutComponents. 
+
+As noted above, at CORDET Framework level, there is no requirement covering the order in which the OutComponents loaded into an OutManager are processed when the OutManager is executed. The C2 implementation, however, enforces the following ordering constraint. If OutComponents C1 to Cn are successfully loaded into an OutManager through through successive calls to its \texttt{Load} operation and if this sequence of \texttt{Load} operations is not interrupted by an execution of the OutManager, then, when the OutManager is executed next, the OutComponents C1 to Cn will be processed in the order in which they have been loaded.
+
+%---------------------------------------------------------------------------------
+\section{The OutRegistry Component}\label{sec:OutRegistry}
+\input{../cordetfw/CrFwOutRegistry.tex}
+
+The C2 Implementation implements the OutRegistry component in module \texttt{CrFwOutRegistry}. Its adaptation points are defined in \texttt{CrFwOutRegistryUserPar.h} and include a list of all service types and sub-types supported by the application. The information in this header file must be consistent with the information in \texttt{CrFwOutFactoryUserPar.h}.
+
+\clearpage
+%=================================================================================
+\section{The InLoader Component}\label{sec:InLoader}
+\input{../cordetfw/CrFwInLoader.tex}
+
+The C2 Implementation implements the InLoader component in module \texttt{CrFwInLoader}. Its adaptation points are defined in \texttt{CrFwInLoaderUserPar.h} but the following should be noted with respect to the implementation of the acceptance check. As discussed above, this check is split into four sub-checks. Sub-checks 1 and 2 and sub-check 4 are implemented at framework level. The third sub-check is instead application-specific. It is called the Validity Check (because it verifies the validity of the parameters of the incoming report or command) and is implemented by a user-provided function which must conform to the prototype of function pointers \texttt{CrFwInRepValidityCheck\_t} for incoming reports or \texttt{CrFwInCmdValidityCheck\_t} for incoming commands. The functions implementing the validity checks are defined in \texttt{CrFwInFactoryUserPar.h}.
+
+%=================================================================================
+\section{The InCommand Component}\label{sec:InCommand}
+\input{../cordetfw/CrFwInCommand.tex}
+
+The C2 Implementation implements the InCommand component in module \texttt{CrFwInCmd}. Applications will normally have to extend this component to create their own InCommand components. Typically, for each application-specific command, application developers should provide one C module which defines the functions implementing the actions and checks for that command. An example of how this can be done is provided in module \texttt{CrFwInCmdSample1} which implements a sample command used in the Test Suite.
+
+The adaption points for InCommands are defined in \texttt{CrFwInFactoryUserPar.h}. This header file in particular defines the kinds of InCommands to be supported by an application. Each kind of supported InCommand is defined in terms of its service type, command sub-type and discriminant value (if applicable). For each supported InCommand kind, the application developers must specify the pointers to the functions which implement the actions and checks for that command kind.
+
+
+%=================================================================================
+\section{The InReport Component}\label{sec:InReport}
+\input{../cordetfw/CrFwInReport.tex}
+
+The C2 Implementation implements the InReport component in module \texttt{CrFwInRep}. Applications will normally have to extend this component to create their own InReport components. Typically, for each application-specific command, application developers should provide one C module which defines the functions implementing the actions and checks for that report. An example of how this can be done is provided in module \texttt{CrFwInRepSample1} which implements a sample report used in the Test Suite.
+
+The adaption points for InReports are defined in \texttt{CrFwInFactoryUserPar.h}. This header file in particular defines the kinds of InReports to be supported by an application. Each kind of supported InReport is defined in terms of its service type, command sub-type and discriminant value (if applicable). For each supported InReport kind, the application developers must specify the pointers to the functions which implement the actions and checks for that report kind.
+
+
+%=================================================================================
+\section{The InManager Component}\label{sec:InManager}
+\input{../cordetfw/CrFwInManager.tex}
+
+The C2 Implementation implements the InManager component in module \texttt{CrFwInManager}. Its adaptation points are defined in \texttt{CrFwInManagerUserPar.h}.
+
+As noted above, at CORDET Framework level, there is no requirement covering the order in which the InReports or InCommands loaded into an InManager are processed when the InManager is executed. The C2 implementation, however, enforces the following ordering constraint. If InReports/InCommands C1 to Cn are successfully loaded into an InManager through successive calls to its \texttt{Load} operation and if this sequence of \texttt{Load} operations is not interrupted by an execution of the InManager, then, when the InManager is executed next, the InReports/InCommands C1 to Cn will be processed in the order in which they have been loaded.
+
+%=================================================================================
+\section{The InRegistry Component}\label{sec:InRegistry}
+\input{../cordetfw/CrFwInRegistry.tex}
+
+The C2 Implementation implements the InRegistry component in module \texttt{CrFwInRegistry}. Its adaptation points are defined in \texttt{CrFwInRegistryUserPar.h}.
+
+
+%=============================================================================================
+\section{Memory Management}\label{sec:MemMng}
+
+The C2 Implementation uses memory for its data and its code. Memory for data is allocated either globally, or on the stack, or on the heap.
+
+Globally allocated variables are defined in the header files of the framework modules as \texttt{static} variables. They are therefore not visible outside the module where they are defined and used.
+
+Local function variables are allocated on the stack. The amount of stack memory used for this purpose is limited as in most cases only a handful of pointers and variables of primite type are used.
+
+Allocation on the heap is done through the \texttt{malloc} function and is limited to the following cases:
+
+\begin{fw_itemize}
+\item Allocation of memory for components subject to early instantiation (see section \ref{sec:CmpInst}). This allocation is done in factory functions which are called during the application start-up phase. The memory thus allocated is never released.
+\item Allocation of memory for packet queues in module \texttt{CrFwPcktQueue}. This operation is performed as part of the initialization action of the InStream and OutStream components. The memory thus allocated is released when the InStream or OutStream are shutdown.
+\item Allocation of memory for the data structure holding the enable status of commands and reports in the \texttt{CrFwOutRegistry} module. This operation is performed as part of the initialization action of the OutRegistry component. The memory thus allocated is released when the OutRegistry is shutdown.
+\item Allocation of memory for the Pending OutComponent List (POCL) in the \texttt{CrFwOutManager} module. This operation is performed as part of the initialization action of the OutManager component. The memory thus allocated is released when the OutManager is shutdown.
+\item Allocation of memory for the Pending Command/Report List (PCRL) in the \texttt{CrFwInManager} module. This operation is performed as part of the initialization action of the InManager component. The memory thus allocated is released when the InManager is shutdown.
+\item Allocation of memory for the arrays holding the sequence counters for the destination/source groups associated to an InStream in the \texttt{CrFwInStream} module. This operation is performed as part of the initialization action of the InStream component. The memory thus allocated is released when the InStream is shutdown.
+\item Allocation of memory for the arrays holding the sequence counters for the destination/source groups associated to an OutStream in the \texttt{CrFwOutStream} module. This operation is performed as part of the initialization action of the OutStream component. The memory thus allocated is released when the OutStream is shutdown.
+\end{fw_itemize}
+
+Thus, in all cases, memory allocation is done as part of the initialization of the application of a component. During normal operation (i.e. when the application is in state NORMAL, see section \ref{sec:AppStartUp}), no allocation of memory on the heap is ever performed.
+
+The C2 Implementation does not handle the case where the call to \texttt{malloc} fails.  This is acceptable because the \texttt{malloc} calls are only performed during application or component initialization and hence the number of calls and the amount of memory they claim can be determined statically. It is therefore possible for the application developer to ensure that sufficient memory is available and to guarantee by design that no \texttt{malloc} failures can occur.
+
+Release of heap memory is done through calls to the \texttt{free} function. This is exclusively done in the shutdown operations of the components which had allocated memory as part of their initialization. 
+
+Thus, in summary, dynamic memory allocation on the heap is only done as part of the instantiation of the framework component and, in some cases, of their initialization. The memory which is allocated on the heap during early instantiation of components is never released (because components instantiated early are not intended to be ever destroyed). The memory which is allocated as part of component initialization is released when the components are shutdown.
+
+For components which allocate memory from the heap as part of their initialization (OutRegistry, InManager, OutManager, InStream and OutStream) two paths to a memory leak are possible:
+
+\begin{fw_itemize}
+\item A component is stopped after it has been initialized and then it is initialized again
+\item A component is initialized more than once without being shut down
+\end{fw_itemize}
+
+Responsibility for avoiding the first kind of memory leak rests with the user who should avoid stopping a component (a shutdown should be performed instead). The second kind of memory leak is not possible in the case of the OutRegistry, InManager and OutManager components because their initialization action always returns an outcome of "success". This implies that the initialization action can only be executed once before the component is shut down (see figure \ref{fig:BaseSM}). The InStream and OutStream, too, have default initialization action which always returns an outcome of "success" (see functions \texttt{CrFwInStreamDefInitAction} and \texttt{CrFwOutStreamDefInitAction}) but these functions can be extended or overridden by a user. In this case, it is up to the user to ensure the proper management of memory allocation. 
+
+Late instantiation of components does not require any allocation of memory from the heap because the factory components which are responsible for the instantiation manage pools of pre-allocated memory which is allocated globally during application initialization. This is discussed at greater length in the next section.
+
+Applications which do not wish to link to the standard \texttt{malloc} and \texttt{free} functions can: (a) define their own \texttt{malloc} function to, for instance, allocate memory sequentially from a pre-allocated array of fixed size, and (b) avoid ever shutting down a component thus avoiding calls to \texttt{free}. 
+
+The C2 Implementation is designed to minimize code memory footprint. The exact memory requirements for its code depend on the choice of compiler and linker but will typically be of the order of several kBytes. As an example, table \ref{tab:memFootprint} reports the memory requirements for the files which implement the framework components. 
+
+The figures in the table have been obtained with the gcc compiler configured to minimize memory occupation. The data in the table were derived from the linker map. They correspond to the memory of type \texttt{.text} (i.e. the code segment containing executable instructions) allocated to each module. The measurements were made on the beta release 0.1.0 of the C2 Implementation in the following environment:
+
+\begin{fw_itemize}
+\item{compiler}: gcc version 4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5)
+\item{target}: i686-linux-gnu
+\item{OS}: Linux ubuntu 12.04 (32 bits)
+\item{compiler options}: -Os -Wall -c -fmessage-length=0
+\item{linker options}: -Wl,-Map=memory.map
+\end{fw_itemize}
+
+\begin{longtable}{|p{2.7cm}|p{2.7cm}|p{4.7cm}|}
+\caption{Code Memory Footprint for C2 Implementation Modules} \label{tab:memFootprint}\\
+\rowcolor{light-gray}
+\textbf{Module} & \textbf{Memory Size} & \textbf{Header File} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Module} & \textbf{Memory Size} & \textbf{Header File} \\
+\hline\hline
+\endhead
+\emph{Base Component} & 1411 bytes & \texttt{CrFwBaseCmp.h}, \texttt{CrFwDummyExecProc}, \texttt{CrFwInitProc}, \texttt{CrFwResetProc} \\
+\hline
+\emph{InCommand} & 1680 bytes & \texttt{CrFwInCmd.h} \\
+\hline
+\emph{InRegistry} & 545 bytes & \texttt{CrFwInRegistry.h} \\
+\hline
+\emph{InManager} & 1208 bytes & \texttt{CrFwInManager.h} \\
+\hline
+\emph{InReport} & 292 bytes & \texttt{CrFwInRep.h}, \texttt{CrFwInRepExecProc.h} \\
+\hline
+\emph{InLoader} & 919 bytes & \texttt{CrFwInLoader.h} \\
+\hline
+\emph{InFactory} & 2188 bytes & \texttt{CrFwInFactory.h} \\
+\hline
+\emph{InStream} & 1416 bytes & \texttt{CrFwInStream.h} \\
+\hline
+\emph{OutComponent} & 1089 bytes & \texttt{CrFwOutCmp.h} \\
+\hline
+\emph{OutFactory} & 1397 bytes & \texttt{CrFwOutFactory.h} \\
+\hline
+\emph{OutLoader} & 357 bytes & \texttt{CrFwOutLoader.h} \\
+\hline
+\emph{OutManager} & 1066 bytes & \texttt{CrFwOutManager.h} \\
+\hline
+\emph{OutRegistry} & 1415 bytes & \texttt{CrFwOutRegistry.h} \\
+\hline
+\emph{OutStream} & 1373 bytes & \texttt{CrFwOutStream.h} \\
+\hline
+\emph{Packet Queue} & 499 bytes & \texttt{CrFwPcktQueue.h} \\
+\hline
+\textbf{Total} & 16855 bytes &  \\
+\hline
+\end{longtable}
+
+% --------------------------------------------------------------------------------
+\subsection{Components with Late Instantiation}
+
+The late instantiation mechanism (see section \ref{sec:CmpInst}) is used for the components which encapsulate commands and reports (namely the InReport, InCommand and OutComponent components). As commands and reports are sent and received by an application during its normal operation, the components which encapsulate them must also be created and destroyed during normal operation ("late component instantiation"). The creation and destruction of these components is done through the \texttt{Make} and \texttt{Release} functions provided by the InFactory and OutFactory components.
+
+Each command or report component encapsulates a packet which holds the sequence of bytes which represents the packet at middleware level (see \ref{sec:MwLayer}). Packets, too, must be created and destroyed during normal operation through calls to the \texttt{Make} and \texttt{Release} functions of \texttt{CrFwPckt.h}.
+
+There are two functional chains through which a command or report component is created, used and then destroyed. The first chain arises when a command or report is received by an application. Figure \ref{fig:InCmpMakeRelChain} shows this chain as an activity diagram. Note that all activities in the diagrams are performed by framework components. Application components are therefore not involved in the processing of incoming commands and reports.
+
+Similarly, figure \ref{fig:OutCmpMakeRelChain} shows the functional chain through which an out-going command or report is processed. Activities in the yellow bubbles are executed by the application; the other activities are instead executed by the framework components. 
+
+The point of figures \ref{fig:InCmpMakeRelChain} and \ref{fig:OutCmpMakeRelChain} is to show that, under nominal conditions, command and report components which are created during normal operation through a call to a \texttt{Make} function are always eventually released through a call to a \texttt{Release} function. The only situations where this is \textbf{not} the case are:
+
+\begin{fw_itemize}
+\item The processing of an out-going command or report component by the OutManager never completes (i.e. the out-going command or report neither terminates nor is aborted). The out-going command or report remains permanently loaded in the OutManager and its memory is consequently never released. 
+\item The processing of an incoming command or report component by the InManager never completes (i.e. the incoming command or report neither terminates nor is aborted). The incoming command or report remains permanently loaded in the InManager and its memory is consequently nver released. 
+\item The application requests and obtains an OutComponent from the OutFactory but never completes its configuration and therefore never loads the OutComponent in the OutLoader. The OutComponent remains permanently with the application and is therefore never released.
+\item A component involved in the processing of commands or reports is reset or shutdown at a time when command or report components are pending.
+\end{fw_itemize}
+
+The first two cases arise as a result of erroneous definitions of a command or report (for instance, by having a command whose Start Check never allows command execution to be started). The last two cases arise because of an error in the application. In all other cases, absence of memory leaks is guaranteed by the framework design.
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[scale=0.32,keepaspectratio=true]{InCmpMakeRelChain.png}
+ \caption{Processing Chain for an Incoming Command or Report}
+ \label{fig:InCmpMakeRelChain}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.40,keepaspectratio=true]{OutCmpMakeRelChain.png}
+ \caption{Processing Chain for an Out-Going Command or Report}
+ \label{fig:OutCmpMakeRelChain}
+\end{figure}
+
+\clearpage
+%=============================================================================================
+\section{Real Time Issues}\label{sec:RTIssues}
+The domain of the CORDET Framework are embedded control applications. These applications are often subject to real-time constraints. This section considers some issues which related to the usage of the C2 Implementation in a real-time environment.
+
+% --------------------------------------------------------------------------------
+\subsection{Scheduling of Framework Components}
+The C2 Implementation does not define any "active components": none of its components create or manage threads of execution. All of its components expect to be called from outside. The entry points for an external scheduler are listed in table \ref{tab:EntryPoints}. The order in which they are listed is approximately the order in which they will typically be called but no specific ordering sequence is mandated by the C2 Implementation. 
+
+Often a cyclical scheduling approach will be used for the entry points listed in the table (with the possible exceptions of the first and the last entries which might be attached to signals or interrupts from the middleware). Multiple cycles with different periods might also be used where the high frequency cycles are used to process high-priority commands/reports and the low frequency cycles are used to process low-priority commands/reports.
+
+One option for implementing the link between the components listed in the table and a scheduler is to use the "Real-Time Containers" of reference \cite{ref:fwprofile} (a C-language implementation is available from reference \cite{ref:C1Implementation}).
+
+\begin{longtable}{|>{\centering\arraybackslash}m{0.3cm}|>{\raggedright}p{4.0cm}|p{6.5cm}|}
+\caption{Entry Points for Scheduler} \label{tab:EntryPoints}\\
+\hline
+\rowcolor{light-gray}
+\textbf{N} & \textbf{Entry Point} & \textbf{Description} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{N} & \textbf{Entry Point} & \textbf{Description} \\
+\hline\hline
+\endhead
+1 & Send Command \texttt{CrFwInStreamPcktAvail} to the InStreams
+& Command must be sent when a packet becomes available at the Middleware Interface or else it can be sent periodically (polling).
+\\\hline
+2 & Execute InLoader
+& Causes incoming packets collected by the InStreams to be de-serialized and transformed into components which are then loaded into the InManagers. 
+\\\hline
+3 & Execute InManagers
+& Causes incoming reports and commands which are pending in the InManagers to be processed. 
+\\\hline
+4 & Deleted & Deleted.
+\\\hline
+5 & Execute OutManagers
+& Causes out-going reports and commands which are pending in the OutManagers to be processed.
+\\\hline
+6 & Send Command \texttt{CrFwOutStream-
+ConnectionAvail} to the OutStreams
+& Command must be sent when the out-going Middleware connection for an OutStream has become available or else it can be sent periodically (polling).
+\\\hline
+\end{longtable}
+
+% --------------------------------------------------------------------------------
+\subsubsection{Concurrency}
+The C2 Implementation uses global variables (see section \ref{sec:MemMng}) but does not implement any mechanisms to ensure access in mutual exclusion to these variables. It is therefore not suited for use in a concurrent environment. It is the responsibility of the user to ensure that its components are accessed mutual exclusion.
+
+% --------------------------------------------------------------------------------
+\subsubsection{Recursion}
+None of the functions defined by the C2 Implementation are recursive. Recursion is used to a limited extent in the libraries which implement the state machine and procedure model used by the C2 Implementation (see section \ref{sec:SmAndPrModel}). However, the depth of recursion is limited to 2 (because the depth of recursion is equal to the number of levels of embedding of state machines and, in the C2 Implementation, only one level of state machine embedding is used).  
+
+
+%=============================================================================================
+\section{Error Handling}\label{sec:ErrHandling}
+
+In general, the C2 Implementation is intended for applications whose design is validated and whose implementation is verified. They therefore only handle errors which arise as a result of the application receiving at run-time inputs from outside which are illegal (i.e. inputs which are outside the boundaries specified for the application). 
+
+The inputs for the C2 Implementation are the incoming commands and reports. These may be "illegal" either because their content is illegal or because the time pattern with which they are sent is illegal. The resulting error situations are specified by the CORDET Framework in reference \cite{ref:cordetfw}. The CORDET Components handle these errors by reporting them through the \textit{CrFwRepErr.h} interface. This interface is one of the adaptation points of the framework and must be implemented by applications according to their needs. 
+
+A typical implementation of the error reporting interface could be as follows. The user defines a service to report errors and implements the \textit{CrFwRepErr.h} interface to generate reports belonging to that service and carrying a description of the error. Different report sub-types can be defined to represent different levels of severity. An example of this approach is the so-called "Event Reporting Service" of the PUS (see reference \cite{ref:pus}). The range of errors handled through this mechanism is defined by the enumerated type \texttt{CrFwRepErrCode\_t}.
+
+In addition to handling these exogenous error situations, the C2 Implementation also handles a limited number of "Applicaton Errors". Application errors arise as a result of a design or implementation error in the application itself. The situations which are handled by the C2 Implementation are those which satisfy the following constraints:
+
+\begin{fw_itemize}
+\item The error situation arises when a framework function has been called by the application code with an illegal parameter value or in an illegal context and execution of the function with that value or in that context would cause an internal framework data structure to be corrupted.
+\item The check for the error can be implemented with a minimal impact on memory and CPU consumption.
+\end{fw_itemize}
+
+Thus, the objective of the handling of application errors is to shield a component's internal data structures. Note that no handling of errors is implemented when the incorrect calling parameters or calling context of a function would be harmful for the caller. 
+
+Application errors are handled as follows. The function where the error is detected sets an \textit{application error code} and then returns. Nominally, the application error code should be equal to: \texttt{crNoAppErr}. If the application error code has a different value, then an application error has been encountered. If multiple errors have been encountered, the application error code reflects the most recent error.
+
+If the application error code has a non-nominal value, the behaviour of the framework component is undefined and will normally be erroneous. The application error code can be accessed through function \texttt{CrFwGetAppErrCode}. 
+
+The range of application error codes is defined by the enumerated type \texttt{CrFwAppErrCode\_t}.
+
+%=============================================================================================
+\section{Framework Instantiation Process}\label{sec:FwInstantiation}
+The Framework Instantiation Process is the process through which the components provided by the framework are used to build an application within the framework domain. This section describes the steps required to instantiate the C2 Implementation of the CORDET Framework.
+
+Two major steps are recognized in the instantiation process: 
+
+\begin{fw_enumerate}
+\item[S1] Application Specification
+\item[S2] Application Implementation
+\end{fw_enumerate}
+
+Step S1 consists in casting (part of) the requirements of the target applications in terms of the services it provides to and requires from other entities in the system wihin which it is embedded. Step S2 consists in customizing the framework components to support the services defined in step S1. 
+
+The table in the next page breaks up steps S1 and S2 into sub-steps. To each S1 sub-step, an S2 sub-step is associated (because each specification activity has an implementation-level counterpart). 
+
+After all activities listed in the table have been performed, the application developer should have: (a) a complete specification of the framework-dependent part of his application and (b) a close-out for all adaptation points offered by the framework. The latter means that the framework components are ready for deployment in the target application. 
+
+If the guidelines of section \ref{sec:fwSrcCode} are followed, the software of the instantiated framework will be organized as follows:
+
+\begin{fw_enumerate}
+\item One directory (normally called \texttt{CrFramework}) holding the invariant part of the framework software. This directory can be a copy of the \texttt{CrFramework} in the Delivery File (see section \ref{sec:fwSrcCode}).
+\item One directory (normally called \texttt{FwProfile}) holding the code implementing the state machine and procedure behaviour. This directory can be a copy of the \texttt{FwProfile} in the Delivery File (see section \ref{sec:fwSrcCode}).
+\item One directory (normally called \texttt{CrConfig$\langle Name \rangle$} where "\texttt{Name}" is the name of the target application) holding the adaptable part of the framework software customized for the target application. This directory may be obtained by taking one of the \texttt{Config} directories in the Delivery File (\texttt{CrConfigTestSuite}, \texttt{CrConfigDemoMaster}, \texttt{CrConfigDemoSlave1} or \texttt{CrConfigDemoSlave2}) and then modifying its content as specified in the implementation steps.
+\item One directory holding the application-specific software.
+\end{fw_enumerate}
+
+In general, it is the responsibility of the user to ensure that the configuration information provided during the instantiation process is complete and consistent. A full check of completeness and consistency is not possible. However, the C2 Implementation offers module \texttt{CrFwAux} which implements a partial consistency check for the information in the \texttt{*UserPar} header files. Application developers should use this configuration check in the initial phase and can then remove it from their executable once confidence has been achieved that the configuration data are correct and complete.
+
+
+\DTLloaddb{dbIP}{InstantiationProcess.csv}	% Import table with instantiation process
+
+\begin{landscape}
+
+\begin{longtable}{|>{\centering\arraybackslash}m{0.4cm}|>{\raggedright}p{2.0cm}|p{8.0cm}|p{9.0cm}|}
+\caption{Framework Instantiation Specification and Implementation Steps} \label{tab:FwInstSteps}\\
+\hline
+\rowcolor{light-gray}
+\textbf{N} & \textbf{Step Name} & \textbf{Specification Sub-Step} & \textbf{Implementation Sub-Step} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{N} & \textbf{Step Name} & \textbf{Specification Sub-Step} & \textbf{Implementation Sub-Step} \\
+\hline\hline
+\endhead
+\DTLforeach*{dbIP}{\id=ID,\tlt=Title,\specSt=SpecificationStep,\implSt=ImplementationStep}
+{\DTLiffirstrow{}{\\\hline}\id & \tlt & \specSt & \implSt}\\\hline
+\end{longtable}
+
+\end{landscape}
+
+
+%===========================================================================
+\section{Demo Application}\label{sec:DemoApp}
+
+The Demo Application is intended to demonstrate the capability of the CORDET Framework to support the development of a distributed system of control applications. It consists of a system of three inter-connected applications of which one acts as master (the \textit{Master Application}) and the other two act as slaves (\textit{Slave 1 Application} and \textit{Slave 2 Application}). Each slave applications is responsible for monitoring a temperature measurement and for raising an alarm if the temperature exceeds a pre-defined threshod. The Master Application can enable and disable temperature monitoring and can set the temperature thresholds.
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.40,keepaspectratio=true]{DA_LogicalLinks.png}
+ \caption{Logical Architecture of Demo Applications}
+ \label{fig:DA_LogicalLinks}
+\end{figure}
+
+The logical architecture of the Demo Applications is shown in figure \ref{fig:DA_LogicalLinks}. The Slave Applications are implemented as \textit{service providers} (in the sense of section \ref{sec:ServConcept}) and the Master Application is implemented as a \textit{service user}. The service which is used by the Master Application and provided by the Slave Applications is called \textit{Temperature Monitoring Service}. It is implemented by three commands and one report as follows:
+
+\begin{fw_enumerate}
+\item Enable Monitoring: this command is sent by the Master Application to a Slave Application to enable temperature monitoring in the slave application.
+\item Disable Monitoring: this command is sent by the Master Application to a Slave Application to disable temperature monitoring in the slave application.
+\item Set Temperature Limit: this command is sent by the Master Application to a Slave Application to set the temperature monitoring threshold in the slave application.
+\item Report Temperature Violation: this report is sent by a Slave Application to the Master Application to report a temperature measurement which exceeds the temperature limit at a time when temperature monitoring is enabled.
+\end{fw_enumerate}
+
+The connections linking together the Demo Applications are implemented as local TCL sockets. The physical connections among the three applications are shown in figure \ref{fig:DA_PhysicalLinks}. The Slave 1 Application implements a server socket and the Master and Slave 2 Applications connect to it as client sockets. Note that this physical architecture implies that the Slave 1 Application acts as a re-routing application (in the sense of section \ref{sec:PcktInterface}) for packets exchanged between the Master Application and the Slave 2 Application. 
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.40,keepaspectratio=true]{DA_PhysicalLinks.png}
+ \caption{Physical Connections of Demo Applications}
+ \label{fig:DA_PhysicalLinks}
+\end{figure}
+
+In their default configuration, the three Demo Applications execute 100 monitoring cycles. In each cycle, the Master application may send a command to either of the two Slave Applications and the Slave Applications perform a monitoring action and send an alarm report to the Master Application if they detect a temperature limit violation. At each cycle, the The Demo Applications write a message to \texttt{stdout} where they state which actions they have performed in that cycle (send a command; send a report; start execution of a command; detected a temperature violation; etc).
+
+The code implementing the three Demo Applications is included in the Delivery File of the C2 Implementation (see section \ref{sec:InstAndContentOverview}). The delivery file also include three Unix shell scripts which compile and link the three Demo Applications (see section \ref{sec:script}) and one shell script which spawns three processes to run the three Demo Applications. The output generated by the Demo Application is sent to three log files.
+
+Tables \ref{tab:FwInstStepsMaster} to \ref{tab:FwInstStepsSlave2} show how the instantiation process of section \ref{sec:FwInstantiation} was applied to the three Demo Applications. These tables serve as specifications for the Demo Applications as instantiations of the CORDET Framework.
+
+
+\begin{landscape}
+
+\begin{longtable}{|>{\centering\arraybackslash}m{0.4cm}|>{\raggedright}p{2.0cm}|p{5.0cm}|p{6.0cm}|p{6.0cm}|}
+\caption{Framework Instantiation Specification and Implementation Steps for Master Application} \label{tab:FwInstStepsMaster}\\
+\hline
+\rowcolor{light-gray}
+\textbf{N} & \textbf{Step Name} & \textbf{Specification Sub-Step} & \textbf{Implementation Sub-Step} & \textbf{Master Application} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{N} & \textbf{Step Name} & \textbf{Specification Sub-Step} & \textbf{Implementation Sub-Step} & \textbf{Master Application} \\
+\hline\hline
+\endhead
+\DTLforeach*{dbIP}{\id=ID,\tlt=Title,\specSt=SpecificationStep,\implSt=ImplementationStep,\mst=MasterAP}
+{\DTLiffirstrow{}{\\\hline}\id & \tlt & \specSt & \implSt & \mst}\\\hline
+\end{longtable}
+
+\newpage
+
+\begin{longtable}{|>{\centering\arraybackslash}m{0.4cm}|>{\raggedright}p{2.0cm}|p{5.0cm}|p{6.0cm}|p{6.0cm}|}
+\caption{Framework Instantiation Specification and Implementation Steps for Slave 1 Application} \label{tab:FwInstStepsSlave1}\\
+\hline
+\rowcolor{light-gray}
+\textbf{N} & \textbf{Step Name} & \textbf{Specification Sub-Step} & \textbf{Implementation Sub-Step} & \textbf{Slave 1 Application} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{N} & \textbf{Step Name} & \textbf{Specification Sub-Step} & \textbf{Implementation Sub-Step} & \textbf{Master Application} \\
+\hline\hline
+\endhead
+\DTLforeach*{dbIP}{\id=ID,\tlt=Title,\specSt=SpecificationStep,\implSt=ImplementationStep,\mst=Slave1AP}
+{\DTLiffirstrow{}{\\\hline}\id & \tlt & \specSt & \implSt & \mst}\\\hline
+\end{longtable}
+
+\newpage
+
+\begin{longtable}{|>{\centering\arraybackslash}m{0.4cm}|>{\raggedright}p{2.0cm}|p{5.0cm}|p{6.0cm}|p{6.0cm}|}
+\caption{Framework Instantiation Specification and Implementation Steps for Slave 2 Application} \label{tab:FwInstStepsSlave2}\\
+\hline
+\rowcolor{light-gray}
+\textbf{N} & \textbf{Step Name} & \textbf{Specification Sub-Step} & \textbf{Implementation Sub-Step} & \textbf{Slave 2 Application} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{N} & \textbf{Step Name} & \textbf{Specification Sub-Step} & \textbf{Implementation Sub-Step} & \textbf{Master Application} \\
+\hline\hline
+\endhead
+\DTLforeach*{dbIP}{\id=ID,\tlt=Title,\specSt=SpecificationStep,\implSt=ImplementationStep,\mst=Slave2AP}
+{\DTLiffirstrow{}{\\\hline}\id & \tlt & \specSt & \implSt & \mst}\\\hline
+\end{longtable}
+
+\end{landscape}
+
+
+
+\appendix
+%===========================================================================
+\section{Adaptation Points}\label{sec:AdaptationPoints}
+The adaptation model of the C2 Implementation is described in section \ref{sec:AdaptationModel}. This appendix lists the adaptation points offered by the framework in table \ref{tab:AP}. The table is organized as follows:
+
+\begin{fw_itemize}
+\item The left-most column in the table gives the identifier of the adaptation point. \item The middle column briefly describes the adaptation point.
+\item The right-most column describes the location in the delivery file directory \texttt{/cr/src/CrConfigTestSuite} where the adaptation point is implemented.
+\end{fw_itemize}
+
+With reference to the last point, it is recalled that all adaptation points are implemented as either \texttt{\#define} constants or \texttt{typedef} definitions in C header files in directory \texttt{/cr/src/CrConfigTestSuite} or as C body files in this same directory implementing framework interfaces.
+
+Table \ref{tab:AP} only provides a summary view of the adaptation points. Their detailed definition is contained in the doxygen documentation of the files in the configuration directory \texttt{/cr/src/CrConfigTestSuite}.  
+
+\DTLloaddb{dbAP}{../cordetfw/CordetFwAP.csv}	% Import table adaptation points
+
+\begin{landscape}
+
+\begin{longtable}{|l|p{7.2cm}|p{10.4cm}|}
+\caption{C2 Implementation Adaptation Points} \label{tab:AP}\\
+\hline
+\rowcolor{light-gray}
+\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Implementation}\\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Implementation}\\
+\hline\hline
+\endhead
+\DTLforeach*[\not\DTLiseq{\cat}{0}]{dbAP}{\cat=C2Cat,\id=C2Id,\ap=AP,\impl=C2Impl}
+{\DTLiffirstrow{}{\\\hline}\cat-\id & \ap & \impl}\\\hline
+\end{longtable}
+
+\end{landscape}
+
+%=============================================================================================
+\section{State Machine Model of the FW Profile}\label{sec:SmModelOfTheFwProfile}
+The CORDET Framework and the C2 Implementation use the state machine model of the FW Profile. The FW Profile is defined in \cite{ref:fwprofile}. For convenience, this section reports an excerpt of \cite{ref:fwprofile} defining the semantics of state machines.
+
+\input{../../lib/fwprofile/doc/um/FwSmSmModel.tex}
+
+
+%=============================================================================================
+\section{Procedure Model of the FW Profile}\label{sec:PrModelOfTheFwProfile}
+The CORDET Framework and the C2 Implementation use the procedure model of the FW Profile. The FW Profile is defined in \cite{ref:fwprofile}. For convenience, this section reports an excerpt of \cite{ref:fwprofile} defining the semantics of procedures.
+
+\input{../../lib/fwprofile/doc/um/FwSmPrModel.tex}
+
+
+\newpage
+
+\begin{thebibliography}{6}
+ 
+\bibitem{ref:fwprofile} Alessandro Pasetti, Vaclav Cechticky:
+           {\sl The FW Profile}. PP-DF-COR-00001, Revision 1.3,
+           P\&P Software GmbH, Switzerland, 2013 
+
+\bibitem{ref:C1Implementation} Alessandro Pasetti, Vaclav Cechticky:
+           {\sl The Framework Profile - C1 Implementation User Manual}. 
+           PP-UM-COR-00001, Revision 1.2.0,
+           P\&P Software GmbH, Switzerland, 2013
+		   Available from: \url{www.pnp-software.com/fwprofile}            
+           
+\bibitem{ref:cordetfw} Alessandro Pasetti, Vaclav Cechticky:
+           {\sl The CORDET Framework}. 
+           PP-DF-COR-00002, Revision 1.3,
+           P\&P Software GmbH, Switzerland, 2014          
+           
+\bibitem{ref:pus} European Cooperation for Space Standardization (ECSS):
+           {\sl ECSS, Ground Systems and Operations – Telemetry and Telecommand Packet Utilization Standard}. 
+           ECSS-E-70-41A, 30 January 2003,
+           ECSS Secretaria, ESA-Estec              
+
+\end{thebibliography}
+
+\end{document}          
+

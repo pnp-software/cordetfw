@@ -1,0 +1,21 @@
+Category,Id,AP,DefHkRepInCommand,ClearHkRepInCommand,En/DisHkRepInCommand
+ICM,1,Initialization Check in Initialization Procedure of InCommand,Always return 'check successful',Always return 'check successful',Always return 'check successful'
+ICM,2,Initialization Action in Initialization Procedure of InCommand,Same value as in InCommand Component,Same value as in InCommand Component,Same value as in InCommand Component
+ICM,3,Configuration Check in Reset Procedure of InCommand,Return 'check successful' if: the discriminant has a legal value; the number of data items has a legal value; all data item identifiers are legal; there is an empty slot in the RDL; the period is non-negative; the destination is valid,Return 'check successful' if: the discriminant has a legal value; the SIDs in the reports correspond to existing entries in the RDL,Return 'check successful' if: the discriminant has a legal value; the SIDs in the reports correspond to existing entries in the RDL
+ICM,4,Configuration Action in Reset Procedure of InCommand,Same value as in InCommand Component,Same value as in InCommand Component,Same value as in InCommand Component
+0,0,Validity Check for InCommand,Same value as in InCommand Component,Same value as in InCommand Component,Same value as in InCommand Component
+ICM,7,Ready Check of InCommand,Same value as in InCommand Component,Same value as in InCommand Component,Same value as in InCommand Component
+ICM,8,Start Action of InCommand,Same value as in InCommand Component,Same value as in InCommand Component,Same value as in InCommand Component
+ICM,9,Progress Action of InCommand,Fill an empty entry in the RDL with the HL Report definition specified by the command and set the enable status of the newly defined report to 'disabled',Clear all entries in the RDL corresponding to the SIDs specified by the command,Set the enable flag of the entries in the RDL corresponding to the SIDs specified by the command to 'enable' (EnHkRepInCommand) or 'disable' (DisHkRepInCommand)
+ICM,10,Termination Action of InCommand,Same value as in InCommand Component,Same value as in InCommand Component,Same value as in InCommand Component
+ICM,11,Abort Action of InCommand,Same value as in InCommand Component,Same value as in InCommand Component,Same value as in InCommand Component
+ICM,12,Operation to Report Start Failed for InCommand,Same value as in InCommand Component,Same value as in InCommand Component,Same value as in InCommand Component
+ICM,13,Operation to Report Start Successful for InCommand,Same value as in InCommand Component,Same value as in InCommand Component,Same value as in InCommand Component
+ICM,14,Operation to Report Progress Failed for InCommand,Same value as in InCommand Component,Same value as in InCommand Component,Same value as in InCommand Component
+ICM,15,Operation to Report Progress Successful for InCommand,Same value as in InCommand Component,Same value as in InCommand Component,Same value as in InCommand Component
+ICM,16,Operation to Report Termination Failed for InCommand,Same value as in InCommand Component,Same value as in InCommand Component,Same value as in InCommand Component
+ICM,17,Operation to Report Report Termination Successful for InCommand,Same value as in InCommand Component,Same value as in InCommand Component,Same value as in InCommand Component
+ICM,18,Service Type Attribute of InCommand,Set equal to S\_DR,Set equal to S\_DR,Set equal to S\_DR
+ICM,19,Command Sub-Type Attribute of InCommand,Set equal to 1,Set equal to 3,Set equal to 5 (EnHkRepInCommand) or 7 (DisHkRepInCommand)
+ICM,20,Discriminant Attribute of InCommand,The SID of the HK Reportt to be defined,The number of HK Reports to be cleared,The number of HK Reports to be enabled (EnHkRepInCommand) or disabled (DisHkRepInCommand)
+ICM,21,Parameter Attributes of InCommand,The number of data items in the HK Report to be defined; their identifiers; the generation period of the new HK Report; its destination,The list of SIDs of the HK Reports to be cleared,The list of SIDs of the HK Reports to be enabled (EnHkRepInCommand) or disabled (DisHkRepInCommand)

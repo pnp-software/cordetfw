@@ -1,0 +1,11 @@
+As discussed in section \ref{sec:OutStream}, for each command or report destination, one OutStream component must be instantiated by an application. The CORDET Framework accordingly defines an OutStreamRegistry component which encapsulates the link between the command and report destinations and the associated OutStream.  
+
+Only one operation is defined at framework level for the OutStreamRegistry. The \texttt{OutStreamGet} operation lets a user retrieve the OutStream corresponding to a certain command or report destination. The command or report destination is identified by the value of the destination attribute of the command or report (see sections \ref{sec:CmdAttributes} and \ref{sec:RepAttributes}). 
+
+If an invalid destination is provided to the \texttt{OutStreamGet} operation, nothing is returned by the operation itself but this is not treated as an error by the OutStreamRegistry component. If the use of an invalid destination represents an error, this must be handled by the user of the OutStreamRegistry.
+
+Since the range of potential command and report destinations is unknown at framework level, the \texttt{OutStreamGet} operation is an adaptation point for the OutStreamRegistry. The link between the command and report destinations and their OutStreams is a configuration parameter for the OutStreamRegistry. 
+
+Only one instance of the OutStreamRegistry should exist in an application. 
+
+The OutStreamRegistry is defined as an extension of the Base Component.

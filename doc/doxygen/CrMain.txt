@@ -1,0 +1,44 @@
+/**
+* @mainpage Introduction
+*
+* The C2 Implementation is a C-language implementation of the <strong>CORDET Framework</strong>.
+* The CORDET Framework is a software framework for service-oriented distributed embedded applications. 
+* The CORDET Framework defines an application in terms of the services it provides to 
+* other applications and in terms of the services it uses from other applications.
+* A <strong>service</strong> is implemented by a set of <strong>commands</strong> through which 
+* an application is asked to 
+* perform certain activities and by a set of <strong>reports</strong> through which an application 
+* gives visibility over its internal state.
+* The CORDET Framework defines the components to receive, send, distribute, and process commands and reports.
+* The full documentation and code of the CORDET Framework is available from its
+* <a href="http://www.pnp-software.com/cordetfw">project web site</a>.
+*
+* The CORDET Framework is implementation-independent. 
+* The C2 Implementation is a C language implementation of the components which implement the service
+* concept of the CORDET Framework. 
+* The main features of the C2 Implementation are: 
+* - <strong>Well-Defined Semantics</strong>: clearly and unambiguously defined behaviour. 
+* - <strong>Minimal Memory and CPU Requirements</strong>: core module footprint of a few kBytes and efficient
+*   implementation in C.
+* - <strong>Excellent Scalability</strong>: code memory footprint and CPU demands are independent of 
+*   number and size of command and report instances.
+* - <strong>High Reliability</strong>: a test suite provides full code, branch, and condition coverage
+*   (excluding error branches for system call errors).
+* - <strong>Formal Specification</strong>: user requirements formally specify the implementation.
+* - <strong>Requirement Traceability</strong>: all requirements are individually traced to their implementation 
+*   and to verification evidence.
+* - <strong>Documented Code</strong>: doxygen documentation for all the source code.
+* .
+* These characteristics make the C2 Implementation especially well-suited for use in <strong>mission-critical 
+* applications</strong>.
+*
+* The CORDET Framework components are implemented using state machines and procedures (activity diagrams) 
+* defined with the semantics of the <a href="http://www.pnp-software.com/fwprofile">FW Profile</a> (a UML profile 
+* with simple and unambiguous semantics). 
+* This doxygen web site does not cover the low-level code implementing the state machine and procedure
+* behaviour (this is covered as part of the FW Profile implementation delivery). 
+*/
+
+
+
+

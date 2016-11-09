@@ -1,0 +1,85 @@
+/** @defgroup crDemo Demo Application 
+ * The CORDET Demo consists of three applications: the Master Application,
+ * the Slave 1 Application and the Slave 2 Application.
+ * The two slave applications are responsible for monitoring a temperature sensor.
+ * If they find a limit violation, they send a report to the Master Application.
+ * The Master Application is responsible for enabling and disabling the
+ * monitoring in the slave applications and for setting the monitoring limits.
+ *
+ * The CORDET Demo supports one single service: the "Temperature Monitoring
+ * Service".
+ * The type identifier of the Temperature Monitoring Service is equal to: 64.
+ * This service is implemented by the following commands and reports:
+ * - Sub-Type 1: Command to enable temperature monitoring
+ * - Sub-Type 2: Command to disable temperature monitoring
+ * - Sub-Type 3: Command to set the temperature limit
+ * - Sub-Type 4: Report to report a temperature limit violation
+ * .
+ * The logical links among the three applications are as follows:
+ * - The Master Application sends commands to both Slave Applications
+ * - Each Slave Application sends reports to the Master Application
+ * .
+ * Note that there is no logical link between the two slaves which are
+ * completely independent of each other (see first figure below).
+ *
+ * The physical links among the three applications are as follows (see second figure
+ * below):
+ * - There is a socket-based link between the Master Application and Slave 1
+ * - There is a socket-based link between the Slave 1 and Slave 2
+ * .
+ * Thus, messages between the Master Application and Slave 2 are routed through
+ * Slave 1 (the routing is done by the CORDET Framework).
+ *
+ * The Master Application generates the commands to and receives the reports
+ * from the Slave Applications.
+ *
+ * @image html DA_LogicalLinks.png
+ * -
+ * @image html DA_PhysicalLinks.png
+ */
+
+/** @defgroup crDemoMaster Master Application 
+ *  @ingroup crDemo
+ *  Application-specific files for the Master Application of the CORDET Demo.
+ */
+
+/** @defgroup crDemoSlave1 Slave 1 Application 
+ *  @ingroup crDemo
+ *  Application-specific files for the Slave 1 Application of the CORDET Demo.
+ */
+
+/** @defgroup crDemoSlave2 Slave 2 Application 
+ *  @ingroup crDemo
+ *  Application-specific files for the Slave 2 Application of the CORDET Demo.
+ */
+
+/** @defgroup crConfigDemoMaster Configurable Part of Master Application 
+ *  @ingroup crDemo
+ *  Configurable files for the Master application of the CORDET Demo.
+ *  The files in this module consist of header files which customize for the
+ *  Master Application the \ref crConfigGroup
+ *  "configurable header files of the CORDET Framework" and of C body files
+ *  which provide implementations for the \ref crOpenIfGroup
+ *  "unimplemented interfaces of the CORDET Framework".
+ */
+
+/** @defgroup crConfigDemoSlave1 Configurable Part of Slave 1 Application 
+ *  @ingroup crDemo
+ *  Configurable files for the Slave 1 application of the CORDET Demo.
+ *  The files in this module consist of header files which customize for the
+ *  Slave 1 Application the \ref crConfigGroup
+ *  "configurable header files of the CORDET Framework" and of C body files
+ *  which provide implementations for the \ref crOpenIfGroup
+ *  "unimplemented interfaces of the CORDET Framework".
+ */
+
+/** @defgroup crConfigDemoSlave2 Configurable Part of Slave 2 Application 
+ *  @ingroup crDemo
+ *  Configurable files for the Slave 2 application of the CORDET Demo.
+ *  The files in this module consist of header files which customize for the
+ *  Slave 2 Application the \ref crConfigGroup
+ *  "configurable header files of the CORDET Framework" and of C body files
+ *  which provide implementations for the \ref crOpenIfGroup
+ *  "unimplemented interfaces of the CORDET Framework".
+ */
+

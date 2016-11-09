@@ -1,0 +1,63 @@
+/**
+* @page CrBasic Basic Concepts
+*
+* 
+* @section CrBasic_1 The Framework Components
+* 
+* A <i>Framework Component</i> consists of a state machine derived from the Base Component 
+* State Machine (see figure below) and of the procedures which are controlled by this state machine.
+* Of these procedures, two are mandatory (all Framework Components must have them) and the
+* others are optional (some Framework Components have them and other Framework Components
+* do not have them).
+* The mandatory procedures are the <i>Initialization Procedure</i> and the <i>Reset Procedure</i> 
+* of the Base Component State Machine. 
+* Framework components may either use the default Initialization or Reset Procedure defined in
+* <code>CrFwInitProc.h</code> and <code>CrFwResetProc.h</code> or they may use an extension of
+* these procedures.
+* The <i>Execution Procedure</i> is an optional procedure.
+* <p></p>
+* The state machine of a Framework Component is derived from the Base Component State Machine
+* but it may have an additional state machine embedded in state CONFIGURED.
+* This embedded state machine may in turn control additional procedures.
+* <p></p>
+* Framework Components are instantiated by <i>factor functions</i> which are provided by the
+* framework.
+* A factory function is a function with a name like: <code>CrFwMakeXxxCmp</code>.
+* Some factory functions can only instantiate a fixed number of component instances; others
+* can instantiate an unlimited number of instances (every call, results in a new instance 
+* being created).
+* <p></p>
+* Components which are instantiated from the same factory function are said to be of the same
+* <i>component type</i>.
+* Thus, each factory function defines a component type.
+* Each component instance carries a <i>type identifier</i> which uniquely identifies its type.
+* <p></p>
+* When a component instance is created, it is assigned an <i>instance identifier</i> which
+* uniquely identifies a component instance within the set of components of a certain type.
+* The first instance to be created by a factory function is assigned the instance identifier
+* of 1.
+* The second instance is assigned the instance identifier 2. And so on and so forth.
+*
+* @image html BaseSM.png
+*
+* @section CrBasic_2 The Component Data
+*
+* A framework component consists of one state machine derived from the Base Component 
+* State Machine (which may have additional state machines embedded in its states) and two 
+* or more procedures (the Initialization Procedure and the Reset Procedure and, optionally,
+* other procedures).
+* <p></p>
+* From a syntactical point of view, a Framework Component consists of the state machine
+* descriptor (a variable of type <code>::FwSmDesc_t</code>) of the state machine derived from
+* the Base Component State Machine.
+* <p></p>
+* The <i>component data</i> is the data structure which is associated to the state machines and
+* procedures which make up a Framework Component.
+* The component data is a variable of type <code>::CrFwCmpData</code>.
+* All state machines and procedures in a certain Framework Component share the same instance
+* of component data.
+*/
+
+
+
+

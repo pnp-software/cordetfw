@@ -1,0 +1,37 @@
+The Packet Utilization Standard or PUS is an application-level interface standard for space-based applications. 
+It is specified in reference \cite{ref:pus}. 
+In spite of its origin in the space industry, the PUS is suitable for a wide range of embedded control applications. 
+In view of its long heritage and its proven ability to cover the interface needs of mission-critical systems of distributed applications, the PUS  has been used as a basis for the CORDET Framework in the sense that the service concept on which the CORDET Framework is based (see section \ref{sec:ServConcept}) is the same as the service concept specified by the PUS. 
+
+In order to understand the degree of overlap between the PUS and the CORDET Framework, it is helpful to identify and contrast their respective concerns (the remainder of this section can be omitted by readers without a background in the space industry).
+
+The PUS has two concerns: (a) it standardizes the semantics of the commands and reports which may be sent to or received from an application, and (b) it standardizes the external representations of these commands and reports (i.e. it specifies the layout of the packets which carry the commands and reports). 
+The CORDET Framework shares the first concern in the sense that it uses the same service concept as the PUS but it does not share the second concern because it does not specify the external representation of commands and reports. 
+Instead, the CORDET Framework specifies their internal representation (i.e. it predefines components to encapsulate commands and reports within an application) and it treats their serialization to, and de-serialization from, physical packets as an adaptation point to be resolved at application level.  
+ 
+Thus, the CORDET Framework can be used to instantiate applications which are PUS-compliant but it is not restricted to PUS-compliant applications because it could be used to instantiate an application which uses a different external representation for its commands and reports than is specified by the PUS.
+
+Table \ref{tab:PusCrConcerns} summarizes the concerns of the CORDET Framework and of the PUS.
+
+\begin{longtable}{|>{\raggedright\arraybackslash}p{3cm}|p{8cm}|}
+\caption{Concerns of CORDET Framework and of PUS}\label{tab:PusCrConcerns} \\
+\hline
+\rowcolor{light-gray}
+\textbf{Concern} & \textbf{Coverage in CORDET Framework and PUS}\\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Concern} & \textbf{Coverage in CORDET Framework and PUS}\\
+\hline\hline
+\endhead
+Service Concept & CORDET Framework uses the same service concept as the PUS.\\
+\hline
+External Representation of Commands and Reports & The PUS specifies the external representation of its commands and reports (i.e. it specifies the layout of the packets carrying the commands and reports). The CORDET Framework does not specify the external representation of its commands and reports.\\
+\hline
+Internal Representation and Handling of Commands and Reports & The PUS does not specify how its commands and reports should be represented and handled inside an application. The CORDET Framework specifies the components representing the commands and reports in an application and the components required to handle them within that application.\\
+\hline
+\end{longtable}
+
+In addition to the service concept, the PUS also defines the concept of \textit{application process} which is matched in the CORDET Framework by the concept of \textit{application}. The two concepts, though overlapping, have slightly different meanings. In the PUS, an application process is a source of reports and a sink for commands (see section 4.2.1 of reference \cite{ref:pus}). In the CORDET Framework, an application is a node within a CORDET service-based distributed system. A CORDET application may therefore be both a source and a destination for both commands and reports. 
+
+Generally speaking, a CORDET application may contain several PUS application processes. In order to allow multiple PUS application processes to be mapped to a single CORDET application, the CORDET Framework has introduced the concept of \textit{group}. Commands and reports in an application must belong to a group. A PUS application process may thus be represented within a CORDET application by a group. This is done by defining a group for each application process and by allocating all the commands and reports belonging to an application process to the same group. CORDET systems which do not aim at PUS compliance will normally not need the group concept and may just define one single group to which all commands and reports in the system belong by default.

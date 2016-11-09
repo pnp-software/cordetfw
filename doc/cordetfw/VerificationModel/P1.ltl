@@ -1,0 +1,152 @@
+#define r	(mwState==AVAIL)
+#define q	(outCmdStreamLock!=CMD_MNG)
+#define s	(outCmdStreamPQ==EMPTY)
+
+	/*
+	 * Formula As Typed: ((<> [] q)  && (<> [] r)) -> ( (<> [] s) )
+	 * The Never Claim Below Corresponds
+	 * To The Negated Formula !(((<> [] q)  && (<> [] r)) -> ( (<> [] s) ))
+	 * (formalizing violations of the original)
+	 */
+
+never {    /* !(((<> [] q)  && (<> [] r)) -> ( (<> [] s) )) */
+T0_init:
+	if
+	:: (! ((s)) && (q) && (r)) -> goto accept_S701
+	:: ((q) && (r)) -> goto T0_S701
+	:: ((q)) -> goto T0_S746
+	:: ((r)) -> goto T0_S718
+	:: (1) -> goto T0_init
+	fi;
+accept_S701:
+	if
+	:: ((q) && (r)) -> goto T0_S701
+	fi;
+T0_S701:
+	if
+	:: (! ((s)) && (q) && (r)) -> goto accept_S701
+	:: ((q) && (r)) -> goto T0_S701
+	fi;
+T0_S718:
+	if
+	:: (! ((s)) && (q) && (r)) -> goto accept_S701
+	:: ((q) && (r)) -> goto T0_S701
+	:: ((r)) -> goto T0_S718
+	fi;
+T0_S746:
+	if
+	:: (! ((s)) && (q) && (r)) -> goto accept_S701
+	:: ((q) && (r)) -> goto T0_S701
+	:: ((q)) -> goto T0_S746
+	fi;
+}
+
+#ifdef NOTES
+Property verified by this LTL Formula: there is no backlog of unsent packets in the OutCmdStream.
+
+This property is satisfied if, when the OutCmdManagers permanently stop making requests for fresh packets to be sent and the connection remains available, then the packet queue eventually becomes emtpy.
+
+This property is only satisfied under conditions of weak fairness.
+
+
+
+#endif
+#ifdef RESULT
+warning: for p.o. reduction to be valid the never claim must be stutter-invariant
+(never claims generated from LTL formulae are stutter-invariant)
+depth 0: Claim reached state 11 (line 142)
+depth 0: Claim reached state 11 (line 143)
+depth 0: Claim reached state 11 (line 144)
+depth 2: Claim reached state 37 (line 165)
+depth 2: Claim reached state 37 (line 166)
+depth 2: Claim reached state 37 (line 167)
+depth 6: Claim reached state 21 (line 154)
+depth 6: Claim reached state 21 (line 155)
+depth 44: Claim reached state 21 (line 154)
+depth 0: Claim reached state 11 (line 145)
+depth 6: Claim reached state 29 (line 159)
+depth 6: Claim reached state 29 (line 160)
+depth 6: Claim reached state 29 (line 161)
+depth 121: Claim reached state 15 (line 150)
+
+(Spin Version 5.2.2 -- 7 September 2009)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	+
+	assertion violations	+ (if within scope of claim)
+	acceptance   cycles 	+ (fairness enabled)
+	invalid end states	- (disabled by never claim)
+
+State-vector 36 byte, depth reached 495, errors: 0
+     5003 states, stored (6811 visited)
+    21243 states, matched
+    28054 transitions (= visited+matched)
+      136 atomic steps
+hash conflicts:        66 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.248	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.366	actual memory usage for states (unsuccessful compression: 147.63%)
+         	state-vector as stored = 61 byte + 16 byte overhead
+    2.000	memory used for hash table (-w19)
+    0.305	memory used for DFS stack (-m10000)
+    2.598	total actual memory usage
+
+unreached in proctype OutCmdManager
+	line 41, "pan.___", state 9, "sendReqSuccessful = 0"
+	line 40, "pan.___", state 12, "((mwState==AVAIL))"
+	line 40, "pan.___", state 12, "else"
+	line 44, "pan.___", state 14, "outCmdStreamPQ = EMPTY"
+	line 45, "pan.___", state 16, "outCmdStreamPQ = NOT_FULL"
+	line 44, "pan.___", state 19, "(sendReqSuccessful)"
+	line 44, "pan.___", state 19, "(sendReqSuccessful)"
+	line 44, "pan.___", state 19, "(!(sendReqSuccessful))"
+	line 37, "pan.___", state 23, "((outCmdStreamPQ!=EMPTY))"
+	line 37, "pan.___", state 23, "((outCmdStreamPQ==EMPTY))"
+	line 51, "pan.___", state 27, "outCmdStreamState = READY"
+	line 52, "pan.___", state 29, "outCmdStreamState = BUFFERING"
+	line 51, "pan.___", state 30, "((outCmdStreamPQ==EMPTY))"
+	line 51, "pan.___", state 30, "((outCmdStreamPQ!=EMPTY))"
+	(9 of 88 states)
+unreached in proctype mwConnection
+	line 111, "pan.___", state 8, "-end-"
+	(1 of 8 states)
+unreached in proctype mwCnctMonitor
+	line 57, "pan.___", state 37, "outCmdStreamPQ = NOT_FULL"
+	line 58, "pan.___", state 39, "outCmdStreamPQ = FULL"
+	line 56, "pan.___", state 40, "((outCmdStreamPQ==FULL))"
+	line 56, "pan.___", state 40, "((outCmdStreamPQ!=FULL))"
+	line 56, "pan.___", state 40, "((outCmdStreamPQ!=FULL))"
+	line 63, "pan.___", state 46, "outCmdStreamPQ = NOT_FULL"
+	line 64, "pan.___", state 48, "outCmdStreamPQ = FULL"
+	line 62, "pan.___", state 49, "((outCmdStreamPQ==FULL))"
+	line 62, "pan.___", state 49, "((outCmdStreamPQ!=FULL))"
+	line 62, "pan.___", state 49, "((outCmdStreamPQ!=FULL))"
+	line 71, "pan.___", state 55, "sendReqSuccessful = 0"
+	line 70, "pan.___", state 58, "((mwState==AVAIL))"
+	line 70, "pan.___", state 58, "else"
+	line 74, "pan.___", state 60, "outCmdStreamPQ = EMPTY"
+	line 75, "pan.___", state 62, "outCmdStreamPQ = NOT_FULL"
+	line 74, "pan.___", state 65, "(sendReqSuccessful)"
+	line 74, "pan.___", state 65, "(sendReqSuccessful)"
+	line 74, "pan.___", state 65, "(!(sendReqSuccessful))"
+	line 67, "pan.___", state 69, "((outCmdStreamPQ!=EMPTY))"
+	line 67, "pan.___", state 69, "((outCmdStreamPQ==EMPTY))"
+	line 81, "pan.___", state 73, "outCmdStreamState = READY"
+	line 82, "pan.___", state 75, "outCmdStreamState = BUFFERING"
+	line 81, "pan.___", state 76, "((outCmdStreamPQ==EMPTY))"
+	line 81, "pan.___", state 76, "((outCmdStreamPQ!=EMPTY))"
+	line 124, "pan.___", state 87, "-end-"
+	(16 of 87 states)
+unreached in proctype :never:
+	line 169, "pan.___", state 39, "-end-"
+	(1 of 39 states)
+
+pan: elapsed time 0.03 seconds
+pan: rate 227033.33 states/second
+pan: avg transition delay 1.0694e-06 usec
+0.02user 0.00system 0:00.02elapsed 100%CPU (0avgtext+0avgdata 12864maxresident)k
+0inputs+16outputs (0major+844minor)pagefaults 0swaps
+
+#endif

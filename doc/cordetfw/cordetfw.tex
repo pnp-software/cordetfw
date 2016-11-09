@@ -1,0 +1,1022 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage{array}
+\usepackage[pdftex]{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{color, colortbl}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage[compact]{titlesec}		% The 'compact' argument reduces spacing before and after headings
+
+\usepackage{verbatim}
+\usepackage{fancyhdr}
+\usepackage{datatool}	% Management of external databases
+\usepackage{chngcntr}	% Management of figure and table numberings
+\usepackage{pdflscape}	% Provides 'landscape mode' for selected pages
+\usepackage[ddmmyyyy]{datetime}
+
+%---------------------------------------------
+% Management of Figure and Table Numbering
+%---------------------------------------------
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+
+%---------------------------------------------
+% Management of Captions (options interact with each other in unpredictable ways)
+%---------------------------------------------
+\usepackage[labelfont=bf]{caption}	% The caption label for tables and figures is bolded
+\setlength{\abovecaptionskip}{2pt}	% Bring caption close to figure or table
+\setlength{\belowcaptionskip}{-8pt}	% Bring caption close to text after it
+\renewcommand{\figurename}{Fig.}	% The caption label for figures is: "Fig."
+%\captionsetup[table]{singlelinecheck=off,justification=raggedright}	% Justify the table captions to the left
+\captionsetup[table]{position=bottom,skip=-1pt}	% controls spacing between caption and table
+%\captionsetup[figure]{position=bottom,skip=40pt}	
+
+\pagestyle{fancy}
+
+%------------------------------------------------------------------------------------------
+% Directories holding image files:
+% Figures from CORDET FW Project
+%------------------------------------------------------------------------------------------
+\graphicspath{ {../images/} }	
+
+%---------------------------------------------
+% Paragraph Layout
+%---------------------------------------------
+\setlength{\parindent}{0in}			% No indentation on first line of a new paragraph
+
+%---------------------------------------------
+% Definition of custom properties
+%---------------------------------------------
+\newcommand{\docIssue}{1.6}						% issue number
+\newcommand{\docDate}{30 December 2015}			% document date
+\newcommand{\docRefNumber}{PP-DF-COR-00002}		% document reference number
+
+%---------------------------------------------
+% Table Layout
+%---------------------------------------------
+\setlength{\extrarowheight}{1.5pt}	% Add vertical space at a table row
+ 
+%------------------------------------------------------------------------------------------
+% Management of Headings
+%------------------------------------------------------------------------------------------
+% Define spacing to the left, before and after a subsection heading
+%\titlespacing\subsubsection{8pt}{12pt plus 4pt minus 2pt}{-10pt plus 0pt minus 0pt}
+\titlespacing\subsubsection{0pt}{5pt}{0pt}
+\titlespacing\subsection{0pt}{5pt}{0pt}
+
+% Introduce a page break before each section
+\let\stdsection\section
+\renewcommand\section{\newpage\stdsection}
+
+%---------------------------------------------
+% Headers and Footers
+%---------------------------------------------
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\lhead{\docRefNumber{}}
+\chead{}
+\rhead{Revision \docIssue{}}
+\lfoot{\textcopyright2013 P\&P Software GmbH. All Rights Reserved.}
+\cfoot{\vspace{5mm}
+{\color{red}\verbatiminput{../commercial/LicensedTo.txt}}}
+\rfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%---------------------------------------------
+% Management of lists
+%---------------------------------------------
+\setlist{nolistsep}								% No extra vertical space around a list		
+\newenvironment{fw_itemize}						% Control spacing between items in a list
+{\begin{itemize}
+  \setlength{\itemsep}{1mm}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}}
+{\end{itemize}}
+
+\newenvironment{fw_enumerate}					% Control spacing between items in an enumeration
+{\begin{enumerate}
+  \setlength{\itemsep}{1mm}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}}
+{\end{enumerate}}
+
+\newenvironment{fw_description}					% Control spacing between items in a description
+{\begin{description}
+  \setlength{\itemsep}{1mm}
+  \setlength{\parskip}{5pt}			% Line spacing between paragraphs in an item
+  \setlength{\parsep}{0pt}}
+{\end{description}}
+
+%---------------------------------------------
+% Definition of colours
+%---------------------------------------------
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{light-gray}{gray}{0.85}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{lightblue}{RGB}{128,179,255}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+
+%---------------------------------------------
+% Define Environment for Requirement Tables 
+% Par #1: The string identifying the requirement category
+% Par #2: The table caption
+%---------------------------------------------
+\newenvironment{cr_req}[2]
+{%\hspace{0.0cm}\textbf{#2}\vspace{-10pt}
+\begin{longtable}{|l|p{9.8cm}|}
+\caption{#2} \\
+\hline
+\rowcolor{light-gray}
+\textbf{Req. ID} & \textbf{Requirement Text}\\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Req. ID} & \textbf{Requirement Text}\\
+\hline\hline
+\endhead
+\DTLforeach*[\DTLiseq{\cat}{#1}]{dbReq}{\cat=Category,\type=Type,\id=Id,\reqText=Text}
+{\DTLiffirstrow{}{\\\hline}\cat-\id/\type & \textit{\reqText}}\\\hline
+}
+{\end{longtable}}
+
+%---------------------------------------------
+% Define Environment for Adaptation Point Tables 
+% Par #1: The string identifying the category to which the AP applies
+% Par #2: The table caption
+%---------------------------------------------
+\newenvironment{cr_ap}[2]
+{%\hspace{0.0cm}\textbf{#2}\vspace{-10pt}
+\begin{longtable}{|l|p{4.7cm}|p{4.9cm}|}
+\caption{#2} \\
+\hline
+\rowcolor{light-gray}
+\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}\\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}\\
+\hline\hline
+\endhead
+\DTLforeach*[\DTLiseq{\cat}{#1}]{dbAP}{\cat=Category,\id=Id,\ap=AP,\defValue=DefValue}
+{\DTLiffirstrow{}{\\\hline}\cat-\id & \ap & \defValue}\\\hline
+}
+{\end{longtable}}
+
+%---------------------------------------------
+% Options for the code listing boxes
+%---------------------------------------------
+\lstset{ 
+  language=C,                % the language of the code
+  aboveskip=\bigskipamount,			% vertical space above listing box
+  belowskip=0pt,					% vertical space below listing box
+  basicstyle=\scriptsize\ttfamily,    % use small size and mono-space font
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+  stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{lbcolor},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{dkgreen},       % comment style
+  stringstyle=\color{mauve},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add a comment within your code
+  morekeywords={*,...}               % if you want to add more keywords to the set
+}
+%---------------------------------------------
+% Import tables with requirements and adaptation points
+%---------------------------------------------
+\DTLloaddb{dbAP}{CordetFwAP.csv}
+\DTLloaddb{dbReq}{CordetFwReq.csv}
+
+%---------------------------------------------
+% Pdf Properties
+%---------------------------------------------
+\hypersetup
+{
+    pdfauthor={Alessandro Pasetti, Vaclav Cechticky},
+    pdfsubject={This document defines the CORDET Framework},
+    pdftitle={The CORDET Framework},
+    pdfkeywords={Framework, UML, C-language, State Machine, Activity Diagrams, Embedded, Realtime}
+}
+
+%---------------------------------------------
+% Title Page
+%---------------------------------------------
+\title{\textsc{The CORDET Framework} \\ \textsc{- Definition -}}
+\author{Alessandro Pasetti \& Vaclav Cechticky}
+\date{Created on: \today{}, at: \currenttime{}}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+Revision \docIssue{}\\
+\docRefNumber{}
+\end{center}
+
+\vspace{1cm}
+
+\begin{center}
+P\&P Software GmbH \\
+High Tech Center 1 \\
+8274 T\"{a}gerwilen \\
+Switzerland \\
+\vspace{2mm}
+Web site: \url{www.pnp-software.com}\\
+E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-software.com}} 
+\end{center}
+
+\vspace{1.2cm}
+
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{p{11.7cm}}
+\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+\begin{abstract}
+This document specifies the CORDET Framework. The CORDET Framework is a software framework for service-oriented embedded applications. This document defines the service concept upon which the CORDET Framework is based and it specifies the components which implement this generic service concept. The components are specified by providing their behavioural models. The behavioural models are defined using the FW Profile.
+\par
+The service concept of the CORDET Framework is the same as the service concept of the “Packet Utilization Standard” or PUS. The PUS is an application-level interface standard for space-based distributed systems but is also suitable for generic embedded control systems and was therefore chosen as a basis for the CORDET Framework.
+\end{abstract}
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{p{11.7cm}}
+\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\newpage
+\vspace*{\fill}
+\begin{center}
+No part of this publication may be reproduced, transmitted, transcribed, stored in any retrieval system, or translated into any language by any means without express prior written permission of P\&P Software GmbH.
+\end{center}
+
+\begin{center}
+Copyright \textcopyright 2013 P\&P Software GmbH. All Rights Reserved. 
+\end{center}
+\vspace*{\fill}
+
+%---------------------------------------------
+% Table of Contents
+%---------------------------------------------
+\newpage
+\tableofcontents
+
+\newpage
+\listoffigures
+\listoftables
+
+\newpage
+
+%---------------------------------------------
+% Adjust distance between paragraphs (this cannot be done earlier or it also affects the TOC)
+%---------------------------------------------
+\setlength{\parskip}{3mm}						% Set distance between paragraphs
+
+%==========================================================================================
+\section{Change History}
+
+This section lists the changes made in the current revision. Changes are classified according to their type. The change type is identified in the second column in the table according to the following convention:
+
+\begin{fw_itemize}
+\item "\textbf{E}": Editorial or stylistic change
+\item "\textbf{L}": Clarification of existing text
+\item "\textbf{D}": A feature present in the previous revision has been deleted
+\item "\textbf{C}": A feature present in the previous revision has been changed
+\item "\textbf{N}": A new feature has been introduced
+\end{fw_itemize}
+
+\begin{longtable}{|p{1.5cm}|p{1cm}|p{8cm}|}
+\caption{Changes introduced in Revision \docIssue{}}  \\
+\hline
+\rowcolor{light-gray}
+\textbf{Section} & \textbf{Type} & \textbf{Description} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Section} & \textbf{Type} & \textbf{Description} \\
+\hline\hline
+\endhead
+5.1.2 & E & Minor editorial changes \\
+\hline
+5.2.1 & E & Fixed typo  \\
+\hline
+5.2.2 & C & Modified destination check in Packet Collect Procedure to match the description in the text; modified InStream State Machine to explicitly cater for a polling approach where command \texttt{PacketAvailable} is sent to check whether a packet has arrived. \\
+\hline
+6.2.2 & E & Minor editorial changes  \\
+\hline
+6.2.4 & E & Fixed typo in requirement IRP-3 \\
+\hline
+\end{longtable}
+
+\newpage
+
+%==========================================================================================
+\section{Introduction}
+This document specifies the CORDET Framework. The CORDET Framework is a software framework for service-oriented embedded applications. 
+
+In terms of the classical software lifecycle, the specification presented in this document is at the level of software requirements in the sense that it defines a complete and unambiguous logical model of the framework behaviour.
+
+The next two sub-sections define the concepts of software framework (sub-section \ref{sec:SwFwConcept}) and of service-oriented application (sub-section \ref{sec:ServConcept}). 
+The following sub-sections (from sub-section \ref{sec:ObjectivesOfCrFw} to sub-section \ref{sec:SpecFormat}) explain how the CORDET Framework supports the development of service-oriented applications. 
+Finally sub-section \ref{sec:Heritage} describes the heritage of the CORDET Framework.
+
+%----------------------------------------------------------------------------------------
+\subsection{Software Framework Concept}\label{sec:SwFwConcept} 
+\input{CrFwSwFwConcept.tex}
+
+%----------------------------------------------------------------------------------------
+\subsection{Service Concept}\label{sec:ServConcept} 
+\input{CrFwServConcept.tex}
+%----------------------------------------------------------------------------------------
+\subsection{Objectives of CORDET Framework}\label{sec:ObjectivesOfCrFw} 
+
+In general terms, the goal of the CORDET Framework is to foster software reusability in the development of service-oriented embedded control applications. 
+
+With a service-oriented concept, an application is specified in terms of the services it offers to other applications and of the services it needs from other applications and the services are in turn specified by the commands and reports which implement them.
+
+In this perspective, the CORDET Framework supports reusability in the following ways:
+
+\begin{fw_enumerate}
+\item{} It provides a formal definition of the abstract (implementation-independent) concept of commands and reports,
+\item{} It specifies the components (the CORDET Components) which implement the abstract command and report concepts and the CORDET Standard Services, and
+\item{} It allows services of general applicability for a specific domain to be pre-defined and to be available as building blocks for the development of applications in that domain.
+\end{fw_enumerate}
+
+Each of the above points is discussed in greater detail in a dedicated sub-section below. 
+
+\subsubsection{Definition of Command and Report Concepts}\label{sec:DefCmdRepConcepts}
+
+The first objective of the CORDET Framework is to provide a formal definition of the abstract command concept and of the abstract report concept. 
+
+This is done by building behavioural models of commands and of reports which:
+
+\begin{fw_enumerate}
+\item{} capture the aspects of the behaviour of commands and reports which is common to all commands and reports independently of the definition and implementation of a concrete command or report, and
+\item{} identify the adaptation points where service- and implementation-specific behaviour can be added.
+\end{fw_enumerate}
+
+An example may clarify the definition given above. 
+In section \ref{sec:CmdCondChecks}, the concept of Acceptance Check for commands is introduced. 
+An acceptance check is a check that is performed upon incoming commands to determine whether the command can be accepted or whether it should be rejected. 
+The abstract concept of command includes the following behavioural property: “an incoming command shall be considered for execution by a service provider only if it has passed its Acceptance Check”. 
+This property is part of the abstract command concept because it is common to all commands. 
+The content of the Acceptance Check (i.e. the type of check that is done on a specific incoming command) is, however, not part of the abstract command concept because it depends on the concrete service to which a command belongs.
+
+Thus, the behavioural model for commands must guarantee that a successful Acceptance Check is a pre-condition for the execution of a command and it must identify the content of the Acceptance Check as an adaptation point for the command.
+
+Note that the definition of an abstract command and report concept allows the specification of services to be standardized and it therefore is a precondition for the second and third objectives of the CORDET Framework. 
+
+The abstract command concept and the abstract report concept are defined in, respectively, sections \ref{sec:CmdConcept} and \ref{sec:RepConcept}.
+
+
+\subsubsection{Definition of CORDET Components}\label{sec:DefCrCmp}
+The second objective of the CORDET Framework is to specify the components which implement the abstract command and report concepts (the \textit{CORDET Components}). 
+These components are intended for deployment in service-oriented applications. 
+More specifically, the CORDET Components cover, on the service user side, the sending of commands and the reception and distribution of reports and, on the service provider side, the processing of incoming commands and the generation of reports.
+
+The CORDET Framework only specifies the CORDET Components but does not implement them. 
+The specification is, however, done using the FW Profile (see section \ref{sec:SpecFormat}) and it therefore consists of a complete behavioural model. 
+An implementation could in principle be automatically generated from the model. 
+
+The CORDET Framework defines the behavioural models for the service components. 
+Multiple implementations can be derived from these models. 
+All implementations are functionally equivalent (because they implement the same behavioural model) but they differ in the choice of implementation language, of implementation technology, or of other implementation-level aspects. 
+
+Note that the CORDET components are framework-level components. 
+Hence, application developers may have to specialize them further before using them. 
+Two approaches are possible in this respect: (a) the application takes over an existing implementation of the CORDET components and specializes them, or (b) the application specializes the models of the CORDET Framework and then implements the specialized models.
+
+\subsubsection{Definition of Standard Services}\label{sec:StdServ}
+The third objective of the CORDET Framework is to allow sets of \textit{standard services} to be defined. 
+These services are intended to cover functionalities which are common to applications within a certain domain. 
+The standard services are therefore offered as building blocks for the applications in that domain: 
+an application in the domain is specified and built as a combination of standard services (which are re-used) and application-specific services (which are developed for each specific application).
+
+The standard services are defined by defining their commands and reports and the commands and reports are defined as specializations of the abstract command and report concepts (see section \ref{sec:DefCmdRepConcepts}). 
+Thus, a standard service is defined by “closing” the adaptation points identified in the abstract command and report concepts.
+
+The CORDET Framework promotes a hierarchical definition of services as illustrated in figure \ref{fig:HierarchicalDefServ}. 
+At the top layer, there is the abstract definition of commands and reports. 
+This definition is entirely generic and applicable to all services in all application. 
+At the intermediate level, standard services are defined which capture concrete behaviour which is common to a large number of applications. 
+These standard services could be defined either by the CORDET Framework itself or by organizations which identify commonalities among the applications of interest to them. 
+Finally, at the bottom level, end-applications define their own services which are entirely specific to their needs. 
+The application-level services may be either taken over from the standard services or they may be created as instantiations of the generic service concept (if they are entirely application-specific).
+
+\begin{figure}[ht]
+ \centering
+ \includegraphics[scale=0.3,keepaspectratio=true]{HierarchicalDefServ.png}
+ \caption{Hierarchical Definition of Services}
+ \label{fig:HierarchicalDefServ}
+\end{figure}
+
+
+\subsubsection{Definition of CORDET Components}\label{sec:crComponents}
+The third objective of the CORDET Framework is to specify the components which implement the abstract command and report concepts and the standard services (the \textit{CORDET Components}). These components are intended for deployment in service-oriented applications. More specifically, the CORDET Components cover, on the service user side, the sending of commands and the reception and distribution of reports and, on the service provider side, the processing of incoming commands and the generation of reports.
+
+The CORDET Framework specifies the CORDET Components using the FW Profile (see section \ref{sec:SpecFormat}) and it therefore consists of a complete behavioural model.  
+
+The CORDET Framework defines the behavioural models for the service components. Multiple implementations can be derived from these models. All implementations are functionally equivalent (because they implement the same behavioural model) but they differ in the choice of implementation language, of implementation technology, or of other implementation-level aspects. 
+
+Note that the CORDET components are framework-level components. Hence, application developers may have to specialize them further before using them. Two approaches are possible in this respect: (a) the application takes over an existing implementation of the CORDET components and specializes them, or (b) the application specializes the models of the CORDET Framework and then implements the specialized models.
+
+%-----------------------------------------------------------------------------------
+\subsection{CORDET Support For Application Development}\label{sec:CrSupportForAppDev} 
+
+The CORDET Framework supports the development of a service-oriented application in the following ways:
+
+\begin{fw_enumerate}
+\item{} The framework standardizes the command and report concepts. 
+This allows a target application to be specified in terms of standardized features.  
+\item{} The framework specifies pre-defined components to implement the generic service concept. 
+This allows a target application to reuse these components.  
+\end{fw_enumerate}
+
+Note that the support described above is a specification-level reuse: the target application imports the specification of the standard services. 
+Thus, the CORDET Framework simplifies the specification of a target application because it allows that application to be specified in terms of standardized features and components.
+
+Obviously, organizations which have developed an implementation of the CORDET components or which are using a third-party implementation of the CORDET Components can extend the benefits of the CORDET approach also to the implementation level. Further benefits can be derived by applications which have defined - at specification and/or at implementation level - standard services which are useful in their domain of interest.
+
+%------------------------------------------------------------------------------------
+\subsection{Relationship To Packet Utilization Standard (PUS)}\label{sec:RelationshipToPUS}
+\input{CrFwRelationshipToPUS.tex}
+
+%-------------------------------------------------------------------------------------------
+\subsection{Middleware Layer}\label{sec:MwLayer} 
+\input{CrFwMwLayer.tex}
+
+%------------------------------------------------------------------------------------
+\subsection{Specification Format}\label{sec:SpecFormat} 
+
+This document specifies the CORDET Framework. 
+The framework is specified by defining its requirements. 
+The requirements of the framework are of four types:
+
+\begin{fw_itemize}
+\item{} \textit{Standard Requirements} which define a desired feature of the framework. 
+They are analogous in scope and format to the user requirements of an ordinary (non-framework) software application.
+\item{} \textit{Adaptation Requirement} which define the points where the framework behaviour can be extended by the application developers. 
+In some cases, the definition of an adaptation point is accompanied by the definition of the default options offered by the framework for that adaptation point.  
+\item{} \textit{Usage Constraint Requirements} which define the constraints on how the components offered by the framework may be used by application developers.
+\item{} \textit{Property Requirements} which define behavioural properties which are guaranteed to hold on all applications which: (a) are instantiated from the framework by closing its adaptation points, and (b) comply with the framework's usage constraints.
+\end{fw_itemize}
+
+To each framework requirement an \textit{identifier} is attached.
+The requirement identifier takes the following form: x-y/t where 'x' is an acronym identifying the function to which the requirement applies; 'y' is a unique identifier within that function; and 't' identifies the requirement type. 
+The type is designated by one single letter as follows: 'S' for the Standard Requirements, 'A' for the Adaptation Requirements, 'C' for the Usage Constraint Requirements and 'P' for the Property Requirements.
+
+The specification of the framework includes a \textit{behavioural model} of the framework which describes its behaviour and identifies the adaptation points where application developers can extend this behaviour to match their requirements.  
+
+The behavioural model of the framework is defined using the FW Profile of \cite{ref:fwprofile}. 
+It therefore consists of a set of \textit{state machines} (represented as state charts) and \textit{procedures} (represented as  activity diagrams). 
+Familiarity with the FW Profile is essential for a full understanding of the framework requirements.
+
+Wherever possible, the framework requirements simply make the state machines and procedures applicable. In other words, the state charts representing state machines and the activity diagrams representing procedures are treated as normative and no attempt is made to translate them into a comprehensive set of equivalent requirements.
+
+State machines and procedures normally imply certain behavioural properties. 
+For simplicity, properties which are inherent to a single state machine or procedure are not explicitly defined in dedicated property requirements. 
+Instead, a generic property requirement is stated which makes the state machine or procedure applicable. 
+The properties are also described in the informal description that accompanies the requirements.
+
+Property requirements are only stated explicitly when the property they enunciate arises from the interaction of several state machines or procedures. 
+In such cases, a formal verification of the property may also be offered. 
+This is normally done on a Promela model. 
+The Promela models used in this document are presented in appendix \ref{sec:VerModels}.
+
+In accordance with the FW Profile, the activity diagrams and state diagrams identify the framework adaptation points using the <<AP>> stereotype (but note that not all adaptation points are identified explicitly in activity or state diagrams). 
+For convenience, all adaptation points with their default options are listed in dedicated tables. 
+In most cases, the adaptation requirements simply make the items in such tables applicable. By default, the implementation mechanism for the adaptation points is left open and is not covered by this specification. 
+
+In some cases, requirements are formulated which constrain an adaptation point to be closed at compile time (i.e. the requirement mandates the static definition of the behaviour to be associated to the adaptation point and it forbids a situation where the application dynamically – at run-time – changes this behaviour). 
+ 
+Some of the components specified by the CORDET Framework are defined as extensions of other CORDET components. 
+In such cases, the extended component is derived from the base component by either \textit{overriding} or \textit{closing} some of its adaptation points. 
+A derived component overrides an adaptation point of its base component when it changes the default behaviour associated to that adaptation point (but applications can still change that behaviour). 
+A derived component closes an adaptation point of its base component when it defines in a final way the behaviour associated to that adaptation point (i.e. applications can no longer change that behaviour).
+
+%---------------------------------------------------------------------------------------
+\subsection{Heritage}\label{sec:Heritage}
+The service concept on which the CORDET Framework is based is the same as the service concept of the “Packet Utilization Standard” or PUS. 
+The PUS is specified in reference \cite{ref:pus} as an application-level interface standard for space-based applications. 
+In spite of its origin in the space industry, the PUS is suitable for a wider range of embedded control applications and was for this reason selected as a basis for the CORDET Framework. 
+
+The models of the CORDET Components are based on models defined in past research projects (see references \cite{ref:assert} and \cite{ref:cordet}) and on the OBS Framework Design Patterns (see reference \cite{ref:obs}). 
+
+An earlier version of the CORDET Framework was used as the basis for the definition and design of an industrial-quality framework for the diagnostic instruments of a major pharmaceutical company. The viability of the design patterns and concepts behind the CORDET Framework is therefore demonstrated at industrial level. 
+
+%=======================================================================================
+\section{Application Start-Up and Shut-Down}\label{sec:AppStartUpAndShutdown}
+
+This section defines the requirements applicable to the start-up and shutdown of an application instantiated from the CORDET Framework.
+
+The start-up process is divided into two stages: \textit{initialization} and \textit{configuration}. The initialization stage covers actions which are performed only at start-up time and which cannot be repeated until the application is shutdown. The configuration stage covers actions which are performed at start-up time but which may also be performed at a later stage if there is a need to reset either the entire application or a part of it. 
+
+In this document, the term \textit{shutdown} is used to designate the orderly shutdown of an application or component. Obviously, applications and components may also undergo an emergency shutdown. This is entirely uncontrolled and is not specified in any way by the CORDET Framework.
+
+The start-up and shutdown processes are specified at two levels: at the level of \textit{individual components} and at the level of the \textit{entire application} which are described in, respectively, sections \ref{sec:BaseCmp} and \ref{sec:AppStartUp}.
+
+Before they are initialized and configured, components must be \textit{instantiated}. Most components required by an application are instantiated as part of that application start-up (\textit{early component instantiation}). In some cases, components may need to be instantiated during the application's normal operation (\textit{late component instantiation}). The two forms of components instantation are discussed in section \ref{sec:CmpInst}.
+
+%---------------------------------------------------------------------------------
+\subsection{Component Instantiation}\label{sec:CmpInst}
+
+Components may be instantiated either \textit{early} or \textit{late}. Early instantiation takes place as part of the application start-up. This is required by the logic of the \textit{Application State Machine} of section \ref{sec:AppStartUp}.
+
+Late instantiation can take place at any time during the application's normal operation (i.e. while the \textit{Application State Machine} of section \ref{sec:AppStartUp} is in state NORMAL). 
+
+The CORDET Framework encapsulates the late instantiation of components in \textit{factory components}. More precisely, the CORDET Framework specifies that factory components be defined for all component types which may be instantiated during normal operation (see table \ref{tab:FactoryCmp}).
+
+The component instantiation process is entirely application-specific. 
+Hence, at framework level, factory components are defined exclusively in terms of their API. A factory component is a component which offers two operations: a \texttt{Make} operation to create an instance of a component of a certain type and a \texttt{Release} operation to reclaim a component instance of that type which is no longer needed within its host application.
+
+The \texttt{Make} operation takes as arguments the information required to instantiate and, possibly, initialize and/or configure the target component. The arguments of the \texttt{Make} operation therefore depend on the type of component to be instantiated by the factory.
+
+The \texttt{Make} operation can either fail or succeed. If it fails (perhaps because the available resources do not allow the creation of a new command instance), it returns nothing. If it succeeds, it returns a component instance of the specified kind. Depending on the allocation policy used internally in the factory, the instantiated component may be either in state CREATED, or in state INITIALIZED, or in state CONFIGURED (see section \ref{sec:BaseCmp}). It is then the responsibility of the host application to initialize and/or configure the instantiated component.
+
+Note that, if a failure of the \texttt{Make} operation represents an error, this must be handled by the user of the factory. The factory itself does not perform any error handling.
+
+The \texttt{Release} operation is provided for the case of applications which wish to manage a pool of pre-allocated component instances. The operation takes the component to be released as its argument. After the release operation has been called on a component instance, that component instance must not be used again by the application. 
+
+Table \ref{tab:FactoryCmp} lists all factory components pre-defined by the CORDET Framework. The requirements at the end of this section apply to all factory components. 
+Requirements which are specific to a particular kind of factory component are defined in dedicated sections in the remainder for this document (see last column of table \ref{tab:FactoryCmp}). 
+
+Applications may provide additional factory components if they need to instantiate application-specific components during normal operation.
+
+\begin{longtable}{|c|p{8cm}|c|}
+\caption{Factory Components Provided by CORDET Framework}\label{tab:FactoryCmp} \\
+\hline
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Purpose of Factory Components} & {Section}\\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Purpose of Factory Components} & {Section}\\
+\hline\hline
+\endhead
+OutFactory & Instantiation of OutComponents (components encapsulating an out-going command or report, see section \ref{sec:OutComponent}) & {\ref{sec:OutFactory}}\\
+\hline
+InFactory & Instantiation of InReports and InCommands (components encapsulating incoming reports and commands, see sections \ref{sec:InCommand} and \ref{sec:InReport}) & {\ref{sec:InFactory}}\\
+\hline
+\end{longtable}
+ 
+\begin{cr_ap}{FAC}{Adaptation Points for Factory Components}
+\end{cr_ap}
+\newpage
+\begin{cr_req}{FAC}{Requirements Applicable to Factory Components}
+\end{cr_req}
+
+%----------------------------------------------------------------------------
+\subsection{Component-Level Start-Up and Shutdown}\label{sec:BaseCmp}
+The start-up and shutdown process of a CORDET component is defined by the \textit{Base State Machine} of figure \ref{fig:BaseSM}. Its logic can be summarized as follows.
+
+\begin{figure}[ht]
+ \centering
+ \includegraphics[scale=0.3,keepaspectratio=true]{BaseSM.png}
+ \caption{Base State Machine}
+ \label{fig:BaseSM}
+\end{figure}
+
+Initially, after being instantiated, framework components are in state CREATED. 
+The hosting application is then expected to provide to each component the information it needs to perform its initialization. 
+The type of this information is component-specific. 
+After the necessary information has been provided, the application sends an \texttt{Init} command to the component. 
+The component responds by running its \textit{Initialization Procedure}. 
+This procedure is responsible for initializing the component and is defined in figure  \ref{fig:InitializationAndReset}. 
+
+The \textit{Initialization Procedure} is based on an \textit{Initialization Check} and an \textit{Initialization Action}. 
+Both the check and the action are adaptation points which must be defined for each individual component. 
+The Initialization Check normally checks that all parameters required for the component initialization have legal values. 
+The Initialization Action is only performed if the Initialization Check was successful. 
+This action normally creates all data structures required by the component and it performs other initialization actions as required. 
+The Initialization Action can either fail or succeed.
+
+The Initialization Procedure terminates in one single cycle with an outcome of either “Success” of “Failure”. 
+Only the “Success” outcome is nominal and leads to the component making a transition to state INITIALIZED.
+
+After successful initialization, the application provides to the component the information required to configure it and then sends a \texttt{Reset} command to it. 
+The component responds by running its \textit{Reset Procedure}. 
+This procedure is responsible for configuring the component and is defined in figure  \ref{fig:InitializationAndReset}.
+ 
+The \textit{Reset Procedure} is based on a \textit{Configuration Check} and a \textit{Configuration Action}. 
+Both the check and the action are adaptation points which must be defined for each individual componet. 
+The Configuration Check normally checks that all parameters required for the component configuration have legal values. 
+The Configuration Action is only performed if the Configuration Check was successful. 
+This action normally initializes the value of all data structures required by the component and it performs other configuration actions as required. 
+The Configuration Action can either fail or succeed.
+
+The Reset Procedure terminates in one single cycle with an outcome of either “Success” of “Failure”. 
+Only the “Success” outcome is nominal and leads to the component making a transition to state CONFIGURED.
+
+\begin{figure}[ht]
+ \centering
+ \includegraphics[scale=0.3,keepaspectratio=true]{InitializationAndReset.png}
+ \caption{Initialization and Reset Procedures}
+ \label{fig:InitializationAndReset}
+\end{figure}
+
+State CONFIGURED is the normal operational state of a component. 
+In this state, the component executes its \textit{Execution Procedure}. 
+This procedure must be entirely defined at application level. 
+
+A component can be reset at any time by sending it command \texttt{Reset}. 
+Nominally, this results in the component executing again its configuration actions and re-entering its CONFIGURED state. 
+However, if any of the component parameters are found to have non-nominal values or if any of the configuration actions fail, then the component makes a transition to state INITIALIZED. 
+This is a non-nominal situation.
+
+Thus, the distinction between initialization actions and configuration actions is that the former are actions that, nominally, are performed only once during the life of an application whereas the latter are actions which may be performed more than once.
+
+Note that there is no distinction between the actions that are performed when a component is configured for the first time during application start-up and the actions that are performed when a component is reset at run-time. 
+This is intentional because resetting a component should bring it to the same state in which it was when the application had completed its start-up.
+
+All framework components implement the behaviour defined by the \textit{Base State Machine}. In general, the “meaningful” behaviour of a framework component is defined within the CONFIGURED state. 
+This “meaningful” behaviour is defined either by implementing an \textit{Execution Procedure} or by embedding a state machine within the CONFIGURED state.
+
+Components are shut down by sending them command \texttt{Shutdown}. 
+This command results in the shutdown action being executed on the component. 
+Note that components can only be shutdown from state CONFIGURED.
+This is because the Shutdown operation models an orderly shutdown which should only be performed after an application has successfully completed its start-up. 
+
+All components provided by the CORDET Framework are guaranteed to implement the behaviour of the \textit{Base State Machine}. 
+Application developers will normally have to provide additional components implementing their own application-specific functionalities.
+The CORDET Framework is designed on the assumptions that these components, too, will implement the behaviour of the \textit{Base State Machine}.
+
+The tables at the end of this section list the adaptation points and the requirements applicable to the component start-up function.
+
+\begin{cr_ap}{BAS}{Adaptation Points for Component Start-Up}
+\end{cr_ap}
+
+\begin{cr_req}{BAS}{Requirements Applicable to Component Start-Up}
+\end{cr_req}
+ 
+%---------------------------------------------------------------------------------
+\subsection{Application-Level Start-Up and shutdown}\label{sec:AppStartUp}
+\input{CrFwAppStartUp.tex}
+
+
+\begin{cr_ap}{AST}{Adaptation Points for Application Start-Up}
+\end{cr_ap}
+
+\begin{cr_req}{AST}{Requirements Applicable to Application Start-Up}
+\end{cr_req}
+
+%===========================================================================
+\section{Command and Report Concept}\label{sec:CmdAndRepConcept}
+This section describes the command and report concept assumed by the CORDET Framework. 
+Based on these concepts, the next section will define the requirements applicable to the management of commands and reports by the CORDET Framework.
+
+This section considers commands and reports at the abstract level only (see section \ref{sec:DefCmdRepConcepts}). 
+The commanding and reporting models described here are therefore applicable to any command or report, irrespective of the specific service to which they belong or of the specific activities which the command triggers or of the specific information which the report carries. 
+Concrete commands and reports are defined by applications according to their needs. 
+These concrete commands and reports are defined as specializations of the generic command and report concepts described in the present section. 
+
+%---------------------------------------------------------------------------------
+\subsection{Command Concept }\label{sec:CmdConcept}
+\input{CrFwCmdConcept.tex}
+
+%---------------------------------------------------------------------------------
+\subsection{Report Concept }\label{sec:RepConcept}
+\input{CrFwRepConcept.tex}
+
+
+%===========================================================================
+\clearpage
+\section{Packet Interface}\label{sec:PcktInterface}
+
+CORDET applications interact with each other by exchanging commands and reports. Within an application, commands and reports are encapsulated in components but, when they travel from one application to another (over some communication channel which is provided by some middleware external to the applications themselves), they take the form of \textit{packets} (see section \ref{sec:MwLayer}). A report or command packet is an ordered sequence of bytes that contains all the information required to reconstruct a report or command. 
+
+Thus, the interface between two CORDET applications is packet-based. More precisely, an application needs an \textit{out-going interface} through which it can send to another application a packet representing a command or a report and it needs an \textit{incoming interface} through which it can receive from other applications packets representing commands or reports.  
+
+The CORDET Framework assumes that a middleware is present which offers \textit{physical connections} through which two applications can send packets to each other. A physical connection then is a data channel provided by a middleware and capable of transporting packets from one application to another application. 
+
+A CORDET system (namely a set of CORDET applications connected to each other by a middleware) builds a set of \textit{logical connections} on top of the physical connections offered by the middleware. A logical connection allows two applications A1 and A2 to exchange packets either directly through a physical connection linking A1 to A2 (in which case the logical connection coincides with a physical connection) or through a chain of other applications which are linked to each other and to A1 and A2 by physical connections. This is illustrated in figure \ref{fig:PhysicalAndLogicalConnections}. The figure shows a CORDET system consisting of four applications (yellow boxes in the figure). The applications are linked to each other by three physical connections (black lines in the figure). In this system, the following kinds of logical connections might, for instance, be defined:
+
+\begin{fw_enumerate}
+\item A logical connection between applications A and B which is built upon physical connection C1;
+\item A logical connection between applications B and D which is built upon physical connection C3;
+\item A logical connection between applications A and C which is built upon physical connections C1 and C2 and application B acting as re-routing node.
+\end{fw_enumerate}
+
+When a packet travels through an application en route to another application, it is said to be \textit{re-routed}. Packet re-routing is a function which is defined by the CORDET Framework and is therefore supported by default by CORDET Systems. In figure \ref{fig:PhysicalAndLogicalConnections} a packet travelling along a logical connection from application A to application C is re-routed by application B.
+
+This section specifies the interfaces through which applications send packets to and receive them from the middleware and it specifies the re-routing logic which allows applications to exchange packets even in the absence of a direct physical connection linking them. 
+
+\begin{figure}[ht]
+ \centering
+ \includegraphics[scale=0.45,keepaspectratio=true]{PhysicalAndLogicalConnections.png}
+ \caption{Physical And Logical Connections}
+ \label{fig:PhysicalAndLogicalConnections}
+\end{figure} 
+
+%---------------------------------------------------------------------------------
+\subsection{Middleware Assumptions}\label{sec:MwAssumptions}
+\input{CrFwMwAssumptions.tex} 
+
+%---------------------------------------------------------------------------------
+\subsection{Packet Interface Concept and Specification}\label{sec:PcktInterfaceConcept}
+
+The packet interface concept for CORDET applications is illustrated in figure \ref{fig:PcktInterfaceConcept} using an information notation.
+
+The management of the out-going packet interface is performed by one or more OutStream components. An OutStream component encapsulates an out-going interface through which packets are sent to a certain destination. An application has one OutStream component for each destination to which it may send packets.
+
+The management of the incoming packet interface is performed by an InStream component. An InStream component encapsulates the incoming interface through which an application receives packets from a certain packet source. An application has one InStream component for each source from which it may receive packets.
+
+Packets which are received by an InStream in application A and which have application A as their destination are made available to the internal components of application A. Packets which are received by an InStream in application A and which have an application other than A as their destination are instead re-routed. This means that they are handed over to an OutStream for forwarding to another application (either their final destination or another intermediate application on the way to their final destination).
+
+As an example, consider again the CORDET System of figure \ref{fig:PhysicalAndLogicalConnections} and consider first the case of a packet which is sent by application A to application B over connection C1. This packet is placed on connection C1 by an OutStream in application A and is received by an InStream in application B. Since the destination of the packet is application B itself, the InStream makes the packet available to the internal components of application B.
+
+Consider next the case of a packet which is sent by application A to application C and which must therefore be re-routed by application B. This packet is initially placed on connection C1 by an OutStream in application A and is received by an InStream in application B. This InStream recognizes that the packet destination is not B and therefore re-routes it by directly handing it over to an OutStream which places it on connection C2. At the other end of this connection, the packet is received by an InStream in application C which recognizes that the packet has arrived at its final destination and therefore makes it available to the internal components of application C. 
+
+\begin{figure}[ht]
+ \centering
+ \includegraphics[scale=0.40,keepaspectratio=true]{PcktInterfaceConcept.png}
+ \caption{Packet Interface Concept}
+ \label{fig:PcktInterfaceConcept}
+\end{figure}
+
+%---------------------------------------------------------------------------------
+\subsubsection{The OutStream Component}\label{sec:OutStream}
+\input{CrFwOutStream.tex}
+
+The logic of the \textit{OutStream State Machine} together with the assumptions made in section \ref{sec:OutGoingConnections} about out-going middleware connections guarantee the following properties:
+
+\begin{fw_itemize}
+\item[P1]{Packets are sent out in the order in which they are received.}
+\item[P2]{No packet is ever lost by an OutStream.}
+\item[P3]{There cannot be a permanent backlog of unsent packets.}
+\item[P4]{An OutStream never deadlocks.}
+\end{fw_itemize}
+
+Properties P1 and P2 are implicit to the OutStream logic. Property P1 is guaranteed because only the oldest packet from the Packet Queue is ever handed over to the middleware. Property P2 is guaranteed because a packet can only be lost if it is handed over to the middleware and the middleware fails to deliver. However, in this case, the packet remains enqueued and will be sent again.
+
+Properties P3 and P4 are verified on the Promela model of the OutStream presented in appendix \ref{sec:VerModels}. 
+
+\begin{cr_ap}{OST}{Adaptation Points for OutStream Component}
+\end{cr_ap}
+
+\begin{cr_req}{OST}{Requirements Applicable to OutStream Component}
+\end{cr_req}
+
+%---------------------------------------------------------------------------------
+\subsubsection{The InStream Component}\label{sec:InStream}
+\input{CrFwInStream.tex}
+
+\begin{cr_ap}{IST}{Adaptation Points for InStream Component}
+\end{cr_ap}
+
+\pagebreak[4]
+\begin{cr_req}{IST}{Requirements Applicable to InStream Component}
+\end{cr_req}
+
+%---------------------------------------------------------------------------------
+\subsubsection{The OutStreamRegistry Component}\label{sec:OutStreamRegistry}
+\input{CrFwOutStreamRegistry.tex}
+
+\begin{cr_ap}{OSR}{Adaptation Points for OutStreamRegistry Component}
+\end{cr_ap}
+
+\begin{cr_req}{OSR}{Requirements Applicable to OutStreamRegistry Component}
+\end{cr_req}
+
+
+%===========================================================================
+\section{Command And Report Management}\label{sec:CmdAndRepManagement}
+
+This section specifies the requirements applicable to the management of service commands and service reports. The specification is based on the command and report concept described in section \ref{sec:CmdAndRepConcept}. 
+
+The present section covers the management of abstract commands and reports. The requirements defined in this section are therefore applicable to any command or report, irrespective of the specific service to which they belong, or of the specific activities which a command triggers, or of the specific data which a report carries. Concrete commands and reports are defined in later parts of this document where the CORDET standard services are defined. These concrete commands and reports are defined as specializations of the generic command and report components defined in the present section. 
+
+The management of out-going commands and out-going reports is specified in sub-section \ref{sec:ManagementOfOutGoingCmdAndRep}. The management of incoming commands and reports is specified in sub-section \ref{sec:ManagementOfIncomingCmdAndRep}. Throughout this section, the term “component” is used to designate a component whose behaviour extends the behaviour of the Base State Machine of section \ref{sec:BaseCmp}. 
+
+%---------------------------------------------------------------------------------
+\subsection{Management of Out-Going Commands and Reports}\label{sec:ManagementOfOutGoingCmdAndRep}
+\input{CrFwManagementOfOutGoingCmdAndRep.tex} 
+
+The following sub-sections specify each component type involved in the management of out-going commands and reports with the exception of the OutStream component which was specified in section \ref{sec:OutStream}. 
+
+%---------------------------------------------------------------------------------
+\subsubsection{The OutComponent Component}\label{sec:OutComponent}
+\input{CrFwOutCmp.tex} 
+
+The tables at the end of this section lists the adaptation points and requirements of the OutComponent component. The “Acknowledge Level Attribute” adaptation point is only meaningful for out-going commands. In the case of OutComponents representing out-going reports, this adaptation point is therefore ignored.
+
+\begin{cr_ap}{OCM}{Adaptation Points for OutComponent Component}
+\end{cr_ap}
+
+\begin{cr_req}{OCM}{Requirements Applicable to OutComponent Component}
+\end{cr_req}
+
+%---------------------------------------------------------------------------------
+\subsubsection{The OutFactory Component}\label{sec:OutFactory}
+
+When an application needs to send a command or a report to another application, it must first create an instance of an OutComponent to encapsulate the out-going command or report. The OutFactory component encapsulates the instance creation process.
+
+The OutFactory component is a factory component in the sense of section \ref{sec:CmpInst}. As such it is subject to the general factory component requirements stated in that section. The present section defines the requirements which are specific to the OutFactory component.
+
+Like all factory components, the OutFactory component offers a \texttt{Make} operation. The \texttt{Make} operation takes as arguments the type, sub-type and discriminant value of the out-going command or report. It is recalled that these three attributes fully determine the format of the command or report instance (see sections \ref{sec:CmdAttributes} and \ref{sec:RepAttributes}. They therefore provide sufficient information to let the OutFactory create an unconfigured instance of the command or report.
+
+Depending on the allocation policy used internally in the OutFactory, the OutComponent component may be either in state CREATED, or in state INITIALIZED, or in state CONFIGURED. It is then the responsibility of the user application to initialize and/or configure the OutComponent.
+
+The \texttt{Make} operation of the OutFactory sets the values of the following attributes of the newly created command or report:
+\begin{fw_itemize}
+\item The service type, command or report sub-type, and discriminant are set according to the arguments of the Make operation.
+\item The identifier attribute is set to a value representing the number of command or report instances which the factory has created since it was initialized.
+\item The source attribute is set to the identifier of the host application.
+\end{fw_itemize}
+
+Thus, a command or report component which is returned by the OutFactory has valid and correct values for the following attributes: service type, command or report sub-type,  discriminant,  identifier, and source. Other attributes must be set as part of the command or report configuration by the host application. Note, however, that the time stamp is set by the OutLoader at the time the OutComponent is loaded in the OutManager (see next section) and the sequence counter is set by the OutStream directly on the out-going packet at the time the packet is handed over to the middleware (see section \ref{sec:OutStream}).
+
+The OutFactory component does not define any adaptation points in addition to those applicable to generic factory components (see section \ref{sec:CmpInst}). 
+
+\begin{cr_req}{OFT}{Requirements Applicable to OutFactory Component}
+\end{cr_req}
+
+%---------------------------------------------------------------------------------
+\subsubsection{The OutLoader Component}\label{sec:OutLoader}
+\input{CrFwOutLoader.tex}
+
+\begin{cr_ap}{OLD}{Adaptation Points for OutLoader Component}
+\end{cr_ap}
+
+\begin{cr_req}{OLD}{Requirements Applicable to OutLoader Component}
+\end{cr_req}
+
+\newpage
+%---------------------------------------------------------------------------------
+\subsubsection{The OutManager Component}\label{sec:OutManager}
+\input{CrFwOutManager.tex}
+
+\begin{cr_ap}{OMG}{Adaptation Points for OutManager Component}
+\end{cr_ap}
+
+\begin{cr_req}{OMG}{Requirements Applicable to OutManager Component}
+\end{cr_req}
+
+%---------------------------------------------------------------------------------
+\subsubsection{The OutRegistry Component}\label{sec:OutRegistry}
+\input{CrFwOutRegistry.tex}
+
+\begin{cr_ap}{ORG}{Adaptation Points for OutRegistry Component}
+\end{cr_ap}
+
+\begin{cr_req}{ORG}{Requirements Applicable to OutRegistry Component}
+\end{cr_req}
+
+%---------------------------------------------------------------------------------
+\subsection{Management of Incoming Commands and Reports}\label{sec:ManagementOfIncomingCmdAndRep}
+\input{CrFwManagementOfIncomingCmdAndRep.tex}
+
+The following subsections specify each component type involved in the processing of incoming commands or reports with the exception of the InStream component which was specified in section \ref{sec:InStream}. 
+
+%---------------------------------------------------------------------------------
+\subsubsection{The InFactory Component}\label{sec:InFactory}
+
+When an application receives a packet representing a command or a report from another application, it must first create an instance of an InCommand or InReport to encapsulate the incoming command or report. The InFactory component encapsulates the instance creation process.
+
+The InFactory component is a factory component in the sense of section \ref{sec:CmpInst}. As such it is subject to the general factory component requirements stated in that section. The present section defines the additional requirements specific to the InFactory component.
+
+Like all factory components, the InFactory component offers a \texttt{Make} operation. The \texttt{Make} operation takes as arguments the type, sub-type and discriminant value of the incoming command or report. It is recalled that these three attributes fully determine the format of the command or report instance (see sections \ref{sec:CmdAttributes} and \ref{sec:RepAttributes}). They therefore provide sufficient information to let the InFactory create an unconfigured instance of the command or report.
+
+Depending on the allocation policy used internally in the InFactory, the InCommand or InReport component may be either in state CREATED, or in state INITIALIZED, or in state CONFIGURED. It is then the responsibility of the user application to initialize and/or configure the InCommand or InReport.
+
+A command or report component which is returned by the InFactory has valid values for the following attributes: service type, command or report sub-type, and discriminant. All other attributes must be set as part of the command configuration which is performed under the control of the InLoader (see next section).
+
+The InFactory component does not define any adaptation points in addition to those applicable to generic factory components (see section \ref{sec:CmpInst}). 
+
+\begin{cr_req}{IFT}{Requirements Applicable to InFactory Component}
+\end{cr_req}
+
+
+%---------------------------------------------------------------------------------
+\subsubsection{The InLoader Component}\label{sec:InLoader}
+\input{CrFwInLoader.tex}
+
+\begin{cr_ap}{ILD}{Adaptation Points for InLoader Component}
+\end{cr_ap}
+
+\begin{cr_req}{ILD}{Requirements Applicable to InLoader Component}
+\end{cr_req}
+
+%---------------------------------------------------------------------------------
+\subsubsection{The InCommand Component}\label{sec:InCommand}
+\input{CrFwInCommand.tex}
+
+\begin{cr_ap}{ICM}{Adaptation Points for InCommand Component}
+\end{cr_ap}
+
+\begin{cr_req}{ICM}{Requirements Applicable to InCommand Component}
+\end{cr_req}
+
+%---------------------------------------------------------------------------------
+\subsubsection{The InReport Component}\label{sec:InReport}
+\input{CrFwInReport.tex}
+
+\begin{cr_ap}{IRP}{Adaptation Points for InReport Component}
+\end{cr_ap}
+
+\begin{cr_req}{IRP}{Requirements Applicable to InReport Component}
+\end{cr_req}
+
+%---------------------------------------------------------------------------------
+\subsubsection{The InManager Component}\label{sec:InManager}
+\input{CrFwInManager.tex}
+
+\begin{cr_ap}{IMG}{Adaptation Points for InManager Component}
+\end{cr_ap}
+
+\begin{cr_req}{IMG}{Requirements Applicable to InManager Component}
+\end{cr_req}
+
+%---------------------------------------------------------------------------------
+\subsubsection{The InRegistry Component}\label{sec:InRegistry}
+\input{CrFwInRegistry.tex}
+
+\begin{cr_ap}{IRG}{Adaptation Points for InRegistry Component}
+\end{cr_ap}
+
+\begin{cr_req}{IRG}{Requirements Applicable to InRegistry Component}
+\end{cr_req}
+
+
+\appendix
+%===========================================================================
+\section{Verification Models}\label{sec:VerModels}
+This section presents the models which have been used to formally verify some of the properties offered by the CORDET Framework. The verification models are written in Promela and the verification of the properties has been done using the Spin model checker.
+
+%---------------------------------------------------------------------------------
+\subsection{The OutStream Model}\label{sec:OutStreamModel}
+
+In section \ref{sec:OutStream}, four properties are defined on the OutStream. Two of these properties – properties P3 and P4 – are verified on the Promela model listed below. Note that the model is based on blocking middleware which is periodically polled for its availability. From a verification point of view, this is the most general case for the following reasons:
+\begin{fw_itemize}
+\item The case of a non-blocking middleware obviously represents a special case of a blocking middleware.
+\item The polling approach is more general than a call-back approach because a call-back approach implies that, when the middleware makes a transition from NOT\_AVAIL to AVAIL, then, eventually, operation \texttt{ConnectionAvailable} is called upon the OutCmdStream. A polling approach implies the same thing but, in addition, it also implies that operation \texttt{ConnectionAvailable} may be called when no transition from NOT\_AVAIL to AVAIL has taken place.
+\end{fw_itemize}
+Property P3 states that there never builds up a backlog of unsent packets in an OutStream. The verification of this property is based on a never claim. The never claim checks that the following LTL formula is always satisfied:
+
+\lstset{belowskip=-14pt} % Vertical space after listing
+\begin{lstlisting}
+	#define r	(mwState==AVAIL)
+	#define q	(outCmdStreamLock!=CMD_MNG)
+	#define s	(outCmdStreamPQ==EMPTY)
+	((<> [] q)  && (<> [] r)) -> ( (<> [] s) )
+\end{lstlisting}
+
+This formula can be expressed as follows: if the OutManagers stop making requests for fresh packet to be sent and if the middleware connection remains available, then the OutStream will eventually flush its packet queue. Note that this property only holds under conditions of weak fairness. 
+
+Property P4 states that the OutStream never deadlocks. This property is verified because the Promela model below has no invalid end states.
+
+The model verifies an additional property P5 which states that, at entry in state READY, the packet queue is always empty. This property is verified through an assertion.
+
+\lstset{belowskip=-1pt}	% Vertical space after listing
+\lstinputlisting{./VerificationModel/PollingOutCmdStream.pml}
+
+%---------------------------------------------------------------------------------
+\subsection{The InStream Model}\label{sec:InStreamModel}
+This section is still to be written (TBW).
+
+\newpage
+
+\begin{thebibliography}{6}
+
+\bibitem{ref:fwprofile} Alessandro Pasetti, Vaclav Cechticky:
+           {\sl The Framework Profile}. PP-DF-COR-00001, Revision 1.3,
+           P\&P Software GmbH, Switzerland, 2013, 
+           Available from: \url{www.pnp-software.com/fwprofile}
+
+\bibitem{ref:pus} European Cooperation for Space Standardization (ECSS):
+           {\sl ECSS, Ground Systems and Operations – Telemetry and Telecommand Packet Utilization Standard}. 
+           ECSS-E-70-41A, 30 January 2003,
+           ECSS Secretaria, ESA-Estec 
+
+\bibitem{ref:obs} OBS Framework Design Patterns, \url{www.pnp-software.com/ObsFramework/doc/indexDesignPatterns.html}
+
+\bibitem{ref:assert} Assert Project Web Site, \url{www.assert-project.net}
+
+\bibitem{ref:cordet} CORDET Project Web Site, \url{www.pnp-software.com/cordet}
+
+\end{thebibliography}
+
+\end{document}  
