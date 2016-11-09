@@ -266,6 +266,14 @@ CrFwSeqCnt_t CrFwInStreamGetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
+void CrFwInStreamSetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group, CrFwSeqCnt_t seqCnt)
+{
+	CrFwCmpData_t* inStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwInStreamData_t* cmpSpecificData = (CrFwInStreamData_t*)inStreamBaseData->cmpSpecificData;
+	cmpSpecificData->seqCnt[group] = seqCnt;
+}
+
+/*-----------------------------------------------------------------------------------------*/
 CrFwCounterU1_t CrFwInStreamGetNOfPendingPckts(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* inStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwInStreamData_t* cmpSpecificData = (CrFwInStreamData_t*)inStreamBaseData->cmpSpecificData;

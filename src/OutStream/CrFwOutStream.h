@@ -227,6 +227,17 @@ CrFwDestSrc_t CrFwOutStreamGetDest(FwSmDesc_t smDesc);
 CrFwSeqCnt_t CrFwOutStreamGetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group);
 
 /**
+ * Sets the value of the sequence counter for one of the groups
+ * maintained by an OutStream.
+ * The group identifier is passed as an argument to the function call.
+ * No check is performed on the validity of the group identifier.
+ * @param smDesc the descriptor of the OutStream State Machine.
+ * @param group the identifier of the group
+ * @param seqCnt the OutStream sequence counter
+ */
+void CrFwOutStreamSetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group, CrFwSeqCnt_t seqCnt);
+
+/**
  * Return the number of packets currently in the packet queue of an OutStream.
  * @param smDesc the descriptor of the OutStream State Machine.
  * @return the number of packets currently in the packet queue of the OutStream.
