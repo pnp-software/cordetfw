@@ -68,10 +68,10 @@ static CrFwCmpData_t inLoaderData;
 static CrFwInLoaderData_t inLoaderCmpSpecificData;
 
 /** Pointer to function which checks the legality of the packet destination. */
-static CrFwInLoaderGetReroutingDest_t getReroutingDest = CR_FW_INLOADER_DET_REROUTING_DEST
+static CrFwInLoaderGetReroutingDest_t getReroutingDest = CR_FW_INLOADER_DET_REROUTING_DEST;
 
 /** Pointer to function which selects the InManager. */
-static CrFwInLoaderGetInManager_t getInManager = CR_FW_INLOADER_SEL_INMANAGER
+static CrFwInLoaderGetInManager_t getInManager = CR_FW_INLOADER_SEL_INMANAGER;
 
 /**
  * Implement the logic of the InLoader Execution Procedure (see figure below).
