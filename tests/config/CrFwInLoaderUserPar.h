@@ -45,7 +45,7 @@
  * This function must conform to the prototype defined by <code>::CrFwInLoaderGetReroutingDest_t</code>.
  * The function specified here is the re-routing destination function used for the Test Suite.
  */
-#define CR_FW_INLOADER_DET_REROUTING_DEST CrFwInLoaderTestCaseGetReroutingDestination;
+#define CR_FW_INLOADER_DET_REROUTING_DEST CrFwInLoaderTestCaseGetReroutingDestination
 
 /**
  * The function which determines the InManager into which an InReport or InCommand must be loaded.
@@ -53,6 +53,6 @@
  * The function specified here is the default re-routing destination function defined in
  * <code>CrFwInLoader.h</code>.
  */
-#define CR_FW_INLOADER_SEL_INMANAGER CrFwInLoaderDefGetInManager;
+#define CR_FW_INLOADER_SEL_INMANAGER CrFwInLoaderDefGetInManager
 
 #endif /* CR_FW_INLOADER_USERPAR_H_ */
