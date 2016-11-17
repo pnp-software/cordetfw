@@ -3,3 +3,7 @@
 - The FwProfile is a product of P&P Software GmbH, @copyright P&P Software GmbH 
 - More information can be found on: http://pnp-software.com/cordetfw
 - Please don't hesitate to contact us if you would like to know more about FW Profile: pnp-software@pnp-software.com 
+
+The CORDET Framework and its C2 implementation are distributed in the hope that they will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.

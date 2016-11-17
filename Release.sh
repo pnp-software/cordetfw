@@ -63,7 +63,7 @@ then
     CF_PATH="."
 fi
 
-CC=gcc
+export CC=gcc
 
 OUT="./zip"
 OUT_DOCS="${OUT}/docs/"
@@ -92,21 +92,21 @@ echo "PDF Generation - User Manual"
  pdflatex -shell-escape -interaction=nonstopmode -halt-on-error UserManual.tex > latex_user_manual.log &&
  pdflatex -shell-escape -interaction=nonstopmode -halt-on-error UserManual.tex > latex_user_manual.log)
 cp ${CF_DOC}/um/UserManual.pdf ${OUT_DOCS}
-cp ${CF_DOC}/um/latex_user_manual.log ${OUT_LOG}
+#cp ${CF_DOC}/um/latex_user_manual.log ${OUT_LOG}
 
 echo "PDF Generation - CORDET FW Definition"
 (cd ${CF_DOC}/cordetfw &&
  pdflatex -shell-escape -interaction=nonstopmode -halt-on-error cordetfw.tex > latex_cordetfw.log &&
  pdflatex -shell-escape -interaction=nonstopmode -halt-on-error cordetfw.tex > latex_cordetfw.log)
 cp ${CF_DOC}/cordetfw/cordetfw.pdf ${OUT_DOCS}
-cp ${CF_DOC}/cordetfw/latex_cordetfw.log ${OUT_LOG}
+#cp ${CF_DOC}/cordetfw/latex_cordetfw.log ${OUT_LOG}
 
 echo "PDF Generation - User Requirements"
 (cd ${CF_DOC}/req &&
  pdflatex -shell-escape -interaction=nonstopmode -halt-on-error UserRequirements.tex > latex_req.log &&
  pdflatex -shell-escape -interaction=nonstopmode -halt-on-error UserRequirements.tex > latex_req.log)
 cp ${CF_DOC}/req/UserRequirements.pdf ${OUT_DOCS}
-cp ${CF_DOC}/req/latex_req.log ${OUT_LOG}
+#cp ${CF_DOC}/req/latex_req.log ${OUT_LOG}
 
 # ====================================================================================
 echo "Create Doxygen Documentation"
@@ -143,7 +143,7 @@ cp -a ${EXAMPLE_PATH}/CompileAndLinkS2.sh ${OUT}/examples/
 cp -ar ${EXAMPLE_PATH}/src/ ${OUT}/examples/
 
 ( cd ${OUT};
-  zip -r ./FWProfile_C1_Impl_${VERSION}_LGPLv3.zip .)
+  zip -r ./CordetFw_C2_Impl_LGPLv3_${VERSION}.zip .)
 
 # ====================================================================================
 
