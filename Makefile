@@ -36,11 +36,11 @@ run-test:
 
 coverage-info: coverage-cp $(GCOV)
 coverage-cp:
-	cp -r src/. bin/src/
+	@cp -r src/. bin/src/
 
 $(GCOV): $(ODIR)/%.gcov: %.c
 ifeq ($(CC), gcc)
-	@gcov -o $(shell dirname $@) $<
+	@gcov -b -o $(shell dirname $@) $<
 endif	
 
 clean:

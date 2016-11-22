@@ -17,7 +17,7 @@
 showHelp() {
     echo "Options: "
     echo "-v=, --version=        release version number"
-    echo "-e=, --examples=       path to the cordet-examples repository"
+    echo "-e=, --examples=       path to the cordetfw-examples repository"
     echo "-f=, --fwprofile=      path to the fwprofile repository"
     echo "-c=, --cordet=         path to the cordetfw repository, defaults to current directory"
     echo "-h, --help             this help text"
@@ -118,7 +118,28 @@ cp -ar ${CF_DOC}/doxygen/html ${OUT_DOCS}/doxygen
 # Redirect both stdout and stderr to the AcceptanceTestReport.log file
 echo "Run Release Acceptance Tests"
 (make clean;
- make test && make run-test && make coverage-info)
+ make test && make run-test)
+
+gcov -b -o ./bin/src/BaseCmp CrFwBaseCmp >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/BaseCmp CrFwDummyExecProc >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/BaseCmp CrFwInitProc >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/BaseCmp CrFwResetProc >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/InCmd CrFwInCmd >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/InFactory CrFwInFactory >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/InManager CrFwInManager >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/InLoader CrFwInLoader >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/InRegistry CrFwInRegistry >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/InRep CrFwInRep >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/InStream CrFwInStream >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/OutCmp CrFwOutCmp >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/OutFactory CrFwOutFactory >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/OutLoader CrFwOutLoader >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/OutManager CrFwOutManager >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/OutRegistry CrFwOutRegistry >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/OutStream CrFwOutStream >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/Pckt CrFwPcktQueue >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/UtilityFunctions CrFwUtilityFunctions >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/AppSm CrFwAppSm >> ${OUT_LOG}/CodeCoverage_Report.txt
 
 echo "Running valgrind..."
 valgrind --leak-check=yes ./bin/testsuite > ${OUT_LOG}/TestSuite_Valgrind_Report.txt 2>&1
@@ -126,7 +147,7 @@ valgrind --leak-check=yes ./bin/testsuite > ${OUT_LOG}/TestSuite_Valgrind_Report
 #echo "===================================================================================="
 echo "Extract the non-covered parts of the C2 Implementation code"
 #echo "===================================================================================="
-egrep -B 6 "####| 0%" *.c.gcov >> ${OUT_LOG}/CodeCoverage_Report.txt 2>&1
+egrep -B 9 "####| 0%" *.c.gcov >> ${OUT_LOG}/CodeCoverage_Report.txt 2>&1
  
 # ====================================================================================
 echo "Create Release Package"
@@ -137,9 +158,11 @@ cp -a ${CF_PATH}/Makefile ${OUT}
 cp -ar ${CF_PATH}/src ${OUT}
 cp -ar ${CF_PATH}/tests ${OUT}
 cp -ar ${FW_PATH}/src ${OUT}/lib/fwprofile
+cp -a ${EXAMPLE_PATH}/CompileAndLinkFw.sh ${OUT}/examples/
 cp -a ${EXAMPLE_PATH}/CompileAndLinkMa.sh ${OUT}/examples/
 cp -a ${EXAMPLE_PATH}/CompileAndLinkS1.sh ${OUT}/examples/
 cp -a ${EXAMPLE_PATH}/CompileAndLinkS2.sh ${OUT}/examples/
+cp -a ${EXAMPLE_PATH}/RunDemoApp.sh ${OUT}/examples/
 cp -ar ${EXAMPLE_PATH}/src/ ${OUT}/examples/
 
 ( cd ${OUT};
