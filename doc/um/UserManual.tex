@@ -9,8 +9,17 @@
 \usepackage{longtable}
 \usepackage{float}
 \usepackage[compact]{titlesec}		% The 'compact' argument reduces spacing before and after headings
-\usepackage{pdflscape}					% provides 'landscape mode' for selected pages
 
+% Start ---- Fix for bug in issue 2.10.1 of titlesec package
+\usepackage{etoolbox}
+
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+% End ---- Fix for bug in issue 2.10.1 of titlesec package
+
+\usepackage{pdflscape}					% provides 'landscape mode' for selected pages
 \usepackage{verbatim}
 \usepackage{fancyhdr}
 \usepackage{datatool}	% Management of external databases
@@ -44,8 +53,7 @@
 %---------------------------------------------
 % Definition of custom properties
 %---------------------------------------------
-\newcommand{\docIssue}{0.8}						% issue number
-\newcommand{\docDate}{22 November 2016}			% document date
+\newcommand{\docIssue}{0.8.1}						% issue number
 \newcommand{\docRefNumber}{PP-UM-COR-00002}		% document reference number
 
 %------------------------------------------------------------------------------------------
