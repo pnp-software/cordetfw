@@ -10,6 +10,15 @@
 \usepackage{float}
 \usepackage[compact]{titlesec}		% The 'compact' argument reduces spacing before and after headings
 
+% Start ---- Fix for bug in issue 2.10.1 of titlesec package
+\usepackage{etoolbox}
+
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+% End ---- Fix for bug in issue 2.10.1 of titlesec package
+
 \usepackage{verbatim}
 \usepackage{fancyhdr}
 \usepackage{datatool}	% Management of external databases
@@ -50,8 +59,7 @@
 %---------------------------------------------
 % Definition of custom properties
 %---------------------------------------------
-\newcommand{\docIssue}{1.6}						% issue number
-\newcommand{\docDate}{30 December 2015}			% document date
+\newcommand{\docIssue}{1.6.1}						% issue number
 \newcommand{\docRefNumber}{PP-DF-COR-00002}		% document reference number
 
 %---------------------------------------------
@@ -310,7 +318,23 @@ This section lists the changes made in the current revision. Changes are classif
 \end{fw_itemize}
 
 \begin{longtable}{|p{1.5cm}|p{1cm}|p{8cm}|}
-\caption{Changes introduced in Revision \docIssue{}}  \\
+\caption{Changes introduced in Revision 1.6.1}  \\
+\hline
+\rowcolor{light-gray}
+\textbf{Section} & \textbf{Type} & \textbf{Description} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Section} & \textbf{Type} & \textbf{Description} \\
+\hline\hline
+\endhead
+All & E & Fixed missing heading changes \\
+\hline
+\end{longtable}
+
+
+\begin{longtable}{|p{1.5cm}|p{1cm}|p{8cm}|}
+\caption{Changes introduced in Revision 1.6}  \\
 \hline
 \rowcolor{light-gray}
 \textbf{Section} & \textbf{Type} & \textbf{Description} \\

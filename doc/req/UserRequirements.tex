@@ -9,6 +9,16 @@
 \usepackage{longtable}
 \usepackage{float}
 \usepackage[compact]{titlesec}		% The 'compact' argument reduces spacing before/after headings
+
+% Start ---- Fix for bug in issue 2.10.1 of titlesec package
+\usepackage{etoolbox}
+
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+% End ---- Fix for bug in issue 2.10.1 of titlesec package
+
 \usepackage{verbatim}
 \usepackage{fancyhdr}
 \usepackage{parskip}
@@ -48,7 +58,7 @@
 %---------------------------------------------
 % Definition of custom properties
 %---------------------------------------------
-\newcommand{\docIssue}{0.7.0}						% issue number
+\newcommand{\docIssue}{0.7.1}						% issue number
 %\newcommand{\docDate}{30 December 2015}			% document date
 \newcommand{\docRefNumber}{PP-SP-COR-0002}		% document reference number
 

@@ -1,17 +1,23 @@
 #!/bin/bash
 # This script creates a release package for the C2 Implementation of the CORDET FW.
-# The data package is created in directory ~/Dump.
+# The data package is created in directory ./zip. This directory in particular
+# holds the delivery file as a single zip file. 
 #
-# The script should be run from the directory where the CORDET Scripts are located.
+# Prior to running this script, you should check out the following projects
+# from their repositories:
+# - The FW Profile Project
+# - The CORDET Framework Project
+# - The CORDET Framework Example Project
 #
 # This script performs the following actions:
-# 1. Checks out all FW Profile core, test suite, demo application and examples code, 
-# 2. Checks out all documentation sources 
+# 1. Deleted 
+# 2. Deleted 
 # 3. Generates PDF documentation from the Latex sources
-# 4. Updates the copyright note in the code sources
+# 4. Deleted
 # 5. Generates the doxygen documentation
-# 6. Run the release acceptance tests (RunAcceptanceTest.sh)
+# 6. Run the release acceptance tests 
 # 7. Creates the delivery file
+#
 #====================================================================================
 
 showHelp() {
