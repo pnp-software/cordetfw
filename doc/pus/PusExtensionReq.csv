@@ -1,0 +1,7 @@
+Category,Type,Id,Text,Implementation,Verification
+DP,S,1,The PUS Extension of the CORDET Framework shall provide a Data Pool component as an extension of the Base Component,The Application State Machine is implemented in \texttt{CrFwAppSm}. ,The behaviour of the Application State Machine is verified in table \ref{tab:verAppSM}. 
+DP,A,2,The Data Pool Component shall support the adaptation points specified in table \ref{tab:DP},,
+DP,S,3,"When it is configured, the Data Pool Component shall provide an operation to let other components access the current value of its data items ","This API is provided by functions \texttt{CrFwAppSmIsInStartUp}, \texttt{CrFwAppSmIsInNormal},  \texttt{CrFwAppSmIsInReset} and  \texttt{CrFwAppSmIsInShutdown}.",The state query functions are guaranteed to be verified because the Test Suite has 100\% statement coverage.
+DP,S,4,"When it is configured, the Data Pool Component shall provide an operation to let other components update the current value of its data items ","This API is provided by functions \texttt{CrFwAppSmIsInStartUp}, \texttt{CrFwAppSmIsInNormal},  \texttt{CrFwAppSmIsInReset} and  \texttt{CrFwAppSmIsInShutdown}.",The state query functions are guaranteed to be verified because the Test Suite has 100\% statement coverage.
+DP,S,5,The operations to get and update the current value of the data items shall use the Data Item Identifier to identify the data items whose value is to be read or updated,,
+DP,C,5,An application shall instantiate the Data Pool Component only once,,

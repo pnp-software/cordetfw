@@ -53,7 +53,7 @@
 % - Figures from CHEOPS Project
 % - Figures from FW Profile Project
 %------------------------------------------------------------------------------------------
-\graphicspath{ {../../images/} {../../../cr/images/} {../../../sm/images/} }	
+\graphicspath{ {../images/} }	
 
 %---------------------------------------------
 % Paragraph Layout
@@ -68,22 +68,7 @@
  %---------------------------------------------
 % Management of changes
 %---------------------------------------------
-\newcommand{\chg}[1]{{\color{black}{#1}}{}} 
-\newcommand{\chgAB}[1]{{\color{black}{#1}}{}} 	% Changes in version 1.2
-\newcommand{\chgB}[1]{{\color{black}{#1}}{}} 	% Changes in version 2
-\newcommand{\chgC}[1]{{\color{black}{#1}}{}} 	% Changes in version 3
-\newcommand{\chgCA}[1]{{\color{black}{#1}}{}} 	% Changes in imported event table
-\newcommand{\chgD}[1]{{\color{black}{#1}}{}} 	% Changes in version 4
-\newcommand{\chgDA}[1]{{\color{black}{#1}}{}} 	% Changes in version 4.1
-\newcommand{\chgE}[1]{{\color{black}{#1}}{}} 	% Changes in version 5
-\newcommand{\chgF}[1]{{\color{black}{#1}}{}} 	% Changes in version 6
-\newcommand{\chgFA}[1]{{\color{black}{#1}}{}} 	% Changes in version 6.1
-\newcommand{\chgFB}[1]{{\color{black}{#1}}{}} 		% Changes in version 6.2
-\newcommand{\chgFC}[1]{{\color{black}{#1}}{}} 		% Changes in version 6.3
-\newcommand{\chgFD}[1]{{\color{black}{#1}}{}} 		% Changes in version 6.4
-\newcommand{\chgG}[1]{{\color{black}{#1}}{}} 		% Changes in version 7
-\newcommand{\chgGA}[1]{{\color{black}{#1}}{}} 		% Changes in version 7.1
-\newcommand{\chgH}[1]{{\color{red}{#1}}{}} 		% Changes in version 8
+\newcommand{\chgB}[1]{{\color{red}{#1}}{}} 		% Changes in version 2
 
 %------------------------------------------------------------------------------------------
 % Management of Headings
@@ -114,7 +99,8 @@
 \rhead{Revision \docIssue{}}
 \lfoot{\textcopyright2014 P\&P Software GmbH. All Rights Reserved.}
 \cfoot{\vspace{5mm}
-%{\color{red}\verbatiminput{../commercial/LicensedTo.txt}}}
+%{\color{red}\verbatiminput{../commercial/LicensedTo.txt}}
+}
 \rfoot{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
@@ -169,8 +155,8 @@
 % Par #2: The table caption
 %---------------------------------------------
 \newenvironment{cr_req}[2]
-{
-\begin{longtable}{|l|p{10.4cm}|}
+{%\hspace{0.0cm}\textbf{#2}\vspace{-10pt}
+\begin{longtable}{|l|p{11.8cm}|}
 \caption{#2} \\
 \hline
 \rowcolor{light-gray}
@@ -181,127 +167,42 @@
 \textbf{Req. ID} & \textbf{Requirement Text}\\
 \hline\hline
 \endhead
-\DTLforeach*[\DTLiseq{\cat}{#1}]{dbReq}{\cat=Cat,\id=N,\type=Type,\ver=Ver,\reqText=Text}
-{\DTLiffirstrow{}{\\\hline}\cat-\id/\type\ver & \reqText}\\\hline
+\DTLforeach*[\DTLiseq{\cat}{#1}]{dbReq}{\cat=Category,\type=Type,\id=Id,\reqText=Text}
+{\DTLiffirstrow{}{\\\hline}P-\cat-\id/\type & \textit{\reqText}}\\\hline
 }
 {\end{longtable}}
 
 %---------------------------------------------
-% Define Environment for IASW Command Tables 
-% Par #1: The string identifying the cmd name
+% Define Environment for Adaptation Point Tables 
+% Par #1: The string identifying the category to which the AP applies
 % Par #2: The table caption
 %---------------------------------------------
-\newenvironment{ch_cmd}[2]
-{
-\begin{longtable}{|l|p{9.6cm}|}
-\caption{#2} \label{tab:#1} \\
+\newenvironment{cr_ap}[2]
+{%\hspace{0.0cm}\textbf{#2}\vspace{-10pt}
+\begin{longtable}{|l|p{4.7cm}|p{6.9cm}|}
+\caption{#2}\label{tab:#1} \\
 \hline
 \rowcolor{light-gray}
-\DTLforeach*{dbCmd}{\att=Attribute,\attValue=#1}
-{\DTLiffirstrow{}{\\\hline}\att & \attValue}\\\hline
-}
-{\end{longtable}}
-
-%---------------------------------------------
-% Define Environment for SEM Command Tables 
-% Par #1: The string identifying the cmd name
-% Par #2: The table caption
-%---------------------------------------------
-\newenvironment{sem_cmd}[2]
-{
-\begin{longtable}{|l|p{9.6cm}|}
-\caption{#2} \label{tab:#1} \\
-\hline
-\rowcolor{light-gray}
-\DTLforeach*{dbSemCmd}{\attSem=Attribute,\attValueSem=#1}
-{\DTLiffirstrow{}{\\\hline}\attSem & \attValueSem}\\\hline
-}
-{\end{longtable}}
-
-%---------------------------------------------
-% Define Environment for Report Tables 
-% Par #1: The string identifying the rep name
-% Par #2: The table caption
-%---------------------------------------------
-\newenvironment{ch_rep}[2]
-{
-\begin{longtable}{|l|p{9.6cm}|}
-\caption{#2} \label{tab:#1}\\
-\hline
-\rowcolor{light-gray}
-\DTLforeach*{dbRep}{\att=Attribute,\attValue=#1}
-{\DTLiffirstrow{}{\\\hline}\att & \attValue}\\\hline
-}
-{\end{longtable}}
-
-%---------------------------------------------
-% Define Environment for Parameter Tables 
-% Par #1: The string identifying the proc or algo name
-% Par #2: The table caption
-%---------------------------------------------
-\newenvironment{pa_par}[2]
-{
-\begin{longtable}{|c|l|>{\raggedright\arraybackslash}p{4.0cm}|p{5.0cm}|}
-\caption{#2} \label{tab:#1}\\
-\hline
-\rowcolor{light-gray}
-\textbf{N} & \textbf{Name} & \textbf{Description} & \textbf{Constraints} \\
+\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}\\
 \hline\hline
 \endfirsthead
 \rowcolor{light-gray}
-\textbf{N} & \textbf{Name} & \textbf{Description} & \textbf{Constraints} \\
+\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}\\
 \hline\hline
 \endhead
-\DTLforeach*[\DTLiseq{\paName}{#1}]{dbPar}{\paName=ProcAlgoName,\paN=ParN,\paPar=ParName,\paDesc=ParDesc,\paConst=ParConstraints}
-{\DTLiffirstrow{}{\\\hline}\paN & \texttt{\paPar} & \paDesc & \paConst}\\\hline
+\DTLforeach*[\DTLiseq{\cat}{#1}]{dbAP}{\cat=Category,\origin=Origin,\id=Id,\ap=AP,\defValue=DefValue}
+{\DTLiffirstrow{}{\\\hline}P-\cat-\id & \ap (\origin) & \defValue}\\\hline
 }
 {\end{longtable}}
 
 
 %---------------------------------------------
-% Options for the code listing boxes
-%---------------------------------------------
-\lstset{ 
-  language=C,                % the language of the code
-  aboveskip=\bigskipamount,			% vertical space above listing box
-  belowskip=0pt,					% vertical space below listing box
-  basicstyle=\scriptsize\ttfamily,    % use small size and mono-space font
-  numbers=left,                   % where to put the line-numbers
-  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
-  stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
-                                  % will be numbered
-  numbersep=5pt,                  % how far the line-numbers are from the code
-  backgroundcolor=\color{lbcolor},      % choose the background color. You must add \usepackage{color}
-  showspaces=false,               % show spaces adding particular underscores
-  showstringspaces=false,         % underline spaces within strings
-  showtabs=false,                 % show tabs within strings adding particular underscores
-  frame=single,                   % adds a frame around the code
-  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
-  tabsize=2,                      % sets default tabsize to 2 spaces
-  captionpos=b,                   % sets the caption-position to bottom
-  breaklines=true,                % sets automatic line breaking
-  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
-  title=\lstname,                   % show the filename of files included with \lstinputlisting;
-                                  % also try caption instead of title
-  keywordstyle=\color{blue},          % keyword style
-  commentstyle=\color{dkgreen},       % comment style
-  stringstyle=\color{mauve},         % string literal style
-  escapeinside={\%*}{*)},            % if you want to add a comment within your code
-  morekeywords={*,...}               % if you want to add more keywords to the set
-}
-%---------------------------------------------
 % Import tables with requirements and adaptation points
 %---------------------------------------------
-\DTLloaddb{dbServ}{CheopsServices.csv}
-\DTLloaddb{dbSemServ}{SemServices.csv}
-\DTLloaddb{dbSemCmd}{SemCmds.csv}
-\DTLloaddb{dbReq}{CheopsIaswReq.csv}
-\DTLloaddb{dbFail}{CheopsCmdFailCodes.csv}
-\DTLloaddb{dbEvt}{CheopsEvtRep.csv}
-\DTLloaddb{dbCmd}{CheopsCmds.csv}
-\DTLloaddb{dbRep}{CheopsReps.csv}
-\DTLloaddb{dbHkRep}{CheopsHkReps.csv}
-\DTLloaddb{dbPar}{CheopsAlgoProcPar.csv}
+\DTLloaddb{dbPus}{PusCompliance.csv}
+\DTLloaddb{dbAP}{PusExtensionAP.csv}
+\DTLloaddb{dbReq}{PusExtensionReq.csv}
+
 
 %---------------------------------------------
 % Pdf Properties
@@ -489,7 +390,7 @@ In terms of the classical software lifecycle, the specification presented in thi
 
 \textbf{This document assumes the reader to be familiar with the specification of the CORDET Framework in AD-1}. 
 
-\subsubsection{Scope of CORDET Framework}\label{sec:ScopeCrFw}
+\subsection{Scope of CORDET Framework}\label{sec:ScopeCrFw}
 A \textit{CORDET service} is a set of logically and functionally related capabilities that an application offers to other applications (see section 2.2 of AD-1). The CORDET Service concept sees an application as a \textit{provider of services} to other applications and as a \textit{user of services} from other applications (see figure \ref{fig:ServConcept}).
 
 \begin{figure}[ht]
@@ -520,7 +421,7 @@ Against this background, the CORDET Framework of AD-1 fulfils two objectives:
 The CORDET Components cover, on the service user side, the sending of commands and the reception and distribution of reports and, on the service provider side, the processing of incoming commands and the generation of reports but do not cover the implementation of any concrete services. 
 
 %--------------------------------------------------------------------------------
-\subsubsection{Scope of PUS Extension of CORDET Framework}\label{sec:ScopePusExt}
+\subsection{Scope of PUS Extension of CORDET Framework}\label{sec:ScopePusExt}
 Developers of a CORDET application are expected to deploy the CORDET components and complement them with application-specific components which implement the specific services of interest to them. The PUS extension of the CORDET Framework is intended to facilitate the task of application developers by offering them a set of pre-defined components which implement a set of \textit{Standard Services}. A standard service in this context is a service which implements commonly used functions within a certain domain. 
 
 The standard services of the PUS Extension are taken from the Packet Utilization Standard (PUS) of AD-3. The target domain of the PUS Extension is therefore that of space-borne service-provider applications but it is worth stressing that the set of services selected from the PUS are those which are least dependent on the space context and it is therefore expected that the services implemented by the PUS Extension may be of interest to other application domains.
@@ -596,64 +497,8 @@ Some of the components specified by the framework extension are defined as exten
 A derived component overrides an adaptation point of its base component when it changes the default behaviour associated to that adaptation point (but applications can still change that behaviour). 
 A derived component closes an adaptation point of its base component when it defines in a final way the behaviour associated to that adaptation point (i.e. applications can no longer change that behaviour).
 
-%------------------------------------------------------------------------------------
-\subsection{Command and Report Specification Format}\label{sec:CmdRepSpecFormat} 
-Much of the specification of the PUS Extension of the CORDET Framework consists in the specification of the commands and reports which implement the selected PUS services. The CORDET Framework specifies the model of a generic command and a generic report and the PUS extension specializes these generic models to match the needs of the commands and reports implementing the selected PUS services. The specialization is done by closing or overriding the adaptation points identified in the generic command and report models.
-
-The generic command and report model of the CORDET Framework defines a command or a report in terms of a set of \textit{attributes}, \textit{checks} and \textit{actions}.
-Commands and reports are accordingly specified through tables with a format like that of tables \ref{sec:inCmdProc} and \ref{sec:outCmpProc}. The tables list the attributes, checks and actions or, respectively, commands and reports and they provide a specification of how these must be implemented for a particular command or report.
-
-
-
-
-\begin{longtable}{|l|p{8.5cm}|}
-\hline
-\rowcolor{light-gray}
-Name & $<$\textit{Name of Command}$>$ \\
-\hline
-Description & $<$\textit{Brief description of command}$>$ \\
-\hline
-Parameters & $<$\textit{Specification of parameters to be attached to command}$>$ \\
-\hline
-Synt. Check & $<$\textit{Specification of command-specific part of syntactical check to be executed to determine acceptance or rejection of command}$>$ \\
-\hline
-Ready Check & $<$\textit{Specification of command's Ready Check}$>$\\
-\hline
-Start Action & $<$\textit{Specification of command's Start Action}$>$ \\
-\hline
-Progress Action & $<$\textit{Specification of command's Progress Action}$>$\\
-\hline
-\end{longtable}
-
-\begin{longtable}{{\raggedright\arraybackslash}p{4cm}|{\raggedright\arraybackslash}p{8cm}|}
-\caption{Command Specification Table}\label{tab:cmdSpec} \\
-\hline
-\rowcolor{light-gray}
-\textbf{N} &\textbf{Service} & \textbf{Section} \\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{N} &\textbf{Service} & \textbf{Section} \\
-\hline\hline
-\endhead
-Name & $<$\textit{Name of Command}$>$ \\
-\hline
-Description & $<$\textit{Brief description of command}$>$ \\
-\hline
-Parameters & $<$\textit{Specification of parameters to be attached to command}$>$ \\
-\hline
-Synt. Check & $<$\textit{Specification of command-specific part of syntactical check to be executed to determine acceptance or rejection of command}$>$ \\
-\hline
-Ready Check & $<$\textit{Specification of command's Ready Check}$>$\\
-\hline
-Start Action & $<$\textit{Specification of command's Start Action}$>$ \\
-\hline
-Progress Action & $<$\textit{Specification of command's Progress Action}$>$\\
-\hline
-\end{longtable} 
-
 %----------------------------------------------------------------------------------
-\section{Compliance to PUS Requirements}\label{sec:ComplianceToPus}
+\subsection{Compliance to PUS Requirements}\label{sec:ComplianceToPus}
 The PUS Extension of the CORDET Framework implements a subset of the standard PUS services of AD-3. In order to provide visibility over the level of compliance to the PUS requirements of AD-3, appendix \ref{sec:PusReqSOC} presents a statement of compliance to these requirements. This demonstrates that, for the selected services, the PUS Extension is fully compliance to the PUS requirements.
 
 
@@ -686,31 +531,40 @@ In practice, the data pool is the means through which a component can access dat
 This specification is similarly silent about the internal structure of data items and, in particular, it neither restricts them to be of primitive type nor does it mandate an array-like structure for them. Any such restrictions or options must be introduced at implementation level.
 
 %---------------------------------------------------------------------------------
-\section{Data Pool Behaviour}\label{sec:dpBehaviour}
+\subsection{Data Pool Behaviour}\label{sec:dpBehaviour}
 The Data Pool Component - like all other CORDET Components - is an extension of the Base Component of section 3.2 of AD-1. It does not add any behaviour to the Base Component but it specializes some of its adaptation points as described below.
 
-The Initialization Procedure of the Data Pool Components creates the data structures needed by the component. At one extreme, if an implementation chooses to locate all data items inside the Data Pool Component, then its Initialization Procedure is responsible for creating the data structures which host the data items. At the other extreme, in an implementation where data items remain located in their originating components and where the data pool only acts as a data switch-board, the Initialization Procedure does nothing and always returns "initialization successful".
+The Initialization Procedure of the Data Pool Components creates the data structures needed by the component. At one extreme, if an implementation chooses to locate all data items inside the Data Pool Component, then its Initialization Procedure is responsible for creating the data structures which host the data items. At the other extreme, in an implementation where data items remain located in their originating components and where the data pool only acts as a kind of data switch-board, the Initialization Procedure does nothing and always returns "initialization successful".
 
-When the Data Pool is reset, the current values of its data items are initialized with their default values. The Configuration Procedure is responsible for thus initializing the data item values. 
+When the Data Pool is reset, the current values of its data items are initialized with their default values. The Configuration Procedure is therefore responsible for initializing the data item values with their default values. 
 
 This specification does not say where the default values of the data items are stored in relation to their current values. At implementation level, two basic options are possible:
 
 \begin{fw_enumerate}
-\item The default values are stored alongside the current values
-\item The default values are stored in some other memory area (e.g. in a EEPROM or in a remote location)
+\item The default values are stored alongside the current values (i.e. in RAM)
+\item The default values are stored in some other memory area (e.g. in an EEPROM or in a remote location)
 \end{fw_enumerate}
 
-In the first case, the initialization of the data items simply involves a copy across two locations in RAM. in the second case, the initialization may be a potentially lengthy process involving the retrieval of the data items values from an external memory bank or from a remote location. The Data Pool Component covers both options and its Configuration Procedure is therefore defined as follows:
+In the first case, the initialization of the data items simply involves a copy across two locations in RAM. in the second case, the initialization may be a potentially lengthy process involving the retrieval of the data item values from an external memory bank or from a remote location. The Data Pool Component covers both options and its Configuration Procedure is therefore defined as follows:
 
 \begin{fw_itemize}
 \item The Configuration Action starts the process whereby the default values of the data items are acquired and copied to their current values
-\item The Configuration Check returns "success" if the initialization of the data item values can be done in zero logical time or else when the initialization has completed 
+\item The Configuration Check returns "success" if the initialization of the data item values can be done in zero logical execution time\footnote{The concept of \textit{logical execution time} is introduced in AD-2 as part of the FW Profile Definition. The logical execution time of a behaviour is the execution time of that behaviour on a processor with infinite speed and in the absence of pre-emption by higher-priority activities or blocking by lower-priority activities. Essentially, a behaviour has zero logical execution time if it includes neither "wait" operations nor synchronization operations with external devices or threads.} or else when the initialization has completed 
 \end{fw_itemize}
 
-Note that this logic implies that, in the case where the initialization of the data item values is not a zero logical time operation, then the Data Pool Component must be sent at least two Reset commands before it can enter the CONFIGURED state: the first Reset command starts the acquisition of the data item default values and the second Reset command verifies that their acquisition has been successful. Obviously, there is nothing to stop an application from using a "polling" approach and sending a sequence of Reset commands until the Data Pool Component has entered its CONFIGURED state.
+In the case where the initialization of the data item values is not an operation with zero logical execution time, then the Data Pool Component must be sent at least two \texttt{Reset} commands before it can enter the CONFIGURED state: the first \texttt{Reset} command starts the acquisition of the default values of the data items and the second \texttt{Reset} command verifies that the acquisition has terminated. Obviously, there is nothing to stop an application from using a "polling" approach and sending a sequence of \texttt{Reset} commands until the Data Pool Component has entered its CONFIGURED state. Note that, in line with requirements AST-5 and AST-7 in AD-1, it is the responsibility of the application to send as many \texttt{Reset} commands as needed to the Data Pool Component during the application start-up and application reset process.
 
+No behaviour is associated to the Data Pool Component when it is in state CONFIGURED and hence there is no need to define an Execution Procedure for it.
 
+Finally, the Data Pool Component offers operations to give read-write access to the current values of the data items. The mode of access to these values (through functions which returns pointers to the data items or through functions which return their values) is not specified and is left to the implementation to decide. Also, no limitation is specified on which components can access the data items in the data pool: any component can access any data item in read-write mode. Such limitations, if needed, may be added at implementation level. 
 
+The data item access operation use the Data Item Identifier as the key to identify the data item whose current value is to be read or updated. The behaviour of these operations in case an illegal identifier is used is not specified at framework level but it is noted that the design of the framework components is such that this situation (attempt to access a non-existent data item in the data pool) never arises. 
+
+\begin{cr_ap}{DP}{Adaptation Points for Data Pool Component}
+\end{cr_ap}
+\newpage
+\begin{cr_req}{DP}{Requirements for Data Pool Component}
+\end{cr_req}
 
 
 
@@ -721,7 +575,45 @@ Note that this logic implies that, in the case where the initialization of the d
 \appendix
 %=============================================================================================
 \section{PUS Requirements Compliance Matrix}\label{sec:PusReqSOC}
-So
+The table in this section presents the level of compliance achieved by the PUS Extension of the CORDET Framework to the PUS requirements of AD-1. The first two columns give the identifier and the text of the PUS requirement. The third column gives the compliance status which can be one of the following:
+
+\begin{fw_itemize}
+\item [C1]: The requirement is directly implemented by the PUS Extension of the CORDET Framework or by the CORDET Framework itself (i.e. applications instantiated from the framework are guaranteed to be compliant with the requirement)
+\item [C2]: The requirement may be implemented by applications instantiated from the PUS Extension of the CORDET Framework (i.e. applications instantiated from the framework may be made be compliant with the requirement)
+\item [NC]: The requirement is not compatible with the PUS Extension of the CORDET Framework (i.e. applications instantiated from the framework cannot be compliant with the requirement)
+\item [NA]: The requirement is not covered by the PUS Extension of the CORDET Framework
+\end{fw_itemize}
+
+In some cases, the compliance level is declared to be 'C1/C2' when part of the requirement is implemented by the PUS Extension of the CORDET Framework and part is left to the application developers.
+
+The fourth column in the table provides the following additional information:
+
+\begin{fw_itemize}
+\item [C1]: Traceability to the framework requirements implementing the PUS requirement 
+\item [C2]: Traceability to the adaptation point(s) where application developers can insert their own requirements to achieve compliance
+\item [NC]: Justification for non-compliance
+\item [NI]: Indication of whether the requirement might be covered in a future extension of the framework
+\end{fw_itemize}
+
+
+\begin{landscape} 
+
+\begin{longtable}{|c|>{\raggedright\arraybackslash}p{3.0cm}|>{\raggedright\arraybackslash}p{7cm}|c|>{\raggedright\arraybackslash}p{7cm}|}
+\caption{Mapping of PUS Requirements to CORDET Requirement}\label{tab:mappingPusToCr}\\
+\hline
+\rowcolor{light-gray}
+\textbf{N} & \textbf{Title} & \textbf{Requirement} & \textbf{C} & \textbf{Justification}  \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{N} & \textbf{Title} & \textbf{Requirement} & \textbf{C} & \textbf{Justification}  \\
+\hline\hline
+\endhead
+\DTLforeach*{dbPus}{\reqN=ReqN,\reqTitle=ReqTitle,\reqText=ReqText,\status=Status,\justification=Justification}
+{\DTLiffirstrow{}{\\\hline}\reqN & \reqTitle & \reqText & \status & \justification}\\\hline
+\end{longtable}
+
+\end{landscape}
 
 
 

@@ -1,0 +1,9 @@
+Category,Id,Origin,AP,DefValue
+DP,1,Overrides BAS-1,Initialization Check in Initialization Procedure of Data Pool Component,Return 'success' if there are adequate resources for creating the data structures for the data items 
+DP,2,Overrides BAS-2,Initialization Action in Initialization Procedure of Data Pool Component,Create the data structures required for the data items and return 'success' if creation was successful
+DP,3,Overrides BAS-3,Configuration Check in Reset Procedure of Data Pool Component,Return 'success' if current values of data items can be initialized with their default values in zero logical execution time or else return 'success' if initialization of current value of data items has completed
+DP,4,Overrides BAS-4,Configuration Action in Reset Procedure of Data Pool Component,Start initialization of current values of data items with their default values and return 'success' if the initialization has completed
+DP,5,Overrides BAS-5,Shutdown Action of Data Pool Component,Same value as in Base Component
+DP,6,Overrides BAS-6,Execution Procedure of Data Pool Component,Same value as in Base Component
+DP,7,New AP,Operation to access the Current Value of a Data Item,No default defined at framework level
+DP,8,New AP,Operation to update the Current Value of a Data Item,No default defined at framework level
