@@ -5,5 +5,6 @@ DP,3,Overrides BAS-3,Configuration Check in Reset Procedure of Data Pool Compone
 DP,4,Overrides BAS-4,Configuration Action in Reset Procedure of Data Pool Component,Start initialization of current values of data items with their default values and return 'success' if the initialization has completed
 DP,5,Overrides BAS-5,Shutdown Action of Data Pool Component,Same value as in Base Component
 DP,6,Overrides BAS-6,Execution Procedure of Data Pool Component,Same value as in Base Component
-DP,7,New AP,Operation to access the Current Value of a Data Item,No default defined at framework level
-DP,8,New AP,Operation to update the Current Value of a Data Item,No default defined at framework level
+DP,7,New AP,Definition of Data Items in the Data Pool Component,No default defined at framework level
+DP,8,New AP,Operation to access the Current Value of a Data Item,No default defined at framework level
+DP,9,New AP,Operation to update the Current Value of a Data Item,No default defined at framework level

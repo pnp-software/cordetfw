@@ -567,6 +567,34 @@ The data item access operation use the Data Item Identifier as the key to identi
 \end{cr_req}
 
 
+%=============================================================================================
+\section{The Request Verification Service}\label{sec:serv1}
+The service type of the Request Verification Service is 1. The PUS Extension of the CORDET Framework supports this service in full.
+
+The Request Verification Service is implemented by nine reports which a service provider application generates in response to the reception of a command. The framework extension provides nine components to encapsulate these nine reports. Since these components represent out-going reports, they are all implemented as extensions of the OutComponent component of the CORDET Framework. Table \ref{tab:serv1Comp} lists the nine reports defined by the Request Verification Service and the framework components which implement them.
+
+The verification reports are generated at various points in the processing life-cycle of an incoming command. The CORDET Framework defines adaptation points where the success or failure of a processing step of an incoming command is handled. The framework extension closes these adaptation points with behaviour which generates the verification reports. 
+
+
+
+\begin{longtable}{|c|>{\raggedright\arraybackslash}p{6.0cm}|>{\raggedright\arraybackslash}p{5.0cm}}
+\caption{Request Verification Service Components} \label{tab:serv1Comp}\\
+\hline
+\rowcolor{light-gray}
+\textbf{Type} & \textbf{PUS Report} & \textbf{Framework Component} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Type} & \textbf{PUS Report} & \textbf{Framework Component} \\
+\hline\hline
+\endhead
+TM(1,1) & Successful Acceptance Verification Report & VerAcceptSuccess \\
+\hline
+\end{longtable}
+
+
+
+
 
 
 
