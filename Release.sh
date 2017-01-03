@@ -117,7 +117,8 @@ cp ${CF_DOC}/req/UserRequirements.pdf ${OUT_DOCS}
 # ====================================================================================
 echo "Create Doxygen Documentation"
 (cd ${CF_DOC}/doxygen &&
-	doxygen $DOXYFILE > doxygen_generation.log)
+    cat $DOXYFILE | sed s_INPUT[\ ]*=_INPUT=${EXAMPLE_PATH}/src/_ | \
+    doxygen - > doxygen_generation.log)
 cp -ar ${CF_DOC}/doxygen/html ${OUT_DOCS}/doxygen
 
 # ====================================================================================
