@@ -8,3 +8,6 @@ DP,6,Overrides BAS-6,Execution Procedure of Data Pool Component,Same value as in
 DP,7,New AP,Definition of Data Items in the Data Pool Component,No default defined at framework level
 DP,8,New AP,Operation to access the Current Value of a Data Item,No default defined at framework level
 DP,9,New AP,Operation to update the Current Value of a Data Item,No default defined at framework level
+S1,,Overrides ILD-12,Operation to Report Packet Destination Invalid ,Run the Packet Re-Routing Failure Procedure
+,,Overrides ILD-14,Operation to Report Acceptance Failure,Run the Command Check Failure Procedure
+,,Overrides ILD-13,Operation to Report Acceptance Success,Run the Command Check Failure Procedure
