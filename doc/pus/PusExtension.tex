@@ -202,7 +202,7 @@
 %---------------------------------------------
 \newenvironment{cr_obs}[2]
 {
-\begin{longtable}{|l|p{10cm}|}
+\begin{longtable}{|l|p{9.5cm}|}
 \caption{#2}\label{tab:#1} \\
 \hline
 \rowcolor{light-gray}
@@ -214,7 +214,7 @@
 \hline\hline
 \endhead
 \DTLforeach*[\DTLiseq{\cat}{#1}]{dbObs}{\cat=Category,\name=Name,\desc=Desc}
-{\DTLiffirstrow{}{\\\hline}\name & \desc}\\\hline
+{\DTLiffirstrow{}{\\\hline}\texttt{\name} & \desc}\\\hline
 }
 {\end{longtable}}
 
@@ -429,7 +429,7 @@ The user of a service controls the service by sending \textit{commands} to the s
 The provider of a service sends \textit{reports} to the user of the service. A report is a data exchange between a service provider (the report initiator) and a service user to provide information relating to the execution of a service activity.
 
 Thus, a service consists of a set of commands which the user of the service sends to the provider of the service and of a set of reports which the service provider sends back to its user. A command defines actions to be executed by the service provider. 
-A report encapsulates information about the internal state of the service provider (see figure \ref{fig:ServCmdRep}).
+A report encapsulates information about the internal state of the service provider.
 
 Against this background, the CORDET Framework of AD-1 fulfils two objectives:
 
@@ -586,16 +586,21 @@ The data item access operation use the Data Item Identifier as the key to identi
 
 %---------------------------------------------------------------------------------
 \subsection{Service Observability Concept}\label{sec:servObsConcept}
-The data pool plays a key role in service 3 (see section \ref{sec:serv3} but it is also used by other services as the repository where service observables are located. Each service defines a number of data items which it is responsible for keeping up-to-date and which are intended to reflect its current status. These data items are assigned to the data pool which means that they can be accessed using service. Note that some of this service status information may also be accessible using service-specific reports (i.e. there may be a degree of redundancy in the observability of the service). 
+The data pool plays a key role in service 3 (see section \ref{sec:serv3}) but it is also used by other services as the repository where service observables are located. Each service defines a number of data items which the service is responsible for keeping up-to-date and which are intended to reflect its current status. These data items are assigned to the data pool which means that they can be accessed using service 3. Note that some of this service status information may also be accessible using service-specific reports (i.e. there may be a degree of redundancy in the observability of the service). 
 
 
 %---------------------------------------------------------------------------------
-\subsection{Requirements and Adaptation Points}\label{sec:dpReqAndAP}
-Tables \ref{tab:DP} and \ref{tab:Req-DP} list the adaptation points for the Data Pool Component and its requirements.
+\subsection{Adaptation Points}
+Table \ref{tab:DP} lists the adaptation points for the Data Pool Component.
 
 \begin{cr_ap}{DP}{Adaptation Points for Data Pool Component}
 \end{cr_ap}
+
+%---------------------------------------------------------------------------------
 \newpage
+\subsection{Requirements}
+Table \ref{tab:Req-DP} lists the requirements for the Data Pool Component.
+
 \begin{cr_req}{DP}{Requirements for Data Pool Component}
 \end{cr_req}
 
@@ -610,8 +615,8 @@ The verification reports are generated at various points in the processing life-
 
 \begin{fw_enumerate}
 \item \textit{Report Packet Destination Invalid} (Adaptation Point ILD-12 in the InLoader Execution Procedure): defines the action to be taken when an application receives a command or report which has a destination which is neither the application itself nor some other known application.
-\item \textit{Report Acceptance Failure} (Adaptation Point ILKD-14 in the InLoader Load Command/Report Procedure): defines the action to be taken when an incoming command has failed its acceptance check.
-\item \textit{Report Acceptance Success} (Adaptation Point ILKD-15 in the InLoader Load Command/Report Procedure): defines the action to be taken when an incoming command has passed its Acceptance Check and that command has requested acknowledgement of successful acceptance.
+\item \textit{Report Acceptance Failure} (Adaptation Point ILD-14 in the InLoader Load Command/Report Procedure): defines the action to be taken when an incoming command has failed its acceptance check.
+\item \textit{Report Acceptance Success} (Adaptation Point ILD-15 in the InLoader Load Command/Report Procedure): defines the action to be taken when an incoming command has passed its Acceptance Check and that command has requested acknowledgement of successful acceptance.
 \item \textit{Report Start Failed for InCommand} (Adaptation Point ICM-12 in the InCommand State Machine): defines the action to be taken when an incoming command has failed its Start Check.
 \item \textit{Report Start Successful for InCommand} (Adaptation Point ICM-13 in the InCommand State Machine): defines the action to be taken when an incoming command has passed its Start Check and that command has requested acknowledgement of successful start of execution.
 \item \textit{Report Progress Failed for InCommand} (Adaptation Point ICM-14 in the InCommand State Machine): defines the action to be taken when an incoming command has failed its Progress Check.
@@ -620,11 +625,11 @@ The verification reports are generated at various points in the processing life-
 \item \textit{Report Progress Successful for InCommand} (Adaptation Point ICM-17 in the InCommand State Machine): defines the action to be taken when an incoming command has passed its Termination Check and that command has requested acknowledgement of successful termination of execution.
 \end{fw_enumerate}
 
-The framework extension closes these adaptation points with behaviour which generates the service 1 verification reports. More precisely, point 1 corresponds to the situation where a packet cannot be re-routed, which, if the packet contains a command, is the situation where the PUS prescribes that a (1,10) report should be generated. Hence, the first adaptation point is closed by running the Packet Re-Routing Failure Procedure of figure TBD.
+The framework extension closes these adaptation points with behaviour which generates the service 1 verification reports. More precisely, point 1 corresponds to the situation where a packet cannot be re-routed, which, if the packet contains a command, is the situation where the PUS prescribes that a (1,10) report should be generated. The other points correspond to situations where an incoming command has either failed or passed one of its processing checks and they are therefore closed with the generation of the service 1 reports (1,1) to (1,8). 
 
-The other points above corresponds to the situation where an incoming command has either failed or passed one of its processing checks and they are therefore closed with the generation of the service 1 reports (1,1) to (1,8).
+Three procedures are defined to handle the creation, configuration and loading of the service 1 reports: (a) the Packet Rerouting Failure Procedure of figure TBD handles the (1,10) report; (b) the Command Verification Failure Procedure of figure TBD handles the failure reports; and (c) the Command Verification Success Procedure of figure TBD handles the success reports. The close-out of the adaptation points listed above consists in running one of these procedures. 
 
-The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The 'success' reports carry the packet identifier of the comment being verified. The 'failure' report carry, in addition to the packet identifier, a failure code and an undefined set of failure-related data. The framework extension restricts this flexibility by stipulating that: 
+The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The 'success' reports carry the packet identifier of the command being verified. The 'failure' report carry, in addition to the packet identifier, a failure code and an undefined set of failure-related data. The framework extension restricts this flexibility by stipulating that: 
 
 \begin{fw_itemize}
 \item The failure-related data consists of one single data item
@@ -634,6 +639,7 @@ The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The
 
 The choice of the concrete type of this data item (i.e. its size and syntactical type) is left to the implementation. 
 
+The transfer of the failure-related data item from the component where the command verification check is performed to the procedures of figures TBD to TBD is done via the data pool: the component performing the verification check determines the value of the failure-related data item and stores it in the data pool and the command verification procedure takes it from the data pool and puts it in the service 1 report.
 
 
 %---------------------------------------------------------------------------------
