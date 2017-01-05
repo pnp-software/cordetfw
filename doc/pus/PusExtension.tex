@@ -203,7 +203,7 @@
 \newenvironment{cr_obs}[2]
 {
 \begin{longtable}{|l|p{9.5cm}|}
-\caption{#2}\label{tab:#1} \\
+\caption{#2}\label{tab:Obs-#1} \\
 \hline
 \rowcolor{light-gray}
 \textbf{Name} & \textbf{Description}\\
@@ -226,6 +226,7 @@
 \DTLloaddb{dbAP}{PusExtensionAP.csv}
 \DTLloaddb{dbReq}{PusExtensionReq.csv}
 \DTLloaddb{dbObs}{PusExtensionObs.csv}
+\DTLloaddb{dbErr}{PusExtensionErr.csv}
 
 
 %---------------------------------------------
@@ -526,7 +527,93 @@ A derived component closes an adaptation point of its base component when it def
 The PUS Extension of the CORDET Framework implements a subset of the standard PUS services of AD-3. In order to provide visibility over the level of compliance to the PUS requirements of AD-3, appendix \ref{sec:PusReqSOC} presents a statement of compliance to these requirements. This demonstrates that, for the selected services, the PUS Extension is fully compliance to the PUS requirements.
 
 
+%=============================================================================================
+\section{Report and Command Attributes}\label{sec:repCmdAttr}
+The CORDET Framework defines a number of attributes for commands and reports. Table \ref{tab:pcktAttPus} shows how they are mapped to the command and report attributes defined by the PUS. In most cases, the mapping is straightforward but, in the case of the discriminant and of the APID, clarifications are in order which are provided in the next two sub-sections. 
 
+The PUS Extension of the CORDET Framework extends the range of command and report attributes to include all command and report attributes defined by the PUS. Thus, the components defined by the framework extension to implement PUS commands and reports provide operations to access all the attributes defined at PUS level. 
+
+Within the framework, commands and reports are handled as instances of components of type InReport (for incoming reports), InCommand (for incoming command), or OutComponent (for out-going commands and reports). Commands and reports arrive at and leave the framework throughthe OutStream and InStream components, which constitute the external interfaces of the framework. At these interfaces, commands and reports are instead encapsulated in packets (sequences of bytes which carry all the data in the report or command). In the framework extension, these packets are required to comply to the command and report layout defined by the PUS and the framework extension is required to provide operation to encode and decode the packets, i.e. to set and read the values of any PUS-defined parameter in a packet. 
+
+\begin{longtable}{|c|>{\raggedright\arraybackslash}p{11cm}|}
+\caption{CORDET-PUS Attribute Mapping}\label{tab:pcktAttPus} \\
+\hline
+\rowcolor{light-gray}
+\textbf{Attribute} & \textbf{Mapping to PUS Attribute} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Attribute} & \textbf{Mapping to PUS Attribute} \\
+\hline\hline
+\endhead
+\texttt{Src} & Commands: source field of data field header; Reports: PID \\
+\hline
+\texttt{Dest} & Commands: PID; Reports: destination field of data field header \\
+\hline
+\texttt{SeqCnt} & Sequence Count field in packet header \\
+\hline
+\texttt{CmdRepType} & Packet Type bit in packet header \\
+\hline
+\texttt{Length} & Related to Packet Length Field (which is the length of the packet data field minus 1) \\
+\hline
+\texttt{TimeStamp} & Time Field in data field header of telemetry packets; not present in telecommand packets \\
+\hline
+\texttt{Discriminant} & Service-specific mapping to parameter which determines command or report layout, see section \ref{sec:mapDisc} \\
+\hline
+\texttt{ServType} & Service Type field in data field header \\
+\hline
+\texttt{ServSubType} & Service Sub-Type field in data field header \\
+\hline
+\texttt{Group} & Related to CAT part of the APID, see section \ref{sec:mapGroup} \\
+\hline
+\texttt{CmdRepId} & Not present \\
+\hline
+\texttt{AcceptAck} & Bit 3 of acknowledge field in data field header \\
+\hline
+\texttt{StartAck} & Bit 2 of acknowledge field in data field header \\
+\hline
+\texttt{ProgressAck} & Bit 1 of acknowledge field in data field header \\
+\hline
+\texttt{TermAck} & Bit 0 of acknowledge field in data field header \\
+\hline
+\texttt{ParStart} & The parameter area starts where the Application Data starts, namely at the 11-th byte of a command packet and at the 17-th byte of a report packet \\
+\hline
+\texttt{ParLength} & The parameter length is the total packet length (in bytes) minus 10 for command packets and the total packet length (in bytes) minus 16 for report packets \\
+\hline
+\end{longtable}  
+
+
+%----------------------------------------------------------------------------------
+\subsection{Mapping of Discriminant Attribute}\label{sec:mapDisc}
+The CORDET discriminant is an optional attribute of a command or report. It is defined when the layout or the behaviour of a command or report are not exclusively determined by the command or report type and sub-type; in such cases, the discriminant becomes the determinant of the command or report layout and behaviour. The PUS does not have the concept of discriminant but some of its services use a particular field for the same purpose. For instance, the Event Identifier (EID) of service 5 reports determines the layout of a service 5 report and hence serves the same purpose as the CORDET discriminant. Similarly, some commands or reports carry variable-length blocks of data; in such cases, the parameter which defines the length of the data block acts as a discriminant. Bearing in mind these considerations, the discriminant is mapped to the following PUS parameters:
+
+\begin{fw_itemize}
+\item The SID for (3,25) reports
+\item The EID for service 5 reports
+\item TBD
+\end{fw_itemize}
+
+%----------------------------------------------------------------------------------
+\subsection{Mapping of Group Attribute}\label{sec:mapGroup}
+The CORDET Framework does not have the concept of APID but it uses the concept of group to represent it. More precisely, the CORDET Framework assigns sequence counters to commands and reports and assigns commands and reports going through an InStream or OutStream to 'groups'. The CORDET sequence counters are initialized to 1 and are incremented by 1 within each group (i.e. for each group in an OutStream, a counter is maintained which is incremented by 1 whenever a command or report belonging to that group is issued by the OutStream; and for each group in an InStream, a counter is maintained which is incremented by 1 whenever a command or report belonging to that group is received by the InStream). 
+
+The CORDET Framework requires that, for each destination for out-going commands or reports, an OutStream be defined and that, for each source of incoming commands or reports, an InStream be defined. 
+
+Bearing in mind the above, compliance with the PUS rules for the management of the sequence counters requires that the following rules be adopted for the assignment of the groups: 
+
+\begin{fw_itemize}
+\item If an application sends commands or reports to the same destination with different APIDs, then for each such APID, a group must be defined
+\item If an application receives commands or reports from the same source  with different APIDs, then for each such APID, a group must be defined
+\end{fw_itemize}
+
+
+%----------------------------------------------------------------------------------
+\subsection{Requirements}
+The table in this section lists the requirements for the command and report attributes.
+
+\begin{cr_req}{CRA}{Requirements for Command and Report Attributes}
+\end{cr_req}
+ 
 
 %=============================================================================================
 \section{The Data Pool Component}\label{sec:dp}
@@ -591,7 +678,7 @@ The data pool plays a key role in service 3 (see section \ref{sec:serv3}) but it
 
 %---------------------------------------------------------------------------------
 \subsection{Adaptation Points}
-Table \ref{tab:DP} lists the adaptation points for the Data Pool Component.
+The table in this section lists the adaptation points for the Data Pool Component.
 
 \begin{cr_ap}{DP}{Adaptation Points for Data Pool Component}
 \end{cr_ap}
@@ -599,11 +686,40 @@ Table \ref{tab:DP} lists the adaptation points for the Data Pool Component.
 %---------------------------------------------------------------------------------
 \newpage
 \subsection{Requirements}
-Table \ref{tab:Req-DP} lists the requirements for the Data Pool Component.
+The table in this section lists the requirements for the Data Pool Component.
 
 \begin{cr_req}{DP}{Requirements for Data Pool Component}
 \end{cr_req}
 
+%=============================================================================================
+\section{Report and Command Factories}\label{sec:repCmdFactories}
+Command and report components must be instantiated dynamically as the need arises to generate or process them. For this purpose, the CORDET Framework defines the OutFactory and InFactory components to encapsulate the instantiation process of, respectively, OutComponents and InCommands/InReports. Both kinds of components provide two operations: \texttt{Make} to create an instance of a command or report of a given kind (as given by the triplet [type, sub-type, discriminant]) and \texttt{Release} to release command or report instance.
+
+The CORDET Framework specifies the interface of the factory components but does not actually provide them because it does not provide any concrete command or report components. The framework extension provides concrete commands and reports and is therefore required to also provide implementations of the two factory components.
+
+The process through which the command and report components are created by the factories is not specified. In particular, the allocation policy for the memory for the instantiated components is left open for the implementation to decide.
+
+%---------------------------------------------------------------------------------
+\subsection{Observables}
+The table in this section lists the variables which are maintained and made accessible through the data pool by the two factory components.
+
+\begin{cr_obs}{FAC}{Data Items for Factory Components}
+\end{cr_obs}
+
+%---------------------------------------------------------------------------------
+\subsection{Adaptation Points}
+The Make and Release operations for the two factory components are adaptation points because the command and report instantiation policies are not defined at framework extension level. These two adaptation points are, however, already defined at CORDET Framework level (see adaptation points FAC-1 and FAC-2 in AD-1) and do not therefore need to be defined again here.
+
+Similarly, the factory components are defined in AD-1 as extension of the Base Component and they they therefore inherit all the adaptation points of the Base Components but no further specialization of these adaptation points in done in the framework extension.
+
+%---------------------------------------------------------------------------------
+\subsection{Requirements}
+The table in this section lists the requirements for the factory components.
+
+\begin{cr_req}{FAC}{Requirements for Factory Components}
+\end{cr_req}
+
+ 
 
 %=============================================================================================
 \section{The Request Verification Service}\label{sec:serv1}
@@ -667,7 +783,7 @@ Service 1 maintains and makes available in the data pool counters of the number 
 
 %---------------------------------------------------------------------------------
 \subsection{Service 1 Adaptation Points}\label{sec:serv1AP}
-Table \ref{tab:S1} lists the adaptation points for the request verification service.
+The table in this section lists the adaptation points for the request verification service.
 
 \begin{cr_ap}{S1}{Adaptation Points for Service 1 (Request Verification)}
 \end{cr_ap}
@@ -675,7 +791,7 @@ Table \ref{tab:S1} lists the adaptation points for the request verification serv
 
 %---------------------------------------------------------------------------------
 \subsection{Service 1 Requirements}\label{sec:serv1AP}
-Tables \ref{tab:Req-S1} lists requirements for the request verification service.
+The table in this section lists requirements for the request verification service.
 
 \begin{cr_req}{S1}{Requirements for Service 1 (Request Verification)}
 \end{cr_req}
@@ -690,6 +806,38 @@ Tables \ref{tab:Req-S1} lists requirements for the request verification service.
 
 \newpage
 \appendix
+%=============================================================================================
+\section{Error Reports}\label{sec:errRep}
+The table in this section lists all the error reports which are generated by the PUS Extension of the CORDET Framework. For each error report, the following information is provided:
+
+\begin{fw_itemize}
+\item The name of the error report
+\item The severity of the error using the same severity level defined for service 5 reports
+\item The description of the error report
+\item The parameters carried by the error report
+\end{fw_itemize}
+
+\begin{landscape} 
+
+\begin{longtable}{|l|c|>{\raggedright\arraybackslash}p{6.0cm}|>{\raggedright\arraybackslash}p{7cm}|c|>{\raggedright\arraybackslash}p{7cm}|}
+\caption{Error Reports}\label{tab:errRep}\\
+\hline
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Sev.} & \textbf{Description} & \textbf{Parameters}\\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Sev.} & \textbf{Description} & \textbf{Parameters}\\
+\hline\hline
+\endhead
+\DTLforeach*{dbErr}{\name=Name,\severity=Severity,\description=Description,\parameters=Parameters}
+{\DTLiffirstrow{}{\\\hline}\name & \severity & \description & \parameters}\\\hline
+\end{longtable}
+
+\end{landscape}
+
+
+
 %=============================================================================================
 \section{PUS Requirements Compliance Matrix}\label{sec:PusReqSOC}
 The table in this section presents the level of compliance achieved by the PUS Extension of the CORDET Framework to the PUS requirements of AD-1. The first two columns give the identifier and the text of the PUS requirement. The third column gives the compliance status which can be one of the following:

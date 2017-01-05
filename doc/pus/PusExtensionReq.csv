@@ -1,7 +1,15 @@
 Category,Type,Id,Text,Implementation,Verification
-DP,S,1,The PUS Extension of the CORDET Framework shall provide a Data Pool component as an extension of the Base Component,The Application State Machine is implemented in \texttt{CrFwAppSm}. ,The behaviour of the Application State Machine is verified in table \ref{tab:verAppSM}. 
+DP,S,1,The PUS Extension of the CORDET Framework shall provide a Data Pool component as an extension of the Base Component,,
 DP,A,2,The Data Pool Component shall support the adaptation points specified in table \ref{tab:DP},,
-DP,S,3,"When it is configured, the Data Pool Component shall provide an operation to let other components access the current value of its data items ","This API is provided by functions \texttt{CrFwAppSmIsInStartUp}, \texttt{CrFwAppSmIsInNormal},  \texttt{CrFwAppSmIsInReset} and  \texttt{CrFwAppSmIsInShutdown}.",The state query functions are guaranteed to be verified because the Test Suite has 100\% statement coverage.
-DP,S,4,"When it is configured, the Data Pool Component shall provide an operation to let other components update the current value of its data items ","This API is provided by functions \texttt{CrFwAppSmIsInStartUp}, \texttt{CrFwAppSmIsInNormal},  \texttt{CrFwAppSmIsInReset} and  \texttt{CrFwAppSmIsInShutdown}.",The state query functions are guaranteed to be verified because the Test Suite has 100\% statement coverage.
+DP,S,3,"When it is configured, the Data Pool Component shall provide an operation to let other components access the current value of its data items ",,
+DP,S,4,"When it is configured, the Data Pool Component shall provide an operation to let other components update the current value of its data items ",,
 DP,S,5,The operations to get and update the current value of the data items shall use the Data Item Identifier to identify the data items whose value is to be read or updated,,
 DP,C,5,An application shall instantiate the Data Pool Component only once,,
+CRA,S,1,Components encapsulating a command or a report shall implement all attributes defined for them by the PUS,,
+CRA,S,2,Components encapsulating a command or a report shall provide operations to access in read and write mode all their PUS-defined attributes,,
+CRA,S,3,The PUS Extension of the CORDET Framework shall provide operations to encode and decode any PUS-defined attribute in a packet carrying a command or report,,
+CRA,C,4,"If an application sends commands or reports to the same destination with different APIDs, then for each such APID, a CORDET Group shall be defined",,
+CRA,C,5,"If an application receives commands or reports from the same source  with different APIDs, then for each such APID, a CORDET group shall be defined",,
+FAC,S,1,The PUS Extension of the CORDET Framework shall provide an InFactory component capable of creating an instance of any of the command or report types defined by the framework,,
+FAC,S,2,The PUS Extension of the CORDET Framework shall provide an OutFactory component capable of creating an instance of any of the command or report types defined by the framework,,
+FAC,S,3,The two factory components shall maintain and make accessible through the data pool the observables listed in table \ref{tab:Obs-FAC},,

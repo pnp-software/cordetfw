@@ -1,4 +1,13 @@
 Category,Name,Desc
+FAC,nOfAllocatedInRep,Number of InReports which are currently allocated (i.e. which have been successfully created by the InFactory and not yet released)
+FAC,nOfAllocatedInCmd,Number of InCommands which are currently allocated (i.e. which have been successfully created by the InFactory and not yet released)
+FAC,nOfAllocatedOutCmp,Number of OutComponents which are currently allocated (i.e. which have been successfully created by the OutFactory and not yet released)
+FAC,nOfFailedInRep,Number of InReports whose creation by the InFactory failed
+FAC,nOfFailedInCmd,Number of InCommands whose creation by the InFactory failed
+FAC,nOfFailedOutCmp,Number of OutComponents whose creation by the OutFactory failed
+FAC,nOfTotAllocatedInRep,Number of InReports successfully created by the InFactory since application start
+FAC,nOfTotAllocatedInCmd,Number of InCommands successfully created by the InFactory since application start
+FAC,nOfTotAllocatedOutCmp,Number of OutComponents successfully created by the InFactory since application start
 S1,nOfAccFailed,Number of commands which have failed their acceptance check since the application was last reset
 S1,nOfStartFailed,Number of commands which have failed their Start Check since the application was last reset
 S1,nOfPrgrFailed,Number of commands which have failed their Progress Check since the application was last reset
