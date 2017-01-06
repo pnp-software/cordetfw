@@ -8,6 +8,29 @@ DP,6,Overrides BAS-6,Execution Procedure of Data Pool Component,Same value as in
 DP,7,New AP,Definition of Data Items in the Data Pool Component,No default defined at framework level
 DP,8,New AP,Operation to access the Current Value of a Data Item,No default defined at framework level
 DP,9,New AP,Operation to update the Current Value of a Data Item,No default defined at framework level
-S1,,Overrides ILD-12,Operation to Report Packet Destination Invalid ,Run the Packet Re-Routing Failure Procedure
-,,Overrides ILD-14,Operation to Report Acceptance Failure,Run the Command Check Failure Procedure
-,,Overrides ILD-13,Operation to Report Acceptance Success,Run the Command Check Failure Procedure
+S1,1,Closes ILD-12,Operation to Report Packet Destination Invalid ,Run the Packet Re-Routing Failure Procedure
+S1,2,Closes ILD-14,Operation to Report Acceptance Failure,Run the Command Verification Failure Procedure
+S1,3,Closes ILD-13,Operation to Report Acceptance Success,Run the Command Verification Success Procedure
+S1,4,Closes ICM-12,Operation to Report Start Failed for InCommand,Run the Command Verification Failure Procedure
+S1,5,Closes ICM-11,Operation to Report Start Successful for InCommand,Run the Command Verification Success Procedure
+S1,6,Closes ICM-10,Operation to Report Progress Failed for InCommand,Run the Command Verification Failure Procedure
+S1,7,Closes ICM-9,Operation to Report Progress Successful for InCommand,Run the Command Verification Success Procedure
+S1,8,Closes ICM-8,Operation to Report Termination Failed for InCommand,Run the Command Verification Failure Procedure
+S1,9,Closes ICM-7,Operation to Report Report Termination Successful for InCommand,Run the Command Verification Success Procedure
+S1,10,Overrides OCM-1,Initialization Check in Initialization Procedure of OutComponent,Same value as in OutComponent
+S1,11,Overrides OCM-2,Initialization Action in Initialization Procedure of OutComponent,Same value as in OutComponent
+S1,12,Overrides OCM-3,Configuration Check in Reset Procedure of OutComponent,Same value as in OutComponent
+S1,13,Overrides OCM-4,Configuration Action in Reset Procedure of OutComponent,Same value as in OutComponent
+S1,14,Overrides OCM-5,Shutdown Action in Base Component of OutComponent,Same value as in OutComponent
+S1,15,Closes OCM-7,Service Type Attribute of OutComponent,Service type is set to 1
+S1,16,Closes OCM-8,Command/Report Sub-Type Attribute of OutComponent,Report sub-type is in accordance with the type of verification report (1 to 8 or 10)
+S1,17,Overrides OCM-9,Destination Attribute of OutComponent,No default provided at framework level
+S1,18,Closes OCM-10,Acknowledge Level Attribute of OutComponent,All service 1 OutComponents are reports and therefore carry no acknowledge flags
+S1,19,Closes OCM-11,Discriminant Attribute of OutComponent,No discriminant attribute is defined for service 1 reports
+S1,20,Closes OCM-12,Parameter Attribute of OutComponent,Parameter values are as defined by the Packet Re-Routing Failure Procedure and by the Command Verification Procedures
+S1,21,Closes OCM-13,Enable Check Operation of OutComponent,Service 1 reports are always enabled
+S1,22,Closes OCM-14,Ready Check Operation of OutComponent,Service 1 reports are always ready
+S1,23,Closes OCM-15,Repeat Check Operation of OutComponent,Service 1 reports are never repeated
+S1,24,Closes OCM-16,Update Action of OutComponent,No action
+S1,25,Overrides OCM-17,Serialize Operation of OutComponent,No default defined at framework level
+S1,26,Closes OCM-18,Operation to Report Invalid Destination of an OutComponent,Generate SNDPCKT\_INV\_DEST Error Report 

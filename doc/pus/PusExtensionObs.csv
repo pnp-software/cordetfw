@@ -16,6 +16,7 @@ S1,nOfReroutingFailed,Number of commands for which re-routing failed
 S1,pcktIdAccFailed,Packet identifier of last command which failed its Acceptance Check
 S1,pcktIdStartFailed,Packet identifier of last command which failed its Start Check
 S1,pcktIdPrgrFailed,Packet identifier of last command which failed its Progress Check
+S1,prgrStep,Identifier of the step at which the progress check was last verified (either failed or succeeded)
 S1,pcktIdTermFailed,Packet identifier of last command which failed its Termination Check
 S1,pcktIdReroutingFailed,Packet identifier of last command for which re-routing failed
 S1,failCodeAccFailed,Failure code of last command which failed its Acceptance Check

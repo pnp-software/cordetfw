@@ -743,9 +743,9 @@ The verification reports are generated at various points in the processing life-
 
 The framework extension closes these adaptation points with behaviour which generates the service 1 verification reports. More precisely, point 1 corresponds to the situation where a packet cannot be re-routed, which, if the packet contains a command, is the situation where the PUS prescribes that a (1,10) report should be generated. The other points correspond to situations where an incoming command has either failed or passed one of its processing checks and they are therefore closed with the generation of the service 1 reports (1,1) to (1,8). 
 
-Three procedures are defined to handle the creation, configuration and loading of the service 1 reports: (a) the Packet Rerouting Failure Procedure of figure TBD handles the (1,10) report; (b) the Command Verification Failure Procedure of figure TBD handles the failure reports; and (c) the Command Verification Success Procedure of figure TBD handles the success reports. The close-out of the adaptation points listed above consists in running one of these procedures. 
+Three procedures are defined to handle the creation, configuration and loading of the service 1 reports: (a) the Packet Rerouting Failure Procedure of figure \ref{fig:PcktReroutingFail} handles the (1,10) report; (b) the Command Verification Failure Procedure of figure \ref{fig:CmdVerFail} handles the failure reports; and (c) the Command Verification Success Procedure of figure \ref{fig:CmdVerSucc} handles the success reports. The close-out of the adaptation points listed above consists in running one of these procedures. 
 
-The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The 'success' reports carry the packet identifier of the command being verified. The 'failure' report carry, in addition to the packet identifier, a failure code and an undefined set of failure-related data. The framework extension restricts this flexibility by stipulating that: 
+The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The 'success' reports carry the packet identifier of the command being verified. The 'failure' reports carry, in addition to the packet identifier, a failure code and an undefined set of failure-related data. The framework extension restricts this flexibility by stipulating that: 
 
 \begin{fw_itemize}
 \item The failure-related data consists of one single data item
@@ -755,12 +755,35 @@ The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The
 
 The choice of the concrete type of this data item (i.e. its size and syntactical type) is left to the implementation. 
 
-The transfer of the failure-related data item from the component where the command verification check is performed to the procedures of figures TBD to TBD is done via the data pool: the component performing the verification check determines the value of the failure-related data item and stores it in the data pool and the command verification procedure takes it from the data pool and puts it in the service 1 report.
 
+The transfer of the failure-related data item from the component where the command verification check is performed to the procedures of figures \ref{fig:PcktReroutingFail} to \ref{fig:CmdVerSucc} is done via the data pool: the component performing the verification check determines the value of the failure-related data item and stores it in the data pool and the command verification procedure takes it from the data pool and puts it in the service 1 report.
+
+The progress reports (1,5) and (1,6) also carry the identifier of the step being verified. A similar mechanism is used for the transfer of the step information: the component performing the verification check stores the identifier of the step being verified in the data pool and the command verification procedure takes it from the data pool and puts it in the service 1 report.
+
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.415,keepaspectratio=true]{CrPsPcktReroutingFail.png}
+ \caption{Packet Rerouting Failure Procedure}
+ \label{fig:PcktReroutingFail}
+\end{figure}
+
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmdVerFail.png}
+ \caption{Command Verification Failure Procedure}
+ \label{fig:CmdVerFail}
+\end{figure}
+
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmdVerSucc.png}
+ \caption{Command Verification Success Procedure}
+ \label{fig:CmdVerSucc}
+\end{figure}
 
 %---------------------------------------------------------------------------------
 \subsection{Service 1 Report Definition}\label{sec:serv1RepDef}
-In the CORDET Framework an out-going report is encapsulated in an OutComponent component. The framework extension offers nine components which are defined as extension of the OutComponent and which implement the nine reports supported by service 1:
+In the CORDET Framework an out-going report is encapsulated in an OutComponent component. The framework extension offers nine components which are defined as extensions of the OutComponent and which implement the nine reports supported by service 1:
 
 \begin{fw_itemize}
 \item Components VerSuccessAcc and VerFailedAcc implement reports (1,1) and (1,2) 
@@ -783,7 +806,7 @@ Service 1 maintains and makes available in the data pool counters of the number 
 
 %---------------------------------------------------------------------------------
 \subsection{Service 1 Adaptation Points}\label{sec:serv1AP}
-The table in this section lists the adaptation points for the request verification service.
+The table in this section lists the adaptation points for the request verification service. The following remarks apply: TBD.
 
 \begin{cr_ap}{S1}{Adaptation Points for Service 1 (Request Verification)}
 \end{cr_ap}
