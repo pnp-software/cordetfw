@@ -9,21 +9,18 @@ FAC,nOfTotAllocatedInRep,Number of InReports successfully created by the InFacto
 FAC,nOfTotAllocatedInCmd,Number of InCommands successfully created by the InFactory since application start
 FAC,nOfTotAllocatedOutCmp,Number of OutComponents successfully created by the InFactory since application start
 S1,nOfAccFailed,Number of commands which have failed their acceptance check since the application was last reset
-S1,nOfStartFailed,Number of commands which have failed their Start Check since the application was last reset
-S1,nOfPrgrFailed,Number of commands which have failed their Progress Check since the application was last reset
-S1,nOfTermFailed,Number of commands which have failed their Termination Check since the application was last reset
-S1,nOfReroutingFailed,Number of commands for which re-routing failed
-S1,pcktIdAccFailed,Packet identifier of last command which failed its Acceptance Check
-S1,pcktIdStartFailed,Packet identifier of last command which failed its Start Check
-S1,pcktIdPrgrFailed,Packet identifier of last command which failed its Progress Check
-S1,prgrStep,Identifier of the step at which the progress check was last verified (either failed or succeeded)
-S1,pcktIdTermFailed,Packet identifier of last command which failed its Termination Check
-S1,pcktIdReroutingFailed,Packet identifier of last command for which re-routing failed
 S1,failCodeAccFailed,Failure code of last command which failed its Acceptance Check
+S1,pcktIdAccFailed,Packet identifier of last command which failed its Acceptance Check
+S1,nOfStartFailed,Number of commands which have failed their Start Check since the application was last reset
 S1,failCodeStartFailed,Failure code of last command which failed its Start Check
+S1,pcktIdStartFailed,Packet identifier of last command which failed its Start Check
+S1,nOfPrgrFailed,Number of commands which have failed their Progress Check since the application was last reset
 S1,failCodePrgrFailed,Failure code of last command which failed its Progress Check
+S1,pcktIdPrgrFailed,Packet identifier of last command which failed its Progress Check
+S1,stepPrgrFailed,Step identifier of last command which failed its Progress Check
+S1,nOfTermFailed,Number of commands which have failed their Termination Check since the application was last reset
 S1,failCodeTermFailed,Failure code of last command which failed its Termination Check
-S1,failDataAccFailed,Failure-related data item of last command which failed its Acceptance Check
-S1,failDataStartFailed,Failure-related data item of last command which failed its Start Check
-S1,failDataPrgrFailed,Failure-related data item of last command which failed its Progress Check
-S1,failDataTermFailed,Failure-related data item of last command which failed its Termination Check
+S1,pcktIdTermFailed,Packet identifier of last command which failed its Termination Check
+S1,nOfReroutingFailed,Number of commands for which re-routing failed
+S1,pcktIdReroutingFailed,Packet identifier of last command for which re-routing failed
+S1,invDestRerouting,Destination of last command for which re-routing failed

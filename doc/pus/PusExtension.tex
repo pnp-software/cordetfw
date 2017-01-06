@@ -180,7 +180,7 @@
 \newenvironment{cr_ap}[2]
 {
 \begin{longtable}{|l|p{4.7cm}|p{6.9cm}|}
-\caption{#2}\label{tab:#1} \\
+\caption{#2}\label{tab:AP-#1} \\
 \hline
 \rowcolor{light-gray}
 \textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}\\
@@ -731,7 +731,7 @@ The verification reports are generated at various points in the processing life-
 
 \begin{fw_enumerate}
 \item \textit{Report Packet Destination Invalid} (Adaptation Point ILD-12 in the InLoader Execution Procedure): defines the action to be taken when an application receives a command or report which has a destination which is neither the application itself nor some other known application.
-\item \textit{Report Acceptance Failure} (Adaptation Point ILD-14 in the InLoader Load Command/Report Procedure): defines the action to be taken when an incoming command has failed its acceptance check.
+\item \textit{Report Acceptance Failure} (Adaptation Point ILD-14 in the InLoader Load Command/Rport Procedure): defines the action to be taken when an incoming command has failed its acceptance check.
 \item \textit{Report Acceptance Success} (Adaptation Point ILD-15 in the InLoader Load Command/Report Procedure): defines the action to be taken when an incoming command has passed its Acceptance Check and that command has requested acknowledgement of successful acceptance.
 \item \textit{Report Start Failed for InCommand} (Adaptation Point ICM-12 in the InCommand State Machine): defines the action to be taken when an incoming command has failed its Start Check.
 \item \textit{Report Start Successful for InCommand} (Adaptation Point ICM-13 in the InCommand State Machine): defines the action to be taken when an incoming command has passed its Start Check and that command has requested acknowledgement of successful start of execution.
@@ -741,30 +741,41 @@ The verification reports are generated at various points in the processing life-
 \item \textit{Report Progress Successful for InCommand} (Adaptation Point ICM-17 in the InCommand State Machine): defines the action to be taken when an incoming command has passed its Termination Check and that command has requested acknowledgement of successful termination of execution.
 \end{fw_enumerate}
 
-The framework extension closes these adaptation points with behaviour which generates the service 1 verification reports. More precisely, point 1 corresponds to the situation where a packet cannot be re-routed, which, if the packet contains a command, is the situation where the PUS prescribes that a (1,10) report should be generated. The other points correspond to situations where an incoming command has either failed or passed one of its processing checks and they are therefore closed with the generation of the service 1 reports (1,1) to (1,8). 
+The framework extension closes these adaptation points with behaviour which generates the service 1 verification reports. Point 1 corresponds to the situation where a packet cannot be re-routed, which if the packet contains a command, is the situation where the PUS prescribes that a (1,10) report should be generated. The other points correspond to situations where an incoming command has either failed or passed one of its processing checks and they are therefore closed with the generation of the service 1 reports (1,1) to (1,8). 
 
-Three procedures are defined to handle the creation, configuration and loading of the service 1 reports: (a) the Packet Rerouting Failure Procedure of figure \ref{fig:PcktReroutingFail} handles the (1,10) report; (b) the Command Verification Failure Procedure of figure \ref{fig:CmdVerFail} handles the failure reports; and (c) the Command Verification Success Procedure of figure \ref{fig:CmdVerSucc} handles the success reports. The close-out of the adaptation points listed above consists in running one of these procedures. 
+The close-out behaviour for the adaptation points is defined in table \ref{tab:AP-S1}. It consists of running a procedure which creates the service 1 report, configures it, and then loads it into the OutLoader. The creation is done by calling the \texttt{Make} operation of the OutFactory. This may fail if the OutFactory has run out of resources for new reports. In that case, error report OUTFACTORY\_FAIL is generated. Procedures which report failures also update the relevant observables (see section \ref{sec:serv1Obs}).
 
-The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The 'success' reports carry the packet identifier of the command being verified. The 'failure' reports carry, in addition to the packet identifier, a failure code and an undefined set of failure-related data. The framework extension restricts this flexibility by stipulating that: 
+The reports (1,5) and (1,6) report, respectively, the success and failure of a progress step. The CORDET Failure does not have the concept of "progress step". The framework extension implements it as follows:
 
 \begin{fw_itemize}
-\item The failure-related data consists of one single data item
-\item All failure report must carry the failure-related data
-\item If a failure report does not need failure-related data, then the failure-related data item is set to zero
+\item A return value of 'failed' for the Progress Action of the InCommand is interpreted as a progress step failure which triggers a (1,6) report. The value of the progress step must be provided by the progress action itself.
+\item A return value of 'continue' for the Progress Action of the InCommand may be interpreted as a progress step success which triggers a (1,5) report according to an application-specific logic to be inserted in adaptation point ICM-14 (Operation to Report Progress Failed for InCommand). 
 \end{fw_itemize}
 
-The choice of the concrete type of this data item (i.e. its size and syntactical type) is left to the implementation. 
+Note that the second bullet implies that the adaptation point ICM-14 cannot be closed but must instead remain open so that applications may decide the conditions under which a progress action has completed a step.
 
+The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The 'success' reports carry the packet identifier of the command being verified. The 'failure' reports carry, in addition to the packet identifier, a failure code and an undefined set of failure-related data. The framework extension restricts this flexibility by stipulating that the failure-related data consist of the triplet [type,sub-type,discriminant] for the command being verified.
 
-The transfer of the failure-related data item from the component where the command verification check is performed to the procedures of figures \ref{fig:PcktReroutingFail} to \ref{fig:CmdVerSucc} is done via the data pool: the component performing the verification check determines the value of the failure-related data item and stores it in the data pool and the command verification procedure takes it from the data pool and puts it in the service 1 report.
-
-The progress reports (1,5) and (1,6) also carry the identifier of the step being verified. A similar mechanism is used for the transfer of the step information: the component performing the verification check stores the identifier of the step being verified in the data pool and the command verification procedure takes it from the data pool and puts it in the service 1 report.
 
 \begin{figure}[htbp]
  \centering
  \includegraphics[scale=0.415,keepaspectratio=true]{CrPsPcktReroutingFail.png}
  \caption{Packet Rerouting Failure Procedure}
  \label{fig:PcktReroutingFail}
+\end{figure}
+
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.415,keepaspectratio=true]{CrPsPcktAccFail.png}
+ \caption{Packet Acceptance Failure Procedure}
+ \label{fig:PcktAccFail}
+\end{figure}
+
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmdVerSucc.png}
+ \caption{Command Verification Success Procedure}
+ \label{fig:CmdVerSucc}
 \end{figure}
 
 \begin{figure}[htbp]
@@ -776,10 +787,18 @@ The progress reports (1,5) and (1,6) also carry the identifier of the step being
 
 \begin{figure}[htbp]
  \centering
- \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmdVerSucc.png}
- \caption{Command Verification Success Procedure}
- \label{fig:CmdVerSucc}
+ \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmdPrgrSucc.png}
+ \caption{Command Progress Success Procedure}
+ \label{fig:CmdPrgrSucc}
 \end{figure}
+
+\begin{figure}[htbp]
+ \centering
+ \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmdPrgrFail.png}
+ \caption{Command Progress Failure Procedure}
+ \label{fig:CmdPrgrFail}
+\end{figure}
+
 
 %---------------------------------------------------------------------------------
 \subsection{Service 1 Report Definition}\label{sec:serv1RepDef}
@@ -798,7 +817,7 @@ These components are defined by the way they close the adaptation points of the 
 
 %---------------------------------------------------------------------------------
 \subsection{Service 1 Observables}\label{sec:serv1Obs}
-Service 1 maintains and makes available in the data pool counters of the number of commands which have been rejected at each stage of the command processing cycle and a counter of the number of commands which could not be re-routed. These counters are initialized to zero when the application is initialized and are never reset afterwards. Additionally, copies of the failure code and failure-related data used in the most recently issued failure reports are also maintained and made available in the data pool. Table \ref{tab:OBS-S1} lists the full set of data pool data items which are maintained by service 1.
+Service 1 maintains and makes available in the data pool various information related to the generation of the failure reports. No information related to the generation of the success reports is maintained because these reports are optional and the conditions under which they are generated depend on the setting of the verification acknowledge flags which are under external control (they are set by the user of a service). Table \ref{tab:Obs-S1} lists the full set of data pool data items which are maintained by service 1.
 
 \begin{cr_obs}{S1}{Data Items for Service 1 (Request Verification)}
 \end{cr_obs}
@@ -806,7 +825,13 @@ Service 1 maintains and makes available in the data pool counters of the number 
 
 %---------------------------------------------------------------------------------
 \subsection{Service 1 Adaptation Points}\label{sec:serv1AP}
-The table in this section lists the adaptation points for the request verification service. The following remarks apply: TBD.
+The table in this section lists the adaptation points for the request verification service. The following remarks apply: 
+
+\begin{fw_itemize}
+\item Service 1 reports are generated unconditionally and hence their enable check always returns 'report enabled'.
+\item Service 1 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
+\item Service 1 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
+\end{fw_itemize}
 
 \begin{cr_ap}{S1}{Adaptation Points for Service 1 (Request Verification)}
 \end{cr_ap}
