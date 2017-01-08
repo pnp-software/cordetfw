@@ -24,7 +24,7 @@ S1,13,Overrides OCM-4,Configuration Action in Reset Procedure of OutComponent,Sa
 S1,14,Overrides OCM-5,Shutdown Action in Base Component of OutComponent,Same value as in OutComponent
 S1,15,Closes OCM-7,Service Type Attribute of OutComponent,Service type is set to 1
 S1,16,Closes OCM-8,Command/Report Sub-Type Attribute of OutComponent,Report sub-type is in accordance with the type of verification report (1 to 8 or 10)
-S1,17,Overrides OCM-9,Destination Attribute of OutComponent,No default provided at framework level
+S1,17,Closes OCM-9,Destination Attribute of OutComponent,The destination is set to be equal to the source of the command being verified
 S1,18,Closes OCM-10,Acknowledge Level Attribute of OutComponent,All service 1 OutComponents are reports and therefore carry no acknowledge flags
 S1,19,Closes OCM-11,Discriminant Attribute of OutComponent,No discriminant attribute is defined for service 1 reports
 S1,20,Closes OCM-12,Parameter Attribute of OutComponent,Parameter values are as defined by the service 1 procedures called in adaptation points S1-1 to S1-9

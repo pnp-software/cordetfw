@@ -244,7 +244,7 @@
 % Title Page
 %---------------------------------------------
 \title{\textsc{The CORDET Framework} \\ \textsc{- PUS Extension -}}
-\author{Alessandro Pasetti \& TBD}
+\author{Alessandro Pasetti }
 \date{Created on: \today{}, at: \currenttime{}}
 
 \begin{document}
@@ -447,7 +447,7 @@ The CORDET Components cover, on the service user side, the sending of commands a
 
 %--------------------------------------------------------------------------------
 \subsection{Scope of PUS Extension of CORDET Framework}\label{sec:ScopePusExt}
-Developers of a CORDET application are expected to deploy the CORDET components and complement them with application-specific components which implement the specific services of interest to them. The PUS extension of the CORDET Framework is intended to facilitate the task of application developers by offering them a set of pre-defined components which implement a set of \textit{Standard Services}. A standard service in this context is a service which implements commonly used functions within a certain domain. 
+Developers of a CORDET application are expected to deploy the CORDET components and complement them with application-specific components which implement the services of interest to them. The PUS extension of the CORDET Framework is intended to facilitate the task of application developers by offering them a set of pre-defined components which implement a set of \textit{Standard Services}. A standard service in this context is a service which implements commonly used functions within a certain domain. 
 
 The standard services of the PUS Extension are taken from the Packet Utilization Standard (PUS) of AD-3. The target domain of the PUS Extension is therefore that of space-borne service-provider applications but it is worth stressing that the set of services selected from the PUS are those which are least dependent on the space context and it is therefore expected that the services implemented by the PUS Extension may be of interest to other application domains.
 
@@ -608,6 +608,7 @@ Bearing in mind the above, compliance with the PUS rules for the management of t
 
 
 %----------------------------------------------------------------------------------
+\newpage
 \subsection{Requirements}
 The table in this section lists the requirements for the command and report attributes.
 
@@ -725,7 +726,7 @@ The table in this section lists the requirements for the factory components.
 \section{The Request Verification Service}\label{sec:serv1}
 The service type of the Request Verification Service is 1. The PUS Extension of the CORDET Framework supports this service in full.
 
-The Request Verification Service is implemented by nine reports which a service provider application generates in response to the reception of a command. The framework extension provides nine components to encapsulate these nine reports. Since these components represent out-going reports, they are all implemented as extensions of the OutComponent component of the CORDET Framework. Table \ref{tab:serv1Comp} lists the nine reports defined by the Request Verification Service and the framework components which implement them.
+The Request Verification Service is implemented by nine reports which a service provider application generates in response to the reception of a command. The framework extension provides nine components to encapsulate these nine reports. Since these components represent out-going reports, they are all implemented as extensions of the OutComponent component of the CORDET Framework. 
 
 The verification reports are generated at various points in the processing life-cycle of an incoming command. The CORDET Framework defines adaptation points where the success or failure of a processing step of an incoming command is handled: 
 
@@ -812,7 +813,7 @@ In the CORDET Framework an out-going report is encapsulated in an OutComponent c
 \item Component VerFailedRouting implements report (1,10)
 \end{fw_itemize}
 
-These components are defined by the way they close the adaptation points of the OutComponent. Table \ref{tab:S1} lists, among others, the OutComponent adaptation points and shows how they are closed for the service 1 components.
+These components are defined by the way they close the adaptation points of the OutComponent. Table \ref{tab:AP-S1} lists, among others, the OutComponent adaptation points and shows how they are closed for the service 1 components.
 
 
 %---------------------------------------------------------------------------------
@@ -838,7 +839,7 @@ The table in this section lists the adaptation points for the request verificati
 
 
 %---------------------------------------------------------------------------------
-\subsection{Service 1 Requirements}\label{sec:serv1AP}
+\subsection{Service 1 Requirements}
 The table in this section lists requirements for the request verification service.
 
 \begin{cr_req}{S1}{Requirements for Service 1 (Request Verification)}
@@ -891,10 +892,10 @@ The table in this section lists all the error reports which are generated by the
 The table in this section presents the level of compliance achieved by the PUS Extension of the CORDET Framework to the PUS requirements of AD-1. The first two columns give the identifier and the text of the PUS requirement. The third column gives the compliance status which can be one of the following:
 
 \begin{fw_itemize}
-\item [C1]: The requirement is directly implemented by the PUS Extension of the CORDET Framework or by the CORDET Framework itself (i.e. applications instantiated from the framework are guaranteed to be compliant with the requirement)
-\item [C2]: The requirement may be implemented by applications instantiated from the PUS Extension of the CORDET Framework (i.e. applications instantiated from the framework may be made be compliant with the requirement)
-\item [NC]: The requirement is not compatible with the PUS Extension of the CORDET Framework (i.e. applications instantiated from the framework cannot be compliant with the requirement)
-\item [NA]: The requirement is not covered by the PUS Extension of the CORDET Framework
+\item [C1] The requirement is directly implemented by the PUS Extension of the CORDET Framework or by the CORDET Framework itself (i.e. applications instantiated from the framework are guaranteed to be compliant with the requirement)
+\item [C2] The requirement may be implemented by applications instantiated from the PUS Extension of the CORDET Framework (i.e. applications instantiated from the framework may be made be compliant with the requirement)
+\item [NC] The requirement is not compatible with the PUS Extension of the CORDET Framework (i.e. applications instantiated from the framework cannot be compliant with the requirement)
+\item [NA] The requirement is not covered by the PUS Extension of the CORDET Framework
 \end{fw_itemize}
 
 In some cases, the compliance level is declared to be 'C1/C2' when part of the requirement is implemented by the PUS Extension of the CORDET Framework and part is left to the application developers.
@@ -902,10 +903,10 @@ In some cases, the compliance level is declared to be 'C1/C2' when part of the r
 The fourth column in the table provides the following additional information:
 
 \begin{fw_itemize}
-\item [C1]: Traceability to the framework requirements implementing the PUS requirement 
-\item [C2]: Traceability to the adaptation point(s) where application developers can insert their own requirements to achieve compliance
-\item [NC]: Justification for non-compliance
-\item [NI]: Indication of whether the requirement might be covered in a future extension of the framework
+\item [C1] Traceability to the framework requirements implementing the PUS requirement 
+\item [C2] Traceability to the adaptation point(s) where application developers can insert their own requirements to achieve compliance
+\item [NC] Justification for non-compliance
+\item [NI] Indication of whether the requirement might be covered in a future extension of the framework
 \end{fw_itemize}
 
 
