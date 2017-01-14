@@ -227,7 +227,7 @@
 \DTLloaddb{dbReq}{PusExtensionReq.csv}
 \DTLloaddb{dbObs}{PusExtensionObs.csv}
 \DTLloaddb{dbErr}{PusExtensionErr.csv}
-
+\DTLloaddb{dbReqVerFailCodes}{PusExtensionReqVerFailCodes.csv}
 
 %---------------------------------------------
 % Pdf Properties
@@ -674,7 +674,11 @@ The data item access operation use the Data Item Identifier as the key to identi
 
 %---------------------------------------------------------------------------------
 \subsection{Service Observability Concept}\label{sec:servObsConcept}
-The data pool plays a key role in service 3 (see section \ref{sec:serv3}) but it is also used by other services as the repository where service observables are located. Each service defines a number of data items which the service is responsible for keeping up-to-date and which are intended to reflect its current status. These data items are assigned to the data pool which means that they can be accessed using service 3. Note that some of this service status information may also be accessible using service-specific reports (i.e. there may be a degree of redundancy in the observability of the service). 
+The data pool plays a key role in service 3 (see section \ref{sec:serv3}) but it is also used by other services as the repository through which service observables are accessed. Each service defines a number of \textit{service observables}. These are data items which the service is responsible for keeping up-to-date and which reflect its current state. The service observables are assigned to the data pool which means that they can be accessed using service 3. Note that some of this service status information may also be accessible using service-specific reports (i.e. there may be a degree of redundancy in the observability of the service). 
+
+%---------------------------------------------------------------------------------
+\subsection{Service Parameterization Concept}\label{sec:servParConcept}
+Each service defines a number of \textit{service parameters}. These are data items which control the behaviour of the service and whose value is set either by the user of the application hosting the service (e.g. the ground) or by other services in the application. Service parameters are assigned to the data pool which means that they can be accessed using service 3. Note that some of the service parameters may also be controlled using service-specific commands (i.e. there may be a degree of redundancy in the commandability of a service).
 
 
 %---------------------------------------------------------------------------------
@@ -753,12 +757,68 @@ The reports (1,5) and (1,6) report, respectively, the success and failure of a p
 \item A return value of 'continue' for the Progress Action of the InCommand may be interpreted as a progress step success which triggers a (1,5) report according to an application-specific logic to be inserted in adaptation point ICM-14 (Operation to Report Progress Failed for InCommand). 
 \end{fw_itemize}
 
-Note that the second bullet implies that the adaptation point ICM-14 cannot be closed but must instead remain open so that applications may decide the conditions under which a progress action has completed a step.
-
-The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The 'success' reports carry the packet identifier of the command being verified. The 'failure' reports carry, in addition to the packet identifier, a failure code and an undefined set of failure-related data. The framework extension restricts this flexibility by stipulating that the failure-related data consist of the triplet [type,sub-type,discriminant] for the command being verified.
+Note that the second bullet implies that the adaptation point ICM-14 cannot be closed at framework level but must instead remain open so that applications may decide the conditions under which a progress action has completed a step.
 
 
-\begin{figure}[htbp]
+%---------------------------------------------------------------------------------
+\subsection{Service 1 Report Definition}\label{sec:serv1RepDef}
+In the CORDET Framework an out-going report is encapsulated in an OutComponent component. The framework extension offers nine components which are defined as extensions of the OutComponent and which implement the nine reports supported by service 1:
+
+\begin{fw_itemize}
+\item Components VerSuccessAcc and VerFailedAcc implement reports (1,1) and (1,2) 
+\item Components VerSuccessStart and VerFailedStart implement reports (1,3) and (1,4) 
+\item Components VerSuccessPrgr and VerFailedPrgr implement reports (1,5) and (1,6) 
+\item Components VerSuccessTerm and VerFailedTerm implement reports (1,7) and (1,8) 
+\item Component VerFailedRouting implements report (1,10)
+\end{fw_itemize}
+
+These components are defined by the way they close the adaptation points of the OutComponent. Table \ref{tab:AP-S1} lists, among others, the OutComponent adaptation points and shows how they are closed for the service 1 components.
+
+The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The 'success' reports carry the packet identifier of the command being verified. The 'failure' reports carry, in addition to the packet identifier, a failure code and an undefined set of failure-related data. The framework extension restricts this flexibility by stipulating that the failure-related data consist of: 
+
+\begin{fw_itemize}
+\item For all failure reports: the triplet [type,sub-type,discriminant] for the command being verified
+\item For (1,10) reports only: the destination of the command which failed its routing check
+\item For (1,5) reports only: the identifier of the step which failed its progress check
+\end{fw_itemize}
+
+The failure codes which are generated by the framework extension are listed in appendix \ref{sec:reqVerFailCodes}. These failure codes cover the failure conditions for the commands defined by the frameork extension. Applications will normally have to add the failure codes for their own commands.
+
+%---------------------------------------------------------------------------------
+\subsection{Service 1 Observables}\label{sec:serv1Obs}
+Service 1 maintains and makes available in the data pool various information related to the generation of the failure reports. No information related to the generation of the success reports is maintained because these reports are optional and the conditions under which they are generated depend on the setting of the verification acknowledge flags which are under external control (they are set by the user of a service). Table \ref{tab:Obs-S1} lists the full set of data pool data items which are maintained by service 1.
+
+\begin{cr_obs}{S1}{Data Items for Service 1 (Request Verification)}
+\end{cr_obs}
+
+%---------------------------------------------------------------------------------
+\subsection{Service 1 Parameters}\label{sec:serv1Par}
+No parameters are defined to control the operation of service 1.
+
+
+%---------------------------------------------------------------------------------
+\subsection{Service 1 Adaptation Points}\label{sec:serv1AP}
+The table in this section lists the adaptation points for the request verification service. The following remarks apply: 
+
+\begin{fw_itemize}
+\item Service 1 reports are generated unconditionally and hence their enable check always returns 'report enabled'.
+\item Service 1 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
+\item Service 1 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
+\end{fw_itemize}
+
+\begin{cr_ap}{S1}{Adaptation Points for Service 1 (Request Verification)}
+\end{cr_ap}
+
+
+%---------------------------------------------------------------------------------
+\subsection{Service 1 Requirements}
+The table in this section lists requirements for the request verification service.
+
+\begin{cr_req}{S1}{Requirements for Service 1 (Request Verification)}
+\end{cr_req}
+
+\newpage
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.415,keepaspectratio=true]{CrPsPcktReroutingFail.png}
  \caption{Packet Rerouting Failure Procedure}
@@ -767,7 +827,7 @@ The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The
 
 \begin{figure}[htbp]
  \centering
- \includegraphics[scale=0.415,keepaspectratio=true]{CrPsPcktAccFail.png}
+ \includegraphics[scale=0.414,keepaspectratio=true]{CrPsPcktAccFail.png}
  \caption{Packet Acceptance Failure Procedure}
  \label{fig:PcktAccFail}
 \end{figure}
@@ -793,59 +853,12 @@ The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The
  \label{fig:CmdPrgrSucc}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmdPrgrFail.png}
  \caption{Command Progress Failure Procedure}
  \label{fig:CmdPrgrFail}
 \end{figure}
-
-
-%---------------------------------------------------------------------------------
-\subsection{Service 1 Report Definition}\label{sec:serv1RepDef}
-In the CORDET Framework an out-going report is encapsulated in an OutComponent component. The framework extension offers nine components which are defined as extensions of the OutComponent and which implement the nine reports supported by service 1:
-
-\begin{fw_itemize}
-\item Components VerSuccessAcc and VerFailedAcc implement reports (1,1) and (1,2) 
-\item Components VerSuccessStart and VerFailedStart implement reports (1,3) and (1,4) 
-\item Components VerSuccessPrgr and VerFailedPrgr implement reports (1,5) and (1,6) 
-\item Components VerSuccessTerm and VerFailedTerm implement reports (1,7) and (1,8) 
-\item Component VerFailedRouting implements report (1,10)
-\end{fw_itemize}
-
-These components are defined by the way they close the adaptation points of the OutComponent. Table \ref{tab:AP-S1} lists, among others, the OutComponent adaptation points and shows how they are closed for the service 1 components.
-
-
-%---------------------------------------------------------------------------------
-\subsection{Service 1 Observables}\label{sec:serv1Obs}
-Service 1 maintains and makes available in the data pool various information related to the generation of the failure reports. No information related to the generation of the success reports is maintained because these reports are optional and the conditions under which they are generated depend on the setting of the verification acknowledge flags which are under external control (they are set by the user of a service). Table \ref{tab:Obs-S1} lists the full set of data pool data items which are maintained by service 1.
-
-\begin{cr_obs}{S1}{Data Items for Service 1 (Request Verification)}
-\end{cr_obs}
-
-
-%---------------------------------------------------------------------------------
-\subsection{Service 1 Adaptation Points}\label{sec:serv1AP}
-The table in this section lists the adaptation points for the request verification service. The following remarks apply: 
-
-\begin{fw_itemize}
-\item Service 1 reports are generated unconditionally and hence their enable check always returns 'report enabled'.
-\item Service 1 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
-\item Service 1 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
-\end{fw_itemize}
-
-\begin{cr_ap}{S1}{Adaptation Points for Service 1 (Request Verification)}
-\end{cr_ap}
-
-
-%---------------------------------------------------------------------------------
-\subsection{Service 1 Requirements}
-The table in this section lists requirements for the request verification service.
-
-\begin{cr_req}{S1}{Requirements for Service 1 (Request Verification)}
-\end{cr_req}
-
-
 
 
 
@@ -884,6 +897,26 @@ The table in this section lists all the error reports which are generated by the
 \end{longtable}
 
 \end{landscape}
+
+%=============================================================================================
+\section{Request Verification Failure Codes}\label{sec:reqVerFailCodes}
+Request verification failure reports of service 1 carry a failure code. The table in this section lists all the failure codes supported by the PUS Extension of the CORDET Framework. The data associated to each failure report depends exclusively on the report sub-type and is specified by the close-out of adaptation point OCM-12 for service reports (see also section \ref{sec:serv1RepDef}.
+
+\begin{longtable}{|l|>{\raggedright\arraybackslash}p{8.0cm}}
+\caption{Request Verification Failure Codes}\label{tab:reqVerFailCodes}\\
+\hline
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Description} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Description} \\
+\hline\hline
+\endhead
+\DTLforeach*{dbReqVerFailCodes}{\name=Name,\description=Description}
+{\DTLiffirstrow{}{\\\hline}\name & \description}\\\hline
+\end{longtable}
+
 
 
 

@@ -23,5 +23,6 @@ S1,S,7,"The PUS Extension of the CORDET Framework shall provide, as an extension
 S1,S,8,"The PUS Extension of the CORDET Framework shall provide, as an extension of the OutComponent, a VerFailedTerm to encapsulate a (1,8) report",,
 S1,S,9,"The PUS Extension of the CORDET Framework shall provide, as an extension of the OutComponent, a VerFailedRouting to encapsulate a (1,10) report",,
 S1,A,10,The command verification reports listed in the previous requirements shall close the adaptation points of the OutComponents as indicated in table \ref{tab:AP-S1},,
-S1,C,11,The service 1 implementation of the PUS Extension of the CORDET Framework shall close or override the InLoader and InCommand adaptation points listed in table \ref{tab:AP-S1},,
-S1,C,12,The PUS Extension of the CORDET Framrework shall maintain and make accessible through the data pool the observables listed in table \ref{tab:Obs-S1},,
+S1,A,11,The service 1 implementation of the PUS Extension of the CORDET Framework shall close or override the InLoader and InCommand adaptation points listed in table \ref{tab:AP-S1},,
+S1,S,12,The PUS Extension of the CORDET Framerework shall maintain and make accessible through the data pool the observables listed in table \ref{tab:Obs-S1},,
+S1,S,12,The PUS Extension of the CORDET Framerework shall support the service 1 failure codes table listed in table \ref{tab:reqVerFailCodes},,
