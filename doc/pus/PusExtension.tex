@@ -861,6 +861,47 @@ The table in this section lists requirements for the request verification servic
 \end{figure}
 
 
+%=============================================================================================
+\section{Test Service}\label{sec:serv17}
+The service type of the Test Service is 17. The PUS Extension of the CORDET Framework supports this service in full.
+
+The Test Service provides the capability to perform two kinds of connections tests. The \textit{Are-You-Alive Test} and the \textit{Is-Application-Process-Alive Test}.
+
+The Are-You-Alive test is like a ping test: an external user sends a command of type (17,1) to the application and the application responds by sending to the user a (17,2) report. Neither the (17,1) command nor the (17,2) report carry any parameters. 
+
+In the Is-Application-Process-Alive Test, an external user sends a command of type (17,3) to application A asking it to perform a connection test with some other application B. Application B is specified through a parameter carried by the (17,3) command. The connection test is not specified by the PUS. The PUS Extension of the CORDET Framework implements it as an Are-You-Alive Test from application A to application B. If this Are-You-Alive Test is successful, application A generates a (17,4) report to its user. The Are-You-Alive Test is declared successful if a (17,2) report from application B is received within a time-out \texttt{AreYouAliveTimeOut} from the sending of the (17,1) command.
+
+%=============================================================================================
+\subsection{Service 17 Command and Report Definition}
+In the CORDET Framework an out-going report is encapsulated in an OutComponent component and incoming command is encapsulated in an InCommand component. The framework extension accordingly offers the following components to implement the two commands and two reports of service 17:
+
+\begin{fw_itemize}
+\item Component AreYouAliveCmd implements command (17,1) 
+\item Component AreYouAliveRep implements report (17,2) 
+\item Component IsAppProcAliveCmd implements command (17,3)  
+\item Component IsAppProcAliveRep implements report (17,4) 
+\end{fw_itemize}
+
+These components are defined by the way they close the adaptation points of the OutComponent and InCommand. This is defined formally in tables \ref{tab:AP-S17-1} to \ref{tab:AP-S17-4} but the main points are as follows.
+
+The AreYouAliveCmd commmand implements a Progress Action which creates and loads the AreYouAliveRep report. The report destination is the same as the source of the AreYouAliveCmd command. Thus, the processing of the AreYouAliveCmd command consists in sending an AreYouAliveRep to the source of the AreYouAliveCmd. The AreYouAliveCmd commmand is always accepted and it is always started, executed and terminated successfully.
+
+The IsAppProcAliveCmd command is always accepted. The command carries as its single parameter the identifier of the application with which the connection test must be performed. The Start Action of the command verifies the legality of this application identifier and, if this is confirmed, it sends an AreYouAliveCmd command to it. If the expected response (an AreYouAliveRep report) is received within time-out \texttt{AreYouAliveTimeOut}, the command is deemed to have failed its execution.
+
+The mechanism through which the AreYouAliveRep report notifies the IsAppProcAliveCmd command of its arrival is as follows:
+
+\begin{fw_itemize}
+\item The service 17 maintains integer \texttt{AreYouAliveSrc}
+\item The Start Action of the IsAppProcAliveCmd command resets \texttt{AreYouAliveSrc} to zero
+\item The Update Action of the incoming report AreYouAliveRep sets \texttt{AreYouAliveSrc} to be equal to its source
+\item The Progress Action of the IsAppProcAliveCmd command only declares the command to have successfully terminated if, within time-out \texttt{AreYouAliveTimeOut}, it finds \texttt{AreYouAliveSrc} equal to the identifier of the application with which the connection test is done
+\end{fw_itemize}
+
+Note that one implication of this mechanism is that only one Is-Application-Process-Alive Test may be active at a given time (i.e. the user should only send a new IsAppProcAliveCmd command to an application after execution of the previous IsAppProcAliveCmd command has completed). This constraint is not enforced by the application and is under the responsibility of the user of the service.
+
+
+
+
 
 
 
