@@ -24,3 +24,4 @@ S1,pcktIdTermFailed,Packet identifier of last command which failed its Terminati
 S1,nOfReroutingFailed,Number of commands for which re-routing failed
 S1,pcktIdReroutingFailed,Packet identifier of last command for which re-routing failed
 S1,invDestRerouting,Destination of last command for which re-routing failed
+S17,areYouAliveSrc,"Source of the latest (17,2) report received in response to a (17,1) command triggered by a (17,3) command "
