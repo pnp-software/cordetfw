@@ -197,7 +197,7 @@
 
 %---------------------------------------------
 % Define Environment for Observable Tables 
-% Par #1: The string identifying the category to which the observable applies
+% Par #1: The string identifying the category to which the observable belongs
 % Par #2: The table caption
 %---------------------------------------------
 \newenvironment{cr_obs}[2]
@@ -218,6 +218,29 @@
 }
 {\end{longtable}}
 
+%---------------------------------------------
+% Define Environment for Parameter Tables 
+% Par #1: The string identifying the category to which the parameter belongs
+% Par #2: The table caption
+%---------------------------------------------
+\newenvironment{cr_par}[2]
+{
+\begin{longtable}{|l|p{9.5cm}|}
+\caption{#2}\label{tab:Par-#1} \\
+\hline
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Description}\\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Description}\\
+\hline\hline
+\endhead
+\DTLforeach*[\DTLiseq{\cat}{#1}]{dbPar}{\cat=Category,\name=Name,\desc=Desc}
+{\DTLiffirstrow{}{\\\hline}\texttt{\name} & \desc}\\\hline
+}
+{\end{longtable}}
+
 
 %---------------------------------------------
 % Import tables with requirements and adaptation points
@@ -226,6 +249,7 @@
 \DTLloaddb{dbAP}{PusExtensionAP.csv}
 \DTLloaddb{dbReq}{PusExtensionReq.csv}
 \DTLloaddb{dbObs}{PusExtensionObs.csv}
+\DTLloaddb{dbPar}{PusExtensionPar.csv}
 \DTLloaddb{dbErr}{PusExtensionErr.csv}
 \DTLloaddb{dbReqVerFailCodes}{PusExtensionReqVerFailCodes.csv}
 
@@ -765,11 +789,11 @@ Note that the second bullet implies that the adaptation point ICM-14 cannot be c
 In the CORDET Framework an out-going report is encapsulated in an OutComponent component. The framework extension offers nine components which are defined as extensions of the OutComponent and which implement the nine reports supported by service 1:
 
 \begin{fw_itemize}
-\item Components VerSuccessAcc and VerFailedAcc implement reports (1,1) and (1,2) 
-\item Components VerSuccessStart and VerFailedStart implement reports (1,3) and (1,4) 
-\item Components VerSuccessPrgr and VerFailedPrgr implement reports (1,5) and (1,6) 
-\item Components VerSuccessTerm and VerFailedTerm implement reports (1,7) and (1,8) 
-\item Component VerFailedRouting implements report (1,10)
+\item Components VerSuccessAccRep and VerFailedAccRep implement reports (1,1) and (1,2) 
+\item Components VerSuccessStartRep and VerFailedStartRep implement reports (1,3) and (1,4) 
+\item Components VerSuccessPrgrRep and VerFailedPrgrRep implement reports (1,5) and (1,6) 
+\item Components VerSuccessTermRep and VerFailedTermRep implement reports (1,7) and (1,8) 
+\item Component VerFailedRoutingRep implements report (1,10)
 \end{fw_itemize}
 
 These components are defined by the way they close the adaptation points of the OutComponent. Table \ref{tab:AP-S1} lists, among others, the OutComponent adaptation points and shows how they are closed for the service 1 components.
@@ -865,15 +889,15 @@ The table in this section lists requirements for the request verification servic
 \section{Test Service}\label{sec:serv17}
 The service type of the Test Service is 17. The PUS Extension of the CORDET Framework supports this service in full.
 
-The Test Service provides the capability to perform two kinds of connections tests. The \textit{Are-You-Alive Test} and the \textit{Is-Application-Process-Alive Test}.
+The Test Service provides the capability to perform two kinds of connections tests: the \textit{Are-You-Alive Test} and the \textit{Is-Application-Process-Alive Test}.
 
 The Are-You-Alive test is like a ping test: an external user sends a command of type (17,1) to the application and the application responds by sending to the user a (17,2) report. Neither the (17,1) command nor the (17,2) report carry any parameters. 
 
-In the Is-Application-Process-Alive Test, an external user sends a command of type (17,3) to application A asking it to perform a connection test with some other application B. Application B is specified through a parameter carried by the (17,3) command. The connection test is not specified by the PUS. The PUS Extension of the CORDET Framework implements it as an Are-You-Alive Test from application A to application B. If this Are-You-Alive Test is successful, application A generates a (17,4) report to its user. The Are-You-Alive Test is declared successful if a (17,2) report from application B is received within a time-out \texttt{AreYouAliveTimeOut} from the sending of the (17,1) command.
+In the Is-Application-Process-Alive Test, an external user sends a command of type (17,3) to application A asking it to perform a connection test with some other application B. Application B is specified through a parameter carried by the (17,3) command. The connection test is not specified by the PUS. The PUS Extension of the CORDET Framework implements it as an Are-You-Alive Test from application A to application B. If this Are-You-Alive Test is successful, application A generates a (17,4) report to its user. The Are-You-Alive Test is declared successful if a (17,2) report from application B is received within time \texttt{AreYouAliveTimeOut} from the sending of the (17,1) command.
 
 %=============================================================================================
 \subsection{Service 17 Command and Report Definition}
-In the CORDET Framework an out-going report is encapsulated in an OutComponent component and incoming command is encapsulated in an InCommand component. The framework extension accordingly offers the following components to implement the two commands and two reports of service 17:
+In the CORDET Framework an out-going report is encapsulated in an OutComponent component and an incoming command is encapsulated in an InCommand component. The framework extension accordingly offers the following components to implement the two commands and the two reports of service 17:
 
 \begin{fw_itemize}
 \item Component AreYouAliveCmd implements command (17,1) 
@@ -886,9 +910,9 @@ These components are defined by the way they close the adaptation points of the 
 
 The AreYouAliveCmd commmand implements a Progress Action which creates and loads the AreYouAliveRep report. The report destination is the same as the source of the AreYouAliveCmd command. Thus, the processing of the AreYouAliveCmd command consists in sending an AreYouAliveRep to the source of the AreYouAliveCmd. The AreYouAliveCmd commmand is always accepted and it is always started, executed and terminated successfully.
 
-The IsAppProcAliveCmd command is always accepted. The command carries as its single parameter the identifier of the application with which the connection test must be performed. The Start Action of the command verifies the legality of this application identifier. In order to establish its legality, service 17 maintains parameter \texttt{isAppProcAliveDestLst} to hold the list of legal targets for the Are-You-Alive Test. If the application identifier carried by the IsAppProcAliveCmd command is not included in this list, the Start Action is deemed to have failed.
+The IsAppProcAliveCmd command is always accepted. The command carries as its single parameter the identifier of the application with which the connection test must be performed. The Start Action of the command verifies the legality of this application identifier. In order to establish its legality, service 17 maintains parameter \texttt{isAppProcAliveDestLst} to hold the list of legal targets for the Is-Application-Process-Alive test. If the application identifier carried by the IsAppProcAliveCmd command is not included in this list, its Start Action is deemed to have failed. The Start Action of the IsAppProcAliveCmd command is shown in figure \ref{fig:Cmd17s3Start} as an activity diagram.
 
-If, instead, the legality of the target application identifier is confirmed, the Start Action sends an AreYouAliveCmd command to the target application. Normally, the target application should respond by sending it an AreYouAliveRep report. If the expected response (the AreYouAliveRep report) is not received within time-out \texttt{areYouAliveTimeOut}, the command is deemed to have failed its execution.
+If, instead, the legality of the target application identifier is confirmed, the Start Action sends an AreYouAliveCmd command to the target application. Normally, the target application should respond by sending it an AreYouAliveRep report. If the expected response (the AreYouAliveRep report) is not received within time \texttt{areYouAliveTimeOut}, the command is deemed to have failed its execution.
 
 The mechanism through which the AreYouAliveRep report notifies the IsAppProcAliveCmd command of its arrival is as follows:
 
@@ -899,9 +923,17 @@ The mechanism through which the AreYouAliveRep report notifies the IsAppProcAliv
 \item The Progress Action of the IsAppProcAliveCmd command only declares the command to have successfully terminated if, within time-out \texttt{areYouAliveTimeOut}, it finds \texttt{areYouAliveSrc} equal to the identifier of the application with which the connection test is done
 \end{fw_itemize}
 
-One implication of this mechanism is that only one Is-Application-Process-Alive Test may be active at a given time (i.e. the user should only send a new IsAppProcAliveCmd command to an application after execution of the previous IsAppProcAliveCmd command has completed). This constraint is not enforced by the application and is under the responsibility of the user of the service.
+One implication of this mechanism is that only one Is-Application-Process-Alive Test may be active at a given time (i.e. the user should only send a new IsAppProcAliveCmd command to an application after execution of the previous IsAppProcAliveCmd command has completed). This constraint is not enforced by the framework and is under the responsibility of the user of the service.
 
 The time-out parameter \texttt{areYouAliveTimeOut} is the same for all target applications. There is, in other words, an underlying assumption that the response time of all target applications is similar and that there is therefore no need to maintain separate time-outs for each target application. If this assumption is not satisfied, the user must update the value of \texttt{areYouAliveTimeOut} with service TBD before starting an Is-Application-Process-Alive Test.
+
+\newpage
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmd17s3Start.png}
+ \caption{Start Action of Command IsAppProcAliveCmd Command (17,3)}
+ \label{fig:Cmd17s3Start}
+\end{figure}
 
 %---------------------------------------------------------------------------------
 \subsection{Service 17 Observables}\label{sec:serv17Obs}
@@ -914,10 +946,24 @@ Service 17 maintains and makes available in the data pool one single observable 
 \subsection{Service 17 Parameters}\label{sec:serv17Par}
 Service 17 maintains and makes available in the data pool the parameters listed in table \ref{tab:Par-S17}.
 
-\begin{cr_obs}{S17}{Parameters for Service 17 (Test Service)}
-\end{cr_obs}
+\begin{cr_par}{S17}{Parameters for Service 17 (Test Service)}
+\end{cr_par}
 
+%---------------------------------------------------------------------------------
+\subsection{Service 17 Adaptation Points}\label{sec:serv17AP}
+The test service consists of two commands and two reports. Commands are defined by the way they close the adaptation points of the InCommand component and reports are defined by the way they close the adaptation points of the OutComponent component. Four tables are accordingly shown below which define the close-out for the adaptation points of the two commands and two reports of service 17.
 
+The following considerations apply to the service 17 commands and reports:
+
+\begin{fw_itemize}
+\item The service 17 commands execute in 'one-shot' and therefore do not generate progress reports.
+\item Service 17 reports are generated unconditionally and hence their enable check always returns 'report enabled'.
+\item Service 17 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
+\item Service 17 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
+\end{fw_itemize}
+
+\begin{cr_ap}{S17-1}{Adaptation Points for (17,1) Command}
+\end{cr_ap}
 
 
 

@@ -8,29 +8,45 @@ DP,6,Overrides BAS-6,Execution Procedure of Data Pool Component,Same value as in
 DP,7,New AP,Definition of Data Items in the Data Pool Component,No default defined at framework level
 DP,8,New AP,Operation to access the Current Value of a Data Item,No default defined at framework level
 DP,9,New AP,Operation to update the Current Value of a Data Item,No default defined at framework level
-S1,1,Closes ILD-12,Operation to Report Packet Destination Invalid ,Run the Packet Re-Routing Failure Procedure
-S1,2,Closes ILD-14,Operation to Report Acceptance Failure,Run the Packet Acceptance Failure Procedure
-S1,3,Closes ILD-13,Operation to Report Acceptance Success,Run the Command Verification Success Procedure
-S1,4,Closes ICM-12,Operation to Report Start Failed for InCommand,Run the Command Verification Failure Procedure
-S1,5,Closes ICM-11,Operation to Report Start Successful for InCommand,Run the Command Verification Success Procedure
-S1,6,Closes ICM-10,Operation to Report Progress Failed for InCommand,Run the Command Progress Failure Procedure
-S1,7,Overrides ICM-9,Operation to Report Progress Successful for InCommand,"Determine if a progress step has been completed and, if so, run the Command Progress Success Procedure"
-S1,8,Closes ICM-8,Operation to Report Termination Failed for InCommand,Run the Command Verification Failure Procedure
-S1,9,Closes ICM-7,Operation to Report Report Termination Successful for InCommand,Run the Command Verification Success Procedure
-S1,10,Overrides OCM-1,Initialization Check in Initialization Procedure of OutComponent,Same value as in OutComponent
-S1,11,Overrides OCM-2,Initialization Action in Initialization Procedure of OutComponent,Same value as in OutComponent
-S1,12,Overrides OCM-3,Configuration Check in Reset Procedure of OutComponent,Same value as in OutComponent
-S1,13,Overrides OCM-4,Configuration Action in Reset Procedure of OutComponent,Same value as in OutComponent
-S1,14,Overrides OCM-5,Shutdown Action in Base Component of OutComponent,Same value as in OutComponent
-S1,15,Closes OCM-7,Service Type Attribute of OutComponent,Service type is set to 1
-S1,16,Closes OCM-8,Command/Report Sub-Type Attribute of OutComponent,Report sub-type is in accordance with the type of verification report (1 to 8 or 10)
-S1,17,Closes OCM-9,Destination Attribute of OutComponent,The destination is set to be equal to the source of the command being verified
-S1,18,Closes OCM-10,Acknowledge Level Attribute of OutComponent,All service 1 OutComponents are reports and therefore carry no acknowledge flags
-S1,19,Closes OCM-11,Discriminant Attribute of OutComponent,No discriminant attribute is defined for service 1 reports
-S1,20,Closes OCM-12,Parameter Attribute of OutComponent,Parameter values are as defined by the service 1 procedures called in adaptation points S1-1 to S1-9
-S1,21,Closes OCM-13,Enable Check Operation of OutComponent,Service 1 reports are always enabled
-S1,22,Closes OCM-14,Ready Check Operation of OutComponent,Service 1 reports are always ready
-S1,23,Closes OCM-15,Repeat Check Operation of OutComponent,Service 1 reports are never repeated
-S1,24,Closes OCM-16,Update Action of OutComponent,No action
-S1,25,Overrides OCM-17,Serialize Operation of OutComponent,No default defined at framework level
-S1,26,Closes OCM-18,Operation to Report Invalid Destination of an OutComponent,Generate SNDPCKT\_INV\_DEST Error Report 
+S1,1,Closes ILD-12,Operation to Report Packet Destination Invalid by InLoader,Run the Packet Re-Routing Failure Procedure
+S1,2,Closes ILD-14,Operation to Report Acceptance Failure by InLoader,Run the Packet Acceptance Failure Procedure
+S1,3,Closes ILD-13,Operation to Report Acceptance Success by InLoader,Run the Command Verification Success Procedure
+S1,4,Closes ICM-12,Operation to Report Start Failed for InCommand ,Run the Command Verification Failure Procedure
+S1,5,Closes ICM-13,Operation to Report Start Successful for InCommand ,Run the Command Verification Success Procedure
+S1,6,Closes ICM-14,Operation to Report Progress Failed for InCommand,Run the Command Progress Failure Procedure
+S1,7,Overrides ICM-15,Operation to Report Progress Successful for InCommand ,"Determine if a progress step has been completed and, if so, run the Command Progress Success Procedure"
+S1,8,Closes ICM-16,Operation to Report Termination Failed for InCommand ,Run the Command Verification Failure Procedure
+S1,9,Closes ICM-17,Operation to Report Report Termination Successful for InCommand ,Run the Command Verification Success Procedure
+S1,10,Overrides OCM-1,Initialization Check in Initialization Procedure of Service 1 Out-Going Report,Same value as in OutComponent
+S1,11,Overrides OCM-2,Initialization Action in Initialization Procedure of Service 1 Out-Going Report,Same value as in OutComponent
+S1,12,Overrides OCM-3,Configuration Check in Reset Procedure of Service 1 Out-Going Report,Same value as in OutComponent
+S1,13,Overrides OCM-4,Configuration Action in Reset Procedure of Service 1 Out-Going Report,Same value as in OutComponent
+S1,14,Overrides OCM-5,Shutdown Action in Base Component of Service 1 Out-Going Report,Same value as in OutComponent
+S1,15,Closes OCM-7,Service Type Attribute of Service 1 Out-Going Report,Service type is set to 1
+S1,16,Closes OCM-8,Command/Report Sub-Type Attribute of Service 1 Out-Going Report,Report sub-type is in accordance with the type of verification report (1 to 8 or 10)
+S1,17,Closes OCM-9,Destination Attribute of Service 1 Out-Going Report,The destination is set to be equal to the source of the command being verified
+S1,18,Closes OCM-10,Acknowledge Level Attribute of Service 1 Out-Going Report,All service 1 OutComponents are reports and therefore carry no acknowledge flags
+S1,19,Closes OCM-11,Discriminant Attribute of Service 1 Out-Going Report,No discriminant attribute is defined for service 1 reports
+S1,20,Closes OCM-12,Parameter Attribute of Service 1 Out-Going Report,Parameter values are as defined by the service 1 procedures called in adaptation points S1-1 to S1-9
+S1,21,Closes OCM-13,Enable Check Operation of Service 1 Out-Going Report,Service 1 reports are always enabled
+S1,22,Closes OCM-14,Ready Check Operation of Service 1 Out-Going Report,Service 1 reports are always ready
+S1,23,Closes OCM-15,Repeat Check Operation of Service 1 Out-Going Report,Service 1 reports are never repeated
+S1,24,Closes OCM-16,Update Action of Service 1 Out-Going Report,No action
+S1,25,Overrides OCM-17,Serialize Operation of Service 1 Out-Going Report,No default defined at framework level
+S1,26,Closes OCM-18,Operation to Report Invalid Destination of an Service 1 Out-Going Report,Generate SNDPCKT\_INV\_DEST Error Report 
+S17-1,,Overrides ICM-1,"Initialization Check in Initialization Procedure of (17,1) Command",Returns “check successful' if information for initializing InCommand using data in incoming packet is valid
+S17-1,,Overrides ICM-2,"Initialization Action in Initialization Procedure of (17,1) Command",Use information in incoming packet to initialize InCommand and return “action successful' 
+S17-1,,Overrides ICM-3,"Configuration Check in Reset Procedure of (17,1) Command",Returns “check successful' if information for configuring InCommand using data in incoming packet is valid
+S17-1,,Overrides ICM-4,"Configuration Action in Reset Procedure of (17,1) Command",Use information in incoming packet to configure InCommand and return “action successful' 
+S17-1,,Overrides ICM-5,"Shutdown Action of (17,1) Command (closes BAS-5)",Same value as in Base Component
+S17-1,,Closes ICM-6,"Execution Procedure of (17,1) Command (closes BAS-6)",Same value as in Base Component
+S17-1,,Closes ICM-7,"Ready Check of (17,1) Command",Return “command is ready'
+S17-1,,Closes ICM-8,"Start Action of (17,1) Command","Retrieve (17,2) report from OutFactory and set action outcome to “success' if retrieval succeeds and to 'failed' otherwise"
+S17-1,,Closes ICM-9,"Progress Action of (17,1) Command","Configure the (17,2) report with a destination equal to the source of the (17,1), load it in the OutLoader, and set action outcome to 'completed'"
+S17-1,,Closes ICM-10,"Termination Action of (17,1) Command",Set action outcome to 'success'
+S17-1,,Closes ICM-11,"Abort Action of (17,1) Command",Do nothing
+S17-1,,Closes ICM-15,"Operation to Report Progress Successful for (17,1) Command",Do nothing
+S17-1,,Closes ICM-18,"Service Type Attribute of (17,1) Command",Service type is 17
+S17-1,,Closes ICM-19,"Command Sub-Type Attribute of (17,1) Command",Service sub-type is 1
+S17-1,,Closes ICM-20,"Discriminant Attribute of (17,1) Command","Command (17,1) has no discriminant"
+S17-1,,Closes ICM-21,"Parameter Attributes of (17,1) Command","Command (17,1) carries no parameters"
