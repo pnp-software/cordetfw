@@ -398,11 +398,11 @@ The documents in table \ref{tab:appDoc} form an integral part of the present doc
 \textbf{ID} & \textbf{Title, Reference Number, Revision Number} \\
 \hline\hline
 \endhead
-AD-1 & The CORDET Framework - Specification, PP-DF-COR-00002, Revision 1.6, P\&P Software GmbH, Switzerland, 2012, Available from: \url{www.pnp-software.com/cordetfw} \\
+[CR-SP] & The CORDET Framework - Specification, PP-DF-COR-00002, Revision 1.6, P\&P Software GmbH, Switzerland, 2012, Available from: \url{www.pnp-software.com/cordetfw} \\
 \hline
-AD-2 & The Framework Profile, PP-DF-COR-00001, Revision 1.3, P\&P Software GmbH, Switzerland, 2012, Available from: \url{www.pnp-software.com/fwprofile} \\
+[FW-SP] & The Framework Profile, PP-DF-COR-00001, Revision 1.3, P\&P Software GmbH, Switzerland, 2012, Available from: \url{www.pnp-software.com/fwprofile} \\
 \hline
-AD-3 & Ground Systems and Operations – Telemetry and Telecommand Packet Utilization Standard, ECSS-E-70-41C, April 2016, European Cooperation for Space Standardization (ECSS) \\
+[PS-SP] & Ground Systems and Operations – Telemetry and Telecommand Packet Utilization Standard, ECSS-E-70-41C, April 2016, European Cooperation for Space Standardization (ECSS) \\
 \hline
 \end{longtable}
 
@@ -417,7 +417,7 @@ AD-3 & Ground Systems and Operations – Telemetry and Telecommand Packet Utiliz
 \textbf{ID} & \textbf{Title, Reference Number, Revision Number} \\
 \hline\hline
 \endhead
-RD-1 & The CORDET Framework Project Web Site Profile, \url{www.pnp-software.com/cordetfw} \\
+[PS-WEB] & The CORDET Framework Project Web Site Profile, \url{www.pnp-software.com/cordetfw} \\
 \hline
 \end{longtable}
 
@@ -748,7 +748,96 @@ The table in this section lists the requirements for the factory components.
 \begin{cr_req}{FAC}{Requirements for Factory Components}
 \end{cr_req}
 
+
+%=============================================================================================
+\section{Definition of PUS Reports and Commands}\label{sec:defPusRepCmd}
+The PUS Extension of the CORDET Framework supports a subset of the PUS services and, for these services, it specifies the components which implement their reports and commands. Since the framework extension covers the provision of PUS services, it is only concerned with incoming commands and out-going reports. 
+
+In the CORDET Framework, incoming commands are encapsulated by InCommand components and out-going components are encapsulated by OutComponent components. The InCommand and OutComponent components define abstract commands and reports. These two components offer a number of adaptation points where behaviour must be inserted to define concrete commands and reports. A concrete command or a concrete report is specified by closing the adaptation points of, respectively, the InCommand component or of the OutComponent component. 
+
+Thus, for each supported PUS command, the framework extension defines an extension of the InCommand component which closes all the InCommand adaptation points and, for each supported PUS reports, it defined an extension of the OutComponent component which closes all the OutComponent adaptation points.
+
+Table \ref{tab:supportedPus} lists the command and report components provided by the PUS Extension of the CORDET Framework to support the PUS services. The first column in the table gives the name of the CORDET component which implements the command or report and the second column gives its PUS names as it is given in section 8 of [PS-SP].
+
+%--------------------------------------------------------------------------------------
+\subsection{Report and Command Adaptation Points}\label{sec:repCmdAP}
+Rows 1 to 18 of table \ref{tab:AP-PCR} list the adaptation points of the OutComponent component and describes how they are closed for the PUS reports provided by the framework extension. In some cases, the adaptation point is closed in the same way for all framework reports. In other cases, the close-out is report-specific and is then described in the following sections of this document which define the individual PUS services. Thus, for instance, the close-out of the report-specific adaptation points for the service 1 reports can be found in section \ref{sec:serv1AP}.
  
+The following considerations apply to the data in table \ref{tab:AP-OCM}:
+
+\begin{fw_itemize}
+\item The OutComponent components are created by the OutFactory and it can be assumed that they are created such that they can be successfully initialized and configured. Their initialization and configuration procedures (adaptation points OCM-1 to 4) can therefore be just dummies that do not perform any action. The same applies to the shutdown procedure (adaptation point OCM-5).
+\item The adaptation point related to the execution procedure (OCM-6) is already closed at CORDET Framework level because OutComponents do not have any execution procedure.
+\item The adaptation points OCM-7 to 9 and OCM-10 to 12 related to the setting of the report attributes (type, sub-type, discriminant, destination and parameters) are closed for each specific report type in the following sections of this document.
+\item The adaptation point OCM-10 related to the acknowledge level is only relevant to out-going commands and is therefore not applicable to the PUS reports.
+\item The adaptation points OCM-13 to 16 related to the report checks and actions are closed for each specific report type in the following sections of this document.
+\item The adaptation point OCM-17 related to the serialize operation is closed to create a packet layout which complies with the layout defined by the PUS in [PS-SP].
+\item The adaptation point OCM-18 covers the response to a report having an invalid destination. By design, this situation should never arise and the adaptation point is closed with the generation of an error report.
+\end{fw_itemize}
+
+In a similar fashion, rows 19 to 39 of table \ref{tab:AP-PCR} list the adaptation points of the InCommand component and describes how they are closed for the PUS commands provided by the framework extension. In some cases, the adaptation point is closed in the same way for all framework commands. In other cases, the close-out is command-specific and is then described in the following sections of this document which define the individual PUS services. Thus, for instance, the close-out of the command-specific adaptation points for the service 17 commands can be found in section \ref{sec:serv17AP}.
+ 
+The following considerations apply to the data in table \ref{tab:AP-ICM}:
+
+\begin{fw_itemize}
+\item The InCommand components are created by the InFactory but are then initialized and configured by the InLoader. Their initialization and configuration procedures (adaptation points ICM-1 to 4) are therefore implementation-specific. The same applies to the shutdown procedure (adaptation point OCM-5).
+\item The adaptation point related to the execution procedure (ICM-6) is already closed at CORDET Framework level because InCommand do not have any execution procedure.
+\item The adaptation points OCM-7 to 11 related to the command checks and actions are closed for each specific command type in the following sections of this document.
+\item The adaptation point OCM-10 related to the acknowledge level is only relevant to out-going commands and is therefore not applicable to the PUS reports.
+\item The adaptation points OCM-12 to 17 related to the generation of success and failure reports for the command are closed as part of the service 1 definition in section \ref{sec:serv1AP}.
+\item The adaptation points OCM-18 to 21 related to the command type, sub-tyope, discriminant and parameters are closed for each specific command type in the following sections of this document.
+\end{fw_itemize}
+
+\begin{cr_ap}{PCR}{Adaptation Points for PUS Reports and Commands}
+\end{cr_ap}
+
+%--------------------------------------------------------------------------------------
+\subsection{Requirements}\label{sec:repCmdReq}
+The requirements in table \ref{tab:Req-PCR} make the adaptation points defined in the previous two sections applicable to all command and report components provided by the framework extension.
+
+\begin{cr_req}{PCR}{Requirements for Framework Extension Commands and Reports}
+\end{cr_req}
+
+
+\begin{longtable}{|l|>{\raggedright\arraybackslash}p{9cm}||c|}
+\caption{Supported PUS Commands and Reports}\label{tab:supportedPus} \\
+\hline
+\rowcolor{light-gray}
+\textbf{CORDET Name} & \textbf{PUS Name} & \textbf{Type} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{CORDET Name} & \textbf{PUS Name} & \textbf{Type} \\
+\hline\hline
+\endhead
+VerSuccessAccRep & Successful Acceptance Verification Report & (1,1) \\
+\hline
+VerFailedAccRep & Failed Acceptance Verification Report & (1,2) \\
+\hline
+VerSuccessStartRep & Successful Start of Execution Verification Report & (1,3) \\
+\hline
+VerFailedStartRep & Failed Start of Execution  Verification Report & (1,4) \\
+\hline
+VerSuccessPrgrRep & Successful Progress of Execution Verification Report & (1,5) \\
+\hline
+VerFailedPrgrRep & Failed Progress of Execution Verification Report & (1,6) \\
+\hline
+VerSuccessTermRep & Successful Termination of Execution Verification Report & (1,7) \\
+\hline
+VerFailedTermRep & Failed Termination of Execution Verification Report & (1,8) \\
+\hline
+VerFailedRoutingRep & Failed Rerouting Verification Report & (1,10) \\
+\hline
+AreYouAliveCmd & Perform an Are-You-Alive Connection Test & (17,1) \\
+\hline
+AreYouAliveRep & Are-You-Alive Connection Test Report & (17,2) \\
+\hline
+IsAppProcAliveCmd & Perform an On-Board Connection Test & (17,3) \\
+\hline
+IsAppProcAliveRep & On-Board Connection Test Report & (17,4) \\
+\hline
+\end{longtable}  
+
 
 %=============================================================================================
 \section{The Request Verification Service}\label{sec:serv1}
@@ -927,13 +1016,7 @@ One implication of this mechanism is that only one Is-Application-Process-Alive 
 
 The time-out parameter \texttt{areYouAliveTimeOut} is the same for all target applications. There is, in other words, an underlying assumption that the response time of all target applications is similar and that there is therefore no need to maintain separate time-outs for each target application. If this assumption is not satisfied, the user must update the value of \texttt{areYouAliveTimeOut} with service TBD before starting an Is-Application-Process-Alive Test.
 
-\newpage
-\begin{figure}[H]
- \centering
- \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmd17s3Start.png}
- \caption{Start Action of Command IsAppProcAliveCmd Command (17,3)}
- \label{fig:Cmd17s3Start}
-\end{figure}
+
 
 %---------------------------------------------------------------------------------
 \subsection{Service 17 Observables}\label{sec:serv17Obs}
@@ -956,7 +1039,7 @@ The test service consists of two commands and two reports. Commands are defined 
 The following considerations apply to the service 17 commands and reports:
 
 \begin{fw_itemize}
-\item The service 17 commands execute in 'one-shot' and therefore do not generate progress reports.
+\item The service 17 commands execute in 'one-shot' mode and therefore do not generate progress reports.
 \item Service 17 reports are generated unconditionally and hence their enable check always returns 'report enabled'.
 \item Service 17 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
 \item Service 17 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
@@ -965,7 +1048,31 @@ The following considerations apply to the service 17 commands and reports:
 \begin{cr_ap}{S17-1}{Adaptation Points for (17,1) Command}
 \end{cr_ap}
 
+\begin{cr_ap}{S17-2}{Adaptation Points for (17,2) Report}
+\end{cr_ap}
 
+\begin{cr_ap}{S17-3}{Adaptation Points for (17,3) Command}
+\end{cr_ap}
+
+\begin{cr_ap}{S17-4}{Adaptation Points for (17,4) Report}
+\end{cr_ap}
+
+
+\newpage
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmd17s3Start.png}
+ \caption{Start Action of Command IsAppProcAliveCmd Command (17,3)}
+ \label{fig:Cmd17s3Start}
+\end{figure}
+
+\newpage
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmd17s3Prgr.png}
+ \caption{Progress Action of Command IsAppProcAliveCmd Command (17,3)}
+ \label{fig:Cmd17s3Prgr}
+\end{figure}
 
 
 
