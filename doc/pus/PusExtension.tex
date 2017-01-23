@@ -761,31 +761,29 @@ Table \ref{tab:supportedPus} lists the command and report components provided by
 
 %--------------------------------------------------------------------------------------
 \subsection{Report and Command Adaptation Points}\label{sec:repCmdAP}
-Rows 1 to 18 of table \ref{tab:AP-PCR} list the adaptation points of the OutComponent component and describes how they are closed for the PUS reports provided by the framework extension. In some cases, the adaptation point is closed in the same way for all framework reports. In other cases, the close-out is report-specific and is then described in the following sections of this document which define the individual PUS services. Thus, for instance, the close-out of the report-specific adaptation points for the service 1 reports can be found in section \ref{sec:serv1AP}.
- 
-The following considerations apply to the data in table \ref{tab:AP-OCM}:
+Rows 1 to 18 of table \ref{tab:AP-PCR} list the adaptation points of the OutComponent component and describes how they are closed for the PUS reports provided by the framework extension. In some cases, the adaptation point is closed in the same way for all framework reports. In other cases, the close-out is report-specific and is then described in the following sections of this document which define the individual PUS services. Thus, for instance, the close-out of the report-specific adaptation points for the service 1 reports can be found in section \ref{sec:serv1AP}. The following considerations apply to the data in the table:
 
 \begin{fw_itemize}
 \item The OutComponent components are created by the OutFactory and it can be assumed that they are created such that they can be successfully initialized and configured. Their initialization and configuration procedures (adaptation points OCM-1 to 4) can therefore be just dummies that do not perform any action. The same applies to the shutdown procedure (adaptation point OCM-5).
-\item The adaptation point related to the execution procedure (OCM-6) is already closed at CORDET Framework level because OutComponents do not have any execution procedure.
-\item The adaptation points OCM-7 to 9 and OCM-10 to 12 related to the setting of the report attributes (type, sub-type, discriminant, destination and parameters) are closed for each specific report type in the following sections of this document.
+\item The adaptation point OCM-6 related to the execution procedure is already closed at CORDET Framework level because OutComponents have no execution procedure.
+\item The adaptation points OCM-7 and 8 related to the setting of the report type and sub-type are closed in accordance with the discussion in section \ref{sec:repCmdAttr} by setting the CORDET types and sub-types equal to the PUS type and sub-type.
+\item The adaptation points OCM-9 and OCM-10 to 12 related to the setting of the report discriminant, destination and parameters are closed for each individual report type in the following sections of this document.
 \item The adaptation point OCM-10 related to the acknowledge level is only relevant to out-going commands and is therefore not applicable to the PUS reports.
 \item The adaptation points OCM-13 to 16 related to the report checks and actions are closed for each specific report type in the following sections of this document.
 \item The adaptation point OCM-17 related to the serialize operation is closed to create a packet layout which complies with the layout defined by the PUS in [PS-SP].
 \item The adaptation point OCM-18 covers the response to a report having an invalid destination. By design, this situation should never arise and the adaptation point is closed with the generation of an error report.
 \end{fw_itemize}
 
-In a similar fashion, rows 19 to 39 of table \ref{tab:AP-PCR} list the adaptation points of the InCommand component and describes how they are closed for the PUS commands provided by the framework extension. In some cases, the adaptation point is closed in the same way for all framework commands. In other cases, the close-out is command-specific and is then described in the following sections of this document which define the individual PUS services. Thus, for instance, the close-out of the command-specific adaptation points for the service 17 commands can be found in section \ref{sec:serv17AP}.
- 
-The following considerations apply to the data in table \ref{tab:AP-ICM}:
+In a similar fashion, rows 19 to 39 of table \ref{tab:AP-PCR} list the adaptation points of the InCommand component and describes how they are closed for the PUS commands provided by the framework extension. In some cases, the adaptation point is closed in the same way for all framework commands. In other cases, the close-out is command-specific and is then described in the following sections of this document which define the individual PUS services. Thus, for instance, the close-out of the command-specific adaptation points for the service 17 commands can be found in section \ref{sec:serv17AP}. The following considerations apply to the data in the table:
 
 \begin{fw_itemize}
-\item The InCommand components are created by the InFactory but are then initialized and configured by the InLoader. Their initialization and configuration procedures (adaptation points ICM-1 to 4) are therefore implementation-specific. The same applies to the shutdown procedure (adaptation point OCM-5).
+\item The InCommand components are created by the InFactory but are then initialized and configured by the InLoader. Their initialization and configuration procedures (adaptation points ICM-1 to 4) are therefore implementation-specific. The same applies to the shutdown procedure (adaptation point ICM-5).
 \item The adaptation point related to the execution procedure (ICM-6) is already closed at CORDET Framework level because InCommand do not have any execution procedure.
-\item The adaptation points OCM-7 to 11 related to the command checks and actions are closed for each specific command type in the following sections of this document.
-\item The adaptation point OCM-10 related to the acknowledge level is only relevant to out-going commands and is therefore not applicable to the PUS reports.
-\item The adaptation points OCM-12 to 17 related to the generation of success and failure reports for the command are closed as part of the service 1 definition in section \ref{sec:serv1AP}.
-\item The adaptation points OCM-18 to 21 related to the command type, sub-tyope, discriminant and parameters are closed for each specific command type in the following sections of this document.
+\item The adaptation points ICM-7 to 11 related to the command checks and actions are closed for each specific command type in the following sections of this document.
+\item The adaptation point ICM-10 related to the acknowledge level is only relevant to out-going commands and is therefore not applicable to the PUS reports.
+\item The adaptation points ICM-12 to 17 related to the generation of success and failure reports for the command are closed as part of the service 1 definition in section \ref{sec:serv1AP}.
+\item The adaptation points ICM-18 and 19 related to the setting of the command type and sub-type are closed in accordance with the discussion in section \ref{sec:repCmdAttr} by setting the CORDET types and sub-types equal to the PUS type and sub-type.
+\item The adaptation points ICM-20 and 21 related to the command discriminant and parameters are closed for each individual command type in the following sections of this document.
 \end{fw_itemize}
 
 \begin{cr_ap}{PCR}{Adaptation Points for PUS Reports and Commands}
@@ -1057,6 +1055,12 @@ The following considerations apply to the service 17 commands and reports:
 \begin{cr_ap}{S17-4}{Adaptation Points for (17,4) Report}
 \end{cr_ap}
 
+%---------------------------------------------------------------------------------
+\subsection{Service 17 Requirements}
+The table in this section lists requirements for the test service.
+
+\begin{cr_req}{S17}{Requirements for Service 17 (Test Service)}
+\end{cr_req}
 
 \newpage
 \begin{figure}[H]
