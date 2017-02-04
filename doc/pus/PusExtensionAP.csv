@@ -65,7 +65,7 @@ S1,15,Closes OCM-14,Ready Check Operation of Service 1 Out-Going Report,Service 
 S1,16,Closes OCM-15,Repeat Check Operation of Service 1 Out-Going Report,Service 1 reports are never repeated
 S1,17,Closes OCM-16,Update Action of Service 1 Out-Going Report,No action
 S17-1,1,Closes ICM-7,"Ready Check of (17,1) Command",Return “command is ready'
-S17-1,2,Closes ICM-8,"Start Action of (17,1) Command","Retrieve (17,2) report from OutFactory and set action outcome to “success' if retrieval succeeds. If the retrieval fails, generated error report OUTFACTROY\_FAILED and set outcome of Start Action to 'failed'"
+S17-1,2,Closes ICM-8,"Start Action of (17,1) Command","Retrieve (17,2) report from OutFactory and set action outcome to “success' if retrieval succeeds. If the retrieval fails, generate error report OUTFACTORY\_FAILED and set outcome of Start Action to 'failed'"
 S17-1,3,Closes ICM-9,"Progress Action of (17,1) Command","Configure the (17,2) report with a destination equal to the source of the (17,1), load it in the OutLoader, and set action outcome to 'completed'"
 S17-1,4,Closes ICM-10,"Termination Action of (17,1) Command",Set action outcome to 'success'
 S17-1,5,Closes ICM-11,"Abort Action of (17,1) Command",Do nothing
@@ -90,7 +90,7 @@ S17-3,8,Closes ICM-21,"Parameter Attributes of (17,3) Command","Command (17,3) c
 S17-4,1,Closes OCM-9,"Destination Attribute of (17,4) Report","The destination is set to be equal to the source of the (17,3) command which triggers the (17,4)"
 S17-4,2,Closes OCM-11,"Discriminant Attribute of (17,4) Report","No discriminant attribute is defined for reports (17,4)"
 S17-4,3,Closes OCM-12,"Parameter Attribute of (17,2) Report","Report (17,4) carries no parameters"
-S17-4,4,Closes OCM-13,"Enable Check Operation of (17,2) Report","Reports (17,4) are always enabled"
-S17-4,5,Closes OCM-14,"Ready Check Operation of (17,2) Report","Reports (17,4) are always ready"
-S17-4,6,Closes OCM-15,"Repeat Check Operation of (17,2) Report","Report (17,4) are never repeated"
+S17-4,4,Closes OCM-13,"Enable Check Operation of (17,2) Report","Report (17,4) is always enabled"
+S17-4,5,Closes OCM-14,"Ready Check Operation of (17,2) Report","Report (17,4) is always ready"
+S17-4,6,Closes OCM-15,"Repeat Check Operation of (17,2) Report","Report (17,4) is never repeated"
 S17-4,7,Closes OCM-16,"Update Action of (17,2) Report",No action

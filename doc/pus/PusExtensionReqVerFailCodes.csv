@@ -1,2 +1,3 @@
 Name,Description
 CMD\_INV\_DEST,"Failure code for all (1,10) reports"
+REP\_CREATION\_FAILED,Failure code for service 17 start actions when they fail to create a service 17 report

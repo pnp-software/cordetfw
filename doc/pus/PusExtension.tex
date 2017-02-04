@@ -509,6 +509,8 @@ Table \ref{tab:supportedServ} lists the services supported by the PUS Extension 
 \hline
 3 & Housekeeping Service & \ref{sec:serv3} \\
 \hline
+17 & Test Service & \ref{sec:serv17} \\
+\hline
 TBD & TBD & TBD \\
 \hline
 \end{longtable} 
@@ -548,7 +550,16 @@ A derived component closes an adaptation point of its base component when it def
 
 %----------------------------------------------------------------------------------
 \subsection{Compliance to PUS Requirements}\label{sec:ComplianceToPus}
-The PUS Extension of the CORDET Framework implements a subset of the standard PUS services of AD-3. In order to provide visibility over the level of compliance to the PUS requirements of AD-3, appendix \ref{sec:PusReqSOC} presents a statement of compliance to these requirements. This demonstrates that, for the selected services, the PUS Extension is fully compliance to the PUS requirements.
+The PUS Extension of the CORDET Framework implements a subset of the standard PUS services of AD-3. In order to provide visibility over the level of compliance to the PUS requirements of AD-3, appendix \ref{sec:PusReqSOC} presents a statement of compliance to these requirements. This demonstrates that, for the selected services, the PUS Extension is fully compliant to the PUS requirements.
+
+The following considerations apply to the statement of compliance in appendix \ref{sec:PusReqSOC}:
+
+\begin{fw_itemize}
+\item In the PUS, a request (command) contains one or more instructions. The standard allows instructions within a command to be processed, to some extent, independently of each other (for instance, verification reports (1,4) may be generated for each instruction within a command). The CORDET Framework does not have the concept of "instruction" and CORDET commands are accordingly processed as one single entity (for instance, only one single (1,4) report may be generated for a command).
+\item TBD.
+\end{fw_itemize}
+
+
 
 
 %=============================================================================================
@@ -830,9 +841,9 @@ AreYouAliveCmd & Perform an Are-You-Alive Connection Test & (17,1) \\
 \hline
 AreYouAliveRep & Are-You-Alive Connection Test Report & (17,2) \\
 \hline
-IsAppProcAliveCmd & Perform an On-Board Connection Test & (17,3) \\
+OnBoardConnectCmd & Perform an On-Board Connection Test & (17,3) \\
 \hline
-IsAppProcAliveRep & On-Board Connection Test Report & (17,4) \\
+OnBoardConnectRep & On-Board Connection Test Report & (17,4) \\
 \hline
 \end{longtable}  
 
@@ -980,7 +991,7 @@ The Test Service provides the capability to perform two kinds of connections tes
 
 The Are-You-Alive test is like a ping test: an external user sends a command of type (17,1) to the application and the application responds by sending to the user a (17,2) report. Neither the (17,1) command nor the (17,2) report carry any parameters. 
 
-In the Is-Application-Process-Alive Test, an external user sends a command of type (17,3) to application A asking it to perform a connection test with some other application B. Application B is specified through a parameter carried by the (17,3) command. The connection test is not specified by the PUS. The PUS Extension of the CORDET Framework implements it as an Are-You-Alive Test from application A to application B. If this Are-You-Alive Test is successful, application A generates a (17,4) report to its user. The Are-You-Alive Test is declared successful if a (17,2) report from application B is received within time \texttt{AreYouAliveTimeOut} from the sending of the (17,1) command.
+In the On-Board-Connection Test, an external user sends a command of type (17,3) to application A asking it to perform a connection test with some other application B. Application B is specified through a parameter carried by the (17,3) command. The connection test is not specified by the PUS. The PUS Extension of the CORDET Framework implements it as an Are-You-Alive Test from application A to application B. If this Are-You-Alive Test is successful, application A generates a (17,4) report to its user. The Are-You-Alive Test is declared successful if a (17,2) report from application B is received within time \texttt{AreYouAliveTimeOut} from the sending of the (17,1) command.
 
 %=============================================================================================
 \subsection{Service 17 Command and Report Definition}
@@ -989,30 +1000,30 @@ In the CORDET Framework an out-going report is encapsulated in an OutComponent c
 \begin{fw_itemize}
 \item Component AreYouAliveCmd implements command (17,1) 
 \item Component AreYouAliveRep implements report (17,2) 
-\item Component IsAppProcAliveCmd implements command (17,3)  
-\item Component IsAppProcAliveRep implements report (17,4) 
+\item Component OnBoardConnectCmd implements command (17,3)  
+\item Component OnBoardConnectRep implements report (17,4) 
 \end{fw_itemize}
 
 These components are defined by the way they close the adaptation points of the OutComponent and InCommand. This is defined formally in tables \ref{tab:AP-S17-1} to \ref{tab:AP-S17-4} but the main points are as follows.
 
 The AreYouAliveCmd commmand implements a Progress Action which creates and loads the AreYouAliveRep report. The report destination is the same as the source of the AreYouAliveCmd command. Thus, the processing of the AreYouAliveCmd command consists in sending an AreYouAliveRep to the source of the AreYouAliveCmd. The AreYouAliveCmd commmand is always accepted and it is always started, executed and terminated successfully.
 
-The IsAppProcAliveCmd command is always accepted. The command carries as its single parameter the identifier of the application with which the connection test must be performed. The Start Action of the command verifies the legality of this application identifier. In order to establish its legality, service 17 maintains parameter \texttt{isAppProcAliveDestLst} to hold the list of legal targets for the Is-Application-Process-Alive test. If the application identifier carried by the IsAppProcAliveCmd command is not included in this list, its Start Action is deemed to have failed. The Start Action of the IsAppProcAliveCmd command is shown in figure \ref{fig:Cmd17s3Start} as an activity diagram.
+The OnBoardConnectCmd command is always accepted. The command carries as its single parameter the identifier of the application with which the connection test must be performed. The Start Action of the command verifies the legality of this application identifier. In order to establish its legality, service 17 maintains parameter \texttt{onBoardConnectDestLst} to hold the list of legal targets for the On-Board-Connection test. If the application identifier carried by the OnBoardConnectCmd command is not included in this list, its Start Action is deemed to have failed. The Start Action of the OnBoardConnectCmd command is shown in figure \ref{fig:Cmd17s3Start} as an activity diagram.
 
 If, instead, the legality of the target application identifier is confirmed, the Start Action sends an AreYouAliveCmd command to the target application. Normally, the target application should respond by sending it an AreYouAliveRep report. If the expected response (the AreYouAliveRep report) is not received within time \texttt{areYouAliveTimeOut}, the command is deemed to have failed its execution.
 
-The mechanism through which the AreYouAliveRep report notifies the IsAppProcAliveCmd command of its arrival is as follows:
+The mechanism through which the AreYouAliveRep report notifies the OnBoardConnectCmd command of its arrival is as follows:
 
 \begin{fw_itemize}
 \item The service 17 maintains integer \texttt{areYouAliveSrc}
-\item The Start Action of the IsAppProcAliveCmd command resets \texttt{areYouAliveSrc} to zero
+\item The Start Action of the OnBoardConnectCmd command resets \texttt{areYouAliveSrc} to zero
 \item The Update Action of the incoming report AreYouAliveRep loads its source in \texttt{areYouAliveSrc}
-\item The Progress Action of the IsAppProcAliveCmd command only declares the command to have successfully terminated if, within time-out \texttt{areYouAliveTimeOut}, it finds \texttt{areYouAliveSrc} equal to the identifier of the application with which the connection test is done
+\item The Progress Action of the OnBoardConnectCmd command only declares the command to have successfully terminated if, within time-out \texttt{areYouAliveTimeOut}, it finds \texttt{areYouAliveSrc} equal to the identifier of the application with which the connection test is done
 \end{fw_itemize}
 
-One implication of this mechanism is that only one Is-Application-Process-Alive Test may be active at a given time (i.e. the user should only send a new IsAppProcAliveCmd command to an application after execution of the previous IsAppProcAliveCmd command has completed). This constraint is not enforced by the framework and is under the responsibility of the user of the service.
+One implication of this mechanism is that only one On-Board-Connection Test may be active at a given time (i.e. the user should only send a new OnBoardConnectCmd command to an application after execution of the previous OnBoardConnectCmd command has completed). This constraint is not enforced by the framework and is under the responsibility of the user of the service.
 
-The time-out parameter \texttt{areYouAliveTimeOut} is the same for all target applications. There is, in other words, an underlying assumption that the response time of all target applications is similar and that there is therefore no need to maintain separate time-outs for each target application. If this assumption is not satisfied, the user must update the value of \texttt{areYouAliveTimeOut} with service TBD before starting an Is-Application-Process-Alive Test.
+The time-out parameter \texttt{areYouAliveTimeOut} is the same for all target applications. There is, in other words, an underlying assumption that the response time of all target applications is similar and that there is therefore no need to maintain separate time-outs for each target application. If this assumption is not satisfied, the user must update the value of \texttt{areYouAliveTimeOut} with service TBD before starting an On-Board-Connection Test.
 
 
 
@@ -1066,7 +1077,7 @@ The table in this section lists requirements for the test service.
 \begin{figure}[H]
  \centering
  \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmd17s3Start.png}
- \caption{Start Action of Command IsAppProcAliveCmd Command (17,3)}
+ \caption{Start Action of Command OnBoardConnectCmd Command (17,3)}
  \label{fig:Cmd17s3Start}
 \end{figure}
 
@@ -1074,7 +1085,7 @@ The table in this section lists requirements for the test service.
 \begin{figure}[H]
  \centering
  \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmd17s3Prgr.png}
- \caption{Progress Action of Command IsAppProcAliveCmd Command (17,3)}
+ \caption{Progress Action of Command OnBoardConnectCmd Command (17,3)}
  \label{fig:Cmd17s3Prgr}
 \end{figure}
 
@@ -1116,9 +1127,9 @@ The table in this section lists all the error reports which are generated by the
 
 %=============================================================================================
 \section{Request Verification Failure Codes}\label{sec:reqVerFailCodes}
-Request verification failure reports of service 1 carry a failure code. The table in this section lists all the failure codes supported by the PUS Extension of the CORDET Framework. The data associated to each failure report depends exclusively on the report sub-type and is specified by the close-out of adaptation point OCM-12 for service reports (see also section \ref{sec:serv1RepDef}.
+Request verification failure reports of service 1 carry a failure code. The table in this section lists all the failure codes supported by the PUS Extension of the CORDET Framework. The data associated to each failure report depends exclusively on the report sub-type and is specified by the close-out of adaptation point OCM-12 for service reports (see also section \ref{sec:serv1RepDef}).
 
-\begin{longtable}{|l|>{\raggedright\arraybackslash}p{8.0cm}}
+\begin{longtable}{|l|>{\raggedright\arraybackslash}p{8.0cm}|}
 \caption{Request Verification Failure Codes}\label{tab:reqVerFailCodes}\\
 \hline
 \rowcolor{light-gray}
@@ -1143,6 +1154,7 @@ The table in this section presents the level of compliance achieved by the PUS E
 \begin{fw_itemize}
 \item [C1] The requirement is directly implemented by the PUS Extension of the CORDET Framework or by the CORDET Framework itself (i.e. applications instantiated from the framework are guaranteed to be compliant with the requirement)
 \item [C2] The requirement may be implemented by applications instantiated from the PUS Extension of the CORDET Framework (i.e. applications instantiated from the framework may be made be compliant with the requirement)
+\item [CC] Compliance to the requirement is conditional on some constraints being respected by the user
 \item [NC] The requirement is not compatible with the PUS Extension of the CORDET Framework (i.e. applications instantiated from the framework cannot be compliant with the requirement)
 \item [NA] The requirement is not covered by the PUS Extension of the CORDET Framework
 \end{fw_itemize}

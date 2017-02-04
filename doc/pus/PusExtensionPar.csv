@@ -1,3 +1,3 @@
 Category,Name,Desc
 S17,areYouAliveTimeOut,Time-out for the Are-You-Alive Test initiated in response to an Is-Application-Process-Alive Test 
-S17,isAppProcAliveDestLst,List of identifiers of target applications for an Is-Application-Process-Alive Test
+S17,onBoardConnectDestLst,List of identifiers of target applications for an On-Board-Connection Test
