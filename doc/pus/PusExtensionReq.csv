@@ -28,6 +28,7 @@ S1,A,10,The command verification reports listed in the previous requirements sha
 S1,A,11,The service 1 implementation of the PUS Extension of the CORDET Framework shall close or override the InLoader and InCommand adaptation points listed in table \ref{tab:AP-S1},,
 S1,S,12,The PUS Extension of the CORDET Framerework shall maintain and make accessible through the data pool the observables listed in table \ref{tab:Obs-S1},,
 S1,S,13,The PUS Extension of the CORDET Framerework shall support the service 1 failure codes listed in table \ref{tab:reqVerFailCodes},,
+S1,C,14,"If an application performs a verification check for a command and the check fails, it shall update the Verification Failure Data in the data pool with either zero or with a command-specific failure data item",,
 S17,S,1,"The PUS Extension of the CORDET Framework shall provide, as an extension of the InCommand, an AreYouAliveCmd component to encapsulate a (17,1) command",,
 S17,S,2,"The PUS Extension of the CORDET Framework shall provide, as an extension of the OutComponent, an AreYouAliveRep component to encapsulate a (17,2) report",,
 S17,S,3,"The PUS Extension of the CORDET Framework shall provide, as an extension of the InCommand, an OnBoardConnectCmd component to encapsulate a (17,3) command",,
