@@ -177,6 +177,13 @@ c,,"For each failed completion of execution notification that is accompanied of 
 ,,,,
 ,,,,
 ,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
+,,,,
 6.17.2.1.1a,Test subservice,Each test service shall contain at least one test subservice.,C1,The PUS Extension of the CORDET Framework supports service 17 in full
 6.17.2.2a,Application process,Each application process shall host at most one test subservice provider.,C1,An application instantiated from the CORDET Framework can only provide one instance of a service of a given type
 6.17.3a,Perform an are-you-alive connection test,The test subservice shall provide the capability to perform an are-you-alive connection test.,C1,The PUS Extension of the CORDET Framework supports sub-types 1 and 2 of service 17

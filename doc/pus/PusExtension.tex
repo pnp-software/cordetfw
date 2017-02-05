@@ -987,6 +987,26 @@ The table in this section lists requirements for the request verification servic
  \label{fig:CmdPrgrFail}
 \end{figure}
 
+%=============================================================================================
+\section{Housekeeping Service}\label{sec:serv3}
+The service type of the Housekeeping Service is 3. The PUS Extension of the CORDET Framework supports this service in full.
+
+The housekeeping service provides the capability to create, delete and control housekeeping and diagnostic reports. A housekeeping/diagnostic report carries the values of a set of data pool items\footnote{The PUS uses the term 'parameter' to designate the data pool items whose values are carries by the housekeeping and diagnostic reports.}. Any data pool item may be included in a housekeeping or diagnostic report. 
+
+At any given time, an application generates several kinds of housekeeping/diagnostic reports which differ for the set of data items they hold and for the frequency with which they are generated. The housekeeping/diagnostic reports use the discriminant attribute to manage this variability. Thus, two different kinds of housekeeping/diagnostic reports are distinguished by different values of discriminant attribute. In keeping with the PUS convention, the discriminant attribute of a housekeeping/diagnostic report is called the \textit{Structure Identifier} or SID. The SID must be a non-negative integer. 
+
+Housekeeping/diagnostic reports are generated periodically. The \textit{Collection Period} of a housekeeping/diagnostic report is the period with which the report is generated. The Collection Period is expressed as an integer multiple of a minimum period HK\_PER which is an application constant. A value of zero for the collection period means that the report is only generated once.
+
+A data item in a housekeeping/diagnostic report is either \textit{simply commutated} or \textit{super-commutated}. The value of a simply-commutated data item appears only once in the housekeeping/diagnostic report and it represents the value of the data item at the time the report is generated.
+
+The value of a super-commutated data item instead appears multiple times within a housekeeping/diagnostic report. Different values are collected at sampling times which are separated from each other by that data item's Sampling Period. The sampling period must be a sub-multiple of the collection period.
+
+Within a housekeeping/diagnostic report definition, each data item appears only once, either as a simply commutated parameter or as a super-commutated parameter.
+
+
+
+
+
 
 %=============================================================================================
 \section{Test Service}\label{sec:serv17}
