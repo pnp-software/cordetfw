@@ -991,19 +991,49 @@ The table in this section lists requirements for the request verification servic
 \section{Housekeeping Service}\label{sec:serv3}
 The service type of the Housekeeping Service is 3. The PUS Extension of the CORDET Framework supports this service in full.
 
-The housekeeping service provides the capability to create, delete and control housekeeping and diagnostic reports. A housekeeping/diagnostic report carries the values of a set of data pool items\footnote{The PUS uses the term 'parameter' to designate the data pool items whose values are carries by the housekeeping and diagnostic reports.}. Any data pool item may be included in a housekeeping or diagnostic report. 
+The housekeeping service provides the capability to create, delete and control housekeeping and diagnostic reports. The service 3 commands and reports in the PUS are duplicated being defined once for housekeeping reports and once for diagnostic reports. The PUS framework supports both sets of commands and reports but does not otherwise make any distinction between housekeeping and diagnostic reports. It is essentially up to the user to decide which service 3 reports should be treated as 'housekeeping reports' and which ones should instead be treated as 'diagnostic reports'.
 
-At any given time, an application generates several kinds of housekeeping/diagnostic reports which differ for the set of data items they hold and for the frequency with which they are generated. The housekeeping/diagnostic reports use the discriminant attribute to manage this variability. Thus, two different kinds of housekeeping/diagnostic reports are distinguished by different values of discriminant attribute. In keeping with the PUS convention, the discriminant attribute of a housekeeping/diagnostic report is called the \textit{Structure Identifier} or SID. The SID must be a non-negative integer. 
+A housekeeping/diagnostic report carries the values of a set of data pool items\footnote{The PUS uses the term 'parameter' to designate the data pool items whose values are carries by the housekeeping and diagnostic reports.}. Any data pool item may be included in a housekeeping/diagnostic report. 
 
-Housekeeping/diagnostic reports are generated periodically. The \textit{Collection Period} of a housekeeping/diagnostic report is the period with which the report is generated. The Collection Period is expressed as an integer multiple of a minimum period HK\_PER which is an application constant. A value of zero for the collection period means that the report is only generated once.
+At any given time, an application generates several kinds of housekeeping/diagnostic reports which differ for the set of data items they hold and for the frequency with which they are generated. The housekeeping/diagnostic reports use the discriminant attribute to manage this variability. Thus, two different kinds of housekeeping/diagnostic reports are distinguished by different values of discriminant attribute. In keeping with the PUS convention, the discriminant attribute of a housekeeping/diagnostic report is called \textit{Structure Identifier} or SID. The SID must be a non-negative integer. 
+
+Since no distinction is made between housekeeping and diagnostic reports, the SID must be unique within the set of all housekeeping/diagnostic reports (i.e. it is not possible for a housekeeping report and a diagnostic report to have the same SID).
+
+Housekeeping/diagnostic reports are generated periodically. The \textit{Collection Period} of a housekeeping/diagnostic report is the period with which the report is generated. The Collection Period is expressed as an integer multiple of a minimum period HK\_COLLECT\_PER which is an application constant. A value of zero for the collection period means that the report is only generated once.
 
 A data item in a housekeeping/diagnostic report is either \textit{simply commutated} or \textit{super-commutated}. The value of a simply-commutated data item appears only once in the housekeeping/diagnostic report and it represents the value of the data item at the time the report is generated.
 
-The value of a super-commutated data item instead appears multiple times within a housekeeping/diagnostic report. Different values are collected at sampling times which are separated from each other by that data item's Sampling Period. The sampling period must be a sub-multiple of the collection period.
+The value of a super-commutated data item instead appears multiple times within a housekeeping/diagnostic report. Different values are collected at sampling times which are separated from each other by that data item's Sampling Period. The sampling period must be an integer multiple of a minimum sampling period HK\_SAMPLE\_PER which is an application constant. The value of HK\_SAMPLE\_PER must be a sub-multiple of the collection period HK\_COLLECT\_PER.
 
 Within a housekeeping/diagnostic report definition, each data item appears only once, either as a simply commutated parameter or as a super-commutated parameter.
 
+%-------------------------------------------------------------------------------------
+\subsection{Report Definition List (RDL)}\label{sec:RDL}
+The Reporting Definition List or RDL is a data structure which holds the current configuration of the housekeeping/diagnostic reports. The content of the RDL is updated by the service 3 commands and, on request, it may be reported by service 3 reports.
 
+The RDL holds RDL\_SIZE \textit{Report Definitions}. Each Report Definition defines one housekeeping/diagnostic report and consists of: 
+
+\begin{fw_enumerate}
+\item The structure identifier (SID) of the report
+\item The collection period of the report
+\item The cycle counter of the report
+\item The enabled/disabled status of the report
+\item The destination of the report
+\item The list of data item identifiers
+\item The list of sample repetition numbers of the data item identifiers
+\end{fw_enumerate}
+
+The set of structure identifiers is predefined and consists of the integers in the range 1..SID\_MAX. The maximum number of data items in a housekeeping data report (RD\_MAX\_ITEMS) and their maximum total size (RD\_MAX\_SIZE) are also statically defined.
+
+The period and the cycle counters are non-negative integers. The period represents the generation period of the housekeeping/diangostic report expressed as a multiple of the collection period HK\_COLLECT\_PER. The function of the cycle counter is explained in the next section.
+
+
+
+
+
+The framework implements housekeeping/diagnostic reports in components HkHousekeepingRep and HkDiagnosticRep. The application is responsible for providing an OutManager which is executed cyclically with period HK\_COLLECT\_PER and onto which the housekeeping/diagnostic reports are loaded.
+
+ The cycle counter is initialized to zero when a report is enabled and is then incremented at every cycle with wrap-around at the value of the period. Reports which are enabled are generated when their cycle counter is equal to zero.
 
 
 
