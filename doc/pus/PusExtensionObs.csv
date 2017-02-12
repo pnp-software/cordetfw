@@ -1,28 +1,31 @@
-Category,Name,Desc
-FAC,nOfAllocatedInRep,Number of InReports which are currently allocated (i.e. which have been successfully created by the InFactory and not yet released)
-FAC,nOfAllocatedInCmd,Number of InCommands which are currently allocated (i.e. which have been successfully created by the InFactory and not yet released)
-FAC,nOfAllocatedOutCmp,Number of OutComponents which are currently allocated (i.e. which have been successfully created by the OutFactory and not yet released)
-FAC,nOfFailedInRep,Number of InReports whose creation by the InFactory failed
-FAC,nOfFailedInCmd,Number of InCommands whose creation by the InFactory failed
-FAC,nOfFailedOutCmp,Number of OutComponents whose creation by the OutFactory failed
-FAC,nOfTotAllocatedInRep,Number of InReports successfully created by the InFactory since application start
-FAC,nOfTotAllocatedInCmd,Number of InCommands successfully created by the InFactory since application start
-FAC,nOfTotAllocatedOutCmp,Number of OutComponents successfully created by the InFactory since application start
-S1,nOfAccFailed,Number of commands which have failed their acceptance check since the application was last reset
-S1,failCodeAccFailed,Failure code of last command which failed its Acceptance Check
-S1,pcktIdAccFailed,Packet identifier of last command which failed its Acceptance Check
-S1,nOfStartFailed,Number of commands which have failed their Start Check since the application was last reset
-S1,failCodeStartFailed,Failure code of last command which failed its Start Check
-S1,pcktIdStartFailed,Packet identifier of last command which failed its Start Check
-S1,nOfPrgrFailed,Number of commands which have failed their Progress Check since the application was last reset
-S1,failCodePrgrFailed,Failure code of last command which failed its Progress Check
-S1,pcktIdPrgrFailed,Packet identifier of last command which failed its Progress Check
-S1,stepPrgrFailed,Step identifier of last command which failed its Progress Check
-S1,nOfTermFailed,Number of commands which have failed their Termination Check since the application was last reset
-S1,failCodeTermFailed,Failure code of last command which failed its Termination Check
-S1,pcktIdTermFailed,Packet identifier of last command which failed its Termination Check
-S1,nOfReroutingFailed,Number of commands for which re-routing failed
-S1,pcktIdReroutingFailed,Packet identifier of last command for which re-routing failed
-S1,invDestRerouting,Destination of last command for which re-routing failed
-S1,verFailData,Verification Failure Data (data item of fixed size but variable type with command-specific information about the last verification failure)
-S17,areYouAliveSrc,"Source of the latest (17,2) report received in response to a (17,1) command triggered by a (17,3) command "
+Category,Name,Desc,Multiplicity
+FAC,nOfAllocatedInRep,Number of InReports which are currently allocated (i.e. which have been successfully created by the InFactory and not yet released),
+FAC,nOfAllocatedInCmd,Number of InCommands which are currently allocated (i.e. which have been successfully created by the InFactory and not yet released),
+FAC,nOfAllocatedOutCmp,Number of OutComponents which are currently allocated (i.e. which have been successfully created by the OutFactory and not yet released),
+FAC,nOfFailedInRep,Number of InReports whose creation by the InFactory failed,
+FAC,nOfFailedInCmd,Number of InCommands whose creation by the InFactory failed,
+FAC,nOfFailedOutCmp,Number of OutComponents whose creation by the OutFactory failed,
+FAC,nOfTotAllocatedInRep,Number of InReports successfully created by the InFactory since application start,
+FAC,nOfTotAllocatedInCmd,Number of InCommands successfully created by the InFactory since application start,
+FAC,nOfTotAllocatedOutCmp,Number of OutComponents successfully created by the InFactory since application start,
+S1,nOfAccFailed,Number of commands which have failed their acceptance check since the application was last reset,
+S1,failCodeAccFailed,Failure code of last command which failed its Acceptance Check,
+S1,pcktIdAccFailed,Packet identifier of last command which failed its Acceptance Check,
+S1,nOfStartFailed,Number of commands which have failed their Start Check since the application was last reset,
+S1,failCodeStartFailed,Failure code of last command which failed its Start Check,
+S1,pcktIdStartFailed,Packet identifier of last command which failed its Start Check,
+S1,nOfPrgrFailed,Number of commands which have failed their Progress Check since the application was last reset,
+S1,failCodePrgrFailed,Failure code of last command which failed its Progress Check,
+S1,pcktIdPrgrFailed,Packet identifier of last command which failed its Progress Check,
+S1,stepPrgrFailed,Step identifier of last command which failed its Progress Check,
+S1,nOfTermFailed,Number of commands which have failed their Termination Check since the application was last reset,
+S1,failCodeTermFailed,Failure code of last command which failed its Termination Check,
+S1,pcktIdTermFailed,Packet identifier of last command which failed its Termination Check,
+S1,nOfReroutingFailed,Number of commands for which re-routing failed,
+S1,pcktIdReroutingFailed,Packet identifier of last command for which re-routing failed,
+S1,invDestRerouting,Destination of last command for which re-routing failed,
+S1,verFailData,Verification Failure Data (data item of fixed size but variable type with command-specific information about the last verification failure),
+S3,cycleCnt,Array of HK\_N\_REP\_DEF elements. The I-th element is the cycle counter for the I-th Report Definitions in the RDL ,
+S3,sampleBufId,Array of HK\_N\_REP\_DEF elements. The I-th element is the identifier of the Sampling Buffer ter for the I-th Report Definition in the RDL ,
+S3,isEnabled,Array of HK\_N\_REP\_DEF elements. The I-th element is the enable status of the I-th Report Definition in the RDL ,
+S17,areYouAliveSrc,"Source of the latest (17,2) report received in response to a (17,1) command triggered by a (17,3) command ",

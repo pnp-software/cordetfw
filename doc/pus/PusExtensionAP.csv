@@ -4,7 +4,7 @@ DP,2,Overrides BAS-2,Initialization Action in Initialization Procedure of Data P
 DP,3,Overrides BAS-3,Configuration Check in Reset Procedure of Data Pool Component,Return 'success' if current values of data items can be initialized with their default values in zero logical execution time or else return 'success' if initialization of current value of data items has completed
 DP,4,Overrides BAS-4,Configuration Action in Reset Procedure of Data Pool Component,Start initialization of current values of data items with their default values and return 'success' if the initialization has completed
 DP,5,Overrides BAS-5,Shutdown Action of Data Pool Component,Same value as in Base Component
-DP,6,Overrides BAS-6,Execution Procedure of Data Pool Component,Same value as in Base Component
+DP,6,Overrides BAS-6,Execution Procedure of Data Pool Component,Refresh values of debug variables in data pool
 DP,7,New AP,Definition of Data Items in the Data Pool Component,No default defined at framework level
 DP,8,New AP,Operation to access the Current Value of a Data Item,No default defined at framework level
 DP,9,New AP,Operation to update the Current Value of a Data Item,No default defined at framework level
@@ -64,6 +64,15 @@ S1,14,Closes OCM-13,Enable Check Operation of Service 1 Out-Going Report,Service
 S1,15,Closes OCM-14,Ready Check Operation of Service 1 Out-Going Report,Service 1 reports are always ready
 S1,16,Closes OCM-15,Repeat Check Operation of Service 1 Out-Going Report,Service 1 reports are never repeated
 S1,17,Closes OCM-16,Update Action of Service 1 Out-Going Report,No action
+S3-25,1,Closes OCM-9,"Destination Attribute of (3,25) and (3,26) Reports",The destination is read from the \texttt{dest} field of the Report Definition corresponding to the report's SID
+S3-25,2,Closes OCM-11,"Discriminant Attribute of (3,25) and (3,26) Reports",The Structure Identifier (SID) of the report
+S3-25,3,Closes OCM-12,"Parameter Attribute of (3,25) and (3,26) Reports",The values of the data items associated to the report's SID in the RDL
+S3-25,4,Closes OCM-13,"Enable Check Operation of (3,25) and (3,26) Reports",The enable status is read from the \texttt{isEnabled} field of the Report Definition corresponding to the report's SID
+S3-25,5,Closes OCM-14,"Ready Check Operation of (3,25) and (3,26) Reports",TBD
+S3-25,6,Closes OCM-15,"Repeat Check Operation of (3,25) and (3,26) Reports",TBD
+S3-25,7,Closes OCM-16,"Update Action of (3,25) and (3,26) Reports",Read the value of the simply-commutated data items from the data pool and that of the super-commutated data items from the Sampling Buffer associated to the report's SID according to the Report Definition
+,,,,
+,,,,
 S17-1,1,Closes ICM-7,"Ready Check of (17,1) Command",Return “command is ready'
 S17-1,2,Closes ICM-8,"Start Action of (17,1) Command","Retrieve (17,2) report from OutFactory and set action outcome to “success' if retrieval succeeds. If the retrieval fails, generate error report OUTFACTORY\_FAILED and set outcome of Start Action to 'failed'"
 S17-1,3,Closes ICM-9,"Progress Action of (17,1) Command","Configure the (17,2) report with a destination equal to the source of the (17,1), load it in the OutLoader, and set action outcome to 'completed'"

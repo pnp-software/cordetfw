@@ -191,7 +191,7 @@
 \hline\hline
 \endhead
 \DTLforeach*[\DTLiseq{\cat}{#1}]{dbAP}{\cat=Category,\origin=Origin,\id=Id,\ap=AP,\defValue=DefValue}
-{\DTLiffirstrow{}{\\\hline}P-\cat-\id & \ap (\origin) & \defValue}\\\hline
+{\DTLiffirstrow{}{\\\hline}P-\cat-\id & \ap\ (\origin) & \defValue}\\\hline
 }
 {\end{longtable}}
 
@@ -214,6 +214,29 @@
 \hline\hline
 \endhead
 \DTLforeach*[\DTLiseq{\cat}{#1}]{dbObs}{\cat=Category,\name=Name,\desc=Desc}
+{\DTLiffirstrow{}{\\\hline}\texttt{\name} & \desc}\\\hline
+}
+{\end{longtable}}
+
+%---------------------------------------------
+% Define Environment for Constant Tables 
+% Par #1: The string identifying the category to which the constant belongs
+% Par #2: The table caption
+%---------------------------------------------
+\newenvironment{cr_const}[2]
+{
+\begin{longtable}{|l|p{9.5cm}|}
+\caption{#2}\label{tab:Const-#1} \\
+\hline
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Description}\\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Name} & \textbf{Description}\\
+\hline\hline
+\endhead
+\DTLforeach*[\DTLiseq{\cat}{#1}]{dbConst}{\cat=Category,\name=Name,\desc=Desc}
 {\DTLiffirstrow{}{\\\hline}\texttt{\name} & \desc}\\\hline
 }
 {\end{longtable}}
@@ -250,6 +273,7 @@
 \DTLloaddb{dbReq}{PusExtensionReq.csv}
 \DTLloaddb{dbObs}{PusExtensionObs.csv}
 \DTLloaddb{dbPar}{PusExtensionPar.csv}
+\DTLloaddb{dbConst}{PusExtensionConst.csv}
 \DTLloaddb{dbErr}{PusExtensionErr.csv}
 \DTLloaddb{dbReqVerFailCodes}{PusExtensionReqVerFailCodes.csv}
 
@@ -559,7 +583,28 @@ The following considerations apply to the statement of compliance in appendix \r
 \item TBD.
 \end{fw_itemize}
 
+There are some terminological differences between PUS and CORDET. For clarity, table \ref{tab:termPusCr} lists PUS-specific and gives the corresponding term or concept in the CORDET world. 
 
+\begin{longtable}{|l|>{\raggedright\arraybackslash}p{6cm}|}
+\caption{Terminological Mapping PUS-CORDET}\label{tab:termPusCr} \\
+\hline
+\rowcolor{light-gray}
+\textbf{PUS Term} & \textbf{Corresponding CORDET Term} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{PUS Term} & \textbf{Corresponding CORDET Term} \\
+\hline\hline
+\endhead
+Instruction & In the PUS, a request (command) contains one or more instructions. Instructions do not exist in CORDET and are therefore implicit to a command. \\
+\hline
+Notification & In the PUS, a report contains one or more notifications. Notifications do not exist in CORDET and are therefore implicit to a report. \\
+\hline
+Parameter & In a generic sense, PUS parameters are mapped to command and report parameters. In the specific context of service 3, parameters are mapped to data items \\
+\hline
+Request & Command \\
+\hline
+\end{longtable} 
 
 
 %=============================================================================================
@@ -701,9 +746,11 @@ In the first case, the initialization of the data items simply involves a copy a
 
 In the case where the initialization of the data item values is not an operation with zero logical execution time, then the Data Pool Component must be sent at least two \texttt{Reset} commands before it can enter the CONFIGURED state: the first \texttt{Reset} command starts the acquisition of the default values of the data items and the second \texttt{Reset} command verifies that the acquisition has terminated. Obviously, there is nothing to stop an application from using a "polling" approach and sending a sequence of \texttt{Reset} commands until the Data Pool Component has entered its CONFIGURED state. Note that, in line with requirements AST-5 and AST-7 in AD-1, it is the responsibility of the application to send as many \texttt{Reset} commands as needed to the Data Pool Component during the application start-up and application reset process.
 
-No behaviour is associated to the Data Pool Component when it is in state CONFIGURED and hence there is no need to define an Execution Procedure for it.
+The data items in the data pool should be kept up-to-date. Two options are possible in this respect: (a) the data items are refreshed by the components which own them or (b) the data items are periodically refreshed by the data pool itself. In case (a), the data pool is entirely passive. In case (b), it must implement the refresh function. A mixed solution where some data items are refreshed by the data pool component while others are refreshed by external components is also possible. Since refreshing should only be done with the data pool is in state CONFIGURED, it is natural to allocate the refresh function to the Execution Procedure of the Data Pool Component. 
 
-Finally, the Data Pool Component offers operations to give read-write access to the current values of the data items. The mode of access to these values (through functions which returns pointers to the data items or through functions which return their values) is not specified and is left to the implementation to decide. Also, no limitation is specified on which components can access the data items in the data pool: any component can access any data item in read-write mode. Such limitations, if needed, may be added at implementation level. 
+The framework uses option (a) for all data items under its control with the exception of the debug variables of service 3 (see section \ref{sec:serv3SupCommDataItems}). Users are free to choose between the two options for their data items. If they choose option (b), they must extend the Execution Procedure of the Data Pool Component accordingly.
+
+Finally, the Data Pool Component offers an \texttt{update} operation to support service 3 and operations to give read-write access to the current values of the data items. The mode of access to these values (through functions which returns pointers to the data items or through functions which return their values) is not specified and is left to the implementation to decide. Also, no limitation is specified on which components can access the data items in the data pool: any component can access any data item in read-write mode. Such limitations, if needed, may be added at implementation level. 
 
 The data item access operation use the Data Item Identifier as the key to identify the data item whose current value is to be read or updated. The behaviour of these operations in case an illegal identifier is used is not specified at framework level but it is noted that the design of the framework components is such that this situation (attempt to access a non-existent data item in the data pool) never arises. 
 
@@ -724,7 +771,6 @@ The table in this section lists the adaptation points for the Data Pool Componen
 \end{cr_ap}
 
 %---------------------------------------------------------------------------------
-\newpage
 \subsection{Requirements}
 The table in this section lists the requirements for the Data Pool Component.
 
@@ -1003,37 +1049,151 @@ Housekeeping/diagnostic reports are generated periodically. The \textit{Collecti
 
 A data item in a housekeeping/diagnostic report is either \textit{simply commutated} or \textit{super-commutated}. The value of a simply-commutated data item appears only once in the housekeeping/diagnostic report and it represents the value of the data item at the time the report is generated.
 
-The value of a super-commutated data item instead appears multiple times within a housekeeping/diagnostic report. Different values are collected at sampling times which are separated from each other by that data item's Sampling Period. The sampling period must be an integer multiple of a minimum sampling period HK\_SAMPLE\_PER which is an application constant. The value of HK\_SAMPLE\_PER must be a sub-multiple of the collection period HK\_COLLECT\_PER.
+The value of a super-commutated data item instead appears multiple times within a housekeeping/diagnostic report. Super-commutated data items in a report are divided into \textit{groups}. To each group, a \textit{sample repetition number} N is associated: a report carries N values of the data items in the super-commutated group and these N values have been generated by sampling the data items at N distinct points in time within the collection period. The PUS stipulates that the N collection points must be equally spaced within the collection interval but this constraint is not enforced by the framework (but may, of course, be enforced by an application). 
 
-Within a housekeeping/diagnostic report definition, each data item appears only once, either as a simply commutated parameter or as a super-commutated parameter.
+The PUS also stipulates that, within a housekeeping/diagnostic report definition, each data item appears only once, either as a simply commutated parameter or as a super-commutated parameter. This restriction is not enforced by the framework and is therefore under the responsibility of the user.
 
 %-------------------------------------------------------------------------------------
-\subsection{Report Definition List (RDL)}\label{sec:RDL}
+\subsection{Report Definition List (RDL)}\label{sec:serv3RDL}
 The Reporting Definition List or RDL is a data structure which holds the current configuration of the housekeeping/diagnostic reports. The content of the RDL is updated by the service 3 commands and, on request, it may be reported by service 3 reports.
 
-The RDL holds RDL\_SIZE \textit{Report Definitions}. Each Report Definition defines one housekeeping/diagnostic report and consists of: 
+The RDL holds HK\_N\_REP\_DEF \textit{Report Definitions}. The value of HK\_N\_REP\_DEF is an application constant. It represents the maximum number of housekeeping/diagnostic reports which may be defined at a given time. 
+
+Each Report Definition defines one housekeeping/diagnostic report in terms of the fields listed in table \ref{tab:repDefDataStruct}. Rows 6 to 9 determine the content of the report. The data items in a housekeeping/diagnostic report are arranged as a sequence of data item values according to the layout specified in clause 6.3.3.3 of [PS-SP]. The total number of reported data items is: (\texttt{nSimple}+\texttt{nRep[1]}+ .. +\texttt{nRep[nGroup]}), of which the first \texttt{nSimple} are simply-commutated whereas the others are split into \texttt{nGroup} groups of super-commutated data items. For each data item in the i-th group, \texttt{rep[i]} values are reported which have been collected at \texttt{rep[i]} times within the collection interval. The total number of data item values in a report therefore is: (\texttt{nSimple}+\texttt{nRep[1]*rep[1]}+ .. +\texttt{nRep[nGroup]*rep[nGroup]})
+
+The parameters HK\_MAX\_* are application constants. Applications which do not need super-commutated data can set HK\_MAX\_N\_GR to zero.
+
+The sampling buffer mentioned in the last row in table \ref{tab:repDefDataStruct} is discussed in the next section.
+
+\begin{longtable}{|l|p{5cm}|>{\raggedright\arraybackslash}p{6cm}|}
+\caption{Fields in Report Definition Data Structure}\label{tab:repDefDataStruct} \\
+\hline
+\rowcolor{light-gray}
+\textbf{Field Name} & \textbf{Description} & \textbf{Remarks} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Field Name} & \textbf{Description} & \textbf{Remarks} \\
+\hline\hline
+\endhead
+\texttt{sid} & Structure identifier (SID) & Integer in range: 1..HK\_MAX\_SID \\
+\hline
+\texttt{period} & Collection period in units of HK\_COLLECT\_PER & A value of zero indicates a "one-shot" report \\
+\hline
+\texttt{cycleCnt} & Cycle counter (see definition of service 3 reports and commands) & Integer in the range: 0..(\texttt{period}-1) \\
+\hline
+\texttt{isEnabled} & True if the report is enabled & None  \\
+\hline
+\texttt{dest} & The identifier of the application to which the report is sent & None \\
+\hline
+\texttt{nSimple} & Number of simply-commutated data items in the report & Integer in range: 1..HK\_MAX\_N\_SIMPLE \\
+\hline
+\texttt{lstSampleRep} & List of super commutated sample repetition numbers (\texttt{rep[1]} .. \texttt{rep[nGroup]}) & The number of groups is in the range: 0..HK\_MAX\_N\_GR and each repetition number is in the range: 1..HK\_MAX\_REP \\
+\hline
+\texttt{lstNSampRep} & List of numbers (\texttt{nRep[1]} .. \texttt{nRep[nGroup]}) of data items in each super-commutated group & Each \texttt{nRep[i]} is in range: 1..HK\_MAX\_N\_REP \\
+\hline
+\texttt{lstId} & List of identifiers of data items in the report & Not more than HK\_MAX\_N\_ITEMS data items and each identifier is in range: 1..HK\_MAX\_ID \\
+\hline
+\texttt{sampleBufId} & The identifier of the sampling buffer holding the super-commutated data item values & An integer in the range: 1..HK\_N\_SAMP\_BUF \\
+\hline
+\end{longtable}  
+
+
+%-------------------------------------------------------------------------------------
+\subsection{Management of Super-Commutated Data Items}\label{sec:serv3SupCommDataItems}
+The housekeeping service is responsible for collecting the values of the data items in housekeeping/diagnostic packets. For simply-commutated data items, the values are collected directly from the data pool. For super-commutated data items, the values are collected from a \textit{Sampling Buffer}. Each sampling buffer holds the values of the super-commutated data items for a given housekeeping/diagnostic report.
+
+The super-commutated data items in a report are arranged in \texttt{nGroup} groups. The i-th group covers \texttt{nRep[i]} items which are sampled \texttt{nRep[i]} times within a collection period. Hence, in each collection period, the i-th group contributes: \texttt{nRep[i]*rep[i]} data item values. The sampling buffer for a given housekeeping/diagnostic report must be large enough to hold the data item values collected in one collection period for all super-commutated groups in that report.
+
+The number of sampling buffers is HK\_N\_SAMP\_BUF. The value of HK\_N\_SAMP\_BUF is an application constant. It represents the maximum number of housekeeping/diagnostic reports with super-commutated data items which may be defined at a given time. This may be smaller than the maximum number HK\_N\_REP\_DEF of housekeeping/diagnostic reports. Thus, for instance, an application might stipulate that there may be up to 10 housekeeping/diagnostic reports but only two of these may contain super-commutated data items. This application would set HK\_N\_REP\_DEF to 10 and  HK\_N\_SAMP\_BUF to 2.
+
+The association between housekeeping/diagnostic report and its sampling buffer is done dynamically: if a report has super-commutated data items, the last field in its report definition contains a pointer to its sampling buffer (see table \ref{tab:repDefDataStruct}).
+
+The periodic collection of the values of the simply-commutated data items is done by the components hkRep which encapsulate a housekeeping/diagnostic report (see section \ref{sec:serv3RepCmdDef}). These components are executed once per collection interval. They therefore cannot collect the values of the super-commutated data items which are sampled several times per collection period. Responsibility for the collection of the values of the super-commutated data items rests with the application instantiated from the framework. 
+
+The framework offers the following functions to manipulate a sampling buffer:
+
+\begin{fw_itemize}
+\item \textit{Sampling Buffer Configuration Function} to configure a sampling buffer as a function of the number of groups, the number of data items in each group and the repetition number for each group.
+\item Sampling Buffer Setter Function to load the i-th value of the j-th data item in the k-th group in the sampling buffer.
+\item Sampling Buffer Getter Function to retrieve the i-th value of the j-th data item in the k-th group in the sampling buffer.
+\end{fw_itemize}
+
+The Configuration Function is used when a housekeeping/diagnostic report which contains super-commutated data items is created (either at application initialization time for a pre-defined report or in response to a (3,1)/(3,2) command for a dynamically defined report). The Setter Function is used by the application to load the super-commutated values in the sampling buffer. The Getter Function is used in the Update Action of the (3,25) and (3,26) reports to update the content of a housekeeping/diagnostic report. 
+
+%-------------------------------------------------------------------------------------
+\subsection{Debug Variables}\label{sec:debugVar}
+Service 3 offers visibility over the internal state of the IFSW by allowing periodic or sporadic access to the data items in the data pool. The data items in the data pool are defined at design time and should cover all application functions. For situations where additional visibility is required (e.g. in case of debugging during AIT activities), the framework the concept of \textit{debug variables} is introduced. A debug variable is a variable of 4 bytes of length whose address in RAM can be set using service TBD. More precisely, a total of N\_DEBUG\_VAR debug variables are defined which are encapsulated in data pool variables \texttt{debugVar\_x} where x ranges from 1 to N\_DEBUG\_VAR. Additionally, data pool parameters \texttt{debugVarAddr\_x} are defined to hold the address of \texttt{debugVar\_x}. The Execution Procedure of the data pool (see section \ref{sec:dpBehaviour}) loads the values of the memory locations pointed at by the elements of \texttt{debugVarAddr} into the elements of \texttt{debugVar}.  
+
+In order to illustrate the use of the debug variables, consider a situation where the user wishes to have read access to two memory locations holding two integers: 
 
 \begin{fw_enumerate}
-\item The structure identifier (SID) of the report
-\item The collection period of the report
-\item The cycle counter of the report
-\item The enabled/disabled status of the report
-\item The destination of the report
-\item The list of data item identifiers
-\item The list of sample repetition numbers of the data item identifiers
+\item The user uses service TBD to load the addresses of the desired locations into the first two elements of \texttt{debugVarAddr}
+\item The user uses command (3,1) or (3,2) to define a new housekeeping report packet holding \texttt{debugVar\_1} and \texttt{debugVar\_2} 
+\item The users uses command (3,6) or (3,7) to enable the newly defined housekeeping packet and receives the values of \texttt{debugVar\_1} and \texttt{debugVar\_2} .
 \end{fw_enumerate}
 
-The set of structure identifiers is predefined and consists of the integers in the range 1..SID\_MAX. The maximum number of data items in a housekeeping data report (RD\_MAX\_ITEMS) and their maximum total size (RD\_MAX\_SIZE) are also statically defined.
 
-The period and the cycle counters are non-negative integers. The period represents the generation period of the housekeeping/diangostic report expressed as a multiple of the collection period HK\_COLLECT\_PER. The function of the cycle counter is explained in the next section.
+%-------------------------------------------------------------------------------------
+\subsection{Service 3 Report and Command Definition)}\label{sec:serv3RepCmdDef}
+In the PUS Service 3 commands and reports appear twice once for housekeeping reports and once for diagnostic reports. The CORDET Framework does not distinguish between housekeeping and diagnostic reports and therefore each CORDET report/command component implements two PUS reports/commands:
+
+\begin{fw_itemize}
+\item Component HkCreate implements commands (3,1) and (3,2) to create a report structure
+\item Component HkDelete implements commands (3,3) and (3,4) to delete a report structure
+\item TBD
+\end{fw_itemize}
+
+These components are defined by the way they close the adaptation points of the OutComponent and InCommand. This is defined formally in tables \ref{tab:AP-S3-1} to TBD.
+ 
+%---------------------------------------------------------------------------------
+\subsection{Service 3 Constants}\label{sec:serv3Const}
+The service 3 constants are listed in table \ref{tab:Const-S3}.
+
+\begin{cr_const}{S3}{Constants for Service 3 (Housekeeping Service)}
+\end{cr_const}
+
+
+%---------------------------------------------------------------------------------
+\subsection{Service 3 Observables}\label{sec:serv3Obs}
+The service 3 internal state is defined by the content of the Report Definition List (RDL). Most of its content is visible through reports (3,10) and (3,11). The observables defined by the framework only cover the non-visible part of the RDL state. They are listed in table \ref{tab:Obs-S3}.
+
+\begin{cr_obs}{S3}{Observables for Service 3 (Housekeeping Service)}
+\end{cr_obs}
+
+%---------------------------------------------------------------------------------
+\subsection{Service 3 Parameters}\label{sec:serv3Par}
+The service 3 configuration is defined by the content of the Report Definition List (RDL). This configuration is mostly controlled through commands (3,1)/(3,2) and (3,5)/(3,7) and is partially observable through reports (3,10) and (3,11). The service 3 configuration parameters which are either not controllable through service 3 commands and/or not observable through service 3 reports are defined as data pool parameters. They are listed in table \ref{tab:Obs-S3}.
+
+\begin{cr_par}{S3}{Parameters for Service 3 (Housekeeping Service)}
+\end{cr_par}
+
+%---------------------------------------------------------------------------------
+\subsection{Service 3 Adaptation Points}\label{sec:serv3AP}
+The test service consists of two commands and two reports. Commands are defined by the way they close the adaptation points of the InCommand component and reports are defined by the way they close the adaptation points of the OutComponent component. Four tables are accordingly shown below which define the close-out for the adaptation points of the two commands and two reports of service 17.
+
+The following considerations apply to the service 17 commands and reports:
+
+\begin{fw_itemize}
+\item The service 17 commands execute in 'one-shot' mode and therefore do not generate progress reports.
+\item Service 17 reports are generated unconditionally and hence their enable check always returns 'report enabled'.
+\item Service 17 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
+\item Service 17 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
+\end{fw_itemize}
+
+\begin{cr_ap}{S3-1}{Adaptation Points for (3,1) Command}
+\end{cr_ap}
 
 
 
+%---------------------------------------------------------------------------------
+\subsection{Service 3 Requirements}
+The table in this section lists requirements for the test service.
+
+\begin{cr_req}{S3}{Requirements for Service 3 (Housekeeping Service)}
+\end{cr_req}
 
 
-The framework implements housekeeping/diagnostic reports in components HkHousekeepingRep and HkDiagnosticRep. The application is responsible for providing an OutManager which is executed cyclically with period HK\_COLLECT\_PER and onto which the housekeeping/diagnostic reports are loaded.
-
- The cycle counter is initialized to zero when a report is enabled and is then incremented at every cycle with wrap-around at the value of the period. Reports which are enabled are generated when their cycle counter is equal to zero.
 
 
 
