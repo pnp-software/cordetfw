@@ -162,22 +162,22 @@ b,,"For each successful completion of execution notification that it receives, t
 b,,"For each failed completion of execution notification that it receives, the execution reporting subservice shall: \newline 1. generate a single failed completion of execution verification report containing that notification.",C1,See definition of report component VerTermFailed.
 c,,"For each failed completion of execution notification that is accompanied of failed progress of executions notifications to be reported as part of the completion of execution verification report, the execution reporting subservice shall include those failed progress of execution notifications in the failed completion of execution notification.",n.a.,"The failure of progress of execution is reported through a (1,6) report and the generation of the (1,6) report excludes the generation of the (1,8) report."
 6.2,Device Access,Definition of service 2,,This service is not supported by the PUS Extension of the CORDET Framework
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
+6.3.2.1.1a,Housekeeping reporting subservice,Each housekeeping service shall contain at least one housekeeping reporting subservice.,C1,The PUS Extension of the CORDET Framework includes support for the reporting subservice
+6.3.2.1.2a,Diagnostic reporting subservice,Each housekeeping service shall contain zero or more diagnostic reporting subservices.,C1,The PUS Extension of the CORDET Framework includes support for the diagnostic subservice
+6.3.2.1.3a,Parameter functional reporting configuration subservice,Each housekeeping service shall contain at most one parameter functional reporting configuration subservice.,C1,The PUS Extension of the CORDET Framework includes support for the parametet functional configuration subservice
+6.3.2.2.1a,Housekeeping reporting subservice,Each application process shall host at most one housekeeping reporting subservice provider.,C2,Applications choose the number of housekeeping reporting subservices they wish to support as part of the framework instantiation process
+6.3.2.2.2a,Diagnostic reporting subservice,Each application process shall host at most one diagnostic reporting subservice provider.,C2,See previous requirement
+6.3.2.2.3a,Parameter functional reporting configuration subservice,Each application process shall host at most one parameter functional reporting configuration subservice provider.,C2,See previous requirement
+6.3.3.1,Parameter accessibility,The housekeeping reporting subservice shall be able to collect and report the sampled values of each on-board parameter that is accessible to the application process that hosts that subservice.,C1,The housekeeping reports report the values of the data items in the data pool which contain all application parameters and variables
+6.3.3.2a,Housekeeping parameter report structure,The on-board resources allocated to the housekeeping reporting subservice to host the housekeeping parameter report structures shall be declared when specifying that subservice.,C1/C2,The on-board resource dedicated to the housekeeping service is the data pool whose content must be defined by the user during the framework instantiation process (adaptation point P-DP-7). The user must also specify the content of any pre-defined housekeeping/diagnostic packets (adaptation point TBD).
+b,,The on-board resources allocated to the contemporaneous evaluation of housekeeping parameter report structures used by the housekeeping reporting subservice shall be declared when specifying that subservice.,C1/C2,See previous requirement
+,,"Each housekeeping parameter report structure shall consist of: \newline 1. a housekeeping parameter report structure identifier; \newline 2. the collection interval used to generate the corresponding reports; \newline 3. an ordered list of zero or more simply commutated parameters; \newline 4. an ordered list of zero or more super commutated parameter sets, each set consisting of: \newline (a) the number of sampled values to report for each parameter of that set, and \newline (b) the ordered list of one or more parameters contained within that set; \newline if the housekeeping reporting subservice provides the capability for managing the periodic generation of housekeeping parameter reports, a status indicating whether the periodic generation action of the corresponding housekeeping parameter reports is enabled or disabled.",C1,See specification of Report Definition List (RDL)
+6.3.3.3a,Housekeeping parameter report structure,The housekeeping reporting subservice shall provide the capability for generating housekeeping parameter reports.,C1,"The PUS Extension of the CORDET Framework supports reports (3,25)"
+b,,Each housekeeping parameter report shall contain exactly one housekeeping parameter notification.,C1,Requirement is satisfied implicitly because the CORDET Framework does not distinguish between reports and notifications
+c,,"Each housekeeping parameter notification shall contain: \newline 1. the housekeeping parameter report structure identifier; \newline 2. in the specified order for simply commutated parameters, a single sampled value for each simply commutated parameter; \newline 3. in the specified order for super commutated parameter sets, for each super commutated parameter set: \newline (a) the ""super commutated sample repetition number"" sets of sampled values.",C1,See specification of Report Definition List (RDL)
+d,,"For each housekeeping parameter report structure for which periodic generation is enabled, the housekeeping reporting subservice shall generate a corresponding housekeeping parameter report periodically, according to the collection interval specified for that definition.",C1/C2,See definition of hkRep component encapsulating a housekeeping report. Users are reponsible for allocating the instances of this component to OutManager components which are executed with a frequency corresponding to the report's collection period.(adaptation point TBD)
+e,,"For each housekeeping parameter report structure for which periodic generation is enabled, the housekeeping reporting subservice shall collect one sampled value for each simply commutated parameter during the collection interval specified for the corresponding housekeeping parameter report structure.",C1,See update action of hkRep component.
+f,,"For each housekeeping parameter report structure for which periodic generation is enabled, the housekeeping reporting subservice shall collect all sampled values for each super commutated parameter during the collection interval specified for the corresponding housekeeping parameter report structure, in accordance with a sub-period equal to the collection interval divided by the corresponding ""super commutated sample repetition number"".",C1/C2,The framework provides the Sampling Buffer as a data structure to hold super-commutated data items but the user is responsible for filling it with the sampled values of the super-commutated data items (see requierment P-S3-6)
 ,,,,
 ,,,,
 ,,,,
