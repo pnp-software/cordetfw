@@ -28,4 +28,5 @@ S1,verFailData,Verification Failure Data (data item of fixed size but variable t
 S3,cycleCnt,Array of HK\_N\_REP\_DEF elements. The I-th element is the cycle counter for the I-th Report Definitions in the RDL ,
 S3,sampleBufId,Array of HK\_N\_REP\_DEF elements. The I-th element is the identifier of the Sampling Buffer ter for the I-th Report Definition in the RDL ,
 S3,isEnabled,Array of HK\_N\_REP\_DEF elements. The I-th element is the enable status of the I-th Report Definition in the RDL ,
+S3,debugVar,Array of HK\_N\_DEBUG\_VAR elements. The I-th element is the value of the I-th debug variable,
 S17,areYouAliveSrc,"Source of the latest (17,2) report received in response to a (17,1) command triggered by a (17,3) command ",

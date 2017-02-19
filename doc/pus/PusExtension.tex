@@ -574,18 +574,33 @@ A derived component closes an adaptation point of its base component when it def
 
 %----------------------------------------------------------------------------------
 \subsection{Compliance to PUS Requirements}\label{sec:ComplianceToPus}
-The PUS Extension of the CORDET Framework implements a subset of the standard PUS services of AD-3. In order to provide visibility over the level of compliance to the PUS requirements of AD-3, appendix \ref{sec:PusReqSOC} presents a statement of compliance to these requirements. This demonstrates that, for the selected services, the PUS Extension is fully compliant to the PUS requirements.
+The PUS Extension of the CORDET Framework implements a subset of the standard PUS services of AD-3. In order to provide visibility over the level of compliance to the PUS requirements of AD-3, appendix \ref{sec:PusReqSOC} presents a statement of compliance to these requirements. This demonstrates that, for the selected services, the PUS Extension is compliant to the PUS requirements. Some points related to the compliance to the PUS deserve a special discussion which is presented below. 
 
-The following considerations apply to the statement of compliance in appendix \ref{sec:PusReqSOC}:
+There are some terminological differences between PUS and CORDET. For clarity, table \ref{tab:termPusCr} lists PUS-specific terms and gives the corresponding term or concept in the CORDET world. 
+
+\paragraph{Treatment of Instructions Within PUS Requests}
+In the PUS, a request (command) contains one or more instructions. In the CORDET Framework, the concept of Instruction does not exist: instructions are implicitly embedded within commands. 
+
+The request execution model of the PUS foresees the generation of verification reports both in response to request-level execution checks and in response to instruction-level execution checks\footnote{See, for instance, clauses 5.3.5.2.3a and b which specify that start of execution must be verified both for a request as a whole and for the instructions it contains}. The verification model of the CORDET Framework instead only covers request-level checks. The execution of a command is encapsulated in the Start Action, Progress Action and Termination Action of the InCommand State Machine of [CR-SP]. These actions have an outcome which determine whether the command is successfully started, executed or terminated. One single verification report is generated in response to each execution outcome. The gap between the two verification models is closed as follows:
 
 \begin{fw_itemize}
-\item In the PUS, a request (command) contains one or more instructions. The standard allows instructions within a command to be processed, to some extent, independently of each other (for instance, verification reports (1,4) may be generated for each instruction within a command). The CORDET Framework does not have the concept of "instruction" and CORDET commands are accordingly processed as one single entity (for instance, only one single (1,4) report may be generated for a command).
-\item TBD.
+\item For requests which only contain one single instruction, the instruction-level verification check is subsumed in the request-level check.
+\item For requests which contain multiple instructions which are verified together (i.e. a request passes a verification stage only if all instructions pass the same verification stage), the instruction-level verification checks are subsumed in the request-level check.
+\item For requests which contain multiple instructions which are verified individually, the request-level check is implemented in the verification check specified by the InCommand State Machine whereas the instruction-level checks are implemented within the execution actions themselves.
 \end{fw_itemize}
 
-There are some terminological differences between PUS and CORDET. For clarity, table \ref{tab:termPusCr} lists PUS-specific and gives the corresponding term or concept in the CORDET world. 
+As an example of the second bullet, consider the TBD command. TBD.
 
-\begin{longtable}{|l|>{\raggedright\arraybackslash}p{6cm}|}
+As an example of the last bullet, consider the (3,5) command to enable a set of housekeeping reports. This command carries the SIDs of the reports to be enabled. Each SID defines one 'instruction' and the PUS stipulates that, as part of the Start-of-Execution verification, valid SIDs should be accepted for execution whereas invalid SIDs should trigger Failed-Start-of-Execution notifications which might eventually trigger the generation of (1,4) reports. The PUS Extension of the CORDET Framework responds to this requirement by specifying that the Start Action of the (3,5) command evaluates the validity of the SIDs and generates the (1,4) reports for each invalid SID.
+ 
+\paragraph{Disabling Failure Verification Reports} 
+The PUS is not always clear about the conditions for the generation of service 1 reports in response to the commands from its pre-defined services. The approach taken in this document is to generate the maximum possible range of verification reports. Applications can, to some extent, restrict this range by selectively disabling verification reports through the enable mechanism of the OutRegistry component of the CORDET Framework. It is recalled that this mechanism allows the OutRegistry to be configured to disable out-going reports by 'kind' where the kind of a report is defined by the triplet: [type, sub-type, discrminant]. In the case of service 1 failure reports, the discriminant is the failure code. 
+ 
+\paragraph{Command Abort in Case of Progress of Execution Failures}
+The PUS is silent about whether a Progress-of-Execution failure should result in the command being aborted or whether the processing of the command should continue with the generation of a Completion-of-Execution failure report. By default, the CORDET Framework assumes that a command which has encountered a failure in its execution is aborted after having generated a Progress-of-Execution Failure Report (see InCommand State Machine in reference [CR-SP]). However, applications who wish to generate a Completion-of-Execution Failure Report after the Progress-of-Execution Failure Report can do so in the Abort Action associated to the command. 
+
+
+\begin{longtable}{|l|>{\raggedright\arraybackslash}p{10cm}|}
 \caption{Terminological Mapping PUS-CORDET}\label{tab:termPusCr} \\
 \hline
 \rowcolor{light-gray}
@@ -596,11 +611,13 @@ There are some terminological differences between PUS and CORDET. For clarity, t
 \textbf{PUS Term} & \textbf{Corresponding CORDET Term} \\
 \hline\hline
 \endhead
-Instruction & In the PUS, a request (command) contains one or more instructions. Instructions do not exist in CORDET and are therefore implicit to a command. \\
+Instruction & In the PUS, a request (command) contains one or more instructions. Instructions do not exist in CORDET and are therefore implicit to a command. See also discussion above. \\
 \hline
 Notification & In the PUS, a report contains one or more notifications. Notifications do not exist in CORDET and are therefore implicit to a report. \\
 \hline
-Parameter & In a generic sense, PUS parameters are mapped to command and report parameters. In the specific context of service 3, parameters are mapped to data items \\
+Parameter & In a generic sense, PUS parameters are mapped to command and report parameters. In the specific context of service 3, parameters are mapped to data items. \\
+\hline
+Progress Step & In the PUS, the Progress Step is an enumerated type. In the CORDET Framework it is a positive integer which is equal to the number of times that the Progress Action has been executed since the execution of the command started. \\
 \hline
 Request & Command \\
 \hline
@@ -906,26 +923,28 @@ The verification reports are generated at various points in the processing life-
 \item \textit{Report Packet Destination Invalid} (Adaptation Point ILD-12 in the InLoader Execution Procedure): defines the action to be taken when an application receives a command or report which has a destination which is neither the application itself nor some other known application.
 \item \textit{Report Acceptance Failure} (Adaptation Point ILD-14 in the InLoader Load Command/Rport Procedure): defines the action to be taken when an incoming command has failed its acceptance check.
 \item \textit{Report Acceptance Success} (Adaptation Point ILD-15 in the InLoader Load Command/Report Procedure): defines the action to be taken when an incoming command has passed its Acceptance Check and that command has requested acknowledgement of successful acceptance.
-\item \textit{Report Start Failed for InCommand} (Adaptation Point ICM-12 in the InCommand State Machine): defines the action to be taken when an incoming command has failed its Start Check.
-\item \textit{Report Start Successful for InCommand} (Adaptation Point ICM-13 in the InCommand State Machine): defines the action to be taken when an incoming command has passed its Start Check and that command has requested acknowledgement of successful start of execution.
-\item \textit{Report Progress Failed for InCommand} (Adaptation Point ICM-14 in the InCommand State Machine): defines the action to be taken when an incoming command has failed its Progress Check.
-\item \textit{Report Progress Successful for InCommand} (Adaptation Point ICM-15 in the InCommand State Machine): defines the action to be taken when an incoming command has passed its Progress Check and that command has requested acknowledgement of successful progress of execution.
-\item \textit{Report Termination Failed for InCommand} (Adaptation Point ICM-16 in the InCommand State Machine): defines the action to be taken when an incoming command has failed its Termination Check.
-\item \textit{Report Progress Successful for InCommand} (Adaptation Point ICM-17 in the InCommand State Machine): defines the action to be taken when an incoming command has passed its Termination Check and that command has requested acknowledgement of successful termination of execution.
+\item \textit{Report Start Failed for InCommand} (Adaptation Point ICM-12 in the InCommand State Machine): defines the action to be taken when the Start Action of an incoming command has a 'failure' outcome.
+\item \textit{Report Start Successful for InCommand} (Adaptation Point ICM-13 in the InCommand State Machine): defines the action to be taken when the Start Action of an incoming command has a 'success' outcome and that command has requested acknowledgement of successful start of execution.
+\item \textit{Report Progress Failed for InCommand} (Adaptation Point ICM-14 in the InCommand State Machine): defines the action to be taken when the Progress Action of an incoming command has a 'failure' outcome.
+\item \textit{Report Progress Successful for InCommand} (Adaptation Point ICM-15 in the InCommand State Machine): defines the action to be taken when the Progress Action of an incoming command has a 'success' outcome and that command has requested acknowledgement of successful progress of execution.
+\item \textit{Report Termination Failed for InCommand} (Adaptation Point ICM-16 in the InCommand State Machine): defines the action to be taken when the Termination Action of an incoming command has a 'failure' outcome.
+\item \textit{Report Progress Successful for InCommand} (Adaptation Point ICM-17 in the InCommand State Machine): defines the action to be taken when the Termination Action of an incoming command has a 'success' outcome and that command has requested acknowledgement of successful termination of execution.
 \end{fw_enumerate}
 
 The framework extension closes these adaptation points with behaviour which generates the service 1 verification reports. Point 1 corresponds to the situation where a packet cannot be re-routed, which if the packet contains a command, is the situation where the PUS prescribes that a (1,10) report should be generated. The other points correspond to situations where an incoming command has either failed or passed one of its processing checks and they are therefore closed with the generation of the service 1 reports (1,1) to (1,8). 
 
 The close-out behaviour for the adaptation points is defined in table \ref{tab:AP-S1}. It consists of running a procedure which creates the service 1 report, configures it, and then loads it into the OutLoader. The creation is done by calling the \texttt{Make} operation of the OutFactory. This may fail if the OutFactory has run out of resources for new reports. In that case, error report OUTFACTORY\_FAIL is generated. Procedures which report failures also update the relevant observables (see section \ref{sec:serv1Obs}).
 
-The reports (1,5) and (1,6) report, respectively, the success and failure of a progress step. The CORDET Failure does not have the concept of "progress step". The framework extension implements it as follows:
+The reports (1,5) and (1,6) report, respectively, the success and failure of a progress step. The CORDET Framework has the concept of 'Progress Step' which is a counter which counts the number of times an InCommand has been executed since it was 'in progress' (i.e. since it entered state PROGRESS). It is recognized that this mechanism may result in a 'step granularity' which is too fine for some applications. The default logic for the generation of the (1,5) and (1,6) reports is then as follows:
 
 \begin{fw_itemize}
-\item A return value of 'failed' for the Progress Action of the InCommand is interpreted as a progress step failure which triggers a (1,6) report. The value of the progress step must be provided by the progress action itself.
-\item A return value of 'continue' for the Progress Action of the InCommand may be interpreted as a progress step success which triggers a (1,5) report according to an application-specific logic to be inserted in adaptation point ICM-14 (Operation to Report Progress Failed for InCommand). 
+\item A return value of 'failed' for the Progress Action of the InCommand is interpreted as a progress step failure which triggers a (1,6) report. 
+\item A return value of 'continue' for the Progress Action of the InCommand may be interpreted as a progress step success which triggers a (1,5) report according to an application-specific logic to be inserted in adaptation point ICM-15 (Operation to Report Progress Success for InCommand). 
 \end{fw_itemize}
 
-Note that the second bullet implies that the adaptation point ICM-14 cannot be closed at framework level but must instead remain open so that applications may decide the conditions under which a progress action has completed a step.
+Note that the second bullet implies that the adaptation point ICM-15 cannot be closed at framework level but must instead remain open so that applications may decide the conditions under which a progress action has completed a step.
+
+The failure code of failure reports in service 1 is treated as a discriminant. This allows applications to selectively disable certain failure reports by using the enable mechanism of the OutRegistry component of the CORDET Framework. It is recalled that this mechanism allows the OutRegistry to be configured to disable out-going reports by 'kind' where the kind of a report is defined by the triplet: [type, sub-type, discrminant]. 
 
 
 %---------------------------------------------------------------------------------
@@ -1069,16 +1088,16 @@ The sampling buffer mentioned in the last row in table \ref{tab:repDefDataStruct
 \caption{Fields in Report Definition Data Structure}\label{tab:repDefDataStruct} \\
 \hline
 \rowcolor{light-gray}
-\textbf{Field Name} & \textbf{Description} & \textbf{Remarks} \\
+\textbf{Field Name} & \textbf{Description} & \textbf{Constraint} \\
 \hline\hline
 \endfirsthead
 \rowcolor{light-gray}
-\textbf{Field Name} & \textbf{Description} & \textbf{Remarks} \\
+\textbf{Field Name} & \textbf{Description} & \textbf{Constraint} \\
 \hline\hline
 \endhead
 \texttt{sid} & Structure identifier (SID) & Integer in range: 1..HK\_MAX\_SID \\
 \hline
-\texttt{period} & Collection period in units of HK\_COLLECT\_PER & A value of zero indicates a "one-shot" report \\
+\texttt{period} & Collection period in units of HK\_COLLECT\_PER & Non-negative integer (a value of zero indicates a "one-shot" report) \\
 \hline
 \texttt{cycleCnt} & Cycle counter (see definition of service 3 reports and commands) & Integer in the range: 0..(\texttt{period}-1) \\
 \hline
@@ -1123,7 +1142,7 @@ The Configuration Function is used when a housekeeping/diagnostic report which c
 
 %-------------------------------------------------------------------------------------
 \subsection{Debug Variables}\label{sec:debugVar}
-Service 3 offers visibility over the internal state of the IFSW by allowing periodic or sporadic access to the data items in the data pool. The data items in the data pool are defined at design time and should cover all application functions. For situations where additional visibility is required (e.g. in case of debugging during AIT activities), the framework the concept of \textit{debug variables} is introduced. A debug variable is a variable of 4 bytes of length whose address in RAM can be set using service TBD. More precisely, a total of N\_DEBUG\_VAR debug variables are defined which are encapsulated in data pool variables \texttt{debugVar\_x} where x ranges from 1 to N\_DEBUG\_VAR. Additionally, data pool parameters \texttt{debugVarAddr\_x} are defined to hold the address of \texttt{debugVar\_x}. The Execution Procedure of the data pool (see section \ref{sec:dpBehaviour}) loads the values of the memory locations pointed at by the elements of \texttt{debugVarAddr} into the elements of \texttt{debugVar}.  
+Service 3 offers visibility over the internal state of the IFSW by allowing periodic or sporadic access to the data items in the data pool. The data items in the data pool are defined at design time and should cover all application functions. For situations where additional visibility is required (e.g. in case of debugging during AIT activities), the framework the concept of \textit{debug variables} is introduced. A debug variable is a variable of 4 bytes of length whose address in RAM can be set using service TBD. More precisely, a total of N\_DEBUG\_VAR debug variables are defined which are encapsulated in data pool variables \texttt{debugVar\_x} where x ranges from 1 to HK\_N\_DEBUG\_VAR. Additionally, data pool parameters \texttt{debugVarAddr\_x} are defined to hold the address of \texttt{debugVar\_x}. The Execution Procedure of the data pool (see section \ref{sec:dpBehaviour}) loads the values of the memory locations pointed at by the elements of \texttt{debugVarAddr} into the elements of \texttt{debugVar}.  
 
 In order to illustrate the use of the debug variables, consider a situation where the user wishes to have read access to two memory locations holding two integers: 
 
@@ -1139,12 +1158,14 @@ In order to illustrate the use of the debug variables, consider a situation wher
 In the PUS Service 3 commands and reports appear twice once for housekeeping reports and once for diagnostic reports. The CORDET Framework does not distinguish between housekeeping and diagnostic reports and therefore each CORDET report/command component implements two PUS reports/commands:
 
 \begin{fw_itemize}
-\item Component HkCreate implements commands (3,1) and (3,2) to create a report structure
-\item Component HkDelete implements commands (3,3) and (3,4) to delete a report structure
+\item Component HkCreate implements commands (3,1) and (3,2) to create a new report 
+\item Component HkDelete implements commands (3,3) and (3,4) to delete a report 
 \item TBD
 \end{fw_itemize}
 
-These components are defined by the way they close the adaptation points of the OutComponent and InCommand. This is defined formally in tables \ref{tab:AP-S3-1} to TBD.
+These components are defined by the way they close the adaptation points of the OutComponent and InCommand. This is defined formally in tables \ref{tab:AP-S3-1} to TBD. 
+
+Several commands in this service (e.g. the commands to delete a housekeeping/diagnostic report definition) carry multiple instructions which are executed independently of each other. In keeping with the general strategy outlined in section \ref{sec:ComplianceToPus}, their start actions evaluates the instructions one by one and, in case of invalidity, it generate a (1,4) report for each individual instruction.
  
 %---------------------------------------------------------------------------------
 \subsection{Service 3 Constants}\label{sec:serv3Const}
@@ -1181,7 +1202,10 @@ The following considerations apply to the service 17 commands and reports:
 \item Service 17 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
 \end{fw_itemize}
 
-\begin{cr_ap}{S3-1}{Adaptation Points for (3,1) Command}
+\begin{cr_ap}{S3-1}{Adaptation Points for HkCreate Command (3,1) and (3,2)}
+\end{cr_ap}
+
+\begin{cr_ap}{S3-3}{Adaptation Points for HkDelete Command (3,3) and (3,4)}
 \end{cr_ap}
 
 
@@ -1194,7 +1218,19 @@ The table in this section lists requirements for the test service.
 \end{cr_req}
 
 
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.55,keepaspectratio=true]{CrPsCmd3s1Start.png}
+ \caption{Start Action of Command HkCreate}
+ \label{fig:Cmd3s1Start}
+\end{figure}
 
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.55,keepaspectratio=true]{CrPsCmd3s3Start.png}
+ \caption{Start Action of Command HkDelete}
+ \label{fig:Cmd3s1Start}
+\end{figure}
 
 
 
@@ -1292,15 +1328,14 @@ The table in this section lists requirements for the test service.
 \begin{figure}[H]
  \centering
  \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmd17s3Start.png}
- \caption{Start Action of Command OnBoardConnectCmd Command (17,3)}
+ \caption{Start Action of OnBoardConnectCmd Command (17,3)}
  \label{fig:Cmd17s3Start}
 \end{figure}
 
-\newpage
 \begin{figure}[H]
  \centering
  \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmd17s3Prgr.png}
- \caption{Progress Action of Command OnBoardConnectCmd Command (17,3)}
+ \caption{Progress Action of OnBoardConnectCmd Command (17,3)}
  \label{fig:Cmd17s3Prgr}
 \end{figure}
 

@@ -2,5 +2,6 @@ Category,Name,Desc
 S3,sid,Array of HK\_N\_REP\_DEF elements. The I-th element is the SID of the I-th Report Definition in the RDL 
 S3,isEnabled,Array of HK\_N\_REP\_DEF elements. The I-th element is the enable status of the I-th Report Definition in the RDL 
 S3,dest,Array of HK\_N\_REP\_DEF elements. The I-th element is the destination of the I-th Report Definition in the RDL 
+S3,debugVarAddr,Array of HK\_N\_DEBUG\_VAR elements. The I-th element is the address of the I-th debug variable
 S17,areYouAliveTimeOut,Time-out for the Are-You-Alive Test initiated in response to an Is-Application-Process-Alive Test 
 S17,onBoardConnectDestLst,List of identifiers of target applications for an On-Board-Connection Test

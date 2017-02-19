@@ -1,3 +1,9 @@
 Name,Description,VerFailData
 VER\_CMD\_INV\_DEST,"Failure code for all (1,10) reports",None
-VER\_REP\_CREATE\_FD,Failure code for service 17 start actions when they fail to create a service 17 report,None
+VER\_REP\_CREATE\_FD,Failure code for service 3 or 17 start actions when they unsuccessfully attempt to create a new report from the OutFactory,None
+VER\_SID\_IN\_USE,"Failure code for start action of commands (3,1) and (3,2) when attempt to create a new report with a SID which is already in use",SID
+VER\_FULL\_RDL,"Failure code for start action of commands (3,1) and (3,2) when they attempt to create a new report at a time when the RDL is already full",None
+VER\_RDL\_CONSTRAINT,"Failure code for start action of commands (3,1) and (3,2) when their report configuration data violate an RDL constraint of table \ref{tab:repDefDataStruct}",The identifier of the violated constraint
+VER\_DUPL\_DI,"Failure code for start action of commands (3,1) and (3,2) when they carry the same data item identifier twice",The duplicated data item identifier
+VER\_ILL\_SID,"Failure code for start action of commands (3,3) and (3,4) when an illegal SID is encountered",The illegal SID
+VER\_ENABLED\_SID,"Failure code for start action of commands (3,3) and (3,4) when a SID which is enabled is encountered",The enabled SID
