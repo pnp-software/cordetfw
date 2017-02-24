@@ -1155,17 +1155,32 @@ In order to illustrate the use of the debug variables, consider a situation wher
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 3 Report and Command Definition)}\label{sec:serv3RepCmdDef}
-In the PUS Service 3 commands and reports appear twice once for housekeeping reports and once for diagnostic reports. The CORDET Framework does not distinguish between housekeeping and diagnostic reports and therefore each CORDET report/command component implements two PUS reports/commands:
-
-\begin{fw_itemize}
-\item Component HkCreate implements commands (3,1) and (3,2) to create a new report 
-\item Component HkDelete implements commands (3,3) and (3,4) to delete a report 
-\item TBD
-\end{fw_itemize}
-
-These components are defined by the way they close the adaptation points of the OutComponent and InCommand. This is defined formally in tables \ref{tab:AP-S3-1} to TBD. 
+In the PUS Service 3 commands and reports appear twice once for housekeeping reports and once for diagnostic reports. The CORDET Framework does not distinguish between housekeeping and diagnostic reports and therefore each CORDET report/command component implements two PUS reports/commands. Table \ref{tab:serv3Components} lists the CORDET components and the PUS reports/commands they implement. The components in the table are defined by the way they close the adaptation points of the OutComponent and InCommand. This is defined formally in tables \ref{tab:AP-S3-1} to TBD. 
 
 Several commands in this service (e.g. the commands to delete a housekeeping/diagnostic report definition) carry multiple instructions which are executed independently of each other. In keeping with the general strategy outlined in section \ref{sec:ComplianceToPus}, their start actions evaluates the instructions one by one and, in case of invalidity, it generate a (1,4) report for each individual instruction.
+
+\begin{longtable}{|l|p{10cm}|}
+\caption{CORDET Service 3 Components}\label{tab:serv3Components} \\
+\hline
+\rowcolor{light-gray}
+\textbf{Component} & \textbf{PUS Reports/Commands} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Component} & \textbf{PUS Reports/Commands} \\
+\hline\hline
+\endhead
+HkCreate & Commands (3,1) and (3,2) to create a new housekeeping/diagnostic report  \\
+\hline
+HkDelete & Commands (3,3) and (3,4) to delete a housekeeping/diagnostic report  \\
+\hline
+HkEnable & Commands (3,5) and TBD to enable a housekeeping/diagnostic report  \\
+\hline
+HkDisable & Commands (3,5) and TBD to disable a housekeeping/diagnostic report  \\
+\hline
+\end{longtable}  
+
+
  
 %---------------------------------------------------------------------------------
 \subsection{Service 3 Constants}\label{sec:serv3Const}
