@@ -80,17 +80,42 @@ S3-3,5,Closes ICM-11,"Abort Action of (3,3) and (3,4) Commands",Do nothing
 S3-3,6,Closes ICM-15,"Operation to Report Progress Successful for (3,3) and (3,4) Commands",Do nothing
 S3-3,7,Closes ICM-20,"Discriminant Attribute of (3,3) and (3,4) Commands","Commands (3,3) and (3,4) have no discriminant"
 S3-3,8,Closes ICM-21,"Parameter Attributes of (3,3) and (3,4) Commands",Parameters are as in clauses 8.3.2.3 and 8.3.2.4 of [PS-SP]
+S3-5,1,Closes ICM-7,"Ready Check of (3,5) and (3,7) Commands",Return “command is ready'
+S3-5,2,Closes ICM-8,"Start Action of (3,5) and (3,7) Commands",Run the procedure Start Action of Multi-SID Command of figure \ref{fig:Cmd3SidStart}
+S3-5,3,Closes ICM-9,"Progress Action of (3,5) and (3,7) Commands",For the entries in the RDL corresponding to the SIDs which have been identified as valid by the Start Action: set enabled flag to true and set the cycle counter to 0. Set the action outcome to 'completed'
+S3-5,4,Closes ICM-10,"Termination Action of (3,5) and (3,7) Commands",Set action outcome to 'success'
+S3-5,5,Closes ICM-11,"Abort Action of (3,5) and (3,7) Commands",Do nothing
+S3-5,6,Closes ICM-15,"Operation to Report Progress Successful for (3,5) and (3,7) Commands",Do nothing
+S3-5,7,Closes ICM-20,"Discriminant Attribute of (3,5) and (3,7) Commands","Commands (3,5) and (3,7) have no discriminant"
+S3-5,8,Closes ICM-21,"Parameter Attributes of (3,5) and (3,7) Commands",Parameters are as in clauses 8.3.2.5 and 8.3.2.7 of [PS-SP]
+S3-6,1,Closes ICM-7,"Ready Check of (3,6) and (3,8) Commands",Return “command is ready'
+S3-6,2,Closes ICM-8,"Start Action of (3,6) and (3,8) Commands",Run the procedure Start Action of Multi-SID Command of figure \ref{fig:Cmd3SidStart}
+S3-6,3,Closes ICM-9,"Progress Action of (3,6) and (3,8) Commands",Set to false the enable flag of the entries in the RDL corresponding to the SIDs which have been identified as valid by the Start Action and then set the action outcome to 'completed'
+S3-6,4,Closes ICM-10,"Termination Action of (3,6) and (3,8) Commands",Set action outcome to 'success'
+S3-6,5,Closes ICM-11,"Abort Action of (3,6) and (3,8) Commands",Do nothing
+S3-6,6,Closes ICM-15,"Operation to Report Progress Successful for (3,6) and (3,8) Commands",Do nothing
+S3-6,7,Closes ICM-20,"Discriminant Attribute of (3,6) and (3,8) Commands","Commands (3,6) and (3,8) have no discriminant"
+S3-6,8,Closes ICM-21,"Parameter Attributes of (3,6) and (3,8) Commands",Parameters are as in clauses 8.3.2.6 and 8.3.2.8 of [PS-SP]
 ,,,,
 ,,,,
 ,,,,
 ,,,,
-S3-25,1,Closes OCM-9,"Destination Attribute of (3,25) and (3,26) Reports",The destination is read from the \texttt{dest} field of the Report Definition corresponding to the report's SID
-S3-25,2,Closes OCM-11,"Discriminant Attribute of (3,25) and (3,26) Reports",The Structure Identifier (SID) of the report
-S3-25,3,Closes OCM-12,"Parameter Attribute of (3,25) and (3,26) Reports",The values of the data items associated to the report's SID in the RDL
-S3-25,4,Closes OCM-13,"Enable Check Operation of (3,25) and (3,26) Reports",The enable status is read from the \texttt{isEnabled} field of the Report Definition corresponding to the report's SID
-S3-25,5,Closes OCM-14,"Ready Check Operation of (3,25) and (3,26) Reports",TBD
-S3-25,6,Closes OCM-15,"Repeat Check Operation of (3,25) and (3,26) Reports",TBD
-S3-25,7,Closes OCM-16,"Update Action of (3,25) and (3,26) Reports",Read the value of the simply-commutated data items from the data pool and that of the super-commutated data items from the Sampling Buffer associated to the report's SID according to the Report Definition
+S3-25,1,Closes OCM-9,"Destination Attribute of periodic (3,25) and (3,26) Reports",The destination is read from the \texttt{dest} field of the Report Definition corresponding to the report's SID
+S3-25,2,Closes OCM-11,"Discriminant Attribute of periodic (3,25) and (3,26) Reports",The Structure Identifier (SID) of the report
+S3-25,3,Closes OCM-12,"Parameter Attribute of periodic (3,25) and (3,26) Reports",The values of the data items associated to the report's SID in the RDL
+S3-25,4,Closes OCM-13,"Enable Check Operation of periodic (3,25) and (3,26) Reports",The enable status is read from the \texttt{isEnabled} field of the Report Definition corresponding to the report's SID
+S3-25,5,Closes OCM-14,"Ready Check Operation of periodic (3,25) and (3,26) Reports",TBD
+S3-25,6,Closes OCM-15,"Repeat Check Operation of periodic (3,25) and (3,26) Reports",TBD
+S3-25,7,Closes OCM-16,"Update Action of periodic (3,25) and (3,26) Reports",Load the value of the simply-commutated data items from the data pool and that of the super-commutated data items from the Sampling Buffer associated to the report's SID according to the Report Definition
+S3-25s,1,Closes OCM-9,"Destination Attribute of one-shot (3,25) and (3,26) Reports",The destination is read from the \texttt{dest} field of the Report Definition corresponding to the report's SID
+S3-25s,2,Closes OCM-11,"Discriminant Attribute of one-shot (3,25) and (3,26) Reports",The Structure Identifier (SID) of the report
+S3-25s,3,Closes OCM-12,"Parameter Attribute of one-shot (3,25) and (3,26) Reports",The values of the data items associated to the report's SID in the RDL
+S3-25s,4,Closes OCM-13,"Enable Check Operation of one-shot (3,25) and (3,26) Reports",Report is always enabled
+S3-25s,5,Closes OCM-14,"Ready Check Operation of one-shot (3,25) and (3,26) Reports",Report is always ready
+S3-25s,6,Closes OCM-15,"Repeat Check Operation of one-shot (3,25) and (3,26) Reports",Report is never repeated
+S3-25s,7,Closes OCM-16,"Update Action of one-shot (3,25) and (3,26) Reports",Load the value of the simply-commutated data items from the data pool and that of the super-commutated data items from the Sampling Buffer associated to the report's SID according to the Report Definition
+,,,,
+,,,,
 ,,,,
 ,,,,
 S17-1,1,Closes ICM-7,"Ready Check of (17,1) Command",Return “command is ready'
