@@ -548,13 +548,13 @@ This document specifies the PUS Extension of the CORDET Framework. The framework
 \item{} \textit{Standard Requirements} which define a desired feature of the framework extension. They are analogous in scope and format to the user requirements of a conventional (non-framework) application.
 \item{} \textit{Adaptation Requirement} which define the points where a component offered by the framework extension can be extended by the application developers. 
 In some cases, the definition of an adaptation point is accompanied by the definition of the default options offered by the framework extension for that adaptation point.  
-\item{} \textit{Usage Constraint Requirements} which define the constraints on how the components offered by the framework extension may be used by application developers.
+\item{} \textit{User Constraint Requirements} which define the constraints on how the components offered by the framework extension may be used by application developers.
 \item{} \textit{Property Requirements} which define behavioural properties which are guaranteed to hold on all applications which: (a) are instantiated from the CORDET Framework and its extension by closing their adaptation points, and (b) comply with the framework's usage constraints.
 \end{fw_itemize}
 
 To each framework requirement an \textit{identifier} is attached.
 The requirement identifier takes the following form: x-y/t where 'x' is an acronym identifying the function to which the requirement applies; 'y' is a unique identifier within that function; and 't' identifies the requirement type. 
-The type is designated by one single letter as follows: 'S' for the Standard Requirements, 'A' for the Adaptation Requirements, 'C' for the Usage Constraint Requirements and 'P' for the Property Requirements.
+The type is designated by one single letter as follows: 'S' for the Standard Requirements, 'A' for the Adaptation Requirements, 'C' for the User Constraint Requirements and 'P' for the Property Requirements.
 
 The specification of the framework extension includes a \textit{behavioural model} of the framework which describes its behaviour and identifies the adaptation points where application developers can extend this behaviour to match their requirements.  
 
@@ -578,26 +578,42 @@ The PUS Extension of the CORDET Framework implements a subset of the standard PU
 
 There are some terminological differences between PUS and CORDET. For clarity, table \ref{tab:termPusCr} lists PUS-specific terms and gives the corresponding term or concept in the CORDET world. 
 
-\paragraph{Treatment of Instructions Within PUS Requests}
-In the PUS, a request (command) contains one or more instructions. In the CORDET Framework, the concept of Instruction does not exist: instructions are implicitly embedded within commands. 
+\paragraph{Multi-Instruction Requests}
+In the PUS, a request (command) contains one or more instructions. In the CORDET Framework, the concept of Instruction does not exist: instructions are implicitly embedded within commands. Instructions therefore only arise in the definition of the individual commands. For the commands defined by the PUS Extension, two general rules are followed. 
 
+\begin{fw_itemize}
+\item For multi-instruction requests, the constant MAX\_INSTR\_XYZ is defined which represents the maximum number of instructions which may be embedded in request XYZ. The value of this constant is defined as part of the framework instantiation process. It allows an application to determine the maximum number of instructions in a request.
+\item When a request may hold multiple instructions, then the instructions within a request instance are always of the same type (i.e. a situation where the same request instance may hold instructions of different types is not allowed).
+\end{fw_itemize}
+
+
+\paragraph{Verification of Multi-Instruction Requests}
 The request execution model of the PUS foresees the generation of verification reports both in response to request-level execution checks and in response to instruction-level execution checks\footnote{See, for instance, clauses 5.3.5.2.3a and b which specify that start of execution must be verified both for a request as a whole and for the instructions it contains}. The verification model of the CORDET Framework instead only covers request-level checks. The execution of a command is encapsulated in the Start Action, Progress Action and Termination Action of the InCommand State Machine of [CR-SP]. These actions have an outcome which determine whether the command is successfully started, executed or terminated. One single verification report is generated in response to each execution outcome. The gap between the two verification models is closed as follows:
 
 \begin{fw_itemize}
 \item For requests which only contain one single instruction, the instruction-level verification check is subsumed in the request-level check.
 \item For requests which contain multiple instructions which are verified together (i.e. a request passes a verification stage only if all instructions pass the same verification stage), the instruction-level verification checks are subsumed in the request-level check.
-\item For requests which contain multiple instructions which are verified individually, the request-level check is implemented in the verification check specified by the InCommand State Machine whereas the instruction-level checks are implemented within the execution actions themselves.
+\item For requests which contain multiple instructions which are verified individually, the request-level check is implemented in the verification check specified by the InCommand State Machine whereas the instruction-level checks are implemented within the execution actions themselves. The request-level check is considered to be successful as long as at least one instruction-leel check has been passed.
 \end{fw_itemize}
 
 As an example of the second bullet, consider the TBD command. TBD.
 
-As an example of the last bullet, consider the (3,5) command to enable a set of housekeeping reports. This command carries the SIDs of the reports to be enabled. Each SID defines one 'instruction' and the PUS stipulates that, as part of the Start-of-Execution verification, valid SIDs should be accepted for execution whereas invalid SIDs should trigger Failed-Start-of-Execution notifications which might eventually trigger the generation of (1,4) reports. The PUS Extension of the CORDET Framework responds to this requirement by specifying that the Start Action of the (3,5) command evaluates the validity of the SIDs and generates the (1,4) reports for each invalid SID.
+As an example of the last bullet, consider the (3,5) command to enable a set of housekeeping reports. This command carries the SIDs of the reports to be enabled. Each SID defines one 'instruction' and the PUS stipulates that, as part of the Start-of-Execution verification, valid SIDs should be accepted for execution whereas invalid SIDs should trigger Failed-Start-of-Execution notifications which might eventually trigger the generation of (1,4) reports. The PUS Extension of the CORDET Framework responds to this requirement by specifying that the Start Action of the (3,5) command evaluates the validity of the SIDs and generates the (1,4) reports for each invalid SID. The Start Action is considered to be successful as long as at least one valid SID is found. 
+
+\paragraph{Multi-Notification Reports}
+In the PUS, a report contains one or more notifications. The notifications in a report are all of the same type. In the CORDET Framework, the concept of notification does not exist: notifications are implicitly embedded within reports. Notifications therefore only arise in the definition of the individual reports. For the multi-notification reports defined by the PUS Extension, the constant MAX\_NOTIF\_XYZ is defined which represents the maximum number of notifications which may be embedded in report XYZ. The value of this constant is defined as part of the framework instantiation process. It allows an application to determine the maximum number of notifications in a report.
+
  
 \paragraph{Disabling Failure Verification Reports} 
 The PUS is not always clear about the conditions for the generation of service 1 reports in response to the commands from its pre-defined services. The approach taken in this document is to generate the maximum possible range of verification reports. Applications can, to some extent, restrict this range by selectively disabling verification reports through the enable mechanism of the OutRegistry component of the CORDET Framework. It is recalled that this mechanism allows the OutRegistry to be configured to disable out-going reports by 'kind' where the kind of a report is defined by the triplet: [type, sub-type, discrminant]. In the case of service 1 failure reports, the discriminant is the failure code. 
  
+ 
 \paragraph{Command Abort in Case of Progress of Execution Failures}
 The PUS is silent about whether a Progress-of-Execution failure should result in the command being aborted or whether the processing of the command should continue with the generation of a Completion-of-Execution failure report. By default, the CORDET Framework assumes that a command which has encountered a failure in its execution is aborted after having generated a Progress-of-Execution Failure Report (see InCommand State Machine in reference [CR-SP]). However, applications who wish to generate a Completion-of-Execution Failure Report after the Progress-of-Execution Failure Report can do so in the Abort Action associated to the command. 
+
+\paragraph{Time-Tagging of Reports}
+The PUS leaves applications the option to generate the time-tag of a report either before or after the time the report collects its data. In the CORDET Framework, the time-stamp of a report represents the time when an application makes a request to issue that report (this is after the report data have been collected). 
+
 
 
 \begin{longtable}{|l|>{\raggedright\arraybackslash}p{10cm}|}
@@ -611,15 +627,21 @@ The PUS is silent about whether a Progress-of-Execution failure should result in
 \textbf{PUS Term} & \textbf{Corresponding CORDET Term} \\
 \hline\hline
 \endhead
-Instruction & In the PUS, a request (command) contains one or more instructions. Instructions do not exist in CORDET and are therefore implicit to a command. See also discussion above. \\
+Application Process & In the PUS, an application process is an entity which hosts one or more sub-services. In the CORDET Framework, the equivalent concept is that of group (each command or report in a CORDET application must belong to a group). See also section \ref{sec:mapGroup}. \\  
 \hline
-Notification & In the PUS, a report contains one or more notifications. Notifications do not exist in CORDET and are therefore implicit to a report. \\
+Instruction & In the PUS, a request (command) contains one or more instructions. Instructions do not exist in the CORDET Framework. They are implicit to commands. In the PUS Extension, instructions arise when individual commands are defined. \\
+\hline
+Message & In the PUS, a message is either a report or a request and its type is defined by the pair [service type, service sub-type]. The CORDET Framework directly supports the concepts of service types and sub-types and adds to them the concept of discriminant (see section \ref{sec:mapDisc}). \\
+\hline
+Notification & In the PUS, a report contains one or more notifications. The notifications in one report must be of the same type. Notifications do not exist in the CORDET Framework. They are implicit to reports. In the PUS Extension, notifications arise when individual commands are defined. \\
 \hline
 Parameter & In a generic sense, PUS parameters are mapped to command and report parameters. In the specific context of service 3, parameters are mapped to data items. \\
 \hline
 Progress Step & In the PUS, the Progress Step is an enumerated type. In the CORDET Framework it is a positive integer which is equal to the number of times that the Progress Action has been executed since the execution of the command started. \\
 \hline
-Request & Command \\
+Request & The PUS Request is the same as the CORDET Command \\
+\hline
+Transaction & In the PUS, a transaction is an exchange between a service provider and a service user which consists of one of the following: (a) a request followed by the report triggered by the request; (b) a data report autonomously generated by the service provider; or (c) an event report autonomously generated by a service provider. The CORDET Framework only defines individual commands and report. The PUS Extension implicitly defines transactions when it specifies links between a command and the reports it triggers or when it specified the conditions under which data or event reports are generated. \\
 \hline
 \end{longtable} 
 
