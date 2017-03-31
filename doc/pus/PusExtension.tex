@@ -183,15 +183,38 @@
 \caption{#2}\label{tab:AP-#1} \\
 \hline
 \rowcolor{light-gray}
-\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}\\
+\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Close-Out Value}\\
 \hline\hline
 \endfirsthead
 \rowcolor{light-gray}
-\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}\\
+\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Close-Out Value}\\
 \hline\hline
 \endhead
 \DTLforeach*[\DTLiseq{\cat}{#1}]{dbAP}{\cat=Category,\origin=Origin,\id=Id,\ap=AP,\defValue=DefValue}
 {\DTLiffirstrow{}{\\\hline}P-\cat-\id & \ap\ (\origin) & \defValue}\\\hline
+}
+{\end{longtable}}
+
+%---------------------------------------------
+% Define Environment for Command and Report
+% Par #1: The string identifying the category to which the cmd/rep belongs
+% Par #2: The table caption
+%---------------------------------------------
+\newenvironment{cr_cr}[2]
+{
+\begin{longtable}{|p{3cm}|p{10cm}|}
+\caption{#2}\label{tab:CR-#1} \\
+\hline
+\rowcolor{light-gray}
+\textbf{Item} & \textbf{Specified Value}\\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Item} & \textbf{Specified Value}\\
+\hline\hline
+\endhead
+\DTLforeach*[\DTLiseq{\cat}{#1}]{dbCmdRep}{\cat=Category,\ap=AP,\defValue=DefValue}
+{\DTLiffirstrow{}{\\\hline}\ap\ & \defValue}\\\hline
 }
 {\end{longtable}}
 
@@ -270,6 +293,7 @@
 %---------------------------------------------
 \DTLloaddb{dbPus}{PusCompliance.csv}
 \DTLloaddb{dbAP}{PusExtensionAP.csv}
+\DTLloaddb{dbCmdRep}{PusExtensionCmdRep.csv}
 \DTLloaddb{dbReq}{PusExtensionReq.csv}
 \DTLloaddb{dbObs}{PusExtensionObs.csv}
 \DTLloaddb{dbPar}{PusExtensionPar.csv}
@@ -347,7 +371,7 @@ No part of this publication may be reproduced, transmitted, transcribed, stored 
 \end{center}
 
 \begin{center}
-Copyright \textcopyright 2014 P\&P Software GmbH. All Rights Reserved. 
+Copyright \textcopyright 2017 P\&P Software GmbH. All Rights Reserved. 
 \end{center}
 \vspace*{\fill}
 
@@ -851,40 +875,64 @@ The table in this section lists the requirements for the factory components.
 \section{Definition of PUS Reports and Commands}\label{sec:defPusRepCmd}
 The PUS Extension of the CORDET Framework supports a subset of the PUS services and, for these services, it specifies the components which implement their reports and commands. Since the framework extension covers the provision of PUS services, it is only concerned with incoming commands and out-going reports. 
 
-In the CORDET Framework, incoming commands are encapsulated by InCommand components and out-going components are encapsulated by OutComponent components. The InCommand and OutComponent components define abstract commands and reports. These two components offer a number of adaptation points where behaviour must be inserted to define concrete commands and reports. A concrete command or a concrete report is specified by closing the adaptation points of, respectively, the InCommand component or of the OutComponent component. 
+In the CORDET Framework, incoming commands are encapsulated by InCommand components and out-going components are encapsulated by OutComponent components. The InCommand and OutComponent components define abstract commands and reports. These two components implement the invariant behaviour which is common to, respectively, all incoming commands and all out-going reports and they offer adaptation points where the behaviour which is specific to each concrete command or report must be inserted. A concrete command or a concrete report is specified by closing the adaptation points of, respectively, the InCommand component or of the OutComponent component. 
 
-Thus, for each supported PUS command, the framework extension defines an extension of the InCommand component which closes all the InCommand adaptation points and, for each supported PUS reports, it defined an extension of the OutComponent component which closes all the OutComponent adaptation points.
+This concept is illustrated in figure \ref{fig:InCmdAdaptation} for the case of incoming commands. The component at the top is the InCommand component which is used as a base from which the components implementing concrete commands are derived. The component at the top is provided by the CORDET Framework. The components at the bottom are provided by its PUS Extension. 
 
-Table \ref{tab:supportedPus} lists the command and report components provided by the PUS Extension of the CORDET Framework to support the PUS services. The first column in the table gives the name of the CORDET component which implements the command or report and the second column gives its PUS names as it is given in section 8 of [PS-SP].
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.415,keepaspectratio=true]{InCmdAdaptation.png}
+ \caption{Extension of InCommand Component}
+ \label{fig:InCmdAdaptation}
+\end{figure}
+
+The components of the CORDET Framework are defined as models which comply with the FW Profile of [FW-SP]. Figure \ref{fig:CrFwInCommand} shows the model of the InCommand (the figure is taken from [CR-SP]). This consists of a state machine where some guards and actions are marked as "Adaptation Points". Concrete commands are defined by attaching a concrete behaviour to these actions and guards.
+
+Thus, for each supported PUS command, the framework extension defines an extension of the InCommand component which closes all the InCommand adaptation points and, for each supported PUS report, it defines an extension of the OutComponent component which closes all the OutComponent adaptation points.
+
+Table \ref{tab:supportedPus} lists the command and report components provided by the PUS Extension of the CORDET Framework to support the PUS services. The first column in the table gives the name of the CORDET component which implements the command or report; the second column gives its PUS names as it is given in section 8 of [PS-SP]; and the third column gives the [type,sub-type] pair which identifies the command or report. Note that, in some cases, the same CORDET components implements two PUS commands or reports. This is the case where the two commands or reports share the same behaviour and only differ for the value of some of their attributes (e.g. the (3,25) and (3,26) reports).
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.415,keepaspectratio=true]{CrFwInCommand.png}
+ \caption{Model of InCommand Component}
+ \label{fig:CrFwInCommand}
+\end{figure}
+
 
 %--------------------------------------------------------------------------------------
 \subsection{Report and Command Adaptation Points}\label{sec:repCmdAP}
-Rows 1 to 18 of table \ref{tab:AP-PCR} list the adaptation points of the OutComponent component and describes how they are closed for the PUS reports provided by the framework extension. In some cases, the adaptation point is closed in the same way for all framework reports. In other cases, the close-out is report-specific and is then described in the following sections of this document which define the individual PUS services. Thus, for instance, the close-out of the report-specific adaptation points for the service 1 reports can be found in section \ref{sec:serv1AP}. The following considerations apply to the data in the table:
+Tables \ref{tab:AP-OCM} and \ref{tab:AP-ICM} list the adaptation points of, respectively, the OutComponent component and the InCommand component. These adaptation points are defined by the CORDET Framework in [CR-SP]. The tables show how they are closed for each command or report supported by the PUS Extension of the framework. In some cases, the adaptation point is closed in the same way for all framework reports/commands. In other cases, the close-out is report- or command-specific and is then described in the later sections of this document which define the individual PUS services. Thus, for instance, the close-out of the report-specific adaptation points for the service 1 reports can be found in section \ref{sec:serv1AP}. 
+
+The following considerations apply to the data in table \ref{tab:AP-OCM} concerning OutComponents:
 
 \begin{fw_itemize}
 \item The OutComponent components are created by the OutFactory and it can be assumed that they are created such that they can be successfully initialized and configured. Their initialization and configuration procedures (adaptation points OCM-1 to 4) can therefore be just dummies that do not perform any action. The same applies to the shutdown procedure (adaptation point OCM-5).
 \item The adaptation point OCM-6 related to the execution procedure is already closed at CORDET Framework level because OutComponents have no execution procedure.
 \item The adaptation points OCM-7 and 8 related to the setting of the report type and sub-type are closed in accordance with the discussion in section \ref{sec:repCmdAttr} by setting the CORDET types and sub-types equal to the PUS type and sub-type.
 \item The adaptation points OCM-9 and OCM-10 to 12 related to the setting of the report discriminant, destination and parameters are closed for each individual report type in the following sections of this document.
-\item The adaptation point OCM-10 related to the acknowledge level is only relevant to out-going commands and is therefore not applicable to the PUS reports.
+\item The adaptation point OCM-10 related to the acknowledge level is only relevant to out-going commands and is therefore not applicable to the PUS reports defined in this document (which is only concerned with incoming commands).
 \item The adaptation points OCM-13 to 16 related to the report checks and actions are closed for each specific report type in the following sections of this document.
 \item The adaptation point OCM-17 related to the serialize operation is closed to create a packet layout which complies with the layout defined by the PUS in [PS-SP].
 \item The adaptation point OCM-18 covers the response to a report having an invalid destination. By design, this situation should never arise and the adaptation point is closed with the generation of an error report.
 \end{fw_itemize}
 
-In a similar fashion, rows 19 to 39 of table \ref{tab:AP-PCR} list the adaptation points of the InCommand component and describes how they are closed for the PUS commands provided by the framework extension. In some cases, the adaptation point is closed in the same way for all framework commands. In other cases, the close-out is command-specific and is then described in the following sections of this document which define the individual PUS services. Thus, for instance, the close-out of the command-specific adaptation points for the service 17 commands can be found in section \ref{sec:serv17AP}. The following considerations apply to the data in the table:
+The following considerations apply to the data in table \ref{tab:AP-ICM} concerning InCommands:
 
 \begin{fw_itemize}
 \item The InCommand components are created by the InFactory but are then initialized and configured by the InLoader. Their initialization and configuration procedures (adaptation points ICM-1 to 4) are therefore implementation-specific. The same applies to the shutdown procedure (adaptation point ICM-5).
+\item The adaptation point ICM-3 implements the acceptance check for the command. This consists of a generic part which verifies the correctness of the command length and CRC and a command-specific part which is implemented by a Validity Check which is defined for each command (typically, the validity check verifies the legality of the values of the command parameters).
 \item The adaptation point related to the execution procedure (ICM-6) is already closed at CORDET Framework level because InCommand do not have any execution procedure.
 \item The adaptation points ICM-7 to 11 related to the command checks and actions are closed for each specific command type in the following sections of this document.
-\item The adaptation point ICM-10 related to the acknowledge level is only relevant to out-going commands and is therefore not applicable to the PUS reports.
 \item The adaptation points ICM-12 to 17 related to the generation of success and failure reports for the command are closed as part of the service 1 definition in section \ref{sec:serv1AP}.
 \item The adaptation points ICM-18 and 19 related to the setting of the command type and sub-type are closed in accordance with the discussion in section \ref{sec:repCmdAttr} by setting the CORDET types and sub-types equal to the PUS type and sub-type.
 \item The adaptation points ICM-20 and 21 related to the command discriminant and parameters are closed for each individual command type in the following sections of this document.
 \end{fw_itemize}
 
-\begin{cr_ap}{PCR}{Adaptation Points for PUS Reports and Commands}
+\begin{cr_ap}{OCM}{Adaptation Points for PUS Reports}
+\end{cr_ap}
+
+\begin{cr_ap}{ICM}{Adaptation Points for PUS Commands}
 \end{cr_ap}
 
 %--------------------------------------------------------------------------------------
@@ -934,13 +982,13 @@ HkDelete & Delete Diagnostic Parameter Report Structure & (3,4) \\
 \hline
 HkDelete & Delete Housekeeping Parameter Report Structure & (3,3) \\
 \hline
-HkEnable & Enable Periodic Generation of Housekeeping Parameter Report & (3,5) \\
+HkEnable & Enable Periodic Generation of Housekeeping Parameter Rep. & (3,5) \\
 \hline
-HkDisable & Disable Periodic Generation of Housekeeping  Parameter Report & (3,6) \\
+HkDisable & Disable Periodic Generation of Housekeeping  Parameter Rep. & (3,6) \\
 \hline
-HkEnable & Enable Periodic Generation of Diagnostic Parameter Report & (3,7) \\
+HkEnable & Enable Periodic Generation of Diagnostic Parameter Rep. & (3,7) \\
 \hline
-HkDisable & Disable Periodic Generation of Diagnostic Parameter Report & (3,8) \\
+HkDisable & Disable Periodic Generation of Diagnostic Parameter Rep. & (3,8) \\
 \hline
 HkReport & Housekeeping Parameter Report & (3,25) \\
 \hline
@@ -998,11 +1046,11 @@ The failure code of failure reports in service 1 is treated as a discriminant. T
 In the CORDET Framework an out-going report is encapsulated in an OutComponent component. The framework extension offers nine components which are defined as extensions of the OutComponent and which implement the nine reports supported by service 1:
 
 \begin{fw_itemize}
-\item Components VerSuccessAccRep and VerFailedAccRep implement reports (1,1) and (1,2) 
-\item Components VerSuccessStartRep and VerFailedStartRep implement reports (1,3) and (1,4) 
-\item Components VerSuccessPrgrRep and VerFailedPrgrRep implement reports (1,5) and (1,6) 
-\item Components VerSuccessTermRep and VerFailedTermRep implement reports (1,7) and (1,8) 
-\item Component VerFailedRoutingRep implements report (1,10)
+\item VerSuccessAccRep and VerFailedAccRep implement reports (1,1) and (1,2) 
+\item VerSuccessStartRep and VerFailedStartRep implement reports (1,3) and (1,4) 
+\item VerSuccessPrgrRep and VerFailedPrgrRep implement reports (1,5) and (1,6) 
+\item VerSuccessTermRep and VerFailedTermRep implement reports (1,7) and (1,8) 
+\item VerFailedRoutingRep implements report (1,10)
 \end{fw_itemize}
 
 These components are defined by the way they close the adaptation points of the OutComponent. Table \ref{tab:AP-S1} lists, among others, the OutComponent adaptation points and shows how they are closed for the service 1 components.
@@ -1022,27 +1070,28 @@ To illustrate, consider the case of a command (3,5) which enables a housekeeping
 
 The failure codes which are generated by the framework extension are listed in appendix \ref{sec:reqVerFailCodes}. These failure codes cover the failure conditions for the commands defined by the framework extension. Applications should add the failure codes for their own commands. For each failure code, the associated verification failure data is defined.
 
-%---------------------------------------------------------------------------------
-\subsection{Service 1 Observables}\label{sec:serv1Obs}
-Service 1 maintains and makes available in the data pool various information related to the generation of the failure reports. No information related to the generation of the success reports is maintained because these reports are optional and the conditions under which they are generated depend on the setting of the verification acknowledge flags which are under external control (they are set by the user of a service). Table \ref{tab:Obs-S1} lists the full set of data pool data items which are maintained by service 1.
-
-\begin{cr_obs}{S1}{Observables for Service 1 (Request Verification)}
-\end{cr_obs}
-
-%---------------------------------------------------------------------------------
-\subsection{Service 1 Parameters}\label{sec:serv1Par}
-No parameters are defined to control the operation of service 1.
-
-
-%---------------------------------------------------------------------------------
-\subsection{Service 1 Adaptation Points}\label{sec:serv1AP}
-The table in this section lists the adaptation points for the request verification service. The following remarks apply: 
+Table \ref{tab:CR-S1-A} formally specifies the service 1 reports by specifying how the actions, checks and attributes of generic out-going reports are specialized for service 1 (see section \ref{sec:defPusRepCmd}). The following remarks apply: 
 
 \begin{fw_itemize}
 \item Service 1 reports are generated unconditionally and hence their enable check always returns 'report enabled'.
 \item Service 1 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
 \item Service 1 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
 \end{fw_itemize}
+
+\begin{cr_cr}{S1-A}{Specification of Service 1 Reports (Request Verification)}
+\end{cr_cr}
+
+
+%---------------------------------------------------------------------------------
+\subsection{Service 1 Observables}\label{sec:serv1Obs}
+Service 1 maintains and makes available in the data pool various information related to the generation of the failure reports. No information related to the generation of the success reports is maintained because these reports are optional and the conditions under which they are generated depend on the setting of the verification acknowledge flags which are under external control (they are set by the user of a service). Table \ref{tab:Obs-S1} lists the data pool data items which are maintained by service 1.
+
+\begin{cr_obs}{S1}{Observables for Service 1 (Request Verification)}
+\end{cr_obs}
+
+%---------------------------------------------------------------------------------
+\subsection{Service 1 Adaptation Points}\label{sec:serv1AP}
+Table \ref{tab:AP-S1} lists the CORDET Framework adaptation points which are closed or overridden by the request verification service. 
 
 \begin{cr_ap}{S1}{Adaptation Points for Service 1 (Request Verification)}
 \end{cr_ap}
@@ -1054,6 +1103,7 @@ The table in this section lists requirements for the request verification servic
 
 \begin{cr_req}{S1}{Requirements for Service 1 (Request Verification)}
 \end{cr_req}
+
 
 \newpage
 \begin{figure}[H]
@@ -1200,7 +1250,7 @@ In order to illustrate the use of the debug variables, consider a situation wher
 
 
 %-------------------------------------------------------------------------------------
-\subsection{Service 3 Report and Command Definition)}\label{sec:serv3RepCmdDef}
+\subsection{Service 3 Report and Command Definition}\label{sec:serv3RepCmdDef}
 In the PUS Service 3 commands and reports appear twice once for housekeeping reports and once for diagnostic reports. The CORDET Framework does not distinguish between housekeeping and diagnostic reports and therefore each CORDET report/command component implements two PUS reports/commands. Table \ref{tab:serv3Components} lists the CORDET components and the PUS reports/commands they implement. The components in the table are defined by the way they close the adaptation points of the OutComponent and InCommand. This is defined formally in tables \ref{tab:AP-S3-1} to TBD. 
 
 Several commands in this service (e.g. the commands to delete a housekeeping/diagnostic report definition) carry multiple instructions which are executed independently of each other. In keeping with the general strategy outlined in section \ref{sec:ComplianceToPus}, their start actions evaluates the instructions one by one and, in case of invalidity, it generate a (1,4) report for each individual instruction.

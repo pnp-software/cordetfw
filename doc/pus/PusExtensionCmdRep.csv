@@ -1,0 +1,95 @@
+Category,AP,DefValue
+S1-A,Destination,The destination of service 1 reports is set equal to the source of the command being verified
+S1-A,Discriminant,"No discriminant attribute is defined for service 1 success reports. For failure reports, the failure code acts as discriminant"
+S1-A,Parameters,Parameter values are as defined by the service 1 procedures called in adaptation points S1-1 to S1-9
+S1-A,Enable Check ,Service 1 reports are always enabled
+S1-A,Ready Check ,Service 1 reports are always ready
+S1-A,Repeat Check ,Service 1 reports are never repeated
+S1-A,Update Action ,No action 
+S3-1,"Ready Check of (3,1) and (3,2) Commands",Return “command is ready'
+S3-1,"Discriminant Attribute of (3,1) and (3,2) Commands","Commands (3,1) and (3,2) have no discriminant"
+S3-1,"Parameter Attributes of (3,1) and (3,2) Commands",Parameters are as in clauses 8.3.2.1 and 8.3.2.2 of [PS-SP]
+,,
+S3-1,"Start Action of (3,1) and (3,2) Commands",Run the procedure Start Action of HkCreate Command of figure \ref{fig:Cmd3s1Start}
+S3-1,"Progress Action of (3,1) and (3,2) Commands","Add the definition of the new report to the RDL, set its enabled status to 'disabled', and set the action outcome to 'completed'"
+S3-1,"Termination Action of (3,1) and (3,2) Commands",Set action outcome to 'success'
+S3-1,"Abort Action of (3,1) and (3,2) Commands",Do nothing
+S3-1,"Operation to Report Progress Successful for (3,1) and (3,2) Commands",Do nothing
+,,
+,,
+S3-3,"Ready Check of (3,3) and (3,4) Commands",Return “command is ready'
+S3-3,"Start Action of (3,3) and (3,4) Commands",Run the procedure Start Action of HkDelete Command of figure \ref{fig:Cmd3s3Start}
+S3-3,"Progress Action of (3,3) and (3,4) Commands",Delete the entries in the RDL corresponding to the SIDs which have been identified as valid by the Start Action and then set the action outcome to 'completed'
+S3-3,"Termination Action of (3,3) and (3,4) Commands",Set action outcome to 'success'
+S3-3,"Abort Action of (3,3) and (3,4) Commands",Do nothing
+S3-3,"Operation to Report Progress Successful for (3,3) and (3,4) Commands",Do nothing
+S3-3,"Discriminant Attribute of (3,3) and (3,4) Commands","Commands (3,3) and (3,4) have no discriminant"
+S3-3,"Parameter Attributes of (3,3) and (3,4) Commands",Parameters are as in clauses 8.3.2.3 and 8.3.2.4 of [PS-SP]
+S3-5,"Ready Check of (3,5) and (3,7) Commands",Return “command is ready'
+S3-5,"Start Action of (3,5) and (3,7) Commands",Run the procedure Start Action of Multi-SID Command of figure \ref{fig:Cmd3SidStart}
+S3-5,"Progress Action of (3,5) and (3,7) Commands",For the entries in the RDL corresponding to the SIDs which have been identified as valid by the Start Action: set enabled flag to true and set the cycle counter to 0. Set the action outcome to 'completed'
+S3-5,"Termination Action of (3,5) and (3,7) Commands",Set action outcome to 'success'
+S3-5,"Abort Action of (3,5) and (3,7) Commands",Do nothing
+S3-5,"Operation to Report Progress Successful for (3,5) and (3,7) Commands",Do nothing
+S3-5,"Discriminant Attribute of (3,5) and (3,7) Commands","Commands (3,5) and (3,7) have no discriminant"
+S3-5,"Parameter Attributes of (3,5) and (3,7) Commands",Parameters are as in clauses 8.3.2.5 and 8.3.2.7 of [PS-SP]
+S3-6,"Ready Check of (3,6) and (3,8) Commands",Return “command is ready'
+S3-6,"Start Action of (3,6) and (3,8) Commands",Run the procedure Start Action of Multi-SID Command of figure \ref{fig:Cmd3SidStart}
+S3-6,"Progress Action of (3,6) and (3,8) Commands",Set to false the enable flag of the entries in the RDL corresponding to the SIDs which have been identified as valid by the Start Action and then set the action outcome to 'completed'
+S3-6,"Termination Action of (3,6) and (3,8) Commands",Set action outcome to 'success'
+S3-6,"Abort Action of (3,6) and (3,8) Commands",Do nothing
+S3-6,"Operation to Report Progress Successful for (3,6) and (3,8) Commands",Do nothing
+S3-6,"Discriminant Attribute of (3,6) and (3,8) Commands","Commands (3,6) and (3,8) have no discriminant"
+S3-6,"Parameter Attributes of (3,6) and (3,8) Commands",Parameters are as in clauses 8.3.2.6 and 8.3.2.8 of [PS-SP]
+,,
+,,
+,,
+,,
+S3-25,"Destination Attribute of periodic (3,25) and (3,26) Reports",The destination is read from the \texttt{dest} field of the Report Definition corresponding to the report's SID
+S3-25,"Discriminant Attribute of periodic (3,25) and (3,26) Reports",The Structure Identifier (SID) of the report
+S3-25,"Parameter Attribute of periodic (3,25) and (3,26) Reports",The values of the data items associated to the report's SID in the RDL
+S3-25,"Enable Check Operation of periodic (3,25) and (3,26) Reports",The enable status is read from the \texttt{isEnabled} field of the Report Definition corresponding to the report's SID
+S3-25,"Ready Check Operation of periodic (3,25) and (3,26) Reports",TBD
+S3-25,"Repeat Check Operation of periodic (3,25) and (3,26) Reports",TBD
+S3-25,"Update Action of periodic (3,25) and (3,26) Reports",Load the value of the simply-commutated data items from the data pool and that of the super-commutated data items from the Sampling Buffer associated to the report's SID according to the Report Definition
+S3-25s,"Destination Attribute of one-shot (3,25) and (3,26) Reports",The destination is read from the \texttt{dest} field of the Report Definition corresponding to the report's SID
+S3-25s,"Discriminant Attribute of one-shot (3,25) and (3,26) Reports",The Structure Identifier (SID) of the report
+S3-25s,"Parameter Attribute of one-shot (3,25) and (3,26) Reports",The values of the data items associated to the report's SID in the RDL
+S3-25s,"Enable Check Operation of one-shot (3,25) and (3,26) Reports",Report is always enabled
+S3-25s,"Ready Check Operation of one-shot (3,25) and (3,26) Reports",Report is always ready
+S3-25s,"Repeat Check Operation of one-shot (3,25) and (3,26) Reports",Report is never repeated
+S3-25s,"Update Action of one-shot (3,25) and (3,26) Reports",Load the value of the simply-commutated data items from the data pool and that of the super-commutated data items from the Sampling Buffer associated to the report's SID according to the Report Definition
+,,
+,,
+,,
+,,
+S17-1,"Ready Check of (17,1) Command",Return “command is ready'
+S17-1,"Start Action of (17,1) Command","Retrieve (17,2) report from OutFactory and set action outcome to “success' if retrieval succeeds. If the retrieval fails, generate error report OUTFACTORY\_FAILED and set outcome of Start Action to 'failed'"
+S17-1,"Progress Action of (17,1) Command","Configure the (17,2) report with a destination equal to the source of the (17,1), load it in the OutLoader, and set action outcome to 'completed'"
+S17-1,"Termination Action of (17,1) Command",Set action outcome to 'success'
+S17-1,"Abort Action of (17,1) Command",Do nothing
+S17-1,"Operation to Report Progress Successful for (17,1) Command",Do nothing
+S17-1,"Discriminant Attribute of (17,1) Command","Command (17,1) has no discriminant"
+S17-1,"Parameter Attributes of (17,1) Command","Command (17,1) carries no parameters"
+S17-2,"Destination Attribute of (17,2) Report","The destination is set to be equal to the source of the (17,1) command which triggers the (17,2)"
+S17-2,"Discriminant Attribute of (17,2) Report","No discriminant attribute is defined for reports (17,2)"
+S17-2,"Parameter Attribute of (17,2) Report","Report (17,2) carries no parameters"
+S17-2,"Enable Check Operation of (17,2) Report","Reports (17,2) are always enabled"
+S17-2,"Ready Check Operation of (17,2) Report","Reports (17,2) are always ready"
+S17-2,"Repeat Check Operation of (17,2) Report","Report (17,2) are never repeated"
+S17-2,"Update Action of (17,2) Report",No action
+S17-3,"Ready Check of (17,3) Command",Return “command is ready'
+S17-3,"Start Action of (17,3) Command",Run the procedure Start Action of OnBoardConnectCmd Command of figure \ref{fig:Cmd17s3Start}
+S17-3,"Progress Action of (17,3) Command",Run the procedure Start Action of OnBoardConnectCmd Command of figure \ref{fig:Cmd17s3Prgr}
+S17-3,"Termination Action of (17,3) Command",Set action outcome to 'success'
+S17-3,"Abort Action of (17,3) Command",Do nothing
+S17-3,"Operation to Report Progress Successful for (17,3) Command",Do nothing
+S17-3,"Discriminant Attribute of (17,3) Command","Command (17,3) has no discriminant"
+S17-3,"Parameter Attributes of (17,3) Command","Command (17,3) carries one parameter representing the destination to which the (17,1) command must be sent"
+S17-4,"Destination Attribute of (17,4) Report","The destination is set to be equal to the source of the (17,3) command which triggers the (17,4)"
+S17-4,"Discriminant Attribute of (17,4) Report","No discriminant attribute is defined for reports (17,4)"
+S17-4,"Parameter Attribute of (17,2) Report","Report (17,4) carries no parameters"
+S17-4,"Enable Check Operation of (17,2) Report","Report (17,4) is always enabled"
+S17-4,"Ready Check Operation of (17,2) Report","Report (17,4) is always ready"
+S17-4,"Repeat Check Operation of (17,2) Report","Report (17,4) is never repeated"
+S17-4,"Update Action of (17,2) Report",No action
