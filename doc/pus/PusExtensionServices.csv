@@ -1,0 +1,27 @@
+Service,Type,Subtype,TmTc,Name,Component
+1,1,*,,\textbf{Request Verification Service},
+,1,1,TM,Successful Acceptance Verification Report,VerSuccessAccRep
+,1,2,TM,Failed Acceptance Verification Report,VerFailedAccRep
+,1,3,TM,Successful Start of Execution Verification Report,VerSuccessStartRep
+,1,4,TM,Failed Start of Execution Verification Report,VerFailedStartRep
+,1,5,TM,Successful Progress of Execution Verification Report,VerSuccessPrgrRep
+,1,6,TM,Failed Progress of Execution Verification Report,VerFailedPrgrRep
+,1,7,TM,Successful Completion of Execution Verification Report,VerSuccessTermRep
+,1,8,TM,Failed Completion of Execution Verification Report,VerFailedTermRep
+,1,10,TM,Failed Routing Verification Report,VerFailedRoutingRep
+3,3,*,,\textbf{Housekeeping Service},
+,3,1,TC,Create a Housekeeping Parameter Report Structure,HkCreateCmd
+,3,2,TC,Create a Diagnostic Parameter Report Structure,HkCreateCmd
+,3,3,TC,Delete a Housekeeping Parameter Report Structure,HkDeleteCmd
+,3,4,TC,Delete a Diagnostic Parameter Report Structure,HkDeleteCmd
+,3,5,TC,Enable Periodic Generation of a Housekeeping Parameter Report Structure,HkEnableCmd
+,3,6,TC,Disable Periodic Generation of a Housekeeping Parameter Report Structure,HkDisableCmd
+,3,7,TC,Enable Periodic Generation of a Diagnostic Parameter Report Structure,HkEnableCmd
+,3,8,TC,Disable Periodic Generation of a Diagnostic Parameter Report Structure,HkDisableCmd
+,3,25,TM,Housekeeping Parameter Report,"HkRep, HkRepOneShot"
+,3,26,TM,Diagnostic Parameter Report,"HkRep, HkRepOneShot"
+17,17,*,,\textbf{Test Service},
+,17,1,TC,Perform Are-You-Alive Connection Test,AreYouAliveCmd
+,17,2,TM,Are-You-Alive Connection Report,AreYouAliveRep
+,17,3,TC,Perform On-Board Connection Test,OnBoardConnectCmd
+,17,4,TM,On-Board Connection Report,OnBoardConnectRep

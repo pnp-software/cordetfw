@@ -195,26 +195,36 @@
 }
 {\end{longtable}}
 
+
 %---------------------------------------------
-% Define Environment for Command and Report
-% Par #1: The string identifying the category to which the cmd/rep belongs
+% Define Environment for Command Tables 
+% Par #1: The string identifying the cmd name
 % Par #2: The table caption
 %---------------------------------------------
-\newenvironment{cr_cr}[2]
+\newenvironment{cr_cmd}[2]
 {
-\begin{longtable}{|p{3cm}|p{10cm}|}
-\caption{#2}\label{tab:CR-#1} \\
+\begin{longtable}{|p{3cm}|p{9.6cm}|}
+\caption{#2} \label{tab:CR-#1} \\
 \hline
 \rowcolor{light-gray}
-\textbf{Item} & \textbf{Specified Value}\\
-\hline\hline
-\endfirsthead
+\DTLforeach*{dbCmd}{\att=Attribute,\attValue=#1}
+{\DTLiffirstrow{}{\\\hline}\att & \attValue}\\\hline
+}
+{\end{longtable}}
+
+%---------------------------------------------
+% Define Environment for Report Tables 
+% Par #1: The string identifying the rep name
+% Par #2: The table caption
+%---------------------------------------------
+\newenvironment{cr_rep}[2]
+{
+\begin{longtable}{|c|p{9.6cm}|}
+\caption{#2} \label{tab:CR-#1}\\
+\hline
 \rowcolor{light-gray}
-\textbf{Item} & \textbf{Specified Value}\\
-\hline\hline
-\endhead
-\DTLforeach*[\DTLiseq{\cat}{#1}]{dbCmdRep}{\cat=Category,\ap=AP,\defValue=DefValue}
-{\DTLiffirstrow{}{\\\hline}\ap\ & \defValue}\\\hline
+\DTLforeach*{dbRep}{\att=Attribute,\attValue=#1}
+{\DTLiffirstrow{}{\\\hline}\att & \attValue}\\\hline
 }
 {\end{longtable}}
 
@@ -293,13 +303,18 @@
 %---------------------------------------------
 \DTLloaddb{dbPus}{PusCompliance.csv}
 \DTLloaddb{dbAP}{PusExtensionAP.csv}
-\DTLloaddb{dbCmdRep}{PusExtensionCmdRep.csv}
+\DTLloaddb{dbCmd}{PusExtensionCmds.csv}
+\DTLloaddb{dbRep}{PusExtensionReps.csv}
 \DTLloaddb{dbReq}{PusExtensionReq.csv}
 \DTLloaddb{dbObs}{PusExtensionObs.csv}
 \DTLloaddb{dbPar}{PusExtensionPar.csv}
 \DTLloaddb{dbConst}{PusExtensionConst.csv}
 \DTLloaddb{dbErr}{PusExtensionErr.csv}
 \DTLloaddb{dbReqVerFailCodes}{PusExtensionReqVerFailCodes.csv}
+\DTLloaddb{dbServ}{PusExtensionServices.csv}
+
+
+
 
 %---------------------------------------------
 % Pdf Properties
@@ -921,7 +936,7 @@ The following considerations apply to the data in table \ref{tab:AP-ICM} concern
 
 \begin{fw_itemize}
 \item The InCommand components are created by the InFactory but are then initialized and configured by the InLoader. Their initialization and configuration procedures (adaptation points ICM-1 to 4) are therefore implementation-specific. The same applies to the shutdown procedure (adaptation point ICM-5).
-\item The adaptation point ICM-3 implements the acceptance check for the command. This consists of a generic part which verifies the correctness of the command length and CRC and a command-specific part which is implemented by a Validity Check which is defined for each command (typically, the validity check verifies the legality of the values of the command parameters).
+\item The adaptation point ICM-3 implements the acceptance check for the command. This verifies the correctness of the command length and CRC.
 \item The adaptation point related to the execution procedure (ICM-6) is already closed at CORDET Framework level because InCommand do not have any execution procedure.
 \item The adaptation points ICM-7 to 11 related to the command checks and actions are closed for each specific command type in the following sections of this document.
 \item The adaptation points ICM-12 to 17 related to the generation of success and failure reports for the command are closed as part of the service 1 definition in section \ref{sec:serv1AP}.
@@ -942,8 +957,7 @@ The requirements in table \ref{tab:Req-PCR} make the adaptation points defined i
 \begin{cr_req}{PCR}{Requirements for Framework Extension Commands and Reports}
 \end{cr_req}
 
-
-\begin{longtable}{|l|>{\raggedright\arraybackslash}p{9cm}||c|}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{3.3cm}|>{\raggedright\arraybackslash}p{8.7cm}|c|}
 \caption{Supported PUS Commands and Reports}\label{tab:supportedPus} \\
 \hline
 \rowcolor{light-gray}
@@ -954,55 +968,13 @@ The requirements in table \ref{tab:Req-PCR} make the adaptation points defined i
 \textbf{CORDET Name} & \textbf{PUS Name} & \textbf{Type} \\
 \hline\hline
 \endhead
-VerSuccessAccRep & Successful Acceptance Verification Report & (1,1) \\
-\hline
-VerFailedAccRep & Failed Acceptance Verification Report & (1,2) \\
-\hline
-VerSuccessStartRep & Successful Start of Execution Verification Report & (1,3) \\
-\hline
-VerFailedStartRep & Failed Start of Execution  Verification Report & (1,4) \\
-\hline
-VerSuccessPrgrRep & Successful Progress of Execution Verification Report & (1,5) \\
-\hline
-VerFailedPrgrRep & Failed Progress of Execution Verification Report & (1,6) \\
-\hline
-VerSuccessTermRep & Successful Termination of Execution Verification Report & (1,7) \\
-\hline
-VerFailedTermRep & Failed Termination of Execution Verification Report & (1,8) \\
-\hline
-VerFailedRoutingRep & Failed Rerouting Verification Report & (1,10) \\
-\hline
-HkCreate & Create Housekeeping Parameter Report Structure & (3,1) \\
-\hline
-HkCreate & Create Diagnostic Parameter Report Structure & (3,2) \\
-\hline
-HkDelete & Delete Housekeeping Parameter Report Structure & (3,3) \\
-\hline
-HkDelete & Delete Diagnostic Parameter Report Structure & (3,4) \\
-\hline
-HkDelete & Delete Housekeeping Parameter Report Structure & (3,3) \\
-\hline
-HkEnable & Enable Periodic Generation of Housekeeping Parameter Rep. & (3,5) \\
-\hline
-HkDisable & Disable Periodic Generation of Housekeeping  Parameter Rep. & (3,6) \\
-\hline
-HkEnable & Enable Periodic Generation of Diagnostic Parameter Rep. & (3,7) \\
-\hline
-HkDisable & Disable Periodic Generation of Diagnostic Parameter Rep. & (3,8) \\
-\hline
-HkReport & Housekeeping Parameter Report & (3,25) \\
-\hline
-HkReport & Diagnostic Parameter Report & (3,26) \\
-\hline
-AreYouAliveCmd & Perform an Are-You-Alive Connection Test & (17,1) \\
-\hline
-AreYouAliveRep & Are-You-Alive Connection Test Report & (17,2) \\
-\hline
-OnBoardConnectCmd & Perform an On-Board Connection Test & (17,3) \\
-\hline
-OnBoardConnectRep & On-Board Connection Test Report & (17,4) \\
-\hline
-\end{longtable}  
+\DTLforeach*{dbServ}{\serv=Service,\type=Type,\subtype=Subtype,\name=Name,\comp=Component}
+{\DTLiffirstrow{}{\\\hline}\comp & \name & (\type,\subtype)}\\\hline
+\end{longtable} 
+
+
+
+
 
 
 %=============================================================================================
@@ -1078,8 +1050,8 @@ Table \ref{tab:CR-S1-A} formally specifies the service 1 reports by specifying h
 \item Service 1 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
 \end{fw_itemize}
 
-\begin{cr_cr}{S1-A}{Specification of Service 1 Reports (Request Verification)}
-\end{cr_cr}
+\begin{cr_rep}{S1-A}{Specification of Service 1 Reports (Request Verification)}
+\end{cr_rep}
 
 
 %---------------------------------------------------------------------------------
@@ -1251,41 +1223,37 @@ In order to illustrate the use of the debug variables, consider a situation wher
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 3 Report and Command Definition}\label{sec:serv3RepCmdDef}
-In the PUS Service 3 commands and reports appear twice once for housekeeping reports and once for diagnostic reports. The CORDET Framework does not distinguish between housekeeping and diagnostic reports and therefore each CORDET report/command component implements two PUS reports/commands. Table \ref{tab:serv3Components} lists the CORDET components and the PUS reports/commands they implement. The components in the table are defined by the way they close the adaptation points of the OutComponent and InCommand. This is defined formally in tables \ref{tab:AP-S3-1} to TBD. 
+Tables \ref{tab:CR-S3-1} to \ref{tab:CR-S3-25s} formally specify the service 3 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 3 (see section \ref{sec:defPusRepCmd}). The following remarks apply.
 
-Several commands in this service (e.g. the commands to delete a housekeeping/diagnostic report definition) carry multiple instructions which are executed independently of each other. In keeping with the general strategy outlined in section \ref{sec:ComplianceToPus}, their start actions evaluates the instructions one by one and, in case of invalidity, it generate a (1,4) report for each individual instruction.
+\begin{fw_itemize}
+\item In the PUS Service 3 commands and reports appear twice once for housekeeping reports and once for diagnostic reports. The PUS Extension of the CORDET Framework does not distinguish between housekeeping and diagnostic reports/commands and therefore each CORDET report/command component implements two PUS reports/commands.
+\item The service 3 commands execute in 'one-shot' mode and therefore do not generate progress reports.
+\item Several commands in this service (e.g. the commands to delete a housekeeping/diagnostic report definition) carry multiple instructions which are executed independently of each other. In keeping with the general strategy outlined in section \ref{sec:ComplianceToPus}, their start action evaluates the instructions one by one and, in case of invalidity, it generates a (1,4) report for each individual instruction.
+\item For the housekeeping/diagnostic reports (3,25) and (3,26), two components are provided of which one is used when the reports are generated on a periodic basis and the other is used when the reports are generated in óne-shot' mode in response to a (3,27) or (3,28) command.
+\end{fw_itemize}
 
-\begin{longtable}{|l|p{10cm}|}
-\caption{CORDET Service 3 Components}\label{tab:serv3Components} \\
-\hline
-\rowcolor{light-gray}
-\textbf{Component} & \textbf{PUS Reports/Commands} \\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{Component} & \textbf{PUS Reports/Commands} \\
-\hline\hline
-\endhead
-HkCreate & Commands (3,1) and (3,2) to create a new housekeeping/diagnostic report  \\
-\hline
-HkDelete & Commands (3,3) and (3,4) to delete a housekeeping/diagnostic report  \\
-\hline
-HkEnable & Commands (3,5) and TBD to enable a housekeeping/diagnostic report  \\
-\hline
-HkDisable & Commands (3,6) and TBD to disable a housekeeping/diagnostic report  \\
-\hline
+\newpage
+\begin{cr_cmd}{S3-1}{Specification of HkCreateCmd Component}
+\end{cr_cmd}
 
-HkReport & Reports (3,25) and (3,26) to carry a periodic housekeeping/diagnostic report  \\
-\hline
-HkRepOneShot & Reports (3,25) and (3,26) to carry a one-shot housekeeping/diagnostic report generated in response to a (3,27) command \\
-\hline
+\begin{cr_cmd}{S3-3}{Specification of HkDeleteCmd Component}
+\end{cr_cmd}
 
+\newpage
+\begin{cr_cmd}{S3-5}{Specification of HkEnableCmd Component}
+\end{cr_cmd}
 
+\begin{cr_cmd}{S3-6}{Specification of HkDisableCmd Component}
+\end{cr_cmd}
 
-\end{longtable}  
+\newpage
+\begin{cr_rep}{S3-25}{Specification of HkRep Component}
+\end{cr_rep}
 
+\begin{cr_rep}{S3-25s}{Specification of HkRepOneShot Component}
+\end{cr_rep}
 
- 
+\newpage 
 %---------------------------------------------------------------------------------
 \subsection{Service 3 Constants}\label{sec:serv3Const}
 The service 3 constants are listed in table \ref{tab:Const-S3}.
@@ -1307,39 +1275,6 @@ The service 3 configuration is defined by the content of the Report Definition L
 
 \begin{cr_par}{S3}{Parameters for Service 3 (Housekeeping Service)}
 \end{cr_par}
-
-%---------------------------------------------------------------------------------
-\subsection{Service 3 Adaptation Points}\label{sec:serv3AP}
-The housekeeping service consists of several commands and reports. Commands are defined by the way they close the adaptation points of the InCommand component and reports are defined by the way they close the adaptation points of the OutComponent component. The tables below define the close-out for the adaptation points of the service 3 commands and reports.
-
-The following considerations apply to the service 3 commands and reports:
-
-\begin{fw_itemize}
-\item The service 3 commands execute in 'one-shot' mode and therefore do not generate progress reports.
-\item TBD
-\end{fw_itemize}
-
-\begin{cr_ap}{S3-1}{Adaptation Points for HkCreate Command}
-\end{cr_ap}
-
-\begin{cr_ap}{S3-3}{Adaptation Points for HkDelete Command}
-\end{cr_ap}
-
-\begin{cr_ap}{S3-5}{Adaptation Points for HkEnable Command}
-\end{cr_ap}
-
-\begin{cr_ap}{S3-6}{Adaptation Points for HkDisable Command}
-\end{cr_ap}
-
-
-\begin{cr_ap}{S3-25}{Adaptation Points for HkReport Report}
-\end{cr_ap}
-
-\begin{cr_ap}{S3-25s}{Adaptation Points for HkRepOneShot Report}
-\end{cr_ap}
-
-Run the procedure Start Action of HkDelete Command of figure \ref{fig:Cmd3s3Start}
-
 
 %---------------------------------------------------------------------------------
 \subsection{Service 3 Requirements}
@@ -1365,7 +1300,7 @@ The table in this section lists requirements for the test service.
 \begin{figure}[H]
  \centering
  \includegraphics[scale=0.55,keepaspectratio=true]{CrPsCmd3SidStart.png}
- \caption{Start Action of Multi-SID Command}
+ \caption{Start Action of Multi-SID Commands}
  \label{fig:Cmd3SidStart}
 \end{figure}
 
@@ -1412,6 +1347,26 @@ One implication of this mechanism is that only one On-Board-Connection Test may 
 
 The time-out parameter \texttt{areYouAliveTimeOut} is the same for all target applications. There is, in other words, an underlying assumption that the response time of all target applications is similar and that there is therefore no need to maintain separate time-outs for each target application. If this assumption is not satisfied, the user must update the value of \texttt{areYouAliveTimeOut} with service TBD before starting an On-Board-Connection Test.
 
+Tables \ref{tab:CR-S17-1} to \ref{tab:CR-S17-4} formally specify the service 17 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 17 (see section \ref{sec:defPusRepCmd}). The following considerations apply to the service 17 commands and reports:
+
+\begin{fw_itemize}
+\item The service 17 commands execute in 'one-shot' mode and therefore do not generate progress reports.
+\item Service 17 reports are generated unconditionally and hence their enable check always returns 'report enabled'.
+\item Service 17 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
+\item Service 17 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
+\end{fw_itemize}
+
+\begin{cr_cmd}{S17-1}{Specification of AreYouAliveCmd Component}
+\end{cr_cmd}
+
+\begin{cr_rep}{S17-2}{Specification of AreYouAliveRep Component}
+\end{cr_rep}
+
+\begin{cr_cmd}{S17-3}{Specification of OnBoardConnectCmd Component}
+\end{cr_cmd}
+
+\begin{cr_rep}{S17-4}{Specification of OnBoardConnectRep Component}
+\end{cr_rep}
 
 
 %---------------------------------------------------------------------------------
@@ -1428,30 +1383,6 @@ Service 17 maintains and makes available in the data pool the parameters listed 
 \begin{cr_par}{S17}{Parameters for Service 17 (Test Service)}
 \end{cr_par}
 
-%---------------------------------------------------------------------------------
-\subsection{Service 17 Adaptation Points}\label{sec:serv17AP}
-The test service consists of two commands and two reports. Commands are defined by the way they close the adaptation points of the InCommand component and reports are defined by the way they close the adaptation points of the OutComponent component. Four tables are accordingly shown below which define the close-out for the adaptation points of the two commands and two reports of service 17.
-
-The following considerations apply to the service 17 commands and reports:
-
-\begin{fw_itemize}
-\item The service 17 commands execute in 'one-shot' mode and therefore do not generate progress reports.
-\item Service 17 reports are generated unconditionally and hence their enable check always returns 'report enabled'.
-\item Service 17 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
-\item Service 17 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
-\end{fw_itemize}
-
-\begin{cr_ap}{S17-1}{Adaptation Points for (17,1) Command}
-\end{cr_ap}
-
-\begin{cr_ap}{S17-2}{Adaptation Points for (17,2) Report}
-\end{cr_ap}
-
-\begin{cr_ap}{S17-3}{Adaptation Points for (17,3) Command}
-\end{cr_ap}
-
-\begin{cr_ap}{S17-4}{Adaptation Points for (17,4) Report}
-\end{cr_ap}
 
 %---------------------------------------------------------------------------------
 \subsection{Service 17 Requirements}

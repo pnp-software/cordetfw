@@ -28,7 +28,7 @@ OCM,17,Closes OCM-17,Serialize Operation of OutComponent,Build a packet with the
 OCM,18,Closes OCM-18,Operation to Report Invalid Destination of an OutComponent,Generate SNDPCKT\_INV\_DEST Error Report 
 ICM,1,Closes ICM-1,Initialization Check in Initialization Procedure of InCommand,Returns 'check successful' if information for initializing InCommand using data in incoming packet is valid
 ICM,2,Closes ICM-2,Initialization Action in Initialization Procedure of InCommand,Use information in incoming packet to initialize InCommand and return “action successful' 
-ICM,3,Closes ICM-3,Configuration Check in Reset Procedure of InCommand,Returns 'check successful' if ipacket length and checksum are correct and if the Validity Check for the command returns 'valid'
+ICM,3,Closes ICM-3,Configuration Check in Reset Procedure of InCommand,Returns 'check successful' if packet length and checksum are correct
 ICM,4,Closes ICM-4,Configuration Action in Reset Procedure of InCommand,Use information in incoming packet to configure InCommand and return “action successful' 
 ICM,5,Closes ICM-5,Shutdown Action of InCommand,Release all resources allocated to the InCommand
 ICM,6,Closes ICM-6,Execution Procedure of InCommand,Do nothing
