@@ -97,7 +97,7 @@
 \lhead{\docRefNumber{}}
 \chead{}
 \rhead{Revision \docIssue{}}
-\lfoot{\textcopyright2014 P\&P Software GmbH. All Rights Reserved.}
+\lfoot{\textcopyright2017 P\&P Software GmbH. All Rights Reserved.}
 \cfoot{\vspace{5mm}
 %{\color{red}\verbatiminput{../commercial/LicensedTo.txt}}
 }
@@ -490,20 +490,20 @@ The documents in table \ref{tab:appDoc} form an integral part of the present doc
 
 %==========================================================================================
 \section{Introduction}
-The CORDET Framework is a software framework for service-oriented embedded applications. It is specified in AD-1 as a set of components to manage the services which an application provides to other applications and uses from other applications. A C-language implementation of this specification is available from RD-1.
+The CORDET Framework is a software framework for service-oriented embedded applications. It is specified in [CR-SP] as a set of components to manage the services which an application provides to other applications and uses from other applications. A C-language implementation of this specification is available from [CR-WEB].
 
-The CORDET Framework only covers the management of generic services but does not specify any concrete services. The service concept of the CORDET Framework is the same as the service concept of the \textit{Packet Utilization Standard} (PUS). The PUS is an application-level interface standard for space-based distributed systems. It is defined in AD-3.
+The CORDET Framework only covers the management of generic services but does not specify any concrete services. The service concept of the CORDET Framework is the same as the service concept of the \textit{Packet Utilization Standard} (PUS). The PUS is an application-level interface standard for space-based distributed systems. It is defined in [PS-SP].
 
-The PUS pre-defines a number of services. This document extends the CORDET Framework to support a subset of those services. The document specifies the components which implements them. The components are specified by providing their behavioural model. The behavioural models are defined using the FW Profile. The FW Profile is a UML profile for reusable software components. It is defined in AD-2.
+The PUS pre-defines a number of services. This document extends the CORDET Framework to support a subset of those services. The document specifies the components which implements them. The components are specified by providing their behavioural model. The behavioural models are defined using the FW Profile. The FW Profile is a UML profile for reusable software components. It is defined in [FW-SP].
 
 The set of components specified in this document are called the \textit{PUS Extension of the CORDET Framework}. When there is no danger of ambiguity, the shorter names "framework extension" or "PUS extension" are also used as synonyms of PUS Extension of the CORDET Framework.
 
 In terms of the classical software lifecycle, the specification presented in this document is at the level of software requirements in the sense that it defines a complete and unambiguous logical model of the components implementing the PUS extension of the CORDET Framework.
 
-\textbf{This document assumes the reader to be familiar with the specification of the CORDET Framework in AD-1}. 
+\textbf{This document assumes the reader to be familiar with the specification of the CORDET Framework in [CR-SP]}. 
 
 \subsection{Scope of CORDET Framework}\label{sec:ScopeCrFw}
-A \textit{CORDET service} is a set of logically and functionally related capabilities that an application offers to other applications (see section 2.2 of AD-1). The CORDET Service concept sees an application as a \textit{provider of services} to other applications and as a \textit{user of services} from other applications (see figure \ref{fig:ServConcept}).
+A \textit{CORDET service} is a set of logically and functionally related capabilities that an application offers to other applications. The CORDET Service concept sees an application as a \textit{provider of services} to other applications and as a \textit{user of services} from other applications (see figure \ref{fig:ServConcept}).
 
 \begin{figure}[ht]
  \centering
@@ -516,34 +516,32 @@ The user of a service controls the service by sending \textit{commands} to the s
 
 The provider of a service sends \textit{reports} to the user of the service. A report is a data exchange between a service provider (the report initiator) and a service user to provide information relating to the execution of a service activity.
 
-Thus, a service consists of a set of commands which the user of the service sends to the provider of the service and of a set of reports which the service provider sends back to its user. A command defines actions to be executed by the service provider. 
-A report encapsulates information about the internal state of the service provider.
+Thus, a service consists of a set of commands which the user of the service sends to the provider of the service and of a set of reports which the service provider sends back to its user. A command defines actions to be executed by the service provider. A report encapsulates information about the internal state of the service provider.
 
-Against this background, the CORDET Framework of AD-1 fulfils two objectives:
+Against this background, the CORDET Framework of [CR-SP] fulfils two objectives:
 
 \begin{fw_itemize}
 \item{} It provides a formal definition of the abstract command concept and of the abstract report concept by building behavioural models of commands and reports which:
 	\begin{fw_itemize}
-	\item capture the aspects of the behaviour of commands and reports which is common to all commands and reports independently of the definition and implementation of a concrete command or report, and
+	\item capture the aspects of the behaviour of commands and reports which are common to all commands and reports, and
 	\item identify the adaptation points where service- and implementation-specific behaviour can be added.
 	\end{fw_itemize}
-\item{} It specifies the the component (the \textit{CORDET Components}) which implement the abstract command and report concepts.
+\item{} It specifies the component (the \textit{CORDET Components}) which implement the abstract command and report concept.
 \end{fw_itemize}
 
 The CORDET Components cover, on the service user side, the sending of commands and the reception and distribution of reports and, on the service provider side, the processing of incoming commands and the generation of reports but do not cover the implementation of any concrete services. 
 
 %--------------------------------------------------------------------------------
 \subsection{Scope of PUS Extension of CORDET Framework}\label{sec:ScopePusExt}
-Developers of a CORDET application are expected to deploy the CORDET components and complement them with application-specific components which implement the services of interest to them. The PUS extension of the CORDET Framework is intended to facilitate the task of application developers by offering them a set of pre-defined components which implement a set of \textit{Standard Services}. A standard service in this context is a service which implements commonly used functions within a certain domain. 
+Developers of a CORDET application are expected to deploy the CORDET components and complement them with application-specific components which implement the services of interest to them. The PUS extension of the CORDET Framework facilitates the task of application developers by offering them a set of pre-defined components which implement a set of \textit{Standard Services}. A standard service in this context is a service which implements commonly used functions within a certain domain. 
 
-The standard services of the PUS Extension are taken from the Packet Utilization Standard (PUS) of AD-3. The target domain of the PUS Extension is therefore that of space-borne service-provider applications but it is worth stressing that the set of services selected from the PUS are those which are least dependent on the space context and it is therefore expected that the services implemented by the PUS Extension may be of interest to other application domains.
+The standard services of the PUS Extension are taken from the Packet Utilization Standard (PUS) of [PS-SP]. The target domain of the PUS Extension is therefore that of space-borne service-provider applications but it is worth stressing that the set of services selected from the PUS are those which are least dependent on the space context and it is therefore expected that the services implemented by the PUS Extension may be of interest to other application domains.
 
 The standard services are defined by defining their commands and reports and the commands and reports are defined as specializations of the abstract command and report concepts of the CORDET Framework. Thus, a standard service is defined by “closing” the adaptation points identified in the abstract command and report concepts.
 
-The CORDET Framework is ultimately intended to foster reuse (at both specification and implementation level) in the field of service-oriented embedded applications. The reuse model it promotes is illustrated in figure \ref{fig:HierarchicalDefServ}. 
-At the top layer, there is the abstract definition of commands and reports of the CORDET Framework of AD-1. This definition is entirely generic and applicable to all services in all application. At the intermediate level, standard services are defined which capture concrete behaviour which is common to a large number of applications. The present document specifies one such set of standard services. Finally, at the bottom level, end-applications define their own services which are entirely specific to their needs. The application-level services may be either taken over from the standard services or they may be created as instantiations of the generic service concept (if they are entirely application-specific).
+The CORDET Framework is ultimately intended to foster reuse (at both specification and implementation level) in the field of service-oriented embedded applications. The reuse model it promotes is illustrated in figure \ref{fig:HierarchicalDefServ}. At the top layer, there is the abstract definition of commands and reports of the CORDET Framework of [CR-SP]. This definition is entirely generic and applicable to all services in all applications. At the intermediate level, standard services are defined which capture concrete behaviour which is common to a large number of applications. The present document specifies one such set of standard services. Finally, at the bottom level, end-applications define their own services which are entirely specific to their needs. The application-level services may be either taken over from the standard services or they may be created as instantiations of the generic service concept (if they are entirely application-specific).
 
-Note that the PUS Extension of the CORDET Framework specifies several services. These services are specified to be independent of each other so that the user may choose only a subset of these services. Similarly, each service is specified in terms of the commands and reports which implement it. Dependencies among the commands and reports of a service are minimized so that user may be free to import into their application just a subset of the commands and reports of a given service.
+Note that the PUS Extension of the CORDET Framework specifies several services. These services are specified to be independent of each other so that the user may choose only a subset of these services. Similarly, each service is specified in terms of the commands and reports which implement it. Dependencies among the commands and reports of a service are minimized so that users may be free to import into their application just a subset of the commands and reports of a given service.
 
 \begin{figure}[ht]
  \centering
@@ -572,9 +570,15 @@ Table \ref{tab:supportedServ} lists the services supported by the PUS Extension 
 \hline
 3 & Housekeeping Service & \ref{sec:serv3} \\
 \hline
+5 & Event Reporting Service & \ref{sec:serv5} \\
+\hline
+12 & On-Board Monitoring Service & \ref{sec:serv12} \\
+\hline
+13 & Large Packet Transfer Service & \ref{sec:serv13} \\
+\hline
 17 & Test Service & \ref{sec:serv17} \\
 \hline
-TBD & TBD & TBD \\
+19 & Event Action Service & \ref{sec:serv19} \\
 \hline
 \end{longtable} 
 
@@ -585,25 +589,22 @@ This document specifies the PUS Extension of the CORDET Framework. The framework
 
 \begin{fw_itemize}
 \item{} \textit{Standard Requirements} which define a desired feature of the framework extension. They are analogous in scope and format to the user requirements of a conventional (non-framework) application.
-\item{} \textit{Adaptation Requirement} which define the points where a component offered by the framework extension can be extended by the application developers. 
-In some cases, the definition of an adaptation point is accompanied by the definition of the default options offered by the framework extension for that adaptation point.  
-\item{} \textit{User Constraint Requirements} which define the constraints on how the components offered by the framework extension may be used by application developers.
-\item{} \textit{Property Requirements} which define behavioural properties which are guaranteed to hold on all applications which: (a) are instantiated from the CORDET Framework and its extension by closing their adaptation points, and (b) comply with the framework's usage constraints.
+\item{} \textit{Adaptation Requirement} which define the points where a component offered by the framework extension can be extended by the application developers. In some cases, the definition of an adaptation point is accompanied by the definition of the default options offered by the framework extension for that adaptation point.  
+\item{} \textit{Use Constraint Requirements} which define the constraints on how the components offered by the framework extension may be used by application developers.
+\item{} \textit{Property Requirements} which define behavioural properties which are guaranteed to hold on all applications which: (a) are instantiated from the CORDET Framework and its extension by closing their adaptation points, and (b) comply with the framework's use constraints.
 \end{fw_itemize}
 
 To each framework requirement an \textit{identifier} is attached.
 The requirement identifier takes the following form: x-y/t where 'x' is an acronym identifying the function to which the requirement applies; 'y' is a unique identifier within that function; and 't' identifies the requirement type. 
-The type is designated by one single letter as follows: 'S' for the Standard Requirements, 'A' for the Adaptation Requirements, 'C' for the User Constraint Requirements and 'P' for the Property Requirements.
+The type is designated by one single letter as follows: 'S' for the Standard Requirements, 'A' for the Adaptation Requirements, 'C' for the Use Constraint Requirements and 'P' for the Property Requirements.
 
 The specification of the framework extension includes a \textit{behavioural model} of the framework which describes its behaviour and identifies the adaptation points where application developers can extend this behaviour to match their requirements.  
 
-The behavioural model of the framework extension is defined using the FW Profile of AD-2. 
-It therefore consists of a set of \textit{state machines} (represented as state charts) and \textit{procedures} (represented as  activity diagrams). 
-Familiarity with the FW Profile is essential for a full understanding of the framework requirements.
+The behavioural model of the framework extension is defined using the FW Profile of [FW-PS]. It therefore consists of a set of \textit{state machines} (represented as state charts) and \textit{procedures} (represented as  activity diagrams). Familiarity with the FW Profile is essential for a full understanding of the framework requirements.
 
 Wherever possible, the framework extension requirements simply make the state machines and procedures applicable. In other words, the state charts representing state machines and the activity diagrams representing procedures are treated as normative and no attempt is made to translate them into a comprehensive set of equivalent requirements.
 
-In accordance with the FW Profile, the activity diagrams and state diagrams identify the framework adaptation points using the <<AP>> stereotype (but note that not all adaptation points are identified explicitly in activity or state diagrams). 
+In accordance with the FW Profile, the activity diagrams and state diagrams identify the framework adaptation points using the $\ll AP \gg$ stereotype (but note that not all adaptation points are identified explicitly in activity or state diagrams). 
 For convenience, all adaptation points with their default options are listed in dedicated tables. 
 In most cases, the adaptation requirements simply make the items in such tables applicable. By default, the implementation mechanism for the adaptation points is left open and is not covered by this specification. 
 
@@ -613,48 +614,37 @@ A derived component closes an adaptation point of its base component when it def
 
 %----------------------------------------------------------------------------------
 \subsection{Compliance to PUS Requirements}\label{sec:ComplianceToPus}
-The PUS Extension of the CORDET Framework implements a subset of the standard PUS services of AD-3. In order to provide visibility over the level of compliance to the PUS requirements of AD-3, appendix \ref{sec:PusReqSOC} presents a statement of compliance to these requirements. This demonstrates that, for the selected services, the PUS Extension is compliant to the PUS requirements. Some points related to the compliance to the PUS deserve a special discussion which is presented below. 
+The PUS Extension of the CORDET Framework implements a subset of the standard PUS services of [PS-SP]. In order to provide visibility over the level of compliance to the PUS requirements of [PS-SP], appendix \ref{sec:PusReqSOC} presents a statement of compliance to these requirements. This demonstrates that, for the selected services, the PUS Extension is compliant to the PUS requirements. Some points related to the compliance to the PUS deserve a special discussion which is presented below. 
 
 There are some terminological differences between PUS and CORDET. For clarity, table \ref{tab:termPusCr} lists PUS-specific terms and gives the corresponding term or concept in the CORDET world. 
 
 \paragraph{Multi-Instruction Requests}
-In the PUS, a request (command) contains one or more instructions. In the CORDET Framework, the concept of Instruction does not exist: instructions are implicitly embedded within commands. Instructions therefore only arise in the definition of the individual commands. For the commands defined by the PUS Extension, two general rules are followed. 
-
-\begin{fw_itemize}
-\item For multi-instruction requests, the constant MAX\_INSTR\_XYZ is defined which represents the maximum number of instructions which may be embedded in request XYZ. The value of this constant is defined as part of the framework instantiation process. It allows an application to determine the maximum number of instructions in a request.
-\item When a request may hold multiple instructions, then the instructions within a request instance are always of the same type (i.e. a situation where the same request instance may hold instructions of different types is not allowed).
-\end{fw_itemize}
+In the PUS, a request (command) contains one or more instructions. In the CORDET Framework, the concept of Instruction does not exist: instructions are implicitly embedded within commands. Instructions therefore only arise in the definition of the individual commands. With reference to clause 5.3.3.2, two points need to be noted. Firstly, for multi-instruction commands, the PUS Extension does not impose an upper boundary on the number of instructions in a command. Such an upper boundary, if needed, must be enforced by the user (e.g. in the SRDB). Secondly, for commands pre-defined by the PUS Extension, if a command can hold more than one instruction, then all these instructions are of the same type (i.e. a situation where the same command instance may hold instructions of different types is not allowed). 
 
 
 \paragraph{Verification of Multi-Instruction Requests}
-The request execution model of the PUS foresees the generation of verification reports both in response to request-level execution checks and in response to instruction-level execution checks\footnote{See, for instance, clauses 5.3.5.2.3a and b which specify that start of execution must be verified both for a request as a whole and for the instructions it contains}. The verification model of the CORDET Framework instead only covers request-level checks. The execution of a command is encapsulated in the Start Action, Progress Action and Termination Action of the InCommand State Machine of [CR-SP]. These actions have an outcome which determine whether the command is successfully started, executed or terminated. One single verification report is generated in response to each execution outcome. The gap between the two verification models is closed as follows:
+The request execution model of the PUS foresees the generation of verification reports both in response to request-level execution checks and in response to instruction-level execution checks\footnote{See, for instance, clauses 5.3.5.2.3a and b which specify that start of execution must be verified both for a request as a whole and for the instructions it contains}. The request-level verification is covered by the CORDET Framework: the Start Action, Progress Action and Termination Action of an InCommand have an outcome which determine whether the command is successfully started, executed or terminated. The CORDET Framework ensures that a verification report is generated in response to each execution outcome. The PUS Extension of the CORDET Framework adds instruction-level verification reports as follows:
 
 \begin{fw_itemize}
 \item For requests which only contain one single instruction, the instruction-level verification check is subsumed in the request-level check.
-\item For requests which contain multiple instructions which are verified together (i.e. a request passes a verification stage only if all instructions pass the same verification stage), the instruction-level verification checks are subsumed in the request-level check.
-\item For requests which contain multiple instructions which are verified individually, the request-level check is implemented in the verification check specified by the InCommand State Machine whereas the instruction-level checks are implemented within the execution actions themselves. The request-level check is considered to be successful as long as at least one instruction-leel check has been passed.
+\item For requests which contain multiple instructions which are verified together (i.e. a request passes a verification stage only if all instructions pass the same verification stage), the instruction-level verification check is subsumed in the request-level check.
+\item For requests which contain multiple instructions which are verified individually, the instruction-level checks are implemented within the execution actions themselves. The request-level check is considered to be successful as long as at least one instruction-level check has been passed.
 \end{fw_itemize}
 
 As an example of the second bullet, consider the TBD command. TBD.
 
 As an example of the last bullet, consider the (3,5) command to enable a set of housekeeping reports. This command carries the SIDs of the reports to be enabled. Each SID defines one 'instruction' and the PUS stipulates that, as part of the Start-of-Execution verification, valid SIDs should be accepted for execution whereas invalid SIDs should trigger Failed-Start-of-Execution notifications which might eventually trigger the generation of (1,4) reports. The PUS Extension of the CORDET Framework responds to this requirement by specifying that the Start Action of the (3,5) command evaluates the validity of the SIDs and generates the (1,4) reports for each invalid SID. The Start Action is considered to be successful as long as at least one valid SID is found. 
 
-\paragraph{Multi-Notification Reports}
-In the PUS, a report contains one or more notifications. The notifications in a report are all of the same type. In the CORDET Framework, the concept of notification does not exist: notifications are implicitly embedded within reports. Notifications therefore only arise in the definition of the individual reports. For the multi-notification reports defined by the PUS Extension, the constant MAX\_NOTIF\_XYZ is defined which represents the maximum number of notifications which may be embedded in report XYZ. The value of this constant is defined as part of the framework instantiation process. It allows an application to determine the maximum number of notifications in a report.
-
- 
 \paragraph{Disabling Failure Verification Reports} 
-The PUS is not always clear about the conditions for the generation of service 1 reports in response to the commands from its pre-defined services. The approach taken in this document is to generate the maximum possible range of verification reports. Applications can, to some extent, restrict this range by selectively disabling verification reports through the enable mechanism of the OutRegistry component of the CORDET Framework. It is recalled that this mechanism allows the OutRegistry to be configured to disable out-going reports by 'kind' where the kind of a report is defined by the triplet: [type, sub-type, discrminant]. In the case of service 1 failure reports, the discriminant is the failure code. 
- 
+The PUS is not always clear about the conditions for the generation of service 1 reports in response to the commands from its pre-defined services. The approach taken by the PUS Extension is to generate the maximum possible range of verification reports. At instantiation time, applications can restrict this range by selectively disabling verification reports through the enable mechanism of the OutRegistry component of the CORDET Framework. It is recalled that this mechanism allows the OutRegistry to be configured to disable out-going reports by 'kind' where the kind of a report is defined by the triplet: [type, sub-type, discrminant]. In the case of service 1 failure reports, the discriminant is the failure code. 
  
 \paragraph{Command Abort in Case of Progress of Execution Failures}
-The PUS is silent about whether a Progress-of-Execution failure should result in the command being aborted or whether the processing of the command should continue with the generation of a Completion-of-Execution failure report. By default, the CORDET Framework assumes that a command which has encountered a failure in its execution is aborted after having generated a Progress-of-Execution Failure Report (see InCommand State Machine in reference [CR-SP]). However, applications who wish to generate a Completion-of-Execution Failure Report after the Progress-of-Execution Failure Report can do so in the Abort Action associated to the command. 
+Point 3 of clause 5.4.11.2.3a implies that a Progress-of-Execution failure for a command does not necessarily result in the command being aborted. By default, the CORDET Framework assumes that a command which has encountered a progress-of-execution failure is aborted after having generated a Progress-of-Execution Failure Report (see InCommand State Machine in reference [CR-SP]). It is TBC whether this behaviour is consistent with the PUS. In any case, applications who wish to generate a Completion-of-Execution Failure Report after the Progress-of-Execution Failure Report can do so in the Abort Action associated to the command.
 
 \paragraph{Time-Tagging of Reports}
-The PUS leaves applications the option to generate the time-tag of a report either before or after the time the report collects its data. In the CORDET Framework, the time-stamp of a report represents the time when an application makes a request to issue that report (this is after the report data have been collected). 
+Clause 5.4.2.1 of the PUS leaves applications the option to generate the time-tag of a report either before or after the time the report collects its data. In the CORDET Framework, the time-stamp of a report represents the time when an application makes a request to issue that report (this is after the report data have been collected). 
 
-
-
+\newpage
 \begin{longtable}{|l|>{\raggedright\arraybackslash}p{10cm}|}
 \caption{Terminological Mapping PUS-CORDET}\label{tab:termPusCr} \\
 \hline
@@ -668,11 +658,11 @@ The PUS leaves applications the option to generate the time-tag of a report eith
 \endhead
 Application Process & In the PUS, an application process is an entity which hosts one or more sub-services. In the CORDET Framework, the equivalent concept is that of group (each command or report in a CORDET application must belong to a group). See also section \ref{sec:mapGroup}. \\  
 \hline
-Instruction & In the PUS, a request (command) contains one or more instructions. Instructions do not exist in the CORDET Framework. They are implicit to commands. In the PUS Extension, instructions arise when individual commands are defined. \\
+Instruction & In the PUS, a request (command) contains one or more instructions. Instructions do not exist in the CORDET Framework. They are implicit to commands. In the PUS Extension, instructions therefore arise when individual commands are defined. \\
 \hline
 Message & In the PUS, a message is either a report or a request and its type is defined by the pair [service type, service sub-type]. The CORDET Framework directly supports the concepts of service types and sub-types and adds to them the concept of discriminant (see section \ref{sec:mapDisc}). \\
 \hline
-Notification & In the PUS, a report contains one or more notifications. The notifications in one report must be of the same type. Notifications do not exist in the CORDET Framework. They are implicit to reports. In the PUS Extension, notifications arise when individual commands are defined. \\
+Notification & In the PUS, a report contains one or more notifications. The notifications in one report must be of the same type. Notifications do not exist in the CORDET Framework. They are implicit to reports. In the PUS Extension, notifications therefore arise when individual reports are defined. \\
 \hline
 Parameter & In a generic sense, PUS parameters are mapped to command and report parameters. In the specific context of service 3, parameters are mapped to data items. \\
 \hline
@@ -682,7 +672,7 @@ Request & The PUS Request is the same as the CORDET Command \\
 \hline
 Subservice & A PUS Subservice is a group of related capabilities which are defined within a service. The concept of Subservice does not exist in the CORDET Framework. In its PUS Extension it arises as part of the definition of the commands and reports which implement a service. \\
 \hline
-Transaction & In the PUS, a transaction is an exchange between a service provider and a service user which consists of one of the following: (a) a request followed by the report triggered by the request; (b) a data report autonomously generated by the service provider; or (c) an event report autonomously generated by a service provider. The CORDET Framework only defines individual commands and report. The PUS Extension implicitly defines transactions when it specifies links between a command and the reports it triggers or when it specified the conditions under which data or event reports are generated. \\
+Transaction & In the PUS, a transaction is an exchange between a service provider and a service user which consists of one of the following: (a) a request followed by the report triggered by the request; (b) a data report autonomously generated by the service provider; or (c) an event report autonomously generated by a service provider. The CORDET Framework only defines individual commands and reports. The PUS Extension implicitly defines transactions when it specifies links between a command and the reports it triggers or when it specifies the conditions under which data or event reports are generated. \\
 \hline
 \end{longtable} 
 
@@ -691,12 +681,12 @@ Transaction & In the PUS, a transaction is an exchange between a service provide
 \section{Report and Command Attributes}\label{sec:repCmdAttr}
 The CORDET Framework defines a number of attributes for commands and reports. Table \ref{tab:pcktAttPus} shows how they are mapped to the command and report attributes defined by the PUS. In most cases, the mapping is straightforward but, in the case of the discriminant and of the APID, clarifications are in order which are provided in the next two sub-sections. 
 
-The PUS Extension of the CORDET Framework extends the range of command and report attributes to include all command and report attributes defined by the PUS. Thus, the components defined by the framework extension to implement PUS commands and reports provide operations to access all the attributes defined at PUS level. 
+The PUS Extension of the CORDET Framework extends the range of command and report attributes to include all command and report attributes defined by the PUS: the components which implement PUS commands and reports provide operations to access all the attributes defined at PUS level. 
 
-Within the framework, commands and reports are handled as instances of components of type InReport (for incoming reports), InCommand (for incoming command), or OutComponent (for out-going commands and reports). Commands and reports arrive at and leave the framework throughthe OutStream and InStream components, which constitute the external interfaces of the framework. At these interfaces, commands and reports are instead encapsulated in packets (sequences of bytes which carry all the data in the report or command). In the framework extension, these packets are required to comply to the command and report layout defined by the PUS and the framework extension is required to provide operation to encode and decode the packets, i.e. to set and read the values of any PUS-defined parameter in a packet. 
+Within the framework, commands and reports are handled as instances of components of type InReport (for incoming reports), InCommand (for incoming command), or OutComponent (for out-going commands and reports). Commands and reports arrive at and leave the framework through the OutStream and InStream components, which constitute the external interfaces of the framework. At these interfaces, commands and reports are encapsulated in packets (sequences of bytes which carry all the data in the report or command). In the framework extension, these packets comply to the command and report layout defined by the PUS and the PUS Extension provides operation to encode and decode the packets, i.e. to set and read the values of any PUS-defined parameter in a packet. 
 
 \begin{longtable}{|c|>{\raggedright\arraybackslash}p{11cm}|}
-\caption{CORDET-PUS Attribute Mapping}\label{tab:pcktAttPus} \\
+\caption{Mapping of CORDET Attributes to PUS Attributes}\label{tab:pcktAttPus} \\
 \hline
 \rowcolor{light-gray}
 \textbf{Attribute} & \textbf{Mapping to PUS Attribute} \\
@@ -736,7 +726,7 @@ Within the framework, commands and reports are handled as instances of component
 \hline
 \texttt{TermAck} & Bit 0 of acknowledge field in data field header \\
 \hline
-\texttt{ParStart} & The parameter area starts where the Application Data starts, namely at the 11-th byte of a command packet and at the 17-th byte of a report packet \\
+\texttt{ParStart} & The parameter area starts where the Application Data starts, namely at byte 11 of a command packet and at byte 17 of a report packet \\
 \hline
 \texttt{ParLength} & The parameter length is the total packet length (in bytes) minus 10 for command packets and the total packet length (in bytes) minus 16 for report packets \\
 \hline
@@ -745,12 +735,12 @@ Within the framework, commands and reports are handled as instances of component
 
 %----------------------------------------------------------------------------------
 \subsection{Mapping of Discriminant Attribute}\label{sec:mapDisc}
-The CORDET discriminant is an optional attribute of a command or report. It is defined when the layout or the behaviour of a command or report are not exclusively determined by the command or report type and sub-type; in such cases, the discriminant becomes the determinant of the command or report layout and behaviour. The PUS does not have the concept of discriminant but some of its services use a particular field for the same purpose. For instance, the Event Identifier (EID) of service 5 reports determines the layout of a service 5 report and hence serves the same purpose as the CORDET discriminant. Similarly, some commands or reports carry variable-length blocks of data; in such cases, the parameter which defines the length of the data block acts as a discriminant. Bearing in mind these considerations, the discriminant is mapped to the following PUS parameters:
+The CORDET discriminant is an optional attribute of a command or report. It is defined when the layout or the behaviour of a command or report are not exclusively determined by the command or report type and sub-type. In such cases, the discriminant becomes the determinant of the command or report layout and behaviour. The PUS does not have the concept of discriminant but some of its services use a particular field for the same purpose. For instance, the Event Identifier (EID) of service 5 reports determines the layout of a service 5 report and hence serves the same purpose as the CORDET discriminant. Similarly, some commands or reports carry variable-length blocks of data; in such cases, the parameter which defines the length of the data block acts as a discriminant. Bearing in mind these considerations, the PUS Extension maps the CORDET discriminant to the following PUS parameters:
 
 \begin{fw_itemize}
-\item The SID for (3,25) reports
-\item The EID for service 5 reports
-\item TBD
+\item The Structure Identifier (SID) for (3,25) reports
+\item The Event Identifier (EID) for reports (5,1) to (5,4)
+\item The Failure Identifier (FID) for service 1 failure reports
 \end{fw_itemize}
 
 %----------------------------------------------------------------------------------
@@ -759,7 +749,7 @@ The CORDET Framework does not have the concept of APID but it uses the concept o
 
 The CORDET Framework requires that, for each destination for out-going commands or reports, an OutStream be defined and that, for each source of incoming commands or reports, an InStream be defined. 
 
-Bearing in mind the above, compliance with the PUS rules for the management of the sequence counters requires that the following rules be adopted for the assignment of the groups: 
+Bearing in mind the above, compliance with the PUS rules for the management of the APIDs and sequence counters requires that the following rules be adopted for the assignment of the groups: 
 
 \begin{fw_itemize}
 \item If an application sends commands or reports to the same destination with different APIDs, then for each such APID, a group must be defined
@@ -804,9 +794,9 @@ This specification is similarly silent about the internal structure of data item
 
 %---------------------------------------------------------------------------------
 \subsection{Data Pool Behaviour}\label{sec:dpBehaviour}
-The Data Pool Component - like all other CORDET Components - is an extension of the Base Component of section 3.2 of AD-1. It does not add any behaviour to the Base Component but it specializes some of its adaptation points as described below.
+The Data Pool Component - like all other CORDET Components - is an extension of the Base Component of section 3.2 of [CR-SP]. It does not add any behaviour to the Base Component but it specializes some of its adaptation points as described below.
 
-The Initialization Procedure of the Data Pool Components creates the data structures needed by the component. At one extreme, if an implementation chooses to locate all data items inside the Data Pool Component, then its Initialization Procedure is responsible for creating the data structures which host the data items. At the other extreme, in an implementation where data items remain located in their originating components and where the data pool only acts as a kind of data switch-board, the Initialization Procedure does nothing and always returns "initialization successful".
+The Initialization Procedure\footnote{It is recalled that the Base Component defines three procedures: the \textit{Initialization Procedure}, the \textit{Configuration Procedure}, and the \textit{Execution Procedure}. These two procedures are inherited by all components derived from the Base Component. They are therefore also inherited by the Data Pool Component.} of the Data Pool Component creates the data structures needed by the component. At one extreme, if an implementation chooses to locate all data items inside the Data Pool Component, then its Initialization Procedure is responsible for creating the data structures which host the data items. At the other extreme, in an implementation where data items remain located in their originating components and where the data pool only acts as a kind of data switch-board, the Initialization Procedure does nothing and always returns "initialization successful".
 
 When the Data Pool is reset, the current values of its data items are initialized with their default values. The Configuration Procedure is therefore responsible for initializing the data item values with their default values. 
 
@@ -821,18 +811,16 @@ In the first case, the initialization of the data items simply involves a copy a
 
 \begin{fw_itemize}
 \item The Configuration Action starts the process whereby the default values of the data items are acquired and copied to their current values
-\item The Configuration Check returns "success" if the initialization of the data item values can be done in zero logical execution time\footnote{The concept of \textit{logical execution time} is introduced in AD-2 as part of the FW Profile Definition. The logical execution time of a behaviour is the execution time of that behaviour on a processor with infinite speed and in the absence of pre-emption by higher-priority activities or blocking by lower-priority activities. Essentially, a behaviour has zero logical execution time if it includes neither "wait" operations nor synchronization operations with external devices or threads.} or else when the initialization has completed 
+\item The Configuration Check returns "success" if the initialization of the data item values can be done in zero logical execution time\footnote{The concept of \textit{logical execution time} is introduced in [FW-SP] as part of the FW Profile Definition. The logical execution time of a behaviour is the execution time of that behaviour on a processor with infinite speed and in the absence of pre-emption by higher-priority activities or blocking by lower-priority activities. Essentially, a behaviour has zero logical execution time if it includes neither "wait" operations nor synchronization operations with external devices or threads.} or else when the initialization has completed 
 \end{fw_itemize}
 
-In the case where the initialization of the data item values is not an operation with zero logical execution time, then the Data Pool Component must be sent at least two \texttt{Reset} commands before it can enter the CONFIGURED state: the first \texttt{Reset} command starts the acquisition of the default values of the data items and the second \texttt{Reset} command verifies that the acquisition has terminated. Obviously, there is nothing to stop an application from using a "polling" approach and sending a sequence of \texttt{Reset} commands until the Data Pool Component has entered its CONFIGURED state. Note that, in line with requirements AST-5 and AST-7 in AD-1, it is the responsibility of the application to send as many \texttt{Reset} commands as needed to the Data Pool Component during the application start-up and application reset process.
+In the case where the initialization of the data item values is not an operation with zero logical execution time, then the Data Pool Component must be sent at least two \texttt{Reset} commands before it can enter the CONFIGURED state: the first \texttt{Reset} command starts the acquisition of the default values of the data items and the second \texttt{Reset} command verifies that the acquisition has terminated. Obviously, there is nothing to stop an application from using a "polling" approach and sending a sequence of \texttt{Reset} commands until the Data Pool Component has entered its CONFIGURED state. Note that, in line with requirements AST-5 and AST-7 in [CR-SP], it is the responsibility of the application to send as many \texttt{Reset} commands as needed to the Data Pool Component during the application start-up and application reset process.
 
-The data items in the data pool should be kept up-to-date. Two options are possible in this respect: (a) the data items are refreshed by the components which own them or (b) the data items are periodically refreshed by the data pool itself. In case (a), the data pool is entirely passive. In case (b), it must implement the refresh function. A mixed solution where some data items are refreshed by the data pool component while others are refreshed by external components is also possible. Since refreshing should only be done with the data pool is in state CONFIGURED, it is natural to allocate the refresh function to the Execution Procedure of the Data Pool Component. 
+The data items in the data pool should be kept up-to-date. Two options are possible in this respect: (a) the data items are refreshed by the components which own them or (b) the data items are periodically refreshed by the data pool itself. In case (a), the data pool is entirely passive. In case (b), it must implement the refresh function. A mixed solution where some data items are refreshed by the data pool component while others are refreshed by external components is also possible. Since refreshing should only be done when the data pool is in state CONFIGURED, it is natural to allocate the refresh function to the Execution Procedure of the Data Pool Component. 
 
 The framework uses option (a) for all data items under its control with the exception of the debug variables of service 3 (see section \ref{sec:serv3SupCommDataItems}). Users are free to choose between the two options for their data items. If they choose option (b), they must extend the Execution Procedure of the Data Pool Component accordingly.
 
-Finally, the Data Pool Component offers an \texttt{update} operation to support service 3 and operations to give read-write access to the current values of the data items. The mode of access to these values (through functions which returns pointers to the data items or through functions which return their values) is not specified and is left to the implementation to decide. Also, no limitation is specified on which components can access the data items in the data pool: any component can access any data item in read-write mode. Such limitations, if needed, may be added at implementation level. 
-
-The data item access operation use the Data Item Identifier as the key to identify the data item whose current value is to be read or updated. The behaviour of these operations in case an illegal identifier is used is not specified at framework level but it is noted that the design of the framework components is such that this situation (attempt to access a non-existent data item in the data pool) never arises. 
+Finally, the Data Pool Component offers an \texttt{update} operation to support service 3 and it offers operations to give read-write access to the current values of the data items. The mode of access to these values (through functions which returns pointers to the data items or through functions which return their values) is not specified and is left to the implementation to decide. Also, no limitation is specified on which components can access the data items in the data pool: any component can access any data item in read-write mode. Such limitations, if needed, may be added at implementation level. 
 
 %---------------------------------------------------------------------------------
 \subsection{Service Observability Concept}\label{sec:servObsConcept}
@@ -874,9 +862,9 @@ The table in this section lists the variables which are maintained and made acce
 
 %---------------------------------------------------------------------------------
 \subsection{Adaptation Points}
-The Make and Release operations for the two factory components are adaptation points because the command and report instantiation policies are not defined at framework extension level. These two adaptation points are, however, already defined at CORDET Framework level (see adaptation points FAC-1 and FAC-2 in AD-1) and do not therefore need to be defined again here.
+The \texttt{Make} and \texttt{Release} operations for the two factory components are adaptation points because the command and report instantiation policies are not defined at framework extension level. These two adaptation points are, however, already defined at CORDET Framework level (see adaptation points FAC-1 and FAC-2 in [CR-SP]) and do not therefore need to be defined again here.
 
-Similarly, the factory components are defined in AD-1 as extension of the Base Component and they they therefore inherit all the adaptation points of the Base Components but no further specialization of these adaptation points in done in the framework extension.
+Similarly, the factory components are defined in [CR-SP] as extension of the Base Component and they therefore inherit all the adaptation points of the Base Components but no further specialization of these adaptation points in done in the PUS Extension of the CORDET Framework.
 
 %---------------------------------------------------------------------------------
 \subsection{Requirements}
@@ -901,15 +889,15 @@ This concept is illustrated in figure \ref{fig:InCmdAdaptation} for the case of 
  \label{fig:InCmdAdaptation}
 \end{figure}
 
-The components of the CORDET Framework are defined as models which comply with the FW Profile of [FW-SP]. Figure \ref{fig:CrFwInCommand} shows the model of the InCommand (the figure is taken from [CR-SP]). This consists of a state machine where some guards and actions are marked as "Adaptation Points". Concrete commands are defined by attaching a concrete behaviour to these actions and guards.
+The components of the CORDET Framework are defined as models which comply with the FW Profile of [FW-SP]. By way of example, figure \ref{fig:CrFwInCommand} shows the model of the InCommand (the figure is taken from [CR-SP]). This consists of a state machine where some guards and actions are marked as "Adaptation Points". Concrete commands are defined by attaching a concrete behaviour to these actions and guards.
 
-Thus, for each supported PUS command, the framework extension defines an extension of the InCommand component which closes all the InCommand adaptation points and, for each supported PUS report, it defines an extension of the OutComponent component which closes all the OutComponent adaptation points.
+Thus, for each supported PUS command, the framework extension defines an extension of the InCommand component which closes all the InCommand adaptation points. Similarly, for each supported PUS report, it defines an extension of the OutComponent component which closes all the OutComponent adaptation points.
 
 Table \ref{tab:supportedPus} lists the command and report components provided by the PUS Extension of the CORDET Framework to support the PUS services. The first column in the table gives the name of the CORDET component which implements the command or report; the second column gives its PUS names as it is given in section 8 of [PS-SP]; and the third column gives the [type,sub-type] pair which identifies the command or report. Note that, in some cases, the same CORDET components implements two PUS commands or reports. This is the case where the two commands or reports share the same behaviour and only differ for the value of some of their attributes (e.g. the (3,25) and (3,26) reports).
 
 \begin{figure}[H]
  \centering
- \includegraphics[scale=0.415,keepaspectratio=true]{CrFwInCommand.png}
+ \includegraphics[scale=0.5,keepaspectratio=true]{CrFwInCommand.png}
  \caption{Model of InCommand Component}
  \label{fig:CrFwInCommand}
 \end{figure}
@@ -917,7 +905,7 @@ Table \ref{tab:supportedPus} lists the command and report components provided by
 
 %--------------------------------------------------------------------------------------
 \subsection{Report and Command Adaptation Points}\label{sec:repCmdAP}
-Tables \ref{tab:AP-OCM} and \ref{tab:AP-ICM} list the adaptation points of, respectively, the OutComponent component and the InCommand component. These adaptation points are defined by the CORDET Framework in [CR-SP]. The tables show how they are closed for each command or report supported by the PUS Extension of the framework. In some cases, the adaptation point is closed in the same way for all framework reports/commands. In other cases, the close-out is report- or command-specific and is then described in the later sections of this document which define the individual PUS services. Thus, for instance, the close-out of the report-specific adaptation points for the service 1 reports can be found in section \ref{sec:serv1AP}. 
+Tables \ref{tab:AP-OCM} and \ref{tab:AP-ICM} list the adaptation points of, respectively, the OutComponent component and the InCommand component. These adaptation points are defined by the CORDET Framework in [CR-SP]. The tables show how they are closed for the concrete commands and reports supported by the PUS Extension of the framework. In some cases, the adaptation point is closed in the same way for all framework reports/commands. In other cases, the close-out is report- or command-specific and is then described in the later sections of this document which define the individual PUS services. Thus, for instance, the close-out of the report-specific adaptation points for the service 1 reports can be found in section \ref{sec:serv1AP}. 
 
 The following considerations apply to the data in table \ref{tab:AP-OCM} concerning OutComponents:
 
@@ -957,6 +945,7 @@ The requirements in table \ref{tab:Req-PCR} make the adaptation points defined i
 \begin{cr_req}{PCR}{Requirements for Framework Extension Commands and Reports}
 \end{cr_req}
 
+\newpage
 \begin{longtable}{|>{\raggedright\arraybackslash}p{3.3cm}|>{\raggedright\arraybackslash}p{8.7cm}|c|}
 \caption{Supported PUS Commands and Reports}\label{tab:supportedPus} \\
 \hline
@@ -1304,6 +1293,19 @@ The table in this section lists requirements for the test service.
  \label{fig:Cmd3SidStart}
 \end{figure}
 
+%=============================================================================================
+\section{Event Reporting Service}\label{sec:serv5}
+The specification of this service is still TBD.
+
+%=============================================================================================
+\section{On-Board Reporting Service}\label{sec:serv12}
+The specification of this service is still TBD.
+
+
+%=============================================================================================
+\section{Large Packet Transfer Service}\label{sec:serv13}
+The specification of this service is still TBD.
+
 
 %=============================================================================================
 \section{Test Service}\label{sec:serv17}
@@ -1407,6 +1409,9 @@ The table in this section lists requirements for the test service.
 \end{figure}
 
 
+%=============================================================================================
+\section{Event Action Service}\label{sec:serv19}
+The specification of this service is still TBD.
 
 
 
