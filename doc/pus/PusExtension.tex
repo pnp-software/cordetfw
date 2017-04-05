@@ -219,7 +219,7 @@
 %---------------------------------------------
 \newenvironment{cr_rep}[2]
 {
-\begin{longtable}{|c|p{9.6cm}|}
+\begin{longtable}{|c|p{10cm}|}
 \caption{#2} \label{tab:CR-#1}\\
 \hline
 \rowcolor{light-gray}
@@ -621,6 +621,8 @@ There are some terminological differences between PUS and CORDET. For clarity, t
 \paragraph{Multi-Instruction Requests}
 In the PUS, a request (command) contains one or more instructions. In the CORDET Framework, the concept of Instruction does not exist: instructions are implicitly embedded within commands. Instructions therefore only arise in the definition of the individual commands. With reference to clause 5.3.3.2, two points need to be noted. Firstly, for multi-instruction commands, the PUS Extension does not impose an upper boundary on the number of instructions in a command. Such an upper boundary, if needed, must be enforced by the user (e.g. in the SRDB). Secondly, for commands pre-defined by the PUS Extension, if a command can hold more than one instruction, then all these instructions are of the same type (i.e. a situation where the same command instance may hold instructions of different types is not allowed). 
 
+\paragraph{Acknowledgement Flags} In the PUS, each request (command) carries four flags whcih determine whether successful acceptance, start, progress and completion of that request should be reported to the request originator. The CORDET Framework defines four flags with the same semantics. It is important to stress that, in accordance with clause 5.4.11.2.2, the acknowledge flags only concern the reporting of verifications performed at the level of the \underline{request}. The PUS is silent about the conditions under which the outcome of instruction-level verifications should be reported. In this respect, the PUS Framework takes the  approach that, for instructions, only execution failures are reported and that they are reported unconditionally. 
+
 
 \paragraph{Verification of Multi-Instruction Requests}
 The request execution model of the PUS foresees the generation of verification reports both in response to request-level execution checks and in response to instruction-level execution checks\footnote{See, for instance, clauses 5.3.5.2.3a and b which specify that start of execution must be verified both for a request as a whole and for the instructions it contains}. The request-level verification is covered by the CORDET Framework: the Start Action, Progress Action and Termination Action of an InCommand have an outcome which determine whether the command is successfully started, executed or terminated. The CORDET Framework ensures that a verification report is generated in response to each execution outcome. The PUS Extension of the CORDET Framework adds instruction-level verification reports as follows:
@@ -628,15 +630,17 @@ The request execution model of the PUS foresees the generation of verification r
 \begin{fw_itemize}
 \item For requests which only contain one single instruction, the instruction-level verification check is subsumed in the request-level check.
 \item For requests which contain multiple instructions which are verified together (i.e. a request passes a verification stage only if all instructions pass the same verification stage), the instruction-level verification check is subsumed in the request-level check.
-\item For requests which contain multiple instructions which are verified individually, the instruction-level checks are implemented within the execution actions themselves. The request-level check is considered to be successful as long as at least one instruction-level check has been passed.
+\item For requests which contain multiple instructions which are verified individually, the instruction-level checks are implemented within the execution actions themselves. The request-level check is considered to be successful as long as at least one instruction-level check has been passed. In accordance with the rule stated in the previous paragraph, for instructions, only execution failures are reported.
 \end{fw_itemize}
-
-As an example of the second bullet, consider the TBD command. TBD.
 
 As an example of the last bullet, consider the (3,5) command to enable a set of housekeeping reports. This command carries the SIDs of the reports to be enabled. Each SID defines one 'instruction' and the PUS stipulates that, as part of the Start-of-Execution verification, valid SIDs should be accepted for execution whereas invalid SIDs should trigger Failed-Start-of-Execution notifications which might eventually trigger the generation of (1,4) reports. The PUS Extension of the CORDET Framework responds to this requirement by specifying that the Start Action of the (3,5) command evaluates the validity of the SIDs and generates the (1,4) reports for each invalid SID. The Start Action is considered to be successful as long as at least one valid SID is found. 
 
+\paragraph{Reporting Failed Progress of Execution}
+Clause 5.4.9a gives a choice between reporting failed progress of execution through Failed-Progress-Of-Execution notification reports or through Completion-Of-Execution notification reports. In general, both options are compatible with the CORDET Framework: in the former case the notification report is generated by the Report Progress Failed Operation of the framework (adaptation point ICM-14); in the latter case, the notification is generated by the Report Termination Failed Operation of the framework (adaptation point ICM-16). By default, the PUS Extension chooses the former option but application developers can override this choice if they wish.
+
+
 \paragraph{Disabling Failure Verification Reports} 
-The PUS is not always clear about the conditions for the generation of service 1 reports in response to the commands from its pre-defined services. The approach taken by the PUS Extension is to generate the maximum possible range of verification reports. At instantiation time, applications can restrict this range by selectively disabling verification reports through the enable mechanism of the OutRegistry component of the CORDET Framework. It is recalled that this mechanism allows the OutRegistry to be configured to disable out-going reports by 'kind' where the kind of a report is defined by the triplet: [type, sub-type, discrminant]. In the case of service 1 failure reports, the discriminant is the failure code. 
+The PUS is not always clear about the conditions for the generation of service 1 reports in response to the commands from its pre-defined services. The approach taken by the PUS Extension is to generate a wide range of verification reports. At instantiation time, applications can restrict this range by selectively disabling verification reports through the enable mechanism of the OutRegistry component of the CORDET Framework. It is recalled that this mechanism allows the OutRegistry to be configured to disable out-going reports by 'kind' where the kind of a report is defined by the triplet: [type, sub-type, discrminant]. In the case of service 1 failure reports, the discriminant is the failure code. 
  
 \paragraph{Command Abort in Case of Progress of Execution Failures}
 Point 3 of clause 5.4.11.2.3a implies that a Progress-of-Execution failure for a command does not necessarily result in the command being aborted. By default, the CORDET Framework assumes that a command which has encountered a progress-of-execution failure is aborted after having generated a Progress-of-Execution Failure Report (see InCommand State Machine in reference [CR-SP]). It is TBC whether this behaviour is consistent with the PUS. In any case, applications who wish to generate a Completion-of-Execution Failure Report after the Progress-of-Execution Failure Report can do so in the Abort Action associated to the command.
@@ -935,6 +939,7 @@ The following considerations apply to the data in table \ref{tab:AP-ICM} concern
 \begin{cr_ap}{OCM}{Adaptation Points for PUS Reports}
 \end{cr_ap}
 
+\newpage
 \begin{cr_ap}{ICM}{Adaptation Points for PUS Commands}
 \end{cr_ap}
 
@@ -982,13 +987,13 @@ The notifications listed above are generated by the CORDET Framework infrastruct
 
 An example may help clarify the mechanism through which the service 1 reports are generated. The InCommand state machine of the CORDET Framework defines the generic behaviour of incoming commands. Among other things, this state machine stipulates that, when the execution of an incoming command has been successfully completed, the Report-Termination-Successful Operation is called to notify other parts of the application that the command has successfully terminated. At the level of the CORDET Framework, this operation is defined as an adaptation point (because, at this level, it is not possible to define how and to whom the notification of successful completion should be distributed). At the level of the PUS Extension this adaptation point is closed by having the Report-Termination-Successful Operation generate a service 1 report of type (1,7).
 
-The notifications generated by the CORDET Framework are generated in response to checks performed on incoming commands. However, the PUS stipulates that execution notifications may also be generated in response to checks performed on individual instructions embedded within a command. These notifications cannot be generated by the CORDET Framework which only handles commands. These execution notifications are therefore generated by individual commands as part of their processing of their own instructions. An example may again help clarify this logic. The PUS command of type (3,5) carries several instructions each of which enables one housekeeping report. The processing of these instructions is done by the actions associated to the command itself and the generation of the instruction-level notifications is therefore done by these actions.  
+The notifications generated by the CORDET Framework are generated in response to checks performed on incoming commands. However, the PUS stipulates that execution notifications may also be generated in response to checks performed on individual instructions embedded within a command. These notifications cannot be generated by the CORDET Framework which only handles abstract commands. These execution notifications are therefore generated by individual commands as part of their processing of their own instructions. An example may again help clarify this logic. The PUS command of type (3,5) carries several instructions each of which enables one housekeeping report. The processing of these instructions is done by the actions associated to the command itself and the generation of the instruction-level notifications is therefore done by these actions. Note that, as discussed in section \ref{sec:ComplianceToPus}, for instructions, only execution failures are reported.
 
-By way of summary, table TBD lists the sources of all notifications which may trigger service 1 reports. For notifications which are issued by the CORDET Framework infrastructure, the rightmost column in the table identifies the corresponding adaptation point.
+By way of summary, table \ref{tab:sourcesNotif} lists the sources of all notifications which may trigger service 1 reports. For notifications which are issued by the CORDET Framework infrastructure, the rightmost column in the table identifies the corresponding adaptation point.
 
 
 
-\begin{longtable}{|>{\raggedright\arraybackslash}p{3.3cm}|>{\raggedright\arraybackslash}p{8.7cm}|c|}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2.1cm}|>{\raggedright\arraybackslash}p{9.8cm}|c|}
 \caption{Sources of Routing, Acceptance and Execution Notifications}\label{tab:sourcesNotif} \\
 \hline
 \rowcolor{light-gray}
@@ -999,45 +1004,32 @@ By way of summary, table TBD lists the sources of all notifications which may tr
 \textbf{Notification} & \textbf{Source} & \textbf{AP} \\
 \hline\hline
 \endhead
-Routing Failure Notification & This notification is issued by the \textit{Report Packet Destination Invalid Operation}. This operation is called by the InLoader Execution Procedure when an application has received a command or report which has a destination which is neither the application itself nor some other known application. & ILD-12 \\
+Routing Failure Notification & This notification is issued by the \textit{Report Packet Destination Invalid Operation} which is called by the InLoader Execution Procedure when an application has received a command or report with a destination which is neither the application itself nor some other known application. & ILD-12 \\
 \hline
-Acceptance Success Notification & This notification is issued by the \textit{Report Acceptance Failure Operation}. This operation is called by the InLoader Load Command/Report Procedure when an incoming command has failed its acceptance check. & ILD-14 \\
+Acceptance Failure Notification & This notification is issued by the \textit{Report Acceptance Failure Operation} which is called by the InLoader Load Command/Report Procedure when an incoming command has failed its acceptance check. & ILD-14 \\
 \hline
-Acceptance Failure Notification & This notification is issued by the \textit{Report Acceptance Success}. This operation is called by the InLoader Load Command/Report Procedure when an incoming command has passed its Acceptance Check and that command has requested acknowledgement of successful acceptance. & ILD-15 \\
+Acceptance Success Notification & This notification is issued by the \textit{Report Acceptance Success Operation} which is called by the InLoader Load Command/Report Procedure when an incoming command has passed its Acceptance Check and that command has requested acknowledgement of successful acceptance. & ILD-15 \\
 \hline
-
-
+Execution Start Success Notification &  This notification is issued by the \textit{Report Start Successful for InCommand Operation} which is called by the InCommand State Machine when the Start Action of an incoming command has a 'success' outcome and that command has requested acknowledgement of successful start of execution. & ICM-13 \\
+\hline 
+Execution Start Failure Notification &  This notification is issued by the \textit{Report Start Failed for InCommand Operation} which is called by the InCommand State Machine when the Start Action of an incoming command has a 'failure' outcome. The same operation may also be called by the implementation of the Start Action of a command to report the failure of an instruction within the command. & ICM-12 \\
+\hline
+Execution Progress Success Notification &  This notification is issued by the \textit{Report Progress Successful for InCommand Operation} which is called by the InCommand State Machine when the Progress Action of an incoming command has a 'success' outcome and that command has requested acknowledgement of successful progress of execution. & ICM-15 \\
+\hline
+Execution Progress Failure Notification &  This notification is issued by the \textit{Report Progress Failed for InCommand Operation} which is called by the InCommand State Machine when the Progress Action of an incoming command has a 'failure' outcome. The same operation may also be called by the implementation of the Progress Action of a command to report the failure of the execution step of an instruction within the command. & ICM-14 \\
+\hline 
+Execution Termination Success Notification &  This notification is issued by the  \textit{Report Termination Successful for InCommand Operation} which is called by the InCommand State Machine when the Termination Action of an incoming command has a 'success' outcome and that command has requested acknowledgement of successful termination of execution. & ICM-17 \\
+\hline
+Execution Termination Failure Notification &  This notification is issued by the
+\textit{Report Termination Failed for InCommand Operation} which is called by the InCommand State Machine when the Termination Action of an incoming command has a 'failure' outcome. & ICM-16 \\
+\hline
 \end{longtable} 
 
+The framework extension closes the adaptation points in table \ref{tab:sourcesNotif} with behaviour which generates the service 1 verification reports. The first row in the table corresponds to a situation where a packet cannot be re-routed, which if the packet contains a command, is the situation where the PUS prescribes that a (1,10) report should be generated. The other rows correspond to situations where an incoming command has either failed or passed one of its processing checks and they are therefore closed with the generation of the service 1 reports (1,1) to (1,8). 
 
+The close-out behaviour for the adaptation points is defined in table \ref{tab:AP-S1}. It consists of running a procedure which creates the service 1 report, configures it, and then loads it into the OutLoader. The report is created by calling the \texttt{Make} operation of the OutFactory. This may fail if the OutFactory has run out of resources for new reports. In that case, error report OUTFACTORY\_FAIL is generated. Procedures which report failures also update the relevant observables (see section \ref{sec:serv1Obs}).
 
-which are generated by the COR
-
-
-Routing Failure Notifications are generated by the InLoader Execution Procedure 
-
-
-which a service provider application generates in response to the reception of a command. The framework extension provides nine components to encapsulate these nine reports. Since these components represent out-going reports, they are all implemented as extensions of the OutComponent component of the CORDET Framework. 
-
-The verification reports are generated at various points in the processing life-cycle of an incoming command. The CORDET Framework defines adaptation points where the success or failure of a processing step of an incoming command is handled: 
-
-\begin{fw_enumerate}
-\item 
-\item \textit{Report Acceptance Failure} (
-\item
-\item \textit{Report Start Failed for InCommand} (Adaptation Point ICM-12 in the InCommand State Machine): defines the action to be taken when the Start Action of an incoming command has a 'failure' outcome.
-\item \textit{Report Start Successful for InCommand} (Adaptation Point ICM-13 in the InCommand State Machine): defines the action to be taken when the Start Action of an incoming command has a 'success' outcome and that command has requested acknowledgement of successful start of execution.
-\item \textit{Report Progress Failed for InCommand} (Adaptation Point ICM-14 in the InCommand State Machine): defines the action to be taken when the Progress Action of an incoming command has a 'failure' outcome.
-\item \textit{Report Progress Successful for InCommand} (Adaptation Point ICM-15 in the InCommand State Machine): defines the action to be taken when the Progress Action of an incoming command has a 'success' outcome and that command has requested acknowledgement of successful progress of execution.
-\item \textit{Report Termination Failed for InCommand} (Adaptation Point ICM-16 in the InCommand State Machine): defines the action to be taken when the Termination Action of an incoming command has a 'failure' outcome.
-\item \textit{Report Progress Successful for InCommand} (Adaptation Point ICM-17 in the InCommand State Machine): defines the action to be taken when the Termination Action of an incoming command has a 'success' outcome and that command has requested acknowledgement of successful termination of execution.
-\end{fw_enumerate}
-
-The framework extension closes these adaptation points with behaviour which generates the service 1 verification reports. Point 1 corresponds to the situation where a packet cannot be re-routed, which if the packet contains a command, is the situation where the PUS prescribes that a (1,10) report should be generated. The other points correspond to situations where an incoming command has either failed or passed one of its processing checks and they are therefore closed with the generation of the service 1 reports (1,1) to (1,8). 
-
-The close-out behaviour for the adaptation points is defined in table \ref{tab:AP-S1}. It consists of running a procedure which creates the service 1 report, configures it, and then loads it into the OutLoader. The creation is done by calling the \texttt{Make} operation of the OutFactory. This may fail if the OutFactory has run out of resources for new reports. In that case, error report OUTFACTORY\_FAIL is generated. Procedures which report failures also update the relevant observables (see section \ref{sec:serv1Obs}).
-
-The reports (1,5) and (1,6) report, respectively, the success and failure of a progress step. The CORDET Framework has the concept of 'Progress Step' which is a counter which counts the number of times an InCommand has been executed since it was 'in progress' (i.e. since it entered state PROGRESS). It is recognized that this mechanism may result in a 'step granularity' which is too fine for some applications. The default logic for the generation of the (1,5) and (1,6) reports is then as follows:
+The reports (1,5) and (1,6) report, respectively, the success and failure of a progress step. The CORDET Framework has the concept of 'Progress Step' which is a counter which counts the number of times an InCommand has been executed since it was 'in progress' (i.e. since it entered state PROGRESS). It is recognized that this mechanism may result in a step granularity which is too fine for some applications. The default logic for the generation of the (1,5) and (1,6) reports is then as follows:
 
 \begin{fw_itemize}
 \item A return value of 'failed' for the Progress Action of the InCommand is interpreted as a progress step failure which triggers a (1,6) report. 
@@ -1074,7 +1066,7 @@ The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The
 
 The Verification Failure Data is stored in data pool item \texttt{verFailData}. Its purpose is to provide additional information about the nature of the failure being reported by the failure report. This data item has a fixed size but its syntactical type is command-specific. Its value is set by the entity which performs the verification check. If no failure data are defined for a given verification check, then the value of \texttt{verFailData} is "don't care". 
 
-To illustrate, consider the case of a command (3,5) which enables a housekeeping report. This command carries the Structure Identifier (SID) of the report to be enabled. The Start Action of this command checks the legality of the SID (see section TBD). If the SID is found to be illegal, the command is rejected with a (1,4) report and the illegal SID value is used as Verification Failure Data. The Start Action of the (1,4) command loads the illegal SID into data pool item \texttt{verFailData} and the Command Verification Failure Procedure which creates the (1,4) report takes the Verification Failure Data from \texttt{verFailData}.
+To illustrate, consider the case of a command (3,5) which enables a housekeeping report. This command carries the Structure Identifier (SID) of the report to be enabled. The Start Action of this command checks the legality of the SID (see section \ref{sec:serv3}). If the SID is found to be illegal, the command is rejected with a (1,4) report and the illegal SID value is used as Verification Failure Data. The Start Action of the (1,4) command loads the illegal SID into data pool item \texttt{verFailData} and the Command Verification Failure Procedure which creates the (1,4) report takes the Verification Failure Data from \texttt{verFailData}.
 
 The failure codes which are generated by the framework extension are listed in appendix \ref{sec:reqVerFailCodes}. These failure codes cover the failure conditions for the commands defined by the framework extension. Applications should add the failure codes for their own commands. For each failure code, the associated verification failure data is defined.
 
@@ -1086,6 +1078,7 @@ Table \ref{tab:CR-S1-A} formally specifies the service 1 reports by specifying h
 \item Service 1 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
 \end{fw_itemize}
 
+\newpage
 \begin{cr_rep}{S1-A}{Specification of Service 1 Reports (Request Verification)}
 \end{cr_rep}
 
