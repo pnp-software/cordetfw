@@ -467,6 +467,8 @@ The documents in table \ref{tab:appDoc} form an integral part of the present doc
 \hline
 [PS-SP] & Ground Systems and Operations – Telemetry and Telecommand Packet Utilization Standard, ECSS-E-70-41C, April 2016, European Cooperation for Space Standardization (ECSS) \\
 \hline
+[PX-SP] & The present document \\
+\hline
 \end{longtable}
 
 \begin{longtable}{|c|p{11cm}|}
@@ -702,7 +704,7 @@ Within the framework, commands and reports are handled as instances of component
 \endhead
 \texttt{Src} & Commands: source field of data field header; Reports: PID \\
 \hline
-\texttt{Dest} & Commands: PID; Reports: destination field of data field header \\
+\texttt{Dest} & Commands: PID; Reports: Destination Identifier (process user identifier of application process addressed by the report)  \\
 \hline
 \texttt{SeqCnt} & Sequence Count field in packet header \\
 \hline
@@ -710,13 +712,13 @@ Within the framework, commands and reports are handled as instances of component
 \hline
 \texttt{Length} & Related to Packet Length Field (which is the length of the packet data field minus 1) \\
 \hline
-\texttt{TimeStamp} & Time Field in data field header of telemetry packets; not present in telecommand packets \\
+\texttt{TimeStamp} & Time field in data field header of telemetry packets; not present in telecommand packets \\
 \hline
 \texttt{Discriminant} & Service-specific mapping to parameter which determines command or report layout, see section \ref{sec:mapDisc} \\
 \hline
 \texttt{ServType} & Service Type field in data field header \\
 \hline
-\texttt{ServSubType} & Service Sub-Type field in data field header \\
+\texttt{ServSubType} & Message Sub-Type field in data field header \\
 \hline
 \texttt{Group} & Related to CAT part of the APID, see section \ref{sec:mapGroup} \\
 \hline
@@ -1511,27 +1513,27 @@ Request verification failure reports of service 1 carry a failure code. The tabl
 
 %=============================================================================================
 \section{PUS Requirements Compliance Matrix}\label{sec:PusReqSOC}
-The table in this section presents the level of compliance achieved by the PUS Extension of the CORDET Framework to the PUS requirements of AD-1. The first two columns give the identifier and the text of the PUS requirement. The third column gives the compliance status which can be one of the following:
+The table in this section presents the level of compliance achieved by the PUS Extension of the CORDET Framework to the PUS requirements of AD-1. The first three columns give the identifier, the title and the text of the PUS requirement. The fourth column gives the compliance status which can be one of the following:
 
 \begin{fw_itemize}
 \item [C1] The requirement is directly implemented by the PUS Extension of the CORDET Framework or by the CORDET Framework itself (i.e. applications instantiated from the framework are guaranteed to be compliant with the requirement)
 \item [C2] The requirement may be implemented by applications instantiated from the PUS Extension of the CORDET Framework (i.e. applications instantiated from the framework may be made be compliant with the requirement)
-\item [CC] Compliance to the requirement is conditional on some constraints being respected by the user
 \item [NC] The requirement is not compatible with the PUS Extension of the CORDET Framework (i.e. applications instantiated from the framework cannot be compliant with the requirement)
 \item [NA] The requirement is not covered by the PUS Extension of the CORDET Framework
 \end{fw_itemize}
 
-In some cases, the compliance level is declared to be 'C1/C2' when part of the requirement is implemented by the PUS Extension of the CORDET Framework and part is left to the application developers.
+In several cases, the compliance level is declared to be 'C1/C2' when part of the requirement is implemented by the PUS Extension of the CORDET Framework and part is left to the application developers.
 
-The fourth column in the table provides the following additional information:
+The fourth column in the table provides a discussion of the level of compliance and, wherever possible, the following additional information is provided:
 
 \begin{fw_itemize}
 \item [C1] Traceability to the framework requirements implementing the PUS requirement 
 \item [C2] Traceability to the adaptation point(s) where application developers can insert their own requirements to achieve compliance
 \item [NC] Justification for non-compliance
-\item [NI] Indication of whether the requirement might be covered in a future extension of the framework
+\item [NA] Explanation of the reason for the non-applicability of the requirement
 \end{fw_itemize}
 
+Only requirements in sections 5 to 7 of the PUS are covered. Requirements in section 8 merely state the layout of the standard commands and reports. Compliance to these requirements is uncontroversial and is guaranteed in all cases. Requirements in section 9 are not relevant to the PUS Extension of the CORDET Framework and are therefore ignored.
 
 \begin{landscape} 
 
