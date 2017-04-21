@@ -137,7 +137,7 @@ S17-2,6,Closes OCM-15,"Repeat Check Operation of (17,2) Report","Report (17,2) a
 S17-2,7,Closes OCM-16,"Update Action of (17,2) Report",No action
 S17-3,1,Closes ICM-7,"Ready Check of (17,3) Command",Return “command is ready'
 S17-3,2,Closes ICM-8,"Start Action of (17,3) Command",Run the procedure Start Action of OnBoardConnectCmd Command of figure \ref{fig:Cmd17s3Start}
-S17-3,3,Closes ICM-9,"Progress Action of (17,3) Command",Run the procedure Start Action of OnBoardConnectCmd Command of figure \ref{fig:Cmd17s3Prgr}
+S17-3,3,Closes ICM-9,"Progress Action of (17,3) Command",Run the procedure Progress Action of OnBoardConnectCmd Command of figure \ref{fig:Cmd17s3Prgr}
 S17-3,4,Closes ICM-10,"Termination Action of (17,3) Command",Set action outcome to 'success'
 S17-3,5,Closes ICM-11,"Abort Action of (17,3) Command",Do nothing
 S17-3,6,Closes ICM-15,"Operation to Report Progress Successful for (17,3) Command",Do nothing
