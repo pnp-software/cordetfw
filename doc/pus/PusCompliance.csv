@@ -249,10 +249,6 @@ d,,The test subservice shall reject any request to perform an on-board connectio
 e,,"For each request to perform an on-board connection test that is rejected, the test subservice shall generate a failed start of execution notification.",C1,See statement of compliance to previous requirement
 f,,"For each valid instruction to perform an on-board connection test, the test subservice shall: \newline 1. perform a connection test with the application process referred to by that instruction; \newline 2. if the criteria for a successful on-board connection test with that application process are satisfied, generate a single on-board connection test notification that includes the identifier of the application process that connection has been tested. \newline 3. if the criteria for a successful on-board connection test with that application process are not satisfied, generate a failed completion of execution verification report.",C1,"See progress action of command (17,3). The connection test is implemented as an Are-You-Alive test with the target application."
 g,,"For each valid request to perform an on-board connection test, the test subservice shall generate a single on-board connection test report that includes the related on-board connection test notification.",C1,"See progress action of command (17,3) and specification of report (17,4)"
-,,,,
-,,,,
-,,,,
-,,,,
 6.18,On-Board Control Procedure,Definition of service 18,n.a.,This service is not yet supported by the PUS Extension of the CORDET Framework
 6.19,Event-Action,Definition of service 19,n.a.,This service is not yet supported by the PUS Extension of the CORDET Framework
 6.2,,Definition of service 20,n.a.,This service is not yet supported by the PUS Extension of the CORDET Framework

@@ -85,7 +85,7 @@
 %---------------------------------------------
 % Definition of custom properties
 %---------------------------------------------
-\newcommand{\docIssue}{0.1}						% issue number
+\newcommand{\docIssue}{: \textbf{Work-In-Progress}}						% issue number
 \newcommand{\docRefNumber}{PP-DF-COR-0003}		% document reference number
 
 %---------------------------------------------
@@ -1301,6 +1301,7 @@ The service 3 internal state is defined by the content of the Report Definition 
 \end{cr_obs}
 
 %---------------------------------------------------------------------------------
+\newpage
 \subsection{Service 3 Parameters}\label{sec:serv3Par}
 The service 3 configuration is defined by the content of the Report Definition List (RDL). This configuration is mostly controlled through commands (3,1)/(3,2) and (3,5)/(3,7) and is partially observable through reports (3,10) and (3,11). The service 3 configuration parameters which are either not controllable through service 3 commands and/or not observable through service 3 reports are defined as data pool parameters. They are listed in table \ref{tab:Obs-S3}.
 
@@ -1353,11 +1354,13 @@ The specification of this service is still TBD.
 \section{Test Service}\label{sec:serv17}
 The service type of the Test Service is 17. The PUS Extension of the CORDET Framework supports this service in full.
 
-The Test Service provides the capability to perform two kinds of connections tests: the \textit{Are-You-Alive Test} and the \textit{Is-Application-Process-Alive Test}.
+The Test Service provides the capability to perform two kinds of connections tests: the \textit{Are-You-Alive Test} and the \textit{On-Board Connection Test}.
 
 The Are-You-Alive test is like a ping test: an external user sends a command of type (17,1) to the application and the application responds by sending to the user a (17,2) report. Neither the (17,1) command nor the (17,2) report carry any parameters. 
 
-In the On-Board-Connection Test, an external user sends a command of type (17,3) to application A asking it to perform a connection test with some other application B. Application B is specified through a parameter carried by the (17,3) command. The connection test is not specified by the PUS. The PUS Extension of the CORDET Framework implements it as an Are-You-Alive Test from application A to application B. If this Are-You-Alive Test is successful, application A generates a (17,4) report to its user. The Are-You-Alive Test is declared successful if a (17,2) report from application B is received within time \texttt{AreYouAliveTimeOut} from the sending of the (17,1) command.
+In the On-Board-Connection Test, an external user sends a command of type (17,3) to application A asking it to perform a connection test with some other application B. Application B is specified through a parameter carried by the (17,3) command. 
+
+The way the connection test is performed is not specified by the PUS. The PUS Extension of the CORDET Framework implements it as an Are-You-Alive Test from application A to application B. If this Are-You-Alive Test is successful, application A generates a (17,4) report to its user. The Are-You-Alive Test is declared successful if a (17,2) report from application B is received within time \texttt{AreYouAliveTimeOut} from the sending of the (17,1) command.
 
 %=============================================================================================
 \subsection{Service 17 Command and Report Definition}
@@ -1370,7 +1373,7 @@ In the CORDET Framework an out-going report is encapsulated in an OutComponent c
 \item Component OnBoardConnectRep implements report (17,4) 
 \end{fw_itemize}
 
-These components are defined by the way they close the adaptation points of the OutComponent and InCommand. This is defined formally in tables \ref{tab:AP-S17-1} to \ref{tab:AP-S17-4} but the main points are as follows.
+These components are defined by the way they close the adaptation points of the OutComponent and InCommand. This is defined formally in tables \ref{tab:CR-S17-1} to \ref{tab:CR-S17-4} but the main points are as follows.
 
 The AreYouAliveCmd commmand implements a Progress Action which creates and loads the AreYouAliveRep report. The report destination is the same as the source of the AreYouAliveCmd command. Thus, the processing of the AreYouAliveCmd command consists in sending an AreYouAliveRep to the source of the AreYouAliveCmd. The AreYouAliveCmd commmand is always accepted and it is always started, executed and terminated successfully.
 
@@ -1381,9 +1384,9 @@ If, instead, the legality of the target application identifier is confirmed, the
 The mechanism through which the AreYouAliveRep report notifies the OnBoardConnectCmd command of its arrival is as follows:
 
 \begin{fw_itemize}
-\item The service 17 maintains integer \texttt{areYouAliveSrc}
+\item The service 17 maintains integer variable \texttt{areYouAliveSrc}
 \item The Start Action of the OnBoardConnectCmd command resets \texttt{areYouAliveSrc} to zero
-\item The Update Action of the incoming report AreYouAliveRep loads its source in \texttt{areYouAliveSrc}
+\item The Update Action of the incoming report AreYouAliveRep loads its source in variable \texttt{areYouAliveSrc}
 \item The Progress Action of the OnBoardConnectCmd command only declares the command to have successfully terminated if, within time-out \texttt{areYouAliveTimeOut}, it finds \texttt{areYouAliveSrc} equal to the identifier of the application with which the connection test is done
 \end{fw_itemize}
 
@@ -1416,6 +1419,7 @@ Tables \ref{tab:CR-S17-1} to \ref{tab:CR-S17-4} formally specify the service 17 
 
 
 %---------------------------------------------------------------------------------
+
 \subsection{Service 17 Observables}\label{sec:serv17Obs}
 Service 17 maintains and makes available in the data pool one single observable listed in table \ref{tab:Obs-S17}.
 
@@ -1423,6 +1427,7 @@ Service 17 maintains and makes available in the data pool one single observable 
 \end{cr_obs}
 
 %---------------------------------------------------------------------------------
+\newpage
 \subsection{Service 17 Parameters}\label{sec:serv17Par}
 Service 17 maintains and makes available in the data pool the parameters listed in table \ref{tab:Par-S17}.
 
