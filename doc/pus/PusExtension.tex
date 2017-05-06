@@ -1260,6 +1260,7 @@ Tables \ref{tab:CR-S3-1} to \ref{tab:CR-S3-25s} formally specify the service 3 c
 \item In the PUS Service 3 commands and reports appear twice once for housekeeping reports and once for diagnostic reports. The PUS Extension of the CORDET Framework does not distinguish between housekeeping and diagnostic reports/commands and therefore each CORDET report/command component implements two PUS reports/commands.
 \item The service 3 commands execute in 'one-shot' mode and therefore do not generate progress reports.
 \item Several commands in this service (e.g. the commands to delete a housekeeping/diagnostic report definition) carry multiple instructions which are executed independently of each other. In keeping with the general strategy outlined in section \ref{sec:ComplianceToPus}, their start action evaluates the instructions one by one and, in case of invalidity, it generates a (1,4) report for each individual instruction.
+\item The (3,9) command carries a sequence of SIDs and, for each valid SID, it generates a (3,10) report. The generation of the reports is done in the progress action. Each report is generated in a progress step. In keeping with the strategy of section \ref{sec:ComplianceToPus}, only step failures are reported through service 1 reports. The command is deemed to have completed successfully if at least one structure report has been generated. 
 \item For the housekeeping/diagnostic reports (3,25) and (3,26), two components are provided of which one is used when the reports are generated on a periodic basis and the other is used when the reports are generated in óne-shot' mode in response to a (3,27) or (3,28) command.
 \end{fw_itemize}
 
@@ -1276,6 +1277,13 @@ Tables \ref{tab:CR-S3-1} to \ref{tab:CR-S3-25s} formally specify the service 3 c
 
 \begin{cr_cmd}{S3-6}{Specification of HkDisableCmd Component}
 \end{cr_cmd}
+
+\newpage
+\begin{cr_cmd}{S3-9}{Specification of HkRepStructCmd Component}
+\end{cr_cmd}
+
+\begin{cr_rep}{S3-10}{Specification of HkRepStructRep Component}
+\end{cr_rep}
 
 \newpage
 \begin{cr_rep}{S3-25}{Specification of HkRep Component}
@@ -1318,14 +1326,14 @@ The table in this section lists requirements for the test service.
 \begin{figure}[H]
  \centering
  \includegraphics[scale=0.55,keepaspectratio=true]{CrPsCmd3s1Start.png}
- \caption{Start Action of Command HkCreate}
+ \caption{Start Action of Command HkCreateCmd}
  \label{fig:Cmd3s1Start}
 \end{figure}
 
 \begin{figure}[H]
  \centering
  \includegraphics[scale=0.55,keepaspectratio=true]{CrPsCmd3s3Start.png}
- \caption{Start Action of Command HkDelete}
+ \caption{Start Action of Command HkDeleteCmd}
  \label{fig:Cmd3s3Start}
 \end{figure}
 
@@ -1334,6 +1342,20 @@ The table in this section lists requirements for the test service.
  \includegraphics[scale=0.55,keepaspectratio=true]{CrPsCmd3SidStart.png}
  \caption{Start Action of Multi-SID Commands}
  \label{fig:Cmd3SidStart}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.55,keepaspectratio=true]{CrPsCmd3s9Prgr.png}
+ \caption{Progress Action of Command HkRepStructCmd}
+ \label{fig:Cmd3s9Prgr}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.55,keepaspectratio=true]{CrPsRep3s25Ready.png}
+ \caption{Ready Action of Report HkRep}
+ \label{fig:Rep3s25Ready}
 \end{figure}
 
 %=============================================================================================

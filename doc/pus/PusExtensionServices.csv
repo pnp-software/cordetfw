@@ -18,6 +18,10 @@ Service,Type,Subtype,TmTc,Name,Component
 ,3,6,TC,Disable Periodic Generation of a Housekeeping Parameter Report Structure,HkDisableCmd
 ,3,7,TC,Enable Periodic Generation of a Diagnostic Parameter Report Structure,HkEnableCmd
 ,3,8,TC,Disable Periodic Generation of a Diagnostic Parameter Report Structure,HkDisableCmd
+,3,9,TC,Report Housekeeping Parameter Report Structure,HkRepStructCmd
+,3,10,TM,Housekeeping Parameter Report Structure Report,HkRepStructRep
+,3,11,TC,Report Diagnostic Parameter Report Structure,HkRepStructCmd
+,3,12,TM,Diagnostic Parameter Report Structure Report,HkRepStructRep
 ,3,25,TM,Housekeeping Parameter Report,"HkRep, HkRepOneShot"
 ,3,26,TM,Diagnostic Parameter Report,"HkRep, HkRepOneShot"
 17,17,*,,\textbf{Test Service},
