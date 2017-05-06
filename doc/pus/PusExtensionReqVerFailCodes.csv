@@ -8,7 +8,5 @@ VER\_RDL\_CONSTr,"Failure code for start action of commands (3,1) and (3,2) when
 VER\_DUPL\_DI,"Failure code for start action of commands (3,1) and (3,2) when they carry the same data item identifier twice",The duplicated data item identifier
 VER\_ILL\_SID,Failure code for start action of a service 3 command when an illegal SID is encountered,The illegal SID
 VER\_ENBABLED\_SID,"Failure code for start action of commands (3,3) and (3,4) when a SID which is enabled is encountered",The enabled SID
-VER\_3S3\_START\_FD,"Failure code for start action of commands (3,3) and (3,4) when all the SIDs in the command are found to be either invalid or enabled",None
-VER\_3S9\_PRGR\_FD,"Failure code for progress action of command (3,9) or (3,11) when the attempt to retrieve a (3,10) or (3,11) report fails","The SID for which the (3,10) or (3,12) retrieval was attempted"
-VER\_17S3\_PRGR\_FD,"Failure code for progress action of command (17,3) when the (17,2) report from the target application has not been received within the time-out",The identifier of the target application
-VER\_SID\_START\_FD,"Failure code for start action of commands (3,3) to (3,8) when all the SIDs in the command are found to be invalid",None
+VER\_SID\_START\_FD,Failure code for start action of multi-instruction service 3 commands when all the SIDs in the command are found to be invalid,None
+VER\_FACT\_PRGR\_FD,Failure code for progress action of multi-instruction service 3 command when the attempt to retrieve a report from the OutFactory fails,The SID for which the retrieval from the OutFactory was attempted

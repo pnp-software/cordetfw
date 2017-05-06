@@ -22,8 +22,10 @@ Service,Type,Subtype,TmTc,Name,Component
 ,3,10,TM,Housekeeping Parameter Report Structure Report,HkRepStructRep
 ,3,11,TC,Report Diagnostic Parameter Report Structure,HkRepStructCmd
 ,3,12,TM,Diagnostic Parameter Report Structure Report,HkRepStructRep
-,3,25,TM,Housekeeping Parameter Report,"HkRep, HkRepOneShot"
-,3,26,TM,Diagnostic Parameter Report,"HkRep, HkRepOneShot"
+,3,25,TM,Housekeeping Parameter Report,"HkRep, HkOneShotRep"
+,3,26,TM,Diagnostic Parameter Report,"HkRep, HkOneShotRep"
+,3,27,TC,Generate One-Shot Report for Housekeeping Parameters,HkOneShotCmd
+,3,28,TC,Generate One-Shot Report for Diagnostic Parameters,HkOneShotCmd
 17,17,*,,\textbf{Test Service},
 ,17,1,TC,Perform Are-You-Alive Connection Test,AreYouAliveCmd
 ,17,2,TM,Are-You-Alive Connection Report,AreYouAliveRep
