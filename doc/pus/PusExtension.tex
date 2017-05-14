@@ -1022,8 +1022,7 @@ Execution Progress Failure Notification &  This notification is issued by the \t
 \hline 
 Execution Termination Success Notification &  This notification is issued by the  \textit{Report Termination Successful for InCommand Operation} which is called by the InCommand State Machine when the Termination Action of an incoming command has a 'success' outcome and that command has requested acknowledgement of successful termination of execution. & ICM-17 \\
 \hline
-Execution Termination Failure Notification &  This notification is issued by the
-\textit{Report Termination Failed for InCommand Operation} which is called by the InCommand State Machine when the Termination Action of an incoming command has a 'failure' outcome. & ICM-16 \\
+Execution Termination Failure Notification &  This notification is issued by the \textit{Report Termination Failed for InCommand Operation} which is called by the InCommand State Machine when the Termination Action of an incoming command has a 'failure' outcome. & ICM-16 \\
 \hline
 \end{longtable} 
 
@@ -1040,22 +1039,14 @@ The reports (1,5) and (1,6) report, respectively, the success and failure of a p
 
 Note that the second bullet implies that the adaptation point ICM-15 cannot be closed at framework level but must instead remain open so that applications may decide the conditions under which a progress action has completed a step.
 
-The failure code of failure reports in service 1 is treated as a discriminant. This allows applications to selectively disable certain failure reports by using the enable mechanism of the OutRegistry component of the CORDET Framework. It is recalled that this mechanism allows the OutRegistry to be configured to disable out-going reports by 'kind' where the kind of a report is defined by the triplet: [type, sub-type, discrminant]. 
+The failure code of failure reports in service 1 is treated as a discriminant. This allows applications to selectively disable certain failure reports by using the enable mechanism of the OutRegistry component of the CORDET Framework. It is recalled that this mechanism allows the OutRegistry to be configured to disable out-going reports by 'kind' where the kind of a report is defined by the triplet: [type, sub-type, discriminant]. 
 
 
 %---------------------------------------------------------------------------------
 \subsection{Service 1 Report Definition}\label{sec:serv1RepDef}
-In the CORDET Framework an out-going report is encapsulated in an OutComponent component. The framework extension offers nine components which are defined as extensions of the OutComponent and which implement the nine reports supported by service 1:
+In the CORDET Framework an out-going report is encapsulated in an OutComponent component. The framework extension offers one single OutComponent ReqVerRep to encapsulate any of the nine service reports. Use of a single component is legitimate because all service 1 reports share the same behaviour (i.e. they only differ in the data they carry but have the same checks and definitions).
 
-\begin{fw_itemize}
-\item VerSuccessAccRep and VerFailedAccRep implement reports (1,1) and (1,2) 
-\item VerSuccessStartRep and VerFailedStartRep implement reports (1,3) and (1,4) 
-\item VerSuccessPrgrRep and VerFailedPrgrRep implement reports (1,5) and (1,6) 
-\item VerSuccessTermRep and VerFailedTermRep implement reports (1,7) and (1,8) 
-\item VerFailedRoutingRep implements report (1,10)
-\end{fw_itemize}
-
-These components are defined by the way they close the adaptation points of the OutComponent. Table \ref{tab:AP-S1} lists, among others, the OutComponent adaptation points and shows how they are closed for the service 1 components.
+The ReqVerRep component is implemented as an extension of the OutComponent component. It is therefore defined by the way it closes the adaptation points of the OutComponent. Table \ref{tab:AP-S1} lists the OutComponent adaptation points and shows how they are closed for the service 1 components.
 
 The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The 'success' reports carry the packet identifier of the command being verified. The 'failure' reports carry, in addition to the packet identifier, a failure code and an undefined set of failure-related data. The framework extension restricts this flexibility by stipulating that the failure-related data consist of: 
 
@@ -1072,7 +1063,7 @@ To illustrate, consider the case of a command (3,5) which enables a housekeeping
 
 The Verification Failure Codes which are supported by the PUS Extension are listed in appendix \ref{sec:reqVerFailCodes}. These failure codes cover the failure conditions for the commands defined by the PUS Extension. For each failure code, the associated verification failure data is also defined. Applications should extend the table in appendix \ref{sec:reqVerFailCodes} with the failure codes for their own commands. 
 
-Table \ref{tab:CR-S1-A} formally specifies the service 1 reports by specifying how the actions, checks and attributes of generic out-going reports are specialized for service 1 (see section \ref{sec:defPusRepCmd}). The following remarks apply: 
+Table \ref{tab:CR-S1-A} formally specifies the ReqVerRep component by specifying how the actions, checks and attributes of a generic out-going report are specialized for service 1 (see section \ref{sec:defPusRepCmd}). The following remarks apply: 
 
 \begin{fw_itemize}
 \item Service 1 reports retrieve their enable status from the OutRegistry.
@@ -1083,7 +1074,7 @@ Table \ref{tab:CR-S1-A} formally specifies the service 1 reports by specifying h
 With reference to the first bullet, it is recalled that the OutRegistry component of the CORDET Framework stores the enable status of out-going reports as a function of the report's type, sub-type and discriminant. By default, all out-going reports are enabled. Users who wish to disable a specific verification failure code or who wish to disable a certain service 1 sub-type can do so by setting its status to 'disabled' in the OutRegistry. Note that this is a run-time operation which would typically be done as part of an application's initialization.
 
 \newpage
-\begin{cr_rep}{S1-A}{Specification of Service 1 Reports (Request Verification)}
+\begin{cr_rep}{S1-A}{Specification of ReqVerRep Component}
 \end{cr_rep}
 
 
@@ -1155,7 +1146,7 @@ The table in this section lists requirements for the request verification servic
 
 %=============================================================================================
 \section{Housekeeping Service}\label{sec:serv3}
-The service type of the Housekeeping Service is 3. The PUS Extension of the CORDET Framework supports this service in full.
+The service type of the Housekeeping Service is 3. The PUS Extension of the CORDET Framework supports this service only in part.
 
 The housekeeping service provides the capability to create, delete and control housekeeping and diagnostic reports. The service 3 commands and reports in the PUS are duplicated being defined once for housekeeping reports and once for diagnostic reports. The PUS framework supports both sets of commands and reports but does not otherwise make any distinction between housekeeping and diagnostic reports. It is essentially up to the user to decide which service 3 reports should be treated as 'housekeeping reports' and which ones should instead be treated as 'diagnostic reports'.
 
@@ -1256,7 +1247,7 @@ In order to illustrate the use of the debug variables, consider a situation wher
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 3 Report and Command Definition}\label{sec:serv3RepCmdDef}
-Tables \ref{tab:CR-S3-1} to \ref{tab:CR-S3-25s} formally specify the service 3 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 3 (see section \ref{sec:defPusRepCmd}). The following remarks apply.
+Tables \ref{tab:CR-S3-1} to \ref{tab:CR-S3-27} formally specify the service 3 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 3 (see section \ref{sec:defPusRepCmd}). The following remarks apply.
 
 \begin{fw_itemize}
 \item In the PUS, service 3 commands and reports appear twice: once for housekeeping reports and once for diagnostic reports. The PUS Extension of the CORDET Framework does not distinguish between housekeeping and diagnostic reports/commands and therefore each CORDET report/command component implements two PUS reports/commands.
@@ -1372,7 +1363,62 @@ The table in this section lists requirements for the test service.
 
 %=============================================================================================
 \section{Event Reporting Service}\label{sec:serv5}
-The specification of this service is still TBD.
+The service type of the Event Reporting Service is 5. The PUS Extension of the CORDET Framework supports this service in full.
+
+The event reporting service provides the capability to report event-like occurrences and to control the generation of event reports by enabling and disabling individual event identifiers.
+
+The PUS recognizes four levels of event reports and associates to each level a service sub-type. Thus, for instance, all event reports of level 1 are carried by reports of type (5,1) and all event reports of level 2 are carried by event reports of type (5,2). 
+
+All event reports have the same behaviour irrespective of their level. The PUS Extension of the CORDET Framework consequently defines one single component EvtHk which may encapsulate an event report of any level.
+
+Event reports may carry data. The Event Identifier (EID) determines the format of the data associated to an event report. The PUS Extension accordingly treats the event identifier as a discriminant. The range of discriminants and the data associated to each discriminant are adaptation points which must be defined at application level. No event identifiers are pre-defined at framework level.
+
+Applications use event reports as follows:
+
+\begin{fw_itemize}
+\item When an application encounters a situation which should trigger the generation of an event report, it retrieves an EvtHk component from the OutFactory. This component will encapsulate the event report. The event level and the event identifier are specified when the EvtHk component is retrieved from the factory because the 'make' function of the OutFactory takes as an argument the type, sub-type and the discriminant of the event report.
+\item The application configures the component with the destination and with any data which 
+\item The application loads the EvtHk component in the OutLoader. From this point onward, the event report is processed by the CORDET Framework infrastructure:
+	\begin{fw_itemize}
+	\item If the identifier of the event is enabled, then the event report will eventually be sent to its destination;
+	\item If the identifier of the event is not enabled, them the event report will be discarded.
+	\end{fw_itemize}
+\end{fw_itemize}
+
+Note that the configuration of the event reports must be done by the application (as opposed to being delegated to the Update Action of the component which implements the event report). This ensures that the event report configuration reflects the state of the system at the time the event report is created (as opposed to the time when the event report is sent out).  
+
+Event identifiers can be enabled and disabled. The PUS Extension uses the report enable mechanism of the OutRegistry component to manage the enable status of event reports. This implies that, by default, all event identifiers are enabled. If an application needs some event identifiers to be disabled by default, it must disable them during the application initialization phase.
+
+
+
+%-------------------------------------------------------------------------------------
+\subsection{Service 5 Report and Command Definition}\label{sec:serv5RepCmdDef}
+Tables \ref{tab:CR-S5-1} to \ref{tab:CR-S5-5} formally specify the service 5 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 5 (see section \ref{sec:defPusRepCmd}). The following remarks apply.
+
+\begin{fw_itemize}
+\item The same component EvtRep implements all four event reports (5,1) to (5,4). This is legitimate because all event reports - irrespective of their severity level - have the same behaviour. 
+\item The update of observables which are related to the occurrence of an event is done by the Enable Check of component EvtRep. This is appropriate because this action is executed every time an application creates an event report. The update of observables which are related to the generation of report is done by the Update Action of component EvtRep. This is appropriate because this action is only executed when an event report is actually issued by an application.
+\item Service 5 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
+\item Service 5 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
+\end{fw_itemize}
+
+
+\begin{cr_rep}{S5-1}{Specification of EvtRep Component}
+\end{cr_rep}
+
+\begin{cr_cmd}{S5-5}{Specification of EvtEnableCmd Component}
+\end{cr_cmd}
+
+\begin{cr_cmd}{S5-6}{Specification of EvtDisableCmd Component}
+\end{cr_cmd}
+
+\begin{cr_cmd}{S5-7}{Specification of EvtRepDisableCmd Component}
+\end{cr_cmd}
+
+\begin{cr_rep}{S5-8}{Specification of EvtRepDisableRep Component}
+\end{cr_rep}
+
+
 
 %=============================================================================================
 \section{On-Board Reporting Service}\label{sec:serv12}

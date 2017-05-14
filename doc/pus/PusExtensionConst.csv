@@ -9,4 +9,11 @@ S3,HK\_MAX\_N\_REP,Maximum number of data items in a super-commutated groups in 
 S3,HK\_MAX\_ID,Maximum value of a data pool item identifier
 S3,HK\_N\_SAMP\_BUF,Number of service 3 Sampling Buffers
 S3,HK\_N\_DEBUG\_VAR,Number of debug variables
-S5,EVT\_N\_EID,Number of event identifiers
+S5,EVT\_N\_EID1,Number of level 1 event identifiers
+S5,EVT\_EID1,Array of EVT\_N\_EID1 elements holding the level 1 event identifiers in ascending order
+S5,EVT\_N\_EID2,Number of level 2 event identifiers
+S5,EVT\_EID2,Array of EVT\_N\_EID2 elements holding the level 2 event identifiers in ascending order
+S5,EVT\_N\_EID3,Number of level 3 event identifiers
+S5,EVT\_EID3,Array of EVT\_N\_EID3 elements holding the level 3 event identifiers in ascending order
+S5,EVT\_N\_EID4,Number of level 4 event identifiers
+S5,EVT\_EID4,Array of EVT\_N\_EID4 elements holding the level 4 event identifiers in ascending order
