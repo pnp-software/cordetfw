@@ -1406,17 +1406,51 @@ Tables \ref{tab:CR-S5-1} to \ref{tab:CR-S5-5} formally specify the service 5 com
 \begin{cr_rep}{S5-1}{Specification of EvtRep Component}
 \end{cr_rep}
 
+\newpage
 \begin{cr_cmd}{S5-5}{Specification of EvtEnableCmd Component}
 \end{cr_cmd}
 
 \begin{cr_cmd}{S5-6}{Specification of EvtDisableCmd Component}
 \end{cr_cmd}
 
-\begin{cr_cmd}{S5-7}{Specification of EvtRepDisableCmd Component}
+\newpage
+\begin{cr_cmd}{S5-7}{Specification of EvtRepDisabledCmd Component}
 \end{cr_cmd}
 
 \begin{cr_rep}{S5-8}{Specification of EvtRepDisableRep Component}
 \end{cr_rep}
+
+%---------------------------------------------------------------------------------
+\newpage
+\subsection{Service 5 Constants}\label{sec:serv5Const}
+The service 5 constants are listed in table \ref{tab:Const-S5}. Note that the event identifiers must be defined in ascending order. This constraint is introduced to allow implementation to optimize the search for event identifiers.
+
+\begin{cr_const}{S5}{Constants for Service 5 (Event Reporting Service)}
+\end{cr_const}
+
+
+%---------------------------------------------------------------------------------
+\subsection{Service 5 Observables}\label{sec:serv5Obs}
+The service 5 observables consist of counters and flags which are updated by the service commands. They are listed in table \ref{tab:Obs-S5}.
+
+\begin{cr_obs}{S5}{Observables for Service 5 (Event Reporting Service)}
+\end{cr_obs}
+
+
+\newpage
+%---------------------------------------------------------------------------------
+\subsection{Service 5 Requirements}
+The table in this section lists requirements for the test service.
+
+\begin{cr_req}{S5}{Requirements for Service 5 (Event Reporting Service)}
+\end{cr_req}
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.55,keepaspectratio=true]{CrPsCmd5EidStart.png}
+ \caption{Start Action of Multi-EID Commands}
+ \label{fig:Cmd5EidStart}
+\end{figure}
 
 
 

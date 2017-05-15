@@ -10,3 +10,5 @@ VER\_ILL\_SID,Failure code for start action of a service 3 command when an illeg
 VER\_ENBABLED\_SID,"Failure code for start action of commands (3,3) and (3,4) when a SID which is enabled is encountered",The enabled SID
 VER\_SID\_START\_FD,Failure code for start action of multi-instruction service 3 commands when all the SIDs in the command are found to be invalid,None
 VER\_FACT\_PRGR\_FD,Failure code for progress action of multi-instruction service 3 command when the attempt to retrieve a report from the OutFactory fails,The SID for which the retrieval from the OutFactory was attempted
+VER\_ILL\_EID,Failure code for start action of a service 5 command when an illegal EID is encountered,The illegal EID
+VER\_EID\_START\_FD,Failure code for start action of multi-instruction service 5 commands when all the EIDs in the command are found to be invalid,None
