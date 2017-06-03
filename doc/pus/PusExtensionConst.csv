@@ -13,4 +13,3 @@ S5,EVT\_N\_EID,Number of event identifiers supported by the application
 S5,EVT\_EID,Array of EVT\_N\_EID elements holding the event identifiers in ascending order
 S5,EVT\_EID\_LEVEL,Array of EVT\_N\_EID elements holding the severity level of the event identifiers
 S13,LPT\_N\_BUF,Number of Large Packet Transfer Buffers available for down- or up-link of large packets
-S13,LPT\_PART\_SIZE,The part size for the down- and up-link transfer of a large packet
