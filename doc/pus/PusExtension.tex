@@ -1481,32 +1481,35 @@ The service is built around the concepts of \textit{Large Packet Transfer Buffer
 \subsection{LPT Buffers}
 In the case of down-transfers, the LPT Buffer is the memory area within the host application where the out-going large packet is stored. The host application is responsible for loading the data to be down-transferred into this area and service 13 is responsible for splitting the data in this area into reports which are sent to their destination in sequence.
 
-Similarly, in the case of up-transfers, the LPT Buffer is the memory area to which the incoming large packet is stored. Service 13 is responsible for processing the sequence of incoming commands which carry the large packet and for storing their content into the LPT Buffer. The host application is responsible to collecting the large packet from the LPT Buffer.
+Similarly, in the case of up-transfers, the LPT Buffer is the memory area to which the incoming large packet is stored. Service 13 is responsible for processing the sequence of incoming commands which carry the large packet and for storing their content into the LPT Buffer. The host application is responsible for collecting the large packet from the LPT Buffer.
 
-The  number of LPT Buffers in an application is statically defined and is stored in constant LPT\_N\_BUF. To each LPT Buffer, the following attributes are associated:
+The  number of LPT Buffers in an application is statically defined and is stored in constant LPT\_N\_BUF. Each LPT Buffer has an identifier which is an integer in the range 0 to (LPT\_N\_BUF-1). To each LPT Buffer, the following attributes are associated:
 
 \begin{fw_itemize}
 \item \texttt{lptDest}: the destination of the down-transfer originating from the LPT Buffer (only meaningful for LPT Buffers which act as sources of a down-transfer)
 \item \texttt{lptSize}: the size of the large packet in the LPT Buffer, namely the amount of data to be down-transferred (for LPT Buffers which act as sources of a down-transfer) or the amount of up-transferred data (for LPT Buffers which act as destinations of an up-transfer)
 \item \texttt{lptRemSize}: the amount of data still to be down-transferred in the currently on-going down-transfer from the LPT Buffer (only meaningful for LPT Buffers which act as sources of a down-transfer)
 \item \texttt{partSize}: the part size for the up- or down-transfer, namely the size of transfer data in a single service 13 report (down-transfer) or in a single service 13 command (up-transfer)
+\item \texttt{lptTimeOut}: the time-out for service 13 commands (only meaningful for LPT Buffers which act as targets for an up-transfer) 
 \item \texttt{largeMsgTransId}: the identifier of the large packet transfer which has the LPT Buffer as source (down-transfer) or as destination (up-transfer)
 \item \texttt{partSeqNmb}: the part sequence number for the currently on-going down-transfer from the LPT Buffer or up-transfer to the LPT Buffer
 \end{fw_itemize}
 
-Different LPT Buffers may have different values of \texttt{lptDest} or \texttt{partSize}. This allows the application designers to, for instance, allocate some LPT Buffers to large transfers to/from the ground and other LPT Buffers to large transfers to/from other destinations. Or, it allows them to use different LPT Buffers for different large packet sizes. Also, \texttt{lptDest} and \texttt{partSize} are parameters (see section TBD). Their values can therefore be adjusted by the service 13 user. It is the user responsibility to avoid changing the value of \texttt{lptDest} or \texttt{partSize} for a given LPT Buffer while a transfer to or from that buffer is under way.
+Different LPT Buffers may have different values of \texttt{lptDest} or \texttt{partSize}. This allows the application designers to, for instance, allocate some LPT Buffers to large transfers to/from the ground and other LPT Buffers to large transfers to/from other destinations. Or, it allows them to use different LPT Buffers for different large packet sizes. Also, \texttt{lptDest} and \texttt{partSize} are data pool parameters (see section TBD). Their values can therefore be adjusted by the service 13 user. It is the user responsibility to avoid changing the value of \texttt{lptDest} or \texttt{partSize} for a given LPT Buffer while a transfer to or from that buffer is under way.
 
 In accordance with [PS-SP], each large packet transfer has a unique \textit{Large Message Transfer Identifier}. This identifier is stored in  variable \texttt{largeMsgTransId}. Its value is set as follows:
 
 \begin{fw_itemize}
-\item At application initialization time, the value of \texttt{largeMsgTransId} for the i-th LPT Buffer is initialized to i
+\item At application initialization time, the value of \texttt{largeMsgTransId} for the i-th LPT Buffer is initialized to: (i-1).
 \item When a down-transfer from an LPT Buffer is started, then the value of its Large Message Transfer Identifier is set to the value of the \texttt{largeMsgTransId} variable for the LPT Buffer
 \item When a down-transfer from an LPT Buffer is terminated, then the value of the buffer's \texttt{largeMsgTransId} variable is incremented by LPT\_N\_BUF.
 \item When an up-transfer to an LPT Buffer is started, then the value of the buffer's \texttt{largeMsgTransId} variable is set equal to the value of the transfer's Large Message Transfer Identifier
 \item When an up-transfer to an LPT Buffer is terminated, then the value of the buffer's \texttt{largeMsgTransId} variable is incremented by LPT\_N\_BUF.
 \end{fw_itemize}
 
-To illustrate, suppose that the second LPT Buffer is used exclusively as a source for down-transfers and that there are 10 LPT Buffers (i.e. LPT\_N\_BUF is equal to 10). In this case, the first down-transfer from the LPT Buffer has a Large Message Transfer Identifier equal to 2; the second one has a Large Message Transfer Identifier equal to 12; the third one has a Large Message Transfer Identifier equal to 22; etc. The general idea is that, as long as an LPT Buffer is only used for down-transfers, then its Large Message Transfer Identifier can be used to identify the LPT Buffer from which the down-transfer originates. 
+To illustrate, suppose that the second LPT Buffer is used exclusively as a source for down-transfers and that there are 10 LPT Buffers (i.e. LPT\_N\_BUF is equal to 10). In this case, the first down-transfer from the LPT Buffer has a Large Message Transfer Identifier equal to 1; the second one has a Large Message Transfer Identifier equal to 11; the third one has a Large Message Transfer Identifier equal to 21; etc. The general idea is that, as long as an LPT Buffer is only used for down-transfers, then its Large Message Transfer Identifier can be used to identify the LPT Buffer from which the down-transfer originates because the LPT Buffer identifier is equal to: (\texttt{largeMsgTransId} MOD LPT\_N\_BUF).
+
+A similar rule holds for up-transfers. Service 13 uses the Large Message Transfer Identifier of service 13 commands to decide to which LPT Buffer the transfer is to be directed. The identifier of the up-transfer is given by the Large Message Transfer Identifier modulus LPT\_N\_BUF.
 
 %----------------------------------------------------------------------
 \subsection{The LPT State Machine}
@@ -1521,13 +1524,54 @@ The LPT State Machine controls a down- or up-transfer. Its diagram is shown in f
 
 To each LPT Buffer, one instance of the LPT State Machine is associated. When no transfer to or from the LPT Buffer is under way, the state machine is in state INACTIVE. 
 
-A down-transfer is started by sending command \textit{StartDownTransfer} to the state machine. In response to this command, the state machine attempts to create the three reports which are required for the down-transfer (i.e. reports (13,1), (13,2) and (13,3)). If the creation is successful, the state machine makes a transition to state DOWN\_TRANSFER. Otherwise, it raises error report OUTFACTORY\_FAIL and re-enters state INACTIVE.
+%----------------------------------------------------------------------
+\subsubsection{Management of Down-Transfers}
+A down-transfer is started by sending command \textit{StartDownTransfer} to the state machine. In response to this command, the state machine makes a transition to state DOWN\_TRANSFER. In this state, the state machine creates the OutComponents which encapsulate the service 13 reports and loads them in the OutLoader. 
 
-At each execution of the state machine, one down-transfer report (13,1), (13,2) or (13,3) is generated. When the down-transfer terminates, the state machine re-enters state INACTIVE. The down-transfer may also be terminated prematurely with command \texttt{Abort}. This causes a transition from DOWN\_TRANSFER to INACTIVE and the generation of event report EVT\_DOWN\_ABORT.
+The OutComponents are created through a request to the OutFactory. Service 13 down-transfers are treated as low-priority activities. Hence, if the creation allocation request fails in one cycle (because no memory is available for report), it is simply repeated in the next execution cycle.  
+
+The collection of the data from the LPT Buffer is done by the Update Action of the service 13 reports. The Update Action is also responsible for updating the \texttt{partSeqNmb} and the \texttt{lptRemSize} variables: every time a service 13 report is executed, \texttt{partSeqNmb} is incremented by 1 and \texttt{lptRemSize} is decremented by \texttt{partSize}. Hence, the normal flow of actions at the starts of a down-transfer (i.e. when the LPT State Machine enters state DOWN\_TRANSFER) is as follows:
+
+\begin{fw_enumerate}
+\item The LPT State Machine is executed and the do-action of state DOWN\_TRANSFER creates the OutComponent encapsulating the (13,1) report and loads it in the OutLoader which in turn loads it in the OutManager
+\item The OutManager is executed and this causes the OutComponent encapsulating the (13,1) report to be executed.
+\item The Update Action of the OutComponent encapsulating the (13,1) report is executed and this causes the first part of data to be collected from the LPT Buffer, \texttt{partSeqNmb} to be incremented by 1, and \texttt{lptRemSize} to be decremented by \texttt{partSize}.
+\item The (13,1) report is handed over to the middleware for eventual transfer to its destination.
+\item The (13,1) report is a one-shot report and it is therefore released after being executed once.
+\end{fw_enumerate}
+
+After the first part of the service 13 down-transfer has been processed, the intermediate parts are processed according to the following logic:
+
+\begin{fw_enumerate}
+\item The LPT State Machine is executed and the do-action of state DOWN\_TRANSFER creates the OutComponent encapsulating the (13,2) report and loads it in the OutLoader which in turn loads it in the OutManager
+\item The OutManager is executed and this causes the OutComponent encapsulating the (13,2) report to be executed.
+\item The Update Action of the OutComponent encapsulating the (13,2) report is executed and this causes the next part of data to be collected from the LPT Buffer, \texttt{partSeqNmb} to be incremented by 1, and \texttt{lptRemSize} to be decremented by \texttt{partSize}.
+\item The (13,2) report is handed over to the middleware for eventual transfer to its destination.
+\item The (13,2) report is a repeat report which remains pending for as long as \texttt{lptRemSize} is greater than \texttt{partSize}. hence, steps 2 to 5 are repeated multiple times until the last intermediate part of the down-transfer is processed.
+\end{fw_enumerate}
+
+When \texttt{lptRemSize} has become smaller than \texttt{partSize}, the last part of the down-transfer is processed according to the following logic:
+
+\begin{fw_enumerate}
+\item The LPT State Machine is executed and the do-action of state DOWN\_TRANSFER creates the OutComponent encapsulating the (13,3) report and loads it in the OutLoader which in turn loads it in the OutManager
+\item The OutManager is executed and this causes the OutComponent encapsulating the (13,3) report to be executed.
+\item The Update Action of the OutComponent encapsulating the (13,3) report is executed and this causes the last part of data to be collected from the LPT Buffer and \texttt{lptRemSize} to be decremented by \texttt{partSize}.
+\item The (13,3) report is handed over to the middleware for eventual transfer to its destination.
+\item The (13,3) report is a one-shot report and it is therefore released after it is executed once.
+\item The value of \texttt{lptRemSize} is now zero or negative and this causes the LPT State Machine to make a transition back to state INACTIVE. This marks the end of the down-transfer.
+\end{fw_enumerate}
 
 Command \textit{StartDownTransfer} may either originate from the host application (if the host application autonomously decides to start a down-transfer) or it may originate from the private command (13,129). The latter command is provided by the framework to let the user trigger a down-transfer. It takes as an argument the identifier of the LPT Buffer (an integer in the range 1 to LPT\_N\_BUF) from which the down-transfer is to be started.
 
-Similarly, command \textit{AbortDownTransfer} may either originate from the host application (if the host application autonomously decides to abort a down-transfer) or it may originate from the private command (13,130). The latter command is provided by the framework to let the user abort an on-going down-transfer. The command takes as an argument the Large Message Transfer Identifier of the down-transfer. 
+A down-transfer may be terminated prematurely with command \texttt{Abort}. This causes a transition from DOWN\_TRANSFER to INACTIVE and the generation of event report EVT\_DOWN\_ABORT.
+
+Command \textit{Abort} may either originate from the host application (if the host application autonomously decides to abort a down-transfer) or it may originate from the private command (13,130). The latter command is provided by the framework to let the user abort an on-going down-transfer. The command takes as an argument the Large Message Transfer Identifier of the down-transfer. 
+
+%----------------------------------------------------------------------
+\subsubsection{Management of Up-Transfers}
+
+
+
 
 An up-transfer is started by sending command \textit{StartUpTransfer} to the state machine. In response to this command, the state machine makes a transition to state UP\_TRANSFER where it remains until the up-transfer is completed. An up-transfer is completed either when command (13,11) is received (this command holds the last part of an up-transfer) or when the up-transfer is aborted through command \texttt{AbortUpTransfer}.
 
