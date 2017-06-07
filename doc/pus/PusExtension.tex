@@ -1403,7 +1403,7 @@ The event reports listed in section \ref{sec:preDefEvtRep} are pre-defined in th
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 5 Report and Command Definition}\label{sec:serv5RepCmdDef}
-Tables \ref{tab:CR-S5-1} to \ref{tab:CR-S5-5} formally specify the service 5 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 5 (see section \ref{sec:defPusRepCmd}). The following remarks apply.
+Tables \ref{tab:CR-S5-1} to \ref{tab:CR-S5-5} formally specify the service 5 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 5 (see section \ref{sec:defPusRepCmd}). The following remarks apply:
 
 \begin{fw_itemize}
 \item The same component EvtRep implements all four event reports (5,1) to (5,4). This is legitimate because all event reports - irrespective of their severity level - have the same behaviour. 
@@ -1579,12 +1579,13 @@ A down-transfer may be terminated prematurely with command \texttt{Abort}. This 
 
 Command \textit{Abort} may either originate from the host application (if the host application autonomously decides to abort a down-transfer) or it may originate from the private command (13,130). The latter command is provided by the framework to let the user abort an on-going down-transfer. The command takes as an argument the Large Message Transfer Identifier of the down-transfer. 
 
+Finally, the LPT State Machine is responsible for managing the nOfDownlinks variable which represents the number of currently on-going down-transfers.
+
 %----------------------------------------------------------------------
 \subsubsection{Management of Up-Transfers}
 An up-transfer is started by sending command \textit{StartUpTransfer} to the state machine. In response to this command, the state machine makes a transition to state UP\_TRANSFER where it remains until either command \texttt{EndUpTransfer} brings the state machine back to state INACTIVE or the up-transfer is aborted. 
 
-Command \texttt{StartUpTransfer} originates from the (13,9) command which marks the start of an up-transfer. Command \texttt{EndUpTransfer} originates from the (13,11) command which 
-marks the end of the up-transfer.
+Command \texttt{StartUpTransfer} originates from the (13,9) command which marks the start of an up-transfer. Command \texttt{EndUpTransfer} originates from the (13,11) command which marks the end of the up-transfer.
 
 An up-transfer is aborted if variable \texttt{failCode} holding the failure code becomes set. At entry into state UP\_TRANSFER, this variable is set to NO\_FAIL (nominal value in the absence of failures). This value may change in two ways:
 
@@ -1595,11 +1596,78 @@ An up-transfer is aborted if variable \texttt{failCode} holding the failure code
 
 The first condition is evaluated by the do-action of state UP\_TRANSFER. This implies that the resolution of the time-out check is given by the period with which the LPT State Machine is executed. The second condition is evaluated by the start action of the (13,10) and (13,11) commands.
 
+The Progress Action of the up-transfer commands is responsible for copying the data from the command to the LPT Buffer and for updating the variables associated to the LPT Buffer. After the up-transfer is terminated and the LPT State Machine is back in state INACTIVE, application is responsible for processing the data in the LPT Buffer. Note that there is no mechanism to prevent another up-transfer from being started while the application is still busy processing the data in the LPT Buffer. Avoinding this kind of conflicts is a user responsibility.
+
+Finally, the LPT State Machine is responsible for managing the nOfUplinks variable which represents the number of currently on-going up-transfers.
 
 
+%-------------------------------------------------------------------------------------
+\subsection{Service 13 Report and Command Definition}\label{sec:serv13RepCmdDef}
+Tables \ref{tab:CR-S13-1} to \ref{tab:CR-S13-130} formally specify the service 13 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 13 (see section \ref{sec:defPusRepCmd}). 
 
 
+\begin{cr_rep}{S13-1}{Specification of LptDownFirstRep Component}
+\end{cr_rep}
 
+\newpage
+\begin{cr_rep}{S13-2}{Specification of LptDownInterRep Component}
+\end{cr_rep}
+
+\begin{cr_rep}{S13-3}{Specification of LptDownLastRep Component}
+\end{cr_rep}
+
+\newpage
+\begin{cr_cmd}{S13-9}{Specification of LptUpFirstCmd Component}
+\end{cr_cmd}
+
+\begin{cr_cmd}{S13-10}{Specification of LptUpInterCmd Component}
+\end{cr_cmd}
+
+\newpage
+\begin{cr_cmd}{S13-11}{Specification of LptUpLastCmd Component}
+\end{cr_cmd}
+
+\begin{cr_rep}{S13-16}{Specification of LptUpAbortRep Component}
+\end{cr_rep}
+
+\newpage
+\begin{cr_cmd}{S13-129}{Specification of LptStartDownCmd Component}
+\end{cr_cmd}
+
+\begin{cr_cmd}{S13-130}{Specification of LptAbortDownCmd Component}
+\end{cr_cmd}
+
+%---------------------------------------------------------------------------------
+\newpage
+\subsection{Service 13 Constants}\label{sec:serv13Const}
+The service 13 constants are listed in table \ref{tab:Const-S13}. 
+
+\begin{cr_const}{S13}{Constants for Service 13 (Large Packet Transfer Service)}
+\end{cr_const}
+
+
+%---------------------------------------------------------------------------------
+\subsection{Service 13 Observables}\label{sec:serv13Obs}
+The service 13 observables are listed in table \ref{tab:Obs-S13}.
+
+\begin{cr_obs}{S5}{Observables for Service 13 (Large Packet Transfer Service)}
+\end{cr_obs}
+
+
+\newpage
+%---------------------------------------------------------------------------------
+\subsection{Service 13 Requirements}
+The table in this section lists requirements for the test service.
+
+\begin{cr_req}{S13}{Requirements for Service 13 (Large Packet Transfer Service)}
+\end{cr_req}
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.55,keepaspectratio=true]{CrPsCmd13s10Start.png}
+ \caption{Up-Transfer Start Action}
+ \label{fig:Cmd13s10Start}
+\end{figure}
 
 
 

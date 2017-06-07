@@ -56,4 +56,7 @@ S13,largeMsgTransId,Array of LPT\_N\_BUF elements. The I-th element holds the la
 S13,lptSize,Array of LPT\_N\_BUF elements. The I-th element holds the size of the large packet in the I-th LPT Buffer,
 S13,lptRemSize,Array of LPT\_N\_BUF elements. The I-th element holds the remaining size of the large packet in the I-th LPT Buffer (the part of the large packet not yet down-transferred),
 S13,partSeqNmb,Array of LPT\_N\_BUF elements. The I-th element holds the part sequence number for the currently on-going large packet transfer to/from the LPT Buffer,
+S13,lptSrc,Array of LPT\_N\_BUF elements. The I-th element holds the source for the currently on-going large packet up-transfer to the LPT Buffer,
+S13,lptTime,Array of LPT\_N\_BUF elements. The I-th element holds the time when the last up-transfer command to the LPT Buffer was received,
+S13,lptFailCode,Array of LPT\_N\_BUF elements. The I-th element holds the failure code for the up-transfer to the LPT Buffer,
 S17,areYouAliveSrc,"Source of the latest (17,2) report received in response to a (17,1) command triggered by a (17,3) command ",
