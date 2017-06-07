@@ -64,6 +64,8 @@ S5,S,38,"The Event Generation Function shall: retrieve an OutComponent to encaps
 S5,S,39,"If the OutComponent retrieval from the OutFactory fails, the Event Generation Function shall generate an error report of type OUTFACTORY\_FAIL",,
 ,,,,,
 S13,C,,The part size or destination of a large packet transfer shall not be updated while a transfer is under way,,
+S13,C,,"The initiator of a down-transfer shall ensure that, prior to starting a down-transfer, all data are available in the LPT Buffer and \texttt{lptSize} is initialized to the amount of data to be down-transferred",,
+,,,,,
 ,,,,,
 S17,S,1,"The PUS Extension of the CORDET Framework shall provide, as an extension of the InCommand, an AreYouAliveCmd component to encapsulate a (17,1) command",,
 S17,S,2,"The PUS Extension of the CORDET Framework shall provide, as an extension of the OutComponent, an AreYouAliveRep component to encapsulate a (17,2) report",,
