@@ -12,4 +12,6 @@ S3,HK\_N\_DEBUG\_VAR,Number of debug variables
 S5,EVT\_N\_EID,Number of event identifiers supported by the application
 S5,EVT\_EID,Array of EVT\_N\_EID elements holding the event identifiers in ascending order
 S5,EVT\_EID\_LEVEL,Array of EVT\_N\_EID elements holding the severity level of the event identifiers
+S12,MON\_N\_PMON,Number of Parameter Monitoring Items in the Parameter Monitoring List
+S12,MON\_PER,Minimum monitoring period
 S13,LPT\_N\_BUF,Number of Large Packet Transfer Buffers available for down- or up-link of large packets

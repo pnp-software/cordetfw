@@ -1,153 +1,15 @@
-\documentclass[a4paper,10pt]{article}
-\usepackage[a4paper, total={5.5in, 8.5in}]{geometry}	% define width and height of text part of a page
-\usepackage[utf8x]{inputenc}
-\usepackage{array}
-\usepackage[pdftex]{graphicx}
-\usepackage{listings}
-\usepackage{enumitem}
-\usepackage{color, colortbl}
-\usepackage{longtable}
-\usepackage{float}
-\usepackage[ddmmyyyy]{datetime}
-\usepackage[compact]{titlesec}		% The 'compact' argument reduces spacing before and after headings
+\documentclass{pnp_article}
 
-% Start ---- Fix for bug in issue 2.10.1 of titlesec package
-\usepackage{etoolbox}
+\begin{document}
 
-\makeatletter
-\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
-\patchcmd{\ttlh@hang}{\noindent}{}{}{}
-\makeatother
-% End ---- Fix for bug in issue 2.10.1 of titlesec package
+\SetDocIssue{Work-in-progress}
+\SetDocRefNumber{PP-DF-COR-0003}
+\SetDocTitle{The CORDET Framework}
+\SetDocSubtitle{PUS Extension}
+\SetDocAuthor{Alessandro Pasetti}
+\SetCheckedBy{Marcel Opprecht}
+\maketitle
 
-\usepackage{verbatim}
-\usepackage{fancyhdr}
-\usepackage{datatool}	% Management of external databases
-\usepackage{chngcntr}	% Management of figure and table numberings
-\usepackage{pdflscape}	% Provides 'landscape mode' for selected pages
-\usepackage{hyperref}
-
-
-%---------------------------------------------
-% Management of Figure and Table Numbering
-%---------------------------------------------
-\counterwithin{figure}{section}
-\counterwithin{table}{section}
-
-%---------------------------------------------
-% Management of Captions (options interact with each other in unpredictable ways)
-%---------------------------------------------
-\usepackage[labelfont=bf]{caption}	% The caption label for tables and figures is bolded
-\setlength{\abovecaptionskip}{2pt}	% Bring caption close to figure or table
-\setlength{\belowcaptionskip}{-8pt}	% Bring caption close to text after it
-\renewcommand{\figurename}{Fig.}	% The caption label for figures is: "Fig."
-%\captionsetup[table]{singlelinecheck=off,justification=raggedright}	% Justify the table captions to the left
-\captionsetup[table]{position=bottom,skip=-1pt}	% controls spacing between caption and table
-%\captionsetup[figure]{position=bottom,skip=40pt}	
-
-\pagestyle{fancy}
-
-%------------------------------------------------------------------------------------------
-% Directories holding image files:
-% - Figures from CORDET FW Project
-% - Figures from CHEOPS Project
-% - Figures from FW Profile Project
-%------------------------------------------------------------------------------------------
-\graphicspath{ {../images/} }	
-
-%---------------------------------------------
-% Paragraph Layout
-%---------------------------------------------
-\setlength{\parindent}{0in}			% No indentation on first line of a new paragraph
-
-%---------------------------------------------
-% Table Layout
-%---------------------------------------------
-\setlength{\extrarowheight}{1.5pt}	% Add vertical space at a table row
- 
- %---------------------------------------------
-% Management of changes
-%---------------------------------------------
-\newcommand{\chgB}[1]{{\color{red}{#1}}{}} 		% Changes in version 2
-
-%------------------------------------------------------------------------------------------
-% Management of Headings
-%------------------------------------------------------------------------------------------
-% Define spacing to the left, before and after a subsection heading
-%\titlespacing\subsubsection{8pt}{12pt plus 4pt minus 2pt}{-10pt plus 0pt minus 0pt}
-\titlespacing\subsubsection{0pt}{5pt}{0pt}
-\titlespacing\subsection{0pt}{5pt}{0pt}
-
-% Introduce a page break before each section
-\let\stdsection\section
-\renewcommand\section{\newpage\stdsection}
-
-%---------------------------------------------
-% Definition of custom properties
-%---------------------------------------------
-\newcommand{\docIssue}{: \textbf{Work-In-Progress}}						% issue number
-\newcommand{\docRefNumber}{PP-DF-COR-0003}		% document reference number
-
-%---------------------------------------------
-% Headers and Footers
-%---------------------------------------------
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}
-
-\lhead{\docRefNumber{}}
-\chead{}
-\rhead{Revision \docIssue{}}
-\lfoot{\textcopyright2017 P\&P Software GmbH. All Rights Reserved.}
-\cfoot{\vspace{5mm}
-%{\color{red}\verbatiminput{../commercial/LicensedTo.txt}}
-}
-\rfoot{\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}
-
-%---------------------------------------------
-% Management of lists
-%---------------------------------------------
-\setlist{nolistsep}								% No extra vertical space around a list		
-\newenvironment{fw_itemize}						% Control spacing between items in a list
-{\begin{itemize}
-  \setlength{\itemsep}{1mm}
-  \setlength{\parskip}{0pt}
-  \setlength{\parsep}{0pt}}
-{\end{itemize}}
-
-\newenvironment{fw_enumerate}					% Control spacing between items in an enumeration
-{\begin{enumerate}
-  \setlength{\itemsep}{1mm}
-  \setlength{\parskip}{0pt}
-  \setlength{\parsep}{0pt}}
-{\end{enumerate}}
-
-\newenvironment{fw_description}					% Control spacing between items in a description
-{\begin{description}
-  \setlength{\itemsep}{1mm}
-  \setlength{\parskip}{5pt}			% Line spacing between paragraphs in an item
-  \setlength{\parsep}{0pt}}
-{\end{description}}
-
-%---------------------------------------------
-% Definition of colours
-%---------------------------------------------
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{light-gray}{gray}{0.85}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
-\definecolor{lightblue}{RGB}{128,179,255}
-\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
-
-%------------------------------------------------------
-% Management of text which is conditionally included
-%------------------------------------------------------
-\newcommand{\umOnly}[1]{#1}
-\renewcommand{\umOnly}[1]{} %Comment out this whole line to suppress exclusion.
-
-\newcommand{\iaswOnly}[1]{#1}
-%\renewcommand{\iaswOnly}[1]{} %Comment out this whole line to suppress exclusion.
 
 %---------------------------------------------
 % Define Environment for Requirement Tables 
@@ -315,98 +177,12 @@
 \DTLloaddb{dbServ}{PusExtensionServices.csv}
 
 
-
-
-%---------------------------------------------
-% Pdf Properties
-%---------------------------------------------
-\hypersetup
-{
-    pdfauthor={Alessandro Pasetti},
-    pdfsubject={This document specifies the PUS Extension of the CORDET Framework},
-    pdftitle={PUS Extension of the CORDET Framework},
-    pdfkeywords={PUS, CORDET}
-}
-
-%---------------------------------------------
-% Title Page
-%---------------------------------------------
-\title{\textsc{The CORDET Framework} \\ \textsc{- PUS Extension -}}
-\author{Alessandro Pasetti }
-\date{Created on: \today{}, at: \currenttime{}}
-
-\begin{document}
-\maketitle
-
-\begin{center}
-Revision \docIssue{}\\
-\docRefNumber{}
-\end{center}
-
-\vspace{1cm}
-
-\begin{center}
-P\&P Software GmbH \\
-High Tech Center 1 \\
-8274 T\"{a}gerwilen (CH)\\
-\vspace{2mm}
-Web site: \url{www.pnp-software.com}\\
-E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-software.com}} 
-\end{center}
-
-\vspace{0.5cm}
-
-\begin{table}[ht]
-\begin{center}
-\begin{tabular}{p{11.7cm}}
-\\
-\hline
-\end{tabular}
-\end{center}
-\end{table}
-\begin{abstract}
-This document specifies the PUS Extension of the CORDET Framework. The CORDET Framework is a software framework for service-oriented embedded applications. The service concept of the CORDET Framework is the same as the service concept of the Packet Utilization Standard or PUS. The PUS is an application-level interface standard for space-based distributed systems.
-
-The PUS pre-defines a number of services. This document extends the CORDET Framework to support a subset of those services. The document specifies the components which implements them. The components are specified by providing their behavioural model. The behavioural models are defined using the FW Profile.
-
-\end{abstract}
-\begin{table}[ht]
-\begin{center}
-\begin{tabular}{p{11.7cm}}
-\\
-\hline
-\end{tabular}
-\end{center}
-\end{table}
-
-
-\newpage
-\vspace*{\fill}
-\begin{center}
-No part of this publication may be reproduced, transmitted, transcribed, stored in any retrieval system, or translated into any language by any means without express prior written permission of P\&P Software GmbH.
-\end{center}
-
-\begin{center}
-Copyright \textcopyright 2017 P\&P Software GmbH. All Rights Reserved. 
-\end{center}
-\vspace*{\fill}
-
-%---------------------------------------------
-% Table of Contents
-%---------------------------------------------
-\newpage
+% =======================================================================
+%\listofchanges
 \tableofcontents
-
-\newpage
 \listoffigures
 \listoftables
 
-\newpage
-
-%---------------------------------------------
-% Adjust distance between paragraphs (this cannot be done earlier or it also affects the TOC)
-%---------------------------------------------
-\setlength{\parskip}{3mm}						% Set distance between paragraphs
 
 %==========================================================================================
 \section{Change History}
@@ -508,12 +284,7 @@ In terms of the classical software lifecycle, the specification presented in thi
 \subsection{Scope of CORDET Framework}\label{sec:ScopeCrFw}
 A \textit{CORDET service} is a set of logically and functionally related capabilities that an application offers to other applications. The CORDET Service concept sees an application as a \textit{provider of services} to other applications and as a \textit{user of services} from other applications (see figure \ref{fig:ServConcept}).
 
-\begin{figure}[ht]
- \centering
- \includegraphics[scale=0.4,keepaspectratio=true]{ServConcept.png}
- \caption{Applications as Providers and Users of Services}
- \label{fig:ServConcept}
-\end{figure}
+\pnpfigure[scale=0.4]{Applications as Providers and Users of Services}{fig:ServConcept}{ServConcept.png}
 
 The user of a service controls the service by sending \textit{commands} to the service provider. A command is a data exchange between a service user and a service provider to control the execution of a particular activity within the service provider. 
 
@@ -558,17 +329,7 @@ Note that the PUS Extension of the CORDET Framework specifies several services. 
 \subsubsection{Overview of Supported Services}
 Table \ref{tab:supportedServ} lists the services supported by the PUS Extension of the CORDET Framework. The first column gives the service type identifier. The last column points to the section in this document where the support for the service is specified.
 
-\begin{longtable}{|c|>{\raggedright\arraybackslash}p{6cm}|c|}
-\caption{Services Supported by PUS Extension}\label{tab:supportedServ} \\
-\hline
-\rowcolor{light-gray}
-\textbf{N} &\textbf{Service} & \textbf{Section} \\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{N} &\textbf{Service} & \textbf{Section} \\
-\hline\hline
-\endhead
+\begin{pnptable}{|c|>{\raggedright\arraybackslash}p{6cm}|c|}{Services Supported by PUS Extension}{tab:supportedServ}{\textbf{N} &\textbf{Service} & \textbf{Section}}
 1 & Request Verification Service & \ref{sec:serv1} \\
 \hline
 3 & Housekeeping Service & \ref{sec:serv3} \\
@@ -583,7 +344,7 @@ Table \ref{tab:supportedServ} lists the services supported by the PUS Extension 
 \hline
 19 & Event Action Service & \ref{sec:serv19} \\
 \hline
-\end{longtable} 
+\end{pnptable}
 
 
 %------------------------------------------------------------------------------------
@@ -1177,17 +938,7 @@ The parameters HK\_MAX\_* are application constants. Applications which do not n
 
 The sampling buffer mentioned in the last row in table \ref{tab:repDefDataStruct} is discussed in the next section.
 
-\begin{longtable}{|l|p{5cm}|>{\raggedright\arraybackslash}p{6cm}|}
-\caption{Fields in Report Definition Data Structure}\label{tab:repDefDataStruct} \\
-\hline
-\rowcolor{light-gray}
-\textbf{Field Name} & \textbf{Description} & \textbf{Constraint} \\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{Field Name} & \textbf{Description} & \textbf{Constraint} \\
-\hline\hline
-\endhead
+\begin{pnptable}{|l|p{5cm}|>{\raggedright\arraybackslash}p{6cm}|}{Fields in Report Definition Data Structure}{tab:repDefDataStruct}{\textbf{Field Name} & \textbf{Description} & \textbf{Constraint}}
 \texttt{sid} & Structure identifier (SID) & Integer in range: 1..HK\_MAX\_SID \\
 \hline
 \texttt{period} & Collection period in units of HK\_COLLECT\_PER & Positive integer \\
@@ -1208,7 +959,7 @@ The sampling buffer mentioned in the last row in table \ref{tab:repDefDataStruct
 \hline
 \texttt{sampleBufId} & The identifier of the sampling buffer holding the super-commutated data item values & An integer in the range: 1..HK\_N\_SAMP\_BUF \\
 \hline
-\end{longtable}  
+\end{pnptable}  
 
 
 %-------------------------------------------------------------------------------------
@@ -1465,8 +1216,127 @@ The table in this section lists requirements for the test service.
 
 
 %=============================================================================================
-\section{On-Board Reporting Service}\label{sec:serv12}
-The specification of this service is still TBD.
+\section{On-Board Monitoring Service}\label{sec:serv12}
+The service type of the On-Board Monitoring Service is 12. The PUS Extension of the CORDET Framework supports this service only in part.
+
+The parameter monitoring subservice controls the \textit{parameter monitoring function}. Generally speaking, this function is used to monitor the values of a set of data items in the data pool. Each monitored value is checked periodically to verify whether it conforms to a certain pattern of behaviour (e.g. whether it remains within certain limits). Violations of this pattern of behaviour are reported through service 5 events. The behaviour of the parameter monitoring function is described by the Parameter Monitoring Procedure of figure \ref{fig:parMonPr}. This procedure should be executed cyclically with a period of MON\_PER by the host application.
+
+The parameter monitoring function can be either enabled or disabled. When the function is enabled, it periodically processes a \textit{parameter monitoring definition list}. This consists of a list of \textit{parameter monitors}. Each parameter monitor defines a monitoring action for a data pool item. The same data pool item may be the object of several parameter monitors.
+
+An application maintains a \textit{parameter monitoring list} which holds all the parameter monitors currently active in the application. The size of the list (i.e. the maximum number of parameter monitors which may be defined in an application) is statically fixed and is equal to MON\_N\_PMON. Service 12 offers the means to report the content of the parameter monitoring list and to alter its content.
+
+A parameter monitor is characterized by the attributes listed in table \ref{tab:pmonAtt}. The first two items in the list are the identifiers of, respectively, the parameter monitor itself and the data item whose value the parameter monitor checks.
+
+The monitoring action is performed by a \textit{parameter monitoring procedure}. Thus, for instance, there may be a parameter monitoring procedure which verifies that a parameter has a pre-defined value or there may another procedure which verifies that a parameter remains within pre-defined limits. Parameter monitoring procedures are described in the next sub-section.
+
+Parameter monitors can be individually enabled and disabled. When a parameter monitor is disabled, no monitoring is performed on that parameter. Note that this means that the enable status of a monitoring parameter can be controlled at global level (the entire moniotring function is enabled/disabled) or at local level (a specific parameter monitor is enabled/disabled).
+
+The parameter monitoring function is executed cyclically. Individual parameter monitors may either be executed every time the monitoring function is executed or they may be executed only every N executions of the monitoring functions. The value of N (a positive integer) is the period of the parameter monitor.
+
+When a parameter monitor is executed, its monitoring procedure is run on the current value of the parameter. Based on the procedure outcome and on the repetition count for the parameter, the monitoring parameter status and sub-status are updated. The status can have one of three values:
+
+\begin{itemize}
+\item MON\_UNCHECKED: the monitoring procedure has not yet been run since the parameter monitoring function or the parameter monitor was last enabled 
+\item MON\_VALID: the latest execution of the monitoring procedure found the parameter value to be nominal
+\item MON\_SUSPECTED: the latest execution of the monitoring procedure found the parameter value to be non-nominal but the number of consecutive non-nominal outcomes is smaller than the repetition count
+\item MON\_INVALID: the latest execution of the monitoring procedure found the parameter value to be non-nominal and the number of consecutive non-nominal outcomes is equal to or larger than the repetition count
+\end{itemize}
+
+The sub-status provides information about the outcome of the latest execution of the monitoring procedure. Its range of values depends on the monitoring procedures and is discussed in the next sub-section.
+
+The monitoring procedure may need parameters. These are stord 
+This is explained in more detail in the next sub-section but the basic mechanism is that a parameter is declared to be invalid if its monitoring procedure has found its value to be invalid in more than N consecutive execution where N is the repetition count.
+
+
+\begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{4.5cm}|}{Attributes of Parameter Monitor}{tab:pmonAtt}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
+\texttt{pmonId} & Parameter monitor identifier & Integer in range: 1..MON\_N\_PMON \\
+\hline
+\texttt{dataItemId} & Identifier of the data item monitored by the parameter monitor & Integer in range: 1..HK\_MAX\_ID \\
+\hline
+\texttt{monPrId} & Identifier of the parameter monitoring procedure which is applied by the parameter monitor & A valid monitoring procedure identifier \\
+\hline
+\texttt{isEnabled} & Enable flag for the parameter monitor & Boolean value \\
+\hline
+\texttt{status} & Status of the parameter monitor & One of UNCHECKED, VALID, SUSPECTED or INVALID \\
+\hline
+\texttt{subStatus} & Sub-status of the parameter monitor & See table \ref{tab:retValMonPr} \\
+\hline
+\texttt{per} & The monitoring period for the parameter monitor expressed as an integer multiple of the minimum monitoring period MON\_PER & Positive integer \\
+\hline
+\texttt{perCnt} & The phase counter & Positive integer \\
+\hline
+\texttt{repNmb} & The repetition number for the monitoring check  & Integer in range: 0..\texttt{per} \\
+\hline
+\texttt{repCnt} & The repetition counter for the monitoring check  & Integer in range: 0..\texttt{repNmb} \\
+\hline
+\texttt{eid} & The identifier of the event report generated if the parameter status becomes invalid & Integer in range: 1..EVT\_N\_EID \\
+\hline
+\end{pnptable}  
+
+
+%=============================================================================================
+\subsection{Parameter Monitoring Procedures}\label{sec:parMonProc}
+The parameter monitoring procedures are responsible for checking the values of the monitored parameters and determining whether or not they are valid. The definition of the monitoring procedures is an adaptation point for which the PUS Extension offers the following three options:
+
+\begin{itemize}
+\item Limit Check Monitoring Procedure: verifies whether the value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:MonLimCheckPr}.
+\item Expected Value Monitoring Procedure: verifies whether the monitored parameter has  pre-defined value. See figure \ref{fig:MonExpValCheckPr}.
+\item Delta Check Monitoring Procedure: verifies whether the difference between the current and previous value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:MonDelCheckPr}.
+\end{itemize}
+
+Applications can add their own parameter monitoring procedures. It is an implementation-level decision whether the above procedure must be split into several instances, one for each syntactical type of the parameter to be checked (e.g. one instance for real-values parameters and another instane for integer-values parameters). 
+
+To each parameter monitor, one instance of a parameter monitoring procedure is associated. The procedure is started when the parameter monitor is enabled (either because the entire parameter monitoring function is enabled or because the monitor itself is enabled) and then it is executed every time the parameter monitor is executed. At each execution, the procedure returns an outcome. If the procedure has found the parameter value to be nominal, it returns: MON\_VALID. If, instead, it has found the parameter value to be non-nominal, it returns some other value. The range of return values other than MON\_VALID is specific to each monitoring procedure. Table \ref{tab:retValMonPr} lists the potential outcomes of executing one of the three pre-defined monitoring procedures. Applications may  have to extend this range, depending on which monitoring procedure they define. 
+
+\begin{pnptable}{|l|p{8cm}|}{Return Values of Monitoring Procedure Execution}{tab:retValMonPr}{\textbf{Name} & \textbf{Description}}
+\texttt{MON\_VALID} & Parameter is valid \\
+\hline
+\texttt{MON\_NOT\_EXP} & Parameter does not have the expected value \\
+\hline
+\texttt{MON\_ABOVE} & Parameter value is above its upper limit \\
+\hline
+\texttt{MON\_BELOW} & Parameter value is below its lower limit \\
+\hline
+\texttt{MON\_DEL\_ABOVE} & Parameter delta-value (difference between succesve values) is above its upper limit \\
+\hline
+\texttt{MON\_DEL\_BELOW} & Parameter delta-value (difference between succesve values) is below its lower limit \\
+\hline
+\end{pnptable}  
+
+%-------------------------------------------------------------------------------------
+\subsection{Service 12 Report and Command Definition}\label{sec:serv12RepCmdDef}
+Tables \ref{tab:CR-S12-1} to TBD. 
+
+%-------------------------------------------------------------------------------------
+\subsection{Service 12 Constants}\label{sec:serv12Const}
+The service 12 constants are listed in table \ref{tab:Const-S12}. 
+
+\begin{cr_const}{S12}{Constants for Service 12 (On-Board Monitoring Service)}
+\end{cr_const}
+
+
+%----------------------------------------------------------------------------------------
+\subsection{Service 12 Observables}\label{sec:serv5Obs}
+The service 12 observables are listed in table \ref{tab:Obs-S12}. The initial values of the variables carrying the number of available and enabled parameter monitors depends on the number parameter monitors which are pre-defined at initialization time (which is an adaptation point) and must therefore be done by the application as part of its initialization.
+
+\begin{cr_obs}{S12}{Observables for Service 12 (On-Board Monitoring Service)}
+\end{cr_obs}
+
+
+%----------------------------------------------------------------------------------------
+\subsection{Service 12 Adaptation Points}
+The table in this section lists the adaptation points for the On-Board Monitoring Service.
+
+\begin{cr_ap}{S12}{Adaptation Points for 12 (On-Board Monitoring Service)}
+\end{cr_ap}
+
+
+%---------------------------------------------------------------------------------
+\subsection{Service 12 Requirements}
+The table in this section lists the requirements for the On-Board Monitoring Service
+
+\begin{cr_req}{S12}{Requirements for Service 12 (On-Board Monitoring Service)}
+\end{cr_req}
 
 
 %=============================================================================================

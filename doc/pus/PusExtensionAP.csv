@@ -56,3 +56,5 @@ S1,6,Closes ICM-14,Operation to Report Progress Failed for InCommand,Run the Com
 S1,7,Overrides ICM-15,Operation to Report Progress Successful for InCommand ,"Determine if a progress step has been completed and, if so, run the Command Progress Success Procedure"
 S1,8,Closes ICM-16,Operation to Report Termination Failed for InCommand ,Run the Command Verification Failure Procedure of figure \ref{fig:CmdVerSucc}
 S1,9,Closes ICM-17,Operation to Report Report Termination Successful for InCommand ,Run the Command Verification Success Procedure of figure \ref{fig:CmdPrgrSucc}
+S12,1,New AP,Definition of Parameter Monitoring Procedures,"Three parameter monitoring procedures are defined (limit check, expected value and delta check)"
+S12,2,New AP,Definition of Parameter Monitoring List,"By default, all parameter monitors are empty"
