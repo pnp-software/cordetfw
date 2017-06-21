@@ -28,11 +28,10 @@
 #include <DataPool/DpServTest.h>
 
 #include <stdio.h>
-#include <time.h>
 
 /* global handles */
-Time startTime;
 unsigned char outcomeStart, outcomePrgr;
+unsigned short timeOut_cnt;
 
 
 /* ------------------------------------------------------------------------------------ */
@@ -74,12 +73,8 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t __attribute__((unused)) smD
   cmpSpecificData = (CrFwInCmdData_t *) cmpDataStart->cmpSpecificData;
   inPckt          = cmpSpecificData->pckt;
 
-  /* get time stamp */
-  if (clock_gettime(CLOCK_MONOTONIC, &startTime) == -1)
-    {
-      perror("clock_gettime error");
-      /*return -1;*/
-    }
+  /* set timeout counter to 0 */
+  timeOut_cnt = 0;
 
   /* reset global handles */
   outcomeStart = 1;
@@ -127,6 +122,9 @@ void CrPsTestOnBoardConnectionProgressAction(FwSmDesc_t __attribute__((unused)) 
 
   FwPrStart(prDescServTestOnBoardConnPrgr);
   FwPrExecute(prDescServTestOnBoardConnPrgr);
+
+  /* increment timeout counter */
+  timeOut_cnt++;
 
   if (outcomePrgr != 0)
     {

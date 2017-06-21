@@ -14,9 +14,8 @@
 #include <time.h>
 
 /* global handles */
-typedef struct timespec Time;
-extern Time startTime;
 extern unsigned char outcomeStart, outcomePrgr;
+extern unsigned short timeOut_cnt;
 
 
 /**

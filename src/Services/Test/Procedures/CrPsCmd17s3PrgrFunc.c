@@ -32,7 +32,6 @@
 #include <Services/Test/InCmd/CrPsTestOnBoardConnection.h> /* for global handles */
 
 #include <stdio.h>
-#include <time.h>
 
 
 /* ------------------------------------------------------------------------------------ */
@@ -121,7 +120,6 @@ void CrPsTestOnBoardConnectionPrgrN4(FwPrDesc_t __attribute__((unused)) prDesc)
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t __attribute__((unused)) prDesc)
 {
   /*FwPrCounterU3_t execCnt, nodeExecCnt;*/
-  Time currentTime;
   unsigned short appId;
   int timeOut;
 
@@ -136,15 +134,9 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t __attribute__((unused)) p
   /* Get areYouAliveTimeOut from data pool */
   timeOut = getDpAreYouAliveTimeOut();
 
-  /* get current time stamp */
-  if (clock_gettime(CLOCK_MONOTONIC, &currentTime) == -1)
-    {
-      perror("clock_gettime error");
-      return -1;
-    }
-  printf("CrPsTestOnBoardConnectionPrgrG11(): appId = %d, startTime = %ld, currentTime = %ld, timeOut = %d\n", appId, startTime.tv_sec, currentTime.tv_sec, timeOut);
+  printf("CrPsTestOnBoardConnectionPrgrG11(): appId = %d, timeOut_cnt = %d, timeOut = %d\n", appId, timeOut_cnt, timeOut);
 
-  if (appId > 0 && (currentTime.tv_sec-startTime.tv_sec) < timeOut)
+  if (appId > 0 && timeOut_cnt < timeOut)
     {
       return 1;
     }
@@ -159,7 +151,6 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t __attribute__((unused)) p
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t __attribute__((unused)) prDesc)
 {
   /*FwPrCounterU3_t execCnt, nodeExecCnt;*/
-  Time currentTime;
   unsigned short appId;
   int timeOut;
 
@@ -174,15 +165,9 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t __attribute__((unused)) p
   /* Get areYouAliveTimeOut from data pool */
   timeOut = getDpAreYouAliveTimeOut();
 
-  /* get current time stamp */
-  if (clock_gettime(CLOCK_MONOTONIC, &currentTime) == -1)
-    {
-      perror("clock_gettime error");
-      return -1;
-    }
-  printf("CrPsTestOnBoardConnectionPrgrG12(): appId = %d, startTime = %ld, currentTime = %ld, timeOut = %d\n", appId, startTime.tv_sec, currentTime.tv_sec, timeOut);
+  printf("CrPsTestOnBoardConnectionPrgrG11(): appId = %d, timeOut_cnt = %d, timeOut = %d\n", appId, timeOut_cnt, timeOut);
 
-  if (appId == 0 && (currentTime.tv_sec-startTime.tv_sec) < timeOut)
+  if (appId == 0 && timeOut_cnt < timeOut)
     {
       return 1;
     }
@@ -197,7 +182,6 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t __attribute__((unused)) p
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG13(FwPrDesc_t __attribute__((unused)) prDesc)
 {
   /*FwPrCounterU3_t execCnt, nodeExecCnt;*/
-  Time currentTime;
   int timeOut;
 
   /* [ (time elapsed since command execution started equal or greater than areYouAliveTimeOut) ] */
@@ -207,15 +191,9 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG13(FwPrDesc_t __attribute__((unused)) p
   /* Get areYouAliveTimeOut from data pool */
   timeOut = getDpAreYouAliveTimeOut();
 
-  /* get current time stamp */
-  if (clock_gettime(CLOCK_MONOTONIC, &currentTime) == -1)
-    {
-      perror("clock_gettime error");
-      return -1;
-    }
-  printf("CrPsTestOnBoardConnectionPrgrG13(): startTime = %ld, currentTime = %ld, timeOut = %d\n", startTime.tv_sec, currentTime.tv_sec, timeOut);
+  printf("CrPsTestOnBoardConnectionPrgrG11(): timeOut_cnt = %d, timeOut = %d\n", timeOut_cnt, timeOut);
 
-  if ((currentTime.tv_sec-startTime.tv_sec) >= timeOut)
+  if (timeOut_cnt >= timeOut)
     {
       return 1;
     }
