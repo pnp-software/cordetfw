@@ -17,8 +17,8 @@
 #include "CrFwCmpData.h"
 
 /* FwProfile includes */
-#include "FwProfile/FwPrCore.h"
-#include "FwProfile/FwSmConfig.h"
+#include "FwPrCore.h"
+#include "FwSmConfig.h"
 
 #include <CrPsUtilities.h>
 #include <Services/General/CrPsConstants.h>

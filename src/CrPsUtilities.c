@@ -18,8 +18,8 @@
 #include <OutLoader/CrFwOutLoader.h>
 
 /* FwProfile includes */
-#include <FwProfile/FwPrCore.h>
-#include <FwProfile/FwPrConfig.h>
+#include <FwPrCore.h>
+#include <FwPrConfig.h>
 
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsParamSetter.h>

@@ -10,8 +10,8 @@
 
 #include "CrPsTestAreYouAliveConnectInRep.h"
 
-#include <FwProfile/FwPrConfig.h>
-#include <FwProfile/FwSmConfig.h>
+#include <FwPrConfig.h>
+#include <FwSmConfig.h>
 
 #include <Pckt/CrFwPckt.h>
 #include <CrFwCmpData.h>

@@ -22,7 +22,7 @@
 #define CRPSCMD17S3PRGR_H_
 
 /** FW Profile function definitions */
-#include "FwProfile/FwPrConstants.h"
+#include "FwPrConstants.h"
 
 /** Action node identifiers */
 #define CrPsCmd17s3Prgr_N1 (1)		/* The identifier of action node N1 in procedure CrPsCmd17s3Prgr */

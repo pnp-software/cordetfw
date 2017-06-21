@@ -11,8 +11,8 @@
 #include "CrPsCmd17s3PrgrCreate.h"
 
 /** FW Profile function definitions */
-#include "FwProfile/FwPrDCreate.h"
-#include "FwProfile/FwPrConfig.h"
+#include "FwPrDCreate.h"
+#include "FwPrConfig.h"
 
 /** CrPsCmd17s3Prgr function definitions */
 #include <stdlib.h>

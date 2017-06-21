@@ -13,7 +13,7 @@
 #include "CrPsConstants.h"
 
 #include "CrFwCmpData.h"
-#include "FwProfile/FwSmConfig.h"
+#include "FwSmConfig.h"
 
 #include <string.h>
 

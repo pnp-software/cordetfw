@@ -10,7 +10,7 @@
 #ifndef CRPS_TEST_AREYOUALIVE_CONNECTION_REP_H
 #define CRPS_TEST_AREYOUALIVE_CONNECTION_REP_H
 
-#include "FwProfile/FwSmCore.h"
+#include "FwSmCore.h"
 #include "CrFwConstants.h"
 
 

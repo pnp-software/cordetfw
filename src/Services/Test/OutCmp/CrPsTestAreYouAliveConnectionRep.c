@@ -17,7 +17,7 @@
 #include "OutLoader/CrFwOutLoader.h"
 
 #include "CrFwCmpData.h"
-#include "FwProfile/FwSmConfig.h"
+#include "FwSmConfig.h"
 #include <stdio.h>
 
 

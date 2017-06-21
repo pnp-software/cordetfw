@@ -10,7 +10,7 @@
 #ifndef CRPS_PARAM_SETTER_H
 #define CRPS_PARAM_SETTER_H
 
-#include <FwProfile/FwSmCore.h>
+#include <FwSmCore.h>
 #include <CrFwConstants.h>
 
 /* ------------------------------------------------------------------------------------ */

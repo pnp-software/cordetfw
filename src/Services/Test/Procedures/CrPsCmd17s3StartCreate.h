@@ -22,7 +22,7 @@
 #define CRPSCMD17S3START_H_
 
 /** FW Profile function definitions */
-#include "FwProfile/FwPrConstants.h"
+#include "FwPrConstants.h"
 #include "OutCmp/CrFwOutCmp.h" /* needed for definition of: FwSmDesc_t */
 
 /** global extern variables */
