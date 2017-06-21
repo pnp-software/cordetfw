@@ -28,6 +28,7 @@
 #include <DataPool/DpServTest.h>
 
 #include <stdio.h>
+#include <time.h>
 
 /* global handles */
 Time startTime;

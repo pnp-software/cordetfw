@@ -32,6 +32,7 @@
 #include <Services/Test/InCmd/CrPsTestOnBoardConnection.h> /* for global handles */
 
 #include <stdio.h>
+#include <time.h>
 
 
 /* ------------------------------------------------------------------------------------ */
