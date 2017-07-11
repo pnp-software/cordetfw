@@ -30,6 +30,9 @@
 
 #include "CrFwInCmdSample1.h"
 #include "CrFwInRepSample1.h"
+#include "Services/Test/InCmd/CrPsTestAreYouAliveConnection.h"
+#include "Services/Test/InRep/CrPsTestAreYouAliveConnectInRep.h"
+#include "Services/Test/InCmd/CrPsTestOnBoardConnection.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 /**
  * The maximum number of components representing an incoming command which may be allocated
@@ -56,7 +59,7 @@
  * This constant is used as the size of a statically declared array.
  * Hence, a value of zero may not be allowed by some compilers.
  */
-#define CR_FW_INCMD_NKINDS 3
+#define CR_FW_INCMD_NKINDS 5
 
 /**
  * The total number of kinds of incoming reports supported by the application.
@@ -69,7 +72,7 @@
  * This constant is used as the size of a statically declared array.
  * Hence, a value of zero may not be allowed by some compilers.
  */
-#define CR_FW_INREP_NKINDS 4
+#define CR_FW_INREP_NKINDS 5
 
 /**
  * Definition of the incoming command kinds supported by an application.
@@ -122,12 +125,29 @@
  * <code>CrFwInCommandSample1.h</code>.
  */
 #define CR_FW_INCMD_INIT_KIND_DESC \
-	{ {8, 1, 1, &CrFwPrCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, &CrFwSmEmptyAction, \
+	{ {8, 1, 1,  &CrFwPrCheckAlwaysTrue, \
+                     &CrFwSmCheckAlwaysTrue, \
+                     &CrFwSmEmptyAction, \
+                     &CrFwSmEmptyAction, \
+                     &CrFwSmEmptyAction, \
+                     &CrFwSmEmptyAction}, \
+	  {8, 1, 2,  &CrFwPrCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, &CrFwSmEmptyAction, \
 						&CrFwSmEmptyAction, &CrFwSmEmptyAction, &CrFwSmEmptyAction}, \
-	  {8, 1, 2, &CrFwPrCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, &CrFwSmEmptyAction, \
-						&CrFwSmEmptyAction, &CrFwSmEmptyAction, &CrFwSmEmptyAction}, \
-	  {50, 1, 0, &CrFwInCmdSample1ValidityCheck, &CrFwInCmdSample1ReadyCheck, &CrFwInCmdSample1StartAction, \
-						&CrFwInCmdSample1ProgressAction, &CrFwInCmdSample1TerminationAction, &CrFwInCmdSample1AbortAction} \
+          {17, 1, 0, &CrFwPrCheckAlwaysTrue, \
+                     &CrPsTestAreYouAliveConnectionReadyCheck, \
+                     &CrPsTestAreYouAliveConnectionStartAction, \
+                     &CrPsTestAreYouAliveConnectionProgressAction, \
+                     &CrPsTestAreYouAliveConnectionTerminationAction, \
+                     &CrPsTestAreYouAliveConnectionAbortAction},\
+          {17, 3, 0, &CrFwPrCheckAlwaysTrue, \
+                     &CrPsTestOnBoardConnectionReadyCheck, \
+                     &CrPsTestOnBoardConnectionStartAction, \
+                     &CrPsTestOnBoardConnectionProgressAction, \
+                     &CrPsTestOnBoardConnectionTerminationAction, \
+                     &CrPsTestOnBoardConnectionAbortAction},\
+          {50, 1, 0, &CrFwInCmdSample1ValidityCheck, &CrFwInCmdSample1ReadyCheck, &CrFwInCmdSample1StartAction, \
+						&CrFwInCmdSample1ProgressAction, &CrFwInCmdSample1TerminationAction, \
+                                                &CrFwInCmdSample1AbortAction} \
 	}
 
 /**
@@ -173,6 +193,7 @@
 	{ {5, 1, 1, &CrFwPrEmptyAction, &CrFwPrCheckAlwaysTrue, 0}, \
 	  {5, 1, 2, &CrFwPrEmptyAction, &CrFwPrCheckAlwaysTrue, 0}, \
 	  {5, 1, 3, &CrFwPrEmptyAction, &CrFwPrCheckAlwaysTrue, 0}, \
+	  {17, 2, 0, &CrPsTestAreYouAliveConnectInRepUpdateAction,   &CrPsTestAreYouAliveConnectInRepValidityCheck,   0}, \
 	  {40, 1, 0, &CrFwInRepSample1UpdateAction, &CrFwInRepSample1ValidityCheck, 0} \
 	}
 
