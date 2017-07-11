@@ -97,7 +97,7 @@ void CrPsServTestOnBoardConnectParamSetAppId(FwSmDesc_t smDesc, unsigned short a
  * Generic setter
  * Set data at specific position in data segment of PUS packet
  */
-void CrIaSetUCharValue(FwSmDesc_t smDesc, unsigned char ucharValue, unsigned int pos)
+void CrPsSetUCharValue(FwSmDesc_t smDesc, unsigned char ucharValue, unsigned int pos)
 {
   CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
   CrFwOutCmpData_t* cmpSpecificData = (CrFwOutCmpData_t*)(cmpData->cmpSpecificData);
@@ -107,7 +107,7 @@ void CrIaSetUCharValue(FwSmDesc_t smDesc, unsigned char ucharValue, unsigned int
 }
 
 /* ------------------------------------------------------------------------------------ */
-void CrIaSetUShortValue(FwSmDesc_t smDesc, unsigned short ushortValue, unsigned int pos)
+void CrPsSetUShortValue(FwSmDesc_t smDesc, unsigned short ushortValue, unsigned int pos)
 {
   CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
   CrFwOutCmpData_t* cmpSpecificData = (CrFwOutCmpData_t*)(cmpData->cmpSpecificData);
@@ -118,7 +118,7 @@ void CrIaSetUShortValue(FwSmDesc_t smDesc, unsigned short ushortValue, unsigned 
 }
 
 /* ------------------------------------------------------------------------------------ */
-void CrIaSetUIntValue(FwSmDesc_t smDesc, unsigned int uintValue, unsigned int pos)
+void CrPsSetUIntValue(FwSmDesc_t smDesc, unsigned int uintValue, unsigned int pos)
 {
   CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
   CrFwOutCmpData_t* cmpSpecificData = (CrFwOutCmpData_t*)(cmpData->cmpSpecificData);
