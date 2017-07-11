@@ -16,6 +16,7 @@ FAC,S,2,The PUS Extension of the CORDET Framework shall provide an OutFactory co
 FAC,S,3,The two factory components shall maintain and make accessible through the data pool the observables listed in table \ref{tab:Obs-FAC},,
 PCR,A,1,The InCommand components provided by the PUS Extension of the CORDET Framework shall close the InCommand adaptation points as stated in table \ref{tab:AP-OCM},,
 PCR,A,2,The OutComponent components provided by the PUS Extension of the CORDET Framework shall close the OutComponent adaptation points as stated in table \ref{tab:AP-ICM},,
+PCR,C,3,Applications shall comply with the service dependencies listed in table \ref{tab:dependencies},,
 S1,S,1,"The PUS Extension of the CORDET Framework shall provide, as an extension of the OutComponent, a ReqVerRep component to encapsulate a service 1 report",,
 S1,A,2,The ReqVerRep component shall close the OutComponent adaptation points as indicated in table \ref{tab:CR-S1-A},,
 S1,A,3,The service 1 implementation of the PUS Extension of the CORDET Framework shall close or override the InLoader and InCommand adaptation points listed in table \ref{tab:AP-S1},,
