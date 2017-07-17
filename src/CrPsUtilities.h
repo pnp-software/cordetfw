@@ -32,6 +32,9 @@
 
 /* global handles for the procedures */
 extern FwPrDesc_t prDescServTestOnBoardConnStart, prDescServTestOnBoardConnPrgr;
+extern FwPrDesc_t prDescServReqVerifPcktReroutFail, prDescServReqVerifPcktAccFail;
+extern FwPrDesc_t prDescServReqVerifCmdVerSucc, prDescServReqVerifCmdVerFail;
+extern FwPrDesc_t prDescServReqVerifCmdPrgrSucc, prDescServReqVerifCmdPrgrFail;
 
 
 /**

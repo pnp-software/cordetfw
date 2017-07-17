@@ -25,7 +25,7 @@
 
 #include <arpa/inet.h>
 
-
+#if 0
 /* ------------------------------------------------------------------------------------ */
 CrFwDestSrc_t CrFwPcktGetPid(CrFwPckt_t pckt)
 {
@@ -34,6 +34,7 @@ CrFwDestSrc_t CrFwPcktGetPid(CrFwPckt_t pckt)
   pid1 = (pckt[OFFSET_ID_FIELD + 1] & PID1_MASK) >> PID1_SHIFT;
   return ((pid0 << 4) | pid1);
 }
+#endif
 
 
 

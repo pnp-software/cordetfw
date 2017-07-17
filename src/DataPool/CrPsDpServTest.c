@@ -1,6 +1,6 @@
 /**
- * @file DpServTest.c
- * ???
+ * @file CrPsDpServTest.c
+ * 
  * Interface for accessing data pool items.
  *
  * A data pool is created by three structures encapsulating data related
@@ -16,13 +16,13 @@
  * and the multiplicity is the size of the array.
  *
  * @note This code was generated.
- * @author C. Reimers and M. Rockenbauer 13.06.2017
+ * @author P&P Software GmbH / Department of Astrophysics, University of Vienna
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
  */
 
 /**
 * Generated on 2017-06-06 16:26:33
 */
-#include "DpServTest.h"
+#include "CrPsDpServTest.h"
 
 DpServTest_t dpServTest;

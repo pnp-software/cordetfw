@@ -52,6 +52,60 @@ void CrPsServReqVerifAccSuccParamSetTcPacketSeqCtrl(FwSmDesc_t smDesc, unsigned 
 
 /* ------------------------------------------------------------------------------------ */
 
+void CrPsServReqVerifAccFailParamSetPacketId(FwSmDesc_t smDesc, unsigned short packetId);
+
+void CrPsServReqVerifAccFailParamSetFailureCode(FwSmDesc_t smDesc, unsigned short failureCode);
+
+void CrPsServReqVerifAccFailParamSetType(FwSmDesc_t smDesc, unsigned char type);
+
+void CrPsServReqVerifAccFailParamSetSubtype(FwSmDesc_t smDesc, unsigned char subType);
+
+void CrPsServReqVerifAccFailParamSetDiscriminant(FwSmDesc_t smDesc, unsigned char discriminant);
+
+void CrPsServReqVerifAccFailParamSetVerFailData(FwSmDesc_t smDesc, unsigned int VerFailData);
+
+/* ------------------------------------------------------------------------------------ */
+
+void CrPsServReqVerifVerSuccParamSetPacketId(FwSmDesc_t smDesc, unsigned short packetId);
+
+/* ------------------------------------------------------------------------------------ */
+
+void CrPsServReqVerifVerFailParamSetPacketId(FwSmDesc_t smDesc, unsigned short packetId);
+
+void CrPsServReqVerifVerFailParamSetFailureCode(FwSmDesc_t smDesc, unsigned short failureCode);
+
+void CrPsServReqVerifVerFailParamSetType(FwSmDesc_t smDesc, unsigned char type);
+
+void CrPsServReqVerifVerFailParamSetSubtype(FwSmDesc_t smDesc, unsigned char subType);
+
+void CrPsServReqVerifVerFailParamSetDiscriminant(FwSmDesc_t smDesc, unsigned char discriminant);
+
+void CrPsServReqVerifVerFailParamSetVerFailData(FwSmDesc_t smDesc, unsigned int VerFailData);
+
+/* ------------------------------------------------------------------------------------ */
+
+void CrPsServReqVerifPrgrSuccParamSetPacketId(FwSmDesc_t smDesc, unsigned short packetId);
+
+void CrPsServReqVerifPrgrSuccParamSetStepId(FwSmDesc_t smDesc, unsigned short stepId);
+
+/* ------------------------------------------------------------------------------------ */
+
+void CrPsServReqVerifPrgrFailParamSetPacketId(FwSmDesc_t smDesc, unsigned short packetId);
+
+void CrPsServReqVerifPrgrFailParamSetStepId(FwSmDesc_t smDesc, unsigned short stepId);
+
+void CrPsServReqVerifPrgrFailParamSetFailureCode(FwSmDesc_t smDesc, unsigned short failureCode);
+
+void CrPsServReqVerifPrgrFailParamSetType(FwSmDesc_t smDesc, unsigned char type);
+
+void CrPsServReqVerifPrgrFailParamSetSubtype(FwSmDesc_t smDesc, unsigned char subType);
+
+void CrPsServReqVerifPrgrFailParamSetDiscriminant(FwSmDesc_t smDesc, unsigned char discriminant);
+
+void CrPsServReqVerifPrgrFailParamSetVerFailData(FwSmDesc_t smDesc, unsigned int VerFailData);
+
+/* ------------------------------------------------------------------------------------ */
+
 /**
  * Sets the value of the parameter appId
  * @param smDesc the descriptor of the Base State Machine

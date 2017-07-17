@@ -25,7 +25,7 @@
 #include "CrFwCmpData.h"
 
 #include <DataPool/CrPsDataPool.h>
-#include <DataPool/DpServTest.h>
+#include <DataPool/CrPsDpServTest.h>
 
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsParamSetter.h>

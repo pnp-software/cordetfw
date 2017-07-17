@@ -20,6 +20,8 @@
  * @param pckt Pointer to the packet.
  */
 void CrPsServTestOnBoardConnectParamGetAppId(unsigned short * appId, CrFwPckt_t pckt);
-
+unsigned int CrPsGetUIntValue(FwSmDesc_t smDesc, unsigned int pos);
+unsigned short CrPsGetUShortValue(FwSmDesc_t smDesc, unsigned int pos);
+unsigned char CrPsGetUCharValue(FwSmDesc_t smDesc, unsigned int pos);
 
 #endif /* CRPS_PARAM_GETTER_H */

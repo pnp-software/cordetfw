@@ -40,31 +40,91 @@
  */
 FwPrDesc_t CrPsPcktReroutingFailCreate(void* prData);
 
-/* Action for node N1. */
+/**
+ * Action for node N1.
+ * <pre>
+ * Generate error report 
+ * INLOADER_INV_DEST
+ * </pre>
+ * @param smDesc the procedure descriptor
+ */
 void CrPsPcktReroutingFailN1(FwPrDesc_t __attribute__((unused)) prDesc);
 
-/* Action for node N2. */
+/**
+ * Action for node N2.
+ * <pre>
+ * Retrieve an OutComponent
+ * of type (1,10) from the OutFactory
+ * </pre>
+ * @param smDesc the procedure descriptor
+ */
 void CrPsPcktReroutingFailN2(FwPrDesc_t __attribute__((unused)) prDesc);
 
-/* Action for node N3. */
+/**
+ * Action for node N3.
+ * <pre>
+ * Generate error report
+ * OUTFACTORY_FAIL
+ * </pre>
+ * @param smDesc the procedure descriptor
+ */
 void CrPsPcktReroutingFailN3(FwPrDesc_t __attribute__((unused)) prDesc);
 
-/* Action for node N4. */
+/**
+ * Action for node N4.
+ * <pre>
+ * Configure report (1,10)
+ * and load it in the OutLoader
+ * </pre>
+ * @param smDesc the procedure descriptor
+ */
 void CrPsPcktReroutingFailN4(FwPrDesc_t __attribute__((unused)) prDesc);
 
-/* Action for node N5. */
+/**
+ * Action for node N5.
+ * <pre>
+ * Increment data pool
+ * variable nOfReroutingFailed
+ * </pre>
+ * @param smDesc the procedure descriptor
+ */
 void CrPsPcktReroutingFailN5(FwPrDesc_t __attribute__((unused)) prDesc);
 
-/* Action for node N6. */
+/**
+ * Action for node N6.
+ * <pre>
+ * Update data pool variables
+ * pcktIdRerouting, invDestRerouting
+ * </pre>
+ * @param smDesc the procedure descriptor
+ */
 void CrPsPcktReroutingFailN6(FwPrDesc_t __attribute__((unused)) prDesc);
 
-/* Guard on the Control Flow from DECISION1 to N1. */
+/**
+ * Guard on the Control Flow from DECISION1 to N1.
+ * Packet encapsulates a report 
+ * @param smDesc the procedure descriptor
+ * @return 1 if the guard is fulfilled, otherwise 0.
+ */
 FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t __attribute__((unused)) prDesc);
 
-/* Guard on the Control Flow from DECISION1 to N2. */
+/**
+ * Guard on the Control Flow from DECISION1 to N2.
+ * Packet encapsulates a command 
+ * @param smDesc the procedure descriptor
+ * @return 1 if the guard is fulfilled, otherwise 0.
+ */
 FwPrBool_t CrPsPcktReroutingFailG1E(FwPrDesc_t __attribute__((unused)) prDesc);
 
-/* Guard on the Control Flow from DECISION2 to N3. */
+/**
+ * Guard on the Control Flow from DECISION2 to N3.
+ * <pre>
+ *  OutFactory fails to
+ * generate OutComponent 
+ * </pre>
+ * @param smDesc the procedure descriptor
+ * @return 1 if the guard is fulfilled, otherwise 0.
+ */
 FwPrBool_t CrPsPcktReroutingFailG2(FwPrDesc_t __attribute__((unused)) prDesc);
 
 #endif /* CrPsPcktReroutingFailCreate_H_ */

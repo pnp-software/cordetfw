@@ -1,6 +1,6 @@
 /**
- * @file DpServTest.h
- * ???
+ * @file CrPsDpServTest.h
+ *
  * Interface for accessing data pool items.
  *
  * A data pool is created by three structures encapsulating data related
@@ -16,7 +16,7 @@
  * and the multiplicity is the size of the array.
  *
  * @note This code was generated.
- * @author C. Reimers and M. Rockenbauer 13.06.2017
+ * @author P&P Software GmbH / Department of Astrophysics, University of Vienna
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
  */
 
@@ -25,7 +25,7 @@
 */
 /* Type description*/
 typedef struct {
-	unsigned short AreYouAliveSrc;
+	unsigned short AreYouAliveSrc; 
 	unsigned int AreYouAliveTimeOut;
 	unsigned short OnBoardConnectDest;
 	unsigned short OnBoardConnectDestLst[10];
@@ -34,7 +34,7 @@ typedef struct {
 /* Variable description*/
 extern DpServTest_t dpServTest;
 
-/** ???
+/**
  * Get the Value from the Datapool item AreYouAliveSrc.
  * @return the Value of AreYouAliveSrc from the Datapool
  */
@@ -43,7 +43,7 @@ static inline unsigned short getDpAreYouAliveSrc()
 	return dpServTest.AreYouAliveSrc;
 }
 
-/** ???
+/**
  * Sets the Value from the Datapool item AreYouAliveSrc.
  * @param AreYouAliveSrc The Value that should be stored into the Datapool
  */
@@ -52,7 +52,7 @@ static inline void setDpAreYouAliveSrc(unsigned short AreYouAliveSrc)
 	dpServTest.AreYouAliveSrc = AreYouAliveSrc;
 }
 
-/** ???
+/**
  * Get the Value from the Datapool item AreYouAliveTimeOut.
  * @return the Value of AreYouAliveTimeOut from the Datapool
  */
@@ -61,7 +61,7 @@ static inline unsigned int getDpAreYouAliveTimeOut()
 	return dpServTest.AreYouAliveTimeOut;
 }
 
-/** ???
+/**
  * Sets the Value from the Datapool item AreYouAliveTimeOut.
  * @param AreYouAliveTimeOut The Value that should be stored into the Datapool
  */
@@ -70,7 +70,7 @@ static inline void setDpAreYouAliveTimeOut(unsigned int AreYouAliveTimeOut)
 	dpServTest.AreYouAliveTimeOut = AreYouAliveTimeOut;
 }
 
-/** ???
+/**
  * Get the Value from the Datapool item OnBoardConnectDest.
  * @return the Value of OnBoardConnectDest from the Datapool
  */
@@ -79,7 +79,7 @@ static inline unsigned short getDpOnBoardConnectDest()
 	return dpServTest.OnBoardConnectDest;
 }
 
-/** ???
+/**
  * Sets the Value from the Datapool item OnBoardConnectDest.
  * @param OnBoardConnectDest The Value that should be stored into the Datapool
  */
@@ -88,7 +88,7 @@ static inline void setDpOnBoardConnectDest(unsigned short OnBoardConnectDest)
 	dpServTest.OnBoardConnectDest = OnBoardConnectDest;
 }
 
-/** ???
+/**
  * Get the Value from the Datapool array OnBoardConnectDestLst.
  * @return the Value of OnBoardConnectDestLst[0] from the Datapool
  */
@@ -97,17 +97,17 @@ static inline unsigned short* getDpOnBoardConnectDestLstArray()
 	return &dpServTest.OnBoardConnectDestLst[0];
 }
 
-/** ???
+/**
  * Get the Value from the Datapool array item OnBoardConnectDestLst.
  * @param i the identifier of the array item
- * @return the Value of OnBoardConnectDestLst[i] from the Datapool
+ * @return the Value of OnBoardCo?
  */
 static inline unsigned short getDpOnBoardConnectDestLstItem(int i)
 {
 	return dpServTest.OnBoardConnectDestLst[i];
 }
 
-/** ???
+/** 
  * Sets the Value from the Datapool array item OnBoardConnectDestLst.
  * @param i the identifier of the array item
  * @param OnBoardConnectDestLst The Value that should be stored into the Datapool

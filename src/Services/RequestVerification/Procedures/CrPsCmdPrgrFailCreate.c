@@ -10,12 +10,12 @@
 /** FW Profile function definitions */
 #include "FwPrDCreate.h"
 #include "FwPrConfig.h"
-
+#include <CrFwConstants.h>
 /** CrPsCmdPrgrFail function definitions */
 #include <stdlib.h>
 
 /* ----------------------------------------------------------------------------------------------------------------- */
-/* Guard on the Control Flow from DECISION1 to N4. */
+/** Guard on the Control Flow from DECISION2 to N4. */
 FwPrBool_t CrPsCmdPrgrFailG1E(FwPrDesc_t __attribute__((unused)) prDesc)
 {
   /* [ Else ] */

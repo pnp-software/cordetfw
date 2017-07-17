@@ -13,61 +13,145 @@
 #include "FwPrDCreate.h"
 #include "FwPrConfig.h"
 #include "FwPrCore.h"
+#include "FwSmConfig.h"
+
+#include "Pckt/CrFwPckt.h" /* --- interface to adaptation point CrFwPckt --- */
+#include <CrFwCmpData.h>
+#include <BaseCmp/CrFwBaseCmp.h>
+#include <OutFactory/CrFwOutFactory.h>
+#include <OutLoader/CrFwOutLoader.h>
+
+#include <Services/General/CrPsConstants.h>
+#include <Services/General/CrPsParamSetter.h>
+#include <CrPsPcktUtilities.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
+FwSmDesc_t cmd, rep;
+
+#define INLOADER_INV_DEST 101
+
+/* ----------------------------------------------------------------------------------------------------------------- */
+
 /* ------------------------------------------------------------------------------------ */
-/* Action for node N1. */
+/** Action for node N1. */
 void CrPsPcktReroutingFailN1(FwPrDesc_t __attribute__((unused)) prDesc)
 {
-  /* Generate error report INLOADER_INV_DEST */
+  /* TODO: Generate error report INLOADER_INV_DEST */
+
+  printf("CrPsPcktReroutingFailN1: Generate error report INLOADER_INV_DEST\n");
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
-/* Action for node N2. */
+/** Action for node N2. */
 void CrPsPcktReroutingFailN2(FwPrDesc_t __attribute__((unused)) prDesc)
 {
   /* Retrieve an OutComponent of type (1,10) from the OutFactory */
 
+  printf("CrPsPcktReroutingFailN2: Retrieve an OutComponent of type (1,10) from the OutFactory\n");
+
+  /* Create out component */
+  rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, CRPS_REQVERIF_REROUT_FAIL, 0, 0);
+
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
-/* Action for node N3. */
+/** Action for node N3. */
 void CrPsPcktReroutingFailN3(FwPrDesc_t __attribute__((unused)) prDesc)
 {
-  /* Generate error report OUTFACTORY_FAIL */
+  /* TODO: Generate error report OUTFACTORY_FAIL */
+
+  printf("CrPsPcktReroutingFailN3: Generate error report OUTFACTORY_FAIL\n");
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
-/* Action for node N4. */
+/** Action for node N4. */
 void CrPsPcktReroutingFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
 {
+  CrFwDestSrc_t source;
+  unsigned short tcPacketId;
+  unsigned char tcType, tcSubtype, tcDiscriminant;
+  unsigned int tcVerFailData;
+
+  CrFwCmpData_t*   inData;
+  CrFwInCmdData_t* inSpecificData;
+  CrFwPckt_t       inPckt;
+
+  FwSmDesc_t  smDesc;
+  FwSmDesc_t* prData;
+
   /* Configure report (1,10) and load it in the OutLoader */
+
+  printf("CrPsPcktReroutingFailN4: Configure report (1,10) and load it in the OutLoader\n");
+
+  /* Get procedure parameters */
+  prData = FwPrGetData(prDesc);
+
+  smDesc = prData[0];
+
+   /* Get in packet */
+  inData         = FwSmGetData(smDesc);
+  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
+  inPckt         = inSpecificData->pckt;
+
+  /* Set pcktIdAccFailed */
+  tcPacketId = CrFwPcktGetPid(inPckt); /* --- adaptation point CrFwPckt ---> */
+  CrPsServReqVerifVerFailParamSetPacketId(rep, tcPacketId);
+
+  /* Set failCodeAccFailed */
+  CrPsServReqVerifVerFailParamSetFailureCode(rep, INLOADER_INV_DEST);
+
+  /* Set Type of the command */
+  tcType = CrFwPcktGetServType(inPckt); /* --- adaptation point CrFwPckt ---> */
+  CrPsServReqVerifVerFailParamSetType(rep, tcType);
+
+  /* Set Subtype of the command */
+  tcSubtype = CrFwPcktGetServSubType(inPckt); /* --- adaptation point CrFwPckt ---> */
+  CrPsServReqVerifVerFailParamSetSubtype(rep, tcSubtype);
+
+  /* Set Discriminant of the command */
+  tcDiscriminant = CrFwPcktGetDiscriminant(inPckt); /* --- adaptation point CrFwPckt ---> */
+  CrPsServReqVerifVerFailParamSetDiscriminant(rep, tcDiscriminant);
+
+  /* TODO: Set verFailData */
+  tcVerFailData = 9876; /* TODO: get it from data pool */
+  CrPsServReqVerifVerFailParamSetVerFailData(rep, tcVerFailData);
+
+  /* Set the destination of the report to the source of the in-coming packet */
+  source = CrFwPcktGetSrc(inPckt);
+  CrFwOutCmpSetDest(rep, source);
+
+  /* Load report in the Outloader */
+  CrFwOutLoaderLoad(rep);
 
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
-/* Action for node N5. */
+/** Action for node N5. */
 void CrPsPcktReroutingFailN5(FwPrDesc_t __attribute__((unused)) prDesc)
 {
   /* Increment data pool variable nOfReroutingFailed */
 
+  printf("CrPsPcktReroutingFailN5: Increment data pool variable nOfReroutingFailed\n");
+
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
-/* Action for node N6. */
+/** Action for node N6. */
 void CrPsPcktReroutingFailN6(FwPrDesc_t __attribute__((unused)) prDesc)
 {
   /* Update data pool variable pcktIdRerouting, invDestRerouting */
+
+  printf("CrPsPcktReroutingFailN6: Update data pool variable pcktIdRerouting, invDestRerouting\n");
 
   return;
 }
@@ -77,26 +161,67 @@ void CrPsPcktReroutingFailN6(FwPrDesc_t __attribute__((unused)) prDesc)
 /*** GUARDS ***/
 /**************/
 
-/* Guard on the Control Flow from DECISION1 to N1. */
+/** Guard on the Control Flow from DECISION1 to N1. */
 FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t __attribute__((unused)) prDesc)
 {
+  FwSmDesc_t  smDesc;
+  FwSmDesc_t* prData;
+
   /* [ Packet encapsulates a report ] */
 
-  return 1;
+  /* Get procedure parameters */
+  prData = FwPrGetData(prDesc);
+  smDesc = prData[0];
+
+  if (CrFwCmpGetTypeId(smDesc) == CR_FW_INREPORT_TYPE)
+    {
+      return 1;
+    }
+  else
+    {
+      return 0;
+    }
+
 }
 
-/* Guard on the Control Flow from DECISION1 to N2. */
+/** Guard on the Control Flow from DECISION1 to N2. */
 FwPrBool_t CrPsPcktReroutingFailG1E(FwPrDesc_t __attribute__((unused)) prDesc)
 {
+  FwSmDesc_t  smDesc;
+  FwSmDesc_t* prData;
+
   /* [ Packet encapsulates a command ] */
 
-  return 1;
+  /* Get procedure parameters */
+  prData = FwPrGetData(prDesc);
+  smDesc = prData[0];
+
+  if (CrFwCmpGetTypeId(smDesc) == CR_FW_INCOMMAND_TYPE)
+    {
+      return 1;
+    }
+  else
+    {
+      return 0;
+    }
+
 }
 
-/* Guard on the Control Flow from DECISION2 to N3. */
+/** Guard on the Control Flow from DECISION2 to N3. */
 FwPrBool_t CrPsPcktReroutingFailG2(FwPrDesc_t __attribute__((unused)) prDesc)
 {
   /* [ OutFactory fails to generate OutComponent ] */
 
-  return 1;
+  if (rep == NULL)
+    {
+      return 1;
+    }
+  else
+    {
+      return 0;
+    }
+
 }
+
+/* ----------------------------------------------------------------------------------------------------------------- */
+

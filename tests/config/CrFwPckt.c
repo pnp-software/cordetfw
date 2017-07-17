@@ -57,6 +57,7 @@
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 #include "Pckt/CrFwPckt.h"
 #include "BaseCmp/CrFwBaseCmp.h"
+#include <CrPsPcktUtilities.h>
 
 /**
  * Maximum length of a packet expressed in number of bytes (see <code>CrFwPacket.h</code>).
@@ -379,4 +380,13 @@ void CrFwPcktSetGroup(CrFwPckt_t pckt, CrFwGroup_t group) {
 CrFwGroup_t CrFwPcktGetGroup(CrFwPckt_t pckt) {
 	CrFwGroup_t* loc = (CrFwGroup_t*)(pckt+offsetGroup);
 	return (*loc);
+}
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwDestSrc_t CrFwPcktGetPid(CrFwPckt_t pckt)
+{
+  char pid0, pid1;
+  pid0 = (pckt[OFFSET_ID_FIELD] & PID0_MASK);
+  pid1 = (pckt[OFFSET_ID_FIELD + 1] & PID1_MASK) >> PID1_SHIFT;
+  return ((pid0 << 4) | pid1);
 }

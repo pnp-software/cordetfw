@@ -42,6 +42,6 @@
  * @return true if the test was successful, false otherwise.
  */
 CrFwBool_t CrPsServVeriTestCase1();
-
+CrFwBool_t CrPsServVeriTestCase2();
 
 #endif /* CRPS_SERVICE_VERI_TESTCASES_H_ */

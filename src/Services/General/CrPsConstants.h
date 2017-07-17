@@ -62,6 +62,11 @@
 #define CRPS_REQVERIF_TERM_FAIL 8
 
 /**
+ * Subtype identifier of the Request Verification Rerouting Failed out-going report packet.
+ */
+#define CRPS_REQVERIF_REROUT_FAIL 10
+
+/**
  * Type identifier of the Test Service.
  */
 #define CRPS_TEST 17
@@ -116,22 +121,22 @@
 /**
  * Length of the Request Verification Acceptance Successful out-going report packet.
  */
-#define CRPS_REQVERIF_ACC_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 4 + CRC_LENGTH)
+#define CRPS_REQVERIF_ACC_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 2 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Acceptance Failed out-going report packet.
  */
-#define CRPS_REQVERIF_ACC_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 16 + CRC_LENGTH)
+#define CRPS_REQVERIF_ACC_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 11 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Start Successful out-going report packet.
  */
-#define CRPS_REQVERIF_START_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 4 + CRC_LENGTH)
+#define CRPS_REQVERIF_START_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 2 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Start Failed out-going report packet.
  */
-#define CRPS_REQVERIF_START_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 12 + CRC_LENGTH)
+#define CRPS_REQVERIF_START_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 11 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Progress Successful out-going report packet.
@@ -141,17 +146,22 @@
 /**
  * Length of the Request Verification Progress Failed out-going report packet.
  */
-#define CRPS_REQVERIF_PROG_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 12 + CRC_LENGTH)
+#define CRPS_REQVERIF_PROG_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 13 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Termination Successful out-going report packet.
  */
-#define CRPS_REQVERIF_TERM_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 4 + CRC_LENGTH)
+#define CRPS_REQVERIF_TERM_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 2 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Termination Failed out-going report packet.
  */
-#define CRPS_REQVERIF_TERM_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 12 + CRC_LENGTH)
+#define CRPS_REQVERIF_TERM_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 11 + CRC_LENGTH)
+
+/**
+ * Length of the Request Verification Termination Failed out-going report packet.
+ */
+#define CRPS_REQVERIF_REROUT_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 11 + CRC_LENGTH)
 
 /**
  * Length of the Perform Connection Test Are-You-Alive in-coming command packet.

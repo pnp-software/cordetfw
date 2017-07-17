@@ -37,16 +37,45 @@
  */
 FwPrDesc_t CrPsCmdPrgrSuccCreate(void* prData);
 
-/* Action for node N2. */
+/**
+ * Action for node N2.
+ * <pre>
+ * Retrieve an OutComponent of
+ * type (1,5) from the OutFactory
+ * </pre>
+ * @param smDesc the procedure descriptor
+ */
 void CrPsCmdPrgrSuccN2(FwPrDesc_t __attribute__((unused)) prDesc);
 
-/* Action for node N3. */
+/**
+ * Action for node N3.
+ * <pre>
+ * Generate error report
+ * OUTFACTORY_FAIL
+ * </pre>
+ * @param smDesc the procedure descriptor
+ */
 void CrPsCmdPrgrSuccN3(FwPrDesc_t __attribute__((unused)) prDesc);
 
-/* Action for node N4. */
+/**
+ * Action for node N4.
+ * <pre>
+ * Configure report and
+ * load it in the OutLoader
+ * </pre>
+ * @param smDesc the procedure descriptor
+ */
 void CrPsCmdPrgrSuccN4(FwPrDesc_t __attribute__((unused)) prDesc);
 
-/* Guard on the Control Flow from DECISION1 to N3. */
+/**
+ * Guard on the Control Flow from DECISION2 to N3.
+ * <pre>
+ *  OutFactory fails to
+ * generate OutComponent 
+ * </pre>
+ * @param smDesc the procedure descriptor
+ * @return 1 if the guard is fulfilled, otherwise 0.
+ */
 FwPrBool_t CrPsCmdPrgrSuccG1(FwPrDesc_t __attribute__((unused)) prDesc);
 
 #endif /* CrPsCmdPrgrSuccCreate_H_ */

@@ -62,7 +62,7 @@
 #include "Services/Test/Procedures/CrPsCmd17s3PrgrCreate.h"
 #include "Services/General/CrPsConstants.h"
 #include "Services/General/CrPsParamSetter.h"
-#include "DataPool/DpServTest.h"
+#include "DataPool/CrPsDpServTest.h"
 #include "CrPsUtilities.h"
 /* Include system files */
 #include <stdio.h>

@@ -311,11 +311,12 @@ int main() {
 	testCases[7] = &CrPsServTestOnBoardTestCase1;
 	testNames[8] = "Pusext_ServTestOnBoard_TestCase2";
 	testCases[8] = &CrPsServTestOnBoardTestCase2;
-        testNames[9] = "Pusext_ServTestOnBoard_TestCase3";
+    testNames[9] = "Pusext_ServTestOnBoard_TestCase3";
 	testCases[9] = &CrPsServTestOnBoardTestCase3;
-        testNames[10] = "Pusext_ServTestOnBoard_TestCase4";
+    testNames[10] = "Pusext_ServTestOnBoard_TestCase4";
 	testCases[10] = &CrPsServTestOnBoardTestCase4;
-        
+       
+
 	/* Run test cases in sequence */
 	for (i=0; i<NOF_TESTS; i++) {
 		testOutcome = testCases[i]();

@@ -25,7 +25,7 @@
 #include <Services/General/CrPsParamGetter.h>
 
 #include <DataPool/CrPsDataPool.h>
-#include <DataPool/DpServTest.h>
+#include <DataPool/CrPsDpServTest.h>
 
 #include <stdio.h>
 

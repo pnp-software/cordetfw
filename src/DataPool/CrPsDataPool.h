@@ -1,6 +1,6 @@
 /**
  * @file CrPsDataPool.h
- * ???
+ * 
  * Interface for accessing data pool items.
  *
  * A data pool is created by three structures encapsulating data related
@@ -16,7 +16,7 @@
  * and the multiplicity is the size of the array.
  *
  * @note This code was generated.
- * @author C. Reimers and M. Rockenbauer 13.06.2017
+ * @author P&P Software GmbH / Department of Astrophysics, University of Vienna
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
  */
 
@@ -30,14 +30,14 @@ typedef enum {
 	DpIdOnBoardConnectDestLst = 3
 } DatapoolId_t;
 
-/** ???
+/** 
  * Get the Value from a Datapool item by identifier.
  * @param id the data pool item identifier
  * @param dest the address of the target variable
  */
 extern void getDpValue(DatapoolId_t id, void* dest);
 
-/** ???
+/** 
  * Set the Value of a Datapool item by identifier 
  * @param id the data pool item identifier
  * @param src the address of the source variable

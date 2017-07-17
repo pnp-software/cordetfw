@@ -15,7 +15,7 @@
 #include <stdlib.h>
 
 /* ----------------------------------------------------------------------------------------------------------------- */
-/* Guard on the Control Flow from DECISION1 to N4. */
+/** Guard on the Control Flow from DECISION2 to N4. */
 FwPrBool_t CrPsCmdVerSuccG1E(FwPrDesc_t __attribute__((unused)) prDesc)
 {
   /* [ Else ] */

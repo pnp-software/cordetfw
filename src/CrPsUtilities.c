@@ -10,8 +10,8 @@
  */
 
 #include "CrPsUtilities.h"
-#include "CrPsPcktUtilities.h"
-#include "Pckt/CrFwPckt.h"
+#include "Pckt/CrFwPckt.h"     /* --- interface to adaptation point CrFwPckt --- */
+#include "CrPsPcktUtilities.h" /* --- interface to adaptation point CrFwPckt for CrFwPcktGetPid() --- */
 
 /* CrFramework includes */
 #include <OutFactory/CrFwOutFactory.h>
@@ -25,15 +25,24 @@
 #include <Services/General/CrPsParamSetter.h>
 #include <Services/Test/Procedures/CrPsCmd17s3StartCreate.h>
 #include <Services/Test/Procedures/CrPsCmd17s3PrgrCreate.h>
+#include <Services/RequestVerification/Procedures/CrPsPcktReroutingFailCreate.h>
+#include <Services/RequestVerification/Procedures/CrPsPcktAccFailCreate.h>
+#include <Services/RequestVerification/Procedures/CrPsCmdVerSuccCreate.h>
+#include <Services/RequestVerification/Procedures/CrPsCmdVerFailCreate.h>
+#include <Services/RequestVerification/Procedures/CrPsCmdPrgrSuccCreate.h>
+#include <Services/RequestVerification/Procedures/CrPsCmdPrgrFailCreate.h>
 
 #include <DataPool/CrPsDataPool.h>
-#include <DataPool/DpServTest.h>
+#include <DataPool/CrPsDpServTest.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 
 /* global handles for the procedures */
 FwPrDesc_t prDescServTestOnBoardConnStart, prDescServTestOnBoardConnPrgr;
+FwPrDesc_t prDescServReqVerifPcktReroutFail, prDescServReqVerifPcktAccFail;
+FwPrDesc_t prDescServReqVerifCmdVerSucc, prDescServReqVerifCmdVerFail;
+FwPrDesc_t prDescServReqVerifCmdPrgrSucc, prDescServReqVerifCmdPrgrFail;
 
 
 /**
@@ -73,9 +82,14 @@ int CrPsInit()
 {
   printf("CrPsInit()\n");
 
-  /*************************************************************/
-  /* Service Test On-Board Connection Start Procedure          */
-  /*************************************************************/
+  /***********************************************************************/
+  /* Initialization of Data Pool variables and parameter                 */
+  /***********************************************************************/
+  setDpAreYouAliveTimeOut(10);
+
+  /***********************************************************************/
+  /* Service Test On-Board Connection Start Procedure                    */
+  /***********************************************************************/
   prDescServTestOnBoardConnStart = CrPsCmd17s3StartCreate(NULL);
   if (FwPrCheck(prDescServTestOnBoardConnStart) != prSuccess)
     {
@@ -83,9 +97,9 @@ int CrPsInit()
       return EXIT_FAILURE;
     }
 
-  /*************************************************************/
-  /* Service Test On-Board Connection Progress Procedure       */
-  /*************************************************************/
+  /***********************************************************************/
+  /* Service Test On-Board Connection Progress Procedure                 */
+  /***********************************************************************/
   prDescServTestOnBoardConnPrgr = CrPsCmd17s3PrgrCreate(NULL);
   if (FwPrCheck(prDescServTestOnBoardConnPrgr) != prSuccess)
     {
@@ -93,10 +107,65 @@ int CrPsInit()
       return EXIT_FAILURE;
     }
 
-  /*************************************************************/
-  /* Initialization of Data Pool variables and parameter       */
-  /*************************************************************/
-  setDpAreYouAliveTimeOut(10);
+  /***********************************************************************/
+  /* Service Request Verification Packet Rerouting Failure Procedure     */
+  /***********************************************************************/
+  prDescServReqVerifPcktReroutFail = CrPsPcktReroutingFailCreate(NULL);
+  if (FwPrCheck(prDescServReqVerifPcktReroutFail) != prSuccess)
+    {
+      printf("Service Request Verification Packet Rerouting Failure PR is NOT properly configured ... FAILURE\n");
+      return EXIT_FAILURE;
+    }
+
+  /***********************************************************************/
+  /* Service Request Verification Packet Acceptance Failure Procedure    */
+  /***********************************************************************/
+  prDescServReqVerifPcktAccFail = CrPsPcktAccFailCreate(NULL);
+  if (FwPrCheck(prDescServReqVerifPcktAccFail) != prSuccess)
+    {
+      printf("Service Request Verification Packet Acceptance Failure PR is NOT properly configured ... FAILURE\n");
+      return EXIT_FAILURE;
+    }
+
+  /***********************************************************************/
+  /* Service Request Verification Command Verification Success Procedure */
+  /***********************************************************************/
+  prDescServReqVerifCmdVerSucc = CrPsCmdVerSuccCreate(NULL);
+  if (FwPrCheck(prDescServReqVerifCmdVerSucc) != prSuccess)
+    {
+      printf("Service Request Verification Command Verification Success PR is NOT properly configured ... FAILURE\n");
+      return EXIT_FAILURE;
+    }
+
+  /***********************************************************************/
+  /* Service Request Verification Command Verification Failure Procedure */
+  /***********************************************************************/
+  prDescServReqVerifCmdVerFail = CrPsCmdVerFailCreate(NULL);
+  if (FwPrCheck(prDescServReqVerifCmdVerFail) != prSuccess)
+    {
+      printf("Service Request Verification Command Verification Failure PR is NOT properly configured ... FAILURE\n");
+      return EXIT_FAILURE;
+    }
+
+  /***********************************************************************/
+  /* Service Request Verification Command Progress Success Procedure     */
+  /***********************************************************************/
+  prDescServReqVerifCmdPrgrSucc = CrPsCmdPrgrSuccCreate(NULL);
+  if (FwPrCheck(prDescServReqVerifCmdPrgrSucc) != prSuccess)
+    {
+      printf("Service Request Verification Command Progress Success PR is NOT properly configured ... FAILURE\n");
+      return EXIT_FAILURE;
+    }
+
+  /***********************************************************************/
+  /* Service Request Verification Command Progress Failure Procedure     */
+  /***********************************************************************/
+  prDescServReqVerifCmdPrgrFail = CrPsCmdPrgrFailCreate(NULL);
+  if (FwPrCheck(prDescServReqVerifCmdPrgrFail) != prSuccess)
+    {
+      printf("Service Request Verification Command Progress Failure PR is NOT properly configured ... FAILURE\n");
+      return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 }
