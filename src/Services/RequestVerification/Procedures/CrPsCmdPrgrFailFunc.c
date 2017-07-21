@@ -20,9 +20,10 @@
 #include <OutFactory/CrFwOutFactory.h>
 #include <OutLoader/CrFwOutLoader.h>
 
+#include <CrPsPcktUtilities.h>
+#include <DataPool/CrPsDpServReqVerif.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsParamSetter.h>
-#include <CrPsPcktUtilities.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -72,7 +73,7 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
   CrFwPckt_t       inPckt;
 
   FwSmDesc_t  smDesc;
-  FwSmDesc_t* prData;
+  prData_t* prData;
 
   /* Configure report and load it in the OutLoader */
 
@@ -81,7 +82,7 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
 
-  smDesc = prData[0];
+  smDesc = prData->smDesc;
 
    /* Get in packet */
   inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -93,10 +94,10 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
   CrPsServReqVerifPrgrFailParamSetPacketId(rep, tcPacketId);
 
   /* Set stepId */
-  CrPsServReqVerifPrgrFailParamSetStepId(rep, (uintptr_t)prData[1]);
+  CrPsServReqVerifPrgrFailParamSetStepId(rep, prData->ushortParam1);
 
   /* Set failCodeAccFailed */
-  CrPsServReqVerifPrgrFailParamSetFailureCode(rep, (uintptr_t)prData[2]);
+  CrPsServReqVerifPrgrFailParamSetFailureCode(rep, prData->ushortParam2);
 
   /* Set Type of the command */
   tcType = CrFwPcktGetServType(inPckt); /* --- adaptation point CrFwPckt ---> */
@@ -110,8 +111,8 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
   tcDiscriminant = CrFwPcktGetDiscriminant(inPckt); /* --- adaptation point CrFwPckt ---> */
   CrPsServReqVerifPrgrFailParamSetDiscriminant(rep, tcDiscriminant);
 
-  /* TODO: Set verFailData */
-  tcVerFailData = 54321; /* TODO: get it from data pool */
+  /* Set verFailData */
+  tcVerFailData = getDpverFailData(); /* get it from data pool */
   CrPsServReqVerifPrgrFailParamSetVerFailData(rep, tcVerFailData);
 
   /* Set the destination of the report to the source of the in-coming packet */
@@ -128,9 +129,15 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
 /** Action for node N5. */
 void CrPsCmdPrgrFailN5(FwPrDesc_t __attribute__((unused)) prDesc)
 {
+  unsigned int nOfPrgrFailed;
+
   /* Increment data pool variable nOfPrgrFailed */
 
   printf("CrPsCmdPrgrFailN5: Increment data pool variable nOfPrgrFailed\n");
+
+  nOfPrgrFailed = getDpnOfPrgrFailed();
+  nOfPrgrFailed += 1;
+  setDpnOfPrgrFailed(nOfPrgrFailed);
 
   return;
 }
@@ -139,9 +146,37 @@ void CrPsCmdPrgrFailN5(FwPrDesc_t __attribute__((unused)) prDesc)
 /** Action for node N6. */
 void CrPsCmdPrgrFailN6(FwPrDesc_t __attribute__((unused)) prDesc)
 {
+  unsigned short tcPacketId;
+
+  CrFwCmpData_t*   inData;
+  CrFwInCmdData_t* inSpecificData;
+  CrFwPckt_t       inPckt;
+
+  FwSmDesc_t  smDesc;
+  prData_t* prData;
+
   /* Update data pool variable pcktIdPrgrFailed, failCodePrgrFailed and prgrStepFailed */
 
   printf("CrPsCmdPrgrFailN6: Update data pool variable pcktIdPrgrFailed, failCodePrgrFailed and prgrStepFailed\n");
+
+  /* Get procedure parameters */
+  prData = FwPrGetData(prDesc);
+  smDesc = prData->smDesc;
+
+   /* Get in packet */
+  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
+  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
+  inPckt         = inSpecificData->pckt;
+
+  /* Set pcktIdPrgrFailed */
+  tcPacketId = CrFwPcktGetPid(inPckt); /* --- adaptation point CrFwPckt ---> */
+  setDppcktIdPrgrFailed(tcPacketId);
+
+  /* Set failCodePrgrFailed */
+  setDpfailCodePrgrFailed(prData->ushortParam2);
+
+  /* Set prgrStepFailed */
+  setDpstepPrgrFailed(prData->ushortParam1);
 
   return;
 }

@@ -87,10 +87,7 @@ CrFwBool_t CrPsServTestOnBoardTestCase1()
     
     
   CrFwPckt_t pckt, pckt2;
-  unsigned short failcode, wpp, wpv, appId, timeout;
-  failcode = 1;
-  wpp = 1;
-  wpv = 1;
+  unsigned short appId, timeout;
   appId=2;
 
   printf("checking ---CrPsTestOnBoardConnection.c---\n");
@@ -192,12 +189,12 @@ CrFwBool_t CrPsServTestOnBoardTestCase1()
   if (CrFwRepInCmdOutcomeStubGetPos() != 0)
     return 0;  
   
-  
+  /*
   printf("SendReqVerifAccSuccRep(pckt)\n");
-  SendReqVerifAccSuccRep(pckt);
+  SendReqVerifAccSuccRep(inCmd, 3);
   
   printf("SendReqVerifAccFailRep(pckt, failcode)\n");
-  SendReqVerifAccFailRep(pckt,failcode);
+  SendReqVerifAccFailRep(inCmd,failcode);
   printf("Failcode: %d\n",failcode);
   
   printf("SendReqVerifStartSuccRep(pckt)\n");
@@ -220,7 +217,7 @@ CrFwBool_t CrPsServTestOnBoardTestCase1()
   printf("SendReqVerifTermFailRep(pckt, failcode, wpp, wpv)\n");
   SendReqVerifTermFailRep(pckt, failcode, wpp, wpv);
   printf("Failcode: %d wpp: %d wpv: %d\n",failcode, wpp, wpv);
- 
+ */
   
 
   CrFwCmpExecute(inCmd); 

@@ -1,118 +1,131 @@
 /**
- * @file CrPsDpServTest.h
+ * \file
  *
  * Interface for accessing data pool items.
  *
- * A data pool is created by three structures encapsulating data related
- * to CORDET Framework and the PUS Extension to the CORDET Framework
- *
- * The data pool items can be also accessed by provided functions. These function
- * allows reading and modifying the data pool items by an unique identifier.
- *
- * Data items in the data pool may be either of primitive type or of array type.
- * To each data item a multiplicity is associated.
- * If the multiplicity is equal to 1, then the data item is of primitive type.
- * If the multiplicity is greater than 1, then the data type is of array type
- * and the multiplicity is the size of the array.
- *
- * @note This code was generated.
- * @author P&P Software GmbH / Department of Astrophysics, University of Vienna
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * \note This file was generated on 2017-07-24 16:05:36
+ * \author PnP Generator
+ * \copyright (c) Copyright
  */
 
 /**
-* Generated on 2017-06-06 16:26:33
-*/
-/* Type description*/
+ * Type description
+ */
 typedef struct {
-	unsigned short AreYouAliveSrc; 
-	unsigned int AreYouAliveTimeOut;
-	unsigned short OnBoardConnectDest;
-	unsigned short OnBoardConnectDestLst[10];
+   /**
+    * Time-out for the Are-You-Alive Test initiated in response to an
+    * Is-Application-Process-Alive Test
+    */
+   uint32_t AreYouAliveTimeOut;
+   /**
+    * List of identifiers of target applications for an On-Board-Connection
+    * Test
+    */
+   uint16_t OnBoardConnectDestLst[10];
+   /**
+    * Source of the latest (17,2) report received in response to a (17,1)
+    * command triggered by a (17,3) command
+    */
+   uint16_t AreYouAliveSrc;
+   /**
+    * Destination of the (17,1) triggered by a (17,3) command
+    */
+   uint16_t OnBoardConnectDest;
 } DpServTest_t;
 
-/* Variable description*/
 extern DpServTest_t dpServTest;
 
 /**
- * Get the Value from the Datapool item AreYouAliveSrc.
- * @return the Value of AreYouAliveSrc from the Datapool
+ * Initialises ServTest
  */
-static inline unsigned short getDpAreYouAliveSrc()
+void initDpServTest(void);
+
+/**
+ * Gets the value of the datapool item AreYouAliveTimeOut
+ * \return The value of datapool item AreYouAliveTimeOut
+ */
+static inline uint32_t getDpAreYouAliveTimeOut()
 {
-	return dpServTest.AreYouAliveSrc;
+   return dpServTest.AreYouAliveTimeOut;
 }
 
 /**
- * Sets the Value from the Datapool item AreYouAliveSrc.
- * @param AreYouAliveSrc The Value that should be stored into the Datapool
+ * Sets the value of the datapool item AreYouAliveTimeOut
+ * \param AreYouAliveTimeOut The value to be stored into the datapool item
+ * AreYouAliveTimeOut.
  */
-static inline void setDpAreYouAliveSrc(unsigned short AreYouAliveSrc)
+static inline void setDpAreYouAliveTimeOut(uint32_t AreYouAliveTimeOut)
 {
-	dpServTest.AreYouAliveSrc = AreYouAliveSrc;
+   dpServTest.AreYouAliveTimeOut = AreYouAliveTimeOut;
 }
 
 /**
- * Get the Value from the Datapool item AreYouAliveTimeOut.
- * @return the Value of AreYouAliveTimeOut from the Datapool
+ * Gets the datapool array OnBoardConnectDestLst
+ * \return The datapool array OnBoardConnectDestLst
  */
-static inline unsigned int getDpAreYouAliveTimeOut()
+static inline uint16_t* getDpOnBoardConnectDestLstArray()
 {
-	return dpServTest.AreYouAliveTimeOut;
+   return &dpServTest.OnBoardConnectDestLst[0];
 }
 
 /**
- * Sets the Value from the Datapool item AreYouAliveTimeOut.
- * @param AreYouAliveTimeOut The Value that should be stored into the Datapool
+ * Gets the value of the i-th element in the datapool array
+ * OnBoardConnectDestLst
+ * \param i Index variable
+ * \return The i-th element in the datapool array OnBoardConnectDestLst
  */
-static inline void setDpAreYouAliveTimeOut(unsigned int AreYouAliveTimeOut)
+static inline uint16_t getDpOnBoardConnectDestLstItem(int i)
 {
-	dpServTest.AreYouAliveTimeOut = AreYouAliveTimeOut;
+   return dpServTest.OnBoardConnectDestLst[i];
 }
 
 /**
- * Get the Value from the Datapool item OnBoardConnectDest.
- * @return the Value of OnBoardConnectDest from the Datapool
+ * Sets the value of the i-th element in the datapool array
+ * OnBoardConnectDestLst
+ * \param i Index variable
+ * \param OnBoardConnectDestLst The value to be stored into the i-th element
+ * of datapool array OnBoardConnectDestLst.
  */
-static inline unsigned short getDpOnBoardConnectDest()
+static inline void setDpOnBoardConnectDestLstItem(int i, uint16_t OnBoardConnectDestLst)
 {
-	return dpServTest.OnBoardConnectDest;
+   dpServTest.OnBoardConnectDestLst[i] = OnBoardConnectDestLst;
 }
 
 /**
- * Sets the Value from the Datapool item OnBoardConnectDest.
- * @param OnBoardConnectDest The Value that should be stored into the Datapool
+ * Gets the value of the datapool item AreYouAliveSrc
+ * \return The value of datapool item AreYouAliveSrc
  */
-static inline void setDpOnBoardConnectDest(unsigned short OnBoardConnectDest)
+static inline uint16_t getDpAreYouAliveSrc()
 {
-	dpServTest.OnBoardConnectDest = OnBoardConnectDest;
+   return dpServTest.AreYouAliveSrc;
 }
 
 /**
- * Get the Value from the Datapool array OnBoardConnectDestLst.
- * @return the Value of OnBoardConnectDestLst[0] from the Datapool
+ * Sets the value of the datapool item AreYouAliveSrc
+ * \param AreYouAliveSrc The value to be stored into the datapool item
+ * AreYouAliveSrc.
  */
-static inline unsigned short* getDpOnBoardConnectDestLstArray()
+static inline void setDpAreYouAliveSrc(uint16_t AreYouAliveSrc)
 {
-	return &dpServTest.OnBoardConnectDestLst[0];
+   dpServTest.AreYouAliveSrc = AreYouAliveSrc;
 }
 
 /**
- * Get the Value from the Datapool array item OnBoardConnectDestLst.
- * @param i the identifier of the array item
- * @return the Value of OnBoardCo?
+ * Gets the value of the datapool item OnBoardConnectDest
+ * \return The value of datapool item OnBoardConnectDest
  */
-static inline unsigned short getDpOnBoardConnectDestLstItem(int i)
+static inline uint16_t getDpOnBoardConnectDest()
 {
-	return dpServTest.OnBoardConnectDestLst[i];
+   return dpServTest.OnBoardConnectDest;
 }
 
-/** 
- * Sets the Value from the Datapool array item OnBoardConnectDestLst.
- * @param i the identifier of the array item
- * @param OnBoardConnectDestLst The Value that should be stored into the Datapool
+/**
+ * Sets the value of the datapool item OnBoardConnectDest
+ * \param OnBoardConnectDest The value to be stored into the datapool item
+ * OnBoardConnectDest.
  */
-static inline void setDpOnBoardConnectDestLstItem(int i, unsigned short OnBoardConnectDestLst)
+static inline void setDpOnBoardConnectDest(uint16_t OnBoardConnectDest)
 {
-	dpServTest.OnBoardConnectDestLst[i] = OnBoardConnectDestLst;
+   dpServTest.OnBoardConnectDest = OnBoardConnectDest;
 }
+

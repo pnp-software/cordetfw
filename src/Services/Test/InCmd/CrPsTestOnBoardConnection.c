@@ -24,7 +24,7 @@
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsParamGetter.h>
 
-#include <DataPool/CrPsDataPool.h>
+#include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServTest.h>
 
 #include <stdio.h>
@@ -37,21 +37,11 @@ unsigned short timeOut_cnt;
 /* ------------------------------------------------------------------------------------ */
 CrFwBool_t CrPsTestOnBoardConnectionReadyCheck(FwSmDesc_t __attribute__((unused)) smDesc) 
 {
-  CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;
-
   /* Return 'command is ready' */
-
   printf("CrPsTestOnBoardConnectionReadyCheck()\n");
 
-  /* Get in packet */
-  inData          = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inSpecificData  = (CrFwInCmdData_t*)inData->cmpSpecificData;
-  inPckt          = inSpecificData->pckt;
-
   /* Send Request Verification Acceptance Successful out-going report */
-  SendReqVerifAccSuccRep(inPckt);
+  SendReqVerifAccSuccRep(smDesc, CRPS_REQVERIF_ACC_SUCC);
 
   return 1; /* always True */
 }
@@ -94,15 +84,9 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t __attribute__((unused)) smD
   FwPrStart(prDescServTestOnBoardConnStart);
   FwPrExecute(prDescServTestOnBoardConnStart);
 
-  if (outcomeStart != 0)
-    {
-      cmpDataStart->outcome = outcomeStart;
-    }
-  else
-    {
-      cmpDataStart->outcome = 0;
-    }
-
+  /*Setting the Outcome*/
+  cmpDataStart->outcome = outcomeStart;
+ 
   printf("CrPsTestOnBoardConnectionStartAction(): cmpDataStart->outcome = %d\n", cmpDataStart->outcome);
 
   return;
@@ -126,14 +110,8 @@ void CrPsTestOnBoardConnectionProgressAction(FwSmDesc_t __attribute__((unused)) 
   /* increment timeout counter */
   timeOut_cnt++;
 
-  if (outcomePrgr != 0)
-    {
-      cmpDataPrgr->outcome = outcomePrgr;
-    }
-  else
-    {
-      cmpDataPrgr->outcome = 0;
-    }
+  /*Setting the Outcome*/
+  cmpDataPrgr->outcome = outcomePrgr;
 
   printf("CrPsTestOnBoardConnectionProgressAction(): cmpDataPrgr->outcome = %d\n", cmpDataPrgr->outcome);
 

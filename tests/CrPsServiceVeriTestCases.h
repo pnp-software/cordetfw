@@ -43,5 +43,6 @@
  */
 CrFwBool_t CrPsServVeriTestCase1();
 CrFwBool_t CrPsServVeriTestCase2();
+CrFwBool_t CrPsServVeriTestCase3();
 
 #endif /* CRPS_SERVICE_VERI_TESTCASES_H_ */

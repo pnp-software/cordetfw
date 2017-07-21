@@ -56,51 +56,34 @@ int CrPsInit();
 void CrPsExec();
 
 /**
- * Generate a Request Verification Acceptance Successful out-going report.
+ * Generate a Request Verification Acceptance/Start/Termination Successful out-going report.
  * @return nothing
  */
-void SendReqVerifAccSuccRep(CrFwPckt_t pckt);
+void SendReqVerifAccSuccRep(FwSmDesc_t smDesc, unsigned short reqVerifAccSuccType);
 
 /**
  * Generate a Request Verification Acceptance Failed out-going report.
  * @return nothing
  */
-void SendReqVerifAccFailRep(CrFwPckt_t pckt, unsigned short tcFailureCode);
+void SendReqVerifAccFailRep(FwSmDesc_t smDesc, unsigned short tcFailureCode);
+
 
 /**
- * Generate a Request Verification Start Successful out-going report.
+ * Generate a Request Verification Start/Termination Failed out-going report.
  * @return nothing
  */
-void SendReqVerifStartSuccRep(CrFwPckt_t pckt);
-
-/**
- * Generate a Request Verification Start Failed out-going report.
- * @return nothing
- */
-void SendReqVerifStartFailRep(CrFwPckt_t pckt, unsigned short tcFailureCode, unsigned short wrongParamPosition, unsigned short wrongParamValue);
+void SendReqVerifCmdFailRep(FwSmDesc_t smDesc, unsigned short reqVerifCmdFailType, unsigned short tcFailureCode);
 
 /**
  * Generate a Request Verification Progress Successful out-going report.
  * @return nothing
  */
-void SendReqVerifProgSuccRep(CrFwPckt_t pckt);
+void SendReqVerifPrgrSuccRep(FwSmDesc_t smDesc, unsigned short stepIdentifier);
 
 /**
  * Generate a Request Verification Progress Failed out-going report.
  * @return nothing
  */
-void SendReqVerifProgFailRep(CrFwPckt_t pckt, unsigned short tcFailureCode, unsigned short wrongParamPosition, unsigned short wrongParamValue);
-
-/**
- * Generate a Request Verification Termination Successful out-going report.
- * @return nothing
- */
-void SendReqVerifTermSuccRep(CrFwPckt_t pckt);
-
-/**
- * Generate a Request Verification Termination Failed out-going report.
- * @return nothing
- */
-void SendReqVerifTermFailRep(CrFwPckt_t pckt, unsigned short tcFailureCode, unsigned short wrongParamPosition, unsigned short wrongParamValue);
+void SendReqVerifPrgrFailRep(FwSmDesc_t smDesc, unsigned short stepIdentifier, unsigned short tcFailureCode);
 
 #endif /* CRPS_UTILITIES_H_ */

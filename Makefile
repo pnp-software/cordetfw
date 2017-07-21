@@ -1,7 +1,7 @@
 
 CC = gcc
-INCLUDES = -I./src -I./lib/fwprofile/src -I./tests/config -I./tests
-CFLAGS = -W -Wall -Wextra -Werror -pedantic -g2 -O0 -fprofile-arcs -ftest-coverage
+INCLUDES = -I./src -I./lib/fwprofile/src -I./tests/config -I./tests -include stdint.h
+CFLAGS = -W -Wall -Wextra -Werror -pedantic -g2 -O0 -fprofile-arcs -ftest-coverage -DPC_TARGET
 LFLAGS =
 LIBS = -lpthread
 HEADERS = $(shell find . -name *.h)

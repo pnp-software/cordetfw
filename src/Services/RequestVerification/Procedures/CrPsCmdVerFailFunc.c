@@ -20,9 +20,10 @@
 #include <OutFactory/CrFwOutFactory.h>
 #include <OutLoader/CrFwOutLoader.h>
 
+#include <CrPsPcktUtilities.h>
+#include <DataPool/CrPsDpServReqVerif.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsParamSetter.h>
-#include <CrPsPcktUtilities.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,12 +38,7 @@ FwSmDesc_t cmd, rep;
 /** Action for node N2. */
 void CrPsCmdVerFailN2(FwPrDesc_t __attribute__((unused)) prDesc)
 {
-  /*CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;*/
-
-  /*FwSmDesc_t  smDesc;*/
-  FwSmDesc_t* prData;
+  prData_t* prData;
 
   /* Retrieve an OutComponent of type (1,4) or (1,8) from the OutFactory */
 
@@ -52,7 +48,7 @@ void CrPsCmdVerFailN2(FwPrDesc_t __attribute__((unused)) prDesc)
   prData = FwPrGetData(prDesc);
 
   /* Create out component */
-  rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, (uintptr_t)prData[2], 0, 0);
+  rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, prData->ushortParam2, 0, 0);
 
   return;
 }
@@ -82,7 +78,7 @@ void CrPsCmdVerFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
   CrFwPckt_t       inPckt;
 
   FwSmDesc_t  smDesc;
-  FwSmDesc_t* prData;
+  prData_t* prData;
 
   /* Configure report and load it in the OutLoader */
 
@@ -91,7 +87,7 @@ void CrPsCmdVerFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
 
-  smDesc = prData[0];
+  smDesc = prData->smDesc;
 
    /* Get in packet */
   inData         = FwSmGetData(smDesc);
@@ -103,7 +99,7 @@ void CrPsCmdVerFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
   CrPsServReqVerifVerFailParamSetPacketId(rep, tcPacketId);
 
   /* Set failCodeAccFailed */
-  CrPsServReqVerifVerFailParamSetFailureCode(rep, (uintptr_t)prData[1]);
+  CrPsServReqVerifVerFailParamSetFailureCode(rep, prData->ushortParam1);
 
   /* Set Type of the command */
   tcType = CrFwPcktGetServType(inPckt); /* --- adaptation point CrFwPckt ---> */
@@ -117,8 +113,8 @@ void CrPsCmdVerFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
   tcDiscriminant = CrFwPcktGetDiscriminant(inPckt); /* --- adaptation point CrFwPckt ---> */
   CrPsServReqVerifVerFailParamSetDiscriminant(rep, tcDiscriminant);
 
-  /* TODO: Set verFailData */
-  tcVerFailData = 67890; /* TODO: get it from data pool */
+  /* Set verFailData */
+  tcVerFailData = getDpverFailData(); /* get it from data pool */
   CrPsServReqVerifVerFailParamSetVerFailData(rep, tcVerFailData);
 
   /* Set the destination of the report to the source of the in-coming packet */
@@ -135,9 +131,28 @@ void CrPsCmdVerFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
 /** Action for node N5. */
 void CrPsCmdVerFailN5(FwPrDesc_t __attribute__((unused)) prDesc)
 {
+  prData_t* prData;
+  unsigned int nOfStartFailed, nOfTermFailed;
+
   /* Increment data pool variable nOfXyFailed */
 
   printf("CrPsCmdVerFailN5: Increment data pool variable nOfXyFailed\n");
+
+  /* Get procedure parameters */
+  prData = FwPrGetData(prDesc);
+
+  if (prData->ushortParam1 == CRPS_REQVERIF_START_FAIL)
+    {
+      nOfStartFailed = getDpnOfStartFailed();
+      nOfStartFailed += 1;
+      setDpnOfStartFailed(nOfStartFailed);
+    }
+  else if (prData->ushortParam1 == CRPS_REQVERIF_TERM_FAIL)
+    {
+      nOfTermFailed = getDpnOfTermFailed();
+      nOfTermFailed += 1;
+      setDpnOfTermFailed(nOfTermFailed);
+    }
 
   return;
 }
@@ -146,9 +161,48 @@ void CrPsCmdVerFailN5(FwPrDesc_t __attribute__((unused)) prDesc)
 /** Action for node N6. */
 void CrPsCmdVerFailN6(FwPrDesc_t __attribute__((unused)) prDesc)
 {
+  unsigned short tcPacketId;
+
+  CrFwCmpData_t*   inData;
+  CrFwInCmdData_t* inSpecificData;
+  CrFwPckt_t       inPckt;
+
+  FwSmDesc_t  smDesc;
+  prData_t* prData;
+
   /* Update data pool variable pcktIdXyFailed and failCodeXyFailed */
 
   printf("CrPsCmdVerFailN6: Update data pool variable pcktIdXyFailed and failCodeXyFailed\n");
+
+  /* Get procedure parameters */
+  prData = FwPrGetData(prDesc);
+
+  smDesc = prData->smDesc;
+
+   /* Get in packet */
+  inData         = FwSmGetData(smDesc);
+  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
+  inPckt         = inSpecificData->pckt;
+
+  /* Set pcktIdAccFailed */
+  tcPacketId = CrFwPcktGetPid(inPckt); /* --- adaptation point CrFwPckt ---> */
+
+  if (prData->ushortParam1 == CRPS_REQVERIF_START_FAIL)
+    {
+      /* Set pcktIdStartFailed */
+      setDppcktIdStartFailed(tcPacketId);
+
+      /* Set failCodeStartFailed */
+      setDpfailCodeStartFailed(prData->ushortParam2);
+    }
+  else if (prData->ushortParam1 == CRPS_REQVERIF_TERM_FAIL)
+    {
+      /* Set pcktIdTermFailed */
+      setDppcktIdTermFailed(tcPacketId);
+
+      /* Set failCodeTermFailed */
+      setDpfailCodeTermFailed(prData->ushortParam2);
+    }
 
   return;
 }

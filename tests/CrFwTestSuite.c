@@ -33,7 +33,7 @@
 #include <string.h>
 
 /** The number of tests in the test suite. */
-#define NOF_TESTS 11
+#define NOF_TESTS 14
 
 /* Include framework files */
 #include "CrFwConstants.h"
@@ -294,27 +294,33 @@ int main() {
 	testCases[0] = &CrPsDataPoolTestCase1;
 	testNames[1] = "Pusext_DataPool_TestCase2";
 	testCases[1] = &CrPsDataPoolTestCase2;
+	testNames[2] = "Pusext_DataPool_TestCase3";
+	testCases[2] = &CrPsDataPoolTestCase3;
         
-        testNames[2] = "Pusext_ServVeri_TestCase1";
-	testCases[2] = &CrPsServVeriTestCase1;
+    testNames[3] = "Pusext_ServVeri_TestCase1";
+	testCases[3] = &CrPsServVeriTestCase1;
+    testNames[4] = "Pusext_ServVer2_TestCase2";
+	testCases[4] = &CrPsServVeriTestCase1;
+	testNames[5] = "Pusext_ServVer3_TestCase3";
+	testCases[5] = &CrPsServVeriTestCase1;
         
-	testNames[3] = "Pusext_ServTestConn_TestCase1";
-	testCases[3] = &CrPsServTestConnTestCase1;
-	testNames[4] = "Pusext_ServTestConn_TestCase2";
-	testCases[4] = &CrPsServTestConnTestCase2;
-	testNames[5] = "Pusext_ServTestConn_TestCase3";
-	testCases[5] = &CrPsServTestConnTestCase3;
-	testNames[6] = "Pusext_ServTestConn_TestCase4";
-	testCases[6] = &CrPsServTestConnTestCase4;
+	testNames[6] = "Pusext_ServTestConn_TestCase1";
+	testCases[6] = &CrPsServTestConnTestCase1;
+	testNames[7] = "Pusext_ServTestConn_TestCase2";
+	testCases[7] = &CrPsServTestConnTestCase2;
+	testNames[8] = "Pusext_ServTestConn_TestCase3";
+	testCases[8] = &CrPsServTestConnTestCase3;
+	testNames[9] = "Pusext_ServTestConn_TestCase4";
+	testCases[9] = &CrPsServTestConnTestCase4;
         
-	testNames[7] = "Pusext_ServTestOnBoard_TestCase1";
-	testCases[7] = &CrPsServTestOnBoardTestCase1;
-	testNames[8] = "Pusext_ServTestOnBoard_TestCase2";
-	testCases[8] = &CrPsServTestOnBoardTestCase2;
-    testNames[9] = "Pusext_ServTestOnBoard_TestCase3";
-	testCases[9] = &CrPsServTestOnBoardTestCase3;
-    testNames[10] = "Pusext_ServTestOnBoard_TestCase4";
-	testCases[10] = &CrPsServTestOnBoardTestCase4;
+	testNames[10] = "Pusext_ServTestOnBoard_TestCase1";
+	testCases[10] = &CrPsServTestOnBoardTestCase1;
+	testNames[11] = "Pusext_ServTestOnBoard_TestCase2";
+	testCases[11] = &CrPsServTestOnBoardTestCase2;
+    testNames[12] = "Pusext_ServTestOnBoard_TestCase3";
+	testCases[12] = &CrPsServTestOnBoardTestCase3;
+    testNames[13] = "Pusext_ServTestOnBoard_TestCase4";
+	testCases[13] = &CrPsServTestOnBoardTestCase4;
        
 
 	/* Run test cases in sequence */

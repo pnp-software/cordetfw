@@ -24,7 +24,7 @@
 #include "OutLoader/CrFwOutLoader.h"
 #include "CrFwCmpData.h"
 
-#include <DataPool/CrPsDataPool.h>
+#include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServTest.h>
 
 #include <Services/General/CrPsConstants.h>

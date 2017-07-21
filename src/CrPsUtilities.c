@@ -16,10 +16,12 @@
 /* CrFramework includes */
 #include <OutFactory/CrFwOutFactory.h>
 #include <OutLoader/CrFwOutLoader.h>
+#include <CrFwCmpData.h>
 
 /* FwProfile includes */
 #include <FwPrCore.h>
 #include <FwPrConfig.h>
+#include <FwSmConfig.h>
 
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsParamSetter.h>
@@ -32,7 +34,7 @@
 #include <Services/RequestVerification/Procedures/CrPsCmdPrgrSuccCreate.h>
 #include <Services/RequestVerification/Procedures/CrPsCmdPrgrFailCreate.h>
 
-#include <DataPool/CrPsDataPool.h>
+#include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServTest.h>
 
 #include <stdio.h>
@@ -184,75 +186,46 @@ void CrPsExec()
 }
 
 /**
- * Generate a Request Verification Acceptance Successful out-going report.
+ * Generate a Request Verification Acceptance/Start/Termination Successful out-going report.
  * @return nothing
  */
-void SendReqVerifAccSuccRep(CrFwPckt_t pckt)
+void SendReqVerifAccSuccRep(FwSmDesc_t smDesc, unsigned short reqVerifAccSuccType)
 {
-  FwSmDesc_t rep;
-  CrFwDestSrc_t source;
-  CrFwBool_t isAcceptAck;
-  /*unsigned char sid, tcType, tcSubtype;*/
-  /*unsigned short tcPacketId, tcPacketSeqCtrl, tcLength, tcReceivedBytes, tcReceivedCrc, tcCalculatedCrc, tcFailureCode;*/
-  unsigned short tcPacketId, tcPacketSeqCtrl, tcReceivedBytes;
-  /*unsigned short nofTcAcc, seqCntLastAccTc;*/
-  unsigned short seqCntLastAccTc;
+  CrFwCmpData_t*   inData;
+  CrFwInCmdData_t* inSpecificData;
+  CrFwPckt_t       inPckt;
 
-/*
-  CrIaCopy(NOFTCACC_ID, &nofTcAcc);
-  nofTcAcc += 1;
-  CrIaPaste(NOFTCACC_ID, &nofTcAcc);
-*/
+  CrFwBool_t isAckFlag;
+  prData_t prData;
 
-  source = CrFwPcktGetSrc(pckt); /* --> ADAPTATION POINT <-- */
-  printf("SendTcAccRepSucc: source = %d\n", source);
+  /* Get in packet */
+  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
+  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
+  inPckt         = inSpecificData->pckt;
 
-  seqCntLastAccTc = CrFwPcktGetSeqCnt(pckt); /* --> ADAPTATION POINT <-- */
-  CRFW_UNUSED(seqCntLastAccTc)
-
-  /*
-  if (source==CR_FW_CLIENT_GRD)
+  if (reqVerifAccSuccType == CRPS_REQVERIF_ACC_SUCC)
     {
-      CrIaPaste(SEQCNTLASTACCTCFROMGRD_ID, &seqCntLastAccTc);
-      printf("SendTcAccRepSucc: set SeqCntLastAccTcFromGrd = %d\n", seqCntLastAccTc);
+      isAckFlag = CrFwPcktIsAcceptAck(inPckt);
     }
-  else if (source==CR_FW_CLIENT_OBC)
+  else if (reqVerifAccSuccType == CRPS_REQVERIF_START_SUCC)
     {
-      CrIaPaste(SEQCNTLASTACCTCFROMOBC_ID, &seqCntLastAccTc);
-      printf("SendTcAccRepSucc: set SeqCntLastAccTcFromObc = %d\n", seqCntLastAccTc);
+      isAckFlag = CrFwPcktIsStartAck(inPckt);
     }
-*/
-  
-  tcReceivedBytes = CrFwPcktGetParLength(pckt); /* TODO: check, if an other length is a better indicator */ /* --> ADAPTATION POINT <-- */
-  printf("SendTcAccRepSucc: CrFwPcktGetParLength(pckt) = %d\n", tcReceivedBytes);
-  
-  isAcceptAck = CrFwPcktIsAcceptAck(pckt); /* --> ADAPTATION POINT <-- */
-  printf("SendTcAccRepSucc: CrFwPcktIsAcceptAck(pckt) = %d\n", isAcceptAck);
-
-  if (isAcceptAck==1)
+  else if (reqVerifAccSuccType == CRPS_REQVERIF_TERM_SUCC)
     {
-      /* send (1,1) TC acceptance report - success */
-      /* Create out component */
-      rep = (FwSmDesc_t) CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, CRPS_REQVERIF_ACC_SUCC, 0, 0);
-      if (rep == NULL) 
-	{
-	  /* TODO: enter event
-	     unsigned short evt_data[2] = {cpu_to_be16(192), cpu_to_be16(1)};
-	     CrIaEvtRep(3, EVT_TRANSF_FULL, evt_data); */
-	  return;
-	}
-      
-      /* Set out component parameters */
+      isAckFlag = CrFwPcktIsTermAck(inPckt);
+    }
+  else
+    {
+      isAckFlag = 0;
+    }
 
-      tcPacketId = CrFwPcktGetPid(pckt); /* --> ADAPTATION POINT <-- */
-      CrPsServReqVerifAccSuccParamSetTcPacketId(rep, tcPacketId);
-
-      tcPacketSeqCtrl = CrFwPcktGetSeqCnt(pckt); /* --> ADAPTATION POINT <-- */
-      CrPsServReqVerifAccSuccParamSetTcPacketSeqCtrl(rep, tcPacketSeqCtrl);
-      
-      CrFwOutCmpSetDest(rep, source);
-      
-      CrFwOutLoaderLoad(rep);
+  if (isAckFlag == 1)
+    {
+      prData.smDesc = smDesc;
+      prData.ushortParam1 = reqVerifAccSuccType;
+      FwPrSetData(prDescServReqVerifCmdVerSucc, &prData);
+      FwPrRun(prDescServReqVerifCmdVerSucc);
     }
 
   return;
@@ -262,124 +235,33 @@ void SendReqVerifAccSuccRep(CrFwPckt_t pckt)
  * Generate a Request Verification Acceptance Failed out-going report.
  * @return nothing
  */
-void SendReqVerifAccFailRep(CrFwPckt_t pckt, unsigned short tcFailureCode)
+void SendReqVerifAccFailRep(FwSmDesc_t smDesc, unsigned short tcFailureCode)
 {
-  CRFW_UNUSED(pckt);
-  CRFW_UNUSED(tcFailureCode);
+  prData_t prData;
+
+  prData.smDesc = smDesc;
+  prData.ushortParam1 = tcFailureCode;
+  FwPrSetData(prDescServReqVerifPcktAccFail, &prData);
+  FwPrRun(prDescServReqVerifPcktAccFail);
+
   return;
 }
 
-/**
- * Generate a Request Verification Start Successful out-going report.
- * @return nothing
- */
-void SendReqVerifStartSuccRep(CrFwPckt_t pckt)
-{
-  FwSmDesc_t rep;
-  CrFwDestSrc_t source;
-  CrFwBool_t isStartAck;
-  unsigned char tcType, tcSubtype;
-  unsigned short tcPacketId, tcPacketSeqCtrl;
-  
-  CRFW_UNUSED(tcSubtype);
-  CRFW_UNUSED(tcType);
-  
-  isStartAck = CrFwPcktIsStartAck(pckt); /* --> ADAPTATION POINT <-- */
-  
-  if (isStartAck==1)
-    {
-      /* send (1,3) TC start report - success */
-      /* Create out component */
-      rep = (FwSmDesc_t) CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, CRPS_REQVERIF_START_SUCC, 0, 0);
-      if (rep == NULL) 
-	{
-	  /* TODO: enter event
-	     unsigned short evt_data[2] = {cpu_to_be16(192), cpu_to_be16(1)};
-	     CrIaEvtRep(3, EVT_TRANSF_FULL, evt_data); */
-	  return;
-	}
-      
-      /* Set out component parameters */
-
-      tcPacketId = CrFwPcktGetPid(pckt); /* --> ADAPTATION POINT <-- */
-      CrPsServReqVerifAccSuccParamSetTcPacketId(rep, tcPacketId); /* TODO: implement own Setter for Start Success */
-
-      tcPacketSeqCtrl = CrFwPcktGetSeqCnt(pckt); /* --> ADAPTATION POINT <-- */
-      CrPsServReqVerifAccSuccParamSetTcPacketSeqCtrl(rep, tcPacketSeqCtrl); /* TODO: implement own Setter for Start Success */
-      
-      source = CrFwPcktGetSrc(pckt); /* --> ADAPTATION POINT <-- */
-      CrFwOutCmpSetDest(rep, source);
-      
-      CrFwOutLoaderLoad(rep);
-    }
-  
-  return;
-}
 
 /**
- * Generate a Request Verification Start Failed out-going report.
+ * Generate a Request Verification Start/Termination Failed out-going report.
  * @return nothing
  */
-void SendReqVerifStartFailRep(CrFwPckt_t pckt, unsigned short tcFailureCode, unsigned short wrongParamPosition, unsigned short wrongParamValue)
+void SendReqVerifCmdFailRep(FwSmDesc_t smDesc, unsigned short reqVerifCmdFailType, unsigned short tcFailureCode)
 {
-  FwSmDesc_t rep;
-  CrFwDestSrc_t source;
-  unsigned char tcType, tcSubtype;
-  unsigned short tcPacketId, tcPacketSeqCtrl, seqCntLastStartFailTc;  
-  /*unsigned short tcPacketId, tcPacketSeqCtrl, nofStartFailedTc, seqCntLastStartFailTc;*/
-  CRFW_UNUSED(tcFailureCode);
-  CRFW_UNUSED(wrongParamPosition);
-  CRFW_UNUSED(wrongParamValue);
-  CRFW_UNUSED(tcSubtype);
-  CRFW_UNUSED(tcType);
-  /*
-  CrIaCopy(NOFSTARTFAILEDTC_ID, &nofStartFailedTc);
-  nofStartFailedTc += 1;
-  CrIaPaste(NOFSTARTFAILEDTC_ID, &nofStartFailedTc);
-*/
+  prData_t prData;
 
-  seqCntLastStartFailTc = CrFwPcktGetSeqCnt(pckt);
-/*  CrIaPaste(SEQCNTLASTSTARTFAILTC_ID, &seqCntLastStartFailTc);*/
-  printf("SendTcStartRepFail: set SeqCntLastStartFailTc = %d\n", seqCntLastStartFailTc);
+  prData.smDesc = smDesc;
+  prData.ushortParam1 = tcFailureCode;
+  prData.ushortParam2 = reqVerifCmdFailType;
+  FwPrSetData(prDescServReqVerifCmdVerFail, &prData);
+  FwPrRun(prDescServReqVerifCmdVerFail);
 
-  /* send (1,4) TC start report - failure */
-  /* Create out component */
-  rep = (FwSmDesc_t) CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, CRPS_REQVERIF_START_FAIL, 0, 0);
-  if (rep == NULL) 
-    {
-      /* TODO: enter event
-         unsigned short evt_data[2] = {cpu_to_be16(192), cpu_to_be16(1)};
-         CrIaEvtRep(3, EVT_TRANSF_FULL, evt_data); */
-       return;
-    }    
-      
-  /* Set out component parameters */
-
-  tcPacketId = CrFwPcktGetPid(pckt); /* --> ADAPTATION POINT <-- */
-  CrPsServReqVerifAccSuccParamSetTcPacketId(rep, tcPacketId);  /* TODO: implement own Setter for Progress Success */
-
-  tcPacketSeqCtrl = CrFwPcktGetSeqCnt(pckt); /* --> ADAPTATION POINT <-- */
-  CrPsServReqVerifAccSuccParamSetTcPacketSeqCtrl(rep, tcPacketSeqCtrl);  /* TODO: implement own Setter for Progress Success */
-
-#if 0
-  tcType = CrFwPcktGetServType(pckt); /* --> ADAPTATION POINT <-- */
-  CrIaServ1StartFailParamSetTcType(rep, tcType);  /* TODO: implement own Setter for Progress Success */
-
-  tcSubtype = CrFwPcktGetServSubType(pckt); /* --> ADAPTATION POINT <-- */
-  CrIaServ1StartFailParamSetTcSubtype(rep, tcSubtype);  /* TODO: implement own Setter for Progress Success */
-
-  CrIaServ1StartFailParamSetWrongParamPosition(rep, wrongParamPosition);  /* TODO: implement own Setter for Progress Success */
-
-  CrIaServ1StartFailParamSetWrongParamValue(rep, wrongParamValue);  /* TODO: implement own Setter for Progress Success */
-
-  CrIaServ1StartFailParamSetTcFailureCode(rep, tcFailureCode);  /* TODO: implement own Setter for Progress Success */
-#endif
-
-  source = CrFwPcktGetSrc(pckt); /* --> ADAPTATION POINT <-- */
-  CrFwOutCmpSetDest(rep, source);
-      
-  CrFwOutLoaderLoad(rep);
-  
   return;
 }
 
@@ -387,185 +269,42 @@ void SendReqVerifStartFailRep(CrFwPckt_t pckt, unsigned short tcFailureCode, uns
  * Generate a Request Verification Progress Successful out-going report.
  * @return nothing
  */
-void SendReqVerifProgSuccRep(CrFwPckt_t pckt)
+void SendReqVerifPrgrSuccRep(FwSmDesc_t smDesc, unsigned short stepIdentifier)
 {
-  FwSmDesc_t rep;
-  CrFwDestSrc_t source;
-  CrFwBool_t isProgressAck;
-  unsigned char tcType, tcSubtype;
-  unsigned short tcPacketId, tcPacketSeqCtrl;
-  /*unsigned short tcPacketId, tcPacketSeqCtrl, nofTcTerm;*/
+  CrFwCmpData_t*   inData;
+  CrFwInCmdData_t* inSpecificData;
+  CrFwPckt_t       inPckt;
 
-  CRFW_UNUSED(tcSubtype);
-  CRFW_UNUSED(tcType);
+  CrFwBool_t isAckFlag;
+  prData_t prData;
 
-/*
-  CrIaCopy(NOFTCTERM_ID, &nofTcTerm);
-  nofTcTerm += 1;
-  CrIaPaste(NOFTCTERM_ID, &nofTcTerm);
-*/
+  /* Get in packet */
+  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
+  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
+  inPckt         = inSpecificData->pckt;
 
-  isProgressAck = CrFwPcktIsProgressAck(pckt); /* --> ADAPTATION POINT <-- */
+  isAckFlag = CrFwPcktIsProgressAck(inPckt);
 
-  if (isProgressAck==1)
+  if (isAckFlag == 1)
     {
-      /* send (1,7) TC termination report - success */
-      /* Create out component */
-      rep = (FwSmDesc_t) CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, CRPS_REQVERIF_PROG_SUCC, 0, 0);
-      if (rep == NULL) 
-	{
-	  /* TODO: enter event
-	     unsigned short evt_data[2] = {cpu_to_be16(192), cpu_to_be16(1)};
-	     CrIaEvtRep(3, EVT_TRANSF_FULL, evt_data); */
-	  return;
-	}
-      
-      /* Set out component parameters */
-
-      tcPacketId = CrFwPcktGetPid(pckt); /* --> ADAPTATION POINT <-- */
-      CrPsServReqVerifAccSuccParamSetTcPacketId(rep, tcPacketId); /* TODO: implement own Setter for Progress Success */
-
-      tcPacketSeqCtrl = CrFwPcktGetSeqCnt(pckt); /* --> ADAPTATION POINT <-- */
-      CrPsServReqVerifAccSuccParamSetTcPacketSeqCtrl(rep, tcPacketSeqCtrl); /* TODO: implement own Setter for Progress Success */
-      
-      source = CrFwPcktGetSrc(pckt); /* --> ADAPTATION POINT <-- */
-      CrFwOutCmpSetDest(rep, source);
-      
-      CrFwOutLoaderLoad(rep);
+      prData.smDesc = smDesc;
+      prData.ushortParam1 = stepIdentifier;
+      FwPrSetData(prDescServReqVerifCmdPrgrSucc, &prData);
+      FwPrRun(prDescServReqVerifCmdPrgrSucc);
     }
-  
+
   return;
 }
 
-/**
- * Generate a Request Verification Progress Failed out-going report.
- * @return nothing
- */
-void SendReqVerifProgFailRep(CrFwPckt_t pckt, unsigned short tcFailureCode, unsigned short wrongParamPosition, unsigned short wrongParamValue)
+void SendReqVerifPrgrFailRep(FwSmDesc_t smDesc, unsigned short stepIdentifier, unsigned short tcFailureCode)
 {
-  FwSmDesc_t rep;
-  CrFwDestSrc_t source;
-  /*unsigned char tcType, tcSubtype;*/
-  unsigned short tcPacketId, tcPacketSeqCtrl, seqCntLastProgFailTc;
-  /*unsigned short tcPacketId, tcPacketSeqCtrl, nofProgFailedTc, seqCntLastProgFailTc;*/
-  CRFW_UNUSED(tcFailureCode);
-  CRFW_UNUSED(wrongParamPosition);
-  CRFW_UNUSED(wrongParamValue);
-    
-/*
-  CrIaCopy(NOFPROGFAILEDTC_ID, &nofProgFailedTc);
-  nofProgFailedTc += 1;
-  CrIaPaste(NOFPROGFAILEDTC_ID, &nofProgFailedTc);
-*/
+  prData_t prData;
 
-  seqCntLastProgFailTc = CrFwPcktGetSeqCnt(pckt);
-/*  CrIaPaste(SEQCNTLASTPROGFAILTC_ID, &seqCntLastProgFailTc);*/
-  printf("SendTcProgRepFail: set SeqCntLastProgFailTc = %d\n", seqCntLastProgFailTc);
+  prData.smDesc = smDesc;
+  prData.ushortParam1 = stepIdentifier;
+  prData.ushortParam2 = tcFailureCode;
+  FwPrSetData(prDescServReqVerifCmdPrgrFail, &prData);
+  FwPrRun(prDescServReqVerifCmdPrgrFail);
 
-  /* send (1,4) TC start report - failure */
-  /* Create out component */
-  rep = (FwSmDesc_t) CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, CRPS_REQVERIF_PROG_FAIL, 0, 0);
-  if (rep == NULL) 
-    {
-      /* TODO: enter event
-         unsigned short evt_data[2] = {cpu_to_be16(192), cpu_to_be16(1)};
-         CrIaEvtRep(3, EVT_TRANSF_FULL, evt_data); */
-      return;
-    }
-      
-  /* Set out component parameters */
-
-  tcPacketId = CrFwPcktGetPid(pckt); /* --> ADAPTATION POINT <-- */
-  CrPsServReqVerifAccSuccParamSetTcPacketId(rep, tcPacketId); /* TODO: implement own Setter for Progress Success */
-
-  tcPacketSeqCtrl = CrFwPcktGetSeqCnt(pckt); /* --> ADAPTATION POINT <-- */
-  CrPsServReqVerifAccSuccParamSetTcPacketSeqCtrl(rep, tcPacketSeqCtrl); /* TODO: implement own Setter for Progress Success */
-
-#if 0
-  tcType = CrFwPcktGetServType(pckt); /* --> ADAPTATION POINT <-- */
-  CrIaServ1ProgFailParamSetTcType(rep, tcType); /* TODO: implement own Setter for Progress Success */
-
-  tcSubtype = CrFwPcktGetServSubType(pckt); /* --> ADAPTATION POINT <-- */
-  CrIaServ1ProgFailParamSetTcSubtype(rep, tcSubtype); /* TODO: implement own Setter for Progress Success */
-
-  CrIaServ1ProgFailParamSetWrongParamPosition(rep, wrongParamPosition); /* TODO: implement own Setter for Progress Success */
-
-  CrIaServ1ProgFailParamSetWrongParamValue(rep, wrongParamValue); /* TODO: implement own Setter for Progress Success */
-
-  CrIaServ1ProgFailParamSetTcFailureCode(rep, tcFailureCode); /* TODO: implement own Setter for Progress Success */
-#endif
-
-  source = CrFwPcktGetSrc(pckt); /* --> ADAPTATION POINT <-- */
-  CrFwOutCmpSetDest(rep, source);
-      
-  CrFwOutLoaderLoad(rep);
-  
-  return;
-}
-
-/**
- * Generate a Request Verification Termination Successful out-going report.
- * @return nothing
- */
-void SendReqVerifTermSuccRep(CrFwPckt_t pckt)
-{
-  FwSmDesc_t rep;
-  CrFwDestSrc_t source;
-  CrFwBool_t isTermAck;
-  unsigned char tcType, tcSubtype;
-  unsigned short tcPacketId, tcPacketSeqCtrl;
-  /*unsigned short tcPacketId, tcPacketSeqCtrl, nofTcTerm;*/
-
-  CRFW_UNUSED(tcSubtype);
-  CRFW_UNUSED(tcType);
-
-/*
-  CrIaCopy(NOFTCTERM_ID, &nofTcTerm);
-  nofTcTerm += 1;
-  CrIaPaste(NOFTCTERM_ID, &nofTcTerm);
-*/
-
-  isTermAck = CrFwPcktIsTermAck(pckt); /* --> ADAPTATION POINT <-- */
-
-  if (isTermAck==1)
-    {
-      /* send (1,7) TC termination report - success */
-      /* Create out component */
-      rep = (FwSmDesc_t) CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, CRPS_REQVERIF_TERM_SUCC, 0, 0);
-      if (rep == NULL) 
-	{
-	  /* TODO: enter event
-	     unsigned short evt_data[2] = {cpu_to_be16(192), cpu_to_be16(1)};
-	     CrIaEvtRep(3, EVT_TRANSF_FULL, evt_data); */
-	  return;
-	}
-      
-      /* Set out component parameters */
-
-      tcPacketId = CrFwPcktGetPid(pckt); /* --> ADAPTATION POINT <-- */
-      CrPsServReqVerifAccSuccParamSetTcPacketId(rep, tcPacketId); /* TODO: implement own Setter for Termination Success */
-
-      tcPacketSeqCtrl = CrFwPcktGetSeqCnt(pckt); /* --> ADAPTATION POINT <-- */
-      CrPsServReqVerifAccSuccParamSetTcPacketSeqCtrl(rep, tcPacketSeqCtrl); /* TODO: implement own Setter for Termination Success */
-      
-      source = CrFwPcktGetSrc(pckt); /* --> ADAPTATION POINT <-- */
-      CrFwOutCmpSetDest(rep, source);
-      
-      CrFwOutLoaderLoad(rep);
-    }
-  
-  return;
-}
-
-/**
- * Generate a Request Verification Termination Failed out-going report.
- * @return nothing
- */
-void SendReqVerifTermFailRep(CrFwPckt_t pckt, unsigned short tcFailureCode, unsigned short wrongParamPosition, unsigned short wrongParamValue)
-{
-  CRFW_UNUSED(pckt);
-  CRFW_UNUSED(tcFailureCode);
-  CRFW_UNUSED(wrongParamPosition);
-  CRFW_UNUSED(wrongParamValue);
   return;
 }

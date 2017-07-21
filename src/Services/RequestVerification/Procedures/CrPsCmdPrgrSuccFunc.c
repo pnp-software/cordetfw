@@ -70,7 +70,7 @@ void CrPsCmdPrgrSuccN4(FwPrDesc_t __attribute__((unused)) prDesc)
   CrFwPckt_t       inPckt;
 
   FwSmDesc_t  smDesc;
-  FwSmDesc_t* prData;
+  prData_t* prData;
 
   /* Configure report and load it in the OutLoader */
 
@@ -79,7 +79,7 @@ void CrPsCmdPrgrSuccN4(FwPrDesc_t __attribute__((unused)) prDesc)
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
 
-  smDesc = prData[0];
+  smDesc = prData->smDesc;
 
    /* Get in packet */
   inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -92,7 +92,7 @@ void CrPsCmdPrgrSuccN4(FwPrDesc_t __attribute__((unused)) prDesc)
 
   /* Set pcktIdAccFailed */
   tcPacketId = CrFwPcktGetPid(inPckt); /* --- adaptation point CrFwPckt ---> */
-  CrPsServReqVerifPrgrSuccParamSetStepId(rep, (uintptr_t)prData[1]);
+  CrPsServReqVerifPrgrSuccParamSetStepId(rep, prData->ushortParam1);
 
   /* Set the destination of the report to the source of the in-coming packet */
   source = CrFwPcktGetSrc(inPckt);

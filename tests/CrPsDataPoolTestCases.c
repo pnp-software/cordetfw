@@ -61,13 +61,14 @@
 #include <Services/General/CrPsParamSetter.h>
 #include <Services/General/CrPsParamGetter.h>
 #include <CrFwOutCmpSample1.h>
-#include <DataPool/CrPsDataPool.h>
+#include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServTest.h>
 
 
 /* ---------------------------------------------------------------------------------------------*/
 CrFwBool_t CrPsDataPoolTestCase1()
 {
+  /*Test the Service 17 Getter and Setter*/
   unsigned int i, pos;
   unsigned short AreYouAliveSrc, areYouAliveSrcDp ;
   unsigned short destId, destIdDp;
@@ -142,9 +143,9 @@ CrFwBool_t CrPsDataPoolTestCase2()
     unsigned int uintvalue, value, bitoffset, nbits;
     unsigned short ushortvalue;
     unsigned char* dummydest;
-    unsigned char test;
+    unsigned char test, pos;
     FwSmDesc_t inFactory, outFactory, outCmp, inRep, inCmd;
-    CrFwPckt_t pckt, pckt1, pckt2;
+    CrFwPckt_t pckt1, pckt2;
         
     /* test the putnbits8 function from the paramsetter*/
     /* set a variable to 1 and check if it works*/
@@ -167,7 +168,7 @@ CrFwBool_t CrPsDataPoolTestCase2()
   /* Instantiate the OutFactory */
   outFactory = CrFwOutFactoryMake();
   inFactory = CrFwInFactoryMake();
-      printf("aa");
+
   /* Initialize and Configure OutFactory and check success */
   CrFwCmpInit(outFactory);
   CrFwCmpInit(inFactory);
@@ -205,11 +206,9 @@ CrFwBool_t CrPsDataPoolTestCase2()
   inRep = CrFwInFactoryMakeInRep(pckt1);
   inCmd = CrFwInFactoryMakeInCmd(pckt2);
 
-  /* Perform a configuration check on one of the OutComponents */
+  /* Perform a configuration check on the OutComponent */
   if (FwSmCheckRec(outCmp) != smSuccess)
-    {
       return 0;
-    }
   /* Check InCommand state */
   if (!CrFwCmpIsInConfigured(inCmd))
     return 0;
@@ -218,106 +217,173 @@ CrFwBool_t CrPsDataPoolTestCase2()
   if (!CrFwCmpIsInConfigured(inRep))
     return 0;
   
-  ucharvalue= 234;
-  ushortvalue=12345;
-  uintvalue = 5554446;
-    
-  printf("\n\n\n\n\n");
-  CrPsSetUCharValue(outCmp, ucharvalue, 1);
-  CrPsSetUCharValue(inRep, ucharvalue, 1);
-  CrPsSetUCharValue(inCmd, ucharvalue, 1);
-  CrPsSetUCharValue(outFactory, ucharvalue, 1);
-  printf("CrPsGetUCharValue: %d \n",CrPsGetUCharValue(outCmp,1) );
-  printf("CrPsGetUCharValue: %d \n",CrPsGetUCharValue(inRep,1) );
-  printf("CrPsGetUCharValue: %d \n",CrPsGetUCharValue(inCmd,1) );
-  printf("CrPsGetUCharValue: %d \n",CrPsGetUCharValue(outFactory,1) );
-    
-    
-  pckt = CrFwOutCmpSample1GetPckt(outCmp);
-  printf("Test 13: %u \n",pckt[13]);
-  printf("Test 14: %u \n",pckt[14]);
-  printf("Test 15: %u \n",pckt[15]);
-  printf("Test 16: %u \n",pckt[16]);
-  printf("Test 17: %u \n",pckt[17]);
-  printf("Test 18: %u \n",pckt[18]);
-  printf("Test 19: %u \n",pckt[19]);
-  printf("Test 20: %u \n",pckt[20]);  
-  printf("Test 21: %u \n",pckt[21]);
-  printf("Test 22: %u \n",pckt[22]);
-  printf("Test 23: %u \n",pckt[23]);
-  printf("Test 24: %u \n",pckt[24]);
-  printf("Test 25: %u \n",pckt[25]);
-  printf("Test 26: %u \n",pckt[26]);
-  printf("Test 27: %u \n",pckt[27]);
-  printf("Test 28: %u \n",pckt[28]);
-  printf("Test 29: %u \n",pckt[29]);
-  printf("Test 30: %u \n",pckt[30]);  
+  /* Check the generic Setter and Getter*/
+  /* use the maximal values of the variables*/
+  ucharvalue= 255;
+  ushortvalue=65535;
+  uintvalue = 4294967295;
+
+  /* Insert the Variables into the first position of the packet*/
+  pos=0;
+  /* Test the out Component packet with an uchar value*/
+  CrPsSetUCharValue(outCmp, ucharvalue, pos);
+  if (CrPsGetUCharValue(outCmp, pos) != ucharvalue)
+    return 0;
+
+  /* Test the in Report packet with an uchar value*/
+  CrPsSetUCharValue(inRep, ucharvalue, pos);
+  if (CrPsGetUCharValue(inRep, pos) != ucharvalue)
+    return 0;  
+
+  /* Test the in command packet with an uchar value*/
+  CrPsSetUCharValue(inCmd, ucharvalue, pos);
+  if (CrPsGetUCharValue(inCmd, pos) != ucharvalue)
+    return 0;
+
+  /* Test the out Component packet with an ushort value*/
+  CrPsSetUShortValue(outCmp, ushortvalue, pos);
+  if (CrPsGetUShortValue(outCmp, pos) != ushortvalue)
+    return 0;
+
+  /* Test the in Report packet with an ushort value*/
+  CrPsSetUShortValue(inRep, ushortvalue, pos);
+  if (CrPsGetUShortValue(inRep, pos) != ushortvalue)
+    return 0;
+
+  /* Test the in Command packet with an ushort value*/
+  CrPsSetUShortValue(inCmd, ushortvalue, pos);
+  if (CrPsGetUShortValue(inCmd, pos) != ushortvalue)
+    return 0;
+
+  /* Test the out Component packet with an uint value*/
+  CrPsSetUIntValue(outCmp, uintvalue, pos);
+  if (CrPsGetUIntValue(outCmp, pos) != uintvalue)
+    return 0;
+
+  /* Test the in Report packet with an uint value*/
+  CrPsSetUIntValue(inRep, uintvalue, pos);
+  if (CrPsGetUIntValue(inRep, pos) != uintvalue)
+    return 0;
+
+  /* Test the in Command packet with an uint value*/
+  CrPsSetUIntValue(inCmd, uintvalue, pos);  
+  if (CrPsGetUIntValue(inCmd, pos) != uintvalue)
+    return 0;
+
+
+  /* Insert the Variables into the last position of the packet*/
+  pos=100;
+  /* Test the out Component packet with an uchar value*/
+  CrPsSetUCharValue(outCmp, ucharvalue, pos);
+  if (CrPsGetUCharValue(outCmp, pos) != ucharvalue)
+    return 0;
+
+  /* Test the in Report packet with an uchar value*/
+  CrPsSetUCharValue(inRep, ucharvalue, pos);
+  if (CrPsGetUCharValue(inRep, pos) != ucharvalue)
+    return 0;  
+
+  /* Test the in command packet with an uchar value*/
+  CrPsSetUCharValue(inCmd, ucharvalue, pos);
+  if (CrPsGetUCharValue(inCmd, pos) != ucharvalue)
+    return 0;
   
+  pos=99;
+  /* Test the out Component packet with an ushort value*/
+  CrPsSetUShortValue(outCmp, ushortvalue, pos);
+  if (CrPsGetUShortValue(outCmp, pos) != ushortvalue)
+    return 0;
+
+  /* Test the in Report packet with an ushort value*/
+  CrPsSetUShortValue(inRep, ushortvalue, pos);
+  if (CrPsGetUShortValue(inRep, pos) != ushortvalue)
+    return 0;
+
+  /* Test the in Command packet with an ushort value*/
+  CrPsSetUShortValue(inCmd, ushortvalue, pos);
+  if (CrPsGetUShortValue(inCmd, pos) != ushortvalue)
+    return 0;
+
+  pos=97;
+  /* Test the out Component packet with an uint value*/
+  CrPsSetUIntValue(outCmp, uintvalue, pos);
+  if (CrPsGetUIntValue(outCmp, pos) != uintvalue)
+    return 0;
+
+  /* Test the in Report packet with an uint value*/
+  CrPsSetUIntValue(inRep, uintvalue, pos);
+  if (CrPsGetUIntValue(inRep, pos) != uintvalue)
+    return 0;
+
+  /* Test the in Command packet with an uint value*/
+  CrPsSetUIntValue(inCmd, uintvalue, pos);  
+  if (CrPsGetUIntValue(inCmd, pos) != uintvalue)
+    return 0;
+
+  /* Insert the Variables into a position of the packet that can not exist*/
+  pos=101;
+  /* Test the out Component packet with an uchar value*/
+  CrPsSetUCharValue(outCmp, ucharvalue, pos);
+  if (CrPsGetUCharValue(outCmp, pos) != 0)
+    return 0;
+
+  /* Test the in Report packet with an uchar value*/
+  CrPsSetUCharValue(inRep, ucharvalue, pos);
+  if (CrPsGetUCharValue(inRep, pos) != 0)
+    return 0;  
+
+  /* Test the in command packet with an uchar value*/
+  CrPsSetUCharValue(inCmd, ucharvalue, pos);
+  if (CrPsGetUCharValue(inCmd, pos) != 0)
+    return 0;
+
+  /* Test the out Component packet with an ushort value*/
+  CrPsSetUShortValue(outCmp, ushortvalue, pos);
+  if (CrPsGetUShortValue(outCmp, pos) != 0)
+    return 0;
+
+  /* Test the in Report packet with an ushort value*/
+  CrPsSetUShortValue(inRep, ushortvalue, pos);
+  if (CrPsGetUShortValue(inRep, pos) != 0)
+    return 0;
+
+  /* Test the in Command packet with an ushort value*/
+  CrPsSetUShortValue(inCmd, ushortvalue, pos);
+  if (CrPsGetUShortValue(inCmd, pos) != 0)
+    return 0;
+
+  /* Test the out Component packet with an uint value*/
+  CrPsSetUIntValue(outCmp, uintvalue, pos);
+  if (CrPsGetUIntValue(outCmp, pos) != 0)
+    return 0;
+
+  /* Test the in Report packet with an uint value*/
+  CrPsSetUIntValue(inRep, uintvalue, pos);
+  if (CrPsGetUIntValue(inRep, pos) != 0)
+    return 0;
+
+  /* Test the in Command packet with an uint value*/
+  CrPsSetUIntValue(inCmd, uintvalue, pos);  
+  if (CrPsGetUIntValue(inCmd, pos) != 0)
+    return 0;
+
+  /*Test a non existing packet type*/
+  pos=0;
+  /* Test the out Factory packet with an uchar value (there is no outFactory packet it should fail!)*/
+  CrPsSetUCharValue(outFactory, ucharvalue, pos);
+  if (CrPsGetUCharValue(outFactory, pos) != 0)
+    return 0;
   
-  CrPsSetUShortValue(outCmp, ushortvalue, 5);
-  CrPsSetUShortValue(inRep, ushortvalue, 5);
-  CrPsSetUShortValue(inCmd, ushortvalue, 5);
-  CrPsSetUShortValue(outFactory, ucharvalue, 5);
-  printf("CrPsGetUShortValue: %d \n",CrPsGetUShortValue(outCmp,5) );
-  printf("CrPsGetUShortValue: %d \n",CrPsGetUShortValue(inRep,5) );
-  printf("CrPsGetUShortValue: %d \n",CrPsGetUShortValue(inCmd,5) );
-  printf("CrPsGetUShortValue: %d \n",CrPsGetUShortValue(outFactory,5) );
+  /* Test the out Factory  packet with an ushort value (there is no outFactory packet it should fail!)*/
+  CrPsSetUShortValue(outFactory, ushortvalue, pos);
+  if (CrPsGetUShortValue(outFactory, pos) != 0)
+    return 0;
   
-  
-  pckt = CrFwOutCmpSample1GetPckt(outCmp);
-  printf("\n");
-  printf("CrPsGetUShortValue: %d \n",CrPsGetUShortValue(outCmp,2) );
-  printf("Test 13: %u \n",pckt[13]);
-  printf("Test 14: %u \n",pckt[14]);
-  printf("Test 15: %u \n",pckt[15]);
-  printf("Test 16: %u \n",pckt[16]);
-  printf("Test 17: %u \n",pckt[17]);
-  printf("Test 18: %u \n",pckt[18]);
-  printf("Test 19: %u \n",pckt[19]);
-  printf("Test 20: %u \n",pckt[20]);  
-  printf("Test 21: %u \n",pckt[21]);
-  printf("Test 22: %u \n",pckt[22]);
-  printf("Test 23: %u \n",pckt[23]);
-  printf("Test 24: %u \n",pckt[24]);
-  printf("Test 25: %u \n",pckt[25]);
-  printf("Test 26: %u \n",pckt[26]);
-  printf("Test 27: %u \n",pckt[27]);
-  printf("Test 28: %u \n",pckt[28]);
-  printf("Test 29: %u \n",pckt[29]);
-  printf("Test 30: %u \n",pckt[30]);   
-  
-  
-  CrPsSetUIntValue(outCmp, uintvalue, 10);
-  CrPsSetUIntValue(inRep, uintvalue, 10);
-  CrPsSetUIntValue(inCmd, uintvalue, 10);
-  CrPsSetUIntValue(outFactory, uintvalue, 10);
-  printf("CrPsGetUIntValue: %d \n",CrPsGetUIntValue(outCmp,10) );
-  printf("CrPsGetUIntValue: %d \n",CrPsGetUIntValue(inRep,10) );
-  printf("CrPsGetUIntValue: %d \n",CrPsGetUIntValue(inCmd,10) );
-  printf("CrPsGetUIntValue: %d \n",CrPsGetUIntValue(outFactory,10) );
-  pckt = CrFwOutCmpSample1GetPckt(outCmp);
-  printf("\n");  
-  printf("CrPsGetUIntValue: %d \n",CrPsGetUIntValue(outCmp,4) );
-  printf("Test 13: %u \n",pckt[13]);
-  printf("Test 14: %u \n",pckt[14]);
-  printf("Test 15: %u \n",pckt[15]);
-  printf("Test 16: %u \n",pckt[16]);
-  printf("Test 17: %u \n",pckt[17]);
-  printf("Test 18: %u \n",pckt[18]);
-  printf("Test 19: %u \n",pckt[19]);
-  printf("Test 20: %u \n",pckt[20]);  
-  printf("Test 21: %u \n",pckt[21]);
-  printf("Test 22: %u \n",pckt[22]);
-  printf("Test 23: %u \n",pckt[23]);
-  printf("Test 24: %u \n",pckt[24]);
-  printf("Test 25: %u \n",pckt[25]);
-  printf("Test 26: %u \n",pckt[26]);
-  printf("Test 27: %u \n",pckt[27]);
-  printf("Test 28: %u \n",pckt[28]);
-  printf("Test 29: %u \n",pckt[29]);
-  printf("Test 30: %u \n",pckt[30]);   
-  
-  /*TODO .. report error if Value not set*/
+  /* Test the out Factory packet with an uint value (there is no outFactory packet it should fail!)*/
+  CrPsSetUIntValue(outFactory, uintvalue, pos);
+  if (CrPsGetUIntValue(outFactory, pos) != 0)
+    return 0;
+
   /* Release the OutComponent and reset the OutFactory */
   CrFwOutFactoryReleaseOutCmp(outCmp);
   CrFwCmpReset(outFactory);
@@ -325,3 +391,30 @@ CrFwBool_t CrPsDataPoolTestCase2()
   return 1;   
 }
 
+/* ---------------------------------------------------------------------------------------------*/
+CrFwBool_t CrPsDataPoolTestCase3()
+{
+  /*Test the Service 3 Getter and Setter*/
+ /* FwSmDesc_t outFactory, outCmp;
+  unsigned short ushortvalue;*/
+
+  /* Instantiate the OutFactory */
+  /*outFactory = CrFwOutFactoryMake();*/
+
+  /* Initialize and Configure OutFactory and check success */
+ /* CrFwCmpInit(outFactory);
+  CrFwCmpReset(outFactory);
+  if (!CrFwCmpIsInConfigured(outFactory))
+    return 0;
+*/
+  /* Create out component */
+  /*outCmp = (FwSmDesc_t) CrFwOutFactoryMakeOutCmp(1, 1, 0, 100);*/
+
+/*
+  CrPsServReqVerifAccSuccParamSetTcPacketId(outCmp, ushortvalue);
+  if (CrPsServReqVerifAccSuccParamGetTcPacketId != ushortvalue)
+    return 0;
+  
+*/
+  return 1;
+}

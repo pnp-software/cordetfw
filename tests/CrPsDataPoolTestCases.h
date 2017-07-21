@@ -43,6 +43,7 @@
  */
 CrFwBool_t CrPsDataPoolTestCase1();
 CrFwBool_t CrPsDataPoolTestCase2();
+CrFwBool_t CrPsDataPoolTestCase3();
 
 
 #endif /* CRPS_DATAPOOL_TESTCASES_H_ */

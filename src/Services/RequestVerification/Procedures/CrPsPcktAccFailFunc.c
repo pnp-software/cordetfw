@@ -21,9 +21,10 @@
 #include <OutFactory/CrFwOutFactory.h>
 #include <OutLoader/CrFwOutLoader.h>
 
+#include <CrPsPcktUtilities.h>
+#include <DataPool/CrPsDpServReqVerif.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsParamSetter.h>
-#include <CrPsPcktUtilities.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -56,47 +57,6 @@ void CrPsPcktAccFailN2(FwPrDesc_t __attribute__((unused)) prDesc)
   /* Create out component */
   rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, CRPS_REQVERIF_ACC_FAIL, 0, 0);
 
-#if 0
-  /* --- FOR TESTING --- */
-{
-  CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;
-
-  FwSmDesc_t  smDesc;
-  FwSmDesc_t* prData;
-
-  CrFwCmdRepType_t inPcktType;
-
-  prData = (unsigned short*)FwPrGetData(prDesc);
-
-  printf("CrPsPcktAccFailN2: prData[0]: smDesc = %d\n", prData[0]);
-  printf("CrPsPcktAccFailN2: prData[1]: failCode = %d\n", prData[1]);
-
-  smDesc = prData[0];
-
-   /* Get in packet */
-  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
-  inPckt         = inSpecificData->pckt;
-
-  /* Get packet type */
-  inPcktType = CrFwPcktGetCmdRepType(inPckt);
-  if (inPcktType == crRepType)
-    {
-      printf("CrPsPcktAccFailN2: Packet Type is Report.\n");
-    }
-  else if (inPcktType == crCmdType)
-    {
-      printf("CrPsPcktAccFailN2: Packet Type is Command.\n");
-    }
-  else
-    {
-      printf("CrPsPcktAccFailN2: UNKNOWN PACKET TYPE!\n");
-    }
-}
-#endif
-
   return;
 }
 
@@ -125,14 +85,14 @@ void CrPsPcktAccFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
   CrFwPckt_t       inPckt;
 
   FwSmDesc_t  smDesc;
-  FwSmDesc_t* prData;
+  prData_t* prData;
 
   /* Configure report (1,2) and load it in the OutLoader */
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
 
-  smDesc = prData[0];
+  smDesc = prData->smDesc;
 
    /* Get in packet */
   inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -144,7 +104,7 @@ void CrPsPcktAccFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
   CrPsServReqVerifAccFailParamSetPacketId(rep, tcPacketId);
 
   /* Set failCodeAccFailed */
-  CrPsServReqVerifAccFailParamSetFailureCode(rep, (uintptr_t)prData[1]);
+  CrPsServReqVerifAccFailParamSetFailureCode(rep, prData->ushortParam1);
 
   /* Set Type of the command */
   tcType = CrFwPcktGetServType(inPckt); /* --- adaptation point CrFwPckt ---> */
@@ -158,8 +118,8 @@ void CrPsPcktAccFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
   tcDiscriminant = CrFwPcktGetDiscriminant(inPckt); /* --- adaptation point CrFwPckt ---> */
   CrPsServReqVerifAccFailParamSetDiscriminant(rep, tcDiscriminant);
 
-  /* TODO: Set verFailData */
-  tcVerFailData = 12345; /* TODO: get it from data pool */
+  /* Set verFailData */
+  tcVerFailData = getDpverFailData(); /* get it from data pool */
   CrPsServReqVerifAccFailParamSetVerFailData(rep, tcVerFailData);
 
   /* Set the destination of the report to the source of the in-coming packet */
@@ -176,17 +136,15 @@ void CrPsPcktAccFailN4(FwPrDesc_t __attribute__((unused)) prDesc)
 /** Action for node N5. */
 void CrPsPcktAccFailN5(FwPrDesc_t __attribute__((unused)) prDesc)
 {
-  /*unsigned short nOfAccFailed;*/
+  unsigned short nOfAccFailed;
 
-  /* TODO: Increment data pool variable nOfAccFailed */
+  /* Increment data pool variable nOfAccFailed */
 
   printf("CrPsPcktAccFailN5: Increment data pool variable nOfAccFailed\n");
 
-#if 0
-  CrIaCopy(NOFACCFAILED_ID, &nOfAccFailed);
+  nOfAccFailed = getDpnOfAccFailed();
   nOfAccFailed += 1;
-  CrIaPaste(NOFACCFAILED_ID, &nOfAccFailed);
-#endif
+  setDpnOfAccFailed(nOfAccFailed);
 
   return;
 }
@@ -195,15 +153,34 @@ void CrPsPcktAccFailN5(FwPrDesc_t __attribute__((unused)) prDesc)
 /** Action for node N6. */
 void CrPsPcktAccFailN6(FwPrDesc_t __attribute__((unused)) prDesc)
 {
-  /* TODO: Update data pool variable pcktIdAccFailed, failCodeAccFailed */
+  unsigned short tcPacketId;
+
+  CrFwCmpData_t*   inData;
+  CrFwInCmdData_t* inSpecificData;
+  CrFwPckt_t       inPckt;
+
+  FwSmDesc_t  smDesc;
+  prData_t* prData;
+
+  /* Update data pool variable pcktIdAccFailed, failCodeAccFailed */
 
   printf("CrPsPcktAccFailN6: Update data pool variable pcktIdAccFailed, failCodeAccFailed\n");
 
-#if 0
-  CrIaPaste(PCKTIDACCFAILED_ID, &pcktIdAccFailed);
+  /* Get procedure parameters */
+  prData = FwPrGetData(prDesc);
+  smDesc = prData->smDesc;
 
-  CrIaPaste(FAILCODEACCFAILED_ID, &failCodeAccFailed);
-#endif
+   /* Get in packet */
+  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
+  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
+  inPckt         = inSpecificData->pckt;
+
+  /* Set pcktIdAccFailed */
+  tcPacketId = CrFwPcktGetPid(inPckt); /* --- adaptation point CrFwPckt ---> */
+  setDppcktIdAccFailed(tcPacketId);
+
+  /* Set failCodeAccFailed */
+  setDpfailCodeAccFailed(prData->ushortParam1);
 
   return;
 }
@@ -216,20 +193,14 @@ void CrPsPcktAccFailN6(FwPrDesc_t __attribute__((unused)) prDesc)
 /** Guard on the Control Flow from DECISION1 to N1. */
 FwPrBool_t CrPsPcktAccFailG1(FwPrDesc_t __attribute__((unused)) prDesc)
 {
-  /*CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;*/
-
   FwSmDesc_t  smDesc;
-  FwSmDesc_t* prData;
-
-  /*CrFwCmdRepType_t inPcktType;*/
+  prData_t* prData;
 
   /* [ Packet encapsulates a report ] */
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
-  smDesc = prData[0];
+  smDesc = prData->smDesc;
 
   if (CrFwCmpGetTypeId(smDesc) == CR_FW_INREPORT_TYPE)
     {
@@ -240,43 +211,19 @@ FwPrBool_t CrPsPcktAccFailG1(FwPrDesc_t __attribute__((unused)) prDesc)
       return 0;
     }
 
-#if 0
-   /* Get in packet */
-  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
-  inPckt         = inSpecificData->pckt;
-
-  /* Get packet type */
-  inPcktType = CrFwPcktGetCmdRepType(inPckt);
-  if (inPcktType == crRepType)
-    {
-      return 1;
-    }
-  else
-    {
-      return 0;
-    }
-#endif
-
 }
 
 /** Guard on the Control Flow from DECISION1 to N2. */
 FwPrBool_t CrPsPcktAccFailG1E(FwPrDesc_t __attribute__((unused)) prDesc)
 {
-  /*CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;*/
-
   FwSmDesc_t  smDesc;
-  FwSmDesc_t* prData;
-
-  /*CrFwCmdRepType_t inPcktType;*/
+  prData_t* prData;
 
   /* [ Packet encapsulates a command ] */
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
-  smDesc = prData[0];
+  smDesc = prData->smDesc;
 
   if (CrFwCmpGetTypeId(smDesc) == CR_FW_INCOMMAND_TYPE)
     {
@@ -286,24 +233,6 @@ FwPrBool_t CrPsPcktAccFailG1E(FwPrDesc_t __attribute__((unused)) prDesc)
     {
       return 0;
     }
-
-#if 0
-   /* Get in packet */
-  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
-  inPckt         = inSpecificData->pckt;
-
-  /* Get packet type */
-  inPcktType = CrFwPcktGetCmdRepType(inPckt);
-  if (inPcktType == crCmdType)
-    {
-      return 1;
-    }
-  else
-    {
-      return 0;
-    }
-#endif
 
 }
 

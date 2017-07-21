@@ -64,7 +64,7 @@
 #include "Services/RequestVerification/OutCmp/CrPsReqVerifStartSucc.h"
 #include "Services/RequestVerification/OutCmp/CrPsReqVerifTermFail.h"
 #include "Services/RequestVerification/OutCmp/CrPsReqVerifTermSucc.h"
-
+#include "DataPool/CrPsDpServReqVerif.h"
 
 /* Include system files */
 #include <stdio.h>
@@ -78,6 +78,9 @@ CrFwBool_t CrPsServVeriTestCase1()
   FwSmDesc_t inFactory, inCmd;
   CrFwPckt_t pckt;
   
+  /*Initialize the DataPool entries for the Test Service*/
+  initDpServReqVerif();
+
   /* Instantiate the InFactory */
   inFactory = CrFwInFactoryMake();
 
@@ -147,6 +150,16 @@ CrFwBool_t CrPsServVeriTestCase1()
 /* ---------------------------------------------------------------------------------------------*/
 
 CrFwBool_t CrPsServVeriTestCase2()
+{
+
+
+
+  return 1;
+}
+
+/* ---------------------------------------------------------------------------------------------*/
+
+CrFwBool_t CrPsServVeriTestCase3()
 {
 
 

@@ -23,7 +23,7 @@
 #include "OutLoader/CrFwOutLoader.h"
 #include "CrFwCmpData.h"
 
-#include <DataPool/CrPsDataPool.h>
+#include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServTest.h>
 
 #include <Services/General/CrPsConstants.h>
@@ -72,11 +72,9 @@ void CrPsTestOnBoardConnectionStartN2(FwPrDesc_t __attribute__((unused)) prDesc)
 /* Action for node N3. */
 void CrPsTestOnBoardConnectionStartN3(FwPrDesc_t __attribute__((unused)) prDesc)
 {
-  /* Generate error report OUTFACTORY_FAIL */
+  /* TODO: Generate error report OUTFACTORY_FAIL */
 
   printf("CrPsTestOnBoardConnectionStartN3()\n");
-
-  /* TODO: TBW */
 
   return;
 }

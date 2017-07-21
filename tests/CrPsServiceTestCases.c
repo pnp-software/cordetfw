@@ -59,7 +59,7 @@
 #include "Services/Test/InCmd/CrPsTestAreYouAliveConnection.h"
 #include "Services/Test/OutCmp/CrPsTestAreYouAliveConnectionRep.h"
 #include "Services/Test/InRep/CrPsTestAreYouAliveConnectInRep.h"
-
+#include "DataPool/CrPsDpServTest.h"
 
 /* Include system files */
 #include <stdio.h>
@@ -77,6 +77,9 @@ CrFwBool_t CrPsServTestConnTestCase1()
   CrFwPckt_t pckt1;
 /*  CrFwInCmdData_t* inCmdSpecificData;
   CrFwCmpData_t* inCmdData;*/
+
+  /*Initialize the DataPool entries for the Test Service*/
+  initDpServTest();
 
   /* Instantiate the InFactory */
   printf("Instantiate the InFactory\n");

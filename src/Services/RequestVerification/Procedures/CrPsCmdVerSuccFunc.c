@@ -37,12 +37,7 @@ FwSmDesc_t cmd, rep;
 /** Action for node N2. */
 void CrPsCmdVerSuccN2(FwPrDesc_t __attribute__((unused)) prDesc)
 {
-  /*CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;
-
-  FwSmDesc_t  smDesc;*/
-  FwSmDesc_t* prData;
+  prData_t* prData;
 
   /* Retrieve an OutComponent of type (1,1), (1,3) or (1,7) from the OutFactory */
 
@@ -52,7 +47,7 @@ void CrPsCmdVerSuccN2(FwPrDesc_t __attribute__((unused)) prDesc)
   prData = FwPrGetData(prDesc);
 
   /* Create out component */
-  rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, (uintptr_t)prData[1], 0, 0);
+  rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, prData->ushortParam1, 0, 0);
 
   return;
 }
@@ -80,7 +75,7 @@ void CrPsCmdVerSuccN4(FwPrDesc_t __attribute__((unused)) prDesc)
   CrFwPckt_t       inPckt;
 
   FwSmDesc_t  smDesc;
-  FwSmDesc_t* prData;
+  prData_t* prData;
 
   /* Configure report and load it in the OutLoader */
 
@@ -89,7 +84,8 @@ void CrPsCmdVerSuccN4(FwPrDesc_t __attribute__((unused)) prDesc)
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
 
-  smDesc = prData[0];
+  /*smDesc = prData[0];*/
+  smDesc = prData->smDesc;
 
    /* Get in packet */
   inData         = FwSmGetData(smDesc);

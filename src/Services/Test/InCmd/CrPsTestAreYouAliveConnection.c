@@ -24,24 +24,16 @@
 
 #include <stdio.h>
 
+unsigned short ACK_WRONG_CHKSM = 1002;
+
 /* ------------------------------------------------------------------------------------ */
 CrFwBool_t CrPsTestAreYouAliveConnectionReadyCheck(FwSmDesc_t __attribute__((unused)) smDesc)
 {
-  CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;
-
   /* Return 'command is ready' */
-
   printf("CrPsTestAreYouAliveConnectionReadyCheck()\n");
 
-  /* Get in packet */
-  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
-  inPckt         = inSpecificData->pckt;
-
   /* Send Request Verification Acceptance Successful out-going report */
-  SendReqVerifAccSuccRep(inPckt);
+  SendReqVerifAccSuccRep(smDesc, CRPS_REQVERIF_ACC_SUCC);
 
   return 1; /*always True*/
 }
@@ -50,18 +42,14 @@ CrFwBool_t CrPsTestAreYouAliveConnectionReadyCheck(FwSmDesc_t __attribute__((unu
 void CrPsTestAreYouAliveConnectionStartAction(FwSmDesc_t smDesc)
 {
   CrFwCmpData_t* inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;
 
   printf("CrPsTestAreYouAliveConnectionStartAction()\n");
 
   /* Get in packet */
   inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
-  inPckt         = inSpecificData->pckt;
 
   /* Send Request Verification Start Successful out-going report */
-  SendReqVerifStartSuccRep(inPckt);
+  SendReqVerifAccSuccRep(smDesc, CRPS_REQVERIF_START_SUCC);
 
   inData->outcome = 1;
 
@@ -77,11 +65,12 @@ void CrPsTestAreYouAliveConnectionProgressAction(FwSmDesc_t smDesc)
   CrFwPckt_t       inPckt;
   CrFwDestSrc_t    source;
 
+  unsigned short stepIdentifier;
+
   printf("CrPsTestAreYouAliveConnectionProgressAction()\n");
 
   /* Get in packet */
   inData          = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inData->outcome = 0;
   inSpecificData  = (CrFwInCmdData_t*)inData->cmpSpecificData;
   inPckt          = inSpecificData->pckt;
 
@@ -95,7 +84,8 @@ void CrPsTestAreYouAliveConnectionProgressAction(FwSmDesc_t smDesc)
   CrFwOutLoaderLoad(rep);
 
   /* Send Request Verification Progress Successful out-going report */
-  SendReqVerifProgSuccRep(inPckt);
+  stepIdentifier = 1;
+  SendReqVerifPrgrSuccRep(smDesc, stepIdentifier);
 
   inData->outcome = 1;
 
@@ -106,18 +96,14 @@ void CrPsTestAreYouAliveConnectionProgressAction(FwSmDesc_t smDesc)
 void CrPsTestAreYouAliveConnectionTerminationAction(FwSmDesc_t smDesc)
 {
   CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;
 
   printf("CrPsTestAreYouAliveConnectionTerminationAction()\n");
 
   /* Get in packet */
   inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
-  inPckt         = inSpecificData->pckt;
 
   /* Send Request Verification Termination Successful out-going report */
-  SendReqVerifTermSuccRep(inPckt);
+  SendReqVerifAccSuccRep(smDesc, CRPS_REQVERIF_TERM_SUCC);
 
   inData->outcome = 1;
 

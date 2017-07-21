@@ -344,6 +344,7 @@ void CrPsServReqVerifPrgrFailParamSetVerFailData(FwSmDesc_t smDesc, unsigned int
  */
 void CrPsSetUCharValue(FwSmDesc_t smDesc, unsigned char ucharValue, unsigned int pos)
 {
+  CrFwPckt_t pckt;
   CrFwCmpData_t* cmpData;
   CrFwOutCmpData_t* cmpSpecificDataOutCmp;
   CrFwInRepData_t*  cmpSpecificDataInRep; 
@@ -353,53 +354,47 @@ void CrPsSetUCharValue(FwSmDesc_t smDesc, unsigned char ucharValue, unsigned int
     /*error if the Type does not match*/
     if((CrFwCmpGetTypeId(smDesc) != CR_FW_OUTCMP_TYPE) && (CrFwCmpGetTypeId(smDesc) != CR_FW_INREPORT_TYPE) && (CrFwCmpGetTypeId(smDesc) != CR_FW_INCOMMAND_TYPE))
     {
-        printf("ERROR: smDesc TypeId does not match!! \n");
+        printf("CrPsSetUCharValue-ERROR: smDesc TypeId does not match!! \n");
         return;
     }  
     
     if(CrFwCmpGetTypeId(smDesc) == CR_FW_OUTCMP_TYPE) /*OutComponent*/
     {
-      pos=pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT;
       cmpSpecificDataOutCmp = (CrFwOutCmpData_t*)(cmpData->cmpSpecificData);
-      if(pos > (unsigned int)(CrFwPcktGetLength(cmpSpecificDataOutCmp->pckt))-3)
+      pckt = cmpSpecificDataOutCmp->pckt;
+      /*error if the Size is to big*/
+      if(pos > (unsigned int)(CrFwPcktGetLength(pckt)))
       {
-          printf("ERROR: The position is outside the package!! \n");
+          printf("CrPsSetUCharValue-ERROR: The position is outside the package!! \n");
           return;
       }
-      printf("CrFwPcktGetMaxLength: %d \n",CrFwPcktGetMaxLength(cmpSpecificDataOutCmp->pckt));
-      printf("CrFwPcktGetLength: %d \n",CrFwPcktGetLength(cmpSpecificDataOutCmp->pckt));
-      printf("CrFwPcktGetParLength: %d \n",CrFwPcktGetParLength(cmpSpecificDataOutCmp->pckt));
-      cmpSpecificDataOutCmp->pckt[pos] = ucharValue;
+      pckt[pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT] = ucharValue;
     }
     
     if(CrFwCmpGetTypeId(smDesc) == CR_FW_INREPORT_TYPE) /*InReport*/
     {
-      pos=pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT;
       cmpSpecificDataInRep = (CrFwInRepData_t*)(cmpData->cmpSpecificData);
-      if(pos>(unsigned int)CrFwPcktGetLength(cmpSpecificDataInRep->pckt)-3)
+      pckt = cmpSpecificDataInRep->pckt;
+      /*error if the Size is to big*/
+      if(pos>(unsigned int)CrFwPcktGetLength(pckt))
       {
-          printf("ERROR: The position is outside the package!! \n");
+          printf("CrPsSetUCharValue-ERROR: The position is outside the package!! \n");
           return;
       }
-      printf("CrFwPcktGetMaxLength: %d \n",CrFwPcktGetMaxLength(cmpSpecificDataInRep->pckt));
-      printf("CrFwPcktGetLength: %d \n",CrFwPcktGetLength(cmpSpecificDataInRep->pckt));
-      printf("CrFwPcktGetParLength: %d \n",CrFwPcktGetParLength(cmpSpecificDataInRep->pckt));
-      cmpSpecificDataInRep->pckt[pos] = ucharValue;
+      pckt[pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT] = ucharValue;
     }
     
     if(CrFwCmpGetTypeId(smDesc) == CR_FW_INCOMMAND_TYPE) /*InCommand*/
     {
-      pos=pos+OFFSET_PAR_LENGTH_IN_CMD_PCKT;
       cmpSpecificDataInCmd = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
-      if(pos>(unsigned int)CrFwPcktGetLength(cmpSpecificDataInCmd->pckt)-3)
+      pckt = cmpSpecificDataInCmd->pckt;
+      /*error if the Size is to big*/
+      if(pos>(unsigned int)CrFwPcktGetLength(pckt))
       {
-          printf("ERROR: The position is outside the package!! \n");
+          printf("CrPsSetUCharValue-ERROR: The position is outside the package!! \n");
           return;
       }
-      printf("CrFwPcktGetMaxLength: %d \n",CrFwPcktGetMaxLength(cmpSpecificDataInCmd->pckt));
-      printf("CrFwPcktGetLength: %d \n",CrFwPcktGetLength(cmpSpecificDataInCmd->pckt));
-      printf("CrFwPcktGetParLength: %d \n",CrFwPcktGetParLength(cmpSpecificDataInCmd->pckt));
-      cmpSpecificDataInCmd->pckt[pos] = ucharValue;
+      pckt[pos+OFFSET_PAR_LENGTH_IN_CMD_PCKT] = ucharValue;
     }    
   return;
 }
@@ -407,6 +402,7 @@ void CrPsSetUCharValue(FwSmDesc_t smDesc, unsigned char ucharValue, unsigned int
 /* ------------------------------------------------------------------------------------ */
 void CrPsSetUShortValue(FwSmDesc_t smDesc, unsigned short ushortValue, unsigned int pos)
 {
+  CrFwPckt_t pckt;
   CrFwCmpData_t* cmpData;
   CrFwOutCmpData_t* cmpSpecificDataOutCmp;
   CrFwInRepData_t*  cmpSpecificDataInRep; 
@@ -416,56 +412,50 @@ void CrPsSetUShortValue(FwSmDesc_t smDesc, unsigned short ushortValue, unsigned 
     /*error if the Type does not match*/
     if((CrFwCmpGetTypeId(smDesc) != CR_FW_OUTCMP_TYPE) && (CrFwCmpGetTypeId(smDesc) != CR_FW_INREPORT_TYPE) && (CrFwCmpGetTypeId(smDesc) != CR_FW_INCOMMAND_TYPE))
     {
-        printf("ERROR: smDesc TypeId does not match!! \n");
+        printf("CrPsSetUShortValue-ERROR: smDesc TypeId does not match!! \n");
         return;
     } 
   
     if(CrFwCmpGetTypeId(smDesc) == CR_FW_OUTCMP_TYPE) /*OutComponent*/
     {
-      pos=pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT;
       cmpSpecificDataOutCmp = (CrFwOutCmpData_t*)(cmpData->cmpSpecificData);
-      if(pos > (unsigned int)(CrFwPcktGetLength(cmpSpecificDataOutCmp->pckt))-3)
+      pckt = cmpSpecificDataOutCmp->pckt;
+      /*error if the Size is to big*/
+      if(pos > (unsigned int)(CrFwPcktGetLength(pckt))-1)
       {
-          printf("ERROR: The position is outside the package!! \n");
+          printf("CrPsSetUShortValue-ERROR: The position is outside the package!! \n");
           return;
       }
-      printf("CrFwPcktGetMaxLength: %d \n",CrFwPcktGetMaxLength(cmpSpecificDataOutCmp->pckt));
-      printf("CrFwPcktGetLength: %d \n",CrFwPcktGetLength(cmpSpecificDataOutCmp->pckt));
-      printf("CrFwPcktGetParLength: %d \n",CrFwPcktGetParLength(cmpSpecificDataOutCmp->pckt));
-      cmpSpecificDataOutCmp->pckt[pos] = ((ushortValue >> 8 ) & 0xFF);
-      cmpSpecificDataOutCmp->pckt[pos + 1] = ( ushortValue & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT] = ((ushortValue >> 8 ) & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT + 1] = ( ushortValue & 0xFF);
     }
     
     if(CrFwCmpGetTypeId(smDesc) == CR_FW_INREPORT_TYPE) /*InReport*/
     {
-      pos=pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT;
       cmpSpecificDataInRep = (CrFwInRepData_t*)(cmpData->cmpSpecificData);
-      if(pos>(unsigned int)CrFwPcktGetLength(cmpSpecificDataInRep->pckt)-3)
+      pckt = cmpSpecificDataInRep->pckt;
+      /*error if the Size is to big*/
+      if(pos>(unsigned int)CrFwPcktGetLength(pckt)-1)
       {
-          printf("ERROR: The position is outside the package!! \n");
+          printf("CrPsSetUShortValue-ERROR: The position is outside the package!! \n");
           return;
       }
-      printf("CrFwPcktGetMaxLength: %d \n",CrFwPcktGetMaxLength(cmpSpecificDataInRep->pckt));
-      printf("CrFwPcktGetLength: %d \n",CrFwPcktGetLength(cmpSpecificDataInRep->pckt));
-      printf("CrFwPcktGetParLength: %d \n",CrFwPcktGetParLength(cmpSpecificDataInRep->pckt));
-      cmpSpecificDataInRep->pckt[pos] = ((ushortValue >> 8 ) & 0xFF);
-      cmpSpecificDataInRep->pckt[pos + 1] = ( ushortValue & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT] = ((ushortValue >> 8 ) & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT + 1] = ( ushortValue & 0xFF);
     }
     
     if(CrFwCmpGetTypeId(smDesc) == CR_FW_INCOMMAND_TYPE) /*InCommand*/
     {
-      pos=pos+OFFSET_PAR_LENGTH_IN_CMD_PCKT;
       cmpSpecificDataInCmd = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
-      if(pos>(unsigned int)CrFwPcktGetLength(cmpSpecificDataInCmd->pckt)-3)
+      pckt = cmpSpecificDataInCmd->pckt;
+      /*error if the Size is to big*/
+      if(pos>(unsigned int)CrFwPcktGetLength(pckt)-1)
       {
-          printf("ERROR: The position is outside the package!! \n");
+          printf("CrPsSetUShortValue-ERROR: The position is outside the package!! \n");
           return;
       }
-      printf("CrFwPcktGetMaxLength: %d \n",CrFwPcktGetMaxLength(cmpSpecificDataInCmd->pckt));
-      printf("CrFwPcktGetLength: %d \n",CrFwPcktGetLength(cmpSpecificDataInCmd->pckt));
-      printf("CrFwPcktGetParLength: %d \n",CrFwPcktGetParLength(cmpSpecificDataInCmd->pckt));
-      cmpSpecificDataInCmd->pckt[pos] = ((ushortValue >> 8 ) & 0xFF);
-      cmpSpecificDataInCmd->pckt[pos + 1] = ( ushortValue & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_IN_CMD_PCKT] = ((ushortValue >> 8 ) & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_IN_CMD_PCKT + 1] = ( ushortValue & 0xFF);
     }  
   return;
 }
@@ -473,6 +463,7 @@ void CrPsSetUShortValue(FwSmDesc_t smDesc, unsigned short ushortValue, unsigned 
 /* ------------------------------------------------------------------------------------ */
 void CrPsSetUIntValue(FwSmDesc_t smDesc, unsigned int uintValue, unsigned int pos)
 {
+  CrFwPckt_t pckt;
   CrFwCmpData_t* cmpData;
   CrFwOutCmpData_t* cmpSpecificDataOutCmp;
   CrFwInRepData_t*  cmpSpecificDataInRep; 
@@ -482,63 +473,57 @@ void CrPsSetUIntValue(FwSmDesc_t smDesc, unsigned int uintValue, unsigned int po
     /*error if the Type does not match*/
     if((CrFwCmpGetTypeId(smDesc) != CR_FW_OUTCMP_TYPE) && (CrFwCmpGetTypeId(smDesc) != CR_FW_INREPORT_TYPE) && (CrFwCmpGetTypeId(smDesc) != CR_FW_INCOMMAND_TYPE))
     {
-        printf("ERROR: smDesc TypeId does not match!! \n");
+        printf("CrPsSetUIntValue-ERROR: smDesc TypeId does not match!! \n");
         return;
     }
     
     if(CrFwCmpGetTypeId(smDesc) == CR_FW_OUTCMP_TYPE) /*OutComponent*/
     {
-      pos=pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT;
       cmpSpecificDataOutCmp = (CrFwOutCmpData_t*)(cmpData->cmpSpecificData);
-      if(pos > (unsigned int)(CrFwPcktGetLength(cmpSpecificDataOutCmp->pckt))-3)
+      pckt = cmpSpecificDataOutCmp->pckt;
+      /*error if the Size is to big*/
+      if(pos > (unsigned int)(CrFwPcktGetLength(pckt))-3)
       {
-          printf("ERROR: The position is outside the package!! \n");
+          printf("CrPsSetUIntValue-ERROR: The position is outside the package!! \n");
           return;
       }
-      printf("CrFwPcktGetMaxLength: %d \n",CrFwPcktGetMaxLength(cmpSpecificDataOutCmp->pckt));
-      printf("CrFwPcktGetLength: %d \n",CrFwPcktGetLength(cmpSpecificDataOutCmp->pckt));
-      printf("CrFwPcktGetParLength: %d \n",CrFwPcktGetParLength(cmpSpecificDataOutCmp->pckt));
-      cmpSpecificDataOutCmp->pckt[pos] = ( uintValue >> 24) & 0xff;
-      cmpSpecificDataOutCmp->pckt[pos + 1] = ((uintValue >> 16) & 0xFF);
-      cmpSpecificDataOutCmp->pckt[pos + 2] = ((uintValue >> 8 ) & 0xFF);
-      cmpSpecificDataOutCmp->pckt[pos + 3] = ( uintValue & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT] = ( uintValue >> 24) & 0xff;
+      pckt[pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT + 1] = ((uintValue >> 16) & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT + 2] = ((uintValue >> 8 ) & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT + 3] = ( uintValue & 0xFF);
     }
     
     if(CrFwCmpGetTypeId(smDesc) == CR_FW_INREPORT_TYPE) /*InReport*/
     {
-      pos=pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT;
       cmpSpecificDataInRep = (CrFwInRepData_t*)(cmpData->cmpSpecificData);
-      if(pos>(unsigned int)CrFwPcktGetLength(cmpSpecificDataInRep->pckt)-3)
+      pckt = cmpSpecificDataInRep->pckt;
+      /*error if the Size is to big*/
+      if(pos>(unsigned int)CrFwPcktGetLength(pckt)-3)
       {
-          printf("ERROR: The position is outside the package!! \n");
+          printf("CrPsSetUIntValue-ERROR: The position is outside the package!! \n");
           return;
       }
-      printf("CrFwPcktGetMaxLength: %d \n",CrFwPcktGetMaxLength(cmpSpecificDataInRep->pckt));
-      printf("CrFwPcktGetLength: %d \n",CrFwPcktGetLength(cmpSpecificDataInRep->pckt));
-      printf("CrFwPcktGetParLength: %d \n",CrFwPcktGetParLength(cmpSpecificDataInRep->pckt));
-      cmpSpecificDataInRep->pckt[pos] = ( uintValue >> 24) & 0xff;
-      cmpSpecificDataInRep->pckt[pos + 1] = ((uintValue >> 16) & 0xFF);
-      cmpSpecificDataInRep->pckt[pos + 2] = ((uintValue >> 8 ) & 0xFF);
-      cmpSpecificDataInRep->pckt[pos + 3] = ( uintValue & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT] = ( uintValue >> 24) & 0xff;
+      pckt[pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT + 1] = ((uintValue >> 16) & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT + 2] = ((uintValue >> 8 ) & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_OUT_REP_PCKT + 3] = ( uintValue & 0xFF);
     }
     
     
     if(CrFwCmpGetTypeId(smDesc) == CR_FW_INCOMMAND_TYPE) /*InCommand*/
     {
-      pos=pos+OFFSET_PAR_LENGTH_IN_CMD_PCKT;
       cmpSpecificDataInCmd = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
-      if(pos>(unsigned int)CrFwPcktGetLength(cmpSpecificDataInCmd->pckt)-3)
+      pckt = cmpSpecificDataInCmd->pckt;
+      /*error if the Size is to big*/
+      if(pos>(unsigned int)CrFwPcktGetLength(pckt)-3)
       {
-          printf("ERROR: The position is outside the package!! \n");
+          printf("CrPsSetUIntValue-ERROR: The position is outside the package!! \n");
           return;
       }
-      printf("CrFwPcktGetMaxLength: %d \n",CrFwPcktGetMaxLength(cmpSpecificDataInCmd->pckt));
-      printf("CrFwPcktGetLength: %d \n",CrFwPcktGetLength(cmpSpecificDataInCmd->pckt));
-      printf("CrFwPcktGetParLength: %d \n",CrFwPcktGetParLength(cmpSpecificDataInCmd->pckt));
-      cmpSpecificDataInCmd->pckt[pos] = ( uintValue >> 24) & 0xff;
-      cmpSpecificDataInCmd->pckt[pos + 1] = ((uintValue >> 16) & 0xFF);
-      cmpSpecificDataInCmd->pckt[pos + 2] = ((uintValue >> 8 ) & 0xFF);
-      cmpSpecificDataInCmd->pckt[pos + 3] = ( uintValue & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_IN_CMD_PCKT] = ( uintValue >> 24) & 0xff;
+      pckt[pos+OFFSET_PAR_LENGTH_IN_CMD_PCKT + 1] = ((uintValue >> 16) & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_IN_CMD_PCKT + 2] = ((uintValue >> 8 ) & 0xFF);
+      pckt[pos+OFFSET_PAR_LENGTH_IN_CMD_PCKT + 3] = ( uintValue & 0xFF);
     }
 
   return;
