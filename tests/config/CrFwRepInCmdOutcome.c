@@ -63,6 +63,8 @@ typedef struct {
 	CrFwDiscriminant_t discriminant;
 	/** The instance identifier of the InCommand whose outcome is being reported */
 	CrFwInstanceId_t instanceId;
+	/** The inCmd where the error occurred (NB: this is a pointer!) **/
+	FwSmDesc_t inCmd;
 } CrFwInCmdOutcomeRep_t;
 
 /** The InCommand Outcome Report array */
@@ -84,7 +86,7 @@ void CrFwRepInCmdOutcomeStubReset() {
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanceId, CrFwServType_t servType,
-                         CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode, __attribute__((unused)) FwSmDesc_t inCmd) {
+                         CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode, FwSmDesc_t inCmd) {
 
 	inCmdOutcomeRepArray[inCmdOutcomeRepPos].outcome = outcome;
 	inCmdOutcomeRepArray[inCmdOutcomeRepPos].instanceId = instanceId;
@@ -92,6 +94,7 @@ void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanc
 	inCmdOutcomeRepArray[inCmdOutcomeRepPos].servType = servType;
 	inCmdOutcomeRepArray[inCmdOutcomeRepPos].servSubType = servSubType;
 	inCmdOutcomeRepArray[inCmdOutcomeRepPos].discriminant = disc;
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].inCmd = inCmd;
 
 	inCmdOutcomeRepPos = (CrFwCounterU2_t)((inCmdOutcomeRepPos + 1) % CR_FW_INCMD_OUTCOME_REP_ARRAY_SIZE);
 }
