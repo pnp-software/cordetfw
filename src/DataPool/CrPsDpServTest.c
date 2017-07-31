@@ -17,10 +17,17 @@ DpServTest_t dpServTest ;
  */
 void initDpServTest(void)
 {
-   dpServTest = (DpServTest_t){
-      .AreYouAliveTimeOut = 10,
-      .OnBoardConnectDestLst = {0,0,0,0,0,0,0,0,0,0},
-      .AreYouAliveSrc = 0,
-      .OnBoardConnectDest = 0
-   };
+   dpServTest.AreYouAliveTimeOut = 10;
+   dpServTest.OnBoardConnectDestLst[0] = 0;
+   dpServTest.OnBoardConnectDestLst[1] = 0;
+   dpServTest.OnBoardConnectDestLst[2] = 0;
+   dpServTest.OnBoardConnectDestLst[3] = 0;
+   dpServTest.OnBoardConnectDestLst[4] = 0;
+   dpServTest.OnBoardConnectDestLst[5] = 0;
+   dpServTest.OnBoardConnectDestLst[6] = 0;
+   dpServTest.OnBoardConnectDestLst[7] = 0;
+   dpServTest.OnBoardConnectDestLst[8] = 0;
+   dpServTest.OnBoardConnectDestLst[9] = 0;
+   dpServTest.AreYouAliveSrc = 0;
+   dpServTest.OnBoardConnectDest = 0;
 }

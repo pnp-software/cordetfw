@@ -17,23 +17,21 @@ DpServReqVerif_t dpServReqVerif ;
  */
 void initDpServReqVerif(void)
 {
-   dpServReqVerif = (DpServReqVerif_t){
-      .failCodeAccFailed = 0,
-      .failCodePrgrFailed = 0,
-      .failCodeStartFailed = 0,
-      .failCodeTermFailed = 0,
-      .invDestRerouting = 0,
-      .nOfAccFailed = 0,
-      .nOfPrgrFailed = 0,
-      .nOfReroutingFailed = 0,
-      .nOfStartFailed = 0,
-      .nOfTermFailed = 0,
-      .pcktIdAccFailed = 0,
-      .pcktIdPrgrFailed = 0,
-      .pcktIdReroutingFailed = 0,
-      .pcktIdStartFailed = 0,
-      .pcktIdTermFailed = 0,
-      .stepPrgrFailed = 0,
-      .verFailData = 0
-   };
+   dpServReqVerif.failCodeAccFailed = 0;
+   dpServReqVerif.failCodePrgrFailed = 0;
+   dpServReqVerif.failCodeStartFailed = 0;
+   dpServReqVerif.failCodeTermFailed = 0;
+   dpServReqVerif.invDestRerouting = 0;
+   dpServReqVerif.nOfAccFailed = 0;
+   dpServReqVerif.nOfPrgrFailed = 0;
+   dpServReqVerif.nOfReroutingFailed = 0;
+   dpServReqVerif.nOfStartFailed = 0;
+   dpServReqVerif.nOfTermFailed = 0;
+   dpServReqVerif.pcktIdAccFailed = 0;
+   dpServReqVerif.pcktIdPrgrFailed = 0;
+   dpServReqVerif.pcktIdReroutingFailed = 0;
+   dpServReqVerif.pcktIdStartFailed = 0;
+   dpServReqVerif.pcktIdTermFailed = 0;
+   dpServReqVerif.stepPrgrFailed = 0;
+   dpServReqVerif.verFailData = 0;
 }
