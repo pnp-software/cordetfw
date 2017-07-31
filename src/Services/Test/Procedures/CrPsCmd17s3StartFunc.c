@@ -83,18 +83,18 @@ void CrPsTestOnBoardConnectionStartN3(FwPrDesc_t __attribute__((unused)) prDesc)
 /* Action for node N4. */
 void CrPsTestOnBoardConnectionStartN4(FwPrDesc_t __attribute__((unused)) prDesc)
 {
-  unsigned short destId;
+  CrFwDestSrc_t destId;
 
   /* Configure (17,1) OutComponent */
 
   printf("CrPsTestOnBoardConnectionStartN4()\n");
 
   /* Get destination Id of target application */
-  destId = getDpOnBoardConnectDest();
+  destId = (CrFwDestSrc_t)getDpOnBoardConnectDest();
   printf("CrPsTestOnBoardConnectionStartN4(): destId = %d\n", destId);
 
   /* Set out component parameters */
-  CrFwOutCmpSetDest(cmd, (CrFwDestSrc_t)destId);
+  CrFwOutCmpSetDest(cmd, destId);
 
   return;
 }
@@ -116,13 +116,14 @@ void CrPsTestOnBoardConnectionStartN5(FwPrDesc_t __attribute__((unused)) prDesc)
 /* Action for node N7. */
 void CrPsTestOnBoardConnectionStartN7(FwPrDesc_t __attribute__((unused)) prDesc)
 {
+  prDataStartAction_t prDataStartAction;
+
   /* Set outcome of Start Action to 'success' */
 
   printf("CrPsTestOnBoardConnectionStartN7()\n");
 
-  /*cmpDataStart->outcome = 1;*/
-
-  outcomeStart = 1;
+  prDataStartAction.outcome = 1;
+  FwPrSetData(prDesc, &prDataStartAction);
 
   return;
 }
@@ -131,12 +132,14 @@ void CrPsTestOnBoardConnectionStartN7(FwPrDesc_t __attribute__((unused)) prDesc)
 /* Action for node N8. */
 void CrPsTestOnBoardConnectionStartN8(FwPrDesc_t __attribute__((unused)) prDesc)
 {
+  prDataStartAction_t prDataStartAction;
+
   /* Set outcome of Start Action to 'failure' with failure code VER_REP_CR_FD */
 
   printf("CrPsTestOnBoardConnectionStartN8()\n");
 
-  /*cmpDataStart->outcome = VER_REP_CR_FD;*/
-  outcomeStart = VER_REP_CR_FD;
+  prDataStartAction.outcome = VER_REP_CR_FD;
+  FwPrSetData(prDesc, &prDataStartAction);
 
   return;
 }

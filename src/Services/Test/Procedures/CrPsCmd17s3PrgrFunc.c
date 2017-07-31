@@ -40,6 +40,8 @@ void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t __attribute__((unused)) prDesc)
 {
   CrFwDestSrc_t destId;
   unsigned short appId;
+  prDataPrgrAction_t prDataPrgrAction;
+  prDataPrgrAction_t* prDataPrgrActionPtr;
 
   /* Configure the (17,4) report with a destination equal to the source of the (17,3),
      load it in the Outloader and set action outcome to 'completed' */
@@ -54,15 +56,17 @@ void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t __attribute__((unused)) prDesc)
   /* Set out component parameters */
   CrPsServTestOnBoardConnectParamSetAppId(rep, appId);
 
-  destId = 0; /* GRD, TODO: equal to the source of the (17,3) */
-  CrFwOutCmpSetDest(rep, (CrFwDestSrc_t)destId);
+  /* Get the source of the InCmd from prData and set the destination equal to the source of the (17,3) */
+  prDataPrgrActionPtr = FwPrGetData(prDesc);
+  destId = prDataPrgrActionPtr->source;
+  CrFwOutCmpSetDest(rep, destId);
 
+  /* Load the (17,4) report in the Outloader */
   CrFwOutLoaderLoad(rep);
 
-  /* set action outcome to 'completed' */
-
-  /*cmpDataPrgr->outcome = 1;*/
-  outcomePrgr = 1;
+  /* Set action outcome to 'completed' */
+  prDataPrgrAction.outcome = 1;
+  FwPrSetData(prDesc, &prDataPrgrAction);
 
   return;
 }
@@ -71,12 +75,14 @@ void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t __attribute__((unused)) prDesc)
 /* Action for node N2. */
 void CrPsTestOnBoardConnectionPrgrN2(FwPrDesc_t __attribute__((unused)) prDesc)
 {
+  prDataPrgrAction_t prDataPrgrAction;
+
   /* Set action outcome to 'continue' */
 
   printf("CrPsTestOnBoardConnectionPrgrN2()\n");
 
-  /*cmpDataPrgr->outcome = 2;*/
-  outcomePrgr = 2;
+  prDataPrgrAction.outcome = 2;
+  FwPrSetData(prDesc, &prDataPrgrAction);
 
   return;
 }
@@ -85,13 +91,15 @@ void CrPsTestOnBoardConnectionPrgrN2(FwPrDesc_t __attribute__((unused)) prDesc)
 /* Action for node N3. */
 void CrPsTestOnBoardConnectionPrgrN3(FwPrDesc_t __attribute__((unused)) prDesc)
 {
+  prDataPrgrAction_t prDataPrgrAction;
+
   /* Set action outcome to 'completed' */
   /* TODO: should be failed? (reached timeout) */
 
   printf("CrPsTestOnBoardConnectionPrgrN3()\n");
 
-  /*cmpDataPrgr->outcome = 1;*/
-  outcomePrgr = 4;
+  prDataPrgrAction.outcome = 4;
+  FwPrSetData(prDesc, &prDataPrgrAction);
 
   return;
 }

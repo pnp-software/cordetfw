@@ -23,6 +23,15 @@ typedef struct {
   unsigned short ushortParam2;
 } prData_t;
 
+typedef struct {
+	unsigned short outcome;
+} prDataStartAction_t;
+
+typedef struct {
+	CrFwDestSrc_t source;
+	unsigned short outcome;
+} prDataPrgrAction_t;
+
 
 /* ######################################################################################
  * ### Identifiers (e.g. service type, service sub-type)

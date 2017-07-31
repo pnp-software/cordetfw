@@ -17,6 +17,7 @@
 #include "CrFwCmpData.h"
 
 /* FwProfile includes */
+#include "FwPrConfig.h"
 #include "FwPrCore.h"
 #include "FwSmConfig.h"
 
@@ -30,7 +31,6 @@
 #include <stdio.h>
 
 /* global handles */
-unsigned char outcomeStart, outcomePrgr;
 unsigned short timeOut_cnt;
 
 
@@ -53,6 +53,7 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t __attribute__((unused)) smD
   CrFwInCmdData_t* cmpSpecificData;
   CrFwPckt_t inPckt;
   unsigned short appId;
+  prDataStartAction_t* prDataStartActionPtr;
 
   /* Run the procedure Start Action of OnBoardConnectCmd Command (see figure 13.1 in PP-DF-COR-003) */
 
@@ -66,10 +67,6 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t __attribute__((unused)) smD
   /* set timeout counter to 0 */
   timeOut_cnt = 0;
 
-  /* reset global handles */
-  outcomeStart = 1;
-  outcomePrgr  = 2;
-
   /* TODO: not in specifications */
   /* get Application ID */
   CrPsServTestOnBoardConnectParamGetAppId(&appId, inPckt);
@@ -81,11 +78,14 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t __attribute__((unused)) smD
   /* TODO: remove; TEST: re-read and print */
   printf("CrPsTestOnBoardConnectionStartAction(): appId in DP = %d\n", getDpOnBoardConnectDest());
 
-  FwPrStart(prDescServTestOnBoardConnStart);
-  FwPrExecute(prDescServTestOnBoardConnStart);
+  /* Run the procedure */
+  FwPrRun(prDescServTestOnBoardConnStart);
+
+  /* Get procedure parameters */
+  prDataStartActionPtr = FwPrGetData(prDescServTestOnBoardConnStart);
 
   /*Setting the Outcome*/
-  cmpDataStart->outcome = outcomeStart;
+  cmpDataStart->outcome = prDataStartActionPtr->outcome;
  
   printf("CrPsTestOnBoardConnectionStartAction(): cmpDataStart->outcome = %d\n", cmpDataStart->outcome);
 
@@ -96,22 +96,37 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t __attribute__((unused)) smD
 void CrPsTestOnBoardConnectionProgressAction(FwSmDesc_t __attribute__((unused)) smDesc) 
 {
   CrFwCmpData_t* cmpDataPrgr;
+  CrFwInCmdData_t* cmpSpecificData;
+  CrFwPckt_t inPckt;
+  CrFwDestSrc_t srcId;
+  prDataPrgrAction_t* prDataPrgrActionPtr;
+  prDataPrgrAction_t prDataPrgrAction;
 
   /* Run the procedure Progress Action of OnBoardConnectCmd Command (see figure 13.2 in PP-DF-COR-003) */
 
   printf("CrPsTestOnBoardConnectionProgressAction()\n");
 
-  /* Get component data */
-  cmpDataPrgr = (CrFwCmpData_t*)FwSmGetData(smDesc);
+  /* Get in packet */
+  cmpDataPrgr     = (CrFwCmpData_t   *) FwSmGetData(smDesc);
+  cmpSpecificData = (CrFwInCmdData_t *) cmpDataPrgr->cmpSpecificData;
+  inPckt          = cmpSpecificData->pckt;
 
-  FwPrStart(prDescServTestOnBoardConnPrgr);
-  FwPrExecute(prDescServTestOnBoardConnPrgr);
+  /* Get the InCmd source and set it in the prData */
+  srcId = CrFwPcktGetSrc(inPckt);
+  prDataPrgrAction.source = srcId;
+  FwPrSetData(prDescServTestOnBoardConnPrgr, &prDataPrgrAction);
 
-  /* increment timeout counter */
+  /* Run the procedure */
+  FwPrRun(prDescServTestOnBoardConnPrgr);
+
+  /* Get procedure parameters */
+  prDataPrgrActionPtr = FwPrGetData(prDescServTestOnBoardConnPrgr);
+
+  /* Set the Outcome*/
+  cmpDataPrgr->outcome = prDataPrgrActionPtr->outcome;
+
+  /* Increment timeout counter */
   timeOut_cnt++;
-
-  /*Setting the Outcome*/
-  cmpDataPrgr->outcome = outcomePrgr;
 
   printf("CrPsTestOnBoardConnectionProgressAction(): cmpDataPrgr->outcome = %d\n", cmpDataPrgr->outcome);
 

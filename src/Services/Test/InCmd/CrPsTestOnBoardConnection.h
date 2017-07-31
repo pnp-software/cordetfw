@@ -14,7 +14,6 @@
 #include <time.h>
 
 /* global handles */
-extern unsigned char outcomeStart, outcomePrgr;
 extern unsigned short timeOut_cnt;
 
 
