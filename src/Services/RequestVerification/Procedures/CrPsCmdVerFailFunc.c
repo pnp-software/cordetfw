@@ -19,8 +19,10 @@
 #include <CrFwCmpData.h>
 #include <OutFactory/CrFwOutFactory.h>
 #include <OutLoader/CrFwOutLoader.h>
+#include <OutCmp/CrFwOutCmp.h>
 
 #include <CrPsPcktUtilities.h>
+#include <CrPsRepErr.h>
 #include <DataPool/CrPsDpServReqVerif.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsParamSetter.h>
@@ -57,9 +59,18 @@ void CrPsCmdVerFailN2(FwPrDesc_t __attribute__((unused)) prDesc)
 /** Action for node N3. */
 void CrPsCmdVerFailN3(FwPrDesc_t __attribute__((unused)) prDesc)
 {
-  /* TODO: Generate error report OUTFACTORY_FAIL */
+  prData_t* prData;
+  CrPsRepErrCode_t errCode;
+
+  /* Generate error report OUTFACTORY_FAIL */
 
   printf("CrPsCmdVerFailN3: Generate error report OUTFACTORY_FAIL\n");
+
+  /* Get procedure parameters */
+  prData = FwPrGetData(prDesc);
+
+  errCode = crOutfactoryFail;
+  CrPsRepErr(errCode, CRPS_REQVERIF, prData->ushortParam2, 0);
 
   return;
 }

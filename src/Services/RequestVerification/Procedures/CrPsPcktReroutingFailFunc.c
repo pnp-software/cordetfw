@@ -20,8 +20,10 @@
 #include <BaseCmp/CrFwBaseCmp.h>
 #include <OutFactory/CrFwOutFactory.h>
 #include <OutLoader/CrFwOutLoader.h>
+#include <OutCmp/CrFwOutCmp.h>
 
 #include <CrPsPcktUtilities.h>
+#include <CrPsRepErr.h>
 #include <DataPool/CrPsDpServReqVerif.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsParamSetter.h>
@@ -40,9 +42,29 @@ FwSmDesc_t cmd, rep;
 /** Action for node N1. */
 void CrPsPcktReroutingFailN1(FwPrDesc_t __attribute__((unused)) prDesc)
 {
-  /* TODO: Generate error report INLOADER_INV_DEST */
+  CrFwCmpData_t*   inData;
+  CrFwInCmdData_t* inSpecificData;
+  CrFwPckt_t       inPckt;
+
+  FwSmDesc_t  smDesc;
+  prData_t* prData;
+  CrPsRepErrCode_t errCode;
+
+  /* Generate error report INLOADER_INV_DEST */
 
   printf("CrPsPcktReroutingFailN1: Generate error report INLOADER_INV_DEST\n");
+
+  /* Get procedure parameters */
+  prData = FwPrGetData(prDesc);
+  smDesc = prData->smDesc;
+
+   /* Get in packet */
+  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
+  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
+  inPckt         = inSpecificData->pckt;
+
+  errCode = crInloaderInvDest;
+  CrPsRepErr(errCode, CrFwPcktGetServType(inPckt), CrFwPcktGetServSubType(inPckt), CrFwPcktGetDiscriminant(inPckt));
 
   return;
 }
@@ -65,9 +87,14 @@ void CrPsPcktReroutingFailN2(FwPrDesc_t __attribute__((unused)) prDesc)
 /** Action for node N3. */
 void CrPsPcktReroutingFailN3(FwPrDesc_t __attribute__((unused)) prDesc)
 {
-  /* TODO: Generate error report OUTFACTORY_FAIL */
+  CrPsRepErrCode_t errCode;
+
+  /* Generate error report OUTFACTORY_FAIL */
 
   printf("CrPsPcktReroutingFailN3: Generate error report OUTFACTORY_FAIL\n");
+
+  errCode = crOutfactoryFail;
+  CrPsRepErr(errCode, CRPS_REQVERIF, CRPS_REQVERIF_PROG_SUCC, 0);
 
   return;
 }

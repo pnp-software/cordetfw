@@ -29,6 +29,8 @@
 #include <Services/General/CrPsConstants.h>
 #include <Services/Test/InCmd/CrPsTestOnBoardConnection.h> /* for global handles */
 
+#include "CrPsRepErr.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -72,9 +74,14 @@ void CrPsTestOnBoardConnectionStartN2(FwPrDesc_t __attribute__((unused)) prDesc)
 /* Action for node N3. */
 void CrPsTestOnBoardConnectionStartN3(FwPrDesc_t __attribute__((unused)) prDesc)
 {
-  /* TODO: Generate error report OUTFACTORY_FAIL */
+  CrPsRepErrCode_t errCode;
+
+  /* Generate error report OUTFACTORY_FAIL */
 
   printf("CrPsTestOnBoardConnectionStartN3()\n");
+
+  errCode = crOutfactoryFail;
+  CrPsRepErr(errCode, CRPS_TEST, CRPS_TEST_AREYOUALIVE_CONNECTION_CMD, 0);
 
   return;
 }
