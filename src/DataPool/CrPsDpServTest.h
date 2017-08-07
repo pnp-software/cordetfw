@@ -3,7 +3,7 @@
  *
  * Interface for accessing data pool items.
  *
- * \note This file was generated on 2017-07-24 16:05:36
+ * \note This file was generated on 2017-08-07 09:38:54
  * \author PnP Generator
  * \copyright (c) Copyright
  */
@@ -12,25 +12,25 @@
  * Type description
  */
 typedef struct {
-   /**
-    * Time-out for the Are-You-Alive Test initiated in response to an
-    * Is-Application-Process-Alive Test
-    */
-   uint32_t AreYouAliveTimeOut;
-   /**
-    * List of identifiers of target applications for an On-Board-Connection
-    * Test
-    */
-   uint16_t OnBoardConnectDestLst[10];
-   /**
-    * Source of the latest (17,2) report received in response to a (17,1)
-    * command triggered by a (17,3) command
-    */
-   uint16_t AreYouAliveSrc;
-   /**
-    * Destination of the (17,1) triggered by a (17,3) command
-    */
-   uint16_t OnBoardConnectDest;
+  /**
+   * Time-out for the Are-You-Alive Test initiated in response to an
+   * Is-Application-Process-Alive Test
+   */
+  uint32_t AreYouAliveTimeOut;
+  /**
+   * List of identifiers of target applications for an On-Board-Connection
+   * Test
+   */
+  uint16_t OnBoardConnectDestLst[10];
+  /**
+   * Source of the latest (17,2) report received in response to a (17,1)
+   * command triggered by a (17,3) command
+   */
+  uint16_t AreYouAliveSrc;
+  /**
+   * Destination of the (17,1) triggered by a (17,3) command
+   */
+  uint16_t OnBoardConnectDest;
 } DpServTest_t;
 
 extern DpServTest_t dpServTest;
@@ -46,7 +46,7 @@ void initDpServTest(void);
  */
 static inline uint32_t getDpAreYouAliveTimeOut()
 {
-   return dpServTest.AreYouAliveTimeOut;
+  return dpServTest.AreYouAliveTimeOut;
 }
 
 /**
@@ -56,7 +56,7 @@ static inline uint32_t getDpAreYouAliveTimeOut()
  */
 static inline void setDpAreYouAliveTimeOut(uint32_t AreYouAliveTimeOut)
 {
-   dpServTest.AreYouAliveTimeOut = AreYouAliveTimeOut;
+  dpServTest.AreYouAliveTimeOut = AreYouAliveTimeOut;
 }
 
 /**
@@ -65,7 +65,7 @@ static inline void setDpAreYouAliveTimeOut(uint32_t AreYouAliveTimeOut)
  */
 static inline uint16_t* getDpOnBoardConnectDestLstArray()
 {
-   return &dpServTest.OnBoardConnectDestLst[0];
+  return &dpServTest.OnBoardConnectDestLst[0];
 }
 
 /**
@@ -76,7 +76,7 @@ static inline uint16_t* getDpOnBoardConnectDestLstArray()
  */
 static inline uint16_t getDpOnBoardConnectDestLstItem(int i)
 {
-   return dpServTest.OnBoardConnectDestLst[i];
+  return dpServTest.OnBoardConnectDestLst[i];
 }
 
 /**
@@ -88,7 +88,7 @@ static inline uint16_t getDpOnBoardConnectDestLstItem(int i)
  */
 static inline void setDpOnBoardConnectDestLstItem(int i, uint16_t OnBoardConnectDestLst)
 {
-   dpServTest.OnBoardConnectDestLst[i] = OnBoardConnectDestLst;
+  dpServTest.OnBoardConnectDestLst[i] = OnBoardConnectDestLst;
 }
 
 /**
@@ -97,7 +97,7 @@ static inline void setDpOnBoardConnectDestLstItem(int i, uint16_t OnBoardConnect
  */
 static inline uint16_t getDpAreYouAliveSrc()
 {
-   return dpServTest.AreYouAliveSrc;
+  return dpServTest.AreYouAliveSrc;
 }
 
 /**
@@ -107,7 +107,7 @@ static inline uint16_t getDpAreYouAliveSrc()
  */
 static inline void setDpAreYouAliveSrc(uint16_t AreYouAliveSrc)
 {
-   dpServTest.AreYouAliveSrc = AreYouAliveSrc;
+  dpServTest.AreYouAliveSrc = AreYouAliveSrc;
 }
 
 /**
@@ -116,7 +116,7 @@ static inline void setDpAreYouAliveSrc(uint16_t AreYouAliveSrc)
  */
 static inline uint16_t getDpOnBoardConnectDest()
 {
-   return dpServTest.OnBoardConnectDest;
+  return dpServTest.OnBoardConnectDest;
 }
 
 /**
@@ -126,6 +126,6 @@ static inline uint16_t getDpOnBoardConnectDest()
  */
 static inline void setDpOnBoardConnectDest(uint16_t OnBoardConnectDest)
 {
-   dpServTest.OnBoardConnectDest = OnBoardConnectDest;
+  dpServTest.OnBoardConnectDest = OnBoardConnectDest;
 }
 

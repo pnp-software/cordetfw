@@ -152,13 +152,13 @@ void CrPsCmdVerFailN5(FwPrDesc_t __attribute__((unused)) prDesc)
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
 
-  if (prData->ushortParam1 == CRPS_REQVERIF_START_FAIL)
+  if (prData->ushortParam2 == CRPS_REQVERIF_START_FAIL)
     {
       nOfStartFailed = getDpnOfStartFailed();
       nOfStartFailed += 1;
       setDpnOfStartFailed(nOfStartFailed);
     }
-  else if (prData->ushortParam1 == CRPS_REQVERIF_TERM_FAIL)
+  else if (prData->ushortParam2 == CRPS_REQVERIF_TERM_FAIL)
     {
       nOfTermFailed = getDpnOfTermFailed();
       nOfTermFailed += 1;
@@ -198,21 +198,21 @@ void CrPsCmdVerFailN6(FwPrDesc_t __attribute__((unused)) prDesc)
   /* Set pcktIdAccFailed */
   tcPacketId = CrFwPcktGetPid(inPckt); /* --- adaptation point CrFwPckt ---> */
 
-  if (prData->ushortParam1 == CRPS_REQVERIF_START_FAIL)
+  if (prData->ushortParam2 == CRPS_REQVERIF_START_FAIL)
     {
       /* Set pcktIdStartFailed */
       setDppcktIdStartFailed(tcPacketId);
 
       /* Set failCodeStartFailed */
-      setDpfailCodeStartFailed(prData->ushortParam2);
+      setDpfailCodeStartFailed(prData->ushortParam1);
     }
-  else if (prData->ushortParam1 == CRPS_REQVERIF_TERM_FAIL)
+  else if (prData->ushortParam2 == CRPS_REQVERIF_TERM_FAIL)
     {
       /* Set pcktIdTermFailed */
       setDppcktIdTermFailed(tcPacketId);
 
       /* Set failCodeTermFailed */
-      setDpfailCodeTermFailed(prData->ushortParam2);
+      setDpfailCodeTermFailed(prData->ushortParam1);
     }
 
   return;

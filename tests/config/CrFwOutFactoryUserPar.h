@@ -33,19 +33,12 @@
 #include <Services/Test/OutCmp/CrPsTestAreYouAliveConnectionRep.h>
 #include <Services/Test/OutCmp/CrPsTestOnBoardConnectionRep.h>
 #include <Services/General/CrPsConstants.h>
-#include <Services/RequestVerification/OutCmp/CrPsReqVerifAccFail.h>
-#include <Services/RequestVerification/OutCmp/CrPsReqVerifAccSucc.h>
-#include <Services/RequestVerification/OutCmp/CrPsReqVerifStartFail.h>
-#include <Services/RequestVerification/OutCmp/CrPsReqVerifStartSucc.h>
-#include <Services/RequestVerification/OutCmp/CrPsReqVerifProgFail.h>
-#include <Services/RequestVerification/OutCmp/CrPsReqVerifProgSucc.h>
-#include <Services/RequestVerification/OutCmp/CrPsReqVerifTermFail.h>
-#include <Services/RequestVerification/OutCmp/CrPsReqVerifTermSucc.h>
+
 /**
  * The maximum number of OutComponents which may be allocated at any one time.
  * This constant must be smaller than the range of <code>::CrFwOutFactoryPoolIndex_t</code>.
  */
-#define CR_FW_OUTFACTORY_MAX_NOF_OUTCMP 140
+#define CR_FW_OUTFACTORY_MAX_NOF_OUTCMP 10
 
 /**
  * The total number of kinds of OutComponents supported by the application.
@@ -58,7 +51,7 @@
  * This constant is used as the size of a statically declared array.
  * Hence, a value of zero may not be allowed by some compilers.
  */
-#define CR_FW_OUTCMP_NKINDS 27
+#define CR_FW_OUTCMP_NKINDS 28
 
 /**
  * Definition of the OutComponent kinds supported by an application.
@@ -125,71 +118,34 @@
  * <code>CrFwOutCmpSample1.h</code>.
  */
 #define CR_FW_OUTCMP_INIT_KIND_DESC \
-	{ {1, 1, 0, crRepType, CRPS_REQVERIF_ACC_SUCC_LENGTH, &CrFwSmCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, \
-                                                               &CrFwSmCheckAlwaysFalse, &CrPsReqVerifAccSuccUpdateAction, \
-                                                               &CrFwOutCmpDefSerialize},\
-          {1, 2, 0, crRepType, CRPS_REQVERIF_ACC_FAIL_LENGTH, &CrFwSmCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, \
-                                                               &CrFwSmCheckAlwaysFalse, &CrPsReqVerifAccSuccUpdateAction, \
-                                                               &CrFwOutCmpDefSerialize},\
-	  {1, 2, 1, 2, 100, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize}, \
-	  {1, 2, 2, 2, 100, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize}, \
-          {1, 3, 0, crRepType, CRPS_REQVERIF_START_SUCC_LENGTH, &CrFwSmCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, \
-                                                               &CrFwSmCheckAlwaysFalse, &CrPsReqVerifAccSuccUpdateAction, \
-                                                               &CrFwOutCmpDefSerialize},\
-          {1, 4, 0, crRepType, CRPS_REQVERIF_START_FAIL_LENGTH, &CrFwSmCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, \
-                                                               &CrFwSmCheckAlwaysFalse, &CrPsReqVerifAccSuccUpdateAction, \
-                                                               &CrFwOutCmpDefSerialize},\
-          {1, 5, 0, crRepType, CRPS_REQVERIF_PROG_SUCC_LENGTH, &CrFwSmCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, \
-                                                               &CrFwSmCheckAlwaysFalse, &CrPsReqVerifAccSuccUpdateAction, \
-                                                               &CrFwOutCmpDefSerialize},\
-          {1, 6, 0, crRepType, CRPS_REQVERIF_PROG_FAIL_LENGTH, &CrFwSmCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, \
-                                                               &CrFwSmCheckAlwaysFalse, &CrPsReqVerifAccSuccUpdateAction, \
-                                                               &CrFwOutCmpDefSerialize},\
-          {1, 7, 0, crRepType, CRPS_REQVERIF_TERM_SUCC_LENGTH, &CrFwSmCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, \
-                                                               &CrFwSmCheckAlwaysFalse, &CrPsReqVerifAccSuccUpdateAction, \
-                                                               &CrFwOutCmpDefSerialize},\
-          {1, 8, 0, crRepType, CRPS_REQVERIF_TERM_FAIL_LENGTH, &CrFwSmCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, \
-                                                               &CrFwSmCheckAlwaysFalse, &CrPsReqVerifAccSuccUpdateAction, \
-                                                               &CrFwOutCmpDefSerialize},\
-	  {1, 8, 1, 2, 100, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize}, \
-	  {1, 8, 5, 2, 100, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize}, \
-	  {5, 1, 1, 2, 100, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize},  \
-	  {5, 1, 2, 2, 90, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize},  \
-	  {5, 2, 10, 2, 100, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize},  \
-	  {5, 2, 20, 2, 100, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize},  \
-	  {5, 3, 30, 2, 100, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize},  \
-	  {5, 3, 31, 2, 100, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize},  \
-	  {5, 4, 0, 2, 50, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize},  \
-	  {5, 4, 3, 2, 100, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize},  \
-	  {5, 4, 5, 2, 99, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize},  \
-	  {5, 4, 7, 2, 98, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize},  \
-	  {17, 1, 0, crRepType, CRPS_TEST_AREYOUALIVE_CONNECTION_CMD_LENGTH, &CrPsTestAreYouAliveConnectionRepEnableCheck, \
-                            &CrPsTestAreYouAliveConnectionRepReadyCheck,     &CrPsTestAreYouAliveConnectionRepRepeatCheck, \
-                            &CrPsTestAreYouAliveConnectionRepUpdateAction,   &CrFwOutCmpDefSerialize}, \
-          {17, 2, 0, crRepType, CRPS_TEST_AREYOUALIVE_CONNECTION_REP_LENGTH, &CrPsTestAreYouAliveConnectionRepEnableCheck, \
-                            &CrPsTestAreYouAliveConnectionRepReadyCheck,     &CrPsTestAreYouAliveConnectionRepRepeatCheck, \
-                            &CrPsTestAreYouAliveConnectionRepUpdateAction,   &CrFwOutCmpDefSerialize}, \
-	  {17, 4, 0, crRepType, CRPS_TEST_ONBOARD_CONNECTION_REP_LENGTH,     &CrPsTestOnBoardConnectionRepEnableCheck, \
-                            &CrPsTestOnBoardConnectionRepReadyCheck,         &CrPsTestOnBoardConnectionRepRepeatCheck, \
-                            &CrPsTestOnBoardConnectionRepUpdateAction,       &CrFwOutCmpDefSerialize}, \
-          {25, 3, 0, 2, 100, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
-							&CrFwSmCheckAlwaysFalse, &CrFwSmEmptyAction, &CrFwOutCmpDefSerialize}, \
-	  {50, 1, 0, 1, 100, &CrFwOutCmpSample1EnableCheck, &CrFwOutCmpSample1ReadyCheck,  \
-							&CrFwOutCmpSample1RepeatCheck, &CrFwOutCmpSample1UpdateAction, &CrFwOutCmpSample1Serialize} \
+	{ {1, 1, 0,   crRepType,   CRPS_REQVERIF_ACC_SUCC_LENGTH,               &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+      {1, 2, 0,   crRepType,   CRPS_REQVERIF_ACC_FAIL_LENGTH,               &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {1, 2, 1,   2,           100,                                         &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {1, 2, 2,   2,           100,                                         &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+      {1, 3, 0,   crRepType,   CRPS_REQVERIF_START_SUCC_LENGTH,             &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {1, 4, 0,   crRepType,   CRPS_REQVERIF_START_FAIL_LENGTH,             &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+      {1, 5, 0,   crRepType,   CRPS_REQVERIF_PROG_SUCC_LENGTH,              &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+      {1, 6, 0,   crRepType,   CRPS_REQVERIF_PROG_FAIL_LENGTH,              &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+      {1, 7, 0,   crRepType,   CRPS_REQVERIF_TERM_SUCC_LENGTH,              &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+      {1, 8, 0,   crRepType,   CRPS_REQVERIF_TERM_FAIL_LENGTH,              &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {1, 8, 1,   2,           100,                                         &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {1, 8, 5,   2,           100,                                         &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {1, 10, 0,  crRepType,   CRPS_REQVERIF_REROUT_FAIL_LENGTH,            &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+      {5, 1, 1,   2,           100,                                         &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {5, 1, 2,   2,           90,                                          &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {5, 2, 10,  2,           100,                                         &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {5, 2, 20,  2,           100,                                         &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {5, 3, 30,  2,           100,                                         &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {5, 3, 31,  2,           100,                                         &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {5, 4, 0,   2,           50,                                          &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {5, 4, 3,   2,           100,                                         &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {5, 4, 5,   2,           99,                                          &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {5, 4, 7,   2,           98,                                          &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {17, 1, 0,  crRepType,   CRPS_TEST_AREYOUALIVE_CONNECTION_CMD_LENGTH, &CrPsTestAreYouAliveConnectionRepEnableCheck, &CrPsTestAreYouAliveConnectionRepReadyCheck, &CrPsTestAreYouAliveConnectionRepRepeatCheck, &CrPsTestAreYouAliveConnectionRepUpdateAction,   &CrFwOutCmpDefSerialize},\
+      {17, 2, 0,  crRepType,   CRPS_TEST_AREYOUALIVE_CONNECTION_REP_LENGTH, &CrPsTestAreYouAliveConnectionRepEnableCheck, &CrPsTestAreYouAliveConnectionRepReadyCheck, &CrPsTestAreYouAliveConnectionRepRepeatCheck, &CrPsTestAreYouAliveConnectionRepUpdateAction,   &CrFwOutCmpDefSerialize},\
+	  {17, 4, 0,  crRepType,   CRPS_TEST_ONBOARD_CONNECTION_REP_LENGTH,     &CrPsTestOnBoardConnectionRepEnableCheck,     &CrPsTestOnBoardConnectionRepReadyCheck,     &CrPsTestOnBoardConnectionRepRepeatCheck,     &CrPsTestOnBoardConnectionRepUpdateAction,       &CrFwOutCmpDefSerialize},\
+      {25, 3, 0,  2,           100,                                         &CrFwOutCmpDefEnableCheck,                    &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
+	  {50, 1, 0,  1,           100,                                         &CrFwOutCmpSample1EnableCheck,                &CrFwOutCmpSample1ReadyCheck,                &CrFwOutCmpSample1RepeatCheck,                &CrFwOutCmpSample1UpdateAction,                  &CrFwOutCmpSample1Serialize}\
 	}
 
 #endif /* CRFW_OUTFACTORY_USERPAR_H_ */

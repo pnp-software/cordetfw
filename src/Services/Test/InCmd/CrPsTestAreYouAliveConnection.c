@@ -12,7 +12,7 @@
 /* CrFramework includes */
 #include <Pckt/CrFwPckt.h>
 #include <OutFactory/CrFwOutFactory.h>
-/*#include "OutCmp/CrFwOutCmp.h"*/
+#include <OutCmp/CrFwOutCmp.h>
 #include <OutLoader/CrFwOutLoader.h>
 #include <CrFwCmpData.h>
 
@@ -113,11 +113,8 @@ void CrPsTestAreYouAliveConnectionTerminationAction(FwSmDesc_t smDesc)
 /* ------------------------------------------------------------------------------------ */
 void CrPsTestAreYouAliveConnectionAbortAction(FwSmDesc_t smDesc)
 {
-  CrFwCmpData_t* inData;
-
+  CRFW_UNUSED(smDesc);
   printf("CrPsTestAreYouAliveConnectionAbortAction()\n");
-  inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inData->outcome = 1;
 
   return;
 }

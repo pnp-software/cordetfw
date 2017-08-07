@@ -122,12 +122,12 @@ typedef struct {
 /**
  * The length offset for the out-going report.
  */
-#define OFFSET_PAR_LENGTH_OUT_REP_PCKT 16
+#define OFFSET_PAR_LENGTH_OUT_REP_PCKT 36
 
 /**
  * The length offset for the in-coming command.
  */
-#define OFFSET_PAR_LENGTH_IN_CMD_PCKT 10
+#define OFFSET_PAR_LENGTH_IN_CMD_PCKT 30
 
 /**
  * The length of CRC.

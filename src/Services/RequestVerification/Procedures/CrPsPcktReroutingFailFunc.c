@@ -43,7 +43,7 @@ FwSmDesc_t cmd, rep;
 void CrPsPcktReroutingFailN1(FwPrDesc_t __attribute__((unused)) prDesc)
 {
   CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
+  CrFwInRepData_t* inSpecificData;
   CrFwPckt_t       inPckt;
 
   FwSmDesc_t  smDesc;
@@ -60,7 +60,7 @@ void CrPsPcktReroutingFailN1(FwPrDesc_t __attribute__((unused)) prDesc)
 
    /* Get in packet */
   inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
-  inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
+  inSpecificData = (CrFwInRepData_t*)inData->cmpSpecificData;
   inPckt         = inSpecificData->pckt;
 
   errCode = crInloaderInvDest;
