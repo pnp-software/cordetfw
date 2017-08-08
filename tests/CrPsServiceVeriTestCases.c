@@ -70,7 +70,7 @@ CrFwBool_t CrPsServVeriTestCase1()
 {
   /* Check Service 1 */
   unsigned short i, maxoutfactory = 9;
-  FwSmDesc_t inFactory, outFactory, outManager, inCmd, outCmp, outCmpArr[maxoutfactory+1], inRep, inManager;
+  FwSmDesc_t inFactory, outFactory, outManager, inCmd, outCmp, outCmpArr[10], inRep, inManager;
   CrFwPckt_t pckt, pckt2;
   prData_t prData;
   CrFwCmpData_t* outManagerData;
