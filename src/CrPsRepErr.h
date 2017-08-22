@@ -56,6 +56,9 @@
 #include "CrFwUserConstants.h"
 #include "CrPsUserConstants.h"
 
+#define OUTFACTORY_FAIL   100
+#define INLOADER_INV_DEST 101
+
 /**
  * Report an error which has no parameters attached to it.
  * This function generate an error report without error parameters.
@@ -65,5 +68,20 @@
  * @param repDiscriminant the discriminant of the component which raises the error report
  */
 void CrPsRepErr(CrPsRepErrCode_t errCode, CrFwServType_t repType, CrFwServSubType_t repSubType, CrFwDiscriminant_t repDiscriminant);
+
+/**
+ * Report an error which has two parameters attached to it representing the instance identifier
+ * of a component other than the originator of the error report (the secondary instance
+ * identifier) and a command or report destination.
+ * This function generate an error report with two parameters.
+ * @param errCode the error code
+ * @param instanceId the instance identifier of the component which raises the error report
+ * @param typeId the type identifier of the component which raises the error report
+ * @param secondaryInstanceId instance identifier of a component other than the originator of the error
+ * report
+ * @param dest a command or report destination
+ */
+void CrFwRepErrInstanceIdAndDest(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
+                                 CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId, CrFwDestSrc_t dest);
 
 #endif /* CRPS_REPERR_H_ */

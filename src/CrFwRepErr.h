@@ -116,19 +116,4 @@ void CrFwRepErrSeqCnt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstanc
 void CrFwRepErrInstanceIdAndOutcome(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
                                     CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId, CrFwOutcome_t outcome);
 
-/**
- * Report an error which has two parameters attached to it representing the instance identifier
- * of a component other than the originator of the error report (the secondary instance
- * identifier) and a command or report destination.
- * This function generate an error report with two parameters.
- * @param errCode the error code
- * @param instanceId the instance identifier of the component which raises the error report
- * @param typeId the type identifier of the component which raises the error report
- * @param secondaryInstanceId instance identifier of a component other than the originator of the error
- * report
- * @param dest a command or report destination
- */
-void CrFwRepErrInstanceIdAndDest(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
-                                 CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId, CrFwDestSrc_t dest);
-
 #endif /* CRFW_REPERR_H_ */

@@ -308,3 +308,16 @@ void SendReqVerifPrgrFailRep(FwSmDesc_t smDesc, unsigned short stepIdentifier, u
 
   return;
 }
+
+void SendReqVerifPcktReroutFailRep(FwSmDesc_t smDesc, unsigned short tcFailureCode)
+{
+  prData_t prData;
+
+  prData.smDesc = smDesc;
+  prData.ushortParam1 = tcFailureCode;
+  FwPrSetData(prDescServReqVerifPcktReroutFail, &prData);
+  FwPrRun(prDescServReqVerifPcktReroutFail);
+
+  return;
+}
+

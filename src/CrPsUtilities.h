@@ -86,4 +86,10 @@ void SendReqVerifPrgrSuccRep(FwSmDesc_t smDesc, unsigned short stepIdentifier);
  */
 void SendReqVerifPrgrFailRep(FwSmDesc_t smDesc, unsigned short stepIdentifier, unsigned short tcFailureCode);
 
+/**
+ * Generate a Request Verification Packet Rerouting Failed out-going report.
+ * @return nothing
+ */
+void SendReqVerifPcktReroutFailRep(FwSmDesc_t smDesc, unsigned short tcFailureCode);
+
 #endif /* CRPS_UTILITIES_H_ */

@@ -142,8 +142,6 @@ void CrPsTestOnBoardConnectionTerminationAction(FwSmDesc_t __attribute__((unused
  
   printf("CrPsTestOnBoardConnectionTerminationAction()\n");
 
-  FwPrStop(prDescServTestOnBoardConnPrgr); /* TODO: to be investigated, why this is needed */
-
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
   inData->outcome = 1;
  
