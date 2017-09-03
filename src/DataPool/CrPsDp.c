@@ -3,18 +3,18 @@
  *
  * Interface for accessing data pool items.
  *
- * \note This file was generated on 2017-08-07 09:38:54
+ * \note This file was generated on 2017-08-22 17:43:36
  * \author PnP Generator
  * \copyright (c) Copyright
  */
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
 
 #include "CrPsDp.h"
 
 #include "CrPsDpServTest.h"
+#include "CrPsDpHk.h"
 #include "CrPsDpServReqVerif.h"
 
 /**
@@ -37,11 +37,19 @@ typedef struct _DpMetaInfoEntry_t {
  * datapool entries.
  */
 static DpMetaInfoEntry_t dpMetaInfoParams[] = {
+  {(void*)&dpHk.debugVarAddr, sizeof(dpHk.debugVarAddr)},
+  {(void*)&dpHk.dest, sizeof(dpHk.dest)},
+  {(void*)&dpHk.isEnabledPar, sizeof(dpHk.isEnabledPar)},
+  {(void*)&dpHk.sid, sizeof(dpHk.sid)},
   {(void*)&dpServTest.AreYouAliveTimeOut, sizeof(dpServTest.AreYouAliveTimeOut)},
   {(void*)&dpServTest.OnBoardConnectDestLst, sizeof(dpServTest.OnBoardConnectDestLst)}
 };
 
 static DpMetaInfoEntry_t dpMetaInfoVars[] = {
+  {(void*)&dpHk.cycleCnt, sizeof(dpHk.cycleCnt)},
+  {(void*)&dpHk.debugVar, sizeof(dpHk.debugVar)},
+  {(void*)&dpHk.isEnabledVar, sizeof(dpHk.isEnabledVar)},
+  {(void*)&dpHk.sampleBufId, sizeof(dpHk.sampleBufId)},
   {(void*)&dpServReqVerif.failCodeAccFailed, sizeof(dpServReqVerif.failCodeAccFailed)},
   {(void*)&dpServReqVerif.failCodePrgrFailed, sizeof(dpServReqVerif.failCodePrgrFailed)},
   {(void*)&dpServReqVerif.failCodeStartFailed, sizeof(dpServReqVerif.failCodeStartFailed)},
@@ -63,7 +71,7 @@ static DpMetaInfoEntry_t dpMetaInfoVars[] = {
   {(void*)&dpServTest.OnBoardConnectDest, sizeof(dpServTest.OnBoardConnectDest)}
 };
 
-static DpMetaInfoEntry_t* getMetaInfo(DatapoolId_t id)
+static DpMetaInfoEntry_t* getMetaInfo(ParameterId_t id)
 {
   DpMetaInfoEntry_t* p;
   p = NULL;
@@ -85,7 +93,7 @@ static DpMetaInfoEntry_t* getMetaInfo(DatapoolId_t id)
  * to.
  * \return 0 when id denotes a valid identifier; -1 otherwise.
  */
-int getDpValue(DatapoolId_t id, void* dest)
+int getDpValue(ParameterId_t id, void* dest)
 {
   DpMetaInfoEntry_t* entry;
   entry = getMetaInfo(id);
@@ -104,7 +112,7 @@ int getDpValue(DatapoolId_t id, void* dest)
  * from.
  * \return 0 when id denotes a valid identifier; -1 otherwise.
  */
-int setDpValue(DatapoolId_t id, const void* src)
+int setDpValue(ParameterId_t id, const void* src)
 {
   DpMetaInfoEntry_t* entry;
   entry = getMetaInfo(id);
@@ -120,7 +128,7 @@ int setDpValue(DatapoolId_t id, const void* src)
  * \param id The datapool item identifier
  * \return The size of the datapool item.
  */
-int getDpSize(DatapoolId_t id, size_t* size)
+int getDpSize(ParameterId_t id, size_t* size)
 {
   DpMetaInfoEntry_t* entry;
   entry = getMetaInfo(id);

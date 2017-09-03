@@ -16,8 +16,9 @@
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /** Guard on the Control Flow from DECISION2 to N4. */
-FwPrBool_t CrPsCmdPrgrFailG1E(FwPrDesc_t __attribute__((unused)) prDesc)
+FwPrBool_t CrPsCmdPrgrFailG1E(FwPrDesc_t prDesc)
 {
+  CRFW_UNUSED(prDesc);
   /* [ Else ] */
 
   return 1;

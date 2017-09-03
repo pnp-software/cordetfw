@@ -10,14 +10,15 @@
 /** FW Profile function definitions */
 #include "FwPrDCreate.h"
 #include "FwPrConfig.h"
-
+#include <CrFwConstants.h>
 /** CrPsCmdPrgrSucc function definitions */
 #include <stdlib.h>
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /** Guard on the Control Flow from DECISION2 to N4. */
-FwPrBool_t CrPsCmdPrgrSuccG1E(FwPrDesc_t __attribute__((unused)) prDesc)
+FwPrBool_t CrPsCmdPrgrSuccG1E(FwPrDesc_t prDesc)
 {
+	CRFW_UNUSED(prDesc);
   /* [ Else ] */
 
   return 1;

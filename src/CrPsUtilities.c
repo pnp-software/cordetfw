@@ -24,7 +24,6 @@
 #include <FwSmConfig.h>
 
 #include <Services/General/CrPsConstants.h>
-#include <Services/General/CrPsParamSetter.h>
 #include <Services/Test/Procedures/CrPsCmd17s3StartCreate.h>
 #include <Services/Test/Procedures/CrPsCmd17s3PrgrCreate.h>
 #include <Services/RequestVerification/Procedures/CrPsPcktReroutingFailCreate.h>
@@ -36,6 +35,8 @@
 
 #include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServTest.h>
+#include <DataPool/CrPsDpServReqVerif.h>
+/*hier CrPsDpPkt dateien hinzufügen!*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -169,6 +170,10 @@ int CrPsInit()
       return EXIT_FAILURE;
     }
 
+  /*???? initialize Datapool Values*/
+  initDpServReqVerif();
+  initDpServTest();
+  
   return EXIT_SUCCESS;
 }
 

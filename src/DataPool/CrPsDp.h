@@ -3,41 +3,55 @@
  *
  * Interface for accessing data pool items.
  *
- * \note This file was generated on 2017-08-07 09:38:54
+ * \note This file was generated on 2017-08-22 17:43:36
  * \author PnP Generator
  * \copyright (c) Copyright
  */
-#include <stdio.h>
+#ifndef CRPSDP_H_
+#define CRPSDP_H_
 
-typedef enum {
+
+#include <stdio.h> /* brauche ich für size_t */
+typedef unsigned int ParameterId_t; /* brauche ich auch */
+
+
+enum {
   /* Parameters */
   DpIdParamsLowest = 1,
-  DpIdParamsHighest = 2,
-  DpIdAreYouAliveTimeOut = 1,
-  DpIdOnBoardConnectDestLst = 2,
+  DpIdParamsHighest = 6,
+  DpIddebugVarAddr = 1,
+  DpIddest = 2,
+  DpIdisEnabledPar = 3,
+  DpIdsid = 4,
+  DpIdAreYouAliveTimeOut = 5,
+  DpIdOnBoardConnectDestLst = 6,
   /* Variables */
-  DpIdVarsLowest = 3,
-  DpIdVarsHighest = 21,
-  DpIdfailCodeAccFailed = 3,
-  DpIdfailCodePrgrFailed = 4,
-  DpIdfailCodeStartFailed = 5,
-  DpIdfailCodeTermFailed = 6,
-  DpIdinvDestRerouting = 7,
-  DpIdnOfAccFailed = 8,
-  DpIdnOfPrgrFailed = 9,
-  DpIdnOfReroutingFailed = 10,
-  DpIdnOfStartFailed = 11,
-  DpIdnOfTermFailed = 12,
-  DpIdpcktIdAccFailed = 13,
-  DpIdpcktIdPrgrFailed = 14,
-  DpIdpcktIdReroutingFailed = 15,
-  DpIdpcktIdStartFailed = 16,
-  DpIdpcktIdTermFailed = 17,
-  DpIdstepPrgrFailed = 18,
-  DpIdverFailData = 19,
-  DpIdAreYouAliveSrc = 20,
-  DpIdOnBoardConnectDest = 21
-} DatapoolId_t;
+  DpIdVarsLowest = 7,
+  DpIdVarsHighest = 29,
+  DpIdcycleCnt = 7,
+  DpIddebugVar = 8,
+  DpIdisEnabledVar = 9,
+  DpIdsampleBufId = 10,
+  DpIdfailCodeAccFailed = 11,
+  DpIdfailCodePrgrFailed = 12,
+  DpIdfailCodeStartFailed = 13,
+  DpIdfailCodeTermFailed = 14,
+  DpIdinvDestRerouting = 15,
+  DpIdnOfAccFailed = 16,
+  DpIdnOfPrgrFailed = 17,
+  DpIdnOfReroutingFailed = 18,
+  DpIdnOfStartFailed = 19,
+  DpIdnOfTermFailed = 20,
+  DpIdpcktIdAccFailed = 21,
+  DpIdpcktIdPrgrFailed = 22,
+  DpIdpcktIdReroutingFailed = 23,
+  DpIdpcktIdStartFailed = 24,
+  DpIdpcktIdTermFailed = 25,
+  DpIdstepPrgrFailed = 26,
+  DpIdverFailData = 27,
+  DpIdAreYouAliveSrc = 28,
+  DpIdOnBoardConnectDest = 29
+};
 
 /**
  * Get the value of a datapool item by identifier.
@@ -46,7 +60,7 @@ typedef enum {
  * to.
  * \return 0 when id denotes a valid identifier; -1 otherwise.
  */
-extern int getDpValue(DatapoolId_t id, void* dest);
+extern int getDpValue(ParameterId_t id, void* dest);
 /**
  * Set the value of a datapool item by identifier
  * \param id The datapool item identifier
@@ -54,11 +68,12 @@ extern int getDpValue(DatapoolId_t id, void* dest);
  * from.
  * \return 0 when id denotes a valid identifier; -1 otherwise.
  */
-extern int setDpValue(DatapoolId_t id, const void* src);
+extern int setDpValue(ParameterId_t id, const void* src);
 /**
  * Get the size of a datapool item by identifier.
  * \param id The datapool item identifier
  * \param size The address where the size of the datapool item is written to.
  * \return 0 when id denotes a valid identifier; -1 otherwise.
  */
-extern int getDpSize(DatapoolId_t id, size_t* size);
+extern int getDpSize(ParameterId_t id, size_t* size);
+#endif /* CRPSDP_H */

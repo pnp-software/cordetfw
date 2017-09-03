@@ -3,10 +3,12 @@
  *
  * Interface for accessing data pool items.
  *
- * \note This file was generated on 2017-08-07 09:38:54
+ * \note This file was generated on 2017-08-22 17:43:36
  * \author PnP Generator
  * \copyright (c) Copyright
  */
+#ifndef CRPSDPSERVREQVERIF_H_
+#define CRPSDPSERVREQVERIF_H_
 
 /**
  * Type description
@@ -412,3 +414,4 @@ static inline void setDpverFailData(int32_t verFailData)
   dpServReqVerif.verFailData = verFailData;
 }
 
+#endif /* CRPSDPSERVREQVERIF_H */

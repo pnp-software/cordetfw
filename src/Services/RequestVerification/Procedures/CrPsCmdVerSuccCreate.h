@@ -45,7 +45,7 @@ FwPrDesc_t CrPsCmdVerSuccCreate(void* prData);
  * </pre>
  * @param smDesc the procedure descriptor
  */
-void CrPsCmdVerSuccN2(FwPrDesc_t __attribute__((unused)) prDesc);
+void CrPsCmdVerSuccN2(FwPrDesc_t prDesc);
 
 /**
  * Action for node N3.
@@ -55,7 +55,7 @@ void CrPsCmdVerSuccN2(FwPrDesc_t __attribute__((unused)) prDesc);
  * </pre>
  * @param smDesc the procedure descriptor
  */
-void CrPsCmdVerSuccN3(FwPrDesc_t __attribute__((unused)) prDesc);
+void CrPsCmdVerSuccN3(FwPrDesc_t prDesc);
 
 /**
  * Action for node N4.
@@ -65,7 +65,7 @@ void CrPsCmdVerSuccN3(FwPrDesc_t __attribute__((unused)) prDesc);
  * </pre>
  * @param smDesc the procedure descriptor
  */
-void CrPsCmdVerSuccN4(FwPrDesc_t __attribute__((unused)) prDesc);
+void CrPsCmdVerSuccN4(FwPrDesc_t prDesc);
 
 /**
  * Guard on the Control Flow from DECISION2 to N3.
@@ -76,6 +76,6 @@ void CrPsCmdVerSuccN4(FwPrDesc_t __attribute__((unused)) prDesc);
  * @param smDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
-FwPrBool_t CrPsCmdVerSuccG1(FwPrDesc_t __attribute__((unused)) prDesc);
+FwPrBool_t CrPsCmdVerSuccG1(FwPrDesc_t prDesc);
 
 #endif /* CrPsCmdVerSuccCreate_H_ */

@@ -24,7 +24,7 @@
 #include <CrPsPcktUtilities.h>
 #include <CrPsRepErr.h>
 #include <Services/General/CrPsConstants.h>
-#include <Services/General/CrPsParamSetter.h>
+#include <Services/General/CrPsDpPktServReqVerif.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,11 +37,12 @@ FwSmDesc_t cmd, rep;
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N2. */
-void CrPsCmdPrgrSuccN2(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsCmdPrgrSuccN2(FwPrDesc_t prDesc)
 {
-  /* Retrieve an OutComponent of type (1,5) from the OutFactory */
+  CRFW_UNUSED(prDesc);
 
-  printf("CrPsCmdPrgrSuccN2: Retrieve an OutComponent of type (1,5) from the OutFactory\n");
+  /* Retrieve an OutComponent of type (1,5) from the OutFactory */
+  /*printf("CrPsCmdPrgrSuccN2: Retrieve an OutComponent of type (1,5) from the OutFactory\n");*/
 
   /* Create out component */
   rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, CRPS_REQVERIF_PROG_SUCC, 0, 0);
@@ -51,13 +52,13 @@ void CrPsCmdPrgrSuccN2(FwPrDesc_t __attribute__((unused)) prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N3. */
-void CrPsCmdPrgrSuccN3(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsCmdPrgrSuccN3(FwPrDesc_t prDesc)
 {
+  CRFW_UNUSED(prDesc);
   CrPsRepErrCode_t errCode;
 
   /* Generate error report OUTFACTORY_FAIL */
-
-  printf("CrPsCmdPrgrSuccN3: Generate error report OUTFACTORY_FAIL\n");
+  /*printf("CrPsCmdPrgrSuccN3: Generate error report OUTFACTORY_FAIL\n");*/
 
   errCode = crOutfactoryFail;
   CrPsRepErr(errCode, CRPS_REQVERIF, CRPS_REQVERIF_PROG_SUCC, 0);
@@ -67,7 +68,7 @@ void CrPsCmdPrgrSuccN3(FwPrDesc_t __attribute__((unused)) prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N4. */
-void CrPsCmdPrgrSuccN4(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsCmdPrgrSuccN4(FwPrDesc_t prDesc)
 {
   CrFwDestSrc_t source;
   unsigned short tcPacketId;
@@ -77,11 +78,10 @@ void CrPsCmdPrgrSuccN4(FwPrDesc_t __attribute__((unused)) prDesc)
   CrFwPckt_t       inPckt;
 
   FwSmDesc_t  smDesc;
-  prData_t* prData;
+  prData_t* prData; 
 
   /* Configure report and load it in the OutLoader */
-
-  printf("CrPsCmdPrgrSuccN4: Configure report and load it in the OutLoader\n");
+  /*printf("CrPsCmdPrgrSuccN4: Configure report and load it in the OutLoader\n");*/
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -95,11 +95,13 @@ void CrPsCmdPrgrSuccN4(FwPrDesc_t __attribute__((unused)) prDesc)
 
   /* Set pcktIdAccFailed */
   tcPacketId = CrFwPcktGetPid(inPckt); /* --- adaptation point CrFwPckt ---> */
-  CrPsServReqVerifPrgrSuccParamSetPacketId(rep, tcPacketId);
+  /*CrPsServReqVerifPrgrSuccParamSetPacketId(rep, tcPacketId);*/
+  setVerSuccessPrgrRep0TcPacketId(rep, tcPacketId);
 
   /* Set pcktIdAccFailed */
   tcPacketId = CrFwPcktGetPid(inPckt); /* --- adaptation point CrFwPckt ---> */
-  CrPsServReqVerifPrgrSuccParamSetStepId(rep, prData->ushortParam1);
+  /*CrPsServReqVerifPrgrSuccParamSetStepId(rep, prData->ushortParam1);*/
+  setVerSuccessPrgrRep0StepId(rep, prData->ushortParam1);
 
   /* Set the destination of the report to the source of the in-coming packet */
   source = CrFwPcktGetSrc(inPckt);
@@ -117,9 +119,12 @@ void CrPsCmdPrgrSuccN4(FwPrDesc_t __attribute__((unused)) prDesc)
 /**************/
 
 /** Guard on the Control Flow from DECISION2 to N3. */
-FwPrBool_t CrPsCmdPrgrSuccG1(FwPrDesc_t __attribute__((unused)) prDesc)
+FwPrBool_t CrPsCmdPrgrSuccG1(FwPrDesc_t prDesc)
 {
+  CRFW_UNUSED(prDesc);
+
   /* [ OutFactory fails to generate OutComponent ] */
+  /*printf("CrPsCmdPrgrSuccG1: Guard on the Control Flow from DECISION2 to N3\n");*/
 
   if (rep == NULL)
     {

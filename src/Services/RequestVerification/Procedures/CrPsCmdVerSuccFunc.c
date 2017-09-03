@@ -24,7 +24,7 @@
 #include <CrPsPcktUtilities.h>
 #include <CrPsRepErr.h>
 #include <Services/General/CrPsConstants.h>
-#include <Services/General/CrPsParamSetter.h>
+#include <Services/General/CrPsDpPktServReqVerif.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,17 +37,16 @@ FwSmDesc_t cmd, rep;
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N2. */
-void CrPsCmdVerSuccN2(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsCmdVerSuccN2(FwPrDesc_t prDesc)
 {
   prData_t* prData;
 
   /* Retrieve an OutComponent of type (1,1), (1,3) or (1,7) from the OutFactory */
-
-  printf("CrPsCmdVerSuccN2: Retrieve an OutComponent of type (1,1), (1,3) or (1,7) from the OutFactory\n");
+  /*printf("CrPsCmdVerSuccN2: Retrieve an OutComponent of type (1,1), (1,3) or (1,7) from the OutFactory\n");*/
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
-
+  rep = NULL;
   /* Create out component */
   rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, prData->ushortParam1, 0, 0);
 
@@ -56,13 +55,13 @@ void CrPsCmdVerSuccN2(FwPrDesc_t __attribute__((unused)) prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N3. */
-void CrPsCmdVerSuccN3(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsCmdVerSuccN3(FwPrDesc_t prDesc)
 {
+  CRFW_UNUSED(prDesc);
   CrPsRepErrCode_t errCode;
 
   /* Generate error report OUTFACTORY_FAIL */
-
-  printf("CrPsCmdVerSuccN3: Generate error report OUTFACTORY_FAIL\n");
+  /*printf("CrPsCmdVerSuccN3: Generate error report OUTFACTORY_FAIL\n");*/
 
   errCode = crOutfactoryFail;
   CrPsRepErr(errCode, CRPS_TEST, CRPS_TEST_AREYOUALIVE_CONNECTION_CMD, 0);
@@ -72,7 +71,7 @@ void CrPsCmdVerSuccN3(FwPrDesc_t __attribute__((unused)) prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N4. */
-void CrPsCmdVerSuccN4(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsCmdVerSuccN4(FwPrDesc_t prDesc)
 {
   CrFwDestSrc_t source;
   unsigned short tcPacketId;
@@ -85,8 +84,7 @@ void CrPsCmdVerSuccN4(FwPrDesc_t __attribute__((unused)) prDesc)
   prData_t* prData;
 
   /* Configure report and load it in the OutLoader */
-
-  printf("CrPsCmdVerSuccN4: Configure report and load it in the OutLoader\n");
+  /*printf("CrPsCmdVerSuccN4: Configure report and load it in the OutLoader\n");*/
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -99,9 +97,28 @@ void CrPsCmdVerSuccN4(FwPrDesc_t __attribute__((unused)) prDesc)
   inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
   inPckt         = inSpecificData->pckt;
 
-  /* Set pcktIdAccFailed */
-  tcPacketId = CrFwPcktGetPid(inPckt); /* --- adaptation point CrFwPckt ---> */
-  CrPsServReqVerifVerSuccParamSetPacketId(rep, tcPacketId);
+  tcPacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
+
+  if (prData->ushortParam1 == CRPS_REQVERIF_ACC_SUCC)
+  {
+    /* 1.1 */
+    /* Set pcktIdAccFailed */
+    setVerSuccessAccRep0TcPacketId(rep, tcPacketId);
+  }
+
+  if (prData->ushortParam1 == CRPS_REQVERIF_START_SUCC)
+  {
+    /* 1.3 */
+    /* Set pcktIdAccFailed */
+    setVerSuccessStartRep0TcPacketId(rep, tcPacketId);
+  }
+
+  if (prData->ushortParam1 == CRPS_REQVERIF_TERM_SUCC)
+  {
+    /* 1.7 */
+    /* Set pcktIdAccFailed */
+    setVerSuccessTermRep0TcPacketId(rep, tcPacketId);
+  }
 
   /* Set the destination of the report to the source of the in-coming packet */
   source = CrFwPcktGetSrc(inPckt);
@@ -119,10 +136,13 @@ void CrPsCmdVerSuccN4(FwPrDesc_t __attribute__((unused)) prDesc)
 /**************/
 
 /** Guard on the Control Flow from DECISION2 to N3. */
-FwPrBool_t CrPsCmdVerSuccG1(FwPrDesc_t __attribute__((unused)) prDesc)
+FwPrBool_t CrPsCmdVerSuccG1(FwPrDesc_t prDesc)
 {
-  /* [ OutFactory fails to generate OutComponent ] */
+  CRFW_UNUSED(prDesc);
 
+  /* [ OutFactory fails to generate OutComponent ] */  
+  /*printf("CrPsCmdVerSuccG1: Guard on the Control Flow from DECISION2 to N3 \n");*/
+  
   if (rep == NULL)
     {
       return 1;

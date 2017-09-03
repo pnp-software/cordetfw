@@ -42,13 +42,13 @@ FwSmDesc_t cmd, rep;
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N1. */
-void CrPsTestOnBoardConnectionStartN1(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsTestOnBoardConnectionStartN1(FwPrDesc_t prDesc)
 {
+  CRFW_UNUSED(prDesc);
   unsigned short areYouAliveSrc;
 
   /* Set areYouAliveSrc to zero */
-
-  printf("CrPsTestOnBoardConnectionStartN1()\n");
+  /*printf("CrPsTestOnBoardConnectionStartN1()\n");*/
 
   areYouAliveSrc = 0;
   setDpAreYouAliveSrc(areYouAliveSrc);
@@ -58,11 +58,12 @@ void CrPsTestOnBoardConnectionStartN1(FwPrDesc_t __attribute__((unused)) prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N2. */
-void CrPsTestOnBoardConnectionStartN2(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsTestOnBoardConnectionStartN2(FwPrDesc_t prDesc)
 {
-  /* Retrieve an OutComponent of type (17,1) from the OutFactory */
+  CRFW_UNUSED(prDesc);
 
-  printf("CrPsTestOnBoardConnectionStartN2()\n");
+  /* Retrieve an OutComponent of type (17,1) from the OutFactory */
+  /*printf("CrPsTestOnBoardConnectionStartN2()\n");*/
 
   /* Create out component */
   cmd = CrFwOutFactoryMakeOutCmp(CRPS_TEST, CRPS_TEST_AREYOUALIVE_CONNECTION_CMD, 0, 0);
@@ -72,13 +73,13 @@ void CrPsTestOnBoardConnectionStartN2(FwPrDesc_t __attribute__((unused)) prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N3. */
-void CrPsTestOnBoardConnectionStartN3(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsTestOnBoardConnectionStartN3(FwPrDesc_t prDesc)
 {
+  CRFW_UNUSED(prDesc);
   CrPsRepErrCode_t errCode;
 
   /* Generate error report OUTFACTORY_FAIL */
-
-  printf("CrPsTestOnBoardConnectionStartN3()\n");
+  /*printf("CrPsTestOnBoardConnectionStartN3()\n");*/
 
   errCode = crOutfactoryFail;
   CrPsRepErr(errCode, CRPS_TEST, CRPS_TEST_AREYOUALIVE_CONNECTION_CMD, 0);
@@ -88,17 +89,16 @@ void CrPsTestOnBoardConnectionStartN3(FwPrDesc_t __attribute__((unused)) prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N4. */
-void CrPsTestOnBoardConnectionStartN4(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsTestOnBoardConnectionStartN4(FwPrDesc_t prDesc)
 {
+  CRFW_UNUSED(prDesc);
   CrFwDestSrc_t destId;
 
   /* Configure (17,1) OutComponent */
-
-  printf("CrPsTestOnBoardConnectionStartN4()\n");
+  /*printf("CrPsTestOnBoardConnectionStartN4()\n");*/
 
   /* Get destination Id of target application */
   destId = (CrFwDestSrc_t)getDpOnBoardConnectDest();
-  printf("CrPsTestOnBoardConnectionStartN4(): destId = %d\n", destId);
 
   /* Set out component parameters */
   CrFwOutCmpSetDest(cmd, destId);
@@ -108,11 +108,12 @@ void CrPsTestOnBoardConnectionStartN4(FwPrDesc_t __attribute__((unused)) prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N5. */
-void CrPsTestOnBoardConnectionStartN5(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsTestOnBoardConnectionStartN5(FwPrDesc_t prDesc)
 {
-  /* Load OutComponent in OutLoader */
+  CRFW_UNUSED(prDesc);
 
-  printf("CrPsTestOnBoardConnectionStartN5()\n");
+  /* Load OutComponent in OutLoader */
+  /*printf("CrPsTestOnBoardConnectionStartN5()\n");*/
 
   CrFwOutLoaderLoad(cmd);
 
@@ -121,13 +122,12 @@ void CrPsTestOnBoardConnectionStartN5(FwPrDesc_t __attribute__((unused)) prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N7. */
-void CrPsTestOnBoardConnectionStartN7(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsTestOnBoardConnectionStartN7(FwPrDesc_t prDesc)
 {
   prDataStartAction_t prDataStartAction;
 
   /* Set outcome of Start Action to 'success' */
-
-  printf("CrPsTestOnBoardConnectionStartN7()\n");
+  /*printf("CrPsTestOnBoardConnectionStartN7()\n");*/
 
   prDataStartAction.outcome = 1;
   FwPrSetData(prDesc, &prDataStartAction);
@@ -137,13 +137,12 @@ void CrPsTestOnBoardConnectionStartN7(FwPrDesc_t __attribute__((unused)) prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N8. */
-void CrPsTestOnBoardConnectionStartN8(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsTestOnBoardConnectionStartN8(FwPrDesc_t prDesc)
 {
   prDataStartAction_t prDataStartAction;
 
   /* Set outcome of Start Action to 'failure' with failure code VER_REP_CR_FD */
-
-  printf("CrPsTestOnBoardConnectionStartN8()\n");
+  /*printf("CrPsTestOnBoardConnectionStartN8()\n");*/
 
   prDataStartAction.outcome = VER_REP_CR_FD;
   FwPrSetData(prDesc, &prDataStartAction);
@@ -153,11 +152,12 @@ void CrPsTestOnBoardConnectionStartN8(FwPrDesc_t __attribute__((unused)) prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N9. */
-void CrPsTestOnBoardConnectionStartN9(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsTestOnBoardConnectionStartN9(FwPrDesc_t prDesc)
 {
-  /* Retrieve an OutComponent of type (17,4) from the OutFactory */
+  CRFW_UNUSED(prDesc);
 
-  printf("CrPsTestOnBoardConnectionStartN9()\n");
+  /* Retrieve an OutComponent of type (17,4) from the OutFactory */
+  /*printf("CrPsTestOnBoardConnectionStartN9()\n");*/
 
   /* Create out component */
   rep = CrFwOutFactoryMakeOutCmp(CRPS_TEST, CRPS_TEST_ONBOARD_CONNECTION_REP, 0, 0);
@@ -167,11 +167,12 @@ void CrPsTestOnBoardConnectionStartN9(FwPrDesc_t __attribute__((unused)) prDesc)
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N10. */
-void CrPsTestOnBoardConnectionStartN10(FwPrDesc_t __attribute__((unused)) prDesc)
+void CrPsTestOnBoardConnectionStartN10(FwPrDesc_t prDesc)
 {
-  /* Release (17,1) OutComponent */
+  CRFW_UNUSED(prDesc);
 
-  printf("CrPsTestOnBoardConnectionStartN10()\n");
+  /* Release (17,1) OutComponent */
+  /*printf("CrPsTestOnBoardConnectionStartN10()\n");*/
 
   CrFwOutFactoryReleaseOutCmp(cmd);
 
@@ -184,14 +185,14 @@ void CrPsTestOnBoardConnectionStartN10(FwPrDesc_t __attribute__((unused)) prDesc
 /**************/
 
 /* Guard on the Control Flow from DECISION1 to N1. */
-FwPrBool_t CrPsTestOnBoardConnectionStartG1(FwPrDesc_t __attribute__((unused)) prDesc)
+FwPrBool_t CrPsTestOnBoardConnectionStartG1(FwPrDesc_t prDesc)
 {
+  CRFW_UNUSED(prDesc);
   unsigned int i, pos;
   unsigned short appId, destId;
 
   /* [ Identifier of target application is legal ] */
-
-  printf("CrPsTestOnBoardConnectionStartG1()\n");
+  /*printf("CrPsTestOnBoardConnectionStartG1()\n");*/
 
   /* get requested target application ID */
   appId = getDpOnBoardConnectDest();
@@ -201,7 +202,7 @@ FwPrBool_t CrPsTestOnBoardConnectionStartG1(FwPrDesc_t __attribute__((unused)) p
     {
       pos = i;
       destId = getDpOnBoardConnectDestLstItem(pos);
-      printf("CrPsTestOnBoardConnectionStartG1(): appId = %d, destId = %d, pos = %d\n", appId, destId, pos);
+      /*printf("CrPsTestOnBoardConnectionStartG1(): appId = %d, destId = %d, pos = %d\n", appId, destId, pos);*/
       if (destId == appId)
         return 1;
     }
@@ -211,11 +212,12 @@ FwPrBool_t CrPsTestOnBoardConnectionStartG1(FwPrDesc_t __attribute__((unused)) p
 
 /* ------------------------------------------------------------------------------------ */
 /* Guard on the Control Flow from DECISION2 to N3. */
-FwPrBool_t CrPsTestOnBoardConnectionStartG2(FwPrDesc_t __attribute__((unused)) prDesc)
+FwPrBool_t CrPsTestOnBoardConnectionStartG2(FwPrDesc_t prDesc)
 {
-  /* [ OutFactory fails to generate OutComponent ] */
+  CRFW_UNUSED(prDesc);
 
-  printf("CrPsTestOnBoardConnectionStartG2()\n");
+  /* [ OutFactory fails to generate OutComponent ] */
+  /*printf("CrPsTestOnBoardConnectionStartG2()\n");*/
 
   if (cmd == NULL)
     {
@@ -225,15 +227,17 @@ FwPrBool_t CrPsTestOnBoardConnectionStartG2(FwPrDesc_t __attribute__((unused)) p
     {
       return 0;
     }
+
 }
 
 /* ------------------------------------------------------------------------------------ */
 /* Guard on the Control Flow from DECISION3 to N4. */
-FwPrBool_t CrPsTestOnBoardConnectionStartG3(FwPrDesc_t __attribute__((unused)) prDesc)
+FwPrBool_t CrPsTestOnBoardConnectionStartG3(FwPrDesc_t prDesc)
 {
-  /* [ OutFactory returns OutComponent ] */
+  CRFW_UNUSED(prDesc);
 
-  printf("CrPsTestOnBoardConnectionStartG3()\n");
+  /* [ OutFactory returns OutComponent ] */
+  /*printf("CrPsTestOnBoardConnectionStartG3()\n");*/
 
   if (rep != NULL)
     {
@@ -243,4 +247,5 @@ FwPrBool_t CrPsTestOnBoardConnectionStartG3(FwPrDesc_t __attribute__((unused)) p
     {
       return 0;
     }
+    
 }

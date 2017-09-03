@@ -24,18 +24,18 @@
 
 #include <stdio.h>
 
-unsigned short ACK_WRONG_CHKSM = 1002;
+FwSmDesc_t rep;
+
 
 /* ------------------------------------------------------------------------------------ */
-CrFwBool_t CrPsTestAreYouAliveConnectionReadyCheck(FwSmDesc_t __attribute__((unused)) smDesc)
+CrFwBool_t CrPsTestAreYouAliveConnectionReadyCheck(FwSmDesc_t smDesc)
 {
+  CRFW_UNUSED(smDesc);
+
   /* Return 'command is ready' */
-  printf("CrPsTestAreYouAliveConnectionReadyCheck()\n");
+  /*printf("CrPsTestAreYouAliveConnectionReadyCheck()\n");*/
 
-  /* Send Request Verification Acceptance Successful out-going report */
-  SendReqVerifAccSuccRep(smDesc, CRPS_REQVERIF_ACC_SUCC);
-
-  return 1; /*always True*/
+  return 1;
 }
 
 /* ------------------------------------------------------------------------------------ */
@@ -43,13 +43,31 @@ void CrPsTestAreYouAliveConnectionStartAction(FwSmDesc_t smDesc)
 {
   CrFwCmpData_t* inData;
 
-  printf("CrPsTestAreYouAliveConnectionStartAction()\n");
+  /* Retrieve (17,2) report from OutFactory and set action outcome
+     to \success' if retrieval succeeds. If the retrieval fails, generate
+     error report OUTFACTORY FAILED and set outcome of Start
+     Action to 'failed' */
+  /*printf("CrPsTestAreYouAliveConnectionStartAction()\n");*/
 
-  /* Get in packet */
-  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
+  /* Get in data */
+  inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 
-  /* Send Request Verification Start Successful out-going report */
-  SendReqVerifAccSuccRep(smDesc, CRPS_REQVERIF_START_SUCC);
+#if 0
+  /* Create out component */
+  rep = CrFwOutFactoryMakeOutCmp(CRPS_TEST, CRPS_TEST_AREYOUALIVE_CONNECTION_REP, 0, 0);
+
+  if (rep != NULL)
+    {
+      printf("CrPsTestAreYouAliveConnectionStartAction: outcome = 1\n");
+      inData->outcome = 1;
+    }
+  else
+    {
+      /* Send error report OUTFACTORY_FAILED (outcome = 5) */
+      printf("CrPsTestAreYouAliveConnectionStartAction: outcome = 5\n");
+      inData->outcome = 5;
+    }  
+#endif
 
   inData->outcome = 1;
 
@@ -59,15 +77,15 @@ void CrPsTestAreYouAliveConnectionStartAction(FwSmDesc_t smDesc)
 /* ------------------------------------------------------------------------------------ */
 void CrPsTestAreYouAliveConnectionProgressAction(FwSmDesc_t smDesc)
 {
-  FwSmDesc_t       rep;
   CrFwCmpData_t*   inData;
   CrFwInCmdData_t* inSpecificData;
   CrFwPckt_t       inPckt;
   CrFwDestSrc_t    source;
 
-  unsigned short stepIdentifier;
-
-  printf("CrPsTestAreYouAliveConnectionProgressAction()\n");
+  /* Configure the (17,2) report with a destination equal to the
+     source of the (17,1) command, load it in the OutLoader, and
+     set action outcome to 'completed' */
+  /*printf("CrPsTestAreYouAliveConnectionProgressAction()\n");*/
 
   /* Get in packet */
   inData          = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -81,11 +99,8 @@ void CrPsTestAreYouAliveConnectionProgressAction(FwSmDesc_t smDesc)
   source = CrFwPcktGetSrc(inPckt);
   CrFwOutCmpSetDest(rep, source);
 
+  /* load the report in the OutLoader */
   CrFwOutLoaderLoad(rep);
-
-  /* Send Request Verification Progress Successful out-going report */
-  stepIdentifier = 1;
-  SendReqVerifPrgrSuccRep(smDesc, stepIdentifier);
 
   inData->outcome = 1;
 
@@ -97,13 +112,11 @@ void CrPsTestAreYouAliveConnectionTerminationAction(FwSmDesc_t smDesc)
 {
   CrFwCmpData_t*   inData;
 
-  printf("CrPsTestAreYouAliveConnectionTerminationAction()\n");
+  /* Set action outcome to 'success' */
+  /*printf("CrPsTestAreYouAliveConnectionTerminationAction()\n");*/
 
-  /* Get in packet */
-  inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
-
-  /* Send Request Verification Termination Successful out-going report */
-  SendReqVerifAccSuccRep(smDesc, CRPS_REQVERIF_TERM_SUCC);
+  /* Get in data */
+  inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 
   inData->outcome = 1;
 
@@ -114,7 +127,9 @@ void CrPsTestAreYouAliveConnectionTerminationAction(FwSmDesc_t smDesc)
 void CrPsTestAreYouAliveConnectionAbortAction(FwSmDesc_t smDesc)
 {
   CRFW_UNUSED(smDesc);
-  printf("CrPsTestAreYouAliveConnectionAbortAction()\n");
+
+  /* Do nothing */
+  /*printf("CrPsTestAreYouAliveConnectionAbortAction()\n");*/
 
   return;
 }

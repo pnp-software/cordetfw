@@ -21,8 +21,9 @@
 #include <stdio.h>
 
 /* ------------------------------------------------------------------------------------ */
-CrFwBool_t CrPsTestOnBoardConnectionRepEnableCheck(FwSmDesc_t __attribute__((unused)) smDesc)
+CrFwBool_t CrPsTestOnBoardConnectionRepEnableCheck(FwSmDesc_t smDesc)
 {
+  CRFW_UNUSED(smDesc);
   /* Report is always enabled */
 
   printf("CrPsTestOnBoardConnectionRepEnableCheck()\n");
@@ -32,8 +33,9 @@ CrFwBool_t CrPsTestOnBoardConnectionRepEnableCheck(FwSmDesc_t __attribute__((unu
 }
 
 /* ------------------------------------------------------------------------------------ */
-CrFwBool_t CrPsTestOnBoardConnectionRepReadyCheck(FwSmDesc_t __attribute__((unused)) smDesc)
+CrFwBool_t CrPsTestOnBoardConnectionRepReadyCheck(FwSmDesc_t smDesc)
 {
+  CRFW_UNUSED(smDesc);
   /* Report is always ready */
 
   printf("CrPsTestOnBoardConnectionRepReadyCheck()\n");
@@ -42,8 +44,9 @@ CrFwBool_t CrPsTestOnBoardConnectionRepReadyCheck(FwSmDesc_t __attribute__((unus
 }
 
 /* ------------------------------------------------------------------------------------ */
-CrFwBool_t CrPsTestOnBoardConnectionRepRepeatCheck(FwSmDesc_t __attribute__((unused)) smDesc)
+CrFwBool_t CrPsTestOnBoardConnectionRepRepeatCheck(FwSmDesc_t smDesc)
 {
+  CRFW_UNUSED(smDesc);
   /* Report is never repeated */
 
   printf("CrPsTestOnBoardConnectionRepRepeatCheck()\n");
@@ -52,8 +55,9 @@ CrFwBool_t CrPsTestOnBoardConnectionRepRepeatCheck(FwSmDesc_t __attribute__((unu
 }
 
 /* ------------------------------------------------------------------------------------ */
-void CrPsTestOnBoardConnectionRepUpdateAction(FwSmDesc_t __attribute__((unused)) smDesc)
+void CrPsTestOnBoardConnectionRepUpdateAction(FwSmDesc_t smDesc)
 {
+  CRFW_UNUSED(smDesc);
   /* No action */
 
   printf("CrPsTestOnBoardConnectionRepUpdateAction()\n");

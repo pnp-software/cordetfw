@@ -28,8 +28,10 @@ typedef struct {
 } prDataStartAction_t;
 
 typedef struct {
+	FwSmDesc_t smDesc;
 	CrFwDestSrc_t source;
 	unsigned short outcome;
+	unsigned short stepId;
 } prDataPrgrAction_t;
 
 
@@ -89,6 +91,21 @@ typedef struct {
 #define CRPS_REQVERIF_REROUT_FAIL 10
 
 /**
+ * Type identifier of the Housekeeping Data Report out-going report packet.
+ */
+#define CRPS_HK 3
+
+/**
+ * Subtype identifier of the Housekeeping Periodic Data Report out-going report packet.
+ */
+#define CRPS_HK_PERIODIC_REP 25
+
+ /**
+ * Subtype identifier of the Housekeeping One-Shot Data Report out-going report packet.
+ */
+#define CRPS_HK_ONESHOT_REP 26
+
+/**
  * Type identifier of the Test Service.
  */
 #define CRPS_TEST 17
@@ -143,7 +160,7 @@ typedef struct {
 /**
  * Length of the Request Verification Acceptance Successful out-going report packet.
  */
-#define CRPS_REQVERIF_ACC_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 2 + CRC_LENGTH)
+#define CRPS_REQVERIF_ACC_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 6 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Acceptance Failed out-going report packet.
@@ -153,7 +170,7 @@ typedef struct {
 /**
  * Length of the Request Verification Start Successful out-going report packet.
  */
-#define CRPS_REQVERIF_START_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 2 + CRC_LENGTH)
+#define CRPS_REQVERIF_START_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 6 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Start Failed out-going report packet.
@@ -163,7 +180,7 @@ typedef struct {
 /**
  * Length of the Request Verification Progress Successful out-going report packet.
  */
-#define CRPS_REQVERIF_PROG_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 4 + CRC_LENGTH)
+#define CRPS_REQVERIF_PROG_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 8 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Progress Failed out-going report packet.
@@ -173,7 +190,7 @@ typedef struct {
 /**
  * Length of the Request Verification Termination Successful out-going report packet.
  */
-#define CRPS_REQVERIF_TERM_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 2 + CRC_LENGTH)
+#define CRPS_REQVERIF_TERM_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 6 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Termination Failed out-going report packet.
@@ -184,6 +201,16 @@ typedef struct {
  * Length of the Request Verification Termination Failed out-going report packet.
  */
 #define CRPS_REQVERIF_REROUT_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 11 + CRC_LENGTH)
+
+/**
+ * Length of the Housekeeping Periodic Data Report out-going report packet.
+ */
+#define CRPS_HK_PERIODIC_REP_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 10 + CRC_LENGTH)
+
+ /**
+ * Length of the Housekeeping One-Shot Data Report out-going report packet.
+ */
+#define CRPS_HK_ONESHOT_REP_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 20 + CRC_LENGTH)
 
 /**
  * Length of the Perform Connection Test Are-You-Alive in-coming command packet.

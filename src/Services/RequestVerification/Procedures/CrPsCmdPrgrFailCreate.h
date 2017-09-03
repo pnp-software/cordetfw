@@ -47,7 +47,7 @@ FwPrDesc_t CrPsCmdPrgrFailCreate(void* prData);
  * </pre>
  * @param smDesc the procedure descriptor
  */
-void CrPsCmdPrgrFailN2(FwPrDesc_t __attribute__((unused)) prDesc);
+void CrPsCmdPrgrFailN2(FwPrDesc_t prDesc);
 
 /**
  * Action for node N3.
@@ -57,7 +57,7 @@ void CrPsCmdPrgrFailN2(FwPrDesc_t __attribute__((unused)) prDesc);
  * </pre>
  * @param smDesc the procedure descriptor
  */
-void CrPsCmdPrgrFailN3(FwPrDesc_t __attribute__((unused)) prDesc);
+void CrPsCmdPrgrFailN3(FwPrDesc_t prDesc);
 
 /**
  * Action for node N4.
@@ -67,7 +67,7 @@ void CrPsCmdPrgrFailN3(FwPrDesc_t __attribute__((unused)) prDesc);
  * </pre>
  * @param smDesc the procedure descriptor
  */
-void CrPsCmdPrgrFailN4(FwPrDesc_t __attribute__((unused)) prDesc);
+void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc);
 
 /**
  * Action for node N5.
@@ -77,7 +77,7 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t __attribute__((unused)) prDesc);
  * </pre>
  * @param smDesc the procedure descriptor
  */
-void CrPsCmdPrgrFailN5(FwPrDesc_t __attribute__((unused)) prDesc);
+void CrPsCmdPrgrFailN5(FwPrDesc_t prDesc);
 
 /**
  * Action for node N6.
@@ -88,7 +88,7 @@ void CrPsCmdPrgrFailN5(FwPrDesc_t __attribute__((unused)) prDesc);
  * </pre>
  * @param smDesc the procedure descriptor
  */
-void CrPsCmdPrgrFailN6(FwPrDesc_t __attribute__((unused)) prDesc);
+void CrPsCmdPrgrFailN6(FwPrDesc_t prDesc);
 
 /**
  * Guard on the Control Flow from DECISION2 to N3.
@@ -99,7 +99,7 @@ void CrPsCmdPrgrFailN6(FwPrDesc_t __attribute__((unused)) prDesc);
  * @param smDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
-FwPrBool_t CrPsCmdPrgrFailG1(FwPrDesc_t __attribute__((unused)) prDesc);
+FwPrBool_t CrPsCmdPrgrFailG1(FwPrDesc_t prDesc);
 
 
 #endif /* CrPsCmdPrgrFailCreate_H_ */

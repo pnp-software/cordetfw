@@ -3,10 +3,12 @@
  *
  * Interface for accessing data pool items.
  *
- * \note This file was generated on 2017-08-07 09:38:54
+ * \note This file was generated on 2017-08-22 17:43:36
  * \author PnP Generator
  * \copyright (c) Copyright
  */
+#ifndef CRPSDPSERVTEST_H_
+#define CRPSDPSERVTEST_H_
 
 /**
  * Type description
@@ -129,3 +131,4 @@ static inline void setDpOnBoardConnectDest(uint16_t OnBoardConnectDest)
   dpServTest.OnBoardConnectDest = OnBoardConnectDest;
 }
 
+#endif /* CRPSDPSERVTEST_H */

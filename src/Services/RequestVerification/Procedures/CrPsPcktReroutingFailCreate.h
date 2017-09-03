@@ -48,7 +48,7 @@ FwPrDesc_t CrPsPcktReroutingFailCreate(void* prData);
  * </pre>
  * @param smDesc the procedure descriptor
  */
-void CrPsPcktReroutingFailN1(FwPrDesc_t __attribute__((unused)) prDesc);
+void CrPsPcktReroutingFailN1(FwPrDesc_t prDesc);
 
 /**
  * Action for node N2.
@@ -58,7 +58,7 @@ void CrPsPcktReroutingFailN1(FwPrDesc_t __attribute__((unused)) prDesc);
  * </pre>
  * @param smDesc the procedure descriptor
  */
-void CrPsPcktReroutingFailN2(FwPrDesc_t __attribute__((unused)) prDesc);
+void CrPsPcktReroutingFailN2(FwPrDesc_t prDesc);
 
 /**
  * Action for node N3.
@@ -68,7 +68,7 @@ void CrPsPcktReroutingFailN2(FwPrDesc_t __attribute__((unused)) prDesc);
  * </pre>
  * @param smDesc the procedure descriptor
  */
-void CrPsPcktReroutingFailN3(FwPrDesc_t __attribute__((unused)) prDesc);
+void CrPsPcktReroutingFailN3(FwPrDesc_t prDesc);
 
 /**
  * Action for node N4.
@@ -78,7 +78,7 @@ void CrPsPcktReroutingFailN3(FwPrDesc_t __attribute__((unused)) prDesc);
  * </pre>
  * @param smDesc the procedure descriptor
  */
-void CrPsPcktReroutingFailN4(FwPrDesc_t __attribute__((unused)) prDesc);
+void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc);
 
 /**
  * Action for node N5.
@@ -88,7 +88,7 @@ void CrPsPcktReroutingFailN4(FwPrDesc_t __attribute__((unused)) prDesc);
  * </pre>
  * @param smDesc the procedure descriptor
  */
-void CrPsPcktReroutingFailN5(FwPrDesc_t __attribute__((unused)) prDesc);
+void CrPsPcktReroutingFailN5(FwPrDesc_t prDesc);
 
 /**
  * Action for node N6.
@@ -98,7 +98,7 @@ void CrPsPcktReroutingFailN5(FwPrDesc_t __attribute__((unused)) prDesc);
  * </pre>
  * @param smDesc the procedure descriptor
  */
-void CrPsPcktReroutingFailN6(FwPrDesc_t __attribute__((unused)) prDesc);
+void CrPsPcktReroutingFailN6(FwPrDesc_t prDesc);
 
 /**
  * Guard on the Control Flow from DECISION1 to N1.
@@ -106,7 +106,7 @@ void CrPsPcktReroutingFailN6(FwPrDesc_t __attribute__((unused)) prDesc);
  * @param smDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
-FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t __attribute__((unused)) prDesc);
+FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t prDesc);
 
 /**
  * Guard on the Control Flow from DECISION1 to N2.
@@ -114,7 +114,7 @@ FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t __attribute__((unused)) prDesc);
  * @param smDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
-FwPrBool_t CrPsPcktReroutingFailG1E(FwPrDesc_t __attribute__((unused)) prDesc);
+FwPrBool_t CrPsPcktReroutingFailG1E(FwPrDesc_t prDesc);
 
 /**
  * Guard on the Control Flow from DECISION2 to N3.
@@ -125,6 +125,6 @@ FwPrBool_t CrPsPcktReroutingFailG1E(FwPrDesc_t __attribute__((unused)) prDesc);
  * @param smDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
-FwPrBool_t CrPsPcktReroutingFailG2(FwPrDesc_t __attribute__((unused)) prDesc);
+FwPrBool_t CrPsPcktReroutingFailG2(FwPrDesc_t prDesc);
 
 #endif /* CrPsPcktReroutingFailCreate_H_ */

@@ -22,24 +22,27 @@
 
 
 /* ------------------------------------------------------------------------------------ */
-CrFwBool_t CrPsTestAreYouAliveConnectionRepEnableCheck(FwSmDesc_t __attribute__((unused)) smDesc)
+CrFwBool_t CrPsTestAreYouAliveConnectionRepEnableCheck(FwSmDesc_t smDesc)
 {
+  CRFW_UNUSED(smDesc);
   printf("CrPsTestAreYouAliveConnectionRepEnableCheck()\n");
 
   return 1; /*always True*/
 }
 
 /* ------------------------------------------------------------------------------------ */
-CrFwBool_t CrPsTestAreYouAliveConnectionRepReadyCheck(FwSmDesc_t __attribute__((unused)) smDesc)
+CrFwBool_t CrPsTestAreYouAliveConnectionRepReadyCheck(FwSmDesc_t smDesc)
 {
+  CRFW_UNUSED(smDesc);
   printf("CrPsTestAreYouAliveConnectionRepReadyCheck()\n");
 
   return 1; /*always True*/
 }
 
 /* ------------------------------------------------------------------------------------ */
-CrFwBool_t CrPsTestAreYouAliveConnectionRepRepeatCheck(FwSmDesc_t __attribute__((unused)) smDesc)
+CrFwBool_t CrPsTestAreYouAliveConnectionRepRepeatCheck(FwSmDesc_t smDesc)
 {
+  CRFW_UNUSED(smDesc);
   printf("CrPsTestAreYouAliveConnectionRepRepeatCheck()\n");
 
   return 0; /*always False*/

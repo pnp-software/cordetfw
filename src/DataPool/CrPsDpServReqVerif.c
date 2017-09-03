@@ -3,12 +3,14 @@
  *
  * Interface for accessing data pool items.
  *
- * \note This file was generated on 2017-08-07 09:38:54
+ * \note This file was generated on 2017-08-22 17:43:36
  * \author PnP Generator
  * \copyright (c) Copyright
  */
 
 #include "CrPsDpServReqVerif.h"
+#include <stdlib.h>
+#include <string.h>
 
 DpServReqVerif_t dpServReqVerif ;
 

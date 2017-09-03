@@ -11,13 +11,15 @@
 #include "FwPrDCreate.h"
 #include "FwPrConfig.h"
 
+#include <CrFwConstants.h>
 /** CrPsCmdVerFail function definitions */
 #include <stdlib.h>
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /** Guard on the Control Flow from DECISION2 to N4. */
-FwPrBool_t CrPsCmdVerFailG1E(FwPrDesc_t __attribute__((unused)) prDesc)
+FwPrBool_t CrPsCmdVerFailG1E(FwPrDesc_t prDesc)
 {
+  CRFW_UNUSED(prDesc);
   /* [ Else ] */
 
   return 1;
