@@ -357,7 +357,7 @@ static void FlushPcktQueue(FwSmDesc_t smDesc) {
 	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
 	CrFwPckt_t oldestPckt;
 	CrFwPcktQueue_t pcktQueue = &(cmpSpecificData->pcktQueue);
-	CrFwGroup_t oldestPcktGroup;
+	CrFwGroup_t oldestPcktGroup = 0;
 
 	while (CrFwPcktQueueIsEmpty(pcktQueue)==0) {
 		oldestPckt = CrFwPcktQueueGetOldest(pcktQueue);
