@@ -100,6 +100,22 @@ void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanc
 }
 
 /*-----------------------------------------------------------------------------------------*/
+void CrFwRepInCmdOutcomeCreFail(CrFwRepInCmdOutcome_t outcome, CrFwOutcome_t failCode, CrFwPckt_t pckt) {
+
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].outcome = outcome;
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].instanceId = CrFwPcktGetCmdRepId(pckt);
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].failCode = failCode;
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].servType = CrFwPcktGetServType(pckt);
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].servSubType = CrFwPcktGetServSubType(pckt);
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].discriminant = CrFwPcktGetDiscriminant(pckt);
+	inCmdOutcomeRepArray[inCmdOutcomeRepPos].inCmd = NULL;
+
+	inCmdOutcomeRepPos = (CrFwCounterU2_t)((inCmdOutcomeRepPos + 1) % CR_FW_INCMD_OUTCOME_REP_ARRAY_SIZE);
+}
+
+
+
+/*-----------------------------------------------------------------------------------------*/
 CrFwRepInCmdOutcome_t CrFwRepInCmdOutcomeStubGetOutcome(CrFwCounterU2_t repPos) {
 	return inCmdOutcomeRepArray[repPos].outcome;
 }

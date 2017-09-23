@@ -420,7 +420,7 @@ CrFwBool_t CrFwInLoaderTestCase5() {
 	/* Check that acceptance failure report has been generated */
 	if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos+1)
 		return 0;
-	if (CrFwRepInCmdOutcomeStubGetOutcome(cmdRepPos) != crCmdAckAccFail)
+	if (CrFwRepInCmdOutcomeStubGetOutcome(cmdRepPos) != crCmdAckCreFail)
 		return 0;
 	if (CrFwRepInCmdOutcomeStubGetFailCode(cmdRepPos) != 0)
 		return 0;
@@ -559,7 +559,7 @@ CrFwBool_t CrFwInLoaderTestCase6() {
 	CrFwInStreamStubSetPcktCmdRepId(111);		 /* Define command/report identifier */
 	CrFwCmpReset(inStream);
 
-	/* Configure InFactory to have no spare InReports */
+	/* Configure InFactory to have no spare InCommands */
 	for (i=0; i<CR_FW_INFACTORY_MAX_NOF_INCMD; i++) {
 		inCmdPckt = CrFwPcktMake(100);
 		CrFwPcktSetServType(inCmdPckt,8);
@@ -587,7 +587,7 @@ CrFwBool_t CrFwInLoaderTestCase6() {
 	/* Check that acceptance failure report has been generated */
 	if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos+1)
 		return 0;
-	if (CrFwRepInCmdOutcomeStubGetOutcome(cmdRepPos) != crCmdAckAccFail)
+	if (CrFwRepInCmdOutcomeStubGetOutcome(cmdRepPos) != crCmdAckCreFail)
 		return 0;
 	if (CrFwRepInCmdOutcomeStubGetFailCode(cmdRepPos) != 0)
 		return 0;

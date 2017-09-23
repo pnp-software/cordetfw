@@ -1,8 +1,11 @@
 /**
  * @file
  * @ingroup crOpenIfGroup
- * Interface for reporting the outcome of an InCommand.
- * The processing of an InCommand can have one of the following outcomes:
+ * Interface for reporting the outcome of the processing of an InCommand.
+ * The InCommand arrives at the framework interface as a packet.
+ * Its processing can have one of the following outcomes:
+ * - Creation Failure: the InCommand cannot be created because there aren't
+ *   enough memory resources
  * - Acceptance Failure: the command has failed its Acceptance Check
  * - Acceptance Success: the command has been accepted
  * - Start Failure: the Start Action of the command has failed
@@ -30,7 +33,9 @@
  *   outcome is being reported.
  * - The failure code: an integer parameter which identifies the type of failure
  *   (only applicable for 'failed' outcomes).
- * - The InCommand component representing the command whose outcome is being reported.
+ * - The InCommand component representing the command whose outcome is being reported
+ * - The packet carrying the InCommand (only for the case that the InCommand could not
+ *   be created).
  * .
  * In general, the implementation of this interface is entirely application-specific
  * but a simple default implementation is provided in <code>CrFwInCmdOutcome.c</code>.
@@ -84,27 +89,44 @@ typedef enum {
 	/** Termination failure */
 	crCmdAckTrmFail = 7,
 	/** Termination success */
-	crCmdAckTrmSucc = 8
+	crCmdAckTrmSucc = 8,
+	/** Creation failure */
+	crCmdAckCreFail = 9
 } CrFwRepInCmdOutcome_t;
 
 /**
- * Report the outcome of an InCommand.
+ * Report the outcome of the processing of an InCommand.
  * The last parameter of this function is the InCommand whose outcome is being reported.
  * This is a pointer variable. The owner of the pointer is the caller of the function.
- * The function can use it in read-only mode to access the values of command parameters.
- * If, at the time the function is called, the InCommand component has not yet been built,
- * the value of this parameter should be set to NULL.
+ * The function can use it in read-only mode to access the values of the command parameters.
  *
- * @param outcome the InCommand outcome
+ * @param outcome the outcome of the InCommand processing
  * @param instanceId the instance identifier of the InCommand
  * @param servType the service type of the InCommand
  * @param servSubType the service sub-type of the InCommand
  * @param disc the discriminant of the InCommand
  * @param failCode the failure code (don't care in case of a "successful" outcome)
- * @param inCmd the InCommand component whose outcome is being reported or NULL if the InCommand
- * component does not exist
+ * @param inCmd the InCommand component whose outcome is being reported
  */
 void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanceId, CrFwServType_t servType,
                          CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode, FwSmDesc_t inCmd);
+
+/**
+ * Report the a "creation failure" outcome for the processing of a packet carrying an InCommand.
+ * The "creation failure" outcome is declared when a packet carrying an InCommand is received
+ * but it is not possible to create an InCommand component to encapsulate it.
+ * The failure to create the InCommand may be due either to a lack of resources in the application or to
+ * the fact that the command kind as given by its [type, sub-type, discriminant] is illegal.
+ * The last parameter of this function is the packet which carries the incoming command for which no InCommand
+ * component could be created.
+ * This is a pointer variable. The owner of the pointer is the caller of the function.
+ * The function can use it in read-only mode to access the values of the command parameters.
+ *
+ * @param outcome the outcome of the packet processing (always equal to crCmdAckCreFail in
+ *                this version of the framework)
+ * @param failCode the failure code
+ * @param pckt the packet carrying the InCommand
+ */
+void CrFwRepInCmdOutcomeCreFail(CrFwRepInCmdOutcome_t outcome, CrFwOutcome_t failCode, CrFwPckt_t pckt);
 
 #endif /* CRFW_REPINCMDOUTCOME_H_ */

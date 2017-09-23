@@ -188,7 +188,7 @@ static void InLoaderLoadCmdRep(CrFwPckt_t pckt) {
 	if (CrFwPcktGetCmdRepType(pckt) == crCmdType) {
 		inCmp = CrFwInFactoryMakeInCmd(pckt);
 		if (inCmp == NULL) {	/* InCmd had invalid type or no more resources are available */
-			CrFwRepInCmdOutcome(crCmdAckAccFail, instanceId, servType, servSubType, disc, 0, NULL);
+			CrFwRepInCmdOutcomeCreFail(crCmdAckCreFail, 0, pckt);
 			CrFwPcktRelease(pckt);
 			return;
 		}
