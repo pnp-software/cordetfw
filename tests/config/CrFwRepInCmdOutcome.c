@@ -43,6 +43,7 @@
 /* Include Framework Files */
 #include "CrFwConstants.h"
 #include "CrFwRepInCmdOutcome.h"
+#include "Pckt/CrFwPckt.h"
 /* Include Configuration Files */
 #include "CrFwRepInCmdOutcomeStub.h"
 
