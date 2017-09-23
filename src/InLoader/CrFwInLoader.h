@@ -34,6 +34,17 @@
  * to the prototype of function pointers <code>::CrFwInRepValidityCheck_t</code> for incoming
  * reports or <code>::CrFwInCmdValidityCheck_t</code> for incoming commands.
  * The functions implementing the validity checks are defined in <code>CrFwInFactoryUserPar.h</code>.
+ * If the Validity Check fails,
+ *
+ * Function <code>::InLoaderLoadCmdRep</code> in the InLoader is responsible for checking whether the
+ * sub-checks are passed.
+ * Failure to pass a sub-check is handled as follows:
+ * - Failure of sub-checks 1 and 2 is handled by calling function <code>::CrFwRepInCmdOutcomeCreFail</code>
+ * - Failure of sub-check 3 is handled by calling function <code>::CrFwRepInCmdOutcome</code> with
+ *   a failure code which is set by the Validity Check
+ * - Failure of sub-check 4 is handled by calling function <code>::CrFwRepInCmdOutcome</code> with
+ *   the failure code set to zero
+ * .
  *
  * <b>Mode of Use of an InLoader Component</b>
  *
