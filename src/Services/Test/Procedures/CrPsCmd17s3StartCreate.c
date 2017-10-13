@@ -17,6 +17,7 @@
 /** CrPsCmd17s3Start function definitions */
 #include <stdlib.h>
 #include <stdio.h>
+#include "CrPsDebug.h"
 
 /* ------------------------------------------------------------------------------------ */
 /**
@@ -28,7 +29,7 @@
 FwPrBool_t CrPsTestOnBoardConnectionStartG1E(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  printf("CrPsTestOnBoardConnectionStartG1E()\n");
+  DEBUGP_17("CrPsTestOnBoardConnectionStartG1E()\n");
 
   return 1;
 }
@@ -42,7 +43,7 @@ FwPrBool_t CrPsTestOnBoardConnectionStartG1E(FwPrDesc_t prDesc)
 FwPrBool_t CrPsTestOnBoardConnectionStartG2E(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  printf("CrPsTestOnBoardConnectionStartG2E()\n");
+  DEBUGP_17("CrPsTestOnBoardConnectionStartG2E()\n");
 
   return 1;
 }
@@ -56,7 +57,7 @@ FwPrBool_t CrPsTestOnBoardConnectionStartG2E(FwPrDesc_t prDesc)
 FwPrBool_t CrPsTestOnBoardConnectionStartG3E(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  printf("CrPsTestOnBoardConnectionStartG3E()\n");
+  DEBUGP_17("CrPsTestOnBoardConnectionStartG3E()\n");
 
   return 1;
 }

@@ -20,9 +20,10 @@
 #include <DataPool/CrPsDpServTest.h>
 
 #include <Services/General/CrPsConstants.h>
+#include <Services/General/CrPsPktServTest.h>
 
 #include <stdio.h>
-
+#include "CrPsDebug.h"
 
 /**
  * @brief Validity check of the Service Are-You-Alive Test in-coming report
@@ -54,7 +55,7 @@ CrFwBool_t CrPsTestAreYouAliveConnectInRepValidityCheck(FwPrDesc_t prDesc)
     }
 #endif
 
-  printf("\n>>>>>>>>>>>\n>>> CrPsTestAreYouAliveConnectInRepValidityCheck entered ...\n>>>>>>>>>>>\n");
+  DEBUGP_17("\n>>>>>>>>>>>\n>>> CrPsTestAreYouAliveConnectInRepValidityCheck entered ...\n>>>>>>>>>>>\n");
 
   return 1;
 }
@@ -77,11 +78,11 @@ void CrPsTestAreYouAliveConnectInRepUpdateAction(FwPrDesc_t prDesc)
   inSpecificData = (CrFwInRepData_t*)(inData->cmpSpecificData);
   inPckt         = inSpecificData->pckt;
 
-  printf("\n>>>>>>>>>>>\n>>> CrPsTestAreYouAliveConnectInRepUpdateAction entered ...\n>>>>>>>>>>>\n");
+  DEBUGP_17("\n>>>>>>>>>>>\n>>> CrPsTestAreYouAliveConnectInRepUpdateAction entered ...\n>>>>>>>>>>>\n");
 
   /* Get source ID within packet */
   sourceId = CrFwPcktGetSrc(inPckt);
-  printf("CrPsTestAreYouAliveConnectInRepUpdateAction(): sourceId = %d\n", sourceId);
+  DEBUGP_17("CrFwPcktGetSrc(): sourceId = %d\n", sourceId);
 
   /* Store Are-You-Alive source in data pool */
   setDpAreYouAliveSrc((unsigned short)sourceId);

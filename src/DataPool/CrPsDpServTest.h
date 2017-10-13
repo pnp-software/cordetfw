@@ -3,12 +3,14 @@
  *
  * Interface for accessing data pool items.
  *
- * \note This file was generated on 2017-08-22 17:43:36
+ * \note This file was generated on 2017-09-25 14:26:59
  * \author PnP Generator
  * \copyright (c) Copyright
  */
 #ifndef CRPSDPSERVTEST_H_
 #define CRPSDPSERVTEST_H_
+
+#include "CrPsDpTypes.h"
 
 /**
  * Type description
@@ -24,6 +26,12 @@ typedef struct {
    * Test
    */
   uint16_t OnBoardConnectDestLst[10];
+} DpServTestParams_t;
+
+/**
+ * Type description
+ */
+typedef struct {
   /**
    * Source of the latest (17,2) report received in response to a (17,1)
    * command triggered by a (17,3) command
@@ -33,9 +41,10 @@ typedef struct {
    * Destination of the (17,1) triggered by a (17,3) command
    */
   uint16_t OnBoardConnectDest;
-} DpServTest_t;
+} DpServTestVars_t;
 
-extern DpServTest_t dpServTest;
+extern DpServTestParams_t dpServTestParams;
+extern DpServTestVars_t dpServTestVars;
 
 /**
  * Initialises ServTest
@@ -48,7 +57,7 @@ void initDpServTest(void);
  */
 static inline uint32_t getDpAreYouAliveTimeOut()
 {
-  return dpServTest.AreYouAliveTimeOut;
+  return dpServTestParams.AreYouAliveTimeOut;
 }
 
 /**
@@ -58,7 +67,7 @@ static inline uint32_t getDpAreYouAliveTimeOut()
  */
 static inline void setDpAreYouAliveTimeOut(uint32_t AreYouAliveTimeOut)
 {
-  dpServTest.AreYouAliveTimeOut = AreYouAliveTimeOut;
+  dpServTestParams.AreYouAliveTimeOut = AreYouAliveTimeOut;
 }
 
 /**
@@ -67,7 +76,7 @@ static inline void setDpAreYouAliveTimeOut(uint32_t AreYouAliveTimeOut)
  */
 static inline uint16_t* getDpOnBoardConnectDestLstArray()
 {
-  return &dpServTest.OnBoardConnectDestLst[0];
+  return &dpServTestParams.OnBoardConnectDestLst[0];
 }
 
 /**
@@ -78,7 +87,7 @@ static inline uint16_t* getDpOnBoardConnectDestLstArray()
  */
 static inline uint16_t getDpOnBoardConnectDestLstItem(int i)
 {
-  return dpServTest.OnBoardConnectDestLst[i];
+  return dpServTestParams.OnBoardConnectDestLst[i];
 }
 
 /**
@@ -90,7 +99,7 @@ static inline uint16_t getDpOnBoardConnectDestLstItem(int i)
  */
 static inline void setDpOnBoardConnectDestLstItem(int i, uint16_t OnBoardConnectDestLst)
 {
-  dpServTest.OnBoardConnectDestLst[i] = OnBoardConnectDestLst;
+  dpServTestParams.OnBoardConnectDestLst[i] = OnBoardConnectDestLst;
 }
 
 /**
@@ -99,7 +108,7 @@ static inline void setDpOnBoardConnectDestLstItem(int i, uint16_t OnBoardConnect
  */
 static inline uint16_t getDpAreYouAliveSrc()
 {
-  return dpServTest.AreYouAliveSrc;
+  return dpServTestVars.AreYouAliveSrc;
 }
 
 /**
@@ -109,7 +118,7 @@ static inline uint16_t getDpAreYouAliveSrc()
  */
 static inline void setDpAreYouAliveSrc(uint16_t AreYouAliveSrc)
 {
-  dpServTest.AreYouAliveSrc = AreYouAliveSrc;
+  dpServTestVars.AreYouAliveSrc = AreYouAliveSrc;
 }
 
 /**
@@ -118,7 +127,7 @@ static inline void setDpAreYouAliveSrc(uint16_t AreYouAliveSrc)
  */
 static inline uint16_t getDpOnBoardConnectDest()
 {
-  return dpServTest.OnBoardConnectDest;
+  return dpServTestVars.OnBoardConnectDest;
 }
 
 /**
@@ -128,7 +137,9 @@ static inline uint16_t getDpOnBoardConnectDest()
  */
 static inline void setDpOnBoardConnectDest(uint16_t OnBoardConnectDest)
 {
-  dpServTest.OnBoardConnectDest = OnBoardConnectDest;
+  dpServTestVars.OnBoardConnectDest = OnBoardConnectDest;
 }
 
+
+/*----------------------------------------------------------------------------*/
 #endif /* CRPSDPSERVTEST_H */

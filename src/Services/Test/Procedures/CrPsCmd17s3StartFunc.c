@@ -30,14 +30,14 @@
 #include <Services/Test/InCmd/CrPsTestOnBoardConnection.h> /* for global handles */
 
 #include "CrPsRepErr.h"
+#include "CrPsUtilities.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "CrPsDebug.h"
 
-#define VER_REP_CR_FD 3
-
-FwSmDesc_t cmd, rep;
+FwSmDesc_t cmd;
 
 
 /* ------------------------------------------------------------------------------------ */
@@ -48,7 +48,7 @@ void CrPsTestOnBoardConnectionStartN1(FwPrDesc_t prDesc)
   unsigned short areYouAliveSrc;
 
   /* Set areYouAliveSrc to zero */
-  /*printf("CrPsTestOnBoardConnectionStartN1()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionStartN1()\n");
 
   areYouAliveSrc = 0;
   setDpAreYouAliveSrc(areYouAliveSrc);
@@ -63,7 +63,7 @@ void CrPsTestOnBoardConnectionStartN2(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /* Retrieve an OutComponent of type (17,1) from the OutFactory */
-  /*printf("CrPsTestOnBoardConnectionStartN2()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionStartN2()\n");
 
   /* Create out component */
   cmd = CrFwOutFactoryMakeOutCmp(CRPS_TEST, CRPS_TEST_AREYOUALIVE_CONNECTION_CMD, 0, 0);
@@ -79,7 +79,7 @@ void CrPsTestOnBoardConnectionStartN3(FwPrDesc_t prDesc)
   CrPsRepErrCode_t errCode;
 
   /* Generate error report OUTFACTORY_FAIL */
-  /*printf("CrPsTestOnBoardConnectionStartN3()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionStartN3()\n");
 
   errCode = crOutfactoryFail;
   CrPsRepErr(errCode, CRPS_TEST, CRPS_TEST_AREYOUALIVE_CONNECTION_CMD, 0);
@@ -95,7 +95,7 @@ void CrPsTestOnBoardConnectionStartN4(FwPrDesc_t prDesc)
   CrFwDestSrc_t destId;
 
   /* Configure (17,1) OutComponent */
-  /*printf("CrPsTestOnBoardConnectionStartN4()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionStartN4()\n");
 
   /* Get destination Id of target application */
   destId = (CrFwDestSrc_t)getDpOnBoardConnectDest();
@@ -113,7 +113,7 @@ void CrPsTestOnBoardConnectionStartN5(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /* Load OutComponent in OutLoader */
-  /*printf("CrPsTestOnBoardConnectionStartN5()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionStartN5()\n");
 
   CrFwOutLoaderLoad(cmd);
 
@@ -127,7 +127,7 @@ void CrPsTestOnBoardConnectionStartN7(FwPrDesc_t prDesc)
   prDataStartAction_t prDataStartAction;
 
   /* Set outcome of Start Action to 'success' */
-  /*printf("CrPsTestOnBoardConnectionStartN7()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionStartN7()\n");
 
   prDataStartAction.outcome = 1;
   FwPrSetData(prDesc, &prDataStartAction);
@@ -142,7 +142,7 @@ void CrPsTestOnBoardConnectionStartN8(FwPrDesc_t prDesc)
   prDataStartAction_t prDataStartAction;
 
   /* Set outcome of Start Action to 'failure' with failure code VER_REP_CR_FD */
-  /*printf("CrPsTestOnBoardConnectionStartN8()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionStartN8()\n");
 
   prDataStartAction.outcome = VER_REP_CR_FD;
   FwPrSetData(prDesc, &prDataStartAction);
@@ -154,13 +154,21 @@ void CrPsTestOnBoardConnectionStartN8(FwPrDesc_t prDesc)
 /* Action for node N9. */
 void CrPsTestOnBoardConnectionStartN9(FwPrDesc_t prDesc)
 {
+  FwSmDesc_t rep;
+  prDataPrgrAction_t* prDataPrgrActionPtr;
+
   CRFW_UNUSED(prDesc);
 
   /* Retrieve an OutComponent of type (17,4) from the OutFactory */
-  /*printf("CrPsTestOnBoardConnectionStartN9()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionStartN9()\n");
 
   /* Create out component */
   rep = CrFwOutFactoryMakeOutCmp(CRPS_TEST, CRPS_TEST_ONBOARD_CONNECTION_REP, 0, 0);
+
+  /* Initialize and set prData of procedure */
+  prDataPrgrActionPtr = (prDataPrgrAction_t *)malloc(sizeof(prDataPrgrAction_t));
+  prDataPrgrActionPtr->smDesc = rep;
+  FwPrSetData(prDescServTestOnBoardConnPrgr, prDataPrgrActionPtr);
 
   return;
 }
@@ -172,7 +180,7 @@ void CrPsTestOnBoardConnectionStartN10(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /* Release (17,1) OutComponent */
-  /*printf("CrPsTestOnBoardConnectionStartN10()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionStartN10()\n");
 
   CrFwOutFactoryReleaseOutCmp(cmd);
 
@@ -192,7 +200,7 @@ FwPrBool_t CrPsTestOnBoardConnectionStartG1(FwPrDesc_t prDesc)
   unsigned short appId, destId;
 
   /* [ Identifier of target application is legal ] */
-  /*printf("CrPsTestOnBoardConnectionStartG1()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionStartG1()\n");
 
   /* get requested target application ID */
   appId = getDpOnBoardConnectDest();
@@ -202,7 +210,7 @@ FwPrBool_t CrPsTestOnBoardConnectionStartG1(FwPrDesc_t prDesc)
     {
       pos = i;
       destId = getDpOnBoardConnectDestLstItem(pos);
-      /*printf("CrPsTestOnBoardConnectionStartG1(): appId = %d, destId = %d, pos = %d\n", appId, destId, pos);*/
+      DEBUGP_17("CrPsTestOnBoardConnectionStartG1(): appId = %d, destId = %d, pos = %d\n", appId, destId, pos);
       if (destId == appId)
         return 1;
     }
@@ -217,7 +225,7 @@ FwPrBool_t CrPsTestOnBoardConnectionStartG2(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /* [ OutFactory fails to generate OutComponent ] */
-  /*printf("CrPsTestOnBoardConnectionStartG2()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionStartG2()\n");
 
   if (cmd == NULL)
     {
@@ -234,10 +242,16 @@ FwPrBool_t CrPsTestOnBoardConnectionStartG2(FwPrDesc_t prDesc)
 /* Guard on the Control Flow from DECISION3 to N4. */
 FwPrBool_t CrPsTestOnBoardConnectionStartG3(FwPrDesc_t prDesc)
 {
+  FwSmDesc_t rep;
+  prDataPrgrAction_t* prDataPrgrActionPtr;
+
   CRFW_UNUSED(prDesc);
 
   /* [ OutFactory returns OutComponent ] */
-  /*printf("CrPsTestOnBoardConnectionStartG3()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionStartG3()\n");
+
+  prDataPrgrActionPtr = FwPrGetData(prDescServTestOnBoardConnPrgr);
+  rep = prDataPrgrActionPtr->smDesc;
 
   if (rep != NULL)
     {

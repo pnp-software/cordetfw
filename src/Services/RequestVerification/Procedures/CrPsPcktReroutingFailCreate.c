@@ -13,6 +13,7 @@
 #include <CrFwConstants.h>
 /** CrPsPcktReroutingFail function definitions */
 #include <stdlib.h>
+#include "CrPsDebug.h"
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /** Guard on the Control Flow from DECISION2 to N4. */
@@ -20,7 +21,7 @@ FwPrBool_t CrPsPcktReroutingFailG2E(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
   /* [ Else ] */
-
+  DEBUGP_1("CrPsPcktReroutingFailG2E");
   return 1;
 }
 

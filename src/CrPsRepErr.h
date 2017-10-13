@@ -56,8 +56,6 @@
 #include "CrFwUserConstants.h"
 #include "CrPsUserConstants.h"
 
-#define OUTFACTORY_FAIL   100
-#define INLOADER_INV_DEST 101
 
 /**
  * Report an error which has no parameters attached to it.

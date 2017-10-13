@@ -210,7 +210,7 @@ typedef enum {
  * The maximum number of packets which can be created with the default packet implementation.
  * The value of this constant must not exceed the range of the <code>CrFwCounterU2_t</code> type.
  */
-#define CR_FW_MAX_NOF_PCKTS 12
+#define CR_FW_MAX_NOF_PCKTS 20
 
 /** The identifier of the host application */
 #define CR_FW_HOST_APP_ID 10

@@ -11,7 +11,7 @@
 
 #include "CrPsUtilities.h"
 #include "Pckt/CrFwPckt.h"     /* --- interface to adaptation point CrFwPckt --- */
-#include "CrPsPcktUtilities.h" /* --- interface to adaptation point CrFwPckt for CrFwPcktGetPid() --- */
+
 
 /* CrFramework includes */
 #include <OutFactory/CrFwOutFactory.h>
@@ -32,10 +32,16 @@
 #include <Services/RequestVerification/Procedures/CrPsCmdVerFailCreate.h>
 #include <Services/RequestVerification/Procedures/CrPsCmdPrgrSuccCreate.h>
 #include <Services/RequestVerification/Procedures/CrPsCmdPrgrFailCreate.h>
+#include <Services/Housekeeping/Procedures/CrPsCmd3s1StartCreate.h>
+#include <Services/Housekeeping/Procedures/CrPsRep3s25ReadyCreate.h>
+#include <Services/Housekeeping/Procedures/CrPsCmd3SidStartCreate.h>
+#include <Services/Housekeeping/Procedures/CrPsCmd3s27PrgrCreate.h>
 
 #include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServTest.h>
 #include <DataPool/CrPsDpServReqVerif.h>
+#include <DataPool/CrPsDpHk.h>
+#include <DataPool/CrPsDpEvt.h>
 /*hier CrPsDpPkt dateien hinzufügen!*/
 
 #include <stdio.h>
@@ -46,6 +52,8 @@ FwPrDesc_t prDescServTestOnBoardConnStart, prDescServTestOnBoardConnPrgr;
 FwPrDesc_t prDescServReqVerifPcktReroutFail, prDescServReqVerifPcktAccFail;
 FwPrDesc_t prDescServReqVerifCmdVerSucc, prDescServReqVerifCmdVerFail;
 FwPrDesc_t prDescServReqVerifCmdPrgrSucc, prDescServReqVerifCmdPrgrFail;
+FwPrDesc_t prDescHkCmd3s1Start, prDescHkRepReadyCheck;
+FwPrDesc_t prDescMultiSidCmdStart, prDescGenerateHkOneShotPrgr;
 
 
 /**
@@ -170,9 +178,85 @@ int CrPsInit()
       return EXIT_FAILURE;
     }
 
+  /***********************************************************************/
+  /* Service Housekeeping HkRep Ready Check Procedure                    */
+  /***********************************************************************/
+  prDescHkCmd3s1Start = CrPsCmd3s1StartCreate(NULL);
+  if (FwPrCheck(prDescHkCmd3s1Start) != prSuccess)
+    {
+      printf("The procedure CrPsCmd3s1Start is NOT properly configured ... FAILURE\n");
+      return EXIT_FAILURE;
+    }
+  FwPrStart(prDescHkCmd3s1Start);
+
+  /***********************************************************************/
+  /* Service Housekeeping HkRep Ready Check Procedure                    */
+  /***********************************************************************/
+  prDescHkRepReadyCheck = CrPsRep3s25ReadyCreate(NULL);
+  if (FwPrCheck(prDescHkRepReadyCheck) != prSuccess)
+    {
+      printf("The procedure CrPsRep3s25Ready is NOT properly configured ... FAILURE\n");
+      return EXIT_FAILURE;
+    }
+  FwPrStart(prDescHkRepReadyCheck);
+
+  /***********************************************************************/
+  /* Service Housekeeping Multi-SID Command Procedure                    */
+  /***********************************************************************/
+  prDescMultiSidCmdStart = CrPsCmd3SidStartCreate(NULL);
+  if (FwPrCheck(prDescMultiSidCmdStart) != prSuccess) {
+    printf("The procedure CrPsCmd3SidStart is NOT properly configured ... FAILURE\n");
+    return EXIT_FAILURE;
+  }
+
+  /***********************************************************************/
+  /* Service Housekeeping Generate One-Shot HK Report Procedure          */
+  /***********************************************************************/
+  prDescGenerateHkOneShotPrgr = CrPsCmd3s27PrgrCreate(NULL);
+#if 0
+  if (FwPrCheck(prDescGenerateHkOneShotPrgr) != prSuccess) {
+    printf("The procedure CrPsCmd3s27Prgr is NOT properly configured ... FAILURE\n");
+    return EXIT_FAILURE;
+  }
+#endif
+
   /*???? initialize Datapool Values*/
   initDpServReqVerif();
   initDpServTest();
+  initDpHk();  /* TODO: should be initDpServHk() */
+  initDpEvt(); /* TODO: should be initDpServEvt() */
+
+  /* ONLY FOR TEST PURPOSES */
+{
+  int i;
+  uint16_t sid;
+  uint8_t isEnabled;
+  uint32_t cycleCnt;
+  uint16_t dest;
+  uint16_t lstId; /* TODO: should be an array */
+
+  i = 0; /* = SidSlot */
+  sid = 1; /* Periodic HK */
+  isEnabled = 1;
+  cycleCnt = 2;
+  dest = 0;
+  lstId = 234; /* 0x00EA */
+  setDpsidItem(i, sid); 
+  setDpisEnabledItem(i, isEnabled);
+  setDpcycleCntItem(i, cycleCnt);
+  setDpdestItem(i, dest);
+  setDplstIdItem(i, lstId);
+
+  /* verify data in data pool */
+  printf("SID verified = %d\n", getDpsidItem(i));
+
+  i = 2; /* = SidSlot */
+  sid = 2; /* Periodic HK */
+  lstId = 567; /* 0x0237 */
+  setDpsidItem(i, sid); 
+  setDplstIdItem(i, lstId);
+
+}
   
   return EXIT_SUCCESS;
 }

@@ -14,6 +14,7 @@
 
 /** CrPsPcktAccFail function definitions */
 #include <stdlib.h>
+#include "CrPsDebug.h"
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /** Guard on the Control Flow from DECISION2 to N4. */
@@ -21,7 +22,7 @@ FwPrBool_t CrPsPcktAccFailG2E(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
   /* [ Else ] */
-
+  DEBUGP_1("CrPsPcktAccFailG2E");
   return 1;
 }
 

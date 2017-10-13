@@ -23,6 +23,7 @@
 #include <Services/General/CrPsConstants.h>
 
 #include <stdio.h>
+#include "CrPsDebug.h"
 
 FwSmDesc_t rep;
 
@@ -33,7 +34,7 @@ CrFwBool_t CrPsTestAreYouAliveConnectionReadyCheck(FwSmDesc_t smDesc)
   CRFW_UNUSED(smDesc);
 
   /* Return 'command is ready' */
-  /*printf("CrPsTestAreYouAliveConnectionReadyCheck()\n");*/
+  DEBUGP_17("CrPsTestAreYouAliveConnectionReadyCheck()\n");
 
   return 1;
 }
@@ -47,7 +48,7 @@ void CrPsTestAreYouAliveConnectionStartAction(FwSmDesc_t smDesc)
      to \success' if retrieval succeeds. If the retrieval fails, generate
      error report OUTFACTORY FAILED and set outcome of Start
      Action to 'failed' */
-  /*printf("CrPsTestAreYouAliveConnectionStartAction()\n");*/
+  DEBUGP_17("CrPsTestAreYouAliveConnectionStartAction()\n");
 
   /* Get in data */
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -58,13 +59,13 @@ void CrPsTestAreYouAliveConnectionStartAction(FwSmDesc_t smDesc)
 
   if (rep != NULL)
     {
-      printf("CrPsTestAreYouAliveConnectionStartAction: outcome = 1\n");
+      DEBUGP_17("CrPsTestAreYouAliveConnectionStartAction: outcome = 1\n");
       inData->outcome = 1;
     }
   else
     {
       /* Send error report OUTFACTORY_FAILED (outcome = 5) */
-      printf("CrPsTestAreYouAliveConnectionStartAction: outcome = 5\n");
+      DEBUGP_17("CrPsTestAreYouAliveConnectionStartAction: outcome = 5\n");
       inData->outcome = 5;
     }  
 #endif
@@ -85,7 +86,7 @@ void CrPsTestAreYouAliveConnectionProgressAction(FwSmDesc_t smDesc)
   /* Configure the (17,2) report with a destination equal to the
      source of the (17,1) command, load it in the OutLoader, and
      set action outcome to 'completed' */
-  /*printf("CrPsTestAreYouAliveConnectionProgressAction()\n");*/
+  DEBUGP_17("CrPsTestAreYouAliveConnectionProgressAction()\n");
 
   /* Get in packet */
   inData          = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -98,6 +99,7 @@ void CrPsTestAreYouAliveConnectionProgressAction(FwSmDesc_t smDesc)
   /* Set out component parameters */
   source = CrFwPcktGetSrc(inPckt);
   CrFwOutCmpSetDest(rep, source);
+  DEBUGP_17("CrPsTestAreYouAliveConnectionProgressAction(): dest = %d\n", source);
 
   /* load the report in the OutLoader */
   CrFwOutLoaderLoad(rep);
@@ -113,7 +115,7 @@ void CrPsTestAreYouAliveConnectionTerminationAction(FwSmDesc_t smDesc)
   CrFwCmpData_t*   inData;
 
   /* Set action outcome to 'success' */
-  /*printf("CrPsTestAreYouAliveConnectionTerminationAction()\n");*/
+  DEBUGP_17("CrPsTestAreYouAliveConnectionTerminationAction()\n");
 
   /* Get in data */
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -129,7 +131,7 @@ void CrPsTestAreYouAliveConnectionAbortAction(FwSmDesc_t smDesc)
   CRFW_UNUSED(smDesc);
 
   /* Do nothing */
-  /*printf("CrPsTestAreYouAliveConnectionAbortAction()\n");*/
+  DEBUGP_17("CrPsTestAreYouAliveConnectionAbortAction()\n");
 
   return;
 }

@@ -23,12 +23,13 @@
 
 #include <CrPsUtilities.h>
 #include <Services/General/CrPsConstants.h>
-#include <Services/General/CrPsDpPktServTest.h>
+#include <Services/General/CrPsPktServTest.h>
 #include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServTest.h>
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "CrPsDebug.h"
 
 unsigned short timeOut_cnt;
 
@@ -39,7 +40,7 @@ CrFwBool_t CrPsTestOnBoardConnectionReadyCheck(FwSmDesc_t smDesc)
   CRFW_UNUSED(smDesc);
 
   /* Return 'command is ready' */
-  /*printf("CrPsTestOnBoardConnectionReadyCheck()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionReadyCheck()\n");
 
   return 1;
 }
@@ -54,7 +55,7 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t smDesc)
   prDataStartAction_t* prDataStartActionPtr;
 
   /* Run the procedure Start Action of OnBoardConnectCmd Command (see figure 13.1 in PP-DF-COR-003) */
-  /*printf("CrPsTestOnBoardConnectionStartAction()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionStartAction()\n");
 
   /* Get in packet */
   cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(smDesc);
@@ -66,11 +67,11 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t smDesc)
 
   /* TODO: not in specifications */
   /* get Application ID */
-  appId = getOnBoardConnectCmd0AppId(inPckt);
+  appId = getOnBoardConnectCmdAppId(inPckt);
   
   /* store in data pool */
   setDpOnBoardConnectDest(appId);
-
+  printf("getDpOnBoardConnectDest() %d \n", getDpOnBoardConnectDest());
   /* Run the procedure */
   FwPrRun(prDescServTestOnBoardConnStart);
 
@@ -91,10 +92,10 @@ void CrPsTestOnBoardConnectionProgressAction(FwSmDesc_t smDesc)
   CrFwPckt_t inPckt;
   CrFwDestSrc_t srcId;
   prDataPrgrAction_t* prDataPrgrActionPtr;
-  prDataPrgrActionPtr = (prDataPrgrAction_t *)malloc(sizeof(prDataPrgrAction_t));
+  /*prDataPrgrActionPtr = (prDataPrgrAction_t *)malloc(sizeof(prDataPrgrAction_t));*/
 
   /* Run the procedure Progress Action of OnBoardConnectCmd Command (see figure 13.2 in PP-DF-COR-003) */
-  /*printf("CrPsTestOnBoardConnectionProgressAction()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionProgressAction()\n");
 
   /* Get in packet */
   cmpDataPrgr     = (CrFwCmpData_t   *) FwSmGetData(smDesc);
@@ -103,8 +104,10 @@ void CrPsTestOnBoardConnectionProgressAction(FwSmDesc_t smDesc)
 
   /* Get the InCmd source and set it in the prData */
   srcId = CrFwPcktGetSrc(inPckt);
+
+  /* Set prData of procedure */
+  prDataPrgrActionPtr = FwPrGetData(prDescServTestOnBoardConnPrgr);
   prDataPrgrActionPtr->source = srcId;
-  prDataPrgrActionPtr->smDesc = smDesc;
   prDataPrgrActionPtr->stepId = timeOut_cnt;
   FwPrSetData(prDescServTestOnBoardConnPrgr, prDataPrgrActionPtr);
 
@@ -131,7 +134,7 @@ void CrPsTestOnBoardConnectionTerminationAction(FwSmDesc_t smDesc)
   unsigned short outcome;
 
   /* Set action outcome to 'success' if the (17,4) report was issued and to 'failure' otherwise */
-  /*printf("CrPsTestOnBoardConnectionTerminationAction()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionTerminationAction()\n");
 
   /* Get in data */
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -160,7 +163,7 @@ void CrPsTestOnBoardConnectionAbortAction(FwSmDesc_t smDesc)
   CRFW_UNUSED(smDesc);
 
   /* Do nothing */
-  /*printf("CrPsTestOnBoardConnectionAbortAction()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionAbortAction()\n");
 
   return;
 }

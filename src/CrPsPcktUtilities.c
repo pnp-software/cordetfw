@@ -9,34 +9,80 @@
  */
 
 /* Includes */
-
-/* for CR_FW_PCAT_SEM_TC */
-#include "CrFwUserConstants.h"
 #include "CrPsPcktUtilities.h"
+#include "CrPsDebug.h"
+#include "CrPsPkt.h"
+#include "Pckt/CrFwPckt.h"
+#include "CrFwConstants.h"
 
 
-#include <BaseCmp/CrFwBaseCmp.h>
-#include <Pckt/CrFwPckt.h>
-#include <UtilityFunctions/CrFwUtilityFunctions.h>
 
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-
-#include <arpa/inet.h>
-
-#if 0
-/* ------------------------------------------------------------------------------------ */
-CrFwDestSrc_t CrFwPcktGetPid(CrFwPckt_t pckt)
+unsigned short CrFwPcktGetSeqCtrl(CrFwPckt_t pckt)
 {
-  char pid0, pid1;
-  pid0 = (pckt[OFFSET_ID_FIELD] & PID0_MASK);
-  pid1 = (pckt[OFFSET_ID_FIELD + 1] & PID1_MASK) >> PID1_SHIFT;
-  return ((pid0 << 4) | pid1);
+	unsigned int seqflags, seqcount;
+
+	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
+	{
+		seqflags = getTmHeaderSeqFlags(pckt);
+		seqcount = getTmHeaderSeqCount(pckt);
+	}
+	else
+	{
+		seqflags = getTcHeaderSeqFlags(pckt);
+		seqcount = getTcHeaderSeqCount(pckt);
+	}
+	
+	return ((seqflags << 14) & 0xc000) | (seqcount & 0x3fff);
 }
-#endif
 
 
+void CrFwPcktSetSeqCtrl(CrFwPckt_t pckt, unsigned short psc)
+{
+	unsigned int seqflags, seqcount;
 
+	seqflags = ((psc & 0xc000)>>14)&0x0003;
+	seqcount = psc & 0x3fff;
+
+	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
+	{
+		setTmHeaderSeqFlags(pckt, seqflags);
+		setTmHeaderSeqCount(pckt, seqcount);
+	}
+	else
+	{
+		setTmHeaderSeqFlags(pckt, seqflags);
+		setTmHeaderSeqCount(pckt, seqcount);
+	}
+
+	return;
+}
+
+unsigned short CrFwPcktGetApid(CrFwPckt_t pckt)
+{
+	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
+	{
+		return getTmHeaderAPID(pckt);
+	}
+	else
+	{
+		return getTcHeaderAPID(pckt);
+	}
+}
+
+void CrFwPcktSetApid(CrFwPckt_t pckt, unsigned short apid)
+{
+	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
+	{
+		setTmHeaderAPID(pckt, apid);
+	}
+	else
+	{
+		setTcHeaderAPID(pckt, apid);
+	}
+}
+
+/*PCAT getter für Group getter (und setter)*/
+
+/*discriminante if service type subservicetype*/
 
 

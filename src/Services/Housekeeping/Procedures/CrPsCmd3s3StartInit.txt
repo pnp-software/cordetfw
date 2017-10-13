@@ -1,0 +1,22 @@
+{
+	/** Define the procedure descriptor (PRD) */
+	FwPrDesc_t prDesc = CrPsCmd3s3StartCreate(NULL);
+
+	srand(time(NULL));
+
+	/** Check that the procedure is properly configured */
+	if (FwPrCheck(prDesc) != prSuccess) {
+		printf("The procedure CrPsCmd3s3Start is NOT properly configured ... FAILURE\n");
+		return EXIT_FAILURE;
+	}
+
+	printf("The procedure CrPsCmd3s3Start is properly configured ... SUCCESS\n");
+
+	/** Start the procedure, and execute it */
+	FwPrStart(prDesc);
+	while (FwPrGetCurNode(prDesc) != 0) {
+		FwPrExecute(prDesc);
+	}
+
+	return EXIT_SUCCESS;
+}

@@ -25,9 +25,6 @@
 #include "FwPrConstants.h"
 #include "OutCmp/CrFwOutCmp.h" /* needed for definition of: FwSmDesc_t */
 
-/** global extern variables */
-extern FwSmDesc_t rep;
-
 /** Action node identifiers */
 #define CrPsCmd17s3Start_N1 (1)		/* The identifier of action node N1 in procedure CrPsCmd17s3Start */
 #define CrPsCmd17s3Start_N2 (2)		/* The identifier of action node N2 in procedure CrPsCmd17s3Start */

@@ -3,12 +3,14 @@
  *
  * Interface for accessing data pool items.
  *
- * \note This file was generated on 2017-08-22 17:43:36
+ * \note This file was generated on 2017-09-25 14:26:59
  * \author PnP Generator
  * \copyright (c) Copyright
  */
 #ifndef CRPSDPSERVREQVERIF_H_
 #define CRPSDPSERVREQVERIF_H_
+
+#include "CrPsDpTypes.h"
 
 /**
  * Type description
@@ -82,9 +84,9 @@ typedef struct {
    * Verification Failure Data (data item of fixed size but variable
    */
   int32_t verFailData;
-} DpServReqVerif_t;
+} DpServReqVerifVars_t;
 
-extern DpServReqVerif_t dpServReqVerif;
+extern DpServReqVerifVars_t dpServReqVerifVars;
 
 /**
  * Initialises ServReqVerif
@@ -97,7 +99,7 @@ void initDpServReqVerif(void);
  */
 static inline uint16_t getDpfailCodeAccFailed()
 {
-  return dpServReqVerif.failCodeAccFailed;
+  return dpServReqVerifVars.failCodeAccFailed;
 }
 
 /**
@@ -107,7 +109,7 @@ static inline uint16_t getDpfailCodeAccFailed()
  */
 static inline void setDpfailCodeAccFailed(uint16_t failCodeAccFailed)
 {
-  dpServReqVerif.failCodeAccFailed = failCodeAccFailed;
+  dpServReqVerifVars.failCodeAccFailed = failCodeAccFailed;
 }
 
 /**
@@ -116,7 +118,7 @@ static inline void setDpfailCodeAccFailed(uint16_t failCodeAccFailed)
  */
 static inline uint16_t getDpfailCodePrgrFailed()
 {
-  return dpServReqVerif.failCodePrgrFailed;
+  return dpServReqVerifVars.failCodePrgrFailed;
 }
 
 /**
@@ -126,7 +128,7 @@ static inline uint16_t getDpfailCodePrgrFailed()
  */
 static inline void setDpfailCodePrgrFailed(uint16_t failCodePrgrFailed)
 {
-  dpServReqVerif.failCodePrgrFailed = failCodePrgrFailed;
+  dpServReqVerifVars.failCodePrgrFailed = failCodePrgrFailed;
 }
 
 /**
@@ -135,7 +137,7 @@ static inline void setDpfailCodePrgrFailed(uint16_t failCodePrgrFailed)
  */
 static inline uint16_t getDpfailCodeStartFailed()
 {
-  return dpServReqVerif.failCodeStartFailed;
+  return dpServReqVerifVars.failCodeStartFailed;
 }
 
 /**
@@ -145,7 +147,7 @@ static inline uint16_t getDpfailCodeStartFailed()
  */
 static inline void setDpfailCodeStartFailed(uint16_t failCodeStartFailed)
 {
-  dpServReqVerif.failCodeStartFailed = failCodeStartFailed;
+  dpServReqVerifVars.failCodeStartFailed = failCodeStartFailed;
 }
 
 /**
@@ -154,7 +156,7 @@ static inline void setDpfailCodeStartFailed(uint16_t failCodeStartFailed)
  */
 static inline uint16_t getDpfailCodeTermFailed()
 {
-  return dpServReqVerif.failCodeTermFailed;
+  return dpServReqVerifVars.failCodeTermFailed;
 }
 
 /**
@@ -164,7 +166,7 @@ static inline uint16_t getDpfailCodeTermFailed()
  */
 static inline void setDpfailCodeTermFailed(uint16_t failCodeTermFailed)
 {
-  dpServReqVerif.failCodeTermFailed = failCodeTermFailed;
+  dpServReqVerifVars.failCodeTermFailed = failCodeTermFailed;
 }
 
 /**
@@ -173,7 +175,7 @@ static inline void setDpfailCodeTermFailed(uint16_t failCodeTermFailed)
  */
 static inline uint32_t getDpinvDestRerouting()
 {
-  return dpServReqVerif.invDestRerouting;
+  return dpServReqVerifVars.invDestRerouting;
 }
 
 /**
@@ -183,7 +185,7 @@ static inline uint32_t getDpinvDestRerouting()
  */
 static inline void setDpinvDestRerouting(uint32_t invDestRerouting)
 {
-  dpServReqVerif.invDestRerouting = invDestRerouting;
+  dpServReqVerifVars.invDestRerouting = invDestRerouting;
 }
 
 /**
@@ -192,7 +194,7 @@ static inline void setDpinvDestRerouting(uint32_t invDestRerouting)
  */
 static inline uint32_t getDpnOfAccFailed()
 {
-  return dpServReqVerif.nOfAccFailed;
+  return dpServReqVerifVars.nOfAccFailed;
 }
 
 /**
@@ -202,7 +204,7 @@ static inline uint32_t getDpnOfAccFailed()
  */
 static inline void setDpnOfAccFailed(uint32_t nOfAccFailed)
 {
-  dpServReqVerif.nOfAccFailed = nOfAccFailed;
+  dpServReqVerifVars.nOfAccFailed = nOfAccFailed;
 }
 
 /**
@@ -211,7 +213,7 @@ static inline void setDpnOfAccFailed(uint32_t nOfAccFailed)
  */
 static inline uint32_t getDpnOfPrgrFailed()
 {
-  return dpServReqVerif.nOfPrgrFailed;
+  return dpServReqVerifVars.nOfPrgrFailed;
 }
 
 /**
@@ -221,7 +223,7 @@ static inline uint32_t getDpnOfPrgrFailed()
  */
 static inline void setDpnOfPrgrFailed(uint32_t nOfPrgrFailed)
 {
-  dpServReqVerif.nOfPrgrFailed = nOfPrgrFailed;
+  dpServReqVerifVars.nOfPrgrFailed = nOfPrgrFailed;
 }
 
 /**
@@ -230,7 +232,7 @@ static inline void setDpnOfPrgrFailed(uint32_t nOfPrgrFailed)
  */
 static inline uint32_t getDpnOfReroutingFailed()
 {
-  return dpServReqVerif.nOfReroutingFailed;
+  return dpServReqVerifVars.nOfReroutingFailed;
 }
 
 /**
@@ -240,7 +242,7 @@ static inline uint32_t getDpnOfReroutingFailed()
  */
 static inline void setDpnOfReroutingFailed(uint32_t nOfReroutingFailed)
 {
-  dpServReqVerif.nOfReroutingFailed = nOfReroutingFailed;
+  dpServReqVerifVars.nOfReroutingFailed = nOfReroutingFailed;
 }
 
 /**
@@ -249,7 +251,7 @@ static inline void setDpnOfReroutingFailed(uint32_t nOfReroutingFailed)
  */
 static inline uint32_t getDpnOfStartFailed()
 {
-  return dpServReqVerif.nOfStartFailed;
+  return dpServReqVerifVars.nOfStartFailed;
 }
 
 /**
@@ -259,7 +261,7 @@ static inline uint32_t getDpnOfStartFailed()
  */
 static inline void setDpnOfStartFailed(uint32_t nOfStartFailed)
 {
-  dpServReqVerif.nOfStartFailed = nOfStartFailed;
+  dpServReqVerifVars.nOfStartFailed = nOfStartFailed;
 }
 
 /**
@@ -268,7 +270,7 @@ static inline void setDpnOfStartFailed(uint32_t nOfStartFailed)
  */
 static inline uint32_t getDpnOfTermFailed()
 {
-  return dpServReqVerif.nOfTermFailed;
+  return dpServReqVerifVars.nOfTermFailed;
 }
 
 /**
@@ -278,7 +280,7 @@ static inline uint32_t getDpnOfTermFailed()
  */
 static inline void setDpnOfTermFailed(uint32_t nOfTermFailed)
 {
-  dpServReqVerif.nOfTermFailed = nOfTermFailed;
+  dpServReqVerifVars.nOfTermFailed = nOfTermFailed;
 }
 
 /**
@@ -287,7 +289,7 @@ static inline void setDpnOfTermFailed(uint32_t nOfTermFailed)
  */
 static inline uint16_t getDppcktIdAccFailed()
 {
-  return dpServReqVerif.pcktIdAccFailed;
+  return dpServReqVerifVars.pcktIdAccFailed;
 }
 
 /**
@@ -297,7 +299,7 @@ static inline uint16_t getDppcktIdAccFailed()
  */
 static inline void setDppcktIdAccFailed(uint16_t pcktIdAccFailed)
 {
-  dpServReqVerif.pcktIdAccFailed = pcktIdAccFailed;
+  dpServReqVerifVars.pcktIdAccFailed = pcktIdAccFailed;
 }
 
 /**
@@ -306,7 +308,7 @@ static inline void setDppcktIdAccFailed(uint16_t pcktIdAccFailed)
  */
 static inline uint16_t getDppcktIdPrgrFailed()
 {
-  return dpServReqVerif.pcktIdPrgrFailed;
+  return dpServReqVerifVars.pcktIdPrgrFailed;
 }
 
 /**
@@ -316,7 +318,7 @@ static inline uint16_t getDppcktIdPrgrFailed()
  */
 static inline void setDppcktIdPrgrFailed(uint16_t pcktIdPrgrFailed)
 {
-  dpServReqVerif.pcktIdPrgrFailed = pcktIdPrgrFailed;
+  dpServReqVerifVars.pcktIdPrgrFailed = pcktIdPrgrFailed;
 }
 
 /**
@@ -325,7 +327,7 @@ static inline void setDppcktIdPrgrFailed(uint16_t pcktIdPrgrFailed)
  */
 static inline uint16_t getDppcktIdReroutingFailed()
 {
-  return dpServReqVerif.pcktIdReroutingFailed;
+  return dpServReqVerifVars.pcktIdReroutingFailed;
 }
 
 /**
@@ -335,7 +337,7 @@ static inline uint16_t getDppcktIdReroutingFailed()
  */
 static inline void setDppcktIdReroutingFailed(uint16_t pcktIdReroutingFailed)
 {
-  dpServReqVerif.pcktIdReroutingFailed = pcktIdReroutingFailed;
+  dpServReqVerifVars.pcktIdReroutingFailed = pcktIdReroutingFailed;
 }
 
 /**
@@ -344,7 +346,7 @@ static inline void setDppcktIdReroutingFailed(uint16_t pcktIdReroutingFailed)
  */
 static inline uint16_t getDppcktIdStartFailed()
 {
-  return dpServReqVerif.pcktIdStartFailed;
+  return dpServReqVerifVars.pcktIdStartFailed;
 }
 
 /**
@@ -354,7 +356,7 @@ static inline uint16_t getDppcktIdStartFailed()
  */
 static inline void setDppcktIdStartFailed(uint16_t pcktIdStartFailed)
 {
-  dpServReqVerif.pcktIdStartFailed = pcktIdStartFailed;
+  dpServReqVerifVars.pcktIdStartFailed = pcktIdStartFailed;
 }
 
 /**
@@ -363,7 +365,7 @@ static inline void setDppcktIdStartFailed(uint16_t pcktIdStartFailed)
  */
 static inline uint16_t getDppcktIdTermFailed()
 {
-  return dpServReqVerif.pcktIdTermFailed;
+  return dpServReqVerifVars.pcktIdTermFailed;
 }
 
 /**
@@ -373,7 +375,7 @@ static inline uint16_t getDppcktIdTermFailed()
  */
 static inline void setDppcktIdTermFailed(uint16_t pcktIdTermFailed)
 {
-  dpServReqVerif.pcktIdTermFailed = pcktIdTermFailed;
+  dpServReqVerifVars.pcktIdTermFailed = pcktIdTermFailed;
 }
 
 /**
@@ -382,7 +384,7 @@ static inline void setDppcktIdTermFailed(uint16_t pcktIdTermFailed)
  */
 static inline uint16_t getDpstepPrgrFailed()
 {
-  return dpServReqVerif.stepPrgrFailed;
+  return dpServReqVerifVars.stepPrgrFailed;
 }
 
 /**
@@ -392,7 +394,7 @@ static inline uint16_t getDpstepPrgrFailed()
  */
 static inline void setDpstepPrgrFailed(uint16_t stepPrgrFailed)
 {
-  dpServReqVerif.stepPrgrFailed = stepPrgrFailed;
+  dpServReqVerifVars.stepPrgrFailed = stepPrgrFailed;
 }
 
 /**
@@ -401,7 +403,7 @@ static inline void setDpstepPrgrFailed(uint16_t stepPrgrFailed)
  */
 static inline int32_t getDpverFailData()
 {
-  return dpServReqVerif.verFailData;
+  return dpServReqVerifVars.verFailData;
 }
 
 /**
@@ -411,7 +413,9 @@ static inline int32_t getDpverFailData()
  */
 static inline void setDpverFailData(int32_t verFailData)
 {
-  dpServReqVerif.verFailData = verFailData;
+  dpServReqVerifVars.verFailData = verFailData;
 }
 
+
+/*----------------------------------------------------------------------------*/
 #endif /* CRPSDPSERVREQVERIF_H */

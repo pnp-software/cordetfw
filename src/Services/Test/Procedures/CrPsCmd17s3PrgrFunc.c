@@ -17,6 +17,7 @@
 #include "FwPrDCreate.h"
 #include "FwPrConfig.h"
 #include "FwPrCore.h"
+#include "FwSmConfig.h"
 
 /* Framework function definitions */
 #include "OutFactory/CrFwOutFactory.h"
@@ -26,10 +27,11 @@
 
 #include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServTest.h>
-#include <Services/General/CrPsDpPktServTest.h>
+#include <Services/General/CrPsPktServTest.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/Test/InCmd/CrPsTestOnBoardConnection.h> /* for global handles */
 #include <stdio.h>
+#include "CrPsDebug.h"
 
 
 /* ------------------------------------------------------------------------------------ */
@@ -38,31 +40,42 @@ void CrPsTestOnBoardConnectionPrgrN1(FwPrDesc_t prDesc)
 {
   CrFwDestSrc_t destId;
   unsigned short appId;
+  FwSmDesc_t rep;
   prDataPrgrAction_t* prDataPrgrActionPtr;
+  CrFwCmpData_t* cmpDataStart;
+  CrFwOutCmpData_t* cmpSpecificData;
+  CrFwPckt_t pckt;
 
   /* Configure the (17,4) report with a destination equal to the source of the (17,3),
      load it in the Outloader and set action outcome to 'completed' */
 
   /* The (17,4) report has been retrieved from the OutFactory by the Start Action of the (17,3) */
-  /*printf("CrPsTestOnBoardConnectionPrgrN1()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionPrgrN1(): prDesc = %lu\n", (uintptr_t) prDesc);
 
   /* Get application ID with which the test was performed */
   appId = getDpAreYouAliveSrc();
 
-  /* Set out component parameters */
-  setOnBoardConnectRep0Dest(rep, appId);
-
-  /* Get the source of the InCmd from prData and set the destination equal to the source of the (17,3) */
+  /* Get the source and rep identifier of the InCmd from prData and set the destination equal to the source of the (17,3) */
   prDataPrgrActionPtr = FwPrGetData(prDesc);
   destId = prDataPrgrActionPtr->source;
-  CrFwOutCmpSetDest(rep, destId); /*so wars in meiner Datei*/
+  rep = prDataPrgrActionPtr->smDesc;
+
+  /* Get TM(17,4) packet */
+  cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(rep);
+  cmpSpecificData = (CrFwOutCmpData_t *) cmpDataStart->cmpSpecificData;
+  pckt            = cmpSpecificData->pckt;
+
+  /* Set out component parameters */
+  setOnBoardConnectRepDest(pckt, appId);
+
+  /* Set destination */
+  CrFwOutCmpSetDest(rep, destId);
 
   /* Load the (17,4) report in the Outloader */
   CrFwOutLoaderLoad(rep);
 
   /* Set action outcome to 'completed' */
   prDataPrgrActionPtr->outcome = 1;
-  prDataPrgrActionPtr->stepId = 5;
   FwPrSetData(prDesc, prDataPrgrActionPtr);
 
   return;
@@ -75,7 +88,7 @@ void CrPsTestOnBoardConnectionPrgrN2(FwPrDesc_t prDesc)
   prDataPrgrAction_t* prDataPrgrActionPtr;
 
   /* Set action outcome to 'continue' */
-  /*printf("CrPsTestOnBoardConnectionPrgrN2()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionPrgrN2()\n");
 
   prDataPrgrActionPtr = FwPrGetData(prDesc);
 
@@ -92,7 +105,7 @@ void CrPsTestOnBoardConnectionPrgrN3(FwPrDesc_t prDesc)
   prDataPrgrAction_t* prDataPrgrActionPtr;
 
   /* Set action outcome to 'failed' */
-  /*printf("CrPsTestOnBoardConnectionPrgrN3()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionPrgrN3()\n");
 
   prDataPrgrActionPtr = FwPrGetData(prDesc);
 
@@ -106,11 +119,18 @@ void CrPsTestOnBoardConnectionPrgrN3(FwPrDesc_t prDesc)
 /* Action for node N4. */
 void CrPsTestOnBoardConnectionPrgrN4(FwPrDesc_t prDesc)
 {
+  FwSmDesc_t rep;
+  prDataPrgrAction_t* prDataPrgrActionPtr;
+
   CRFW_UNUSED(prDesc);
 
   /* Release (17,4) report */
   /* The (17,4) report has been retrieved from the OutFactory by the Start Action of the (17,3) */
-  /*printf("CrPsTestOnBoardConnectionPrgrN4()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionPrgrN4()\n");
+
+  /* Get the rep identifier from prData */
+  prDataPrgrActionPtr = FwPrGetData(prDesc);
+  rep = prDataPrgrActionPtr->smDesc;
 
   CrFwOutFactoryReleaseOutCmp(rep);
 
@@ -131,7 +151,7 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t prDesc)
 
   /* [ (areYouAliveSrc > 0) &&
        (time elapsed since command execution started smaller than areYouAliveTimeOut) ] */
-  /*printf("CrPsTestOnBoardConnectionPrgrG11()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionPrgrG11()\n");
 
   /* Get areYouAliveSrc from data pool */
   appId = getDpAreYouAliveSrc();
@@ -139,7 +159,7 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t prDesc)
   /* Get areYouAliveTimeOut from data pool */
   timeOut = getDpAreYouAliveTimeOut();
 
-  /*printf("CrPsTestOnBoardConnectionPrgrG11(): appId = %d, timeOut_cnt = %d, timeOut = %d\n", appId, timeOut_cnt, timeOut);*/
+  DEBUGP_17("CrPsTestOnBoardConnectionPrgrG11(): appId = %d, timeOut_cnt = %d, timeOut = %d\n", appId, timeOut_cnt, timeOut);
 
   if (appId > 0 && timeOut_cnt < timeOut)
     {
@@ -162,7 +182,7 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc)
 
   /* [ (areYouAliveSrc == 0) &&
         (time elapsed since command execution started smaller than areYouAliveTimeOut) ] */
-  /*printf("CrPsTestOnBoardConnectionPrgrG12()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionPrgrG12()\n");
 
   /* Get areYouAliveSrc from data pool */
   appId = getDpAreYouAliveSrc();
@@ -170,7 +190,7 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc)
   /* Get areYouAliveTimeOut from data pool */
   timeOut = getDpAreYouAliveTimeOut();
 
-  /*printf("CrPsTestOnBoardConnectionPrgrG11(): appId = %d, timeOut_cnt = %d, timeOut = %d\n", appId, timeOut_cnt, timeOut);*/
+  DEBUGP_17("CrPsTestOnBoardConnectionPrgrG11(): appId = %d, timeOut_cnt = %d, timeOut = %d\n", appId, timeOut_cnt, timeOut);
 
   if (appId == 0 && timeOut_cnt < timeOut)
     {
@@ -191,12 +211,12 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG13(FwPrDesc_t prDesc)
   int timeOut;
 
   /* [ (time elapsed since command execution started equal or greater than areYouAliveTimeOut) ] */
-  /*printf("CrPsTestOnBoardConnectionPrgrG13()\n");*/
+  DEBUGP_17("CrPsTestOnBoardConnectionPrgrG13()\n");
 
   /* Get areYouAliveTimeOut from data pool */
   timeOut = getDpAreYouAliveTimeOut();
 
-  /*printf("CrPsTestOnBoardConnectionPrgrG11(): timeOut_cnt = %d, timeOut = %d\n", timeOut_cnt, timeOut);*/
+  DEBUGP_17("CrPsTestOnBoardConnectionPrgrG11(): timeOut_cnt = %d, timeOut = %d\n", timeOut_cnt, timeOut);
 
   if (timeOut_cnt >= timeOut)
     {

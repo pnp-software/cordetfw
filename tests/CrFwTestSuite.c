@@ -33,7 +33,7 @@
 #include <string.h>
 
 /** The number of tests in the test suite. */
-#define NOF_TESTS 4
+#define NOF_TESTS 97
 
 /* Include framework files */
 #include "CrFwConstants.h"
@@ -57,10 +57,6 @@
 #include "CrFwInLoaderTestCases.h"
 #include "CrFwAppSmTestCases.h"
 #include "CrFwSocketTestCases.h"
-/* Include test suite files for tShe PUS extension */
-#include "CrPsDataPoolTestCases.h"
-#include "CrPsServiceTestCases.h"
-#include "CrPsServiceVeriTestCases.h"
 
 /**
  * Main program for the test suite.
@@ -93,7 +89,6 @@ int main() {
 	printf("Consistency check of configuration parameters ran successfully...\n");
 
 	/* Set the names of the SM tests and the functions executing the tests */
-        /*
 	testNames[0] = "BaseCmp_TestCase1";
 	testCases[0] = &CrFwBaseCmpTestCase1;
 	testNames[1] = "Packet_TestCase1";
@@ -288,38 +283,6 @@ int main() {
 	testCases[95] = &CrFwOutStreamTestCase7;
 	testNames[96] = "InStream_TestCase7";
 	testCases[96] = &CrFwInStreamTestCase7;
-        */
-	/*
-	testNames[0] = "Pusext_DataPool_TestCase1";
-	testCases[0] = &CrPsDataPoolTestCase1;
-	testNames[1] = "Pusext_DataPool_TestCase2";
-	testCases[1] = &CrPsDataPoolTestCase2;
-	testNames[2] = "Pusext_DataPool_TestCase3";
-	testCases[2] = &CrPsDataPoolTestCase3;
-        
-    testNames[3] = "Pusext_ServVeri_TestCase1";
-	testCases[3] = &CrPsServVeriTestCase1;
-    testNames[4] = "Pusext_ServVer2_TestCase2";
-	testCases[4] = &CrPsServVeriTestCase2;
-	testNames[5] = "Pusext_ServVer3_TestCase3";
-	testCases[5] = &CrPsServVeriTestCase3;
-        */
-	
-	testNames[0] = "Pusext_ServTestConn_TestCase1";
-	testCases[0] = &CrPsServTestConnTestCase1;
-	testNames[1] = "Pusext_ServTestConn_TestCase2";
-	testCases[1] = &CrPsServTestConnTestCase2;
-	testNames[2] = "Pusext_ServTestConn_TestCase3";
-	testCases[2] = &CrPsServTestConnTestCase3;
-
-	testNames[3] = "Pusext_ServVeri_TestCase1";
-	testCases[3] = &CrPsServVeriTestCase1;
-
-	/*
-	testNames[3] = "Pusext_ServTestConn_TestCase4";
-	testCases[3] = &CrPsServTestConnTestCase4;
-        */
-
 
 	/* Run test cases in sequence */
 	for (i=0; i<NOF_TESTS; i++) {

@@ -3,37 +3,35 @@
  *
  * Interface for accessing data pool items.
  *
- * \note This file was generated on 2017-08-22 17:43:36
+ * \note This file was generated on 2017-09-25 14:26:59
  * \author PnP Generator
  * \copyright (c) Copyright
  */
 
 #include "CrPsDpServReqVerif.h"
-#include <stdlib.h>
-#include <string.h>
 
-DpServReqVerif_t dpServReqVerif ;
+DpServReqVerifVars_t dpServReqVerifVars ;
 
 /**
  * Initialises ServReqVerif
  */
 void initDpServReqVerif(void)
 {
-  dpServReqVerif.failCodeAccFailed = 0;
-  dpServReqVerif.failCodePrgrFailed = 0;
-  dpServReqVerif.failCodeStartFailed = 0;
-  dpServReqVerif.failCodeTermFailed = 0;
-  dpServReqVerif.invDestRerouting = 0;
-  dpServReqVerif.nOfAccFailed = 0;
-  dpServReqVerif.nOfPrgrFailed = 0;
-  dpServReqVerif.nOfReroutingFailed = 0;
-  dpServReqVerif.nOfStartFailed = 0;
-  dpServReqVerif.nOfTermFailed = 0;
-  dpServReqVerif.pcktIdAccFailed = 0;
-  dpServReqVerif.pcktIdPrgrFailed = 0;
-  dpServReqVerif.pcktIdReroutingFailed = 0;
-  dpServReqVerif.pcktIdStartFailed = 0;
-  dpServReqVerif.pcktIdTermFailed = 0;
-  dpServReqVerif.stepPrgrFailed = 0;
-  dpServReqVerif.verFailData = 0;
+  dpServReqVerifVars.failCodeAccFailed = 0;
+  dpServReqVerifVars.failCodePrgrFailed = 0;
+  dpServReqVerifVars.failCodeStartFailed = 0;
+  dpServReqVerifVars.failCodeTermFailed = 0;
+  dpServReqVerifVars.invDestRerouting = 0;
+  dpServReqVerifVars.nOfAccFailed = 0;
+  dpServReqVerifVars.nOfPrgrFailed = 0;
+  dpServReqVerifVars.nOfReroutingFailed = 0;
+  dpServReqVerifVars.nOfStartFailed = 0;
+  dpServReqVerifVars.nOfTermFailed = 0;
+  dpServReqVerifVars.pcktIdAccFailed = 0;
+  dpServReqVerifVars.pcktIdPrgrFailed = 0;
+  dpServReqVerifVars.pcktIdReroutingFailed = 0;
+  dpServReqVerifVars.pcktIdStartFailed = 0;
+  dpServReqVerifVars.pcktIdTermFailed = 0;
+  dpServReqVerifVars.stepPrgrFailed = 0;
+  dpServReqVerifVars.verFailData = 0;
 }

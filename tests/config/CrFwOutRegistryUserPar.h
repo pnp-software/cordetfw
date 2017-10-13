@@ -48,7 +48,7 @@
  * by the application.
  * This constant must be smaller than the range of: <code>CrFwCmdRepIndex_t</code>.
  */
-#define CR_FW_OUTREGISTRY_NSERV 20
+#define CR_FW_OUTREGISTRY_NSERV 10
 
 /**
  * Definition of the range of out-going services supported by an application.
@@ -75,26 +75,16 @@
  * <code>::CrFwAuxOutRegistryConfigCheck</code>.
  */
 #define CR_FW_OUTREGISTRY_INIT_SERV_DESC \
-	{ {1,  1,  0,  0, 0, 0, 0},  \
-	  {1,  2,  0,  0, 0, 0, 0}, \
-	  {1,  2,  10, 0, 0, 0, 0}, \
-	  {1,  3,  0,  0, 0, 0, 0}, \
-	  {1,  4,  0,  0, 0, 0, 0}, \
-	  {1,  5,  0,  0, 0, 0, 0}, \
-	  {1,  6,  0,  0, 0, 0, 0}, \
-	  {1,  7,  0,  0, 0, 0, 0},  \
-	  {1,  8,  0,  0, 0, 0, 0}, \
-	  {1,  8,  10, 0, 0, 0, 0}, \
-	  {1,  10, 0,  0, 0, 0, 0},\
-	  {5,  1,  2,  0, 0, 0, 0}, \
-	  {5,  2,  20, 0, 0, 0, 0}, \
-	  {5,  3,  31, 0, 0, 0, 0}, \
-	  {5,  4,  40, 0, 0, 0, 0}, \
-	  {17, 1,  0,  0, 0, 0, 0}, \
-	  {17, 2,  0,  0, 0, 0, 0}, \
-      {17, 4,  0,  0, 0, 0, 0}, \
-	  {25, 3,  50, 0, 0, 0, 0},\
-	  {50, 1,  0,  0, 0, 0, 0} \
+	{ {1, 1, 0, 0, 0, 0, 0},  \
+	  {1, 2, 10, 0, 0, 0, 0},  \
+	  {1, 7, 0, 0, 0, 0, 0},  \
+	  {1, 8, 10, 0, 0, 0, 0},  \
+	  {5, 1, 10, 0, 0, 0, 0},  \
+	  {5, 2, 20, 0, 0, 0, 0},  \
+	  {5, 3, 31, 0, 0, 0, 0},  \
+	  {5, 4, 40, 0, 0, 0, 0},  \
+	  {25, 3, 50, 0, 0, 0, 0},  \
+	  {50, 1, 0, 0, 0, 0, 0},  \
 	}
 
 #endif /* CRFW_OUTREGISTRY_USERPAR_H_ */

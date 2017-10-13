@@ -62,6 +62,6 @@
  * The POCL sizes defined in this file are those used for the test cases
  * of <code>CrFwOutManagerTestCases.h</code>.
  */
-#define CR_FW_OUTMANAGER_POCLSIZE {30,4,5,6}
+#define CR_FW_OUTMANAGER_POCLSIZE {3,4,5,6}
 
 #endif /* CR_FW_OUTMANAGER_USERPAR_H_ */

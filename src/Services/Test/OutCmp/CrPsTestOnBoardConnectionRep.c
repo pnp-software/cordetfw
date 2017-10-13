@@ -19,6 +19,7 @@
 #include "Services/General/CrPsConstants.h"
 
 #include <stdio.h>
+#include "CrPsDebug.h"
 
 /* ------------------------------------------------------------------------------------ */
 CrFwBool_t CrPsTestOnBoardConnectionRepEnableCheck(FwSmDesc_t smDesc)
@@ -26,7 +27,7 @@ CrFwBool_t CrPsTestOnBoardConnectionRepEnableCheck(FwSmDesc_t smDesc)
   CRFW_UNUSED(smDesc);
   /* Report is always enabled */
 
-  printf("CrPsTestOnBoardConnectionRepEnableCheck()\n");
+  DEBUGP_17("CrPsTestOnBoardConnectionRepEnableCheck()\n");
 
   /* CrFwBool anschaun da gibts ev. auch eine TRUE Variable */
   return 1; /* always True */
@@ -38,7 +39,7 @@ CrFwBool_t CrPsTestOnBoardConnectionRepReadyCheck(FwSmDesc_t smDesc)
   CRFW_UNUSED(smDesc);
   /* Report is always ready */
 
-  printf("CrPsTestOnBoardConnectionRepReadyCheck()\n");
+  DEBUGP_17("CrPsTestOnBoardConnectionRepReadyCheck()\n");
 
   return 1; /* always True */
 }
@@ -49,7 +50,7 @@ CrFwBool_t CrPsTestOnBoardConnectionRepRepeatCheck(FwSmDesc_t smDesc)
   CRFW_UNUSED(smDesc);
   /* Report is never repeated */
 
-  printf("CrPsTestOnBoardConnectionRepRepeatCheck()\n");
+  DEBUGP_17("CrPsTestOnBoardConnectionRepRepeatCheck()\n");
 
   return 0; /* always False */
 }
@@ -60,7 +61,7 @@ void CrPsTestOnBoardConnectionRepUpdateAction(FwSmDesc_t smDesc)
   CRFW_UNUSED(smDesc);
   /* No action */
 
-  printf("CrPsTestOnBoardConnectionRepUpdateAction()\n");
+  DEBUGP_17("CrPsTestOnBoardConnectionRepUpdateAction()\n");
 
   return;
 }

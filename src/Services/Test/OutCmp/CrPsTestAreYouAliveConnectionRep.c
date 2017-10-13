@@ -19,13 +19,14 @@
 #include "CrFwCmpData.h"
 #include "FwSmConfig.h"
 #include <stdio.h>
+#include "CrPsDebug.h"
 
 
 /* ------------------------------------------------------------------------------------ */
 CrFwBool_t CrPsTestAreYouAliveConnectionRepEnableCheck(FwSmDesc_t smDesc)
 {
   CRFW_UNUSED(smDesc);
-  printf("CrPsTestAreYouAliveConnectionRepEnableCheck()\n");
+  DEBUGP_17("CrPsTestAreYouAliveConnectionRepEnableCheck()\n");
 
   return 1; /*always True*/
 }
@@ -34,7 +35,7 @@ CrFwBool_t CrPsTestAreYouAliveConnectionRepEnableCheck(FwSmDesc_t smDesc)
 CrFwBool_t CrPsTestAreYouAliveConnectionRepReadyCheck(FwSmDesc_t smDesc)
 {
   CRFW_UNUSED(smDesc);
-  printf("CrPsTestAreYouAliveConnectionRepReadyCheck()\n");
+  DEBUGP_17("CrPsTestAreYouAliveConnectionRepReadyCheck()\n");
 
   return 1; /*always True*/
 }
@@ -43,7 +44,7 @@ CrFwBool_t CrPsTestAreYouAliveConnectionRepReadyCheck(FwSmDesc_t smDesc)
 CrFwBool_t CrPsTestAreYouAliveConnectionRepRepeatCheck(FwSmDesc_t smDesc)
 {
   CRFW_UNUSED(smDesc);
-  printf("CrPsTestAreYouAliveConnectionRepRepeatCheck()\n");
+  DEBUGP_17("CrPsTestAreYouAliveConnectionRepRepeatCheck()\n");
 
   return 0; /*always False*/
 }
@@ -52,7 +53,7 @@ CrFwBool_t CrPsTestAreYouAliveConnectionRepRepeatCheck(FwSmDesc_t smDesc)
 void CrPsTestAreYouAliveConnectionRepUpdateAction(FwSmDesc_t smDesc)
 {
   CrFwCmpData_t* cmpData;
-  printf("CrPsTestAreYouAliveConnectionRepUpdateAction()\n");
+  DEBUGP_17("CrPsTestAreYouAliveConnectionRepUpdateAction()\n");
   cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
   cmpData->outcome = 1;
 

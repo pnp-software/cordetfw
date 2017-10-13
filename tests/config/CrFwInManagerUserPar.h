@@ -56,6 +56,6 @@
  * The PCRL sizes defined in this file are those used for the test cases
  * of <code>CrFwInManagerTestCases.h</code>.
  */
-#define CR_FW_INMANAGER_PCRLSIZE {30,4,5}
+#define CR_FW_INMANAGER_PCRLSIZE {3,4,5}
 
 #endif /* CR_FW_INMANAGER_USERPAR_H_ */
