@@ -1,6 +1,7 @@
 Category,Name,Desc
 S3,HK\_N\_REP\_DEF,Number of Report Definitions in the Report Definition List (maximum number of housekeeping/diagnostic reports)
 S3,HK\_MAX\_SID,Maximum value of a service 3 Structure Identifier (SID)
+S3,HK\_MAX\_N\_ITEMS,Maximum number of data items in a housekeeping/diagnostic report
 S3,HK\_COLLECT\_PER,Minimum collection period for service 3 reports
 S3,HK\_MAX\_N\_SIMPLE,Maximum number of simply-commutated parameters in a housekeeping/diagnostic report
 S3,HK\_MAX\_N\_GR,Maximum number of super-commutated groups in a housekeeping/diagnostic report

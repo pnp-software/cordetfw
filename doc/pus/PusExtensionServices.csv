@@ -22,8 +22,8 @@ Service,Type,Subtype,TmTc,Name,Component
 ,3,10,TM,Housekeeping Parameter Report Structure Report,HkRepStructRep
 ,3,11,TC,Report Diagnostic Parameter Report Structure,HkRepStructCmd
 ,3,12,TM,Diagnostic Parameter Report Structure Report,HkRepStructRep
-,3,25,TM,Housekeeping Parameter Report,"HkRep, HkOneShotRep"
-,3,26,TM,Diagnostic Parameter Report,"HkRep, HkOneShotRep"
+,3,25,TM,Housekeeping Parameter Report,HkRep
+,3,26,TM,Diagnostic Parameter Report,HkRep
 ,3,27,TC,Generate One-Shot Report for Housekeeping Parameters,HkOneShotCmd
 ,3,28,TC,Generate One-Shot Report for Diagnostic Parameters,HkOneShotCmd
 5,5,*,,\textbf{Event Reporting Service},
@@ -35,6 +35,23 @@ Service,Type,Subtype,TmTc,Name,Component
 ,5,6,TC,Disable Generation of Event Identifiers,EvtDisableCmd
 ,5,7,TC,Report the List of Disabled Event Identifiers,EvtRepDisabledCmd
 ,5,8,TM,List of Disabled Event Identifiers,EvtRepDisabledRep
+12,12,*,,\textbf{On-Board Monitoring Service},
+,12,1,TC,Enable Parameter Monitoring Definitions,MonEnbParMonCmd
+,12,2,TC,Disable Parameter Monitoring Definitions,MonDisParMonCmd
+,12,3,TC,Change Maximum Transition Reporting Delay,MonChgTransDelCmd
+,12,4,TC,Delete All Parameter Monitoring Definitions,MonDelAllParMonCmd
+,12,5,TC,Add Parameter Monitoring Definitions,MonAddParMonCmd
+,12,6,TC,Delete Parameter Monitoring Definitions,MonDelParMonCmd
+,12,7,TC,Modify Parameter Monitoring Definitions,MonModParMonCmd
+,,,,,
+,12,12,TM,Check Transition Report,MonChkTransRep
+,,,,,
+,,,,,
+,12,15,TC,Enable Parameter Monitoring Function,MonEnbMonFncCmd
+,12,16,TC,Disable Parameter Monitoring Function,MonDisMonFncCmd
+,,,,,
+,,,,,
+,,,,,
 13,13,*,,\textbf{Large Packet Transfer Service},
 ,13,1,TM,First Downlink Part Report,LptDownFirstRep
 ,13,2,TM,Intermediate Downlink Report,LptDownInterRep
