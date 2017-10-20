@@ -3,7 +3,7 @@
  *
  * Interface for accessing fields in packets of service "ServReqVerif".
  *
- * \note This file was generated on 2017-10-04 15:13:20
+ * \note This file was generated on 2017-10-17 15:38:24
  * \author PnP Generator
  * \copyright (c) Copyright
  */
@@ -32,7 +32,7 @@ typedef struct __attribute__((packed)) _VerSuccessAccRep_t {
    */
   uint16_t TcPacketSeqCtrl;
   
-} VerSuccessAccRep_t __attribute__((aligned(4)));
+} VerSuccessAccRep_t ;
 
 /**
  * Structure for VerFailedAccRep
@@ -73,7 +73,12 @@ typedef struct __attribute__((packed)) _VerFailedAccRep_t {
    */
   uint8_t TcDisc;
   
-} VerFailedAccRep_t __attribute__((aligned(4)));
+  /**
+   * The failure Data
+   */
+  uint32_t TcFailureData;
+  
+} VerFailedAccRep_t ;
 
 /**
  * Structure for VerSuccessStartRep
@@ -94,7 +99,7 @@ typedef struct __attribute__((packed)) _VerSuccessStartRep_t {
    */
   uint16_t TcPacketSeqCtrl;
   
-} VerSuccessStartRep_t __attribute__((aligned(4)));
+} VerSuccessStartRep_t ;
 
 /**
  * Structure for VerFailedStartRep
@@ -135,7 +140,12 @@ typedef struct __attribute__((packed)) _VerFailedStartRep_t {
    */
   uint8_t TcDisc;
   
-} VerFailedStartRep_t __attribute__((aligned(4)));
+  /**
+   * The failure Data
+   */
+  uint32_t TcFailureData;
+  
+} VerFailedStartRep_t ;
 
 /**
  * Structure for VerSuccessPrgrRep
@@ -161,7 +171,7 @@ typedef struct __attribute__((packed)) _VerSuccessPrgrRep_t {
    */
   uint32_t StepId;
   
-} VerSuccessPrgrRep_t __attribute__((aligned(4)));
+} VerSuccessPrgrRep_t ;
 
 /**
  * Structure for VerFailedPrgrRep
@@ -207,7 +217,12 @@ typedef struct __attribute__((packed)) _VerFailedPrgrRep_t {
    */
   uint8_t TcDisc;
   
-} VerFailedPrgrRep_t __attribute__((aligned(4)));
+  /**
+   * The failure Data
+   */
+  uint32_t TcFailureData;
+  
+} VerFailedPrgrRep_t ;
 
 /**
  * Structure for VerSuccessTermRep
@@ -228,7 +243,7 @@ typedef struct __attribute__((packed)) _VerSuccessTermRep_t {
    */
   uint16_t TcPacketSeqCtrl;
   
-} VerSuccessTermRep_t __attribute__((aligned(4)));
+} VerSuccessTermRep_t ;
 
 /**
  * Structure for VerFailedTermRep
@@ -269,7 +284,12 @@ typedef struct __attribute__((packed)) _VerFailedTermRep_t {
    */
   uint8_t TcDisc;
   
-} VerFailedTermRep_t __attribute__((aligned(4)));
+  /**
+   * The failure Data
+   */
+  uint32_t TcFailureData;
+  
+} VerFailedTermRep_t ;
 
 /**
  * Structure for VerFailedRoutingRep
@@ -315,7 +335,7 @@ typedef struct __attribute__((packed)) _VerFailedRoutingRep_t {
    */
   uint16_t invDest;
   
-} VerFailedRoutingRep_t __attribute__((aligned(4)));
+} VerFailedRoutingRep_t ;
 
 /**
  * Get "TcPacketId" from "VerSuccessAccRep" packet.
@@ -510,6 +530,30 @@ static inline void setVerFailedAccRepTcDisc(void* p, uint8_t TcDisc)
 }
 
 /**
+ * Get "TcFailureData" from "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "TcFailureData".
+ */
+static inline uint32_t getVerFailedAccRepTcFailureData(void* p)
+{
+  VerFailedAccRep_t* t;
+  t = (VerFailedAccRep_t*)p;
+  return __builtin_bswap32(t->TcFailureData);
+}
+
+/**
+ * Set "TcFailureData" in "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \param TcFailureData Value of "TcFailureData" to be set in packet.
+ */
+static inline void setVerFailedAccRepTcFailureData(void* p, uint32_t TcFailureData)
+{
+  VerFailedAccRep_t* t;
+  t = (VerFailedAccRep_t*)p;
+  t->TcFailureData = __builtin_bswap32(TcFailureData);
+}
+
+/**
  * Get "TcPacketId" from "VerSuccessStartRep" packet.
  * \param p Pointer to the packet.
  * \return Value of "TcPacketId".
@@ -699,6 +743,30 @@ static inline void setVerFailedStartRepTcDisc(void* p, uint8_t TcDisc)
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
   t->TcDisc = TcDisc;
+}
+
+/**
+ * Get "TcFailureData" from "VerFailedStartRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "TcFailureData".
+ */
+static inline uint32_t getVerFailedStartRepTcFailureData(void* p)
+{
+  VerFailedStartRep_t* t;
+  t = (VerFailedStartRep_t*)p;
+  return __builtin_bswap32(t->TcFailureData);
+}
+
+/**
+ * Set "TcFailureData" in "VerFailedStartRep" packet.
+ * \param p Pointer to the packet.
+ * \param TcFailureData Value of "TcFailureData" to be set in packet.
+ */
+static inline void setVerFailedStartRepTcFailureData(void* p, uint32_t TcFailureData)
+{
+  VerFailedStartRep_t* t;
+  t = (VerFailedStartRep_t*)p;
+  t->TcFailureData = __builtin_bswap32(TcFailureData);
 }
 
 /**
@@ -942,6 +1010,30 @@ static inline void setVerFailedPrgrRepTcDisc(void* p, uint8_t TcDisc)
 }
 
 /**
+ * Get "TcFailureData" from "VerFailedPrgrRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "TcFailureData".
+ */
+static inline uint32_t getVerFailedPrgrRepTcFailureData(void* p)
+{
+  VerFailedPrgrRep_t* t;
+  t = (VerFailedPrgrRep_t*)p;
+  return __builtin_bswap32(t->TcFailureData);
+}
+
+/**
+ * Set "TcFailureData" in "VerFailedPrgrRep" packet.
+ * \param p Pointer to the packet.
+ * \param TcFailureData Value of "TcFailureData" to be set in packet.
+ */
+static inline void setVerFailedPrgrRepTcFailureData(void* p, uint32_t TcFailureData)
+{
+  VerFailedPrgrRep_t* t;
+  t = (VerFailedPrgrRep_t*)p;
+  t->TcFailureData = __builtin_bswap32(TcFailureData);
+}
+
+/**
  * Get "TcPacketId" from "VerSuccessTermRep" packet.
  * \param p Pointer to the packet.
  * \return Value of "TcPacketId".
@@ -1131,6 +1223,30 @@ static inline void setVerFailedTermRepTcDisc(void* p, uint8_t TcDisc)
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
   t->TcDisc = TcDisc;
+}
+
+/**
+ * Get "TcFailureData" from "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "TcFailureData".
+ */
+static inline uint32_t getVerFailedTermRepTcFailureData(void* p)
+{
+  VerFailedTermRep_t* t;
+  t = (VerFailedTermRep_t*)p;
+  return __builtin_bswap32(t->TcFailureData);
+}
+
+/**
+ * Set "TcFailureData" in "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \param TcFailureData Value of "TcFailureData" to be set in packet.
+ */
+static inline void setVerFailedTermRepTcFailureData(void* p, uint32_t TcFailureData)
+{
+  VerFailedTermRep_t* t;
+  t = (VerFailedTermRep_t*)p;
+  t->TcFailureData = __builtin_bswap32(TcFailureData);
 }
 
 /**

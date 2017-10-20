@@ -80,7 +80,8 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc)
 {
   CrFwDestSrc_t source;
   unsigned short tcPacketId, tcSeqCtrl;
-  unsigned char tcType, tcSubtype, tcDiscriminant;
+  unsigned char tcType, tcSubtype;
+  uint32_t tcVerFailData;
 
   CrFwCmpData_t*   inData;
   CrFwInCmdData_t* inSpecificData;
@@ -121,9 +122,6 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc)
     tcSeqCtrl = CrFwPcktGetSeqCtrl(inPckt); /* --- adaptation point CrFwPckt ---> */
     setVerFailedStartRepTcPacketSeqCtrl(pckt, tcSeqCtrl);
 
-    /* Set failCodeAccFailed */
-    setVerFailedStartRepTcFailureCode(pckt, prData->ushortParam1);
-
     /* Set Type of the command */
     tcType = CrFwPcktGetServType(inPckt); /* --- adaptation point CrFwPckt ---> */
     setVerFailedStartRepTcType(pckt, tcType);
@@ -132,9 +130,12 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc)
     tcSubtype = CrFwPcktGetServSubType(inPckt); /* --- adaptation point CrFwPckt ---> */
     setVerFailedStartRepTcSubtype(pckt, tcSubtype);
 
-    /* Set Discriminant of the command */
-    tcDiscriminant = CrFwPcktGetDiscriminant(inPckt); /* --- adaptation point CrFwPckt ---> */
-    setVerFailedStartRepTcFailureCode(pckt, tcDiscriminant);
+    /* Set failCodeAccFailed */
+    setVerFailedStartRepTcFailureCode(pckt, prData->ushortParam1);
+
+    /* Set verFailData */
+    tcVerFailData = getDpverFailData();
+    setVerFailedStartRepTcFailureData(pckt, tcVerFailData);
   }
 
   if (prData->ushortParam2 == 8)
@@ -148,9 +149,6 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc)
     tcSeqCtrl = CrFwPcktGetSeqCtrl(inPckt); /* --- adaptation point CrFwPckt ---> */
     setVerFailedTermRepTcPacketSeqCtrl(pckt, tcSeqCtrl);
 
-    /* Set failCodeAccFailed */
-    setVerFailedTermRepTcFailureCode(pckt, prData->ushortParam1);
-  
     /* Set Type of the command */
     tcType = CrFwPcktGetServType(inPckt); /* --- adaptation point CrFwPckt ---> */
     setVerFailedTermRepTcType(pckt, tcType);
@@ -159,9 +157,12 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc)
     tcSubtype = CrFwPcktGetServSubType(inPckt); /* --- adaptation point CrFwPckt ---> */
     setVerFailedTermRepTcSubtype(pckt, tcSubtype);
 
-    /* Set Discriminant of the command */
-    tcDiscriminant = CrFwPcktGetDiscriminant(inPckt); /* --- adaptation point CrFwPckt ---> */
-    setVerFailedTermRepTcFailureCode(pckt, tcDiscriminant);
+    /* Set failCodeAccFailed */
+    setVerFailedTermRepTcFailureCode(pckt, prData->ushortParam1);
+  
+    /* Set verFailData */
+    tcVerFailData = getDpverFailData();
+    setVerFailedTermRepTcFailureData(pckt, tcVerFailData);
   }
 
   /* Set the destination of the report to the source of the in-coming packet */

@@ -66,6 +66,7 @@ void CrPsTestOnBoardConnectionStartN2(FwPrDesc_t prDesc)
   DEBUGP_17("CrPsTestOnBoardConnectionStartN2()\n");
 
   /* Create out component */
+  printf("makeoutcmp: %d,%d \n", CRPS_TEST, CRPS_TEST_AREYOUALIVE_CONNECTION_CMD);
   cmd = CrFwOutFactoryMakeOutCmp(CRPS_TEST, CRPS_TEST_AREYOUALIVE_CONNECTION_CMD, 0, 0);
 
   return;

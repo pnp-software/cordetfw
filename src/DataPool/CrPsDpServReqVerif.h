@@ -3,7 +3,7 @@
  *
  * Interface for accessing data pool items.
  *
- * \note This file was generated on 2017-09-25 14:26:59
+ * \note This file was generated on 2017-10-13 12:48:17
  * \author PnP Generator
  * \copyright (c) Copyright
  */
@@ -83,7 +83,7 @@ typedef struct {
   /**
    * Verification Failure Data (data item of fixed size but variable
    */
-  int32_t verFailData;
+  uint32_t verFailData;
 } DpServReqVerifVars_t;
 
 extern DpServReqVerifVars_t dpServReqVerifVars;
@@ -401,7 +401,7 @@ static inline void setDpstepPrgrFailed(uint16_t stepPrgrFailed)
  * Gets the value of the datapool item verFailData
  * \return The value of datapool item verFailData
  */
-static inline int32_t getDpverFailData()
+static inline uint32_t getDpverFailData()
 {
   return dpServReqVerifVars.verFailData;
 }
@@ -411,7 +411,7 @@ static inline int32_t getDpverFailData()
  * \param verFailData The value to be stored into the datapool item
  * verFailData.
  */
-static inline void setDpverFailData(int32_t verFailData)
+static inline void setDpverFailData(uint32_t verFailData)
 {
   dpServReqVerifVars.verFailData = verFailData;
 }

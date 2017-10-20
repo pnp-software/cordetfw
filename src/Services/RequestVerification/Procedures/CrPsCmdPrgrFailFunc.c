@@ -74,7 +74,8 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc)
 {
   CrFwDestSrc_t source;
   unsigned short tcPacketId, tcSeqCtrl;
-  unsigned char tcType, tcSubtype; /* tcDiscriminant;*/
+  unsigned char tcType, tcSubtype;
+  uint32_t tcVerFailData;
 
   CrFwCmpData_t*   inData;
   CrFwInCmdData_t* inSpecificData;
@@ -112,9 +113,6 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc)
   tcSeqCtrl = CrFwPcktGetSeqCtrl(inPckt); /* --- adaptation point CrFwPckt ---> */
   setVerFailedPrgrRepTcPacketSeqCtrl(pckt, tcSeqCtrl);
 
-  /* Set failCodeAccFailed = discriminant */
-  setVerFailedPrgrRepTcFailureCode(pckt, prData->ushortParam2);
-
   /* Set Type of the command */
   tcType = CrFwPcktGetServType(inPckt); /* --- adaptation point CrFwPckt ---> */
   setVerFailedPrgrRepTcType(pckt, tcType);
@@ -122,6 +120,13 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc)
   /* Set Subtype of the command */
   tcSubtype = CrFwPcktGetServSubType(inPckt); /* --- adaptation point CrFwPckt ---> */
   setVerFailedPrgrRepTcSubtype(pckt, tcSubtype);
+
+  /* Set failCodeAccFailed = discriminant */
+  setVerFailedPrgrRepTcFailureCode(pckt, prData->ushortParam2);
+
+  /* Set verFailData */
+  tcVerFailData = getDpverFailData();
+  setVerFailedPrgrRepTcFailureData(rep, tcVerFailData);
 
   /* Set the destination of the report to the source of the in-coming packet */
   source = CrFwPcktGetSrc(inPckt);

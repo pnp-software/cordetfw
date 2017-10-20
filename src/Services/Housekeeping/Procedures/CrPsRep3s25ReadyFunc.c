@@ -15,19 +15,17 @@
 #include "Pckt/CrFwPckt.h"
 
 /** FW Profile function definitions */
-#include "FwSmConstants.h"
-#include "FwSmConfig.h"
-#include "FwSmCore.h"
+#include "FwPrConstants.h"
 #include "FwPrDCreate.h"
 #include "FwPrConfig.h"
 #include "FwPrCore.h"
-#include "FwPrConstants.h"
+#include "FwSmConfig.h"
 
 #include <CrPsUserConstants.h>
 #include <CrPsUtilities.h>
-#include <DataPool/CrPsDpHk.h>
+#include <DataPool/CrPsDpServHk.h>
 #include <Services/General/CrPsConstants.h>
-#include <CrPsDebug.h>
+#include "CrPsDebug.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -213,24 +211,100 @@ FwPrBool_t CrPsRep3s25ReadyG2(FwPrDesc_t prDesc)
 /** Guard on the Control Flow from DECISION2 to N1. */
 FwPrBool_t CrIaReadyChk3s25ReadyGoToRst(FwPrDesc_t prDesc)
 {
-	CRFW_UNUSED(prDesc);
-	/* CrIaReadyChk3s25ReadyGoToRst */
-	DEBUGP_3("  Guard on the Control Flow from DECISION2 to N1.\n");
-	return 1;
+	unsigned char sid, rdlSid, rdlSlot;
+  unsigned int cycleCnt;
+  unsigned short period = 8; /* cycles; all 4 seconds (4sec * 2cycles/sec) */
+  prDataHkRepReadyCheck_t* prDataPtr;
+
+  /* (Cycle Counter == Period) && (SID is Defined) */
+  DEBUGP_3("  Guard on the Control Flow from DECISION2 to N1.\n");
+
+  /* Get SID from prData */
+  prDataPtr = FwPrGetData(prDesc);
+  sid = prDataPtr->sid;
+  printf("CrIaReadyChk3s25ReadyGoToRst: SID = %d\n", sid);
+
+  /* look for the slot */
+  for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
+    {
+
+      rdlSid = getDpsidItem(rdlSlot);
+      printf("SID in RDL[%d] = %d\n", rdlSlot, rdlSid);
+      
+      if (sid == rdlSid)
+        break;
+    }
+
+  /* Get Cycle Counter from RDL */
+  cycleCnt = getDpcycleCntItem(rdlSlot);
+
+  /* Get Period from RDL */
+  period = getDpperiodItem(rdlSlot);
+
+  printf("CrIaReadyChk3s25ReadyGoToRst: cycleCnt = %d\n", cycleCnt);
+  printf("CrIaReadyChk3s25ReadyGoToRst: period = %d\n", period);
+
+  if ((cycleCnt == period) && (rdlSlot < HK_N_REP_DEF))
+    {
+      return 1;
+    }
+  else
+    {
+      return 0;
+    }
 }
 
 /** Guard on the Control Flow from DECISION2 to Final Node. */
 FwPrBool_t CrPsRep3s25ReadyGoToFin(FwPrDesc_t prDesc)
 {
-	CRFW_UNUSED(prDesc);
-	/* SID is not defined */
-	DEBUGP_3("  Guard on the Control Flow from DECISION2 to Final Node.\n");
-	return 0;
+  unsigned char sid, rdlSid, rdlSlot;
+  unsigned int cycleCnt;
+  unsigned short period = 8; /* cycles; all 4 seconds (4sec * 2cycles/sec) */
+  prDataHkRepReadyCheck_t* prDataPtr;
+
+  /* (SID is not Defined) */
+  DEBUGP_3("  Guard on the Control Flow from DECISION2 to Final.\n");
+
+  /* Get SID from prData */
+  prDataPtr = FwPrGetData(prDesc);
+  sid = prDataPtr->sid;
+  printf("CrPsRep3s25ReadyGoToFin: SID = %d\n", sid);
+
+  /* look for the slot */
+  for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
+    {
+
+      rdlSid = getDpsidItem(rdlSlot);
+      printf("SID in RDL[%d] = %d\n", rdlSlot, rdlSid);
+      
+      if (sid == rdlSid)
+        break;
+    }
+
+  /* Get Cycle Counter from RDL */
+  cycleCnt = getDpcycleCntItem(rdlSlot);
+
+  /* Get Period from RDL */
+  period = getDpperiodItem(rdlSlot);
+
+  printf("CrPsRep3s25ReadyGoToFin: cycleCnt = %d\n", cycleCnt);
+  printf("CrPsRep3s25ReadyGoToFin: period = %d\n", period);
+
+  if (rdlSlot == HK_N_REP_DEF)
+    {
+      return 1;
+    }
+  else
+    {
+      return 0;
+    }
 }
 
 /** Guard on the Control Flow from DECISION2 to DECISION1. */
 FwPrBool_t CrIaReadyChk3s25ReadyGoToDec(FwPrDesc_t prDesc)
 {
+  /* Solle zum Else Guard werden!! */
+  /* Deshalb kann hier vermutlich alles raus*/
   unsigned char sid, rdlSid, rdlSlot;
   unsigned int cycleCnt;
   unsigned short period = 8; /* cycles; all 4 seconds (4sec * 2cycles/sec) */
@@ -257,12 +331,14 @@ FwPrBool_t CrIaReadyChk3s25ReadyGoToDec(FwPrDesc_t prDesc)
 
   /* Get Cycle Counter from RDL */
   cycleCnt = getDpcycleCntItem(rdlSlot);
-  printf("CrIaReadyChk3s25ReadyGoToDec: cycleCnt = %d\n", cycleCnt);
 
   /* Get Period from RDL */
-  /* TODO: need setDpperiodItem() and getDpperiodItem() */
+  period = getDpperiodItem(rdlSlot);
 
-  if ((cycleCnt != period) && (sid != 0))
+  printf("CrIaReadyChk3s25ReadyGoToDec: cycleCnt = %d\n", cycleCnt);
+  printf("CrIaReadyChk3s25ReadyGoToDec: period = %d\n", period);
+
+  if ((cycleCnt != period) && (rdlSlot < HK_N_REP_DEF))
     {
       return 1;
     }

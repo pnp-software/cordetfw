@@ -22,16 +22,22 @@
 #include "FwSmConstants.h"
 #include "FwSmConfig.h"
 #include "FwSmCore.h"
+#include "FwPrDCreate.h"
 #include "FwPrConfig.h"
 #include "FwPrCore.h"
 #include "FwPrConstants.h"
 
+#include <CrPsUserConstants.h>
+#include <DataPool/CrPsDpServReqVerif.h>
+#include <DataPool/CrPsDpServHk.h>
 #include <Services/General/CrPsConstants.h>
+#include <CrPsDebug.h>
+#include <CrPsUtilities.h>
+#include <CrPsRepErr.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "CrPsDebug.h"
 
 FwSmDesc_t rep;
 unsigned char currentSid;
@@ -62,16 +68,30 @@ void CrPsCmd3s27PrgrN2(FwPrDesc_t prDesc)
 
   DEBUGP_3("CrPsCmd3s27PrgrN2.\n");
 
+  setDpverFailData((uint32_t)currentSid);
+
   return;
 }
 
 /** Action for node N3. */
 void CrPsCmd3s27PrgrN3(FwPrDesc_t prDesc)
 {
-  CRFW_UNUSED(prDesc);
+  FwSmDesc_t smDesc;  
+  prDescGenerateHkOneShotPrgr_t *prDataPtr;
+  unsigned short stepIdentifier;
+  unsigned short tcFailureCode;
+
   /* Run the Command Progress Failure Procedure */
 
   DEBUGP_3("CrPsCmd3s27PrgrN3.\n");
+
+  /* Get smDesc from prData */
+  prDataPtr = FwPrGetData(prDesc);
+  smDesc = prDataPtr->smDesc;
+
+  stepIdentifier = iSid;
+  tcFailureCode = OUTFACTORY_FAIL; /* TODO: check if correct use for Service 1 reports */
+  SendReqVerifPrgrFailRep(smDesc, stepIdentifier, tcFailureCode);
 
   return;
 }
@@ -79,10 +99,15 @@ void CrPsCmd3s27PrgrN3(FwPrDesc_t prDesc)
 /** Action for node N4. */
 void CrPsCmd3s27PrgrN4(FwPrDesc_t prDesc)
 {
+  CrPsRepErrCode_t errCode;
   CRFW_UNUSED(prDesc);
+
   /* Generate error report OUTFACTORY_FAIL */
 
   DEBUGP_3("CrPsCmd3s27PrgrN4.\n");
+
+  errCode = crOutfactoryFail;
+  CrPsRepErr(errCode, CRPS_REQVERIF, CRPS_REQVERIF_PROG_FAIL, 0);
 
   return;
 }
@@ -184,8 +209,6 @@ void CrPsCmd3s27PrgrN9(FwPrDesc_t prDesc)
 
   /* Process the next valid SID in the command */
 
-  DEBUGP_3("CrPsCmd3s27PrgrN9.\n");
-
   /* Get sid from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   sid = prDataPtr->sidPtr;
@@ -193,7 +216,6 @@ void CrPsCmd3s27PrgrN9(FwPrDesc_t prDesc)
   /* Get next SID from InCmd */
   iSid++;
   currentSid = sid[iSid];
-  printf("CrPsCmd3s27PrgrN9. SID = %d\n", currentSid);
 
   return;
 }
@@ -207,8 +229,6 @@ FwPrBool_t CrPsCmd3s27PrgrG1(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
   /* OutFactory fails to return a report */
-
-  DEBUGP_3("CrPsCmd3s27PrgrG1.\n");
 
   if (rep == NULL)
     {
@@ -228,8 +248,6 @@ FwPrBool_t CrPsCmd3s27PrgrG2(FwPrDesc_t prDesc)
 
   /* This SID was the last valid SID in the (3,27) or (3,28) */
 
-  DEBUGP_3("CrPsCmd3s27PrgrG2.\n");
-
   /* Get sid from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   sid = prDataPtr->sidPtr;
@@ -243,6 +261,24 @@ FwPrBool_t CrPsCmd3s27PrgrG2(FwPrDesc_t prDesc)
   	{
       return 0;
   	}
+}
+
+/** Guard on the Control Flow from N7 to N9. */
+FwPrBool_t CrPsCmd3s27PrgrG3(FwPrDesc_t prDesc)
+{
+  CRFW_UNUSED(prDesc);
+  /* Next Execution  */
+
+  DEBUGP_3("CrPsCmd3s27PrgrG3.\n");
+
+  if (FwPrGetNodeExecCnt(prDesc))
+    {
+      return 1;
+    }
+  else
+    {
+      return 0;
+    }
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */

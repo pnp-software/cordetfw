@@ -47,12 +47,33 @@ typedef struct {
 typedef struct {
 	FwSmDesc_t smDesc;
 	unsigned char* sidPtr;
+	unsigned short outcome;
 } prDescGenerateHkOneShotPrgr_t;
 
 typedef struct {
 	FwSmDesc_t smDesc;
 	/*unsigned char* sidPtr;*/
 } prDescCmd3s1Start_t;
+
+typedef struct {
+	FwSmDesc_t smDesc;
+	/*unsigned char* sidPtr;*/
+} prDescCmd3s3Start_t;
+
+typedef struct {
+	FwSmDesc_t smDesc;
+	/*unsigned char* sidPtr;*/
+} prDescCmd3s9Start_t;
+
+typedef struct {
+	FwSmDesc_t smDesc;
+	unsigned char* sidPtr;
+    unsigned short outcome;
+} prDescCmd3s9Prgr_t;
+
+
+
+
 
 
 /* ######################################################################################

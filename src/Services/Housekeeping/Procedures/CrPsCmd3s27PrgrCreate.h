@@ -173,4 +173,14 @@ FwPrBool_t CrPsCmd3s27PrgrG2(FwPrDesc_t prDesc);
  */
 FwPrBool_t CrPsCmd3s27PrgrG2E(FwPrDesc_t prDesc);
 
+/**
+ * Guard on the Control Flow from N7 to N9.
+ * <pre>
+ * Next Execution
+ * </pre>
+ * @param smDesc the procedure descriptor
+ * @return 1 if the guard is fulfilled, otherwise 0.
+ */
+FwPrBool_t CrPsCmd3s27PrgrG3(FwPrDesc_t prDesc);
+
 #endif /* CrPsCmd3s27PrgrCreate_H_ */

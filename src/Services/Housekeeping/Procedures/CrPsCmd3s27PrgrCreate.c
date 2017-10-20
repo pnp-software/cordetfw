@@ -75,7 +75,7 @@ FwPrDesc_t CrPsCmd3s27PrgrCreate(void* prData)
 	FwPrAddFlowDecToAct(prDesc, DECISION2, CrPsCmd3s27Prgr_N6, &CrPsCmd3s27PrgrG2);
 	FwPrAddFlowDecToAct(prDesc, DECISION2, CrPsCmd3s27Prgr_N7, &CrPsCmd3s27PrgrG2E);
 	FwPrAddFlowActToFin(prDesc, CrPsCmd3s27Prgr_N6, NULL);
-	FwPrAddFlowActToAct(prDesc, CrPsCmd3s27Prgr_N7, CrPsCmd3s27Prgr_N9, NULL); /* VORSICHT VORSICHT --- hier war ein 3. GUARD ?????????*/
+	FwPrAddFlowActToAct(prDesc, CrPsCmd3s27Prgr_N7, CrPsCmd3s27Prgr_N9, &CrPsCmd3s27PrgrG3);
 	FwPrAddFlowActToAct(prDesc, CrPsCmd3s27Prgr_N8, CrPsCmd3s27Prgr_N1, NULL);
 	FwPrAddFlowActToAct(prDesc, CrPsCmd3s27Prgr_N9, CrPsCmd3s27Prgr_N1, NULL);
 

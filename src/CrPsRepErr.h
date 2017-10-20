@@ -25,9 +25,9 @@
  * This default implementation is primarily intended for testing and demonstration
  * purposes.
  *
- * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
- * @author Alessandro Pasetti <pasetti@pnp-software.com>
- * @copyright P&P Software GmbH, 2013, All Rights Reserved
+ * @author Christian Reimers <christian.reimersy@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * @copyright Department of Astrophysics, University of Vienna, 2017, All Rights Reserved
  *
  * This file is part of CORDET Framework.
  *

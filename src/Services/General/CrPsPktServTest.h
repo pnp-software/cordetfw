@@ -3,7 +3,7 @@
  *
  * Interface for accessing fields in packets of service "ServTest".
  *
- * \note This file was generated on 2017-10-04 15:13:20
+ * \note This file was generated on 2017-10-13 12:48:17
  * \author PnP Generator
  * \copyright (c) Copyright
  */
@@ -11,8 +11,8 @@
 #define CRPSPKTSERVTEST_H_
 
 #include "CrPsDpTypes.h"
-
 #include "CrPsPkt.h"
+
 /**
  * Structure for AreYouAliveCmd
  */
@@ -22,7 +22,7 @@ typedef struct __attribute__((packed)) _AreYouAliveCmd_t {
    */
   TcHeader_t Header;
 
-} AreYouAliveCmd_t __attribute__((aligned(4)));
+} AreYouAliveCmd_t ;
 
 /**
  * Structure for AreYouAliveRep
@@ -33,7 +33,7 @@ typedef struct __attribute__((packed)) _AreYouAliveRep_t {
    */
   TmHeader_t Header;
 
-} AreYouAliveRep_t __attribute__((aligned(4)));
+} AreYouAliveRep_t ;
 
 /**
  * Structure for OnBoardConnectCmd
@@ -49,7 +49,7 @@ typedef struct __attribute__((packed)) _OnBoardConnectCmd_t {
    */
   uint16_t AppId;
   
-} OnBoardConnectCmd_t __attribute__((aligned(4)));
+} OnBoardConnectCmd_t ;
 
 /**
  * Structure for OnBoardConnectRep
@@ -65,7 +65,7 @@ typedef struct __attribute__((packed)) _OnBoardConnectRep_t {
    */
   uint16_t Dest;
   
-} OnBoardConnectRep_t __attribute__((aligned(4)));
+} OnBoardConnectRep_t ;
 
 /**
  * Get "AppId" from "OnBoardConnectCmd" packet.
