@@ -26,7 +26,7 @@
 #include "FwPrCore.h"
 #include "FwPrConstants.h"
 
-#include <CrPsUtilities.h>
+#include <CrPsUtilitiesServHk.h>
 #include <DataPool/CrPsDpServHk.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsPktServHk.h>
@@ -40,10 +40,8 @@
 void CrPsHkDeleteCmdStartAction(FwSmDesc_t smDesc)
 {
   prDescCmd3s3Start_t prData;
-  CrFwCmpData_t      *cmpData;
 
   /* Run the procedure Start Action of HkDelete Command of figure 9.2 */
-  DEBUGP_3("CrPsHkDeleteCmdStartAction()\n");
 
   /* Set prData of procedure   */
   /* initial setting of prData */
@@ -51,9 +49,6 @@ void CrPsHkDeleteCmdStartAction(FwSmDesc_t smDesc)
   FwPrSetData(prDescHkCmd3s3Start, &prData);
 
   FwPrRun(prDescHkCmd3s3Start);
-
-  cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
-  printf("CrPsHkDeleteCmdStartAction: outcome = %d \n", cmpData->outcome);
 
   return;
 }
@@ -64,36 +59,32 @@ void CrPsHkDeleteCmdProgressAction(FwSmDesc_t smDesc)
   CrFwCmpData_t      *cmpData;
   CrFwInCmdData_t    *cmpSpecificData;
   CrFwPckt_t          pckt;
-  int i, k, N;
-  unsigned char rdlSid, rdlSlot;
-  uint8_t  sid;
-  CrFwBool_t isEnabled;
+  CrFwCounterU4_t     i, k, N;
+  CrPsSid_t           rdlSid, rdlSlot;
+  CrPsSid_t           sid;
+  CrFwBool_t          isEnabled;
 
   /* Delete the entries in the RDL corresponding to the SIDs which have been identified as valid by the Start Action 
      and then set the action outcome to ’completed’ */
-  DEBUGP_3("CrPsHkDeleteCmdProgressAction()\n");
 
   /* Get in data */
-  cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+  cmpData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
   cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
   pckt            = cmpSpecificData->pckt;
 
   /* Get N from inPckt */
-  N = (int)getHkDeleteCmdN(pckt);
+  N = (CrFwCounterU4_t)getHkDeleteCmdN(pckt);
 
   for (i=0; i<N; i++)
     {
-
       /* Get SID from inPckt */
-      sid = getHkDeleteCmdRepStrucIdItem(pckt, i);
+      sid = getHkDeleteCmdRepStrucIdItem(pckt, i+1);
 
       /* Check if SID is in the RDL */
       /* look for the slot */
       for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
         {
-
           rdlSid = getDpsidItem(rdlSlot);
-          printf("SID in RDL[%d] = %d\n", rdlSlot, rdlSid);
 
           if (sid == rdlSid)
             break;
@@ -138,7 +129,6 @@ void CrPsHkDeleteCmdTerminationAction(FwSmDesc_t smDesc)
   CrFwCmpData_t*   inData;
 
   /* Set action outcome to 'success' */
-  DEBUGP_3("CrPsHkDeleteCmdTerminationAction()\n");
 
   /* Get in data */
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);

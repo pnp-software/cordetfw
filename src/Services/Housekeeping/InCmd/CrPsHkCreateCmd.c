@@ -25,9 +25,10 @@
 #include "FwPrCore.h"
 #include "FwPrConstants.h"
 
-#include <CrPsUtilities.h>
+#include <CrPsUtilitiesServHk.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsPktServHk.h>
+#include <Services/General/CrPsPktServHkSupp.h>
 #include <CrPsUserConstants.h>
 #include <DataPool/CrPsDpServHk.h>
 
@@ -38,11 +39,9 @@
 /* ------------------------------------------------------------------------------------ */
 void CrPsHkCreateCmdStartAction(FwSmDesc_t smDesc)
 {
-  CrFwCmpData_t      *cmpData;
   prDescCmd3s1Start_t prData;
 
   /* Run the procedure Start Action of HkCreate Command of figure 9.1 */
-  DEBUGP_3("CrPsHkCreateCmdStartAction()\n");
 
   /* Set prData of procedure   */
   /* initial setting of prData */
@@ -51,27 +50,25 @@ void CrPsHkCreateCmdStartAction(FwSmDesc_t smDesc)
 
   FwPrRun(prDescHkCmd3s1Start);
 
-  cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
-  printf("CrPsHkCreateCmdStartAction: outcome = %d \n", cmpData->outcome);
-
   return;
 }
 
 /* ------------------------------------------------------------------------------------ */
 void CrPsHkCreateCmdProgressAction(FwSmDesc_t smDesc)
 {
-  CrFwCmpData_t      *cmpData;
-  CrFwInCmdData_t    *cmpSpecificData;
-  CrFwPckt_t pckt;
-
-  unsigned char rdlSlot, rdlSid;
-
-  unsigned char sid;
-  unsigned int period;
-  CrFwBool_t isEnabled;
+  CrFwCmpData_t        *cmpData;
+  CrFwInCmdData_t      *cmpSpecificData;
+  CrFwPckt_t            pckt;
+  CrPsSid_t             rdlSlot, rdlSid;
+  CrFwCounterU4_t       i, j;
+  CrPsSid_t             sid;
+  CrPsParamId_t         N1ParamId, N2ParamId;
+  CrPsCollectInterval_t period;
+  CrFwBool_t            isEnabled;
+  CrFwCounterU4_t       N1, NFA, N2;
+  unsigned int SCSampleRep;
 
   /* Add the definition of the new report to the RDL, set its enabled status to ’disabled’, and set the action outcome to ’completed’ */
-  DEBUGP_3("CrPsHkCreateCmdProgressAction()\n");
 
   /* Get inPckt */
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
@@ -82,7 +79,6 @@ void CrPsHkCreateCmdProgressAction(FwSmDesc_t smDesc)
   for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
     {
       rdlSid = getDpsidItem(rdlSlot);
-      printf("SID in RDL[%d] = %d\n", rdlSlot, rdlSid);
       
       if (rdlSid == 0)
         break;
@@ -90,7 +86,7 @@ void CrPsHkCreateCmdProgressAction(FwSmDesc_t smDesc)
 
   /* Get SID and add in RDL */
   sid = getHkCreateCmdRepStrucId(pckt);
-  setDpsidItem(rdlSlot, (uint16_t)sid);
+  setDpsidItem(rdlSlot, (CrPsSid_t)sid);
   
   /* Get Collection Interval (= period) and add in RDL */
   period = getHkCreateCmdCollectionInterval(pckt);
@@ -99,6 +95,30 @@ void CrPsHkCreateCmdProgressAction(FwSmDesc_t smDesc)
   /* Set enabled status to 'disabled' */
   isEnabled = 0;
   setDpisEnabledItem(rdlSlot, isEnabled);
+
+  /* Set the single commutated parameter IDs */
+  N1 = getHkCreateCmdN1(pckt);
+  setDpnSimpleItem(rdlSlot, N1);
+  for (i=0; i<N1; i++)
+    {
+      N1ParamId = getHkCreateCmdN1ParamIdItem(pckt, i+1);
+      setDplstIdItem(HK_MAX_N_ITEMS*rdlSlot + i, N1ParamId);
+    }
+
+  /* Set the super commutated parameter IDs */
+  NFA = getHkCreateCmdNFA(pckt);
+  for (i=0;i<NFA;i++)
+    {
+      SCSampleRep = getHkCreateCmdSCSampleRepNumItem(pckt, i+1);
+      setDplstSampleRepItem(HK_MAX_N_GR*rdlSlot + i, SCSampleRep);
+      N2 = getHkCreateCmdN2(pckt, i+1);
+      setDplstNSampRepItem(HK_MAX_N_GR*rdlSlot + i, N2);
+      for (j=0;j<N2;j++)
+        {
+          N2ParamId = getHkCreateCmdN2ParamIdItem(pckt, i+1, j+1);
+          setDplstIdItem(HK_MAX_N_ITEMS*rdlSlot + N1 + j, N2ParamId);
+        }
+    }
 
   cmpData->outcome = 1;
 
@@ -111,7 +131,6 @@ void CrPsHkCreateCmdTerminationAction(FwSmDesc_t smDesc)
   CrFwCmpData_t*   inData;
 
   /* Set action outcome to 'success' */
-  DEBUGP_3("CrPsHkCreateCmdTerminationAction()\n");
 
   /* Get in data */
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);

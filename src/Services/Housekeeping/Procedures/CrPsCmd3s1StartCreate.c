@@ -22,7 +22,6 @@
 FwPrBool_t CrPsCmd3s1StartG1E(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);
-	DEBUGP_3("CrPsCmd3s1StartG1E.\n");
 	return 1;
 }
 
@@ -30,7 +29,6 @@ FwPrBool_t CrPsCmd3s1StartG1E(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s1StartG2E(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);
-	DEBUGP_3("CrPsCmd3s1StartG2E.\n");
 	return 1;
 }
 
@@ -38,7 +36,6 @@ FwPrBool_t CrPsCmd3s1StartG2E(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s1StartG3E(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);
-	DEBUGP_3("CrPsCmd3s1StartG3E.\n");
 	return 1;
 }
 
@@ -46,7 +43,6 @@ FwPrBool_t CrPsCmd3s1StartG3E(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s1StartG4E(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);
-	DEBUGP_3("CrPsCmd3s1StartG4E.\n");
 	return 1;
 }
 
@@ -54,7 +50,6 @@ FwPrBool_t CrPsCmd3s1StartG4E(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s1StartG5E(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);
-	DEBUGP_3("CrPsCmd3s1StartG5E.\n");
 	return 1;
 }
 
@@ -62,7 +57,6 @@ FwPrBool_t CrPsCmd3s1StartG5E(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s1StartG6E(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);
-	DEBUGP_3("CrPsCmd3s1StartG6E.\n");
 	return 1;
 }
 

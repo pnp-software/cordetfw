@@ -25,37 +25,28 @@
  * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
-#ifndef CRPS_UTILITIES_H_
-#define CRPS_UTILITIES_H_
+#ifndef CRPS_UTILITIES_SERVREQVERIF_H_
+#define CRPS_UTILITIES_SERVREQVERIF_H_
 
 #include <CrFwConstants.h>
 
 /* global handles for the procedures */
-extern FwPrDesc_t prDescServTestOnBoardConnStart, prDescServTestOnBoardConnPrgr;
 extern FwPrDesc_t prDescServReqVerifPcktReroutFail, prDescServReqVerifPcktAccFail;
 extern FwPrDesc_t prDescServReqVerifCmdVerSucc, prDescServReqVerifCmdVerFail;
 extern FwPrDesc_t prDescServReqVerifCmdPrgrSucc, prDescServReqVerifCmdPrgrFail;
-extern FwPrDesc_t prDescHkCmd3s1Start, prDescHkCmd3s3Start, prDescCmd3s9Prgr, prDescHkRepReadyCheck;
-extern FwPrDesc_t prDescMultiSidCmdStart, prDescGenerateHkOneShotPrgr;
 
-
-/**
- * Initialization of CORDET Framework PUS Extension application-specific components
- * @return nothing
- */
-void CrPsInitApp(unsigned short onBoardTestConnectAppId);
 
 /**
  * Initialization of CORDET Framework PUS Extension components
  * @return nothing
  */
-int CrPsInit();
+int CrPsInitServReqVerif();
 
 /**
  * Execution of CORDET Framework PUS Extension components
  * @return nothing
  */
-void CrPsExec();
+void CrPsExecServReqVerif();
 
 /**
  * Generate a Request Verification Acceptance/Start/Termination Successful out-going report.
@@ -94,4 +85,4 @@ void SendReqVerifPrgrFailRep(FwSmDesc_t smDesc, unsigned short stepIdentifier, u
  */
 void SendReqVerifPcktReroutFailRep(FwSmDesc_t smDesc, unsigned short tcFailureCode);
 
-#endif /* CRPS_UTILITIES_H_ */
+#endif /* CRPS_UTILITIES_SERVREQVERIF_H_ */

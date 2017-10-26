@@ -21,7 +21,7 @@
 #include "FwPrCore.h"
 #include "FwSmConfig.h"
 
-#include <CrPsUtilities.h>
+#include <CrPsUtilitiesServTest.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsPktServTest.h>
 #include <DataPool/CrPsDp.h>

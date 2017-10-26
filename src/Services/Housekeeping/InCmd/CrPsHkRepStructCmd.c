@@ -23,50 +23,43 @@
 #include "FwPrCore.h"
 #include <FwSmConfig.h>
 
-#include <CrPsUtilities.h>
+#include <CrPsUtilitiesServHk.h>
+#include <CrPsUserConstants.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsPktServHk.h>
 #include <Services/General/CrPsPktServHkSupp.h>
 #include <CrPsDebug.h>
 
 #include <stdio.h>
+#include <stdlib.h>
 
 
 /* ------------------------------------------------------------------------------------ */
 void CrPsHkRepStructCmdStartAction(FwSmDesc_t smDesc)
 {
-  CrFwCmpData_t      *cmpData;
-  CrFwInCmdData_t    *cmpSpecificData;
-  CrFwPckt_t          pckt;
+  CrFwCmpData_t           *cmpData;
+  CrFwInCmdData_t         *cmpSpecificData;
+  CrFwPckt_t               pckt;
   prDescMultiSidCmdStart_t prData;
-  unsigned char sid[10];
-  uint32_t nmbN;
-  unsigned int k;
+  CrPsSid_t                sid[HK_N_REP_DEF+1];
+  CrFwCounterU4_t          nmbN;
+  CrFwCounterU4_t          k;
 
   /* Run the procedure Start Action of Multi-SID Command of figure 9.3 */
-  DEBUGP_3("CrPsHkRepStructCmdStartAction()\n");
 
   /* Get in data */
-  cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+  cmpData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
   cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
   pckt            = cmpSpecificData->pckt;
 
   /* Get number N of HkRepStructCmd requests */
   nmbN = getHkRepStructCmdN(pckt);
-  printf("CrPsHkRepStructCmdStartAction: N = %d \n", nmbN);
 
   for (k=0; k<nmbN; k++)
     {
-      sid[k] = getHkRepStructCmdRepStrucIdItem(pckt, nmbN); /* TODO: should be enumerated values */
-      printf("CrPsHkRepStructCmdStartAction: SID[%d] = %d\n", k, sid[k]);
+      sid[k] = getHkRepStructCmdRepStrucIdItem(pckt, k+1);
     }
   sid[k] = 0;
-  printf("CrPsHkRepStructCmdStartAction: last SID[%d] = %d\n", k, sid[k]);
-
-/*  sid[0] = 1;
-  sid[1] = 2;
-  sid[2] = 0;
-  */
 
   /* Set prData of procedure   */
   /* initial setting of prData */
@@ -77,7 +70,6 @@ void CrPsHkRepStructCmdStartAction(FwSmDesc_t smDesc)
   FwPrRun(prDescMultiSidCmdStart);
 
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
-  printf("CrPsHkRepStructCmdStartAction: outcome = %d \n", cmpData->outcome);
 
   return;  
 }
@@ -85,22 +77,41 @@ void CrPsHkRepStructCmdStartAction(FwSmDesc_t smDesc)
 /* ------------------------------------------------------------------------------------ */
 void CrPsHkRepStructCmdProgressAction(FwSmDesc_t smDesc)
 {
-  CrFwCmpData_t     *cmpData;
-  prDescCmd3s9Prgr_t prData;
+  CrFwCmpData_t      *cmpData;
+  CrFwInCmdData_t    *cmpSpecificData;
+  CrFwPckt_t          pckt;
+  prDescCmd3s9Prgr_t *prDataPtr;
+  CrPsSid_t           sid[HK_N_REP_DEF+1];
+  CrFwCounterU4_t     nmbN;
+  CrFwCounterU4_t     k;
 
   /* Run the procedure Progress Action of Report Housekeeping Structure of figure 9.4 */
 
-  DEBUGP_3("CrPsHkRepStructCmdProgressAction()\n");
+  /* Get in data */
+  cmpData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
+  cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
+  pckt            = cmpSpecificData->pckt;
+
+  /* Get number N of HkRepStructCmd requests */
+  nmbN = getHkRepStructCmdN(pckt);
+
+  for (k=0; k<nmbN; k++)
+    {
+      sid[k] = getHkRepStructCmdRepStrucIdItem(pckt, k+1);
+    }
+  sid[k] = 0;
 
   /* Set prData of procedure   */
   /* initial setting of prData */
-  prData.smDesc = smDesc;
-  FwPrSetData(prDescCmd3s9Prgr, &prData);
+  prDataPtr = (prDescCmd3s9Prgr_t *)malloc(sizeof(prDescCmd3s9Prgr_t));
+  prDataPtr->smDesc = smDesc;
+  prDataPtr->sidPtr = sid;
+  FwPrSetData(prDescCmd3s9Prgr, prDataPtr);
 
-  FwPrRun(prDescCmd3s9Prgr);
+  FwPrStart(prDescCmd3s9Prgr);
+  FwPrExecute(prDescCmd3s9Prgr);
 
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
-  printf("CrPsHkRepStructCmdProgressAction: outcome = %d \n", cmpData->outcome);
 
   return;
 }
@@ -108,23 +119,21 @@ void CrPsHkRepStructCmdProgressAction(FwSmDesc_t smDesc)
 /* ------------------------------------------------------------------------------------ */
 void CrPsHkRepStructCmdTerminationAction(FwSmDesc_t smDesc)
 {
-  CrFwCmpData_t* inData;
-  prDescCmd3s9Prgr_t* prDescCmd3s9PrgrPtr;
-  unsigned short outcome;
+  CrFwCmpData_t      *inData;
+  prDescCmd3s9Prgr_t *prDataPtr;
+  unsigned short      outcome;
 
   /* Set action outcome to ’success’ if all valid SIDs in the command were successfully processed by the progress action; 
    * set it to ’failure’ otherwise */
-  DEBUGP_3("CrPsHkRepStructCmdTerminationAction()\n");
 
   /* Get in data */
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-
   
   /* Get procedure parameters */
-  prDescCmd3s9PrgrPtr = (prDescCmd3s9Prgr_t*) FwPrGetData(prDescCmd3s9Prgr);
+  prDataPtr = (prDescCmd3s9Prgr_t*) FwPrGetData(prDescCmd3s9Prgr);
 
   /* Get the Outcome*/
-  outcome = prDescCmd3s9PrgrPtr->outcome;
+  outcome = prDataPtr->outcome;
   
   if (outcome == 1)
     {

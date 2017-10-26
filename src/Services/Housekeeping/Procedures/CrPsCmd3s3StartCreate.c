@@ -22,7 +22,6 @@
 FwPrBool_t CrPsCmd3s3StartG1E(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);
-	DEBUGP_3("CrPsCmd3s3StartG1E.\n");
 	return 1;
 }
 
@@ -30,7 +29,6 @@ FwPrBool_t CrPsCmd3s3StartG1E(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s3StartG2E(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);
-	DEBUGP_3("CrPsCmd3s1StartG2E.\n");
 	return 1;
 }
 
@@ -38,7 +36,6 @@ FwPrBool_t CrPsCmd3s3StartG2E(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s3StartG3E(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);
-	DEBUGP_3("CrPsCmd3s3StartG3E.\n");
 	return 1;
 }
 
@@ -46,7 +43,6 @@ FwPrBool_t CrPsCmd3s3StartG3E(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s3StartG4E(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);
-	DEBUGP_3("CrPsCmd3s3StartG4E.\n");
 	return 1;
 }
 
@@ -96,10 +92,10 @@ FwPrDesc_t CrPsCmd3s3StartCreate(void* prData)
 	FwPrAddFlowDecToDec(prDesc, DECISION2, DECISION3, &CrPsCmd3s3StartG2E);
 	FwPrAddFlowActToAct(prDesc, CrPsCmd3s3Start_N5, CrPsCmd3s3Start_N6, NULL);
 	FwPrAddFlowActToDec(prDesc, CrPsCmd3s3Start_N6, DECISION3, NULL);
-	FwPrAddFlowDecToAct(prDesc, DECISION3, CrPsCmd3s3Start_N4, &CrPsCmd3s3StartG3E);
 	FwPrAddFlowDecToDec(prDesc, DECISION3, DECISION4, &CrPsCmd3s3StartG3);
-	FwPrAddFlowDecToAct(prDesc, DECISION4, CrPsCmd3s3Start_N7, &CrPsCmd3s3StartG4E);
+	FwPrAddFlowDecToAct(prDesc, DECISION3, CrPsCmd3s3Start_N4, &CrPsCmd3s3StartG3E);
 	FwPrAddFlowDecToAct(prDesc, DECISION4, CrPsCmd3s3Start_N8, &CrPsCmd3s3StartG4);
+	FwPrAddFlowDecToAct(prDesc, DECISION4, CrPsCmd3s3Start_N7, &CrPsCmd3s3StartG4E);
 	FwPrAddFlowActToFin(prDesc, CrPsCmd3s3Start_N7, NULL);
 	FwPrAddFlowActToFin(prDesc, CrPsCmd3s3Start_N8, NULL);
 

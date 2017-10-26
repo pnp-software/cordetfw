@@ -19,7 +19,7 @@
 /* FwProfile includes */
 #include <FwSmConfig.h>
 
-#include <CrPsUtilities.h>
+#include <CrPsUtilitiesServTest.h>
 #include <Services/General/CrPsConstants.h>
 
 #include <stdio.h>

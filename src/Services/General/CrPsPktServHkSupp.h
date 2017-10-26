@@ -10,6 +10,10 @@
 #define CRPSPKTSERVHKSUPP_H_
 
 #include "Services/General/CrPsPktUtil.h"
+#include "CrPsUserConstants.h"
+#include <DataPool/CrPsDp.h>
+#include <DataPool/CrPsDpServHk.h>
+#include <stdio.h>
 
 
 /**
@@ -305,7 +309,7 @@ static inline uint32_t getHkRepStructRepOffsetSCS(void* p, uint32_t NFA)
   HkRepStructRep_t t;
 
   N1 = getHkRepStructRepN1(p);
-  pos = sizeof(t.Header)+sizeof(t.RepStrucId)+sizeof(t.CollectionInterval)+sizeof(t.N1)+sizeof(t.N1ParamId)*N1 + sizeof(t.NFA);
+  pos = sizeof(t.Header)+sizeof(t.RepStrucId)+sizeof(t.PeriodicGenActionStatus)+sizeof(t.CollectionInterval)+sizeof(t.N1)+sizeof(t.N1ParamId)*N1 + sizeof(t.NFA);
   
   for (i=1;i<NFA;i++)
     {
@@ -357,7 +361,7 @@ static inline uint32_t getHkRepStructRepNFA(void* p)
   uint32_t pos;
   uint32_t ret;
   HkRepStructRep_t t;
-  pos = sizeof(t.Header)+sizeof(t.RepStrucId)+sizeof(t.CollectionInterval)+sizeof(t.N1)+sizeof(t.N1ParamId)*getHkRepStructRepN1(p);
+  pos = sizeof(t.Header)+sizeof(t.RepStrucId)+sizeof(t.PeriodicGenActionStatus)+sizeof(t.CollectionInterval)+sizeof(t.N1)+sizeof(t.N1ParamId)*getHkRepStructRepN1(p);
   memcpy(&ret, &((uint8_t*)p)[pos], sizeof(t.NFA));
   return __builtin_bswap32(ret);
 }
@@ -371,7 +375,7 @@ static inline void setHkRepStructRepNFA(void* p, uint32_t src)
 {
   uint32_t pos;
   HkRepStructRep_t t;
-  pos = sizeof(t.Header)+sizeof(t.RepStrucId)+sizeof(t.CollectionInterval)+sizeof(t.N1)+sizeof(t.N1ParamId)*getHkRepStructRepN1(p);
+  pos = sizeof(t.Header)+sizeof(t.RepStrucId)+sizeof(t.PeriodicGenActionStatus)+sizeof(t.CollectionInterval)+sizeof(t.N1)+sizeof(t.N1ParamId)*getHkRepStructRepN1(p);
   src = __builtin_bswap32(src);
   memcpy(&((uint8_t*)p)[pos], &src, sizeof(src));
 }
@@ -427,7 +431,7 @@ static inline uint16_t getHkRepStructRepN1ParamIdItem(void* p, uint32_t N)
     {
       N=N-1;
     }
-  pos = sizeof(t.Header)+sizeof(t.RepStrucId)+sizeof(t.CollectionInterval)+sizeof(t.N1)+sizeof(t.N1ParamId)*N;
+  pos = sizeof(t.Header)+sizeof(t.RepStrucId)+sizeof(t.PeriodicGenActionStatus)+sizeof(t.CollectionInterval)+sizeof(t.N1)+sizeof(t.N1ParamId)*N;
   memcpy(&ret, &((uint8_t*)p)[pos], sizeof(t.N1ParamId));
   return __builtin_bswap16(ret);
 }
@@ -446,7 +450,7 @@ static inline void setHkRepStructRepN1ParamIdItem(void* p, uint32_t N, uint16_t 
     {
       N=N-1;
     }
-  pos = sizeof(t.Header)+sizeof(t.RepStrucId)+sizeof(t.CollectionInterval)+sizeof(t.N1)+sizeof(t.N1ParamId)*N;
+  pos = sizeof(t.Header)+sizeof(t.RepStrucId)+sizeof(t.PeriodicGenActionStatus)+sizeof(t.CollectionInterval)+sizeof(t.N1)+sizeof(t.N1ParamId)*N;
   src = __builtin_bswap16(src);
   memcpy(&((uint8_t*)p)[pos], &src, sizeof(t.N1ParamId));
 }
@@ -581,7 +585,7 @@ static inline uint8_t getHkDeleteCmdRepStrucIdItem(void* p, uint32_t N)
 {
   uint8_t dest;
   HkDeleteCmd_t t;
-  memcpy(&dest, &((uint8_t*)p)[sizeof(t)-1+sizeof(t.RepStrucId)*N], sizeof(t.RepStrucId));
+  memcpy(&dest, &((uint8_t*)p)[sizeof(TcHeader_t)-1+sizeof(t.N)+sizeof(t.RepStrucId)*N], sizeof(t.RepStrucId));
   return dest;
 }
 
@@ -594,7 +598,7 @@ static inline uint8_t getHkDeleteCmdRepStrucIdItem(void* p, uint32_t N)
 static inline void setHkDeleteCmdRepStrucIdItem(void* p, uint32_t N, uint8_t RepStrucId)
 {
   HkDeleteCmd_t t;
-  memcpy(&((uint8_t*)p)[sizeof(t)-1+sizeof(t.RepStrucId)*N], &RepStrucId, sizeof(t.RepStrucId));  
+  memcpy(&((uint8_t*)p)[sizeof(TcHeader_t)-1+sizeof(t.N)+sizeof(t.RepStrucId)*N], &RepStrucId, sizeof(t.RepStrucId));  
 }
 
 /**
@@ -607,7 +611,7 @@ static inline uint8_t getHkEnableCmdRepStrucIdItem(void* p, uint32_t N)
 {
   uint8_t dest;
   HkEnableCmd_t t;
-  memcpy(&dest, &((uint8_t*)p)[sizeof(t)-1+sizeof(t.RepStrucId)*N], sizeof(t.RepStrucId));
+  memcpy(&dest, &((uint8_t*)p)[sizeof(TcHeader_t)-1+sizeof(t.N)+sizeof(t.RepStrucId)*N], sizeof(t.RepStrucId));
   return dest;
 }
 
@@ -620,7 +624,7 @@ static inline uint8_t getHkEnableCmdRepStrucIdItem(void* p, uint32_t N)
 static inline void setHkEnableCmdRepStrucIdItem(void* p, uint32_t N, uint8_t RepStrucId)
 {
   HkEnableCmd_t t;
-  memcpy(&((uint8_t*)p)[sizeof(t)-1+sizeof(t.RepStrucId)*N], &RepStrucId, sizeof(t.N));
+  memcpy(&((uint8_t*)p)[sizeof(TcHeader_t)-1+sizeof(t.N)+sizeof(t.RepStrucId)*N], &RepStrucId, sizeof(t.N));
 }
 
 /**
@@ -633,7 +637,7 @@ static inline uint8_t getHkDisableCmdRepStrucIdItem(void* p, uint32_t N)
 {
   uint8_t dest;
   HkDisableCmd_t t;
-  memcpy(&dest, &((uint8_t*)p)[sizeof(t)-1+sizeof(t.RepStrucId)*N], sizeof(t.RepStrucId));
+  memcpy(&dest, &((uint8_t*)p)[sizeof(TcHeader_t)-1+sizeof(t.N)+sizeof(t.RepStrucId)*N], sizeof(t.RepStrucId));
   return dest;
 }
 
@@ -646,7 +650,7 @@ static inline uint8_t getHkDisableCmdRepStrucIdItem(void* p, uint32_t N)
 static inline void setHkDisableCmdRepStrucIdItem(void* p, uint32_t N, uint8_t RepStrucId)
 {
   HkDisableCmd_t t;
-  memcpy(&((uint8_t*)p)[sizeof(t)-1+sizeof(t.RepStrucId)*N], &RepStrucId, sizeof(t.N));
+  memcpy(&((uint8_t*)p)[sizeof(TcHeader_t)-1+sizeof(t.N)+sizeof(t.RepStrucId)*N], &RepStrucId, sizeof(t.N));
 }
 
 /**
@@ -659,7 +663,7 @@ static inline uint8_t getHkRepStructCmdRepStrucIdItem(void* p, uint32_t N)
 {
   uint8_t dest;
   HkRepStructCmd_t t;
-  memcpy(&dest, &((uint8_t*)p)[sizeof(t)-1+sizeof(t.RepStrucId)*N], sizeof(t.RepStrucId));
+  memcpy(&dest, &((uint8_t*)p)[sizeof(TcHeader_t)-1+sizeof(t.N)+sizeof(t.RepStrucId)*N], sizeof(t.RepStrucId));
   return dest;
 }
 
@@ -672,7 +676,7 @@ static inline uint8_t getHkRepStructCmdRepStrucIdItem(void* p, uint32_t N)
 static inline void setHkRepStructCmdRepStrucIdItem(void* p, uint32_t N, uint8_t RepStrucId)
 {
   HkRepStructCmd_t t;
-  memcpy(&((uint8_t*)p)[sizeof(t)-1+sizeof(t.RepStrucId)*N], &RepStrucId, sizeof(t.N));
+  memcpy(&((uint8_t*)p)[sizeof(TcHeader_t)-1+sizeof(t.N)+sizeof(t.RepStrucId)*N], &RepStrucId, sizeof(t.N));
 }
 
 /**
@@ -685,7 +689,7 @@ static inline uint8_t getHkOneShotCmdRepStrucIdItem(void* p, uint32_t N)
 {
   uint8_t dest;
   HkOneShotCmd_t t;
-  memcpy(&dest, &((uint8_t*)p)[sizeof(t)-1+sizeof(t.RepStrucId)*N], sizeof(t.RepStrucId));
+  memcpy(&dest, &((uint8_t*)p)[sizeof(TcHeader_t)-1+sizeof(t.N)+sizeof(t.RepStrucId)*N], sizeof(t.RepStrucId));
   return dest;
 }
 
@@ -698,38 +702,285 @@ static inline uint8_t getHkOneShotCmdRepStrucIdItem(void* p, uint32_t N)
 static inline void setHkOneShotCmdRepStrucIdItem(void* p, uint32_t N, uint8_t RepStrucId)
 {
   HkOneShotCmd_t t;
-  memcpy(&((uint8_t*)p)[sizeof(t)-1+sizeof(t.RepStrucId)*N], &RepStrucId, sizeof(t.N));
+  memcpy(&((uint8_t*)p)[sizeof(TcHeader_t)-1+sizeof(t.N)+sizeof(t.RepStrucId)*N], &RepStrucId, sizeof(t.N));
 }
+
+
+static inline size_t getHkRepStructSize(CrPsSid_t sid)
+{
+  size_t s;
+  CrPsSid_t rdlSid, rdlSlot;
+  unsigned int i;
+  CrFwCounterU4_t N1, N2, NFA;
+
+  s=sizeof(TmHeader_t) + sizeof(CrPsSid_t) + sizeof(CrPsStatus_t) + sizeof(CrPsCollectInterval_t) + sizeof(CrFwCounterU4_t) + sizeof(CrFwCounterU4_t) + 2;
+
+  /* look for the slot */
+  for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
+    {
+      rdlSid = getDpsidItem(rdlSlot);
+
+      if (sid == rdlSid)
+        break;
+    }  
+
+  N1 = getDpnSimpleItem(rdlSlot);
+  s+=N1*sizeof(CrPsParamId_t);
+
+  NFA = getNFA(rdlSlot);
+  for(i=0;i<NFA;i++)
+    {
+      s+=sizeof(unsigned int) + sizeof(unsigned int);
+      N2 = getDplstNSampRepItem(rdlSlot*HK_MAX_N_GR + i);
+      s+=N2*sizeof(CrPsParamId_t);
+    }
+
+  return s;
+}
+
+static inline size_t getHkRepSizeFromDp(CrPsSid_t sid)
+{
+  size_t s;
+  CrPsSid_t rdlSid, rdlSlot;
+  unsigned int i, j, k;
+  CrFwCounterU4_t N1, N2, NFA;
+  unsigned short N1ParamId, N2ParamId;
+  unsigned int SCSampleRepNum, offset;
+
+  /* look for the slot */
+  for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
+    {
+      rdlSid = getDpsidItem(rdlSlot);
+
+      if (sid == rdlSid)
+        break;
+    }
+
+  s=sizeof(TmHeader_t) + sizeof(CrPsSid_t) + 2;
+
+  /* Get N1 (nSimple) from data pool, the number of simple commutated data items */
+  N1 = getDpnSimpleItem(rdlSlot);
+
+  if (N1!=0)
+    {
+      /* Get N1 parameter IDs and put the corresponding values in the out-going packet */ 
+      for (i=0; i<N1; i++)
+        {
+          /* Get value for N1ParamId from data pool */ 
+          N1ParamId = getDplstIdItem(rdlSlot*HK_MAX_N_ITEMS + i);
+          s += getDpSize(N1ParamId);
+        }
+    }
+
+  NFA = getNFA(rdlSlot);
+
+  if (NFA!=0)
+    {
+      offset = 0;
+
+      for (k=0; k<NFA; k++)
+        {
+          /* Get sample repetition number (rep[1..nGroup]) */
+          SCSampleRepNum = getDplstSampleRepItem(rdlSlot*HK_MAX_N_GR + k);
+
+          /* Get N2 (nRep[1..nGroup]) */
+          N2 = getDplstNSampRepItem(rdlSlot*HK_MAX_N_GR + k);
+
+          for (i=0; i<SCSampleRepNum; i++)
+            {
+              for (j=0; j<N2; j++)
+                {
+                  N2ParamId = getDplstIdItem(rdlSlot*HK_MAX_N_ITEMS + N1 + offset + j);
+
+                  /* Set value in out-going packet */
+                  s += getDpSize(N2ParamId);
+                }
+            }
+
+          /* update offset */
+          offset += N2;
+        }
+
+    }
+
+  return s;
+}
+
+
+static inline size_t getHkRepSizeFromPckt(void* p)
+{
+  size_t s, N2ParamIdSize;
+  unsigned int j, k;
+  CrFwCounterU4_t N1, NFA, N2;
+  CrPsRepNum_t SCSampleRepNum;
+  CrPsParamId_t N1ParamId, N2ParamId;  
+
+  s=sizeof(TmHeader_t) + sizeof(CrPsSid_t) + 2;
+  N1 = getHkCreateCmdN1(p);
+  for(j=1;j<=N1;j++)
+    {
+      N1ParamId = getHkCreateCmdN1ParamIdItem(p, j);
+      s+=getDpSize(N1ParamId);
+    }
+  NFA = getHkCreateCmdNFA(p);
+  for(j=1;j<=NFA;j++)
+    {
+      SCSampleRepNum = getHkCreateCmdSCSampleRepNumItem(p,j);
+      N2 = getHkCreateCmdN2(p,j);
+      for(k=1;k<=N2;k++)
+        {
+          N2ParamId = getHkCreateCmdN2ParamIdItem(p, j, k);
+          N2ParamIdSize = getDpSize(N2ParamId);
+          s+=SCSampleRepNum*N2ParamIdSize;
+        }
+    }
+  return s; 
+}
+
 
 /**
  * Get the size of a Housekeeping packet.
  * \param p Pointer to the packet.
  * \return the size of the packet in bytes.
  */
-static inline size_t getHk3_1PcktSize(void* p)
+static inline size_t getHkPcktSize(void* p)
 {
   size_t s;
-  uint32_t j, k, N1, NFA, N2;
-  HkCreateCmd_t t;
+  CrFwServSubType_t subserv;
+  CrFwCounterU4_t j, k, N, N1, NFA, N2;
+  CrPsSid_t sid, rdlSid, N1ParamId;
+  CrFwCounterU1_t rdlSlot;
 
-  s=sizeof(t.Header) + sizeof(t.RepStrucId) + sizeof(t.CollectionInterval) + sizeof(t.N1);
-  N1 = getHkCreateCmdN1(p);
-  for(j=1;j<=N1;j++)
+  subserv = CrFwPcktGetServSubType(p);
+
+  switch (subserv)
   {
-    s+=sizeof(t.N1ParamId);
+    case 1:
+    case 2:
+      printf("case1 + 2\n");
+      s=sizeof(TcHeader_t) + sizeof(CrPsSid_t) + sizeof(CrPsCollectInterval_t) + sizeof(CrFwCounterU4_t);
+      N1 = getHkCreateCmdN1(p);
+      for(j=1;j<=N1;j++)
+      {
+        s+=sizeof(CrPsParamId_t);
+      }
+      s+=sizeof(CrFwCounterU4_t);
+      NFA = getHkCreateCmdNFA(p);
+      for(j=1;j<=NFA;j++)
+      {
+        s+=sizeof(CrPsRepNum_t) + sizeof(CrFwCounterU4_t);
+        N2 = getHkCreateCmdN2(p,j);
+        for(k=1;k<=N2;k++)
+        {
+          s+=sizeof(CrPsParamId_t);
+        }
+      }
+      return s;    
+    case 3:
+    case 4:
+      printf("case3 + 4\n");
+      s=sizeof(TcHeader_t) + sizeof(CrFwCounterU4_t);
+      N = getHkDeleteCmdN(p);
+      for(j=1;j<=N;j++)
+      {
+        s+=sizeof(CrPsSid_t);
+      }
+      return s;
+    case 5:
+    case 7:
+      printf("case5 + 7\n");
+      s=sizeof(TcHeader_t) + sizeof(CrFwCounterU4_t);
+      N = getHkEnableCmdN(p);      
+      for(j=1;j<=N;j++)
+      {
+        s+=sizeof(CrPsSid_t);
+      }
+      return s;
+    case 6:
+    case 8:
+      printf("case6 + 8\n");
+      N = getHkDisableCmdN(p);  
+      s=sizeof(TcHeader_t) + sizeof(CrFwCounterU4_t);
+      for(j=1;j<=N;j++)
+      {
+        s+=sizeof(CrPsSid_t);
+      }
+      return s;
+    case 9:
+    case 11:
+      printf("case9 + 11\n");
+      s=sizeof(TcHeader_t) + sizeof(CrFwCounterU4_t);
+      N = getHkRepStructCmdN(p);      
+      for(j=1;j<=N;j++)
+      {
+        s+=sizeof(CrPsSid_t);
+      }
+      return s;
+    case 10:
+    case 12:
+      printf("case10 + 12\n");
+      s=sizeof(TmHeader_t) + sizeof(CrPsSid_t) + sizeof(CrPsStatus_t) + sizeof(CrPsCollectInterval_t) + sizeof(CrFwCounterU4_t);
+      N1 = getHkRepStructRepN1(p);
+      for(j=1;j<=N1;j++)
+      {
+        s+=sizeof(CrPsParamId_t);
+      }
+      s+=sizeof(CrFwCounterU4_t);
+      NFA = getHkRepStructRepNFA(p);
+      for(j=1;j<=NFA;j++)
+      {
+        s+=sizeof(CrPsRepNum_t) + sizeof(CrFwCounterU4_t);
+        N2 = getHkRepStructRepN2(p,j);
+        for(k=1;k<=N2;k++)
+        {
+          s+=sizeof(CrPsParamId_t);
+        }
+      }
+      return s; 
+    case 25:
+    case 26:
+      printf("case25 + 26\n");
+      s=sizeof(TmHeader_t) + sizeof(CrPsSid_t);
+      sid = (CrPsSid_t )CrFwPcktGetDiscriminant(p);
+
+      /* look for the slot */
+      for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
+        {
+          rdlSid = getDpsidItem(rdlSlot);
+          printf("SID in RDL[%d] = %d\n", rdlSlot, rdlSid);
+          if (sid == rdlSid)
+            break;
+        }
+
+      /* Get N1 (nSimple) from data pool, the number of simple commutated data items */
+      N1 = getDpnSimpleItem(rdlSlot);
+      printf("N1 = %d\n", N1);
+
+      if (N1!=0)
+        {
+          /* Get N1 parameter IDs and put the corresponding values in the out-going packet */ 
+          for (j=0; j<N1; j++)
+            {
+              /* Get value for N1ParamId from data pool */ 
+              N1ParamId = getDplstIdItem(rdlSlot*HK_MAX_N_ITEMS + j);
+              s += getDpSize(N1ParamId);
+            }
+        }
+      return s;
+    case 27:
+    case 28:
+      printf("case27 + 28\n");
+      s=sizeof(TcHeader_t) + sizeof(CrFwCounterU4_t);
+      N = getHkRepStructCmdN(p);      
+      for(j=1;j<=N;j++)
+      {
+        s+=sizeof(CrPsSid_t);
+      }
+      return s;           
+    default:
+      return 0;
   }
-  s+=sizeof(t.NFA);
-  NFA = getHkCreateCmdNFA(p);
-  for(j=1;j<=NFA;j++)
-  {
-    s+=sizeof(t.SCSampleRepNum) + sizeof(t.N2);
-    N2 = getHkCreateCmdN2(p,j);
-    for(k=1;k<=N2;k++)
-    {
-      s+=sizeof(t.N2ParamId);
-    }
-  }
-  return s;
+
 }
 
 /*----------------------------------------------------------------------------*/

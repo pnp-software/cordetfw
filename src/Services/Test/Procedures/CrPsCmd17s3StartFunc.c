@@ -29,8 +29,8 @@
 #include <Services/General/CrPsConstants.h>
 #include <Services/Test/InCmd/CrPsTestOnBoardConnection.h> /* for global handles */
 
-#include "CrPsRepErr.h"
-#include "CrPsUtilities.h"
+#include <CrPsRepErr.h>
+#include <CrPsUtilitiesServTest.h>
 
 #include <stdio.h>
 #include <stdlib.h>

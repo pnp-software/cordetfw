@@ -11,7 +11,7 @@
 #define CRPSDPSERVREQVERIF_H_
 
 #include "CrPsDpTypes.h"
-
+#include <stdio.h>
 /**
  * Type description
  */

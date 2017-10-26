@@ -54,9 +54,9 @@ FwPrDesc_t CrPsRep3s25ReadyCreate(void* prData)
 	FwPrAddFlowActToAct(prDesc, CrPsRep3s25Ready_N2, CrPsRep3s25Ready_N4, NULL);
 	FwPrAddFlowActToAct(prDesc, CrPsRep3s25Ready_N3, CrPsRep3s25Ready_N4, NULL);
 	FwPrAddFlowActToDec(prDesc, CrPsRep3s25Ready_N4, DECISION2, &CrPsRep3s25ReadyG2);
-	FwPrAddFlowDecToDec(prDesc, DECISION2, DECISION1, &CrIaReadyChk3s25ReadyGoToDec);
-	FwPrAddFlowDecToFin(prDesc, DECISION2, &CrPsRep3s25ReadyGoToFin);
 	FwPrAddFlowDecToAct(prDesc, DECISION2, CrPsRep3s25Ready_N1, &CrIaReadyChk3s25ReadyGoToRst);
+	FwPrAddFlowDecToFin(prDesc, DECISION2, &CrPsRep3s25ReadyGoToFin);
+	FwPrAddFlowDecToDec(prDesc, DECISION2, DECISION1, &CrIaReadyChk3s25ReadyGoToDec);
 
 	return prDesc;
 }

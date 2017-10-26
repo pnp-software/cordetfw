@@ -1,5 +1,5 @@
 /**
- * \file
+ * \file CrPSPktServTest.h
  *
  * Interface for accessing fields in packets of service "ServTest".
  *
@@ -11,6 +11,7 @@
 #define CRPSPKTSERVTEST_H_
 
 #include "CrPsDpTypes.h"
+#include "CrPsUserConstants.h"
 #include "CrPsPkt.h"
 
 /**
@@ -47,7 +48,7 @@ typedef struct __attribute__((packed)) _OnBoardConnectCmd_t {
   /**
    * Application ID
    */
-  uint16_t AppId;
+  CrPsApid_t AppId;
   
 } OnBoardConnectCmd_t ;
 
@@ -63,7 +64,7 @@ typedef struct __attribute__((packed)) _OnBoardConnectRep_t {
   /**
    * Destination for 17.3
    */
-  uint16_t Dest;
+  CrPsDestSrc_t Dest;
   
 } OnBoardConnectRep_t ;
 

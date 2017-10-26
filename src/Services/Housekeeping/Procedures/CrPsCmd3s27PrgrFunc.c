@@ -32,16 +32,17 @@
 #include <DataPool/CrPsDpServHk.h>
 #include <Services/General/CrPsConstants.h>
 #include <CrPsDebug.h>
-#include <CrPsUtilities.h>
+#include <CrPsUtilitiesServHk.h>
+#include <CrPsUtilitiesServReqVerif.h>
 #include <CrPsRepErr.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-FwSmDesc_t rep;
-unsigned char currentSid;
-unsigned int iSid;
+FwSmDesc_t      rep;
+CrPsSid_t       currentSid;
+CrFwCounterU4_t iSid;
 
 
 /* ----------------------------------------------------------------------------------------------------------------- */
@@ -50,9 +51,8 @@ unsigned int iSid;
 void CrPsCmd3s27PrgrN1(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  /* Retrieve a HkOneShotRep report from the OutFactory to hold the one-shot report for the SID */
 
-  DEBUGP_3("CrPsCmd3s27PrgrN1.\n");
+  /* Retrieve a HkOneShotRep report from the OutFactory to hold the one-shot report for the SID */
 
   /* Create out component */
   rep  = CrFwOutFactoryMakeOutCmp(CRPS_HK, CRPS_HK_HKPARAM_REP, 2, 0);/* arguments: type, subType, discriminant/evtId, length */
@@ -64,9 +64,8 @@ void CrPsCmd3s27PrgrN1(FwPrDesc_t prDesc)
 void CrPsCmd3s27PrgrN2(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  /* Load the SID which is being processed in data pool item verFailData */
 
-  DEBUGP_3("CrPsCmd3s27PrgrN2.\n");
+  /* Load the SID which is being processed in data pool item verFailData */
 
   setDpverFailData((uint32_t)currentSid);
 
@@ -76,14 +75,12 @@ void CrPsCmd3s27PrgrN2(FwPrDesc_t prDesc)
 /** Action for node N3. */
 void CrPsCmd3s27PrgrN3(FwPrDesc_t prDesc)
 {
-  FwSmDesc_t smDesc;  
+  FwSmDesc_t                     smDesc;  
   prDescGenerateHkOneShotPrgr_t *prDataPtr;
-  unsigned short stepIdentifier;
-  unsigned short tcFailureCode;
+  CrPsStepId_t                   stepIdentifier; /*war unsigned short StepId ist aber 32 bit*/
+  CrPsFailCode_t                 tcFailureCode;
 
   /* Run the Command Progress Failure Procedure */
-
-  DEBUGP_3("CrPsCmd3s27PrgrN3.\n");
 
   /* Get smDesc from prData */
   prDataPtr = FwPrGetData(prDesc);
@@ -104,8 +101,6 @@ void CrPsCmd3s27PrgrN4(FwPrDesc_t prDesc)
 
   /* Generate error report OUTFACTORY_FAIL */
 
-  DEBUGP_3("CrPsCmd3s27PrgrN4.\n");
-
   errCode = crOutfactoryFail;
   CrPsRepErr(errCode, CRPS_REQVERIF, CRPS_REQVERIF_PROG_FAIL, 0);
 
@@ -115,16 +110,25 @@ void CrPsCmd3s27PrgrN4(FwPrDesc_t prDesc)
 /** Action for node N5. */
 void CrPsCmd3s27PrgrN5(FwPrDesc_t prDesc)
 {
+  CrFwCmpData_t       *cmpData;
+  CrFwInCmdData_t     *cmpSpecificData;
+  CrFwPckt_t           pckt;  
+  prDescGenerateHkOneShotPrgr_t *prDataPtr;
+  FwSmDesc_t           smDesc;
   CrFwDestSrc_t dest;
 
-  CRFW_UNUSED(prDesc);
   /* Configure the HkOneShotRep report with the SID being processed and load it in the OutLoader */
 
-  DEBUGP_3("CrPsCmd3s27PrgrN5.\n");
+  /* Get smDesc from OutCmp */
+  prDataPtr = FwPrGetData(prDesc);
+  smDesc = prDataPtr->smDesc;
 
-  /* Configure OutRep */
-  /* TODO: Get dest from source of InCmd */
-  dest = 1;
+  /* Get inPckt */
+  cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
+  cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
+  pckt = cmpSpecificData->pckt;
+
+  dest = CrFwPcktGetSrc(pckt);
   CrFwOutCmpSetDest(rep, dest);
 
   /* Load the OutRep in the OutLoader */
@@ -136,13 +140,11 @@ void CrPsCmd3s27PrgrN5(FwPrDesc_t prDesc)
 /** Action for node N6. */
 void CrPsCmd3s27PrgrN6(FwPrDesc_t prDesc)
 {
-  prDescGenerateHkOneShotPrgr_t* prDataPtr;
-  CrFwCmpData_t* cmpData;
-  FwSmDesc_t smDesc;
+  prDescGenerateHkOneShotPrgr_t *prDataPtr;
+  CrFwCmpData_t                 *cmpData;
+  FwSmDesc_t                     smDesc;
 
   /* Set action outcome to: 'completed' */
-
-  DEBUGP_3("CrPsCmd3s27PrgrN6.\n");
 
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
@@ -159,13 +161,11 @@ void CrPsCmd3s27PrgrN6(FwPrDesc_t prDesc)
 /** Action for node N7. */
 void CrPsCmd3s27PrgrN7(FwPrDesc_t prDesc)
 {
-  prDescGenerateHkOneShotPrgr_t* prDataPtr;
-  CrFwCmpData_t* cmpData;
-  FwSmDesc_t smDesc;
+  prDescGenerateHkOneShotPrgr_t *prDataPtr;
+  CrFwCmpData_t                 *cmpData;
+  FwSmDesc_t                     smDesc;
 
   /* Set action outcome to 'continue' */
-
-  DEBUGP_3("CrPsCmd3s27PrgrN7.\n");
 
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
@@ -182,12 +182,10 @@ void CrPsCmd3s27PrgrN7(FwPrDesc_t prDesc)
 /** Action for node N8. */
 void CrPsCmd3s27PrgrN8(FwPrDesc_t prDesc)
 {
-  prDescGenerateHkOneShotPrgr_t* prDataPtr;
-  unsigned char* sid;
+  prDescGenerateHkOneShotPrgr_t *prDataPtr;
+  CrPsSid_t                     *sid;
 
   /* Start processing the first valid SID in the command */
-
-  DEBUGP_3("CrPsCmd3s27PrgrN8.\n");
 
   /* Get sid from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
@@ -196,7 +194,6 @@ void CrPsCmd3s27PrgrN8(FwPrDesc_t prDesc)
   /* Get first SID */
   iSid = 0;
   currentSid = sid[iSid];
-  printf("CrPsCmd3s27PrgrN8. SID = %d\n", currentSid);
 
   return;	
 }
@@ -204,8 +201,8 @@ void CrPsCmd3s27PrgrN8(FwPrDesc_t prDesc)
 /** Action for node N9. */
 void CrPsCmd3s27PrgrN9(FwPrDesc_t prDesc)
 {
-  prDescGenerateHkOneShotPrgr_t* prDataPtr;
-  unsigned char* sid;
+  prDescGenerateHkOneShotPrgr_t *prDataPtr;
+  CrPsSid_t                     *sid;
 
   /* Process the next valid SID in the command */
 
@@ -228,6 +225,7 @@ void CrPsCmd3s27PrgrN9(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s27PrgrG1(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
+
   /* OutFactory fails to return a report */
 
   if (rep == NULL)
@@ -243,8 +241,8 @@ FwPrBool_t CrPsCmd3s27PrgrG1(FwPrDesc_t prDesc)
 /** Guard on the Control Flow from DECISION2 to N6. */
 FwPrBool_t CrPsCmd3s27PrgrG2(FwPrDesc_t prDesc)
 {
-  prDescGenerateHkOneShotPrgr_t* prDataPtr;
-  unsigned char* sid;
+  prDescGenerateHkOneShotPrgr_t *prDataPtr;
+  CrPsSid_t                     *sid;
 
   /* This SID was the last valid SID in the (3,27) or (3,28) */
 
@@ -267,9 +265,8 @@ FwPrBool_t CrPsCmd3s27PrgrG2(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s27PrgrG3(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  /* Next Execution  */
 
-  DEBUGP_3("CrPsCmd3s27PrgrG3.\n");
+  /* Next Execution  */
 
   if (FwPrGetNodeExecCnt(prDesc))
     {

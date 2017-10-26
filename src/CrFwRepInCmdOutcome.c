@@ -26,7 +26,8 @@
 #include <CrFwCmpData.h>
 
 /* Include PUS Extension Files*/
-#include <CrPsUtilities.h>
+#include <CrPsUtilitiesServReqVerif.h>
+#include <CrPsUtilitiesServTest.h>
 #include <Services/General/CrPsConstants.h>
 
 /* Include Standard Files*/

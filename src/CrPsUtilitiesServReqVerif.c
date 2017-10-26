@@ -9,7 +9,7 @@
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
  */
 
-#include "CrPsUtilities.h"
+#include "CrPsUtilitiesServReqVerif.h"
 #include "Pckt/CrFwPckt.h"     /* --- interface to adaptation point CrFwPckt --- */
 
 
@@ -24,101 +24,31 @@
 #include <FwSmConfig.h>
 
 #include <Services/General/CrPsConstants.h>
-#include <Services/Test/Procedures/CrPsCmd17s3StartCreate.h>
-#include <Services/Test/Procedures/CrPsCmd17s3PrgrCreate.h>
 #include <Services/RequestVerification/Procedures/CrPsPcktReroutingFailCreate.h>
 #include <Services/RequestVerification/Procedures/CrPsPcktAccFailCreate.h>
 #include <Services/RequestVerification/Procedures/CrPsCmdVerSuccCreate.h>
 #include <Services/RequestVerification/Procedures/CrPsCmdVerFailCreate.h>
 #include <Services/RequestVerification/Procedures/CrPsCmdPrgrSuccCreate.h>
 #include <Services/RequestVerification/Procedures/CrPsCmdPrgrFailCreate.h>
-#include <Services/Housekeeping/Procedures/CrPsCmd3s1StartCreate.h>
-#include <Services/Housekeeping/Procedures/CrPsCmd3s3StartCreate.h>
-#include <Services/Housekeeping/Procedures/CrPsCmd3s9PrgrCreate.h>
-#include <Services/Housekeeping/Procedures/CrPsRep3s25ReadyCreate.h>
-#include <Services/Housekeeping/Procedures/CrPsCmd3SidStartCreate.h>
-#include <Services/Housekeeping/Procedures/CrPsCmd3s27PrgrCreate.h>
 
 #include <DataPool/CrPsDp.h>
-#include <DataPool/CrPsDpServTest.h>
 #include <DataPool/CrPsDpServReqVerif.h>
-#include <DataPool/CrPsDpServHk.h>
-#include <DataPool/CrPsDpServEvt.h>
-/*hier CrPsDpPkt dateien hinzufügen!*/
 
 #include <stdio.h>
 #include <stdlib.h>
 
 /* global handles for the procedures */
-FwPrDesc_t prDescServTestOnBoardConnStart, prDescServTestOnBoardConnPrgr;
 FwPrDesc_t prDescServReqVerifPcktReroutFail, prDescServReqVerifPcktAccFail;
 FwPrDesc_t prDescServReqVerifCmdVerSucc, prDescServReqVerifCmdVerFail;
 FwPrDesc_t prDescServReqVerifCmdPrgrSucc, prDescServReqVerifCmdPrgrFail;
-FwPrDesc_t prDescHkCmd3s1Start, prDescHkCmd3s3Start, prDescCmd3s9Prgr, prDescHkRepReadyCheck;
-FwPrDesc_t prDescMultiSidCmdStart, prDescGenerateHkOneShotPrgr;
 
-
-/**
- * Initialization of CORDET Framework PUS Extension application-specific components
- */
-void CrPsInitApp(unsigned short onBoardTestConnectAppId)
-{
-  unsigned short destId;
-  unsigned int i, pos;
-
-  printf("CrPsInitApp(%d): Mult = %d\n", onBoardTestConnectAppId, 10);
-
-  /*************************************************************/
-  /* Service Test On-Board Connection Data Pool Initialization */
-  /*************************************************************/
-  for (i=0; i<10; i++)
-    {
-      pos = i;
-      destId = getDpOnBoardConnectDestLstItem(pos);
-      printf("CrPsInitApp(): got destId %d at slot %d from data pool\n", destId, i);
-      if (destId == 0) /* got empty#include <> slot */
-        {
-          printf("CrPsInitApp(): new slot for appId found: pos = %d\n", pos);
-          setDpOnBoardConnectDestLstItem(pos, onBoardTestConnectAppId);
-          return;
-        }
-    }
-
-  printf("CrPsInitApp(): no empty slot found!\n");
-  return;
-}
 
 /**
  * Initialization of CORDET Framework PUS Extension components
  */
-int CrPsInit()
+int CrPsInitServReqVerif()
 {
-  printf("CrPsInit()\n");
-
-  /***********************************************************************/
-  /* Initialization of Data Pool variables and parameter                 */
-  /***********************************************************************/
-  setDpAreYouAliveTimeOut(10);
-
-  /***********************************************************************/
-  /* Service Test On-Board Connection Start Procedure                    */
-  /***********************************************************************/
-  prDescServTestOnBoardConnStart = CrPsCmd17s3StartCreate(NULL);
-  if (FwPrCheck(prDescServTestOnBoardConnStart) != prSuccess)
-    {
-      printf("Service Test On-Board Connection Start PR is NOT properly configured ... FAILURE\n");
-      return EXIT_FAILURE;
-    }
-
-  /***********************************************************************/
-  /* Service Test On-Board Connection Progress Procedure                 */
-  /***********************************************************************/
-  prDescServTestOnBoardConnPrgr = CrPsCmd17s3PrgrCreate(NULL);
-  if (FwPrCheck(prDescServTestOnBoardConnPrgr) != prSuccess)
-    {
-      printf("Service Test On-Board Connection Progress PR is NOT properly configured ... FAILURE\n");
-      return EXIT_FAILURE;
-    }
+  printf("CrPsInitServReqVerif()\n");
 
   /***********************************************************************/
   /* Service Request Verification Packet Rerouting Failure Procedure     */
@@ -180,126 +110,18 @@ int CrPsInit()
       return EXIT_FAILURE;
     }
 
-  /***********************************************************************/
-  /* Service Housekeeping Create Hk ParRep Procedure                     */
-  /***********************************************************************/
-  prDescHkCmd3s1Start = CrPsCmd3s1StartCreate(NULL);
-  if (FwPrCheck(prDescHkCmd3s1Start) != prSuccess)
-    {
-      printf("The procedure CrPsCmd3s1Start is NOT properly configured ... FAILURE\n");
-      return EXIT_FAILURE;
-    }
-  FwPrStart(prDescHkCmd3s1Start);
-
-  /***********************************************************************/
-  /* Service Housekeeping Delete HK Struct Procedure                     */
-  /***********************************************************************/
-  prDescHkCmd3s3Start = CrPsCmd3s3StartCreate(NULL);
-  if (FwPrCheck(prDescHkCmd3s3Start) != prSuccess)
-    {
-      printf("The procedure CrPsCmd3s3Start is NOT properly configured ... FAILURE\n");
-      return EXIT_FAILURE;
-    }
-  FwPrStart(prDescHkCmd3s3Start);
-
-  /***********************************************************************/
-  /* Service Housekeeping HkRep Ready Check Procedure                    */
-  /***********************************************************************/
-  prDescHkRepReadyCheck = CrPsRep3s25ReadyCreate(NULL);
-  if (FwPrCheck(prDescHkRepReadyCheck) != prSuccess)
-    {
-      printf("The procedure CrPsRep3s25Ready is NOT properly configured ... FAILURE\n");
-      return EXIT_FAILURE;
-    }
-  FwPrStart(prDescHkRepReadyCheck);
-
-  /***********************************************************************/
-  /* Service Housekeeping Multi-SID Command Procedure                    */
-  /***********************************************************************/
-  prDescMultiSidCmdStart = CrPsCmd3SidStartCreate(NULL);
-  if (FwPrCheck(prDescMultiSidCmdStart) != prSuccess) {
-    printf("The procedure CrPsCmd3SidStart is NOT properly configured ... FAILURE\n");
-    return EXIT_FAILURE;
-  }
-
-  /***********************************************************************/
-  /* Service Housekeeping HkRepStructCmd Command Procedure               */
-  /***********************************************************************/
-  prDescCmd3s9Prgr = CrPsCmd3s9PrgrCreate(NULL);
-  if (FwPrCheck(prDescCmd3s9Prgr) != prSuccess) {
-    printf("The procedure CrPsCmd3s9Prgr is NOT properly configured ... FAILURE\n");
-    return EXIT_FAILURE;
-  }
-
-  /***********************************************************************/
-  /* Service Housekeeping Generate One-Shot HK Report Procedure          */
-  /***********************************************************************/
-  prDescGenerateHkOneShotPrgr = CrPsCmd3s27PrgrCreate(NULL);
-  if (FwPrCheck(prDescGenerateHkOneShotPrgr) != prSuccess) {
-    printf("The procedure CrPsCmd3s27Prgr is NOT properly configured ... FAILURE\n");
-    return EXIT_FAILURE;
-  }
-
   /* initialize Datapool Values */
   initDpServReqVerif();
-  initDpServTest();
-  initDpServHk(); 
-  initDpServEvt();
 
-  /* ONLY FOR TEST PURPOSES */
-{
-  int i;
-  uint16_t sid;
-  uint8_t isEnabled;
-  uint32_t cycleCnt;
-  uint16_t dest;
-  uint16_t lstId[2]; /* TODO: should be an array */
-  uint32_t period;
-
-  i = 0; /* = SidSlot */
-  sid = 1; /* Periodic HK */
-  isEnabled = 1;
-  cycleCnt = 2;
-  dest = 0;
-  lstId[0] = 234; /* 0x00EA */
-  lstId[1] = 123;
-  period = 8;
-  setDpsidItem(i, sid); 
-  setDpisEnabledItem(i, isEnabled);
-  setDpcycleCntItem(i, cycleCnt);
-  setDpdestItem(i, dest);
-  setDpperiodItem(i, period);
-
-  setDplstIdItem(i*HK_MAX_N_ITEMS+0, lstId[0]);
-  setDplstIdItem(i*HK_MAX_N_ITEMS+1, lstId[1]);
-
-
-
-  /* verify data in data pool */
-  printf("SID verified = %d\n", getDpsidItem(i));
-
-  i = 2; /* = SidSlot */
-  sid = 2; /* Periodic HK */
-  lstId[0] = 567; /* 0x0237 */
-  lstId[1] = 890; 
-  setDpsidItem(i, sid); 
-  setDplstIdItem(i*HK_MAX_N_ITEMS+0, lstId[0]);
-  setDplstIdItem(i*HK_MAX_N_ITEMS+1, lstId[1]);
-
-}
-  
   return EXIT_SUCCESS;
 }
 
 /**
  * Execution of CORDET Framework PUS Extension components
  */
-void CrPsExec()
+void CrPsExecServReqVerif()
 {
-  printf("CrPsExec()\n");
-
-  FwPrExecute(prDescServTestOnBoardConnStart);
-  /*FwPrExecute(prDescServTestOnBoardConnPrgr);*/
+  printf("CrPsExecServReqVerif()\n");
 
   return;
 }

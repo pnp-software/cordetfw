@@ -1,5 +1,5 @@
 /**
- * \file
+ * \file CrPsPktServReqVerif.h
  *
  * Interface for accessing fields in packets of service "ServReqVerif".
  *
@@ -10,7 +10,10 @@
 #ifndef CRPSPKTSERVREQVERIF_H_
 #define CRPSPKTSERVREQVERIF_H_
 
+#include "CrFwUserConstants.h"
+
 #include "CrPsDpTypes.h"
+#include "CrPsUserConstants.h"
 
 #include "CrPsPkt.h"
 /**
@@ -25,12 +28,12 @@ typedef struct __attribute__((packed)) _VerSuccessAccRep_t {
   /**
    * Copy of the PACKET ID fields of the command being reported on
    */
-  uint16_t TcPacketId;
+  CrFwTypeId_t TcPacketId;
   
   /**
    * Copy of the PACKET SEQUENCE CONTROL fields of the received command
    */
-  uint16_t TcPacketSeqCtrl;
+  CrPsSeqCtrl_t TcPacketSeqCtrl;
   
 } VerSuccessAccRep_t ;
 
@@ -46,37 +49,37 @@ typedef struct __attribute__((packed)) _VerFailedAccRep_t {
   /**
    * The failure idetification code.
    */
-  uint16_t TcFailureCode;
+  CrPsFailCode_t TcFailureCode;
   
   /**
    * Copy of the PACKET ID fields of the command being reported on
    */
-  uint16_t TcPacketId;
+  CrFwTypeId_t TcPacketId;
   
   /**
    * Copy of the PACKET SEQUENCE CONTROL fields of the received command
    */
-  uint16_t TcPacketSeqCtrl;
+  CrPsSeqCtrl_t TcPacketSeqCtrl;
   
   /**
    * Packet type from the received TC
    */
-  uint8_t TcType;
+  CrFwServType_t TcType;
   
   /**
    * Packet sub-type from the received TC
    */
-  uint8_t TcSubtype;
+  CrFwServSubType_t TcSubtype;
   
   /**
    * Discriminant from the received TC
    */
-  uint8_t TcDisc;
+  CrFwDiscriminant_t TcDisc;
   
   /**
    * The failure Data
    */
-  uint32_t TcFailureData;
+  CrPsFailData_t TcFailureData;
   
 } VerFailedAccRep_t ;
 
@@ -92,12 +95,12 @@ typedef struct __attribute__((packed)) _VerSuccessStartRep_t {
   /**
    * Copy of the PACKET ID fields of the command being reported on
    */
-  uint16_t TcPacketId;
+  CrFwTypeId_t TcPacketId;
   
   /**
    * Copy of the PACKET SEQUENCE CONTROL fields of the received command
    */
-  uint16_t TcPacketSeqCtrl;
+  CrPsSeqCtrl_t TcPacketSeqCtrl;
   
 } VerSuccessStartRep_t ;
 
@@ -113,37 +116,37 @@ typedef struct __attribute__((packed)) _VerFailedStartRep_t {
   /**
    * The failure idetification code.
    */
-  uint16_t TcFailureCode;
+  CrPsFailCode_t TcFailureCode;
   
   /**
    * Copy of the PACKET ID fields of the command being reported on
    */
-  uint16_t TcPacketId;
+  CrFwTypeId_t TcPacketId;
   
   /**
    * Copy of the PACKET SEQUENCE CONTROL fields of the received command
    */
-  uint16_t TcPacketSeqCtrl;
+  CrPsSeqCtrl_t TcPacketSeqCtrl;
   
   /**
    * Packet type from the received TC
    */
-  uint8_t TcType;
+  CrFwServType_t TcType;
   
   /**
    * Packet sub-type from the received TC
    */
-  uint8_t TcSubtype;
+  CrFwServSubType_t TcSubtype;
   
   /**
    * Discriminant from the received TC
    */
-  uint8_t TcDisc;
+  CrFwDiscriminant_t TcDisc;
   
   /**
    * The failure Data
    */
-  uint32_t TcFailureData;
+  CrPsFailData_t TcFailureData;
   
 } VerFailedStartRep_t ;
 
@@ -159,17 +162,17 @@ typedef struct __attribute__((packed)) _VerSuccessPrgrRep_t {
   /**
    * Copy of the PACKET ID fields of the command being reported on
    */
-  uint16_t TcPacketId;
+  CrFwTypeId_t TcPacketId;
   
   /**
    * Copy of the PACKET SEQUENCE CONTROL fields of the received command
    */
-  uint16_t TcPacketSeqCtrl;
+  CrPsSeqCtrl_t TcPacketSeqCtrl;
   
   /**
    * Step ID
    */
-  uint32_t StepId;
+  CrPsStepId_t StepId;
   
 } VerSuccessPrgrRep_t ;
 
@@ -185,42 +188,42 @@ typedef struct __attribute__((packed)) _VerFailedPrgrRep_t {
   /**
    * The failure idetification code.
    */
-  uint16_t TcFailureCode;
+  CrPsFailCode_t TcFailureCode;
   
   /**
    * Copy of the PACKET ID fields of the command being reported on
    */
-  uint16_t TcPacketId;
+  CrFwTypeId_t TcPacketId;
   
   /**
    * Copy of the PACKET SEQUENCE CONTROL fields of the received command
    */
-  uint16_t TcPacketSeqCtrl;
+  CrPsSeqCtrl_t TcPacketSeqCtrl;
   
   /**
    * Step ID
    */
-  uint32_t StepId;
+  CrPsStepId_t StepId;
   
   /**
    * Packet type from the received TC
    */
-  uint8_t TcType;
+  CrFwServType_t TcType;
   
   /**
    * Packet sub-type from the received TC
    */
-  uint8_t TcSubtype;
+  CrFwServSubType_t TcSubtype;
   
   /**
    * Discriminant from the received TC
    */
-  uint8_t TcDisc;
+  CrFwDiscriminant_t TcDisc;
   
   /**
    * The failure Data
    */
-  uint32_t TcFailureData;
+  CrPsFailData_t TcFailureData;
   
 } VerFailedPrgrRep_t ;
 
@@ -236,12 +239,12 @@ typedef struct __attribute__((packed)) _VerSuccessTermRep_t {
   /**
    * Copy of the PACKET ID fields of the command being reported on
    */
-  uint16_t TcPacketId;
+  CrFwTypeId_t TcPacketId;
   
   /**
    * Copy of the PACKET SEQUENCE CONTROL fields of the received command
    */
-  uint16_t TcPacketSeqCtrl;
+  CrPsSeqCtrl_t TcPacketSeqCtrl;
   
 } VerSuccessTermRep_t ;
 
@@ -257,37 +260,37 @@ typedef struct __attribute__((packed)) _VerFailedTermRep_t {
   /**
    * The failure idetification code.
    */
-  uint16_t TcFailureCode;
+  CrPsFailCode_t TcFailureCode;
   
   /**
    * Copy of the PACKET ID fields of the command being reported on
    */
-  uint16_t TcPacketId;
+  CrFwTypeId_t TcPacketId;
   
   /**
    * Copy of the PACKET SEQUENCE CONTROL fields of the received command
    */
-  uint16_t TcPacketSeqCtrl;
+  CrPsSeqCtrl_t TcPacketSeqCtrl;
   
   /**
    * Packet type from the received TC
    */
-  uint8_t TcType;
+  CrFwServType_t TcType;
   
   /**
    * Packet sub-type from the received TC
    */
-  uint8_t TcSubtype;
+  CrFwServSubType_t TcSubtype;
   
   /**
    * Discriminant from the received TC
    */
-  uint8_t TcDisc;
+  CrFwDiscriminant_t TcDisc;
   
   /**
    * The failure Data
    */
-  uint32_t TcFailureData;
+  CrPsFailData_t TcFailureData;
   
 } VerFailedTermRep_t ;
 
@@ -303,37 +306,37 @@ typedef struct __attribute__((packed)) _VerFailedRoutingRep_t {
   /**
    * The failure idetification code.
    */
-  uint16_t TcFailureCode;
+  CrPsFailCode_t TcFailureCode;
   
   /**
    * Copy of the PACKET ID fields of the command being reported on
    */
-  uint16_t TcPacketId;
+  CrFwTypeId_t TcPacketId;
   
   /**
    * Copy of the PACKET SEQUENCE CONTROL fields of the received command
    */
-  uint16_t TcPacketSeqCtrl;
+  CrPsSeqCtrl_t TcPacketSeqCtrl;
   
   /**
    * Packet type from the received TC
    */
-  uint8_t TcType;
+  CrFwServType_t TcType;
   
   /**
    * Packet sub-type from the received TC
    */
-  uint8_t TcSubtype;
+  CrFwServSubType_t TcSubtype;
   
   /**
    * Discriminant from the received TC
    */
-  uint8_t TcDisc;
+  CrFwDiscriminant_t TcDisc;
   
   /**
    * invalid Destination for Rerouting Failure
    */
-  uint16_t invDest;
+  CrPsDestSrc_t invDest;
   
 } VerFailedRoutingRep_t ;
 

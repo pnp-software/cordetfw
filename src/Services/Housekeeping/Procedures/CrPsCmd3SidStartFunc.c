@@ -30,7 +30,8 @@
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsPktServHk.h>
 #include <Services/General/CrPsPktServHkSupp.h>
-#include <CrPsUtilities.h>
+#include <CrPsUtilitiesServHk.h>
+#include <CrPsUtilitiesServReqVerif.h>
 #include <CrPsUserConstants.h>
 #include <CrPsDebug.h>
 
@@ -38,8 +39,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-unsigned int i, iSidFail, iMax;
-unsigned char currentSid;
+CrFwCounterU4_t i, iSidFail, iMax;
+CrPsSid_t       currentSid;
 
 
 /* ----------------------------------------------------------------------------------------------------------------- */
@@ -47,27 +48,24 @@ unsigned char currentSid;
 /** Action for node N1. */
 void CrPsCmd3SidStartN1(FwPrDesc_t prDesc)
 {
-  CrFwCmpData_t      *cmpData;
-  CrFwInCmdData_t    *cmpSpecificData;
-  CrFwPckt_t          pckt;
-  FwSmDesc_t smDesc;  
+  CrFwCmpData_t            *cmpData;
+  CrFwInCmdData_t          *cmpSpecificData;
+  CrFwPckt_t                pckt;
+  FwSmDesc_t                smDesc;  
   prDescMultiSidCmdStart_t *prDataPtr;
-  CrFwServSubType_t servSubType;
+  CrFwServSubType_t         servSubType;
 
   /*Set i equal to 1 */
 
-  DEBUGP_3("CrPsCmd3SidStartN1.\n");
-
   i = 0;
   iSidFail = 0;
-  printf("CrPsCmd3SidStartN1: i = %d\n", i);
 
   /* Get smDesc from prData */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
 
   /* Get in data */
-  cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+  cmpData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
   cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
   pckt            = cmpSpecificData->pckt;
 
@@ -76,38 +74,38 @@ void CrPsCmd3SidStartN1(FwPrDesc_t prDesc)
   switch(servSubType)
   {
     case 5:
-      currentSid = getHkEnableCmdRepStrucIdItem(pckt, 0); 
+      currentSid = getHkEnableCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkEnableCmdN(pckt); 
       break;
     case 7:
-      currentSid = getHkEnableCmdRepStrucIdItem(pckt, 0); 
+      currentSid = getHkEnableCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkEnableCmdN(pckt); 
       break;
 
     case 6:
-      currentSid = getHkDisableCmdRepStrucIdItem(pckt, 0); 
+      currentSid = getHkDisableCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkDisableCmdN(pckt); 
       break;
     case 8:
-      currentSid = getHkDisableCmdRepStrucIdItem(pckt, 0); 
+      currentSid = getHkDisableCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkDisableCmdN(pckt);     
       break;
 
     case 9:
-      currentSid = getHkRepStructCmdRepStrucIdItem(pckt, 0); 
+      currentSid = getHkRepStructCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkRepStructCmdN(pckt); 
       break;
     case 11:
-      currentSid = getHkRepStructCmdRepStrucIdItem(pckt, 0); 
+      currentSid = getHkRepStructCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkRepStructCmdN(pckt); 
       break;
 
     case 27:
-      currentSid = getHkOneShotCmdRepStrucIdItem(pckt, 0); 
+      currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkOneShotCmdN(pckt); 
       break;
     case 28:
-      currentSid = getHkOneShotCmdRepStrucIdItem(pckt, 0); 
+      currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkOneShotCmdN(pckt); 
       break;
 
@@ -124,9 +122,8 @@ void CrPsCmd3SidStartN1(FwPrDesc_t prDesc)
 void CrPsCmd3SidStartN2(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  /*Load invalid SID in data pool item verFailData */
 
-  DEBUGP_3("CrPsCmd3SidStartN2.\n");
+  /*Load invalid SID in data pool item verFailData */
 
   iSidFail++;
   setDpverFailData((uint32_t)currentSid);
@@ -137,12 +134,10 @@ void CrPsCmd3SidStartN2(FwPrDesc_t prDesc)
 /** Action for node N3. */
 void CrPsCmd3SidStartN3(FwPrDesc_t prDesc)
 {
-  FwSmDesc_t smDesc;	
+  FwSmDesc_t                smDesc;	
   prDescMultiSidCmdStart_t *prDataPtr;
 
   /* Run Command Verification Failure Procedure to generate (1,4) report with failure code VER_ILL_SID */
-
-  DEBUGP_3("CrPsCmd3SidStartN3.\n");
 
   /* Get smDesc from prData */
   prDataPtr = FwPrGetData(prDesc);
@@ -156,26 +151,23 @@ void CrPsCmd3SidStartN3(FwPrDesc_t prDesc)
 /** Action for node N4. */
 void CrPsCmd3SidStartN4(FwPrDesc_t prDesc)
 {
-  CrFwCmpData_t      *cmpData;
-  CrFwInCmdData_t    *cmpSpecificData;
-  CrFwPckt_t          pckt;
-  FwSmDesc_t smDesc;  
+  CrFwCmpData_t            *cmpData;
+  CrFwInCmdData_t          *cmpSpecificData;
+  CrFwPckt_t                pckt;
+  FwSmDesc_t                smDesc;  
   prDescMultiSidCmdStart_t *prDataPtr;
-  CrFwServSubType_t servSubType;
+  CrFwServSubType_t         servSubType;
 
   /*Increment i */
 
-  DEBUGP_3("CrPsCmd3SidStartN4.\n");
-
   i++;
-  printf("CrPsCmd3SidStartN4: i = %d\n", i);
 
   /* Get smDesc from prData */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
 
   /* Get in data */
-  cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+  cmpData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
   cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
   pckt            = cmpSpecificData->pckt;
 
@@ -184,31 +176,31 @@ void CrPsCmd3SidStartN4(FwPrDesc_t prDesc)
   switch(servSubType)
   {
     case 5:
-      currentSid = getHkEnableCmdRepStrucIdItem(pckt, i); 
+      currentSid = getHkEnableCmdRepStrucIdItem(pckt, i+1); 
       break;
     case 7:
-      currentSid = getHkEnableCmdRepStrucIdItem(pckt, i); 
+      currentSid = getHkEnableCmdRepStrucIdItem(pckt, i+1); 
       break;
 
     case 6:
-      currentSid = getHkDisableCmdRepStrucIdItem(pckt, i); 
+      currentSid = getHkDisableCmdRepStrucIdItem(pckt, i+1); 
       break;
     case 8:
-      currentSid = getHkDisableCmdRepStrucIdItem(pckt, i); 
+      currentSid = getHkDisableCmdRepStrucIdItem(pckt, i+1); 
       break;
 
     case 9:
-      currentSid = getHkRepStructCmdRepStrucIdItem(pckt, i); 
+      currentSid = getHkRepStructCmdRepStrucIdItem(pckt, i+1); 
       break;
     case 11:
-      currentSid = getHkRepStructCmdRepStrucIdItem(pckt, i); 
+      currentSid = getHkRepStructCmdRepStrucIdItem(pckt, i+1); 
       break;
 
     case 27:
-      currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i); 
+      currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i+1); 
       break;
     case 28:
-      currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i); 
+      currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i+1); 
       break;
 
     default:
@@ -222,13 +214,11 @@ void CrPsCmd3SidStartN4(FwPrDesc_t prDesc)
 /** Action for node N7. */
 void CrPsCmd3SidStartN7(FwPrDesc_t prDesc)
 {
-  prDescMultiSidCmdStart_t* prDataPtr;
-  CrFwCmpData_t* cmpData;
-  FwSmDesc_t smDesc;
+  prDescMultiSidCmdStart_t *prDataPtr;
+  CrFwCmpData_t            *cmpData;
+  FwSmDesc_t                smDesc;
 
   /*Set action outcome to 'success' */
-
-  DEBUGP_3("CrPsCmd3SidStartN7.\n");
 
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
@@ -245,13 +235,11 @@ void CrPsCmd3SidStartN7(FwPrDesc_t prDesc)
 /** Action for node N8. */
 void CrPsCmd3SidStartN8(FwPrDesc_t prDesc)
 {
-  prDescMultiSidCmdStart_t* prDataPtr;
-  CrFwCmpData_t* cmpData;
-  FwSmDesc_t smDesc;
+  prDescMultiSidCmdStart_t *prDataPtr;
+  CrFwCmpData_t            *cmpData;
+  FwSmDesc_t                smDesc;
   
   /*Set action outcome to 'failure' with failure code VER_SID_START_FD */
-
-  DEBUGP_3("CrPsCmd3SidStartN8.\n");
 
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
@@ -272,19 +260,16 @@ void CrPsCmd3SidStartN8(FwPrDesc_t prDesc)
 /** Guard on the Control Flow from DECISION1 to N2. */
 FwPrBool_t CrPsCmd3SidStartG1(FwPrDesc_t prDesc)
 {
-  unsigned char rdlSid, rdlSlot;
+  CrPsSid_t rdlSid, rdlSlot;
 
   CRFW_UNUSED(prDesc);
-  /*The i-th SID is not in the RDL */
 
-  DEBUGP_3("CrPsCmd3SidStartG1.\n");
+  /*The i-th SID is not in the RDL */
 
   /* look for the slot */
   for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
     {
-
       rdlSid = getDpsidItem(rdlSlot);
-      printf("SID in RDL[%d] = %d\n", rdlSlot, rdlSid);
       
       if (currentSid == rdlSid)
         break;
@@ -293,7 +278,6 @@ FwPrBool_t CrPsCmd3SidStartG1(FwPrDesc_t prDesc)
   /* sid not found in list */
   if (rdlSlot == HK_N_REP_DEF)
     {
-      printf("SID %d not found!\n", currentSid);
       return 1;
     }
   else
@@ -306,28 +290,26 @@ FwPrBool_t CrPsCmd3SidStartG1(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3SidStartG2(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  /*The i-th SID was the last SID in the command*/
 
-  DEBUGP_3("CrPsCmd3SidStartG2.\n");
+  /*The i-th SID was the last SID in the command*/
 
   if (i == iMax-1)
     {
       return 1;
     }
   else
-  	{
-	  return 0;  		
-  	}
+    {
+      return 0;  		
+    }
 }
 
 /** Guard on the Control Flow from DECISION4 to N8. */
 FwPrBool_t CrPsCmd3SidStartG3(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
+
   /*All SIDs in the command are invalid */
 	
-  DEBUGP_3("CrPsCmd3SidStartG3.\n");
-
   if (iSidFail == iMax)
     {
       return 1;

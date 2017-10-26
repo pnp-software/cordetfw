@@ -30,9 +30,8 @@
 #include "FwSmConfig.h"
 
 #include <CrPsUserConstants.h>
-#include <CrPsUtilities.h>
+#include <CrPsUtilitiesServHk.h>
 #include <DataPool/CrPsDp.h>
-#include <DataPool/CrPsDpServHk.h>
 #include <DataPool/CrPsDpServHk.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsPktServHk.h> 
@@ -43,13 +42,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define HK_MAX_DP_MULT_SIZE 100
+
 uint32_t SampleBuffer[HK_MAX_REP][HK_MAX_N_REP][HK_MAX_N_GR][HK_N_SAMP_BUF];
 
 
 CrFwBool_t CrPsHkRepEnableCheck(FwSmDesc_t smDesc)
 {
-  unsigned char sid, rdlSid, rdlSlot;
-  CrFwBool_t rdlEnabled;
+  CrPsSid_t sid, rdlSid, rdlSlot;
 
   CrFwCmpData_t      *cmpData;
   CrFwInCmdData_t    *cmpSpecificData;
@@ -58,41 +58,30 @@ CrFwBool_t CrPsHkRepEnableCheck(FwSmDesc_t smDesc)
 
   /* The enable status is read from the isEnabled field of the Report Definition corresponding to the report’s SID */
 
-  DEBUGP_3("CrPsHkRepEnableCheck: TBD \n");
-
   cmpData	        = (CrFwCmpData_t   *) FwSmGetData(smDesc);
   cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
   pckt		        = cmpSpecificData->pckt;
   disc            = CrFwPcktGetDiscriminant(pckt);
 
   /* Get the SID: discriminant for HK is the SID */
-  sid = (unsigned char) disc;
-  printf("CrPsHkRepEnableCheck: SID = %d \n", sid);
+  sid = (CrPsSid_t) disc;
 
   /* look for the slot */
   for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
     {
-
       rdlSid = getDpsidItem(rdlSlot);
-      printf("SID in RDL[%d] = %d\n", rdlSlot, rdlSid);
       
       if (sid == rdlSid)
         break;
     }
 
-  /* TODO: sid not found in list */
+  /* sid not defined in list */
   if (rdlSlot == HK_N_REP_DEF)
     {
-      DEBUGP("SID %d not found!\n", sid);
-      /*SendTcStartRepFail(pckt, ACK_SID_NOT_USED, 0, (unsigned short)sid);*/ /* TODO: send TM(1,2)? */
       return 0;
     }
 
-  /* Read the Enable status */
-  rdlEnabled = getDpisEnabledItem(rdlSlot);
-  printf("isEnabled in RDL[%d] = %d\n", rdlSlot, rdlEnabled);
-
-  return rdlEnabled;
+  return 1;
 }
 
 CrFwBool_t CrPsHkRepReadyCheck(FwSmDesc_t smDesc)
@@ -102,13 +91,9 @@ CrFwBool_t CrPsHkRepReadyCheck(FwSmDesc_t smDesc)
   CrFwPckt_t          pckt;
   CrFwDiscriminant_t  disc;
   prDataHkRepReadyCheck_t prData;
-  unsigned char sid;
-
-  CRFW_UNUSED(smDesc);
+  CrPsSid_t           sid;
 
   /* Run the procedure Ready Check of HkRep Report of figure 9.5 */
-
-  DEBUGP_3("CrPsHkRepReadyCheck: TBD \n");
 
   cmpData         = (CrFwCmpData_t   *) FwSmGetData(smDesc);
   cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
@@ -116,8 +101,7 @@ CrFwBool_t CrPsHkRepReadyCheck(FwSmDesc_t smDesc)
   disc            = CrFwPcktGetDiscriminant(pckt);
 
   /* Get the SID: discriminant for HK is the SID */
-  sid = (unsigned char) disc;
-  printf("CrPsHkRepReadyCheck: SID = %d \n", sid);
+  sid = (CrPsSid_t) disc;
 
   /* Set prData of procedure   */
   /* initial setting of prData */
@@ -125,41 +109,40 @@ CrFwBool_t CrPsHkRepReadyCheck(FwSmDesc_t smDesc)
   prData.sid = sid;
   FwPrSetData(prDescHkRepReadyCheck, &prData);
 
+  FwPrStart(prDescHkRepReadyCheck);
   FwPrExecute(prDescHkRepReadyCheck);
 
   cmpData = (CrFwCmpData_t   *) FwSmGetData(smDesc);
-  printf("CrPsHkRepReadyCheck: outcome = %d \n", cmpData->outcome);
 
   return cmpData->outcome;
 }
 
 void CrPsHkRepUpdateAction(FwSmDesc_t smDesc)
 {
-  unsigned char sid, rdlSid, rdlSlot;
+  CrPsSid_t sid, rdlSid, rdlSlot;
 
   CrFwCmpData_t      *cmpData;
   CrFwInCmdData_t    *cmpSpecificData;
   CrFwPckt_t          pckt;
   CrFwDiscriminant_t  disc;
 
-  uint32_t i, j, k;
+  unsigned int i, j, k, s;
 
-  uint32_t N1, NFA, N2;
-  uint16_t N1ParamId;
-  uint32_t SCSampleRepNum;
-  uint16_t N2ParamId;  
+  CrFwCounterU4_t N1, NFA, N2;
+  CrPsParamId_t N1ParamId;
+  CrPsRepNum_t SCSampleRepNum;
+  CrPsParamId_t N2ParamId;  
   size_t size;
   uint8_t N1ParamCharValue, N2ParamCharValue;
   uint16_t N1ParamShortValue, N2ParamShortValue;
   uint32_t N1ParamIntValue, N2ParamIntValue;
   uint32_t pos_data;
   unsigned int offset;
+  unsigned char N1ParamValue[HK_MAX_DP_MULT_SIZE];
 
   /* Load the value of the simply-commutated data items from the data pool 
    * and that of the super-commutated data items from the Sampling Buffer 
    * associated to the report’s SID according to the Report Definition. */
-
-  DEBUGP_3("CrPsHkRepUpdateAction: TBD \n");
 
   /* Get packet and discriminant */
   cmpData	        = (CrFwCmpData_t   *) FwSmGetData(smDesc);
@@ -167,15 +150,15 @@ void CrPsHkRepUpdateAction(FwSmDesc_t smDesc)
   pckt		        = cmpSpecificData->pckt;
   disc            = CrFwPcktGetDiscriminant(pckt);
 
+  debugPacket(pckt, 28);
+
   /* Set SID equal to discriminant */
-  sid = (unsigned char) disc;
+  sid = (CrPsSid_t) disc;
 
   /* look for the slot */
   for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
     {
-
       rdlSid = getDpsidItem(rdlSlot);
-      printf("SID in RDL[%d] = %d\n", rdlSlot, rdlSid);
 
       if (sid == rdlSid)
         break;
@@ -197,7 +180,6 @@ void CrPsHkRepUpdateAction(FwSmDesc_t smDesc)
           N1ParamId = getDplstIdItem(rdlSlot*HK_MAX_N_ITEMS + i);
 
           /* Set value in out-going packet */
-          /* TODO: at which position in packet ? */
           size = getDpSize(N1ParamId);
           switch (size)
           {
@@ -217,6 +199,15 @@ void CrPsHkRepUpdateAction(FwSmDesc_t smDesc)
               pos_data += 4;
               break;
             default:
+              getDpValue(N1ParamId, N1ParamValue);
+              if (size<=HK_MAX_DP_MULT_SIZE)
+                {
+                  for (s=0; s<size; s++)
+                    {
+                      setPcktChar(pckt, pos_data, N1ParamValue[s]);
+                      pos_data += 1;
+                    }
+                }
               break;
           }
         }
@@ -224,7 +215,7 @@ void CrPsHkRepUpdateAction(FwSmDesc_t smDesc)
     }
 
   NFA = getNFA(rdlSlot);
-  
+
   if (NFA!=0)
     {
       offset = 0;
@@ -239,12 +230,11 @@ void CrPsHkRepUpdateAction(FwSmDesc_t smDesc)
 
           for (i=0; i<SCSampleRepNum; i++)
             {
-              for (j=0; j< N2; j++)
+              for (j=0; j<N2; j++)
                 {
                   N2ParamId = getDplstIdItem(rdlSlot*HK_MAX_N_ITEMS + N1 + offset + j);
 
                   /* Set value in out-going packet */
-                  /* TODO: at which position in packet ? */
                   size = getDpSize(N2ParamId);
                   switch (size)
                   {
@@ -277,6 +267,8 @@ void CrPsHkRepUpdateAction(FwSmDesc_t smDesc)
         }
 
     }
+
+  debugPacket(pckt, 28);
 
   cmpData->outcome = 1;
 

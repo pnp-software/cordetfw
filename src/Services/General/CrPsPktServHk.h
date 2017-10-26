@@ -1,5 +1,5 @@
 /**
- * \file
+ * \file CrPsPktServHk.h
  *
  * Interface for accessing fields in packets of service "ServHk".
  *
@@ -11,8 +11,10 @@
 #define CRPSPKTSERVHK_H_
 
 #include "CrPsDpTypes.h"
-
 #include "CrPsPkt.h"
+#include "CrPsUserConstants.h"
+#include "CrFwUserConstants.h"
+
 /**
  * Structure for HkCreateCmd
  */
@@ -25,42 +27,42 @@ typedef struct __attribute__((packed)) _HkCreateCmd_t {
   /**
    * Housekeeping or Diagnostic Parameter Report Structure ID (enumerated)
    */
-  uint8_t RepStrucId;
+  CrPsSid_t RepStrucId;
   
   /**
    * Collection interval uint
    */
-  uint32_t CollectionInterval;
+  CrPsCollectInterval_t CollectionInterval;
   
   /**
    * ?? N1
    */
-  uint32_t N1;
+  CrFwCounterU4_t N1;
   
   /**
    * Parameter ID (repeated N1 Times)
    */
-  uint16_t N1ParamId;
+  CrPsParamId_t N1ParamId;
   
   /**
    * ?? NFA
    */
-  uint32_t NFA;
+  CrFwCounterU4_t NFA;
   
   /**
    * Super Commutated Sample Repetition Number (repeated NFA times)
    */
-  uint32_t SCSampleRepNum;
+  CrPsRepNum_t SCSampleRepNum;
   
   /**
    * ?? N2
    */
-  uint32_t N2;
+  CrFwCounterU4_t N2;
   
   /**
    * Parameter ID (repeated NFA times) and (repeated N2 times)
    */
-  uint16_t N2ParamId;
+  CrPsParamId_t N2ParamId;
   
 } HkCreateCmd_t ;
 
@@ -76,12 +78,12 @@ typedef struct __attribute__((packed)) _HkDeleteCmd_t {
   /**
    * ?? N
    */
-  uint32_t N;
+  CrFwCounterU4_t N;
   
   /**
    * Housekeeping or Diagnostic Parameter Report Structure ID (enumerated)
    */
-  uint8_t RepStrucId;
+  CrPsSid_t RepStrucId;
   
 } HkDeleteCmd_t ;
 
@@ -97,12 +99,12 @@ typedef struct __attribute__((packed)) _HkEnableCmd_t {
   /**
    * ?? N
    */
-  uint32_t N;
+  CrFwCounterU4_t N;
   
   /**
    * Housekeeping or Diagnostic Parameter Report Structure ID (enumerated)
    */
-  uint8_t RepStrucId;
+  CrPsSid_t RepStrucId;
   
 } HkEnableCmd_t ;
 
@@ -118,12 +120,12 @@ typedef struct __attribute__((packed)) _HkDisableCmd_t {
   /**
    * ?? N
    */
-  uint32_t N;
+  CrFwCounterU4_t N;
   
   /**
    * Housekeeping or Diagnostic Parameter Report Structure ID (enumerated)
    */
-  uint8_t RepStrucId;
+  CrPsSid_t RepStrucId;
   
 } HkDisableCmd_t ;
 
@@ -139,12 +141,12 @@ typedef struct __attribute__((packed)) _HkRepStructCmd_t {
   /**
    * ?? N
    */
-  uint32_t N;
+  CrFwCounterU4_t N;
   
   /**
    * Housekeeping or Diagnostic Parameter Report Structure ID (enumerated)
    */
-  uint8_t RepStrucId;
+  CrPsSid_t RepStrucId;
   
 } HkRepStructCmd_t ;
 
@@ -160,12 +162,12 @@ typedef struct __attribute__((packed)) _HkRepStructRep_t {
   /**
    * Housekeeping or Diagnostic Parameter Report Structure ID (enumerated)
    */
-  uint8_t RepStrucId;
+  CrPsSid_t RepStrucId;
   
   /**
    * Periodic Generation Action Status (enumerated)
    */
-  uint8_t PeriodicGenActionStatus;
+  CrPsStatus_t PeriodicGenActionStatus;
   
   /**
    * Collection interval uint
@@ -175,32 +177,32 @@ typedef struct __attribute__((packed)) _HkRepStructRep_t {
   /**
    * ?? N1
    */
-  uint32_t N1;
+  CrFwCounterU4_t N1;
   
   /**
    * Parameter ID (repeated N1 Times)
    */
-  uint16_t N1ParamId;
+  CrPsParamId_t N1ParamId;
   
   /**
    * ?? NFA
    */
-  uint32_t NFA;
+  CrFwCounterU4_t NFA;
   
   /**
    * Super Commutated Sample Repetition Number (repeated NFA times)
    */
-  uint32_t SCSampleRepNum;
+  CrPsRepNum_t SCSampleRepNum;
   
   /**
    * ?? N2
    */
-  uint32_t N2;
+  CrFwCounterU4_t N2;
   
   /**
    * Parameter ID (repeated NFA times) and (repeated N2 times)
    */
-  uint16_t N2ParamId;
+  CrPsParamId_t N2ParamId;
   
 } HkRepStructRep_t ;
 
@@ -216,12 +218,12 @@ typedef struct __attribute__((packed)) _HkRep_t {
   /**
    * Housekeeping or Diagnostic Parameter Report Structure ID (enumerated)
    */
-  uint8_t RepStrucId;
+  CrPsSid_t RepStrucId;
   
   /**
    * Parameter Value
    */
-  uint32_t ParamVal;
+  CrPsParamValueU4_t ParamVal;
   
 } HkRep_t ;
 
@@ -237,12 +239,12 @@ typedef struct __attribute__((packed)) _HkOneShotCmd_t {
   /**
    * ?? N
    */
-  uint32_t N;
+  CrFwCounterU4_t N;
   
   /**
    * Housekeeping or Diagnostic Parameter Report Structure ID (enumerated)
    */
-  uint8_t RepStrucId;
+  CrPsSid_t RepStrucId;
   
 } HkOneShotCmd_t ;
 

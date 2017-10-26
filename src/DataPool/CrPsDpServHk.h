@@ -83,14 +83,20 @@ typedef struct {
 extern DpServHkParams_t dpServHkParams;
 extern DpServHkVars_t dpServHkVars;
 
-/*Sampling Buffer */
+/*Sampling Buffer 
+
+first 1 bis HK_N_SAMP_BUFFER
+second 2 max nr of groups HK_MAX_N_GR
+third max nr of items in a group HK_MAX_N_REP
+fourth max nr of sc values HK_MAX_REP
+
+*/
 extern uint32_t SampleBuffer[HK_MAX_REP][HK_MAX_N_REP][HK_MAX_N_GR][HK_N_SAMP_BUF];
 
 /**
  * Initialises ServHk
  */
 void initDpServHk(void);
-
 
 /**
  * Gets a Datapool Buffer Element

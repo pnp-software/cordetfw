@@ -22,7 +22,6 @@
 FwPrBool_t CrPsCmd3SidStartG1E(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);
-	DEBUGP_3("CrPsCmd3SidStartG1E.\n");
 	return 1;
 }
 
@@ -30,7 +29,6 @@ FwPrBool_t CrPsCmd3SidStartG1E(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3SidStartG2E(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);
-	DEBUGP_3("CrPsCmd3SidStartG2E.\n");
 	return 1;
 }
 
@@ -38,7 +36,6 @@ FwPrBool_t CrPsCmd3SidStartG2E(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3SidStartG3E(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);
-	DEBUGP_3("CrPsCmd3SidStartG3E.\n");
 	return 1;
 }
 
