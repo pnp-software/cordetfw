@@ -13,14 +13,6 @@
 #include "CrFwConstants.h"
 
 /**
- * ReadyCheck of the Perform Connection Test in-coming command packet.
- * Dummy that returns always TRUE
- * @param smDesc the state machine descriptor
- * @return always TRUE
- */
-CrFwBool_t CrPsTestAreYouAliveConnectionReadyCheck(FwSmDesc_t smDesc);
-
-/**
  * Start action of the Perform Connection Test in-coming command packet.
  * Set the action outcome to 'success'
  * @param smDesc the state machine descriptor
@@ -40,15 +32,6 @@ void CrPsTestAreYouAliveConnectionProgressAction(FwSmDesc_t smDesc);
  * @param smDesc the state machine descriptor
  */
 void CrPsTestAreYouAliveConnectionTerminationAction(FwSmDesc_t smDesc);
-
-/**
- * Abort Action of the Perform Connection Test in-coming command packet.
- * Always generates outcome=1
- * @param smDesc the state machine descriptor
- */
-void CrPsTestAreYouAliveConnectionAbortAction(FwSmDesc_t smDesc);
-
-
 
 #endif /* CRPS_TEST_AREYOUALIVE_CONNECTION_H */
 

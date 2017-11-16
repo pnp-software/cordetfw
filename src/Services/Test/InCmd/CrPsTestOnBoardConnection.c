@@ -33,29 +33,15 @@
 
 unsigned short timeOut_cnt;
 
-
-/* ------------------------------------------------------------------------------------ */
-CrFwBool_t CrPsTestOnBoardConnectionReadyCheck(FwSmDesc_t smDesc) 
-{
-  CRFW_UNUSED(smDesc);
-
-  /* Return 'command is ready' */
-  DEBUGP_17("CrPsTestOnBoardConnectionReadyCheck()\n");
-
-  return 1;
-}
-
-/* ------------------------------------------------------------------------------------ */
 void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t smDesc) 
 {
-  CrFwCmpData_t* cmpDataStart;
-  CrFwInCmdData_t* cmpSpecificData;
-  CrFwPckt_t inPckt;
-  unsigned short appId;
-  prDataStartAction_t* prDataStartActionPtr;
+  CrFwCmpData_t       *cmpDataStart;
+  CrFwInCmdData_t     *cmpSpecificData;
+  CrFwPckt_t           inPckt;
+  CrPsApid_t           appId;
+  prDataStartAction_t *prDataStartActionPtr;
 
   /* Run the procedure Start Action of OnBoardConnectCmd Command (see figure 13.1 in PP-DF-COR-003) */
-  DEBUGP_17("CrPsTestOnBoardConnectionStartAction()\n");
 
   /* Get in packet */
   cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(smDesc);
@@ -71,7 +57,7 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t smDesc)
   
   /* store in data pool */
   setDpOnBoardConnectDest(appId);
-  printf("getDpOnBoardConnectDest() %d \n", getDpOnBoardConnectDest());
+
   /* Run the procedure */
   FwPrRun(prDescServTestOnBoardConnStart);
 
@@ -87,16 +73,14 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t smDesc)
 /* ------------------------------------------------------------------------------------ */
 void CrPsTestOnBoardConnectionProgressAction(FwSmDesc_t smDesc) 
 {
-  CrFwCmpData_t* cmpDataPrgr;
-  CrFwInCmdData_t* cmpSpecificData;
-  CrFwPckt_t inPckt;
-  CrFwDestSrc_t srcId;
-  prDataPrgrAction_t* prDataPrgrActionPtr;
-  /*prDataPrgrActionPtr = (prDataPrgrAction_t *)malloc(sizeof(prDataPrgrAction_t));*/
-
+  CrFwCmpData_t      *cmpDataPrgr;
+  CrFwInCmdData_t    *cmpSpecificData;
+  CrFwPckt_t          inPckt;
+  CrFwDestSrc_t       srcId;
+  prDataPrgrAction_t *prDataPrgrActionPtr;
+  
   /* Run the procedure Progress Action of OnBoardConnectCmd Command (see figure 13.2 in PP-DF-COR-003) */
-  DEBUGP_17("CrPsTestOnBoardConnectionProgressAction()\n");
-
+  
   /* Get in packet */
   cmpDataPrgr     = (CrFwCmpData_t   *) FwSmGetData(smDesc);
   cmpSpecificData = (CrFwInCmdData_t *) cmpDataPrgr->cmpSpecificData;
@@ -129,13 +113,12 @@ void CrPsTestOnBoardConnectionProgressAction(FwSmDesc_t smDesc)
 /* ------------------------------------------------------------------------------------ */
 void CrPsTestOnBoardConnectionTerminationAction(FwSmDesc_t smDesc) 
 {
-  CrFwCmpData_t* inData;
-  prDataPrgrAction_t* prDataPrgrActionPtr;
-  unsigned short outcome;
+  CrFwCmpData_t      *inData;
+  prDataPrgrAction_t *prDataPrgrActionPtr;
+  unsigned short      outcome;
 
   /* Set action outcome to 'success' if the (17,4) report was issued and to 'failure' otherwise */
-  DEBUGP_17("CrPsTestOnBoardConnectionTerminationAction()\n");
-
+  
   /* Get in data */
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
   
@@ -154,16 +137,5 @@ void CrPsTestOnBoardConnectionTerminationAction(FwSmDesc_t smDesc)
       inData->outcome = 0;
     }
  
-  return;
-}
-
-/* ------------------------------------------------------------------------------------ */
-void CrPsTestOnBoardConnectionAbortAction(FwSmDesc_t smDesc) 
-{
-  CRFW_UNUSED(smDesc);
-
-  /* Do nothing */
-  DEBUGP_17("CrPsTestOnBoardConnectionAbortAction()\n");
-
   return;
 }

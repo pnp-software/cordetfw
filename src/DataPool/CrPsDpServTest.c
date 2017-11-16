@@ -18,7 +18,13 @@ DpServTestVars_t dpServTestVars ;
  */
 void initDpServTest(void)
 {
-  static const uint16_t initOnBoardConnectDestLst[10] = {0,0,0,0,0,0,0,0,0,0};
+  uint32_t i;
+
+  static CrPsDestSrc_t initOnBoardConnectDestLst[TEST_MAX_APP];
+  for (i=0;i<TEST_MAX_APP;i++)
+  {
+    initOnBoardConnectDestLst[i] = 0;
+  }
 
   dpServTestParams.AreYouAliveTimeOut = 10;
   memcpy(dpServTestParams.OnBoardConnectDestLst, initOnBoardConnectDestLst, sizeof(dpServTestParams.OnBoardConnectDestLst));

@@ -10,7 +10,9 @@
 #ifndef CRPSDPSERVTEST_H_
 #define CRPSDPSERVTEST_H_
 
-#include "CrPsDpTypes.h"
+#include <CrFwUserConstants.h>
+#include <CrPsUserConstants.h>
+#include <CrPsDpTypes.h>
 
 /**
  * Type description
@@ -20,12 +22,12 @@ typedef struct {
    * Time-out for the Are-You-Alive Test initiated in response to an
    * Is-Application-Process-Alive Test
    */
-  uint32_t AreYouAliveTimeOut;
+  CrPsTimeOut_t AreYouAliveTimeOut;
   /**
    * List of identifiers of target applications for an On-Board-Connection
    * Test
    */
-  uint16_t OnBoardConnectDestLst[10];
+  CrPsDestSrc_t OnBoardConnectDestLst[TEST_MAX_APP];
 } DpServTestParams_t;
 
 /**
@@ -36,11 +38,11 @@ typedef struct {
    * Source of the latest (17,2) report received in response to a (17,1)
    * command triggered by a (17,3) command
    */
-  uint16_t AreYouAliveSrc;
+  CrPsDestSrc_t AreYouAliveSrc;
   /**
    * Destination of the (17,1) triggered by a (17,3) command
    */
-  uint16_t OnBoardConnectDest;
+  CrPsDestSrc_t OnBoardConnectDest;
 } DpServTestVars_t;
 
 extern DpServTestParams_t dpServTestParams;
@@ -55,7 +57,7 @@ void initDpServTest(void);
  * Gets the value of the datapool item AreYouAliveTimeOut
  * \return The value of datapool item AreYouAliveTimeOut
  */
-static inline uint32_t getDpAreYouAliveTimeOut()
+static inline CrPsTimeOut_t getDpAreYouAliveTimeOut()
 {
   return dpServTestParams.AreYouAliveTimeOut;
 }
@@ -65,7 +67,7 @@ static inline uint32_t getDpAreYouAliveTimeOut()
  * \param AreYouAliveTimeOut The value to be stored into the datapool item
  * AreYouAliveTimeOut.
  */
-static inline void setDpAreYouAliveTimeOut(uint32_t AreYouAliveTimeOut)
+static inline void setDpAreYouAliveTimeOut(CrPsTimeOut_t AreYouAliveTimeOut)
 {
   dpServTestParams.AreYouAliveTimeOut = AreYouAliveTimeOut;
 }
@@ -74,7 +76,7 @@ static inline void setDpAreYouAliveTimeOut(uint32_t AreYouAliveTimeOut)
  * Gets the datapool array OnBoardConnectDestLst
  * \return The datapool array OnBoardConnectDestLst
  */
-static inline uint16_t* getDpOnBoardConnectDestLstArray()
+static inline CrPsDestSrc_t* getDpOnBoardConnectDestLstArray()
 {
   return &dpServTestParams.OnBoardConnectDestLst[0];
 }
@@ -85,7 +87,7 @@ static inline uint16_t* getDpOnBoardConnectDestLstArray()
  * \param i Index variable
  * \return The i-th element in the datapool array OnBoardConnectDestLst
  */
-static inline uint16_t getDpOnBoardConnectDestLstItem(int i)
+static inline CrPsDestSrc_t getDpOnBoardConnectDestLstItem(int i)
 {
   return dpServTestParams.OnBoardConnectDestLst[i];
 }
@@ -97,7 +99,7 @@ static inline uint16_t getDpOnBoardConnectDestLstItem(int i)
  * \param OnBoardConnectDestLst The value to be stored into the i-th element
  * of datapool array OnBoardConnectDestLst.
  */
-static inline void setDpOnBoardConnectDestLstItem(int i, uint16_t OnBoardConnectDestLst)
+static inline void setDpOnBoardConnectDestLstItem(int i, CrPsDestSrc_t OnBoardConnectDestLst)
 {
   dpServTestParams.OnBoardConnectDestLst[i] = OnBoardConnectDestLst;
 }
@@ -106,7 +108,7 @@ static inline void setDpOnBoardConnectDestLstItem(int i, uint16_t OnBoardConnect
  * Gets the value of the datapool item AreYouAliveSrc
  * \return The value of datapool item AreYouAliveSrc
  */
-static inline uint16_t getDpAreYouAliveSrc()
+static inline CrPsDestSrc_t getDpAreYouAliveSrc()
 {
   return dpServTestVars.AreYouAliveSrc;
 }
@@ -116,7 +118,7 @@ static inline uint16_t getDpAreYouAliveSrc()
  * \param AreYouAliveSrc The value to be stored into the datapool item
  * AreYouAliveSrc.
  */
-static inline void setDpAreYouAliveSrc(uint16_t AreYouAliveSrc)
+static inline void setDpAreYouAliveSrc(CrPsDestSrc_t AreYouAliveSrc)
 {
   dpServTestVars.AreYouAliveSrc = AreYouAliveSrc;
 }
@@ -125,7 +127,7 @@ static inline void setDpAreYouAliveSrc(uint16_t AreYouAliveSrc)
  * Gets the value of the datapool item OnBoardConnectDest
  * \return The value of datapool item OnBoardConnectDest
  */
-static inline uint16_t getDpOnBoardConnectDest()
+static inline CrPsDestSrc_t getDpOnBoardConnectDest()
 {
   return dpServTestVars.OnBoardConnectDest;
 }
@@ -135,7 +137,7 @@ static inline uint16_t getDpOnBoardConnectDest()
  * \param OnBoardConnectDest The value to be stored into the datapool item
  * OnBoardConnectDest.
  */
-static inline void setDpOnBoardConnectDest(uint16_t OnBoardConnectDest)
+static inline void setDpOnBoardConnectDest(CrPsDestSrc_t OnBoardConnectDest)
 {
   dpServTestVars.OnBoardConnectDest = OnBoardConnectDest;
 }

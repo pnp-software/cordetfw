@@ -14,14 +14,6 @@
 #include "CrFwConstants.h"
 
 /**
- * Validity check of the Are-YouAlive Test in-coming report packet.
- * Compute the CRC for the report and returns true if the CRC is correct and false otherwise.
- * @param smDesc the state machine descriptor
- * @return the validity check result
- */
-CrFwBool_t CrPsTestAreYouAliveConnectInRepValidityCheck(FwPrDesc_t prDesc);
-
-/**
  * Update action of the Are-YouAlive Test in-coming report packet.
  * @param prDesc the procedure descriptor
  */

@@ -73,7 +73,7 @@ typedef struct __attribute__((packed)) _OnBoardConnectRep_t {
  * \param p Pointer to the packet.
  * \return Value of "AppId".
  */
-static inline uint16_t getOnBoardConnectCmdAppId(void* p)
+static inline CrPsApid_t getOnBoardConnectCmdAppId(void* p)
 {
   OnBoardConnectCmd_t* t;
   t = (OnBoardConnectCmd_t*)p;
@@ -85,7 +85,7 @@ static inline uint16_t getOnBoardConnectCmdAppId(void* p)
  * \param p Pointer to the packet.
  * \param AppId Value of "AppId" to be set in packet.
  */
-static inline void setOnBoardConnectCmdAppId(void* p, uint16_t AppId)
+static inline void setOnBoardConnectCmdAppId(void* p, CrPsApid_t AppId)
 {
   OnBoardConnectCmd_t* t;
   t = (OnBoardConnectCmd_t*)p;
@@ -97,7 +97,7 @@ static inline void setOnBoardConnectCmdAppId(void* p, uint16_t AppId)
  * \param p Pointer to the packet.
  * \return Value of "Dest".
  */
-static inline uint16_t getOnBoardConnectRepDest(void* p)
+static inline CrPsDestSrc_t getOnBoardConnectRepDest(void* p)
 {
   OnBoardConnectRep_t* t;
   t = (OnBoardConnectRep_t*)p;
@@ -109,7 +109,7 @@ static inline uint16_t getOnBoardConnectRepDest(void* p)
  * \param p Pointer to the packet.
  * \param Dest Value of "Dest" to be set in packet.
  */
-static inline void setOnBoardConnectRepDest(void* p, uint16_t Dest)
+static inline void setOnBoardConnectRepDest(void* p, CrPsDestSrc_t Dest)
 {
   OnBoardConnectRep_t* t;
   t = (OnBoardConnectRep_t*)p;

@@ -16,15 +16,6 @@
 /* global handles */
 extern unsigned short timeOut_cnt;
 
-
-/**
- * ReadyCheck of the Perform Connection Test in-coming command packet.
- * Dummy that returns always TRUE
- * @param smDesc the state machine descriptor
- * @return always TRUE
- */
-CrFwBool_t CrPsTestOnBoardConnectionReadyCheck(FwSmDesc_t smDesc);
-
 /**
  * Start action of the Perform Connection Test in-coming command packet.
  * Set the action outcome to 'success'
@@ -45,13 +36,6 @@ void CrPsTestOnBoardConnectionProgressAction(FwSmDesc_t smDesc);
  * @param smDesc the state machine descriptor
  */
 void CrPsTestOnBoardConnectionTerminationAction(FwSmDesc_t smDesc);
-
-/**
- * Abort Action of the Perform Connection Test in-coming command packet.
- * Always generates outcome=1
- * @param smDesc the state machine descriptor
- */
-void CrPsTestOnBoardConnectionAbortAction(FwSmDesc_t smDesc);
 
 #endif /* CRPS_TEST_ONBOARD_CONNECTION_H */
 
