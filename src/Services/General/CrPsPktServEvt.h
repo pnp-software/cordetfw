@@ -11,6 +11,8 @@
 #define CRPSPKTSERVEVT_H_
 
 #include "CrPsDpTypes.h"
+#include <CrFwUserConstants.h>
+#include <CrPsUserConstants.h>
 
 #include "CrPsPkt.h"
 /**
@@ -25,12 +27,12 @@ typedef struct __attribute__((packed)) _EvtRep1_t {
   /**
    * Event Definition ID (enumerated)
    */
-  uint8_t EventId;
+  CrPsEid_t EventId;
   
   /**
    * Auxiliary Data
    */
-  uint32_t AuxData;
+  CrPsAux_t AuxData;
   
 } EvtRep1_t ;
 
@@ -46,12 +48,12 @@ typedef struct __attribute__((packed)) _EvtRep2_t {
   /**
    * Event Definition ID (enumerated)
    */
-  uint8_t EventId;
+  CrPsEid_t EventId;
   
   /**
    * Auxiliary Data
    */
-  uint32_t AuxData;
+  CrPsAux_t AuxData;
   
 } EvtRep2_t ;
 
@@ -67,12 +69,12 @@ typedef struct __attribute__((packed)) _EvtRep3_t {
   /**
    * Event Definition ID (enumerated)
    */
-  uint8_t EventId;
+  CrPsEid_t EventId;
   
   /**
    * Auxiliary Data
    */
-  uint32_t AuxData;
+  CrPsAux_t AuxData;
   
 } EvtRep3_t ;
 
@@ -88,12 +90,12 @@ typedef struct __attribute__((packed)) _EvtRep4_t {
   /**
    * Event Definition ID (enumerated)
    */
-  uint8_t EventId;
+  CrPsEid_t EventId;
   
   /**
    * Auxiliary Data
    */
-  uint32_t AuxData;
+  CrPsAux_t AuxData;
   
 } EvtRep4_t ;
 
@@ -109,12 +111,12 @@ typedef struct __attribute__((packed)) _EvtEnableCmd_t {
   /**
    * Capable of containing the [0, +2^32 -1] range
    */
-  uint32_t N;
+  CrPsNumberU4_t N;  /* TODO create getter and setter for this packets!!*/
   
   /**
    * Event Definition ID (enumerated)
    */
-  uint8_t EventId;
+  CrPsEid_t EventId;
   
 } EvtEnableCmd_t ;
 
@@ -130,12 +132,12 @@ typedef struct __attribute__((packed)) _EvtDisableCmd_t {
   /**
    * Capable of containing the [0, +2^32 -1] range
    */
-  uint32_t N;
+  CrPsNumberU4_t N;
   
   /**
    * Event Definition ID (enumerated)
    */
-  uint8_t EventId;
+  CrPsEid_t EventId;
   
 } EvtDisableCmd_t ;
 
@@ -162,25 +164,25 @@ typedef struct __attribute__((packed)) _EvtRepDisabledRep_t {
   /**
    * Capable of containing the [0, +2^32 -1] range
    */
-  uint32_t N;
+  CrPsNumberU4_t N;
   
   /**
    * Event Definition ID (enumerated)
    */
-  uint8_t EventId;
+  CrPsEid_t EventId;
   
-} EvtRepDisabledRep_t ;
+} EvtRepDisabledRep_t ; /* TODO give all getters and setters the right type !!*/
 
 /**
  * Get "EventId" from "EvtRep1" packet.
  * \param p Pointer to the packet.
  * \return Value of "EventId".
  */
-static inline uint8_t getEvtRep1EventId(void* p)
+static inline CrPsEid_t getEvtRep1EventId(void* p)
 {
   EvtRep1_t* t;
   t = (EvtRep1_t*)p;
-  return t->EventId;
+  return __builtin_bswap16(t->EventId);
 }
 
 /**
@@ -188,11 +190,11 @@ static inline uint8_t getEvtRep1EventId(void* p)
  * \param p Pointer to the packet.
  * \param EventId Value of "EventId" to be set in packet.
  */
-static inline void setEvtRep1EventId(void* p, uint8_t EventId)
+static inline void setEvtRep1EventId(void* p, CrPsEid_t EventId)
 {
   EvtRep1_t* t;
   t = (EvtRep1_t*)p;
-  t->EventId = EventId;
+  t->EventId = __builtin_bswap16(EventId);
 }
 
 /**
@@ -200,7 +202,7 @@ static inline void setEvtRep1EventId(void* p, uint8_t EventId)
  * \param p Pointer to the packet.
  * \return Value of "AuxData".
  */
-static inline uint32_t getEvtRep1AuxData(void* p)
+static inline CrPsAux_t getEvtRep1AuxData(void* p)
 {
   EvtRep1_t* t;
   t = (EvtRep1_t*)p;
@@ -212,7 +214,7 @@ static inline uint32_t getEvtRep1AuxData(void* p)
  * \param p Pointer to the packet.
  * \param AuxData Value of "AuxData" to be set in packet.
  */
-static inline void setEvtRep1AuxData(void* p, uint32_t AuxData)
+static inline void setEvtRep1AuxData(void* p, CrPsAux_t AuxData)
 {
   EvtRep1_t* t;
   t = (EvtRep1_t*)p;
@@ -224,11 +226,11 @@ static inline void setEvtRep1AuxData(void* p, uint32_t AuxData)
  * \param p Pointer to the packet.
  * \return Value of "EventId".
  */
-static inline uint8_t getEvtRep2EventId(void* p)
+static inline CrPsEid_t getEvtRep2EventId(void* p)
 {
   EvtRep2_t* t;
   t = (EvtRep2_t*)p;
-  return t->EventId;
+  return __builtin_bswap16(t->EventId);
 }
 
 /**
@@ -236,11 +238,11 @@ static inline uint8_t getEvtRep2EventId(void* p)
  * \param p Pointer to the packet.
  * \param EventId Value of "EventId" to be set in packet.
  */
-static inline void setEvtRep2EventId(void* p, uint8_t EventId)
+static inline void setEvtRep2EventId(void* p, CrPsEid_t EventId)
 {
   EvtRep2_t* t;
   t = (EvtRep2_t*)p;
-  t->EventId = EventId;
+  t->EventId = __builtin_bswap16(EventId);
 }
 
 /**
@@ -248,7 +250,7 @@ static inline void setEvtRep2EventId(void* p, uint8_t EventId)
  * \param p Pointer to the packet.
  * \return Value of "AuxData".
  */
-static inline uint32_t getEvtRep2AuxData(void* p)
+static inline CrPsAux_t getEvtRep2AuxData(void* p)
 {
   EvtRep2_t* t;
   t = (EvtRep2_t*)p;
@@ -260,7 +262,7 @@ static inline uint32_t getEvtRep2AuxData(void* p)
  * \param p Pointer to the packet.
  * \param AuxData Value of "AuxData" to be set in packet.
  */
-static inline void setEvtRep2AuxData(void* p, uint32_t AuxData)
+static inline void setEvtRep2AuxData(void* p, CrPsAux_t AuxData)
 {
   EvtRep2_t* t;
   t = (EvtRep2_t*)p;
@@ -272,11 +274,11 @@ static inline void setEvtRep2AuxData(void* p, uint32_t AuxData)
  * \param p Pointer to the packet.
  * \return Value of "EventId".
  */
-static inline uint8_t getEvtRep3EventId(void* p)
+static inline CrPsEid_t getEvtRep3EventId(void* p)
 {
   EvtRep3_t* t;
   t = (EvtRep3_t*)p;
-  return t->EventId;
+  return __builtin_bswap16(t->EventId);
 }
 
 /**
@@ -284,11 +286,11 @@ static inline uint8_t getEvtRep3EventId(void* p)
  * \param p Pointer to the packet.
  * \param EventId Value of "EventId" to be set in packet.
  */
-static inline void setEvtRep3EventId(void* p, uint8_t EventId)
+static inline void setEvtRep3EventId(void* p, CrPsEid_t EventId)
 {
   EvtRep3_t* t;
   t = (EvtRep3_t*)p;
-  t->EventId = EventId;
+  t->EventId = __builtin_bswap16(EventId);
 }
 
 /**
@@ -296,7 +298,7 @@ static inline void setEvtRep3EventId(void* p, uint8_t EventId)
  * \param p Pointer to the packet.
  * \return Value of "AuxData".
  */
-static inline uint32_t getEvtRep3AuxData(void* p)
+static inline CrPsAux_t getEvtRep3AuxData(void* p)
 {
   EvtRep3_t* t;
   t = (EvtRep3_t*)p;
@@ -308,7 +310,7 @@ static inline uint32_t getEvtRep3AuxData(void* p)
  * \param p Pointer to the packet.
  * \param AuxData Value of "AuxData" to be set in packet.
  */
-static inline void setEvtRep3AuxData(void* p, uint32_t AuxData)
+static inline void setEvtRep3AuxData(void* p, CrPsAux_t AuxData)
 {
   EvtRep3_t* t;
   t = (EvtRep3_t*)p;
@@ -320,11 +322,11 @@ static inline void setEvtRep3AuxData(void* p, uint32_t AuxData)
  * \param p Pointer to the packet.
  * \return Value of "EventId".
  */
-static inline uint8_t getEvtRep4EventId(void* p)
+static inline CrPsEid_t getEvtRep4EventId(void* p)
 {
   EvtRep4_t* t;
   t = (EvtRep4_t*)p;
-  return t->EventId;
+  return __builtin_bswap16(t->EventId);
 }
 
 /**
@@ -332,11 +334,11 @@ static inline uint8_t getEvtRep4EventId(void* p)
  * \param p Pointer to the packet.
  * \param EventId Value of "EventId" to be set in packet.
  */
-static inline void setEvtRep4EventId(void* p, uint8_t EventId)
+static inline void setEvtRep4EventId(void* p, CrPsEid_t EventId)
 {
   EvtRep4_t* t;
   t = (EvtRep4_t*)p;
-  t->EventId = EventId;
+  t->EventId = __builtin_bswap16(EventId);
 }
 
 /**
@@ -344,7 +346,7 @@ static inline void setEvtRep4EventId(void* p, uint8_t EventId)
  * \param p Pointer to the packet.
  * \return Value of "AuxData".
  */
-static inline uint32_t getEvtRep4AuxData(void* p)
+static inline CrPsAux_t getEvtRep4AuxData(void* p)
 {
   EvtRep4_t* t;
   t = (EvtRep4_t*)p;
@@ -356,7 +358,7 @@ static inline uint32_t getEvtRep4AuxData(void* p)
  * \param p Pointer to the packet.
  * \param AuxData Value of "AuxData" to be set in packet.
  */
-static inline void setEvtRep4AuxData(void* p, uint32_t AuxData)
+static inline void setEvtRep4AuxData(void* p, CrPsAux_t AuxData)
 {
   EvtRep4_t* t;
   t = (EvtRep4_t*)p;
@@ -368,7 +370,7 @@ static inline void setEvtRep4AuxData(void* p, uint32_t AuxData)
  * \param p Pointer to the packet.
  * \return Value of "N".
  */
-static inline uint32_t getEvtEnableCmdN(void* p)
+static inline CrPsNumberU4_t getEvtEnableCmdN(void* p)
 {
   EvtEnableCmd_t* t;
   t = (EvtEnableCmd_t*)p;
@@ -380,7 +382,7 @@ static inline uint32_t getEvtEnableCmdN(void* p)
  * \param p Pointer to the packet.
  * \param N Value of "N" to be set in packet.
  */
-static inline void setEvtEnableCmdN(void* p, uint32_t N)
+static inline void setEvtEnableCmdN(void* p, CrPsNumberU4_t N)
 {
   EvtEnableCmd_t* t;
   t = (EvtEnableCmd_t*)p;
@@ -388,35 +390,11 @@ static inline void setEvtEnableCmdN(void* p, uint32_t N)
 }
 
 /**
- * Get "EventId" from "EvtEnableCmd" packet.
- * \param p Pointer to the packet.
- * \return Value of "EventId".
- */
-static inline uint8_t getEvtEnableCmdEventId(void* p)
-{
-  EvtEnableCmd_t* t;
-  t = (EvtEnableCmd_t*)p;
-  return t->EventId;
-}
-
-/**
- * Set "EventId" in "EvtEnableCmd" packet.
- * \param p Pointer to the packet.
- * \param EventId Value of "EventId" to be set in packet.
- */
-static inline void setEvtEnableCmdEventId(void* p, uint8_t EventId)
-{
-  EvtEnableCmd_t* t;
-  t = (EvtEnableCmd_t*)p;
-  t->EventId = EventId;
-}
-
-/**
  * Get "N" from "EvtDisableCmd" packet.
  * \param p Pointer to the packet.
  * \return Value of "N".
  */
-static inline uint32_t getEvtDisableCmdN(void* p)
+static inline CrPsNumberU4_t getEvtDisableCmdN(void* p)
 {
   EvtDisableCmd_t* t;
   t = (EvtDisableCmd_t*)p;
@@ -428,7 +406,7 @@ static inline uint32_t getEvtDisableCmdN(void* p)
  * \param p Pointer to the packet.
  * \param N Value of "N" to be set in packet.
  */
-static inline void setEvtDisableCmdN(void* p, uint32_t N)
+static inline void setEvtDisableCmdN(void* p, CrPsNumberU4_t N)
 {
   EvtDisableCmd_t* t;
   t = (EvtDisableCmd_t*)p;
@@ -436,35 +414,11 @@ static inline void setEvtDisableCmdN(void* p, uint32_t N)
 }
 
 /**
- * Get "EventId" from "EvtDisableCmd" packet.
- * \param p Pointer to the packet.
- * \return Value of "EventId".
- */
-static inline uint8_t getEvtDisableCmdEventId(void* p)
-{
-  EvtDisableCmd_t* t;
-  t = (EvtDisableCmd_t*)p;
-  return t->EventId;
-}
-
-/**
- * Set "EventId" in "EvtDisableCmd" packet.
- * \param p Pointer to the packet.
- * \param EventId Value of "EventId" to be set in packet.
- */
-static inline void setEvtDisableCmdEventId(void* p, uint8_t EventId)
-{
-  EvtDisableCmd_t* t;
-  t = (EvtDisableCmd_t*)p;
-  t->EventId = EventId;
-}
-
-/**
  * Get "N" from "EvtRepDisabledRep" packet.
  * \param p Pointer to the packet.
  * \return Value of "N".
  */
-static inline uint32_t getEvtRepDisabledRepN(void* p)
+static inline CrPsNumberU4_t getEvtRepDisabledRepN(void* p)
 {
   EvtRepDisabledRep_t* t;
   t = (EvtRepDisabledRep_t*)p;
@@ -476,35 +430,11 @@ static inline uint32_t getEvtRepDisabledRepN(void* p)
  * \param p Pointer to the packet.
  * \param N Value of "N" to be set in packet.
  */
-static inline void setEvtRepDisabledRepN(void* p, uint32_t N)
+static inline void setEvtRepDisabledRepN(void* p, CrPsNumberU4_t N)
 {
   EvtRepDisabledRep_t* t;
   t = (EvtRepDisabledRep_t*)p;
   t->N = __builtin_bswap32(N);
-}
-
-/**
- * Get "EventId" from "EvtRepDisabledRep" packet.
- * \param p Pointer to the packet.
- * \return Value of "EventId".
- */
-static inline uint8_t getEvtRepDisabledRepEventId(void* p)
-{
-  EvtRepDisabledRep_t* t;
-  t = (EvtRepDisabledRep_t*)p;
-  return t->EventId;
-}
-
-/**
- * Set "EventId" in "EvtRepDisabledRep" packet.
- * \param p Pointer to the packet.
- * \param EventId Value of "EventId" to be set in packet.
- */
-static inline void setEvtRepDisabledRepEventId(void* p, uint8_t EventId)
-{
-  EvtRepDisabledRep_t* t;
-  t = (EvtRepDisabledRep_t*)p;
-  t->EventId = EventId;
 }
 
 

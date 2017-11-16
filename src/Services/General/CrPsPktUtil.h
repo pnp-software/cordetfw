@@ -7,6 +7,8 @@
  * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
  */
 
+#include <string.h>
+
 #ifndef CRPSPKTUTIL_H_
 #define CRPSPKTUTIL_H_
 

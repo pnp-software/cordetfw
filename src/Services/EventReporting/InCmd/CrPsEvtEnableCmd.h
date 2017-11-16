@@ -16,22 +16,6 @@
 #include <CrFwConstants.h>
 
 /**
- * Acceptance check of TC(5,5) EvtEnableCmd.
- *
- * \param smDesc The state machine descriptor.
- * \return The acceptance check result.
- */
-CrFwBool_t CrPsEvtEnableCmdAcceptanceCheck(FwSmDesc_t smDesc);
-
-/**
- * Ready check of TC(5,5) EvtEnableCmd.
- * Return “command is ready’
- * \param smDesc The state machine descriptor.
- * \return The ready check result.
- */
-CrFwBool_t CrPsEvtEnableCmdReadyCheck(FwSmDesc_t smDesc);
-
-/**
  * Start action of TC(5,5) EvtEnableCmd.
  * Run the procedure Start Action of Multi-EID Command of
  * figure 10.1
@@ -56,12 +40,6 @@ void CrPsEvtEnableCmdProgressAction(FwSmDesc_t smDesc);
  */
 void CrPsEvtEnableCmdTerminationAction(FwSmDesc_t smDesc);
 
-/**
- * Abort action of TC(5,5) EvtEnableCmd.
- * Do nothing
- * \param smDesc The state machine descriptor.
- */
-void CrPsEvtEnableCmdAbortAction(FwSmDesc_t smDesc);
 
 /*----------------------------------------------------------------------------*/
 #endif /* CRPSSPCEVTENABLECMD_H */

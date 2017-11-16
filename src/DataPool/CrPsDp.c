@@ -44,17 +44,17 @@ typedef struct _DpMetaInfoEntry_t {
  * datapool entries.
  */
 static DpMetaInfoEntry_t dpMetaInfoParams[] = {
-  {(void*)&dpServHkParams.debugVarAddr, sizeof(dpServHkParams.debugVarAddr), 3, sizeof(dpServHkParams.debugVarAddr[0])},
+  {(void*)&dpServHkParams.debugVarAddr, sizeof(dpServHkParams.debugVarAddr), HK_N_DEBUG_VAR, sizeof(dpServHkParams.debugVarAddr[0])},
   {(void*)&dpServHkParams.dest, sizeof(dpServHkParams.dest), HK_N_REP_DEF, sizeof(dpServHkParams.dest[0])},
   {(void*)&dpServHkParams.isEnabled, sizeof(dpServHkParams.isEnabled), HK_N_REP_DEF, sizeof(dpServHkParams.isEnabled[0])},
   {(void*)&dpServHkParams.period, sizeof(dpServHkParams.period), HK_N_REP_DEF, sizeof(dpServHkParams.period[0])},
   {(void*)&dpServHkParams.sid, sizeof(dpServHkParams.sid), HK_N_REP_DEF, sizeof(dpServHkParams.sid[0])},
   {(void*)&dpServTestParams.AreYouAliveTimeOut, sizeof(dpServTestParams.AreYouAliveTimeOut), 1, sizeof(dpServTestParams.AreYouAliveTimeOut)},
-  {(void*)&dpServTestParams.OnBoardConnectDestLst, sizeof(dpServTestParams.OnBoardConnectDestLst), 10, sizeof(dpServTestParams.OnBoardConnectDestLst[0])}
+  {(void*)&dpServTestParams.OnBoardConnectDestLst, sizeof(dpServTestParams.OnBoardConnectDestLst), TEST_MAX_APP, sizeof(dpServTestParams.OnBoardConnectDestLst[0])}
 };
 
 static DpMetaInfoEntry_t dpMetaInfoVars[] = {
-  {(void*)&dpServEvtVars.isEidEnabled, sizeof(dpServEvtVars.isEidEnabled), 3, sizeof(dpServEvtVars.isEidEnabled[0])},
+  {(void*)&dpServEvtVars.isEidEnabled, sizeof(dpServEvtVars.isEidEnabled), EVT_N_EID, sizeof(dpServEvtVars.isEidEnabled[0])},
   {(void*)&dpServEvtVars.lastEvtEid_1, sizeof(dpServEvtVars.lastEvtEid_1), 1, sizeof(dpServEvtVars.lastEvtEid_1)},
   {(void*)&dpServEvtVars.lastEvtEid_2, sizeof(dpServEvtVars.lastEvtEid_2), 1, sizeof(dpServEvtVars.lastEvtEid_2)},
   {(void*)&dpServEvtVars.lastEvtEid_3, sizeof(dpServEvtVars.lastEvtEid_3), 1, sizeof(dpServEvtVars.lastEvtEid_3)},
@@ -77,10 +77,10 @@ static DpMetaInfoEntry_t dpMetaInfoVars[] = {
   {(void*)&dpServEvtVars.nOfGenEvtRep_4, sizeof(dpServEvtVars.nOfGenEvtRep_4), 1, sizeof(dpServEvtVars.nOfGenEvtRep_4)},
   {(void*)&dpServHkVars.cycleCnt, sizeof(dpServHkVars.cycleCnt), HK_N_REP_DEF, sizeof(dpServHkVars.cycleCnt[0])},
   {(void*)&dpServHkVars.debugVar, sizeof(dpServHkVars.debugVar), HK_N_DEBUG_VAR, sizeof(dpServHkVars.debugVar[0])},
-  {(void*)&dpServHkVars.lstId, sizeof(dpServHkVars.lstId), HK_MAX_N_ITEMS*HK_MAX_SID, sizeof(dpServHkVars.lstId[0])},
-  {(void*)&dpServHkVars.lstNSampRep, sizeof(dpServHkVars.lstNSampRep), HK_MAX_N_REP, sizeof(dpServHkVars.lstNSampRep[0])},
-  {(void*)&dpServHkVars.lstSampleRep, sizeof(dpServHkVars.lstSampleRep), HK_MAX_N_GR, sizeof(dpServHkVars.lstSampleRep[0])},
-  {(void*)&dpServHkVars.nSimple, sizeof(dpServHkVars.nSimple), HK_MAX_N_SIMPLE, sizeof(dpServHkVars.nSimple[0])},
+  {(void*)&dpServHkVars.lstId, sizeof(dpServHkVars.lstId), HK_N_REP_DEF*HK_MAX_N_ITEMS, sizeof(dpServHkVars.lstId[0])},
+  {(void*)&dpServHkVars.lstNSampRep, sizeof(dpServHkVars.lstNSampRep), HK_N_REP_DEF*HK_MAX_N_GR, sizeof(dpServHkVars.lstNSampRep[0])},
+  {(void*)&dpServHkVars.lstSampleRep, sizeof(dpServHkVars.lstSampleRep), HK_N_REP_DEF*HK_MAX_N_GR, sizeof(dpServHkVars.lstSampleRep[0])},
+  {(void*)&dpServHkVars.nSimple, sizeof(dpServHkVars.nSimple), HK_N_REP_DEF, sizeof(dpServHkVars.nSimple[0])},
   {(void*)&dpServHkVars.sampleBufId, sizeof(dpServHkVars.sampleBufId), HK_N_REP_DEF, sizeof(dpServHkVars.sampleBufId[0])},
   {(void*)&dpServReqVerifVars.failCodeAccFailed, sizeof(dpServReqVerifVars.failCodeAccFailed), 1, sizeof(dpServReqVerifVars.failCodeAccFailed)},
   {(void*)&dpServReqVerifVars.failCodePrgrFailed, sizeof(dpServReqVerifVars.failCodePrgrFailed), 1, sizeof(dpServReqVerifVars.failCodePrgrFailed)},

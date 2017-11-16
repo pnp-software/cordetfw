@@ -10,7 +10,8 @@
 #ifndef CRPS_CONSTANTS_H
 #define CRPS_CONSTANTS_H
 
-#include <CrPsPkt.h>
+#include <CrPsPkt.h> /* for data structures TmHeader_t and TcHeader_t */
+#include <CrPsUserConstants.h> /* for customized data types */
 
 /* ######################################################################################
  * ### Definition of Data Structures
@@ -71,9 +72,11 @@ typedef struct {
     unsigned short outcome;
 } prDescCmd3s9Prgr_t;
 
-
-
-
+typedef struct {
+	FwSmDesc_t smDesc;
+	CrPsFlag_t* evtFlagPtr;
+	unsigned short* eidPtr;
+} prDescCmdEidStart_t;
 
 
 /* ######################################################################################
@@ -215,6 +218,51 @@ typedef struct {
  * Subtype identifier of the Housekeeping Generate One-Shot Report for Diagnostic Parameters command packet.
  */
 #define CRPS_HK_DIAGONESHOT_CMD 28
+
+/**
+ * Type identifier of the Event Reporting Service.
+ */
+#define CRPS_EVT 5
+
+/**
+ * Subtype identifier of the Event Report Severity Level 1 out-going report packet.
+ */
+#define CRPS_EVT_SEVLEVEL1_REP 1
+
+/**
+ * Subtype identifier of the Event Report Severity Level 2 out-going report packet.
+ */
+#define CRPS_EVT_SEVLEVEL2_REP 2
+
+/**
+ * Subtype identifier of the Event Report Severity Level 3 out-going report packet.
+ */
+#define CRPS_EVT_SEVLEVEL3_REP 3
+
+/**
+ * Subtype identifier of the Event Report Severity Level 4 out-going report packet.
+ */
+#define CRPS_EVT_SEVLEVEL4_REP 4
+
+/**
+ * Subtype identifier of the Event Report Enable in-coming command packet.
+ */
+#define CRPS_EVT_ENABLE_CMD 5
+
+/**
+ * Subtype identifier of the Event Report Disable in-coming command packet.
+ */
+#define CRPS_EVT_DISABLE_CMD 6
+
+ /**
+ * Subtype identifier of the Event Report Report Disabled in-coming command packet.
+ */
+#define CRPS_EVT_REPDISABLED_CMD 7
+
+ /**
+ * Subtype identifier of the Event Report Report Disabled out-going report packet.
+ */
+#define CRPS_EVT_REPDISABLED_REP 8
 
 /**
  * Type identifier of the Test Service.
@@ -392,6 +440,13 @@ typedef struct {
  * Length of the Housekeeping Generate One-Shot Report for Diagnostic Parameters command packet.
  */
 #define CRPS_HK_DIAGONESHOT_CMD_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 10 + CRC_LENGTH)
+
+
+/**
+ * Length of the Event Report out-going report packet.
+ */
+#define CRPS_EVT__REP_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 10 + CRC_LENGTH) /*TODO .. hier noch die korrekten längen angeben!!*/
+
 
 /**
  * Length of the Perform Connection Test Are-You-Alive in-coming command packet.
