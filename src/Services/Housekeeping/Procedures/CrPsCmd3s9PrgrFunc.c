@@ -58,7 +58,7 @@ void CrPsCmd3s9PrgrN1(FwPrDesc_t prDesc)
 
   /* Retrieve a (3,10) or (3,12) report from the OutFactory to hold
    * the structurereport for the SID which is being processed */
-  
+    DEBUGP_3("CrPsCmd3s9PrgrN1.\n");
   /* Get smDesc from prData */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -89,7 +89,7 @@ void CrPsCmd3s9PrgrN2(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
   /* Load the SID which is being processed in data pool item verFailData */
-
+  DEBUGP_3("CrPsCmd3s9PrgrN2.\n");
   setDpverFailData((uint32_t)currentSid);
 
   return;
@@ -104,7 +104,7 @@ void CrPsCmd3s9PrgrN3(FwPrDesc_t prDesc)
   CrPsFailCode_t      tcFailureCode;
 
   /* Run the Command Progress Failure Procedure */
-
+  DEBUGP_3("CrPsCmd3s9PrgrN3.\n");
   /* Get smDesc from prData */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -129,7 +129,7 @@ void CrPsCmd3s9PrgrN4(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /* Generate error report OUTFACTORY_FAIL */
-
+  DEBUGP_3("CrPsCmd3s9PrgrN4.\n");
   errCode = crOutfactoryFail;
   CrPsRepErr(errCode, CRPS_REQVERIF, CRPS_REQVERIF_PROG_FAIL, 0);
 
@@ -147,7 +147,7 @@ void CrPsCmd3s9PrgrN5(FwPrDesc_t prDesc)
   CrFwDestSrc_t dest;
 
   /* Configure the (3,10) or (3,12) report with the SID being processed and load it in the OutLoader */
-
+  DEBUGP_3("CrPsCmd3s9PrgrN5.\n");
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -173,7 +173,7 @@ void CrPsCmd3s9PrgrN6(FwPrDesc_t prDesc)
   FwSmDesc_t          smDesc;
 
   /* Set action outcome to: 'completed' */
-
+  DEBUGP_3("CrPsCmd3s9PrgrN6.\n");
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -198,7 +198,7 @@ void CrPsCmd3s9PrgrN7(FwPrDesc_t prDesc)
   FwSmDesc_t          smDesc;
 
   /* Set action outcome to: 'continue' */
-
+  DEBUGP_3("CrPsCmd3s9PrgrN7.\n");
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -222,7 +222,7 @@ void CrPsCmd3s9PrgrN8(FwPrDesc_t prDesc)
   CrPsSid_t          *sid;
 
   /* Start processing the first valid SID in the command */
-
+  DEBUGP_3("CrPsCmd3s9PrgrN8.\n");
   /* Get sid from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   sid = prDataPtr->sidPtr;
@@ -241,7 +241,7 @@ void CrPsCmd3s9PrgrN9(FwPrDesc_t prDesc)
   CrPsSid_t          *sid;
 
   /* Process the next valid SID in the command */
-
+  DEBUGP_3("CrPsCmd3s9PrgrN9.\n");
   /* Get sid from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   sid = prDataPtr->sidPtr;
@@ -263,7 +263,7 @@ FwPrBool_t CrPsCmd3s9PrgrG1(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /* OutFactory fails to return a report  */
-
+  DEBUGP_3("CrPsCmd3s9PrgrG1.\n");
   if (rep == NULL)
     {
       return 1;
@@ -281,7 +281,7 @@ FwPrBool_t CrPsCmd3s9PrgrG2(FwPrDesc_t prDesc)
   CrPsSid_t          *sid;
 
   /* This SID was the last valid SID in the (3,9) or (3,11)  */
-
+  DEBUGP_3("CrPsCmd3s9PrgrG2.\n");
   /* Get sid from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   sid = prDataPtr->sidPtr;
@@ -301,7 +301,7 @@ FwPrBool_t CrPsCmd3s9PrgrG2(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s9PrgrG3(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-
+  DEBUGP_3("CrPsCmd3s9PrgrG3.\n");
   /* Next Execution  */
 
   if (FwPrGetNodeExecCnt(prDesc))

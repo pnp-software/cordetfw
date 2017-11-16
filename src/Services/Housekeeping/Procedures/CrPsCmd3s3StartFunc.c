@@ -42,7 +42,6 @@
 CrFwCounterU4_t i, iSidFail, iMax;
 CrPsSid_t       currentSid;
 
-
 /* ----------------------------------------------------------------------------------------------------------------- */
 
 /** Action for node N1. */
@@ -53,10 +52,10 @@ void CrPsCmd3s3StartN1(FwPrDesc_t prDesc)
   CrFwPckt_t           pckt;
   FwSmDesc_t           smDesc;  
   prDescCmd3s3Start_t *prDataPtr;
-  CrFwServSubType_t    servSubType;
+ /* CrFwServSubType_t    servSubType;*/
 
   /* Set i equal to 1 */
-
+  DEBUGP_3("CrPsCmd3s3StartN1.\n");
   i = 0;
   iSidFail = 0;
 
@@ -69,9 +68,13 @@ void CrPsCmd3s3StartN1(FwPrDesc_t prDesc)
   cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
   pckt            = cmpSpecificData->pckt;
 
-  servSubType = CrFwPcktGetServSubType(pckt);
-
+  
   /* Get current SID and iMax = N */
+  currentSid = getHkDeleteCmdRepStrucIdItem(pckt, i+1); 
+  iMax = getHkDeleteCmdN(pckt); 
+
+#if 0
+  servSubType = CrFwPcktGetServSubType(pckt);
   switch(servSubType)
   {
     case 3:
@@ -124,7 +127,7 @@ void CrPsCmd3s3StartN1(FwPrDesc_t prDesc)
       iMax = 1;
       break;
   }
-
+#endif
   return;
 }
 
@@ -133,7 +136,7 @@ void CrPsCmd3s3StartN2(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
   /* Load invalid SID in data pool item verFailData  */
-
+  DEBUGP_3("CrPsCmd3s3StartN2.\n");
   iSidFail++;
   setDpverFailData((CrFwCounterU4_t)currentSid);
 
@@ -147,12 +150,12 @@ void CrPsCmd3s3StartN3(FwPrDesc_t prDesc)
   prDescCmd3s3Start_t *prDataPtr;
 
   /* Run Command Verification Failure Procedure to generate (1,4) report with failure code VER_ILL_SID */
-
+  DEBUGP_3("CrPsCmd3s3StartN3.\n");
   /* Get smDesc from prData */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
 
-  SendReqVerifAccFailRep(smDesc, VER_ILL_SID);  
+  SendReqVerifCmdFailRep(smDesc, CRPS_REQVERIF_START_FAIL, VER_ILL_SID);  
 
   return;  
 }
@@ -165,10 +168,10 @@ void CrPsCmd3s3StartN4(FwPrDesc_t prDesc)
   CrFwPckt_t           pckt;
   FwSmDesc_t           smDesc;  
   prDescCmd3s3Start_t *prDataPtr;
-  CrFwServSubType_t    servSubType;
+ /* CrFwServSubType_t    servSubType;*/
 
   /* Increment i */
-
+  DEBUGP_3("CrPsCmd3s3StartN4.\n");
   i++;
 
   /* Get smDesc from prData */
@@ -180,9 +183,12 @@ void CrPsCmd3s3StartN4(FwPrDesc_t prDesc)
   cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
   pckt            = cmpSpecificData->pckt;
 
+  /* Get current SID */
+  currentSid = getHkDeleteCmdRepStrucIdItem(pckt, i+1); 
+
+#if 0
   servSubType = CrFwPcktGetServSubType(pckt);
 
-  /* Get current SID */
   switch(servSubType)
   {
     case 3:
@@ -224,6 +230,7 @@ void CrPsCmd3s3StartN4(FwPrDesc_t prDesc)
       currentSid = 0;
       break;
   }
+#endif
 
   return;
 }
@@ -233,7 +240,7 @@ void CrPsCmd3s3StartN5(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
   /* Load the enabled SID in data pool verFailData  */
-
+  DEBUGP_3("CrPsCmd3s3StartN5.\n");
   iSidFail++;
   setDpverFailData((CrFwCounterU4_t)currentSid);
 
@@ -247,7 +254,7 @@ void CrPsCmd3s3StartN6(FwPrDesc_t prDesc)
   prDescCmd3s3Start_t *prDataPtr;
 
   /* Run Command Verification Failure Procedure to generate (1,4) report with failure code VER_ENABLED_SID  */
-
+  DEBUGP_3("CrPsCmd3s3StartN6.\n");
   /* Get smDesc from prData */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -265,7 +272,7 @@ void CrPsCmd3s3StartN7(FwPrDesc_t prDesc)
   FwSmDesc_t           smDesc;
 
   /* Set action outcome to 'success'  */
-
+  DEBUGP_3("CrPsCmd3s3StartN7.\n");
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -286,7 +293,7 @@ void CrPsCmd3s3StartN8(FwPrDesc_t prDesc)
   FwSmDesc_t           smDesc;
 
   /* Set action outcome to 'failure' with failure code VER_S3S_START_FD  */
-
+  DEBUGP_3("CrPsCmd3s3StartN8.\n");
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -307,7 +314,7 @@ void CrPsCmd3s3StartN8(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s3StartG1(FwPrDesc_t prDesc)
 {
   CrPsSid_t rdlSid, rdlSlot;
-
+  DEBUGP_3("CrPsCmd3s3StartG1.\n");
   CRFW_UNUSED(prDesc);
 
   /* The i-th SID is not in the RDL  */
@@ -341,7 +348,7 @@ FwPrBool_t CrPsCmd3s3StartG2(FwPrDesc_t prDesc)
 
   CRFW_UNUSED(prDesc);
   /* The i-th SID is enabled in the RDL   */
-
+  DEBUGP_3("CrPsCmd3s3StartG2.\n");
   /* look for the slot */
   for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
     {
@@ -367,7 +374,7 @@ FwPrBool_t CrPsCmd3s3StartG2(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s3StartG3(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-
+  DEBUGP_3("CrPsCmd3s3StartG3.\n");
   /* The i-th SID was the last SID in the command  */
 
   if (i == iMax-1)
@@ -384,7 +391,7 @@ FwPrBool_t CrPsCmd3s3StartG3(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s3StartG4(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-
+  DEBUGP_3("CrPsCmd3s3StartG4.\n");
   /* All SIDs in the command are invalid  */
 
   if (iSidFail == iMax)

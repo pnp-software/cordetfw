@@ -29,7 +29,6 @@
 #include <Services/Housekeeping/Procedures/CrPsCmd3s9PrgrCreate.h>
 #include <Services/Housekeeping/Procedures/CrPsRep3s25ReadyCreate.h>
 #include <Services/Housekeeping/Procedures/CrPsCmd3SidStartCreate.h>
-#include <Services/Housekeeping/Procedures/CrPsCmd3s27PrgrCreate.h>
 
 #include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServHk.h>
@@ -94,15 +93,6 @@ int CrPsInitServHk()
   prDescCmd3s9Prgr = CrPsCmd3s9PrgrCreate(NULL);
   if (FwPrCheck(prDescCmd3s9Prgr) != prSuccess) {
     printf("The procedure CrPsCmd3s9Prgr is NOT properly configured ... FAILURE\n");
-    return EXIT_FAILURE;
-  }
-
-  /***********************************************************************/
-  /* Service Housekeeping Generate One-Shot HK Report Procedure          */
-  /***********************************************************************/
-  prDescGenerateHkOneShotPrgr = CrPsCmd3s27PrgrCreate(NULL);
-  if (FwPrCheck(prDescGenerateHkOneShotPrgr) != prSuccess) {
-    printf("The procedure CrPsCmd3s27Prgr is NOT properly configured ... FAILURE\n");
     return EXIT_FAILURE;
   }
 

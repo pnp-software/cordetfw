@@ -50,6 +50,7 @@ void CrPsCmd3s1StartN1(FwPrDesc_t prDesc)
   CrFwCmpData_t       *cmpData;
   FwSmDesc_t           smDesc;
 
+	DEBUGP_3("CrPsCmd3s1StartN1.\n");
   /* Set action outcome to 'failure' with failure code VER_FULL_RDL */
 
   /* Get smDesc from OutCmp */
@@ -75,6 +76,7 @@ void CrPsCmd3s1StartN2(FwPrDesc_t prDesc)
   CrFwServSubType_t    tcServSubType;
   CrPsSid_t            sid;
 
+	DEBUGP_3("CrPsCmd3s1StartN2.\n");
   /* Retrieve a report of type (3,25) or (3,26) from the OutFactory */
 
   /* Get smDesc from prData */
@@ -111,6 +113,7 @@ void CrPsCmd3s1StartN3(FwPrDesc_t prDesc)
   CrPsRepErrCode_t errCode;
   CRFW_UNUSED(prDesc);
 
+	DEBUGP_3("CrPsCmd3s1StartN3.\n");
   /* Generate error report OUTFACTORY_FAIL */
 
   errCode = crOutfactoryFail;
@@ -131,6 +134,7 @@ void CrPsCmd3s1StartN4(FwPrDesc_t prDesc)
   
   /* Load the report in the OutLoader */
 
+	DEBUGP_3("CrPsCmd3s1StartN4.\n");
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -151,6 +155,7 @@ void CrPsCmd3s1StartN4(FwPrDesc_t prDesc)
 /** Action for node N5. */
 void CrPsCmd3s1StartN5(FwPrDesc_t prDesc)
 {
+	DEBUGP_3("CrPsCmd3s1StartN5.\n");
   CRFW_UNUSED(prDesc);
   return;
 }
@@ -162,6 +167,7 @@ void CrPsCmd3s1StartN6(FwPrDesc_t prDesc)
   CrFwCmpData_t       *cmpData;
   FwSmDesc_t           smDesc;
 
+	DEBUGP_3("CrPsCmd3s1StartN6.\n");
   /* Set action outcome to 'success' */
 
   /* Get smDesc from OutCmp */
@@ -186,6 +192,7 @@ void CrPsCmd3s1StartN7(FwPrDesc_t prDesc)
   FwSmDesc_t           smDesc;
   CrPsSid_t            sid;
 
+	DEBUGP_3("CrPsCmd3s1StartN7.\n");
   /* Set action outcome to 'failure' with code VER_SID_IN_USE and load SID in verFailData data pool item */
 
   /* Get smDesc from OutCmp */
@@ -217,6 +224,7 @@ void CrPsCmd3s1StartN8(FwPrDesc_t prDesc)
   CrFwCmpData_t       *cmpData;
   FwSmDesc_t           smDesc;
 
+	DEBUGP_3("CrPsCmd3s1StartN8.\n");
   /* Set action outcome to 'failure' with failure code VER_RDL_CONSTR and load identifier of constraint in verFailData */
 
   /* Get smDesc from OutCmp */
@@ -241,6 +249,7 @@ void CrPsCmd3s1StartN9(FwPrDesc_t prDesc)
   CrFwCmpData_t       *cmpData;
   FwSmDesc_t           smDesc;
 
+	DEBUGP_3("CrPsCmd3s1StartN9.\n");
   /* Set action outcome to 'failure' with code VER_DUPL_DI and load identifier of duplicated DI in verFailData */
 
   /* Get smDesc from OutCmp */
@@ -265,6 +274,7 @@ void CrPsCmd3s1StartN10(FwPrDesc_t prDesc)
   CrFwCmpData_t       *cmpData;
   FwSmDesc_t           smDesc;
 
+	DEBUGP_3("CrPsCmd3s1StartN10.\n");
   /* Set action outcome to 'failure' with failure code VER_REP_CR_FD */
 
   /* Get smDesc from OutCmp */
@@ -286,6 +296,7 @@ void CrPsCmd3s1StartN11(FwPrDesc_t prDesc)
   CrFwCmpData_t       *cmpData;
   FwSmDesc_t           smDesc;
 
+	DEBUGP_3("CrPsCmd3s1StartN11.\n");
   /* Set action outcome to 'failure' with falure code VER_OUTLOADER_FD */
 
   /* Get smDesc from OutCmp */
@@ -309,6 +320,7 @@ FwPrBool_t CrPsCmd3s1StartG1(FwPrDesc_t prDesc)
 {
   CrPsSid_t rdlSid;
 
+	DEBUGP_3("CrPsCmd3s1StartG1.\n");
   CRFW_UNUSED(prDesc);
   /* There is no free slot in the RDL  */
 
@@ -342,6 +354,7 @@ FwPrBool_t CrPsCmd3s1StartG2(FwPrDesc_t prDesc)
   CrPsSid_t             sid;
   CrFwCounterU4_t       N1;
 
+	DEBUGP_3("CrPsCmd3s1StartG2.\n");
   /* One or more constraints listed in table 9.1 are not satisfied */
 
   /* Get smDesc from prData */
@@ -375,6 +388,8 @@ FwPrBool_t CrPsCmd3s1StartG3(FwPrDesc_t prDesc)
   prDescCmd3s1Start_t *prDataPtr;
   FwSmDesc_t           smDesc;
   CrPsSid_t            rdlSid, sid;
+
+	DEBUGP_3("CrPsCmd3s1StartG3.\n");
 
    /* The SID in the command is already in use  */
  
@@ -418,9 +433,11 @@ FwPrBool_t CrPsCmd3s1StartG4(FwPrDesc_t prDesc)
   prDescCmd3s1Start_t *prDataPtr;
   FwSmDesc_t           smDesc;
   uint16_t             currentDataItem, checkDataItem;
-  CrFwCounterU4_t      i, k, m;
+  CrFwCounterU4_t      i, k, m, a=0;
   CrFwCounterU4_t      N1, NFA, N2[10], LSTNMB; /* TODO: set maximum as constant */
   unsigned short       dataItemArray[100];      /* TODO: set maximum as constant */
+
+	DEBUGP_3("CrPsCmd3s1StartG4.\n");
 
   /* The same data item identifier appears twice in the definition of the new report  */
 
@@ -458,7 +475,8 @@ FwPrBool_t CrPsCmd3s1StartG4(FwPrDesc_t prDesc)
     {
       for (m=0; m<N2[k]; m++)
         {
-          dataItemArray[N1+k] = getHkCreateCmdN2ParamIdItem(pckt, k+1, m+1);
+          dataItemArray[N1+a] = getHkCreateCmdN2ParamIdItem(pckt, k+1, m+1);
+          a+=1;
         }
     }
 
@@ -468,7 +486,7 @@ FwPrBool_t CrPsCmd3s1StartG4(FwPrDesc_t prDesc)
       /* Get next data item */
       checkDataItem = dataItemArray[i];
       
-      for(k=0;k<LSTNMB-i;k++)
+      for(k=0;k<LSTNMB-i-1;k++)
         {
           /* Get next data item identifiers coming afterwards */
           currentDataItem = dataItemArray[i+k+1];
@@ -487,6 +505,8 @@ FwPrBool_t CrPsCmd3s1StartG4(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s1StartG5(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
+
+	DEBUGP_3("CrPsCmd3s1StartG5.\n");
 
   /* Factory fails to return the report  */
 
@@ -507,6 +527,8 @@ FwPrBool_t CrPsCmd3s1StartG6(FwPrDesc_t prDesc)
   FwSmDesc_t outManager;
   CrFwCounterU1_t numberOfPendingOutCmp;
 #endif
+
+	DEBUGP_3("CrPsCmd3s1StartG6.\n");
 
   CRFW_UNUSED(prDesc);
 

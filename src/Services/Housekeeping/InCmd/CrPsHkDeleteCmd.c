@@ -126,7 +126,7 @@ void CrPsHkDeleteCmdProgressAction(FwSmDesc_t smDesc)
 /* ------------------------------------------------------------------------------------ */
 void CrPsHkDeleteCmdTerminationAction(FwSmDesc_t smDesc)
 {
-  CrFwCmpData_t*   inData;
+  CrFwCmpData_t *inData;
 
   /* Set action outcome to 'success' */
 

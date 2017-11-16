@@ -172,7 +172,7 @@ typedef struct __attribute__((packed)) _HkRepStructRep_t {
   /**
    * Collection interval uint
    */
-  uint32_t CollectionInterval;
+  CrPsCollectInterval_t CollectionInterval;
   
   /**
    * ?? N1
@@ -253,7 +253,7 @@ typedef struct __attribute__((packed)) _HkOneShotCmd_t {
  * \param p Pointer to the packet.
  * \return Value of "RepStrucId".
  */
-static inline uint8_t getHkCreateCmdRepStrucId(void* p)
+static inline CrPsSid_t getHkCreateCmdRepStrucId(void* p)
 {
   HkCreateCmd_t* t;
   t = (HkCreateCmd_t*)p;
@@ -265,7 +265,7 @@ static inline uint8_t getHkCreateCmdRepStrucId(void* p)
  * \param p Pointer to the packet.
  * \param RepStrucId Value of "RepStrucId" to be set in packet.
  */
-static inline void setHkCreateCmdRepStrucId(void* p, uint8_t RepStrucId)
+static inline void setHkCreateCmdRepStrucId(void* p, CrPsSid_t RepStrucId)
 {
   HkCreateCmd_t* t;
   t = (HkCreateCmd_t*)p;
@@ -277,7 +277,7 @@ static inline void setHkCreateCmdRepStrucId(void* p, uint8_t RepStrucId)
  * \param p Pointer to the packet.
  * \return Value of "CollectionInterval".
  */
-static inline uint32_t getHkCreateCmdCollectionInterval(void* p)
+static inline CrPsCollectInterval_t getHkCreateCmdCollectionInterval(void* p)
 {
   HkCreateCmd_t* t;
   t = (HkCreateCmd_t*)p;
@@ -290,7 +290,7 @@ static inline uint32_t getHkCreateCmdCollectionInterval(void* p)
  * \param CollectionInterval Value of "CollectionInterval" to be set in
  * packet.
  */
-static inline void setHkCreateCmdCollectionInterval(void* p, uint32_t CollectionInterval)
+static inline void setHkCreateCmdCollectionInterval(void* p, CrPsCollectInterval_t CollectionInterval)
 {
   HkCreateCmd_t* t;
   t = (HkCreateCmd_t*)p;
@@ -302,7 +302,7 @@ static inline void setHkCreateCmdCollectionInterval(void* p, uint32_t Collection
  * \param p Pointer to the packet.
  * \return Value of "N1".
  */
-static inline uint32_t getHkCreateCmdN1(void* p)
+static inline CrFwCounterU4_t getHkCreateCmdN1(void* p)
 {
   HkCreateCmd_t* t;
   t = (HkCreateCmd_t*)p;
@@ -314,7 +314,7 @@ static inline uint32_t getHkCreateCmdN1(void* p)
  * \param p Pointer to the packet.
  * \param N1 Value of "N1" to be set in packet.
  */
-static inline void setHkCreateCmdN1(void* p, uint32_t N1)
+static inline void setHkCreateCmdN1(void* p, CrFwCounterU4_t N1)
 {
   HkCreateCmd_t* t;
   t = (HkCreateCmd_t*)p;
@@ -326,7 +326,7 @@ static inline void setHkCreateCmdN1(void* p, uint32_t N1)
  * \param p Pointer to the packet.
  * \return Value of "N".
  */
-static inline uint32_t getHkDeleteCmdN(void* p)
+static inline CrFwCounterU4_t getHkDeleteCmdN(void* p)
 {
   HkDeleteCmd_t* t;
   t = (HkDeleteCmd_t*)p;
@@ -338,7 +338,7 @@ static inline uint32_t getHkDeleteCmdN(void* p)
  * \param p Pointer to the packet.
  * \param N Value of "N" to be set in packet.
  */
-static inline void setHkDeleteCmdN(void* p, uint32_t N)
+static inline void setHkDeleteCmdN(void* p, CrFwCounterU4_t N)
 {
   HkDeleteCmd_t* t;
   t = (HkDeleteCmd_t*)p;
@@ -350,7 +350,7 @@ static inline void setHkDeleteCmdN(void* p, uint32_t N)
  * \param p Pointer to the packet.
  * \return Value of "N".
  */
-static inline uint32_t getHkEnableCmdN(void* p)
+static inline CrFwCounterU4_t getHkEnableCmdN(void* p)
 {
   HkEnableCmd_t* t;
   t = (HkEnableCmd_t*)p;
@@ -362,7 +362,7 @@ static inline uint32_t getHkEnableCmdN(void* p)
  * \param p Pointer to the packet.
  * \param N Value of "N" to be set in packet.
  */
-static inline void setHkEnableCmdN(void* p, uint32_t N)
+static inline void setHkEnableCmdN(void* p, CrFwCounterU4_t N)
 {
   HkEnableCmd_t* t;
   t = (HkEnableCmd_t*)p;
@@ -374,7 +374,7 @@ static inline void setHkEnableCmdN(void* p, uint32_t N)
  * \param p Pointer to the packet.
  * \return Value of "N".
  */
-static inline uint32_t getHkDisableCmdN(void* p)
+static inline CrFwCounterU4_t getHkDisableCmdN(void* p)
 {
   HkDisableCmd_t* t;
   t = (HkDisableCmd_t*)p;
@@ -386,7 +386,7 @@ static inline uint32_t getHkDisableCmdN(void* p)
  * \param p Pointer to the packet.
  * \param N Value of "N" to be set in packet.
  */
-static inline void setHkDisableCmdN(void* p, uint32_t N)
+static inline void setHkDisableCmdN(void* p, CrFwCounterU4_t N)
 {
   HkDisableCmd_t* t;
   t = (HkDisableCmd_t*)p;
@@ -398,7 +398,7 @@ static inline void setHkDisableCmdN(void* p, uint32_t N)
  * \param p Pointer to the packet.
  * \return Value of "N".
  */
-static inline uint32_t getHkRepStructCmdN(void* p)
+static inline CrFwCounterU4_t getHkRepStructCmdN(void* p)
 {
   HkRepStructCmd_t* t;
   t = (HkRepStructCmd_t*)p;
@@ -410,7 +410,7 @@ static inline uint32_t getHkRepStructCmdN(void* p)
  * \param p Pointer to the packet.
  * \param N Value of "N" to be set in packet.
  */
-static inline void setHkRepStructCmdN(void* p, uint32_t N)
+static inline void setHkRepStructCmdN(void* p, CrFwCounterU4_t N)
 {
   HkRepStructCmd_t* t;
   t = (HkRepStructCmd_t*)p;
@@ -422,7 +422,7 @@ static inline void setHkRepStructCmdN(void* p, uint32_t N)
  * \param p Pointer to the packet.
  * \return Value of "RepStrucId".
  */
-static inline uint8_t getHkRepStructRepRepStrucId(void* p)
+static inline CrPsSid_t getHkRepStructRepRepStrucId(void* p)
 {
   HkRepStructRep_t* t;
   t = (HkRepStructRep_t*)p;
@@ -434,7 +434,7 @@ static inline uint8_t getHkRepStructRepRepStrucId(void* p)
  * \param p Pointer to the packet.
  * \param RepStrucId Value of "RepStrucId" to be set in packet.
  */
-static inline void setHkRepStructRepRepStrucId(void* p, uint8_t RepStrucId)
+static inline void setHkRepStructRepRepStrucId(void* p, CrPsSid_t RepStrucId)
 {
   HkRepStructRep_t* t;
   t = (HkRepStructRep_t*)p;
@@ -446,7 +446,7 @@ static inline void setHkRepStructRepRepStrucId(void* p, uint8_t RepStrucId)
  * \param p Pointer to the packet.
  * \return Value of "PeriodicGenActionStatus".
  */
-static inline uint8_t getHkRepStructRepPeriodicGenActionStatus(void* p)
+static inline CrPsStatus_t getHkRepStructRepPeriodicGenActionStatus(void* p)
 {
   HkRepStructRep_t* t;
   t = (HkRepStructRep_t*)p;
@@ -459,7 +459,7 @@ static inline uint8_t getHkRepStructRepPeriodicGenActionStatus(void* p)
  * \param PeriodicGenActionStatus Value of "PeriodicGenActionStatus" to be set
  * in packet.
  */
-static inline void setHkRepStructRepPeriodicGenActionStatus(void* p, uint8_t PeriodicGenActionStatus)
+static inline void setHkRepStructRepPeriodicGenActionStatus(void* p, CrPsStatus_t PeriodicGenActionStatus)
 {
   HkRepStructRep_t* t;
   t = (HkRepStructRep_t*)p;
@@ -471,7 +471,7 @@ static inline void setHkRepStructRepPeriodicGenActionStatus(void* p, uint8_t Per
  * \param p Pointer to the packet.
  * \return Value of "CollectionInterval".
  */
-static inline uint32_t getHkRepStructRepCollectionInterval(void* p)
+static inline CrPsCollectInterval_t getHkRepStructRepCollectionInterval(void* p)
 {
   HkRepStructRep_t* t;
   t = (HkRepStructRep_t*)p;
@@ -484,7 +484,7 @@ static inline uint32_t getHkRepStructRepCollectionInterval(void* p)
  * \param CollectionInterval Value of "CollectionInterval" to be set in
  * packet.
  */
-static inline void setHkRepStructRepCollectionInterval(void* p, uint32_t CollectionInterval)
+static inline void setHkRepStructRepCollectionInterval(void* p, CrPsCollectInterval_t CollectionInterval)
 {
   HkRepStructRep_t* t;
   t = (HkRepStructRep_t*)p;
@@ -496,7 +496,7 @@ static inline void setHkRepStructRepCollectionInterval(void* p, uint32_t Collect
  * \param p Pointer to the packet.
  * \return Value of "N1".
  */
-static inline uint32_t getHkRepStructRepN1(void* p)
+static inline CrFwCounterU4_t getHkRepStructRepN1(void* p)
 {
   HkRepStructRep_t* t;
   t = (HkRepStructRep_t*)p;
@@ -508,7 +508,7 @@ static inline uint32_t getHkRepStructRepN1(void* p)
  * \param p Pointer to the packet.
  * \param N1 Value of "N1" to be set in packet.
  */
-static inline void setHkRepStructRepN1(void* p, uint32_t N1)
+static inline void setHkRepStructRepN1(void* p, CrFwCounterU4_t N1)
 {
   HkRepStructRep_t* t;
   t = (HkRepStructRep_t*)p;
@@ -520,7 +520,7 @@ static inline void setHkRepStructRepN1(void* p, uint32_t N1)
  * \param p Pointer to the packet.
  * \return Value of "RepStrucId".
  */
-static inline uint8_t getHkRepRepStrucId(void* p)
+static inline CrPsSid_t getHkRepRepStrucId(void* p)
 {
   HkRep_t* t;
   t = (HkRep_t*)p;
@@ -532,7 +532,7 @@ static inline uint8_t getHkRepRepStrucId(void* p)
  * \param p Pointer to the packet.
  * \param RepStrucId Value of "RepStrucId" to be set in packet.
  */
-static inline void setHkRepRepStrucId(void* p, uint8_t RepStrucId)
+static inline void setHkRepRepStrucId(void* p, CrPsSid_t RepStrucId)
 {
   HkRep_t* t;
   t = (HkRep_t*)p;
@@ -544,7 +544,7 @@ static inline void setHkRepRepStrucId(void* p, uint8_t RepStrucId)
  * \param p Pointer to the packet.
  * \return Value of "ParamVal".
  */
-static inline uint32_t getHkRepParamVal(void* p)
+static inline CrPsParamValueU4_t getHkRepParamVal(void* p)
 {
   HkRep_t* t;
   t = (HkRep_t*)p;
@@ -556,7 +556,7 @@ static inline uint32_t getHkRepParamVal(void* p)
  * \param p Pointer to the packet.
  * \param ParamVal Value of "ParamVal" to be set in packet.
  */
-static inline void setHkRepParamVal(void* p, uint32_t ParamVal)
+static inline void setHkRepParamVal(void* p, CrPsParamValueU4_t ParamVal)
 {
   HkRep_t* t;
   t = (HkRep_t*)p;
@@ -568,7 +568,7 @@ static inline void setHkRepParamVal(void* p, uint32_t ParamVal)
  * \param p Pointer to the packet.
  * \return Value of "N".
  */
-static inline uint32_t getHkOneShotCmdN(void* p)
+static inline CrFwCounterU4_t getHkOneShotCmdN(void* p)
 {
   HkOneShotCmd_t* t;
   t = (HkOneShotCmd_t*)p;
@@ -580,14 +580,12 @@ static inline uint32_t getHkOneShotCmdN(void* p)
  * \param p Pointer to the packet.
  * \param N Value of "N" to be set in packet.
  */
-static inline void setHkOneShotCmdN(void* p, uint32_t N)
+static inline void setHkOneShotCmdN(void* p, CrFwCounterU4_t N)
 {
   HkOneShotCmd_t* t;
   t = (HkOneShotCmd_t*)p;
   t->N = __builtin_bswap32(N);
 }
-
-
 
 /*----------------------------------------------------------------------------*/
 #endif /* CRPSPKTSERVHK_H */

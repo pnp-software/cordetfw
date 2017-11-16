@@ -41,7 +41,7 @@ void CrPsRep3s25ReadyN1(FwPrDesc_t prDesc)
   prDataHkRepReadyCheck_t *prDataPtr;
 
   /* Set Cycle Counter to zero */
-
+DEBUGP_3("CrPsRep3s25ReadyN1\n");
   /* Get SID from prData */
   prDataPtr = FwPrGetData(prDesc);
   sid = prDataPtr->sid;
@@ -68,7 +68,7 @@ void CrPsRep3s25ReadyN2(FwPrDesc_t prDesc)
   FwSmDesc_t               smDesc;
 
   /* Ready Check returns 'Ready' */
-
+DEBUGP_3("CrPsRep3s25ReadyN2\n");
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -88,7 +88,7 @@ void CrPsRep3s25ReadyN3(FwPrDesc_t prDesc)
   FwSmDesc_t               smDesc;
 
   /* Ready Check returns 'Not Ready' */
-
+DEBUGP_3("CrPsRep3s25ReadyN3\n");
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -108,7 +108,7 @@ void CrPsRep3s25ReadyN4(FwPrDesc_t prDesc)
   prDataHkRepReadyCheck_t *prDataPtr;
 
   /* Increment Cycle Counter */
-
+DEBUGP_3("CrPsRep3s25ReadyN4\n");
   /* Get SID from prData */
   prDataPtr = FwPrGetData(prDesc);
   sid = prDataPtr->sid;
@@ -143,7 +143,7 @@ FwPrBool_t CrPsRep3s25ReadyG1(FwPrDesc_t prDesc)
 
   /*  Flag_1 */
   /* [ (Cycle Counter != 0) || (SID is not enabled in RDL) ] */
-
+DEBUGP_3("CrPsRep3s25ReadyG1\n");
   /* Get SID from prData */
   prDataPtr = FwPrGetData(prDesc);
   sid = prDataPtr->sid;
@@ -177,7 +177,7 @@ FwPrBool_t CrPsRep3s25ReadyG1(FwPrDesc_t prDesc)
 FwPrBool_t CrPsRep3s25ReadyG2(FwPrDesc_t prDesc)
 {
   /* Next Execution */
-
+DEBUGP_3("CrPsRep3s25ReadyG2\n");
   if (FwPrGetNodeExecCnt(prDesc))
     {
       return 1;
@@ -197,7 +197,7 @@ FwPrBool_t CrIaReadyChk3s25ReadyGoToRst(FwPrDesc_t prDesc)
   prDataHkRepReadyCheck_t *prDataPtr;
 
   /* (Cycle Counter == Period) && (SID is Defined) */
-
+DEBUGP_3("CrIaReadyChk3s25ReadyGoToRst\n");
   /* Get SID from prData */
   prDataPtr = FwPrGetData(prDesc);
   sid = prDataPtr->sid;
@@ -217,6 +217,8 @@ FwPrBool_t CrIaReadyChk3s25ReadyGoToRst(FwPrDesc_t prDesc)
   /* Get Period from RDL */
   period = getDpperiodItem(rdlSlot);
 
+printf("cycleCnt: %d; period: %d; rdlSlot: %d \n", cycleCnt, period, rdlSlot);
+
   if ((cycleCnt == period) && (rdlSlot < HK_N_REP_DEF))
     {
       return 1;
@@ -234,7 +236,7 @@ FwPrBool_t CrPsRep3s25ReadyGoToFin(FwPrDesc_t prDesc)
   prDataHkRepReadyCheck_t *prDataPtr;
 
   /* (SID is not Defined) */
-
+DEBUGP_3("CrPsRep3s25ReadyGoToFin\n");
   /* Get SID from prData */
   prDataPtr = FwPrGetData(prDesc);
   sid = prDataPtr->sid;
@@ -262,7 +264,7 @@ FwPrBool_t CrPsRep3s25ReadyGoToFin(FwPrDesc_t prDesc)
 FwPrBool_t CrIaReadyChk3s25ReadyGoToDec(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-
+DEBUGP_3("CrIaReadyChk3s25ReadyGoToDec\n");
   /* [ Else ] */
 
   return 1;

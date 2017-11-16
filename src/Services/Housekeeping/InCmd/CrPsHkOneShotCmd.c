@@ -118,7 +118,6 @@ void CrPsHkOneShotCmdProgressAction(FwSmDesc_t smDesc)
         setDpcycleCntItem(rdlSlot, getDpperiodItem(rdlSlot));
         nmbSucc++;
       }
-    
   }
 
   /* Set the outcome to completed */

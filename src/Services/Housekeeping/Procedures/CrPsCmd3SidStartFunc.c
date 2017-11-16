@@ -56,7 +56,7 @@ void CrPsCmd3SidStartN1(FwPrDesc_t prDesc)
   CrFwServSubType_t         servSubType;
 
   /*Set i equal to 1 */
-
+  DEBUGP_3("CrPsCmd3SidStartN1.\n");
   i = 0;
   iSidFail = 0;
 
@@ -73,38 +73,38 @@ void CrPsCmd3SidStartN1(FwPrDesc_t prDesc)
 
   switch(servSubType)
   {
-    case 5:
+    case CRPS_HK_ENABLE_PERIODICHK_CMD:
       currentSid = getHkEnableCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkEnableCmdN(pckt); 
       break;
-    case 7:
+    case CRPS_HK_ENABLE_PERIODICDIAG_CMD:
       currentSid = getHkEnableCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkEnableCmdN(pckt); 
       break;
 
-    case 6:
+    case CRPS_HK_DISABLE_PERIODICHK_CMD:
       currentSid = getHkDisableCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkDisableCmdN(pckt); 
       break;
-    case 8:
+    case CRPS_HK_DISABLE_PERIODICDIAG_CMD:
       currentSid = getHkDisableCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkDisableCmdN(pckt);     
       break;
 
-    case 9:
+    case CRPS_HK_HKREP_STRUCT_CMD:
       currentSid = getHkRepStructCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkRepStructCmdN(pckt); 
       break;
-    case 11:
+    case CRPS_HK_DIAGREP_STRUCT_CMD:
       currentSid = getHkRepStructCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkRepStructCmdN(pckt); 
       break;
 
-    case 27:
+    case CRPS_HK_HKONESHOT_CMD:
       currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkOneShotCmdN(pckt); 
       break;
-    case 28:
+    case CRPS_HK_DIAGONESHOT_CMD:
       currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i+1); 
       iMax = getHkOneShotCmdN(pckt); 
       break;
@@ -122,7 +122,7 @@ void CrPsCmd3SidStartN1(FwPrDesc_t prDesc)
 void CrPsCmd3SidStartN2(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-
+  DEBUGP_3("CrPsCmd3SidStartN2.\n");
   /*Load invalid SID in data pool item verFailData */
 
   iSidFail++;
@@ -138,12 +138,12 @@ void CrPsCmd3SidStartN3(FwPrDesc_t prDesc)
   prDescMultiSidCmdStart_t *prDataPtr;
 
   /* Run Command Verification Failure Procedure to generate (1,4) report with failure code VER_ILL_SID */
-
+  DEBUGP_3("CrPsCmd3SidStartN3.\n");
   /* Get smDesc from prData */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
 
-  SendReqVerifAccFailRep(smDesc, VER_ILL_SID);
+  SendReqVerifCmdFailRep(smDesc, CRPS_REQVERIF_START_FAIL, VER_ILL_SID);  
 
   return;
 }
@@ -159,7 +159,7 @@ void CrPsCmd3SidStartN4(FwPrDesc_t prDesc)
   CrFwServSubType_t         servSubType;
 
   /*Increment i */
-
+  DEBUGP_3("CrPsCmd3SidStartN4.\n");
   i++;
 
   /* Get smDesc from prData */
@@ -175,35 +175,35 @@ void CrPsCmd3SidStartN4(FwPrDesc_t prDesc)
 
   switch(servSubType)
   {
-    case 5:
+    case CRPS_HK_ENABLE_PERIODICHK_CMD:
       currentSid = getHkEnableCmdRepStrucIdItem(pckt, i+1); 
       break;
-    case 7:
+    case CRPS_HK_ENABLE_PERIODICDIAG_CMD:
       currentSid = getHkEnableCmdRepStrucIdItem(pckt, i+1); 
       break;
 
-    case 6:
+    case CRPS_HK_DISABLE_PERIODICHK_CMD:
       currentSid = getHkDisableCmdRepStrucIdItem(pckt, i+1); 
       break;
-    case 8:
+    case CRPS_HK_DISABLE_PERIODICDIAG_CMD:
       currentSid = getHkDisableCmdRepStrucIdItem(pckt, i+1); 
       break;
 
-    case 9:
+    case CRPS_HK_HKREP_STRUCT_CMD:
       currentSid = getHkRepStructCmdRepStrucIdItem(pckt, i+1); 
       break;
-    case 11:
+    case CRPS_HK_DIAGREP_STRUCT_CMD:
       currentSid = getHkRepStructCmdRepStrucIdItem(pckt, i+1); 
       break;
 
-    case 27:
+    case CRPS_HK_HKONESHOT_CMD:
       currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i+1); 
       break;
-    case 28:
+    case CRPS_HK_DIAGONESHOT_CMD:
       currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i+1); 
       break;
 
-    default:
+    default: /*TODO kann nicht mehr ausgeführt werden ! (weil beim N1 maxsid auf 1 gesetzt wird!*/
       currentSid = 0;
       break;
   }
@@ -219,7 +219,7 @@ void CrPsCmd3SidStartN7(FwPrDesc_t prDesc)
   FwSmDesc_t                smDesc;
 
   /*Set action outcome to 'success' */
-
+  DEBUGP_3("CrPsCmd3SidStartN7.\n");
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -240,7 +240,7 @@ void CrPsCmd3SidStartN8(FwPrDesc_t prDesc)
   FwSmDesc_t                smDesc;
   
   /*Set action outcome to 'failure' with failure code VER_SID_START_FD */
-
+  DEBUGP_3("CrPsCmd3SidStartN8.\n");
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -263,7 +263,7 @@ FwPrBool_t CrPsCmd3SidStartG1(FwPrDesc_t prDesc)
   CrPsSid_t rdlSid, rdlSlot;
 
   CRFW_UNUSED(prDesc);
-
+  DEBUGP_3("CrPsCmd3SidStartG1.\n");
   /*The i-th SID is not in the RDL */
 
   /* look for the slot */
@@ -292,7 +292,7 @@ FwPrBool_t CrPsCmd3SidStartG2(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /*The i-th SID was the last SID in the command*/
-
+  DEBUGP_3("CrPsCmd3SidStartG2.\n");
   if (i == iMax-1)
     {
       return 1;
@@ -309,7 +309,7 @@ FwPrBool_t CrPsCmd3SidStartG3(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /*All SIDs in the command are invalid */
-	
+	  DEBUGP_3("CrPsCmd3SidStartG3.\n");
   if (iSidFail == iMax)
     {
       return 1;

@@ -52,14 +52,14 @@ CrFwBool_t CrPsHkRepEnableCheck(FwSmDesc_t smDesc)
   CrPsSid_t sid, rdlSid, rdlSlot;
 
   CrFwCmpData_t      *cmpData;
-  CrFwInCmdData_t    *cmpSpecificData;
+  CrFwOutCmpData_t   *cmpSpecificData;
   CrFwPckt_t          pckt;
   CrFwDiscriminant_t  disc;
 
   /* The enable status is read from the isEnabled field of the Report Definition corresponding to the report’s SID */
 
-  cmpData	        = (CrFwCmpData_t   *) FwSmGetData(smDesc);
-  cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
+  cmpData	        = (CrFwCmpData_t    *) FwSmGetData(smDesc);
+  cmpSpecificData = (CrFwOutCmpData_t *) cmpData->cmpSpecificData;
   pckt		        = cmpSpecificData->pckt;
   disc            = CrFwPcktGetDiscriminant(pckt);
 
@@ -87,7 +87,7 @@ CrFwBool_t CrPsHkRepEnableCheck(FwSmDesc_t smDesc)
 CrFwBool_t CrPsHkRepReadyCheck(FwSmDesc_t smDesc)
 {
   CrFwCmpData_t      *cmpData;
-  CrFwInCmdData_t    *cmpSpecificData;
+  CrFwOutCmpData_t   *cmpSpecificData;
   CrFwPckt_t          pckt;
   CrFwDiscriminant_t  disc;
   prDataHkRepReadyCheck_t prData;
@@ -95,8 +95,8 @@ CrFwBool_t CrPsHkRepReadyCheck(FwSmDesc_t smDesc)
 
   /* Run the procedure Ready Check of HkRep Report of figure 9.5 */
 
-  cmpData         = (CrFwCmpData_t   *) FwSmGetData(smDesc);
-  cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
+  cmpData         = (CrFwCmpData_t    *) FwSmGetData(smDesc);
+  cmpSpecificData = (CrFwOutCmpData_t *) cmpData->cmpSpecificData;
   pckt            = cmpSpecificData->pckt;
   disc            = CrFwPcktGetDiscriminant(pckt);
 
@@ -122,7 +122,7 @@ void CrPsHkRepUpdateAction(FwSmDesc_t smDesc)
   CrPsSid_t sid, rdlSid, rdlSlot;
 
   CrFwCmpData_t      *cmpData;
-  CrFwInCmdData_t    *cmpSpecificData;
+  CrFwOutCmpData_t   *cmpSpecificData;
   CrFwPckt_t          pckt;
   CrFwDiscriminant_t  disc;
 
@@ -145,12 +145,10 @@ void CrPsHkRepUpdateAction(FwSmDesc_t smDesc)
    * associated to the report’s SID according to the Report Definition. */
 
   /* Get packet and discriminant */
-  cmpData	        = (CrFwCmpData_t   *) FwSmGetData(smDesc);
-  cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
+  cmpData	        = (CrFwCmpData_t    *) FwSmGetData(smDesc);
+  cmpSpecificData = (CrFwOutCmpData_t *) cmpData->cmpSpecificData;
   pckt		        = cmpSpecificData->pckt;
   disc            = CrFwPcktGetDiscriminant(pckt);
-
-  debugPacket(pckt, 28);
 
   /* Set SID equal to discriminant */
   sid = (CrPsSid_t) disc;
@@ -267,8 +265,6 @@ void CrPsHkRepUpdateAction(FwSmDesc_t smDesc)
         }
 
     }
-
-  debugPacket(pckt, 28);
 
   cmpData->outcome = 1;
 

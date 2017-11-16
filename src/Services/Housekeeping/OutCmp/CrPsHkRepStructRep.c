@@ -42,7 +42,7 @@
 void CrPsHkRepStructRepUpdateAction(FwSmDesc_t smDesc)
 {
   CrFwCmpData_t      *cmpData;
-  CrFwInCmdData_t    *cmpSpecificData;
+  CrFwOutCmpData_t   *cmpSpecificData;
   CrFwPckt_t          pckt;
   CrFwDiscriminant_t  disc;
 
@@ -58,9 +58,9 @@ void CrPsHkRepStructRepUpdateAction(FwSmDesc_t smDesc)
   /* Load the SID definition from the RDL */
 
   /* Get packet and discriminant */
-  cmpData	        = (CrFwCmpData_t   *) FwSmGetData(smDesc);
-  cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
-  pckt		        = cmpSpecificData->pckt;
+  cmpData         = (CrFwCmpData_t    *) FwSmGetData(smDesc);
+  cmpSpecificData = (CrFwOutCmpData_t *) cmpData->cmpSpecificData;
+  pckt            = cmpSpecificData->pckt;
   disc            = CrFwPcktGetDiscriminant(pckt);
 
   /* Set SID equal to discriminant */

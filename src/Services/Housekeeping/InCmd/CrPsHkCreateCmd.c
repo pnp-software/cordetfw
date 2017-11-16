@@ -66,7 +66,7 @@ void CrPsHkCreateCmdProgressAction(FwSmDesc_t smDesc)
   CrPsCollectInterval_t period;
   CrFwBool_t            isEnabled;
   CrFwCounterU4_t       N1, NFA, N2;
-  unsigned int SCSampleRep;
+  CrPsRepNum_t          SCSampleRep;
 
   /* Add the definition of the new report to the RDL, set its enabled status to ’disabled’, and set the action outcome to ’completed’ */
 
@@ -128,7 +128,7 @@ void CrPsHkCreateCmdProgressAction(FwSmDesc_t smDesc)
 /* ------------------------------------------------------------------------------------ */
 void CrPsHkCreateCmdTerminationAction(FwSmDesc_t smDesc)
 {
-  CrFwCmpData_t*   inData;
+  CrFwCmpData_t *inData;
 
   /* Set action outcome to 'success' */
 
