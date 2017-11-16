@@ -22,7 +22,6 @@ FwPrBool_t CrPsCmdVerFailG1E(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
   /* [ Else ] */
-  DEBUGP_1("CrPsCmdVerFailG1E");
   return 1;
 }
 

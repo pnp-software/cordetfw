@@ -345,7 +345,7 @@ typedef struct __attribute__((packed)) _VerFailedRoutingRep_t {
  * \param p Pointer to the packet.
  * \return Value of "TcPacketId".
  */
-static inline uint16_t getVerSuccessAccRepTcPacketId(void* p)
+static inline CrFwTypeId_t getVerSuccessAccRepTcPacketId(void* p)
 {
   VerSuccessAccRep_t* t;
   t = (VerSuccessAccRep_t*)p;
@@ -357,7 +357,7 @@ static inline uint16_t getVerSuccessAccRepTcPacketId(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketId Value of "TcPacketId" to be set in packet.
  */
-static inline void setVerSuccessAccRepTcPacketId(void* p, uint16_t TcPacketId)
+static inline void setVerSuccessAccRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
 {
   VerSuccessAccRep_t* t;
   t = (VerSuccessAccRep_t*)p;
@@ -369,7 +369,7 @@ static inline void setVerSuccessAccRepTcPacketId(void* p, uint16_t TcPacketId)
  * \param p Pointer to the packet.
  * \return Value of "TcPacketSeqCtrl".
  */
-static inline uint16_t getVerSuccessAccRepTcPacketSeqCtrl(void* p)
+static inline CrPsSeqCtrl_t getVerSuccessAccRepTcPacketSeqCtrl(void* p)
 {
   VerSuccessAccRep_t* t;
   t = (VerSuccessAccRep_t*)p;
@@ -381,7 +381,7 @@ static inline uint16_t getVerSuccessAccRepTcPacketSeqCtrl(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
  */
-static inline void setVerSuccessAccRepTcPacketSeqCtrl(void* p, uint16_t TcPacketSeqCtrl)
+static inline void setVerSuccessAccRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
 {
   VerSuccessAccRep_t* t;
   t = (VerSuccessAccRep_t*)p;
@@ -393,7 +393,7 @@ static inline void setVerSuccessAccRepTcPacketSeqCtrl(void* p, uint16_t TcPacket
  * \param p Pointer to the packet.
  * \return Value of "TcFailureCode".
  */
-static inline uint16_t getVerFailedAccRepTcFailureCode(void* p)
+static inline CrPsFailCode_t getVerFailedAccRepTcFailureCode(void* p)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
@@ -405,7 +405,7 @@ static inline uint16_t getVerFailedAccRepTcFailureCode(void* p)
  * \param p Pointer to the packet.
  * \param TcFailureCode Value of "TcFailureCode" to be set in packet.
  */
-static inline void setVerFailedAccRepTcFailureCode(void* p, uint16_t TcFailureCode)
+static inline void setVerFailedAccRepTcFailureCode(void* p, CrPsFailCode_t TcFailureCode)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
@@ -417,7 +417,7 @@ static inline void setVerFailedAccRepTcFailureCode(void* p, uint16_t TcFailureCo
  * \param p Pointer to the packet.
  * \return Value of "TcPacketId".
  */
-static inline uint16_t getVerFailedAccRepTcPacketId(void* p)
+static inline CrFwTypeId_t getVerFailedAccRepTcPacketId(void* p)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
@@ -429,7 +429,7 @@ static inline uint16_t getVerFailedAccRepTcPacketId(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketId Value of "TcPacketId" to be set in packet.
  */
-static inline void setVerFailedAccRepTcPacketId(void* p, uint16_t TcPacketId)
+static inline void setVerFailedAccRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
@@ -441,7 +441,7 @@ static inline void setVerFailedAccRepTcPacketId(void* p, uint16_t TcPacketId)
  * \param p Pointer to the packet.
  * \return Value of "TcPacketSeqCtrl".
  */
-static inline uint16_t getVerFailedAccRepTcPacketSeqCtrl(void* p)
+static inline CrPsSeqCtrl_t getVerFailedAccRepTcPacketSeqCtrl(void* p)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
@@ -453,7 +453,7 @@ static inline uint16_t getVerFailedAccRepTcPacketSeqCtrl(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
  */
-static inline void setVerFailedAccRepTcPacketSeqCtrl(void* p, uint16_t TcPacketSeqCtrl)
+static inline void setVerFailedAccRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
@@ -465,7 +465,7 @@ static inline void setVerFailedAccRepTcPacketSeqCtrl(void* p, uint16_t TcPacketS
  * \param p Pointer to the packet.
  * \return Value of "TcType".
  */
-static inline uint8_t getVerFailedAccRepTcType(void* p)
+static inline CrFwServType_t getVerFailedAccRepTcType(void* p)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
@@ -477,7 +477,7 @@ static inline uint8_t getVerFailedAccRepTcType(void* p)
  * \param p Pointer to the packet.
  * \param TcType Value of "TcType" to be set in packet.
  */
-static inline void setVerFailedAccRepTcType(void* p, uint8_t TcType)
+static inline void setVerFailedAccRepTcType(void* p, CrFwServType_t TcType)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
@@ -489,7 +489,7 @@ static inline void setVerFailedAccRepTcType(void* p, uint8_t TcType)
  * \param p Pointer to the packet.
  * \return Value of "TcSubtype".
  */
-static inline uint8_t getVerFailedAccRepTcSubtype(void* p)
+static inline CrFwServSubType_t getVerFailedAccRepTcSubtype(void* p)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
@@ -501,7 +501,7 @@ static inline uint8_t getVerFailedAccRepTcSubtype(void* p)
  * \param p Pointer to the packet.
  * \param TcSubtype Value of "TcSubtype" to be set in packet.
  */
-static inline void setVerFailedAccRepTcSubtype(void* p, uint8_t TcSubtype)
+static inline void setVerFailedAccRepTcSubtype(void* p, CrFwServSubType_t TcSubtype)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
@@ -513,7 +513,7 @@ static inline void setVerFailedAccRepTcSubtype(void* p, uint8_t TcSubtype)
  * \param p Pointer to the packet.
  * \return Value of "TcDisc".
  */
-static inline uint8_t getVerFailedAccRepTcDisc(void* p)
+static inline CrFwDiscriminant_t getVerFailedAccRepTcDisc(void* p)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
@@ -525,7 +525,7 @@ static inline uint8_t getVerFailedAccRepTcDisc(void* p)
  * \param p Pointer to the packet.
  * \param TcDisc Value of "TcDisc" to be set in packet.
  */
-static inline void setVerFailedAccRepTcDisc(void* p, uint8_t TcDisc)
+static inline void setVerFailedAccRepTcDisc(void* p, CrFwDiscriminant_t TcDisc)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
@@ -537,7 +537,7 @@ static inline void setVerFailedAccRepTcDisc(void* p, uint8_t TcDisc)
  * \param p Pointer to the packet.
  * \return Value of "TcFailureData".
  */
-static inline uint32_t getVerFailedAccRepTcFailureData(void* p)
+static inline CrPsFailData_t getVerFailedAccRepTcFailureData(void* p)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
@@ -549,7 +549,7 @@ static inline uint32_t getVerFailedAccRepTcFailureData(void* p)
  * \param p Pointer to the packet.
  * \param TcFailureData Value of "TcFailureData" to be set in packet.
  */
-static inline void setVerFailedAccRepTcFailureData(void* p, uint32_t TcFailureData)
+static inline void setVerFailedAccRepTcFailureData(void* p, CrPsFailData_t TcFailureData)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
@@ -561,7 +561,7 @@ static inline void setVerFailedAccRepTcFailureData(void* p, uint32_t TcFailureDa
  * \param p Pointer to the packet.
  * \return Value of "TcPacketId".
  */
-static inline uint16_t getVerSuccessStartRepTcPacketId(void* p)
+static inline CrFwTypeId_t getVerSuccessStartRepTcPacketId(void* p)
 {
   VerSuccessStartRep_t* t;
   t = (VerSuccessStartRep_t*)p;
@@ -573,7 +573,7 @@ static inline uint16_t getVerSuccessStartRepTcPacketId(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketId Value of "TcPacketId" to be set in packet.
  */
-static inline void setVerSuccessStartRepTcPacketId(void* p, uint16_t TcPacketId)
+static inline void setVerSuccessStartRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
 {
   VerSuccessStartRep_t* t;
   t = (VerSuccessStartRep_t*)p;
@@ -585,7 +585,7 @@ static inline void setVerSuccessStartRepTcPacketId(void* p, uint16_t TcPacketId)
  * \param p Pointer to the packet.
  * \return Value of "TcPacketSeqCtrl".
  */
-static inline uint16_t getVerSuccessStartRepTcPacketSeqCtrl(void* p)
+static inline CrPsSeqCtrl_t getVerSuccessStartRepTcPacketSeqCtrl(void* p)
 {
   VerSuccessStartRep_t* t;
   t = (VerSuccessStartRep_t*)p;
@@ -597,7 +597,7 @@ static inline uint16_t getVerSuccessStartRepTcPacketSeqCtrl(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
  */
-static inline void setVerSuccessStartRepTcPacketSeqCtrl(void* p, uint16_t TcPacketSeqCtrl)
+static inline void setVerSuccessStartRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
 {
   VerSuccessStartRep_t* t;
   t = (VerSuccessStartRep_t*)p;
@@ -609,7 +609,7 @@ static inline void setVerSuccessStartRepTcPacketSeqCtrl(void* p, uint16_t TcPack
  * \param p Pointer to the packet.
  * \return Value of "TcFailureCode".
  */
-static inline uint16_t getVerFailedStartRepTcFailureCode(void* p)
+static inline CrPsFailCode_t getVerFailedStartRepTcFailureCode(void* p)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
@@ -621,7 +621,7 @@ static inline uint16_t getVerFailedStartRepTcFailureCode(void* p)
  * \param p Pointer to the packet.
  * \param TcFailureCode Value of "TcFailureCode" to be set in packet.
  */
-static inline void setVerFailedStartRepTcFailureCode(void* p, uint16_t TcFailureCode)
+static inline void setVerFailedStartRepTcFailureCode(void* p, CrPsFailCode_t TcFailureCode)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
@@ -633,7 +633,7 @@ static inline void setVerFailedStartRepTcFailureCode(void* p, uint16_t TcFailure
  * \param p Pointer to the packet.
  * \return Value of "TcPacketId".
  */
-static inline uint16_t getVerFailedStartRepTcPacketId(void* p)
+static inline CrFwTypeId_t getVerFailedStartRepTcPacketId(void* p)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
@@ -645,7 +645,7 @@ static inline uint16_t getVerFailedStartRepTcPacketId(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketId Value of "TcPacketId" to be set in packet.
  */
-static inline void setVerFailedStartRepTcPacketId(void* p, uint16_t TcPacketId)
+static inline void setVerFailedStartRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
@@ -657,7 +657,7 @@ static inline void setVerFailedStartRepTcPacketId(void* p, uint16_t TcPacketId)
  * \param p Pointer to the packet.
  * \return Value of "TcPacketSeqCtrl".
  */
-static inline uint16_t getVerFailedStartRepTcPacketSeqCtrl(void* p)
+static inline CrPsSeqCtrl_t getVerFailedStartRepTcPacketSeqCtrl(void* p)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
@@ -669,7 +669,7 @@ static inline uint16_t getVerFailedStartRepTcPacketSeqCtrl(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
  */
-static inline void setVerFailedStartRepTcPacketSeqCtrl(void* p, uint16_t TcPacketSeqCtrl)
+static inline void setVerFailedStartRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
@@ -681,7 +681,7 @@ static inline void setVerFailedStartRepTcPacketSeqCtrl(void* p, uint16_t TcPacke
  * \param p Pointer to the packet.
  * \return Value of "TcType".
  */
-static inline uint8_t getVerFailedStartRepTcType(void* p)
+static inline CrFwServType_t getVerFailedStartRepTcType(void* p)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
@@ -693,7 +693,7 @@ static inline uint8_t getVerFailedStartRepTcType(void* p)
  * \param p Pointer to the packet.
  * \param TcType Value of "TcType" to be set in packet.
  */
-static inline void setVerFailedStartRepTcType(void* p, uint8_t TcType)
+static inline void setVerFailedStartRepTcType(void* p, CrFwServType_t TcType)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
@@ -705,7 +705,7 @@ static inline void setVerFailedStartRepTcType(void* p, uint8_t TcType)
  * \param p Pointer to the packet.
  * \return Value of "TcSubtype".
  */
-static inline uint8_t getVerFailedStartRepTcSubtype(void* p)
+static inline CrFwServSubType_t getVerFailedStartRepTcSubtype(void* p)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
@@ -717,7 +717,7 @@ static inline uint8_t getVerFailedStartRepTcSubtype(void* p)
  * \param p Pointer to the packet.
  * \param TcSubtype Value of "TcSubtype" to be set in packet.
  */
-static inline void setVerFailedStartRepTcSubtype(void* p, uint8_t TcSubtype)
+static inline void setVerFailedStartRepTcSubtype(void* p, CrFwServSubType_t TcSubtype)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
@@ -729,7 +729,7 @@ static inline void setVerFailedStartRepTcSubtype(void* p, uint8_t TcSubtype)
  * \param p Pointer to the packet.
  * \return Value of "TcDisc".
  */
-static inline uint8_t getVerFailedStartRepTcDisc(void* p)
+static inline CrFwDiscriminant_t getVerFailedStartRepTcDisc(void* p)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
@@ -741,7 +741,7 @@ static inline uint8_t getVerFailedStartRepTcDisc(void* p)
  * \param p Pointer to the packet.
  * \param TcDisc Value of "TcDisc" to be set in packet.
  */
-static inline void setVerFailedStartRepTcDisc(void* p, uint8_t TcDisc)
+static inline void setVerFailedStartRepTcDisc(void* p, CrFwDiscriminant_t TcDisc)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
@@ -753,7 +753,7 @@ static inline void setVerFailedStartRepTcDisc(void* p, uint8_t TcDisc)
  * \param p Pointer to the packet.
  * \return Value of "TcFailureData".
  */
-static inline uint32_t getVerFailedStartRepTcFailureData(void* p)
+static inline CrPsFailData_t getVerFailedStartRepTcFailureData(void* p)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
@@ -765,7 +765,7 @@ static inline uint32_t getVerFailedStartRepTcFailureData(void* p)
  * \param p Pointer to the packet.
  * \param TcFailureData Value of "TcFailureData" to be set in packet.
  */
-static inline void setVerFailedStartRepTcFailureData(void* p, uint32_t TcFailureData)
+static inline void setVerFailedStartRepTcFailureData(void* p, CrPsFailData_t TcFailureData)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
@@ -777,7 +777,7 @@ static inline void setVerFailedStartRepTcFailureData(void* p, uint32_t TcFailure
  * \param p Pointer to the packet.
  * \return Value of "TcPacketId".
  */
-static inline uint16_t getVerSuccessPrgrRepTcPacketId(void* p)
+static inline CrFwTypeId_t getVerSuccessPrgrRepTcPacketId(void* p)
 {
   VerSuccessPrgrRep_t* t;
   t = (VerSuccessPrgrRep_t*)p;
@@ -789,7 +789,7 @@ static inline uint16_t getVerSuccessPrgrRepTcPacketId(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketId Value of "TcPacketId" to be set in packet.
  */
-static inline void setVerSuccessPrgrRepTcPacketId(void* p, uint16_t TcPacketId)
+static inline void setVerSuccessPrgrRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
 {
   VerSuccessPrgrRep_t* t;
   t = (VerSuccessPrgrRep_t*)p;
@@ -801,7 +801,7 @@ static inline void setVerSuccessPrgrRepTcPacketId(void* p, uint16_t TcPacketId)
  * \param p Pointer to the packet.
  * \return Value of "TcPacketSeqCtrl".
  */
-static inline uint16_t getVerSuccessPrgrRepTcPacketSeqCtrl(void* p)
+static inline CrPsSeqCtrl_t getVerSuccessPrgrRepTcPacketSeqCtrl(void* p)
 {
   VerSuccessPrgrRep_t* t;
   t = (VerSuccessPrgrRep_t*)p;
@@ -813,7 +813,7 @@ static inline uint16_t getVerSuccessPrgrRepTcPacketSeqCtrl(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
  */
-static inline void setVerSuccessPrgrRepTcPacketSeqCtrl(void* p, uint16_t TcPacketSeqCtrl)
+static inline void setVerSuccessPrgrRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
 {
   VerSuccessPrgrRep_t* t;
   t = (VerSuccessPrgrRep_t*)p;
@@ -825,7 +825,7 @@ static inline void setVerSuccessPrgrRepTcPacketSeqCtrl(void* p, uint16_t TcPacke
  * \param p Pointer to the packet.
  * \return Value of "StepId".
  */
-static inline uint32_t getVerSuccessPrgrRepStepId(void* p)
+static inline CrPsStepId_t getVerSuccessPrgrRepStepId(void* p)
 {
   VerSuccessPrgrRep_t* t;
   t = (VerSuccessPrgrRep_t*)p;
@@ -837,7 +837,7 @@ static inline uint32_t getVerSuccessPrgrRepStepId(void* p)
  * \param p Pointer to the packet.
  * \param StepId Value of "StepId" to be set in packet.
  */
-static inline void setVerSuccessPrgrRepStepId(void* p, uint32_t StepId)
+static inline void setVerSuccessPrgrRepStepId(void* p, CrPsStepId_t StepId)
 {
   VerSuccessPrgrRep_t* t;
   t = (VerSuccessPrgrRep_t*)p;
@@ -849,7 +849,7 @@ static inline void setVerSuccessPrgrRepStepId(void* p, uint32_t StepId)
  * \param p Pointer to the packet.
  * \return Value of "TcFailureCode".
  */
-static inline uint16_t getVerFailedPrgrRepTcFailureCode(void* p)
+static inline CrPsFailCode_t getVerFailedPrgrRepTcFailureCode(void* p)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -861,7 +861,7 @@ static inline uint16_t getVerFailedPrgrRepTcFailureCode(void* p)
  * \param p Pointer to the packet.
  * \param TcFailureCode Value of "TcFailureCode" to be set in packet.
  */
-static inline void setVerFailedPrgrRepTcFailureCode(void* p, uint16_t TcFailureCode)
+static inline void setVerFailedPrgrRepTcFailureCode(void* p, CrPsFailCode_t TcFailureCode)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -873,7 +873,7 @@ static inline void setVerFailedPrgrRepTcFailureCode(void* p, uint16_t TcFailureC
  * \param p Pointer to the packet.
  * \return Value of "TcPacketId".
  */
-static inline uint16_t getVerFailedPrgrRepTcPacketId(void* p)
+static inline CrFwTypeId_t getVerFailedPrgrRepTcPacketId(void* p)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -885,7 +885,7 @@ static inline uint16_t getVerFailedPrgrRepTcPacketId(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketId Value of "TcPacketId" to be set in packet.
  */
-static inline void setVerFailedPrgrRepTcPacketId(void* p, uint16_t TcPacketId)
+static inline void setVerFailedPrgrRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -897,7 +897,7 @@ static inline void setVerFailedPrgrRepTcPacketId(void* p, uint16_t TcPacketId)
  * \param p Pointer to the packet.
  * \return Value of "TcPacketSeqCtrl".
  */
-static inline uint16_t getVerFailedPrgrRepTcPacketSeqCtrl(void* p)
+static inline CrPsSeqCtrl_t getVerFailedPrgrRepTcPacketSeqCtrl(void* p)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -909,7 +909,7 @@ static inline uint16_t getVerFailedPrgrRepTcPacketSeqCtrl(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
  */
-static inline void setVerFailedPrgrRepTcPacketSeqCtrl(void* p, uint16_t TcPacketSeqCtrl)
+static inline void setVerFailedPrgrRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -921,7 +921,7 @@ static inline void setVerFailedPrgrRepTcPacketSeqCtrl(void* p, uint16_t TcPacket
  * \param p Pointer to the packet.
  * \return Value of "StepId".
  */
-static inline uint32_t getVerFailedPrgrRepStepId(void* p)
+static inline CrPsStepId_t getVerFailedPrgrRepStepId(void* p)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -933,7 +933,7 @@ static inline uint32_t getVerFailedPrgrRepStepId(void* p)
  * \param p Pointer to the packet.
  * \param StepId Value of "StepId" to be set in packet.
  */
-static inline void setVerFailedPrgrRepStepId(void* p, uint32_t StepId)
+static inline void setVerFailedPrgrRepStepId(void* p, CrPsStepId_t StepId)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -945,7 +945,7 @@ static inline void setVerFailedPrgrRepStepId(void* p, uint32_t StepId)
  * \param p Pointer to the packet.
  * \return Value of "TcType".
  */
-static inline uint8_t getVerFailedPrgrRepTcType(void* p)
+static inline CrFwServType_t getVerFailedPrgrRepTcType(void* p)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -957,7 +957,7 @@ static inline uint8_t getVerFailedPrgrRepTcType(void* p)
  * \param p Pointer to the packet.
  * \param TcType Value of "TcType" to be set in packet.
  */
-static inline void setVerFailedPrgrRepTcType(void* p, uint8_t TcType)
+static inline void setVerFailedPrgrRepTcType(void* p, CrFwServType_t TcType)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -969,7 +969,7 @@ static inline void setVerFailedPrgrRepTcType(void* p, uint8_t TcType)
  * \param p Pointer to the packet.
  * \return Value of "TcSubtype".
  */
-static inline uint8_t getVerFailedPrgrRepTcSubtype(void* p)
+static inline CrFwServSubType_t getVerFailedPrgrRepTcSubtype(void* p)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -981,7 +981,7 @@ static inline uint8_t getVerFailedPrgrRepTcSubtype(void* p)
  * \param p Pointer to the packet.
  * \param TcSubtype Value of "TcSubtype" to be set in packet.
  */
-static inline void setVerFailedPrgrRepTcSubtype(void* p, uint8_t TcSubtype)
+static inline void setVerFailedPrgrRepTcSubtype(void* p, CrFwServSubType_t TcSubtype)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -993,7 +993,7 @@ static inline void setVerFailedPrgrRepTcSubtype(void* p, uint8_t TcSubtype)
  * \param p Pointer to the packet.
  * \return Value of "TcDisc".
  */
-static inline uint8_t getVerFailedPrgrRepTcDisc(void* p)
+static inline CrFwDiscriminant_t getVerFailedPrgrRepTcDisc(void* p)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -1005,7 +1005,7 @@ static inline uint8_t getVerFailedPrgrRepTcDisc(void* p)
  * \param p Pointer to the packet.
  * \param TcDisc Value of "TcDisc" to be set in packet.
  */
-static inline void setVerFailedPrgrRepTcDisc(void* p, uint8_t TcDisc)
+static inline void setVerFailedPrgrRepTcDisc(void* p, CrFwDiscriminant_t TcDisc)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -1017,7 +1017,7 @@ static inline void setVerFailedPrgrRepTcDisc(void* p, uint8_t TcDisc)
  * \param p Pointer to the packet.
  * \return Value of "TcFailureData".
  */
-static inline uint32_t getVerFailedPrgrRepTcFailureData(void* p)
+static inline CrPsFailData_t getVerFailedPrgrRepTcFailureData(void* p)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -1029,7 +1029,7 @@ static inline uint32_t getVerFailedPrgrRepTcFailureData(void* p)
  * \param p Pointer to the packet.
  * \param TcFailureData Value of "TcFailureData" to be set in packet.
  */
-static inline void setVerFailedPrgrRepTcFailureData(void* p, uint32_t TcFailureData)
+static inline void setVerFailedPrgrRepTcFailureData(void* p, CrPsFailData_t TcFailureData)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
@@ -1041,7 +1041,7 @@ static inline void setVerFailedPrgrRepTcFailureData(void* p, uint32_t TcFailureD
  * \param p Pointer to the packet.
  * \return Value of "TcPacketId".
  */
-static inline uint16_t getVerSuccessTermRepTcPacketId(void* p)
+static inline CrFwTypeId_t getVerSuccessTermRepTcPacketId(void* p)
 {
   VerSuccessTermRep_t* t;
   t = (VerSuccessTermRep_t*)p;
@@ -1053,7 +1053,7 @@ static inline uint16_t getVerSuccessTermRepTcPacketId(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketId Value of "TcPacketId" to be set in packet.
  */
-static inline void setVerSuccessTermRepTcPacketId(void* p, uint16_t TcPacketId)
+static inline void setVerSuccessTermRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
 {
   VerSuccessTermRep_t* t;
   t = (VerSuccessTermRep_t*)p;
@@ -1065,7 +1065,7 @@ static inline void setVerSuccessTermRepTcPacketId(void* p, uint16_t TcPacketId)
  * \param p Pointer to the packet.
  * \return Value of "TcPacketSeqCtrl".
  */
-static inline uint16_t getVerSuccessTermRepTcPacketSeqCtrl(void* p)
+static inline CrPsSeqCtrl_t getVerSuccessTermRepTcPacketSeqCtrl(void* p)
 {
   VerSuccessTermRep_t* t;
   t = (VerSuccessTermRep_t*)p;
@@ -1077,7 +1077,7 @@ static inline uint16_t getVerSuccessTermRepTcPacketSeqCtrl(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
  */
-static inline void setVerSuccessTermRepTcPacketSeqCtrl(void* p, uint16_t TcPacketSeqCtrl)
+static inline void setVerSuccessTermRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
 {
   VerSuccessTermRep_t* t;
   t = (VerSuccessTermRep_t*)p;
@@ -1089,7 +1089,7 @@ static inline void setVerSuccessTermRepTcPacketSeqCtrl(void* p, uint16_t TcPacke
  * \param p Pointer to the packet.
  * \return Value of "TcFailureCode".
  */
-static inline uint16_t getVerFailedTermRepTcFailureCode(void* p)
+static inline CrPsFailCode_t getVerFailedTermRepTcFailureCode(void* p)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
@@ -1101,7 +1101,7 @@ static inline uint16_t getVerFailedTermRepTcFailureCode(void* p)
  * \param p Pointer to the packet.
  * \param TcFailureCode Value of "TcFailureCode" to be set in packet.
  */
-static inline void setVerFailedTermRepTcFailureCode(void* p, uint16_t TcFailureCode)
+static inline void setVerFailedTermRepTcFailureCode(void* p, CrPsFailCode_t TcFailureCode)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
@@ -1113,7 +1113,7 @@ static inline void setVerFailedTermRepTcFailureCode(void* p, uint16_t TcFailureC
  * \param p Pointer to the packet.
  * \return Value of "TcPacketId".
  */
-static inline uint16_t getVerFailedTermRepTcPacketId(void* p)
+static inline CrFwTypeId_t getVerFailedTermRepTcPacketId(void* p)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
@@ -1125,7 +1125,7 @@ static inline uint16_t getVerFailedTermRepTcPacketId(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketId Value of "TcPacketId" to be set in packet.
  */
-static inline void setVerFailedTermRepTcPacketId(void* p, uint16_t TcPacketId)
+static inline void setVerFailedTermRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
@@ -1137,7 +1137,7 @@ static inline void setVerFailedTermRepTcPacketId(void* p, uint16_t TcPacketId)
  * \param p Pointer to the packet.
  * \return Value of "TcPacketSeqCtrl".
  */
-static inline uint16_t getVerFailedTermRepTcPacketSeqCtrl(void* p)
+static inline CrPsSeqCtrl_t getVerFailedTermRepTcPacketSeqCtrl(void* p)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
@@ -1149,7 +1149,7 @@ static inline uint16_t getVerFailedTermRepTcPacketSeqCtrl(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
  */
-static inline void setVerFailedTermRepTcPacketSeqCtrl(void* p, uint16_t TcPacketSeqCtrl)
+static inline void setVerFailedTermRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
@@ -1161,7 +1161,7 @@ static inline void setVerFailedTermRepTcPacketSeqCtrl(void* p, uint16_t TcPacket
  * \param p Pointer to the packet.
  * \return Value of "TcType".
  */
-static inline uint8_t getVerFailedTermRepTcType(void* p)
+static inline CrFwServType_t getVerFailedTermRepTcType(void* p)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
@@ -1173,7 +1173,7 @@ static inline uint8_t getVerFailedTermRepTcType(void* p)
  * \param p Pointer to the packet.
  * \param TcType Value of "TcType" to be set in packet.
  */
-static inline void setVerFailedTermRepTcType(void* p, uint8_t TcType)
+static inline void setVerFailedTermRepTcType(void* p, CrFwServType_t TcType)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
@@ -1185,7 +1185,7 @@ static inline void setVerFailedTermRepTcType(void* p, uint8_t TcType)
  * \param p Pointer to the packet.
  * \return Value of "TcSubtype".
  */
-static inline uint8_t getVerFailedTermRepTcSubtype(void* p)
+static inline CrFwServSubType_t getVerFailedTermRepTcSubtype(void* p)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
@@ -1197,7 +1197,7 @@ static inline uint8_t getVerFailedTermRepTcSubtype(void* p)
  * \param p Pointer to the packet.
  * \param TcSubtype Value of "TcSubtype" to be set in packet.
  */
-static inline void setVerFailedTermRepTcSubtype(void* p, uint8_t TcSubtype)
+static inline void setVerFailedTermRepTcSubtype(void* p, CrFwServSubType_t TcSubtype)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
@@ -1209,7 +1209,7 @@ static inline void setVerFailedTermRepTcSubtype(void* p, uint8_t TcSubtype)
  * \param p Pointer to the packet.
  * \return Value of "TcDisc".
  */
-static inline uint8_t getVerFailedTermRepTcDisc(void* p)
+static inline CrFwDiscriminant_t getVerFailedTermRepTcDisc(void* p)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
@@ -1221,7 +1221,7 @@ static inline uint8_t getVerFailedTermRepTcDisc(void* p)
  * \param p Pointer to the packet.
  * \param TcDisc Value of "TcDisc" to be set in packet.
  */
-static inline void setVerFailedTermRepTcDisc(void* p, uint8_t TcDisc)
+static inline void setVerFailedTermRepTcDisc(void* p, CrFwDiscriminant_t TcDisc)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
@@ -1233,7 +1233,7 @@ static inline void setVerFailedTermRepTcDisc(void* p, uint8_t TcDisc)
  * \param p Pointer to the packet.
  * \return Value of "TcFailureData".
  */
-static inline uint32_t getVerFailedTermRepTcFailureData(void* p)
+static inline CrPsFailData_t getVerFailedTermRepTcFailureData(void* p)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
@@ -1245,7 +1245,7 @@ static inline uint32_t getVerFailedTermRepTcFailureData(void* p)
  * \param p Pointer to the packet.
  * \param TcFailureData Value of "TcFailureData" to be set in packet.
  */
-static inline void setVerFailedTermRepTcFailureData(void* p, uint32_t TcFailureData)
+static inline void setVerFailedTermRepTcFailureData(void* p, CrPsFailData_t TcFailureData)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
@@ -1257,7 +1257,7 @@ static inline void setVerFailedTermRepTcFailureData(void* p, uint32_t TcFailureD
  * \param p Pointer to the packet.
  * \return Value of "TcFailureCode".
  */
-static inline uint16_t getVerFailedRoutingRepTcFailureCode(void* p)
+static inline CrPsFailCode_t getVerFailedRoutingRepTcFailureCode(void* p)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
@@ -1269,7 +1269,7 @@ static inline uint16_t getVerFailedRoutingRepTcFailureCode(void* p)
  * \param p Pointer to the packet.
  * \param TcFailureCode Value of "TcFailureCode" to be set in packet.
  */
-static inline void setVerFailedRoutingRepTcFailureCode(void* p, uint16_t TcFailureCode)
+static inline void setVerFailedRoutingRepTcFailureCode(void* p, CrPsFailCode_t TcFailureCode)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
@@ -1281,7 +1281,7 @@ static inline void setVerFailedRoutingRepTcFailureCode(void* p, uint16_t TcFailu
  * \param p Pointer to the packet.
  * \return Value of "TcPacketId".
  */
-static inline uint16_t getVerFailedRoutingRepTcPacketId(void* p)
+static inline CrFwTypeId_t getVerFailedRoutingRepTcPacketId(void* p)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
@@ -1293,7 +1293,7 @@ static inline uint16_t getVerFailedRoutingRepTcPacketId(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketId Value of "TcPacketId" to be set in packet.
  */
-static inline void setVerFailedRoutingRepTcPacketId(void* p, uint16_t TcPacketId)
+static inline void setVerFailedRoutingRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
@@ -1305,7 +1305,7 @@ static inline void setVerFailedRoutingRepTcPacketId(void* p, uint16_t TcPacketId
  * \param p Pointer to the packet.
  * \return Value of "TcPacketSeqCtrl".
  */
-static inline uint16_t getVerFailedRoutingRepTcPacketSeqCtrl(void* p)
+static inline CrPsSeqCtrl_t getVerFailedRoutingRepTcPacketSeqCtrl(void* p)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
@@ -1317,7 +1317,7 @@ static inline uint16_t getVerFailedRoutingRepTcPacketSeqCtrl(void* p)
  * \param p Pointer to the packet.
  * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
  */
-static inline void setVerFailedRoutingRepTcPacketSeqCtrl(void* p, uint16_t TcPacketSeqCtrl)
+static inline void setVerFailedRoutingRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
@@ -1329,7 +1329,7 @@ static inline void setVerFailedRoutingRepTcPacketSeqCtrl(void* p, uint16_t TcPac
  * \param p Pointer to the packet.
  * \return Value of "TcType".
  */
-static inline uint8_t getVerFailedRoutingRepTcType(void* p)
+static inline CrFwServType_t getVerFailedRoutingRepTcType(void* p)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
@@ -1341,7 +1341,7 @@ static inline uint8_t getVerFailedRoutingRepTcType(void* p)
  * \param p Pointer to the packet.
  * \param TcType Value of "TcType" to be set in packet.
  */
-static inline void setVerFailedRoutingRepTcType(void* p, uint8_t TcType)
+static inline void setVerFailedRoutingRepTcType(void* p, CrFwServType_t TcType)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
@@ -1353,7 +1353,7 @@ static inline void setVerFailedRoutingRepTcType(void* p, uint8_t TcType)
  * \param p Pointer to the packet.
  * \return Value of "TcSubtype".
  */
-static inline uint8_t getVerFailedRoutingRepTcSubtype(void* p)
+static inline CrFwServSubType_t getVerFailedRoutingRepTcSubtype(void* p)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
@@ -1365,7 +1365,7 @@ static inline uint8_t getVerFailedRoutingRepTcSubtype(void* p)
  * \param p Pointer to the packet.
  * \param TcSubtype Value of "TcSubtype" to be set in packet.
  */
-static inline void setVerFailedRoutingRepTcSubtype(void* p, uint8_t TcSubtype)
+static inline void setVerFailedRoutingRepTcSubtype(void* p, CrFwServSubType_t TcSubtype)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
@@ -1377,7 +1377,7 @@ static inline void setVerFailedRoutingRepTcSubtype(void* p, uint8_t TcSubtype)
  * \param p Pointer to the packet.
  * \return Value of "TcDisc".
  */
-static inline uint8_t getVerFailedRoutingRepTcDisc(void* p)
+static inline CrFwDiscriminant_t getVerFailedRoutingRepTcDisc(void* p)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
@@ -1389,7 +1389,7 @@ static inline uint8_t getVerFailedRoutingRepTcDisc(void* p)
  * \param p Pointer to the packet.
  * \param TcDisc Value of "TcDisc" to be set in packet.
  */
-static inline void setVerFailedRoutingRepTcDisc(void* p, uint8_t TcDisc)
+static inline void setVerFailedRoutingRepTcDisc(void* p, CrFwDiscriminant_t TcDisc)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
@@ -1401,7 +1401,7 @@ static inline void setVerFailedRoutingRepTcDisc(void* p, uint8_t TcDisc)
  * \param p Pointer to the packet.
  * \return Value of "invDest".
  */
-static inline uint16_t getVerFailedRoutingRepinvDest(void* p)
+static inline CrPsDestSrc_t getVerFailedRoutingRepinvDest(void* p)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
@@ -1413,7 +1413,7 @@ static inline uint16_t getVerFailedRoutingRepinvDest(void* p)
  * \param p Pointer to the packet.
  * \param invDest Value of "invDest" to be set in packet.
  */
-static inline void setVerFailedRoutingRepinvDest(void* p, uint16_t invDest)
+static inline void setVerFailedRoutingRepinvDest(void* p, CrPsDestSrc_t invDest)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;

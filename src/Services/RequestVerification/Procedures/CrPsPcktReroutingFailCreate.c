@@ -21,7 +21,6 @@ FwPrBool_t CrPsPcktReroutingFailG2E(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
   /* [ Else ] */
-  DEBUGP_1("CrPsPcktReroutingFailG2E");
   return 1;
 }
 

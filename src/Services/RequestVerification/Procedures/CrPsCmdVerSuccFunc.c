@@ -43,7 +43,6 @@ void CrPsCmdVerSuccN2(FwPrDesc_t prDesc)
   prData_t* prData;
 
   /* Retrieve an OutComponent of type (1,1), (1,3) or (1,7) from the OutFactory */
-  DEBUGP_1("CrPsCmdVerSuccN2: Retrieve an OutComponent of type (1,1), (1,3) or (1,7) from the OutFactory\n");
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -62,7 +61,6 @@ void CrPsCmdVerSuccN3(FwPrDesc_t prDesc)
   CrPsRepErrCode_t errCode;
 
   /* Generate error report OUTFACTORY_FAIL */
-  DEBUGP_1("CrPsCmdVerSuccN3: Generate error report OUTFACTORY_FAIL\n");
 
   errCode = crOutfactoryFail;
   CrPsRepErr(errCode, CRPS_TEST, CRPS_TEST_AREYOUALIVE_CONNECTION_CMD, 0);
@@ -74,26 +72,22 @@ void CrPsCmdVerSuccN3(FwPrDesc_t prDesc)
 /** Action for node N4. */
 void CrPsCmdVerSuccN4(FwPrDesc_t prDesc)
 {
-  CrFwDestSrc_t source;
-  unsigned short tcPacketId, tcSeqCtrl;
-
-  CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;
-
-  FwSmDesc_t  smDesc;
-  prData_t* prData;
-
-  CrFwCmpData_t*   cmpDataStart;
-  CrFwOutCmpData_t* cmpSpecificData;
-  CrFwPckt_t pckt;
+  CrFwDestSrc_t     source;
+  unsigned short    tcPacketId, tcSeqCtrl;
+  CrFwCmpData_t    *inData;
+  CrFwInCmdData_t  *inSpecificData;
+  CrFwPckt_t        inPckt;
+  FwSmDesc_t        smDesc;
+  prData_t         *prData;
+  CrFwCmpData_t    *cmpDataStart;
+  CrFwOutCmpData_t *cmpSpecificData;
+  CrFwPckt_t        pckt;
 
   cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(rep);
   cmpSpecificData = (CrFwOutCmpData_t *) cmpDataStart->cmpSpecificData;
   pckt            = cmpSpecificData->pckt;
 
   /* Configure report and load it in the OutLoader */
-  DEBUGP_1("CrPsCmdVerSuccN4: Configure report and load it in the OutLoader\n");
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -110,21 +104,21 @@ void CrPsCmdVerSuccN4(FwPrDesc_t prDesc)
 
   if (prData->ushortParam1 == CRPS_REQVERIF_ACC_SUCC)
   {
-    /* 1.1 */
+    /* 1,1 */
     /* Set pcktIdAccFailed */
     setVerSuccessAccRepTcPacketId(pckt, tcPacketId);
   }
 
   if (prData->ushortParam1 == CRPS_REQVERIF_START_SUCC)
   {
-    /* 1.3 */
+    /* 1,3 */
     /* Set pcktIdAccFailed */
     setVerSuccessStartRepTcPacketId(pckt, tcPacketId);
   }
 
   if (prData->ushortParam1 == CRPS_REQVERIF_TERM_SUCC)
   {
-    /* 1.7 */
+    /* 1,7 */
     /* Set pcktIdAccFailed */
     setVerSuccessTermRepTcPacketId(pckt, tcPacketId);
   }
@@ -154,7 +148,6 @@ FwPrBool_t CrPsCmdVerSuccG1(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /* [ OutFactory fails to generate OutComponent ] */  
-  DEBUGP_1("CrPsCmdVerSuccG1: Guard on the Control Flow from DECISION2 to N3 \n");
   
   if (rep == NULL)
     {

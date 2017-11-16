@@ -22,7 +22,6 @@ FwPrBool_t CrPsPcktAccFailG2E(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
   /* [ Else ] */
-  DEBUGP_1("CrPsPcktAccFailG2E");
   return 1;
 }
 

@@ -36,23 +36,20 @@
 
 FwSmDesc_t cmd, rep;
 
-
 /* ----------------------------------------------------------------------------------------------------------------- */
 
 /* ------------------------------------------------------------------------------------ */
 /** Action for node N1. */
 void CrPsPcktReroutingFailN1(FwPrDesc_t prDesc)
 {
-  CrFwCmpData_t*   inData;
-  CrFwInRepData_t* inSpecificData;
+  CrFwCmpData_t   *inData;
+  CrFwInRepData_t *inSpecificData;
   CrFwPckt_t       inPckt;
-
-  FwSmDesc_t  smDesc;
-  prData_t* prData;
+  FwSmDesc_t       smDesc;
+  prData_t        *prData;
   CrPsRepErrCode_t errCode;
 
   /* Generate error report INLOADER_INV_DEST */
-  DEBUGP_1("CrPsPcktReroutingFailN1: Generate error report INLOADER_INV_DEST\n");
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -76,7 +73,6 @@ void CrPsPcktReroutingFailN2(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /* Retrieve an OutComponent of type (1,10) from the OutFactory */
-  DEBUGP_1("CrPsPcktReroutingFailN2: Retrieve an OutComponent of type (1,10) from the OutFactory\n");
 
   /* Create out component */
   rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, CRPS_REQVERIF_REROUT_FAIL, 0, 0);
@@ -92,7 +88,6 @@ void CrPsPcktReroutingFailN3(FwPrDesc_t prDesc)
   CrPsRepErrCode_t errCode;
 
   /* Generate error report OUTFACTORY_FAIL */
-  DEBUGP_1("CrPsPcktReroutingFailN3: Generate error report OUTFACTORY_FAIL\n");
 
   errCode = crOutfactoryFail;
   CrPsRepErr(errCode, CRPS_REQVERIF, CRPS_REQVERIF_PROG_SUCC, 0);
@@ -125,7 +120,6 @@ void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc)
   pckt            = cmpSpecificData->pckt;
 
   /* Configure report (1,10) and load it in the OutLoader */
-  DEBUGP_1("CrPsPcktReroutingFailN4: Configure report (1,10) and load it in the OutLoader\n");
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -147,7 +141,6 @@ void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc)
   setVerFailedAccRepTcPacketSeqCtrl(pckt, tcSeqCtrl);
 
   /* Set failCodeAccFailed */
-  /*CrPsServReqVerifVerFailParamSetFailureCode(rep, INLOADER_INV_DEST);*/
   setVerFailedRoutingRepTcFailureCode(pckt, INLOADER_INV_DEST); 
 
   /* Set Type of the command */
@@ -184,7 +177,6 @@ void CrPsPcktReroutingFailN5(FwPrDesc_t prDesc)
   unsigned int nOfReroutingFailed;
 
   /* Increment data pool variable nOfReroutingFailed */
-  DEBUGP_1("CrPsPcktReroutingFailN5: Increment data pool variable nOfReroutingFailed\n");
 
   nOfReroutingFailed = getDpnOfReroutingFailed();
   nOfReroutingFailed += 1;
@@ -199,15 +191,13 @@ void CrPsPcktReroutingFailN6(FwPrDesc_t prDesc)
 {
   unsigned short tcPacketId;
 
-  CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
+  CrFwCmpData_t   *inData;
+  CrFwInCmdData_t *inSpecificData;
   CrFwPckt_t       inPckt;
-
-  FwSmDesc_t  smDesc;
-  prData_t* prData;
+  FwSmDesc_t       smDesc;
+  prData_t        *prData;
 
   /* Update data pool variable pcktIdRerouting, invDestRerouting */
-  DEBUGP_1("CrPsPcktReroutingFailN6: Update data pool variable pcktIdRerouting, invDestRerouting\n");
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -236,11 +226,10 @@ void CrPsPcktReroutingFailN6(FwPrDesc_t prDesc)
 /** Guard on the Control Flow from DECISION1 to N1. */
 FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t prDesc)
 {
-  FwSmDesc_t  smDesc;
-  prData_t* prData;
+  FwSmDesc_t smDesc;
+  prData_t  *prData;
 
   /* [ Packet encapsulates a report ] */
-  DEBUGP_1("CrPsPcktReroutingFailG1: Guard on the Control Flow from DECISION1 to N1.\n");
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -260,11 +249,10 @@ FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t prDesc)
 /** Guard on the Control Flow from DECISION1 to N2. */
 FwPrBool_t CrPsPcktReroutingFailG1E(FwPrDesc_t prDesc)
 {
-  FwSmDesc_t  smDesc;
-  prData_t* prData;
+  FwSmDesc_t smDesc;
+  prData_t  *prData;
 
   /* [ Packet encapsulates a command ] */
-  DEBUGP_1("CrPsPcktReroutingFailG1E: Guard on the Control Flow from DECISION1 to N2.\n");
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -287,7 +275,6 @@ FwPrBool_t CrPsPcktReroutingFailG2(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /* [ OutFactory fails to generate OutComponent ] */
-  DEBUGP_1("CrPsPcktReroutingFailG2: Guard on the Control Flow from DECISION2 to N3.\n");
   
   if (rep == NULL)
     {

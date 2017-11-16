@@ -19,9 +19,8 @@
 /** Guard on the Control Flow from DECISION2 to N4. */
 FwPrBool_t CrPsCmdPrgrSuccG1E(FwPrDesc_t prDesc)
 {
-	CRFW_UNUSED(prDesc);
+  CRFW_UNUSED(prDesc);
   /* [ Else ] */
-  DEBUGP_1("CrPsCmdPrgrSuccG1E");
   return 1;
 }
 

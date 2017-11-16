@@ -44,7 +44,6 @@ void CrPsCmdVerFailN2(FwPrDesc_t prDesc)
   prData_t* prData;
 
   /* Retrieve an OutComponent of type (1,4) or (1,8) from the OutFactory */
-  DEBUGP_1("CrPsCmdVerFailN2: Retrieve an OutComponent of type (1,4) or (1,8) from the OutFactory\n");
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -59,11 +58,10 @@ void CrPsCmdVerFailN2(FwPrDesc_t prDesc)
 /** Action for node N3. */
 void CrPsCmdVerFailN3(FwPrDesc_t prDesc)
 {
-  prData_t* prData;
+  prData_t        *prData;
   CrPsRepErrCode_t errCode;
 
   /* Generate error report OUTFACTORY_FAIL */
-  DEBUGP_1("CrPsCmdVerFailN3: Generate error report OUTFACTORY_FAIL\n");
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -79,27 +77,24 @@ void CrPsCmdVerFailN3(FwPrDesc_t prDesc)
 void CrPsCmdVerFailN4(FwPrDesc_t prDesc)
 {
   CrFwDestSrc_t source;
-  unsigned short tcPacketId, tcSeqCtrl;
-  unsigned char tcType, tcSubtype;
-  uint32_t tcVerFailData;
-
-  CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;
-
-  FwSmDesc_t  smDesc;
-  prData_t* prData;
-  
-  CrFwCmpData_t*    cmpDataStart;
-  CrFwOutCmpData_t* cmpSpecificData;
-  CrFwPckt_t pckt;
+  unsigned short    tcPacketId, tcSeqCtrl;
+  CrFwServType_t    tcType;
+  CrFwServSubType_t tcSubtype;
+  uint32_t          tcVerFailData;
+  CrFwCmpData_t    *inData;
+  CrFwInCmdData_t  *inSpecificData;
+  CrFwPckt_t        inPckt;
+  FwSmDesc_t        smDesc;
+  prData_t         *prData;
+  CrFwCmpData_t    *cmpDataStart;
+  CrFwOutCmpData_t *cmpSpecificData;
+  CrFwPckt_t        pckt;
 
   cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(rep);
   cmpSpecificData = (CrFwOutCmpData_t *) cmpDataStart->cmpSpecificData;
   pckt            = cmpSpecificData->pckt;
 
   /* Configure report and load it in the OutLoader */
-  DEBUGP_1("CrPsCmdVerFailN4: Configure report and load it in the OutLoader\n");
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -113,7 +108,7 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc)
 
   if (prData->ushortParam2 == 4)
   {
-    /* 1.4 */
+    /* 1,4 */
     /* Set pcktIdAccFailed */
     tcPacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
     setVerFailedStartRepTcPacketId(pckt, tcPacketId);
@@ -140,7 +135,7 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc)
 
   if (prData->ushortParam2 == 8)
   {
-    /* 1.8 */
+    /* 1,8 */
     /* Set pcktIdAccFailed */
     tcPacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
     setVerFailedTermRepTcPacketId(pckt, tcPacketId);
@@ -179,11 +174,10 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc)
 /** Action for node N5. */
 void CrPsCmdVerFailN5(FwPrDesc_t prDesc)
 {
-  prData_t* prData;
+  prData_t    *prData;
   unsigned int nOfStartFailed, nOfTermFailed;
 
   /* Increment data pool variable nOfXyFailed */
-  DEBUGP_1("CrPsCmdVerFailN5: Increment data pool variable nOfXyFailed\n");
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -208,17 +202,14 @@ void CrPsCmdVerFailN5(FwPrDesc_t prDesc)
 /** Action for node N6. */
 void CrPsCmdVerFailN6(FwPrDesc_t prDesc)
 {
-  unsigned short tcPacketId;
-
-  CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
+  unsigned short   tcPacketId;
+  CrFwCmpData_t   *inData;
+  CrFwInCmdData_t *inSpecificData;
   CrFwPckt_t       inPckt;
-
-  FwSmDesc_t  smDesc;
-  prData_t* prData;
+  FwSmDesc_t       smDesc;
+  prData_t        *prData;
 
   /* Update data pool variable pcktIdXyFailed and failCodeXyFailed */
-  DEBUGP_1("CrPsCmdVerFailN6: Update data pool variable pcktIdXyFailed and failCodeXyFailed\n");
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -264,7 +255,6 @@ FwPrBool_t CrPsCmdVerFailG1(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /* [ OutFactory fails to generate OutComponent ] */
-  DEBUGP_1("CrPsCmdVerFailG1: Guard on the Control Flow from DECISION2 to N3 \n");
   
   if (rep == NULL)
     {

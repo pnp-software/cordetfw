@@ -44,7 +44,6 @@ void CrPsCmdPrgrFailN2(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /* Retrieve an OutComponent of type (1,6) from the OutFactory */
-  DEBUGP_1("CrPsCmdPrgrFailN2: Retrieve an OutComponent of type (1,6) from the OutFactory\n");
 
   /* Create out component */
   rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, CRPS_REQVERIF_PROG_FAIL, 0, 0);
@@ -60,7 +59,6 @@ void CrPsCmdPrgrFailN3(FwPrDesc_t prDesc)
   CrPsRepErrCode_t errCode;
 
   /* Generate error report OUTFACTORY_FAIL */
-  DEBUGP_1("CrPsCmdPrgrFailN3: Generate error report OUTFACTORY_FAIL\n");
 
   errCode = crOutfactoryFail;
   CrPsRepErr(errCode, CRPS_REQVERIF, CRPS_REQVERIF_PROG_FAIL, 0);
@@ -72,28 +70,25 @@ void CrPsCmdPrgrFailN3(FwPrDesc_t prDesc)
 /** Action for node N4. */
 void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc)
 {
-  CrFwDestSrc_t source;
-  unsigned short tcPacketId, tcSeqCtrl;
-  unsigned char tcType, tcSubtype;
-  uint32_t tcVerFailData;
-
-  CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;
-
-  FwSmDesc_t  smDesc;
-  prData_t* prData;
-  
-  CrFwCmpData_t*    cmpDataStart;
-  CrFwOutCmpData_t* cmpSpecificData;
-  CrFwPckt_t pckt;
+  CrFwDestSrc_t     source;
+  unsigned short    tcPacketId, tcSeqCtrl;
+  CrFwServType_t    tcType;
+  CrFwServSubType_t tcSubtype;
+  uint32_t          tcVerFailData;
+  CrFwCmpData_t    *inData;
+  CrFwInCmdData_t  *inSpecificData;
+  CrFwPckt_t        inPckt;
+  FwSmDesc_t        smDesc;
+  prData_t         *prData;
+  CrFwCmpData_t    *cmpDataStart;
+  CrFwOutCmpData_t *cmpSpecificData;
+  CrFwPckt_t        pckt;
 
   cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(rep);
   cmpSpecificData = (CrFwOutCmpData_t *) cmpDataStart->cmpSpecificData;
   pckt            = cmpSpecificData->pckt;
 
   /* Configure report and load it in the OutLoader */
-  DEBUGP_1("CrPsCmdPrgrFailN4: Configure report and load it in the OutLoader\n");
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -146,7 +141,6 @@ void CrPsCmdPrgrFailN5(FwPrDesc_t prDesc)
   unsigned int nOfPrgrFailed;
 
   /* Increment data pool variable nOfPrgrFailed */
-  DEBUGP_1("CrPsCmdPrgrFailN5: Increment data pool variable nOfPrgrFailed\n");
 
   nOfPrgrFailed = getDpnOfPrgrFailed();
   nOfPrgrFailed += 1;
@@ -161,15 +155,13 @@ void CrPsCmdPrgrFailN6(FwPrDesc_t prDesc)
 {
   unsigned short tcPacketId;
 
-  CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
+  CrFwCmpData_t   *inData;
+  CrFwInCmdData_t *inSpecificData;
   CrFwPckt_t       inPckt;
-
-  FwSmDesc_t  smDesc;
-  prData_t* prData;
+  FwSmDesc_t       smDesc;
+  prData_t        *prData;
 
   /* Update data pool variable pcktIdPrgrFailed, failCodePrgrFailed and prgrStepFailed */
-  DEBUGP_1("CrPsCmdPrgrFailN6: Update data pool variable pcktIdPrgrFailed, failCodePrgrFailed and prgrStepFailed\n");
 
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
@@ -204,7 +196,6 @@ FwPrBool_t CrPsCmdPrgrFailG1(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /* [ OutFactory fails to generate OutComponent ] */
-  DEBUGP_1("CrPsCmdPrgrFailG1: Guard on the Control Flow from DECISION2 to N3 \n");
 
   if (rep == NULL)
     {

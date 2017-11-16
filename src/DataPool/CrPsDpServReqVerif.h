@@ -10,6 +10,8 @@
 #ifndef CRPSDPSERVREQVERIF_H_
 #define CRPSDPSERVREQVERIF_H_
 
+#include <CrFwUserConstants.h>
+#include <CrPsUserConstants.h>
 #include "CrPsDpTypes.h"
 #include <stdio.h>
 /**
@@ -19,71 +21,71 @@ typedef struct {
   /**
    * Failure code of last command which failed its Acceptance
    */
-  uint16_t failCodeAccFailed;
+  CrPsFailCode_t failCodeAccFailed;
   /**
    * Failure code of last command which failed its Progress Check
    */
-  uint16_t failCodePrgrFailed;
+  CrPsFailCode_t failCodePrgrFailed;
   /**
    * Failure code of last command which failed its Start Check
    */
-  uint16_t failCodeStartFailed;
+  CrPsFailCode_t failCodeStartFailed;
   /**
    * Failure code of last command which failed its Termination
    */
-  uint16_t failCodeTermFailed;
+  CrPsFailCode_t failCodeTermFailed;
   /**
    * Destination of last command for which re-routing failed
    */
-  uint32_t invDestRerouting;
+  CrPsDestSrc_t invDestRerouting; /* TODO vorher uint32_t*/
   /**
    * Number of commands which have failed their acceptance check
    */
-  uint32_t nOfAccFailed;
+  CrFwCounterU4_t nOfAccFailed;
   /**
    * Number of commands which have failed their Progress Check
    */
-  uint32_t nOfPrgrFailed;
+  CrFwCounterU4_t nOfPrgrFailed;
   /**
    * Number of commands for which re-routing failed
    */
-  uint32_t nOfReroutingFailed;
+  CrFwCounterU4_t nOfReroutingFailed;
   /**
    * Number of commands which have failed their Start Check since
    */
-  uint32_t nOfStartFailed;
+  CrFwCounterU4_t nOfStartFailed;
   /**
    * Number of commands which have failed their Termination
    */
-  uint32_t nOfTermFailed;
+  CrFwCounterU4_t nOfTermFailed;
   /**
    * Packet identifier of last command which failed its Acceptance
    */
-  uint16_t pcktIdAccFailed;
+  CrFwTypeId_t pcktIdAccFailed;
   /**
    * Packet identifier of last command which failed its Progress
    */
-  uint16_t pcktIdPrgrFailed;
+  CrFwTypeId_t pcktIdPrgrFailed;
   /**
    * Packet identifier of last command for which re-routing failed
    */
-  uint16_t pcktIdReroutingFailed;
+  CrFwTypeId_t pcktIdReroutingFailed;
   /**
    * Packet identifier of last command which failed its Start Check
    */
-  uint16_t pcktIdStartFailed;
+  CrFwTypeId_t pcktIdStartFailed;
   /**
    * Packet identifier of last command which failed its Termination
    */
-  uint16_t pcktIdTermFailed;
+  CrFwTypeId_t pcktIdTermFailed;
   /**
    * Step identifier of last command which failed its Progress Check
    */
-  uint16_t stepPrgrFailed;
+  CrPsStepId_t stepPrgrFailed; /* TODO vorher wars ein uint16_t */
   /**
    * Verification Failure Data (data item of fixed size but variable
    */
-  uint32_t verFailData;
+  CrPsFailData_t verFailData;
 } DpServReqVerifVars_t;
 
 extern DpServReqVerifVars_t dpServReqVerifVars;
@@ -97,7 +99,7 @@ void initDpServReqVerif(void);
  * Gets the value of the datapool item failCodeAccFailed
  * \return The value of datapool item failCodeAccFailed
  */
-static inline uint16_t getDpfailCodeAccFailed()
+static inline CrPsFailCode_t getDpfailCodeAccFailed()
 {
   return dpServReqVerifVars.failCodeAccFailed;
 }
@@ -107,7 +109,7 @@ static inline uint16_t getDpfailCodeAccFailed()
  * \param failCodeAccFailed The value to be stored into the datapool item
  * failCodeAccFailed.
  */
-static inline void setDpfailCodeAccFailed(uint16_t failCodeAccFailed)
+static inline void setDpfailCodeAccFailed(CrPsFailCode_t failCodeAccFailed)
 {
   dpServReqVerifVars.failCodeAccFailed = failCodeAccFailed;
 }
@@ -116,7 +118,7 @@ static inline void setDpfailCodeAccFailed(uint16_t failCodeAccFailed)
  * Gets the value of the datapool item failCodePrgrFailed
  * \return The value of datapool item failCodePrgrFailed
  */
-static inline uint16_t getDpfailCodePrgrFailed()
+static inline CrPsFailCode_t getDpfailCodePrgrFailed()
 {
   return dpServReqVerifVars.failCodePrgrFailed;
 }
@@ -126,7 +128,7 @@ static inline uint16_t getDpfailCodePrgrFailed()
  * \param failCodePrgrFailed The value to be stored into the datapool item
  * failCodePrgrFailed.
  */
-static inline void setDpfailCodePrgrFailed(uint16_t failCodePrgrFailed)
+static inline void setDpfailCodePrgrFailed(CrPsFailCode_t failCodePrgrFailed)
 {
   dpServReqVerifVars.failCodePrgrFailed = failCodePrgrFailed;
 }
@@ -135,7 +137,7 @@ static inline void setDpfailCodePrgrFailed(uint16_t failCodePrgrFailed)
  * Gets the value of the datapool item failCodeStartFailed
  * \return The value of datapool item failCodeStartFailed
  */
-static inline uint16_t getDpfailCodeStartFailed()
+static inline CrPsFailCode_t getDpfailCodeStartFailed()
 {
   return dpServReqVerifVars.failCodeStartFailed;
 }
@@ -145,7 +147,7 @@ static inline uint16_t getDpfailCodeStartFailed()
  * \param failCodeStartFailed The value to be stored into the datapool item
  * failCodeStartFailed.
  */
-static inline void setDpfailCodeStartFailed(uint16_t failCodeStartFailed)
+static inline void setDpfailCodeStartFailed(CrPsFailCode_t failCodeStartFailed)
 {
   dpServReqVerifVars.failCodeStartFailed = failCodeStartFailed;
 }
@@ -154,7 +156,7 @@ static inline void setDpfailCodeStartFailed(uint16_t failCodeStartFailed)
  * Gets the value of the datapool item failCodeTermFailed
  * \return The value of datapool item failCodeTermFailed
  */
-static inline uint16_t getDpfailCodeTermFailed()
+static inline CrPsFailCode_t getDpfailCodeTermFailed()
 {
   return dpServReqVerifVars.failCodeTermFailed;
 }
@@ -164,7 +166,7 @@ static inline uint16_t getDpfailCodeTermFailed()
  * \param failCodeTermFailed The value to be stored into the datapool item
  * failCodeTermFailed.
  */
-static inline void setDpfailCodeTermFailed(uint16_t failCodeTermFailed)
+static inline void setDpfailCodeTermFailed(CrPsFailCode_t failCodeTermFailed)
 {
   dpServReqVerifVars.failCodeTermFailed = failCodeTermFailed;
 }
@@ -192,7 +194,7 @@ static inline void setDpinvDestRerouting(uint32_t invDestRerouting)
  * Gets the value of the datapool item nOfAccFailed
  * \return The value of datapool item nOfAccFailed
  */
-static inline uint32_t getDpnOfAccFailed()
+static inline CrFwCounterU4_t getDpnOfAccFailed()
 {
   return dpServReqVerifVars.nOfAccFailed;
 }
@@ -202,7 +204,7 @@ static inline uint32_t getDpnOfAccFailed()
  * \param nOfAccFailed The value to be stored into the datapool item
  * nOfAccFailed.
  */
-static inline void setDpnOfAccFailed(uint32_t nOfAccFailed)
+static inline void setDpnOfAccFailed(CrFwCounterU4_t nOfAccFailed)
 {
   dpServReqVerifVars.nOfAccFailed = nOfAccFailed;
 }
@@ -211,7 +213,7 @@ static inline void setDpnOfAccFailed(uint32_t nOfAccFailed)
  * Gets the value of the datapool item nOfPrgrFailed
  * \return The value of datapool item nOfPrgrFailed
  */
-static inline uint32_t getDpnOfPrgrFailed()
+static inline CrFwCounterU4_t getDpnOfPrgrFailed()
 {
   return dpServReqVerifVars.nOfPrgrFailed;
 }
@@ -221,7 +223,7 @@ static inline uint32_t getDpnOfPrgrFailed()
  * \param nOfPrgrFailed The value to be stored into the datapool item
  * nOfPrgrFailed.
  */
-static inline void setDpnOfPrgrFailed(uint32_t nOfPrgrFailed)
+static inline void setDpnOfPrgrFailed(CrFwCounterU4_t nOfPrgrFailed)
 {
   dpServReqVerifVars.nOfPrgrFailed = nOfPrgrFailed;
 }
@@ -230,7 +232,7 @@ static inline void setDpnOfPrgrFailed(uint32_t nOfPrgrFailed)
  * Gets the value of the datapool item nOfReroutingFailed
  * \return The value of datapool item nOfReroutingFailed
  */
-static inline uint32_t getDpnOfReroutingFailed()
+static inline CrFwCounterU4_t getDpnOfReroutingFailed()
 {
   return dpServReqVerifVars.nOfReroutingFailed;
 }
@@ -240,7 +242,7 @@ static inline uint32_t getDpnOfReroutingFailed()
  * \param nOfReroutingFailed The value to be stored into the datapool item
  * nOfReroutingFailed.
  */
-static inline void setDpnOfReroutingFailed(uint32_t nOfReroutingFailed)
+static inline void setDpnOfReroutingFailed(CrFwCounterU4_t nOfReroutingFailed)
 {
   dpServReqVerifVars.nOfReroutingFailed = nOfReroutingFailed;
 }
@@ -249,7 +251,7 @@ static inline void setDpnOfReroutingFailed(uint32_t nOfReroutingFailed)
  * Gets the value of the datapool item nOfStartFailed
  * \return The value of datapool item nOfStartFailed
  */
-static inline uint32_t getDpnOfStartFailed()
+static inline CrFwCounterU4_t getDpnOfStartFailed()
 {
   return dpServReqVerifVars.nOfStartFailed;
 }
@@ -259,7 +261,7 @@ static inline uint32_t getDpnOfStartFailed()
  * \param nOfStartFailed The value to be stored into the datapool item
  * nOfStartFailed.
  */
-static inline void setDpnOfStartFailed(uint32_t nOfStartFailed)
+static inline void setDpnOfStartFailed(CrFwCounterU4_t nOfStartFailed)
 {
   dpServReqVerifVars.nOfStartFailed = nOfStartFailed;
 }
@@ -268,7 +270,7 @@ static inline void setDpnOfStartFailed(uint32_t nOfStartFailed)
  * Gets the value of the datapool item nOfTermFailed
  * \return The value of datapool item nOfTermFailed
  */
-static inline uint32_t getDpnOfTermFailed()
+static inline CrFwCounterU4_t getDpnOfTermFailed()
 {
   return dpServReqVerifVars.nOfTermFailed;
 }
@@ -278,7 +280,7 @@ static inline uint32_t getDpnOfTermFailed()
  * \param nOfTermFailed The value to be stored into the datapool item
  * nOfTermFailed.
  */
-static inline void setDpnOfTermFailed(uint32_t nOfTermFailed)
+static inline void setDpnOfTermFailed(CrFwCounterU4_t nOfTermFailed)
 {
   dpServReqVerifVars.nOfTermFailed = nOfTermFailed;
 }
@@ -287,7 +289,7 @@ static inline void setDpnOfTermFailed(uint32_t nOfTermFailed)
  * Gets the value of the datapool item pcktIdAccFailed
  * \return The value of datapool item pcktIdAccFailed
  */
-static inline uint16_t getDppcktIdAccFailed()
+static inline CrFwTypeId_t getDppcktIdAccFailed()
 {
   return dpServReqVerifVars.pcktIdAccFailed;
 }
@@ -297,7 +299,7 @@ static inline uint16_t getDppcktIdAccFailed()
  * \param pcktIdAccFailed The value to be stored into the datapool item
  * pcktIdAccFailed.
  */
-static inline void setDppcktIdAccFailed(uint16_t pcktIdAccFailed)
+static inline void setDppcktIdAccFailed(CrFwTypeId_t pcktIdAccFailed)
 {
   dpServReqVerifVars.pcktIdAccFailed = pcktIdAccFailed;
 }
@@ -306,7 +308,7 @@ static inline void setDppcktIdAccFailed(uint16_t pcktIdAccFailed)
  * Gets the value of the datapool item pcktIdPrgrFailed
  * \return The value of datapool item pcktIdPrgrFailed
  */
-static inline uint16_t getDppcktIdPrgrFailed()
+static inline CrFwTypeId_t getDppcktIdPrgrFailed()
 {
   return dpServReqVerifVars.pcktIdPrgrFailed;
 }
@@ -316,7 +318,7 @@ static inline uint16_t getDppcktIdPrgrFailed()
  * \param pcktIdPrgrFailed The value to be stored into the datapool item
  * pcktIdPrgrFailed.
  */
-static inline void setDppcktIdPrgrFailed(uint16_t pcktIdPrgrFailed)
+static inline void setDppcktIdPrgrFailed(CrFwTypeId_t pcktIdPrgrFailed)
 {
   dpServReqVerifVars.pcktIdPrgrFailed = pcktIdPrgrFailed;
 }
@@ -325,7 +327,7 @@ static inline void setDppcktIdPrgrFailed(uint16_t pcktIdPrgrFailed)
  * Gets the value of the datapool item pcktIdReroutingFailed
  * \return The value of datapool item pcktIdReroutingFailed
  */
-static inline uint16_t getDppcktIdReroutingFailed()
+static inline CrFwTypeId_t getDppcktIdReroutingFailed()
 {
   return dpServReqVerifVars.pcktIdReroutingFailed;
 }
@@ -335,7 +337,7 @@ static inline uint16_t getDppcktIdReroutingFailed()
  * \param pcktIdReroutingFailed The value to be stored into the datapool item
  * pcktIdReroutingFailed.
  */
-static inline void setDppcktIdReroutingFailed(uint16_t pcktIdReroutingFailed)
+static inline void setDppcktIdReroutingFailed(CrFwTypeId_t pcktIdReroutingFailed)
 {
   dpServReqVerifVars.pcktIdReroutingFailed = pcktIdReroutingFailed;
 }
@@ -344,7 +346,7 @@ static inline void setDppcktIdReroutingFailed(uint16_t pcktIdReroutingFailed)
  * Gets the value of the datapool item pcktIdStartFailed
  * \return The value of datapool item pcktIdStartFailed
  */
-static inline uint16_t getDppcktIdStartFailed()
+static inline CrFwTypeId_t getDppcktIdStartFailed()
 {
   return dpServReqVerifVars.pcktIdStartFailed;
 }
@@ -354,7 +356,7 @@ static inline uint16_t getDppcktIdStartFailed()
  * \param pcktIdStartFailed The value to be stored into the datapool item
  * pcktIdStartFailed.
  */
-static inline void setDppcktIdStartFailed(uint16_t pcktIdStartFailed)
+static inline void setDppcktIdStartFailed(CrFwTypeId_t pcktIdStartFailed)
 {
   dpServReqVerifVars.pcktIdStartFailed = pcktIdStartFailed;
 }
@@ -363,7 +365,7 @@ static inline void setDppcktIdStartFailed(uint16_t pcktIdStartFailed)
  * Gets the value of the datapool item pcktIdTermFailed
  * \return The value of datapool item pcktIdTermFailed
  */
-static inline uint16_t getDppcktIdTermFailed()
+static inline CrFwTypeId_t getDppcktIdTermFailed()
 {
   return dpServReqVerifVars.pcktIdTermFailed;
 }
@@ -373,7 +375,7 @@ static inline uint16_t getDppcktIdTermFailed()
  * \param pcktIdTermFailed The value to be stored into the datapool item
  * pcktIdTermFailed.
  */
-static inline void setDppcktIdTermFailed(uint16_t pcktIdTermFailed)
+static inline void setDppcktIdTermFailed(CrFwTypeId_t pcktIdTermFailed)
 {
   dpServReqVerifVars.pcktIdTermFailed = pcktIdTermFailed;
 }
@@ -401,7 +403,7 @@ static inline void setDpstepPrgrFailed(uint16_t stepPrgrFailed)
  * Gets the value of the datapool item verFailData
  * \return The value of datapool item verFailData
  */
-static inline uint32_t getDpverFailData()
+static inline CrPsFailData_t getDpverFailData()
 {
   return dpServReqVerifVars.verFailData;
 }
@@ -411,7 +413,7 @@ static inline uint32_t getDpverFailData()
  * \param verFailData The value to be stored into the datapool item
  * verFailData.
  */
-static inline void setDpverFailData(uint32_t verFailData)
+static inline void setDpverFailData(CrPsFailData_t verFailData)
 {
   dpServReqVerifVars.verFailData = verFailData;
 }
