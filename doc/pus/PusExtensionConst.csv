@@ -13,8 +13,7 @@ S3,HK\_N\_DEBUG\_VAR,Number of debug variables
 S5,EVT\_N\_EID,Number of event identifiers supported by the application
 S5,EVT\_EID,Array of EVT\_N\_EID elements holding the event identifiers in ascending order
 S5,EVT\_EID\_LEVEL,Array of EVT\_N\_EID elements holding the severity level of the event identifiers
-S12,MON\_N\_PMON1,Number of entries in the Parameter Monitoring Definition List PMDL1 (parameter monitors with validity check)
-S12,MON\_N\_PMON2,Number of entries in the Parameter Monitoring Definition List PMDL2 (parameter monitors without validity check)
+S12,MON\_N\_PMON,Maximum number of entries in the Parameter Monitoring Definition List PMDL
 S12,MON\_N\_LIM,Maximum number of parameter monitors with a limit check
 S12,MON\_N\_EXP,Maximum number of parameter monitors with an expected value check
 S12,MON\_N\_DEL,Maximum number of parameter monitors with a delta value check
