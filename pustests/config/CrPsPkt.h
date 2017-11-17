@@ -3,7 +3,7 @@
  *
  * Packet header definitions.
  *
- * \note This file was generated on 2017-10-06 13:39:22
+ * \note This file was generated on 2017-10-13 12:48:17
  * \author PnP Generator
  * \copyright (c) Copyright
  */
@@ -51,7 +51,7 @@ typedef struct __attribute__((packed)) _TcHeader_t {
    */
   uint8_t SrcId;
   
-} TcHeader_t __attribute__((aligned(4)));
+} TcHeader_t ;
 
 /**
  * Structure for TmHeader
@@ -97,7 +97,7 @@ typedef struct __attribute__((packed)) _TmHeader_t {
    */
   uint8_t Time[6];
   
-} TmHeader_t __attribute__((aligned(4)));
+} TmHeader_t ;
 
 /**
  * Get "PcktVersionNmb" from "TcHeader" packet.

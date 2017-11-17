@@ -31,13 +31,16 @@
 #include "CrFwOutCmpSample1.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 #include <Services/Test/OutCmp/CrPsTestAreYouAliveConnectionRep.h>
-#include <Services/Test/OutCmp/CrPsTestOnBoardConnectionRep.h>
-#include <Services/Housekeeping/OutCmp/CrPsHkDiagOneShotRep.h>
-#include <Services/Housekeeping/OutCmp/CrPsHkDiagPeriodicRep.h>
-#include <Services/Housekeeping/OutCmp/CrPsHkDiagRepStructRep.h>
-#include <Services/Housekeeping/OutCmp/CrPsHkHkOneShotRep.h>
-#include <Services/Housekeeping/OutCmp/CrPsHkHkPeriodicRep.h>
-#include <Services/Housekeeping/OutCmp/CrPsHkHkRepStructRep.h>
+#include <Services/Housekeeping/OutCmp/CrPsHkRep.h> /*Service 3,25 3,26*/
+#include <Services/Housekeeping/OutCmp/CrPsHkRepStructRep.h> /*Service 3,10 3,12*/
+#include <Services/EventReporting/OutCmp/CrPsEvtRep.h>
+#include <Services/EventReporting/OutCmp/CrPsEvtRepDisabledRep.h>
+
+#include <Services/LargePacketTransfer/OutCmp/CrPsLptDownFirstRep.h>
+#include <Services/LargePacketTransfer/OutCmp/CrPsLptDownInterRep.h>
+#include <Services/LargePacketTransfer/OutCmp/CrPsLptDownLastRep.h>
+#include <Services/LargePacketTransfer/OutCmp/CrPsLptUpAbortRep.h>
+
 #include <Services/General/CrPsConstants.h>
 
 /**
@@ -57,7 +60,7 @@
  * This constant is used as the size of a statically declared array.
  * Hence, a value of zero may not be allowed by some compilers.
  */
-#define CR_FW_OUTCMP_NKINDS 16
+#define CR_FW_OUTCMP_NKINDS 33
 
 /**
  * Definition of the OutComponent kinds supported by an application.
@@ -124,7 +127,7 @@
  * <code>CrFwOutCmpSample1.h</code>.
  */
 #define CR_FW_OUTCMP_INIT_KIND_DESC \
-	{\
+	{ /*                                                                       ENABLE CHECK                                  READY CHECK                                  REPEAT CHECK                                  UPDATE ACTION       */ \
       {1, 1,  0,   crRepType,   CRPS_REQVERIF_ACC_SUCC_LENGTH,               &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
       {1, 2,  0,   crRepType,   CRPS_REQVERIF_ACC_FAIL_LENGTH,               &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
       {1, 3,  0,   crRepType,   CRPS_REQVERIF_START_SUCC_LENGTH,             &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
@@ -134,13 +137,30 @@
       {1, 7,  0,   crRepType,   CRPS_REQVERIF_TERM_SUCC_LENGTH,              &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
       {1, 8,  0,   crRepType,   CRPS_REQVERIF_TERM_FAIL_LENGTH,              &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
 	{1, 10, 0,   crRepType,   CRPS_REQVERIF_REROUT_FAIL_LENGTH,            &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
-      {3, 10, 0,   crRepType,   CRPS_HK_HKREP_STRUCT_REP_LENGTH,             &CrPsHkHkRepStructRepEnableCheck,             &CrPsHkHkRepStructRepReadyCheck,             &CrPsHkHkRepStructRepRepeatCheck,             &CrPsHkHkRepStructRepUpdateAction,               &CrFwOutCmpDefSerialize},\
-      {3, 12, 0,   crRepType,   CRPS_HK_DIAGREP_STRUCT_REP_LENGTH,           &CrPsHkDiagRepStructRepEnableCheck,           &CrPsHkDiagRepStructRepReadyCheck,           &CrPsHkDiagRepStructRepRepeatCheck,           &CrPsHkDiagRepStructRepUpdateAction,             &CrFwOutCmpDefSerialize},\
-      {3, 25, 0,   crRepType,   CRPS_HK_HKPARAM_REP_LENGTH,                  &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
-      {3, 26, 0,   crRepType,   CRPS_HK_DIAGPARAM_REP_LENGTH,                &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize},\
-	{17, 1, 0,   crRepType,   CRPS_TEST_AREYOUALIVE_CONNECTION_CMD_LENGTH, &CrPsTestAreYouAliveConnectionRepEnableCheck, &CrPsTestAreYouAliveConnectionRepReadyCheck, &CrPsTestAreYouAliveConnectionRepRepeatCheck, &CrPsTestAreYouAliveConnectionRepUpdateAction,   &CrFwOutCmpDefSerialize},\
-      {17, 2, 0,   crRepType,   CRPS_TEST_AREYOUALIVE_CONNECTION_REP_LENGTH, &CrPsTestAreYouAliveConnectionRepEnableCheck, &CrPsTestAreYouAliveConnectionRepReadyCheck, &CrPsTestAreYouAliveConnectionRepRepeatCheck, &CrPsTestAreYouAliveConnectionRepUpdateAction,   &CrFwOutCmpDefSerialize},\
-      {17, 4, 0,   crRepType,   CRPS_TEST_ONBOARD_CONNECTION_REP_LENGTH,     &CrPsTestOnBoardConnectionRepEnableCheck,     &CrPsTestOnBoardConnectionRepReadyCheck,     &CrPsTestOnBoardConnectionRepRepeatCheck,     &CrPsTestOnBoardConnectionRepUpdateAction,       &CrFwOutCmpDefSerialize} \
+      {3, 10, 1,   crRepType,   CRPS_HK_HKREP_STRUCT_REP_LENGTH,             &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsHkRepStructRepUpdateAction,                 &CrFwOutCmpDefSerialize},\
+      {3, 10, 2,   crRepType,   CRPS_HK_HKREP_STRUCT_REP_LENGTH,             &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsHkRepStructRepUpdateAction,                 &CrFwOutCmpDefSerialize},\
+      {3, 10, 3,   crRepType,   CRPS_HK_HKREP_STRUCT_REP_LENGTH,             &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsHkRepStructRepUpdateAction,                 &CrFwOutCmpDefSerialize},\
+      {3, 12, 1,   crRepType,   CRPS_HK_HKREP_STRUCT_REP_LENGTH,             &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsHkRepStructRepUpdateAction,                 &CrFwOutCmpDefSerialize},\
+      {3, 12, 2,   crRepType,   CRPS_HK_HKREP_STRUCT_REP_LENGTH,             &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsHkRepStructRepUpdateAction,                 &CrFwOutCmpDefSerialize},\
+      {3, 12, 3,   crRepType,   CRPS_HK_HKREP_STRUCT_REP_LENGTH,             &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsHkRepStructRepUpdateAction,                 &CrFwOutCmpDefSerialize},\
+      {3, 25, 1,   crRepType,   CRPS_HK_HKPARAM_REP_LENGTH,                  &CrPsHkRepEnableCheck,                        &CrPsHkRepReadyCheck,                        &CrFwSmCheckAlwaysTrue,                       &CrPsHkRepUpdateAction,                          &CrFwOutCmpDefSerialize},\
+      {3, 25, 2,   crRepType,   CRPS_HK_HKPARAM_REP_LENGTH,                  &CrPsHkRepEnableCheck,                        &CrPsHkRepReadyCheck,                        &CrFwSmCheckAlwaysTrue,                       &CrPsHkRepUpdateAction,                          &CrFwOutCmpDefSerialize},\
+      {3, 25, 3,   crRepType,   CRPS_HK_HKPARAM_REP_LENGTH,                  &CrPsHkRepEnableCheck,                        &CrPsHkRepReadyCheck,                        &CrFwSmCheckAlwaysTrue,                       &CrPsHkRepUpdateAction,                          &CrFwOutCmpDefSerialize},\
+      {3, 26, 1,   crRepType,   CRPS_HK_HKPARAM_REP_LENGTH,                  &CrPsHkRepEnableCheck,                        &CrPsHkRepReadyCheck,                        &CrFwSmCheckAlwaysTrue,                       &CrPsHkRepUpdateAction,                          &CrFwOutCmpDefSerialize},\
+      {3, 26, 2,   crRepType,   CRPS_HK_HKPARAM_REP_LENGTH,                  &CrPsHkRepEnableCheck,                        &CrPsHkRepReadyCheck,                        &CrFwSmCheckAlwaysTrue,                       &CrPsHkRepUpdateAction,                          &CrFwOutCmpDefSerialize},\
+      {3, 26, 3,   crRepType,   CRPS_HK_HKPARAM_REP_LENGTH,                  &CrPsHkRepEnableCheck,                        &CrPsHkRepReadyCheck,                        &CrFwSmCheckAlwaysTrue,                       &CrPsHkRepUpdateAction,                          &CrFwOutCmpDefSerialize},\
+      {5, 1,  1,   crRepType,   CRPS_EVT__REP_LENGTH,                        &CrPsEvtRepEnableCheck,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsEvtRepUpdateAction,                         &CrFwOutCmpDefSerialize},\
+      {5, 2,  1,   crRepType,   CRPS_EVT__REP_LENGTH,                        &CrPsEvtRepEnableCheck,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsEvtRepUpdateAction,                         &CrFwOutCmpDefSerialize},\
+      {5, 3,  1,   crRepType,   CRPS_EVT__REP_LENGTH,                        &CrPsEvtRepEnableCheck,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsEvtRepUpdateAction,                         &CrFwOutCmpDefSerialize},\
+      {5, 4,  1,   crRepType,   CRPS_EVT__REP_LENGTH,                        &CrPsEvtRepEnableCheck,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsEvtRepUpdateAction,                         &CrFwOutCmpDefSerialize},\
+      {5, 8,  0,   crRepType,   CRPS_EVT__REP_LENGTH,                        &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsEvtRepDisabledRepUpdateAction,              &CrFwOutCmpDefSerialize},\
+      {13, 1, 0,   crRepType,   CRPS_LPT__REP_LENGTH,                        &CrPsLptDownFirstRepEnableCheck,              &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsLptDownFirstRepUpdateAction,                &CrFwOutCmpDefSerialize},\
+      {13, 2, 0,   crRepType,   CRPS_LPT__REP_LENGTH,                        &CrPsLptDownInterRepEnableCheck,              &CrFwSmCheckAlwaysTrue,                      &CrPsLptDownInterRepRepeatCheck,              &CrPsLptDownInterRepUpdateAction,                &CrFwOutCmpDefSerialize},\
+      {13, 3, 0,   crRepType,   CRPS_LPT__REP_LENGTH,                        &CrPsLptDownLastRepEnableCheck,               &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsLptDownLastRepUpdateAction,                 &CrFwOutCmpDefSerialize},\
+      {13, 16, 0,  crRepType,   CRPS_LPT__REP_LENGTH,                        &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsLptUpAbortRepUpdateAction,                  &CrFwOutCmpDefSerialize},\
+      {17, 1, 0,   crCmdType,   CRPS_TEST_AREYOUALIVE_CONNECTION_CMD_LENGTH, &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsTestAreYouAliveConnectionRepUpdateAction,   &CrFwOutCmpDefSerialize},\
+      {17, 2, 0,   crRepType,   CRPS_TEST_AREYOUALIVE_CONNECTION_REP_LENGTH, &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrPsTestAreYouAliveConnectionRepUpdateAction,   &CrFwOutCmpDefSerialize},\
+      {17, 4, 0,   crRepType,   CRPS_TEST_ONBOARD_CONNECTION_REP_LENGTH,     &CrFwSmCheckAlwaysTrue,                       &CrFwSmCheckAlwaysTrue,                      &CrFwSmCheckAlwaysFalse,                      &CrFwSmEmptyAction,                              &CrFwOutCmpDefSerialize} \
 	}
 
 #endif /* CRFW_OUTFACTORY_USERPAR_H_ */

@@ -32,7 +32,7 @@
 #include "CrFwConstants.h"
 /* Include FW Profile files */
 #include "FwSmConstants.h"
-
+/* TODO hier header file gscheit beschreiben !!*/
 /**
  * Test the Getter and Setter for all Packet Headers (Tm and Tc Header)
  *
@@ -56,7 +56,6 @@
  */
 CrFwBool_t CrPsPcktGetSetTestCase1();
 
-
 /**
  * Test the Getter and Setter for all Packets (Service 17, Service 1, Service 3, Service 5)
  *
@@ -76,6 +75,9 @@ CrFwBool_t CrPsPcktGetSetTestCase1();
  * @return true if the test was successful, false otherwise.
  */
 CrFwBool_t CrPsPcktGetSetTestCase2();
+
+/* TODO either include this into testcase 2 or make a testcase for every service*/
+CrFwBool_t CrPsPcktGetSetTestCase3();
 
 
 #endif /* CRPS_PCKTGETSET_TESTCASES_H_ */

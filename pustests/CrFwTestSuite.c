@@ -33,7 +33,7 @@
 #include <string.h>
 
 /** The number of tests in the test suite. */
-#define NOF_TESTS 13
+#define NOF_TESTS 16
 
 /* Include framework files */
 #include "CrFwConstants.h"
@@ -45,6 +45,7 @@
 #include "CrPsServiceTestCases.h"
 #include "CrPsServiceVeriTestCases.h"
 #include "CrPsHkTestCases.h"
+#include "CrPsEvtTestCases.h"
 #include "CrPsDebug.h"
 
 
@@ -107,14 +108,24 @@ int main() {
 	testCases[8] = &CrPsPcktGetSetTestCase1;
 	testNames[9] = "Pusext_PacketGetterSetter_TestCase2";
 	testCases[9] = &CrPsPcktGetSetTestCase2;
+	testNames[10] = "Pusext_PacketGetterSetter_TestCase3";
+	testCases[10] = &CrPsPcktGetSetTestCase3;
+
 
 	/*Service 3*/
-	testNames[10] = "Pusext_Housekeeping_TestCase1";
-	testCases[10] = &CrPsHkTestCase1;
-	testNames[11] = "Pusext_Housekeeping_TestCase2";
-	testCases[11] = &CrPsHkTestCase2;
-	testNames[12] = "Pusext_Housekeeping_TestCase3";
-	testCases[12] = &CrPsHkTestCase3;
+	testNames[11] = "Pusext_Housekeeping_TestCase1";
+	testCases[11] = &CrPsHkTestCase1;
+	testNames[12] = "Pusext_Housekeeping_TestCase2";
+	testCases[12] = &CrPsHkTestCase2;
+	testNames[13] = "Pusext_Housekeeping_TestCase3";
+	testCases[13] = &CrPsHkTestCase3;
+	testNames[14] = "Pusext_Housekeeping_TestCase4";
+	testCases[14] = &CrPsHkTestCase4;
+
+	/*Service 5*/
+	testNames[15] = "Pusext_EventReporting_TestCase1";
+	testCases[15] = &CrPsEvtTestCase1;
+
 
 
 	/* Run test cases in sequence */

@@ -34,10 +34,18 @@
 #include "FwSmConstants.h"
 
 /**
- * Test the generic Getter an Setter
+ * Test the generic Datapool Getter an Setter
  *
  * The following actions are performed in this test:
- * - TBW
+ * - Getting the size of the Datapool, the number of Parameters and Variables
+ * - Loop over all Parameters and 
+ * - set them to 0, the maximum value and a random number and check
+ * - that the get function returns the right value
+ * - try to set a wrong entry and look if the function returns wrong values
+ *
+ * @verify that the generic Setter (setDpValue) can set all Datapool entries correctly
+ * @verify that the generic Getter (getDpValue) returns the correct value
+ * @verify that either the generic Getter or Getter returns 0 if one uses a wrong ID 
  * .
  * @return true if the test was successful, false otherwise.
  */
@@ -47,7 +55,13 @@ CrFwBool_t CrPsDataPoolTestCase1();
  * Test the Service 17 Are-You-Alive Test Connection
  *
  * The following actions are performed in this test:
- * - TBW
+ * - use the Setter and Getter for the Datapool entry for Service 17
+ * - set each Entry to 0 and its maximal value depending on its type
+ * - check if the right getter returns the correct value
+ *
+ * @verify that the initialization function is used to initially set all Service 17 Datapool entries
+ * @verify that all Getter and Setter functions for Serive 17 Datapool entries are used
+ * @verify that all this Getters and Setters work with the minimum and maximum value of the Datapool entries
  * .
  * @return true if the test was successful, false otherwise.
  */
@@ -57,7 +71,13 @@ CrFwBool_t CrPsDataPoolTestCase2();
  * Test the Service 1 Request Verificationl
  *
  * The following actions are performed in this test:
- * - TBW
+ * - use the Setter and Getter for the Datapool entry for Service 1
+ * - set each Entry to 0 and its maximal value depending on its type
+ * - check if the right getter returns the correct value
+ *
+ * @verify that the initialization function is used to initially set all Service 1 Datapool entries
+ * @verify that all Getter and Setter functions for Serive 1 Datapool entries are used
+ * @verify that all this Getters and Setters work with the minimum and maximum value of the Datapool entries
  * .
  * @return true if the test was successful, false otherwise.
  */
@@ -67,7 +87,13 @@ CrFwBool_t CrPsDataPoolTestCase3();
  * Test the Service 3 Housekeeping 
  *
  * The following actions are performed in this test:
- * - TBW
+ * - use the Setter and Getter for the Datapool entry for Service 3
+ * - set each Entry to 0 and its maximal value depending on its type
+ * - check if the right getter returns the correct value
+ *
+ * @verify that the initialization function is used to initially set all Service 3 Datapool entries
+ * @verify that all Getter and Setter functions for Serive 3 Datapool entries are used
+ * @verify that all this Getters and Setters work with the minimum and maximum value of the Datapool entries
  * .
  * @return true if the test was successful, false otherwise.
  */
@@ -77,7 +103,13 @@ CrFwBool_t CrPsDataPoolTestCase4();
  * Test the Service 5 Event reporting 
  *
  * The following actions are performed in this test:
- * - TBW
+ * - use the Setter and Getter for the Datapool entry for Service 5
+ * - set each Entry to 0 and its maximal value depending on its type
+ * - check if the right getter returns the correct value
+ *
+ * @verify that the initialization function is used to initially set all Service 5 Datapool entries
+ * @verify that all Getter and Setter functions for Serive 5 Datapool entries are used
+ * @verify that all this Getters and Setters work with the minimum and maximum value of the Datapool entries
  * .
  * @return true if the test was successful, false otherwise.
  */

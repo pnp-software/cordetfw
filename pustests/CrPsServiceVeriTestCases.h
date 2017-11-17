@@ -34,7 +34,7 @@
 #include "FwSmConstants.h"
 
 /**
- * Test the Service 17 Are-You-Alive Test Connection
+ * Test the Service 1 Request Verification
  *
  * The following actions are performed in this test:
  *
@@ -54,119 +54,95 @@
  * - Check if number of Allocated OutComponents = 1
  * - Check that there is one loaded OutComponent in the OutManager
  * - Get the Data from the out Manager
- * - Check if there is a 1.1 Report waitig in the OutManager (loaded)
+ * - Check if there is a 1,1 Report waitig in the OutManager (loaded)
  * - Release the OutComponent
  * - Check if number of Allocated OutComponents now is 0
- * - Check that all DataPool Variables concerning (1.2) are initially 0 
+ * - Check that all DataPool Variables concerning (1,2) are initially 0 
  * - Create a (1,2) Report
  * - Check if number of Allocated OutComponents = 1
  * - Check that there are two loaded OutComponents in the OutManager
- * - Check that all DataPool Variables concerning (1.2) are updated 
+ * - Check that all DataPool Variables concerning (1,2) are updated 
  * - Get the Data from the out Manager
- * - Check if there is a 1.2 Report waitig in the OutManager (loaded)
+ * - Check if there is a 1,2 Report waitig in the OutManager (loaded)
  * - Release the OutComponent
  * - Check if number of Allocated OutComponents now is 0
  * - Create a (1,3) Report
  * - Check if number of Allocated OutComponents = 1
  * - Check that there are 3 loaded OutComponents in the OutManager
  * - Get the Data from the out Manager
- * - Check if there is a 1.3 Report waitig in the OutManager (loaded)
+ * - Check if there is a 1,3 Report waitig in the OutManager (loaded)
  * - Release the OutComponent
  * - Check if number of Allocated OutComponents now is 0
- * - Check that all DataPool Variables concerning (1.4) are initially 0
+ * - Check that all DataPool Variables concerning (1,4) are initially 0
  * - Create a (1,4) Report
  * - Check if number of Allocated OutComponents = 1
  * - Check that there are 4 loaded OutComponents in the OutManager
- * - Check that all DataPool Variables concerning (1.4) are updated
+ * - Check that all DataPool Variables concerning (1,4) are updated
  * - Get the Data from the out Manager
- * - Check if there is a 1.4 Report waitig in the OutManager (loaded)
+ * - Check if there is a 1,4 Report waitig in the OutManager (loaded)
  * - Release the OutComponent
  * - Check if number of Allocated OutComponents now is 0
  * - Create a (1,5) Report
  * - Check if number of Allocated OutComponents = 1
  * - Check that there are 5 loaded OutComponents in the OutManager
  * - Get the Data from the out Manager
- * - Check if there is a 1.5 Report waitig in the OutManager (loaded)
+ * - Check if there is a 1,5 Report waitig in the OutManager (loaded)
  * - Release the OutComponent
  * - Check if number of Allocated OutComponents now is 0
- * - Check that all DataPool Variables concerning (1.6) are initially 0
+ * - Check that all DataPool Variables concerning (1,6) are initially 0
  * - Create a (1,6) Report
  * - Check if number of Allocated OutComponents = 1
  * - Check that there are 6 loaded OutComponents in the OutManager
- * - Check that all DataPool Variables concerning (1.6) are updated
+ * - Check that all DataPool Variables concerning (1,6) are updated
  * - Get the Data from the out Manager
- * - Check if there is a 1.6 Report waitig in the OutManager (loaded)
+ * - Check if there is a 1,6 Report waitig in the OutManager (loaded)
  * - Release the OutComponent
  * - Check if number of Allocated OutComponents now is 0
  * - Create a (1,7) Report
  * - Check if number of Allocated OutComponents = 1
  * - Check that there are 7 loaded OutComponents in the OutManager
  * - Get the Data from the out Manager
- * - Check if there is a 1.7 Report waitig in the OutManager (loaded)
+ * - Check if there is a 1,7 Report waitig in the OutManager (loaded)
  * - Release the OutComponent
  * - Check if number of Allocated OutComponents now is 0
- * - Check that all DataPool Variables concerning (1.8) are initially 0
+ * - Check that all DataPool Variables concerning (1,8) are initially 0
  * - Create a (1,8) Report
  * - Check if number of Allocated OutComponents = 1
  * - Check that there are 8 loaded OutComponents in the OutManager
- * - Check that all DataPool Variables concerning (1.8) are updated
+ * - Check that all DataPool Variables concerning (1,8) are updated
  * - Get the Data from the out Manager
- * - Check if there is a 1.8 Report waitig in the OutManager (loaded)
+ * - Check if there is a 1,8 Report waitig in the OutManager (loaded)
  * - Release the OutComponent
  * - Check if number of Allocated OutComponents now is 0
- * - Check that all DataPool Variables concerning (1.10) are initially 0
+ * - Check that all DataPool Variables concerning (1,10) are initially 0
  * - Create a (1,10) Report
  * - Check if number of Allocated OutComponents = 1
  * - Check that there are 9 loaded OutComponents in the OutManager
- * - Check that all DataPool Variables concerning (1.10) are updated
+ * - Check that all DataPool Variables concerning (1,10) are updated
  * - Get the Data from the out Manager
- * - Check if there is a 1.10 Report waitig in the OutManager (loaded)
- * - Checking OutComponent Desicions of the Guards (1.2 and 1.10)
- * - Extended Check Service (1,2) for an OutComponent ( no 1.2 should be created!)
+ * - Check if there is a 1,10 Report waitig in the OutManager (loaded)
+ * - Checking OutComponent Desicions of the Guards (1,2 and 1,10)
+ * - Extended Check Service (1,2) for an OutComponent (no 1,2 should be created!)
  * - Check if number of loaded OutComponents in the OutManager stays at 9
- * - Extended Check Service (1,10) for an OutComponent ( no 1.10 should be created!)
+ * - Extended Check Service (1,10) for an OutComponent (no 1,10 should be created!)
  * - Check if number of loaded OutComponents in the OutManager stays at 9
  * - Release the OutComponent
  * - Check if number of Allocated OutComponents now is 0
- * - Checking REPORT Desicions of the Guards (1.2 and 1.10)
- * - allocate an 17.2 in Report
+ * - Checking REPORT Desicions of the Guards (1,2 and 1,10)
+ * - allocate an 17,2 in Report
  * - Check if number of Allocated Packets now is 2
  * - Check if number of Allocated InReports now is 0
- * - Create an InReport from pckt2 (17.2)
+ * - Create an InReport from pckt2 (17,2)
  * - Check if number of Allocated InReports now is 1 
- * - Extended Check Service (1,2) for an InReport ( no 1.2 should be created!)
+ * - Extended Check Service (1,2) for an InReport (no 1,2 should be created!)
  * - Check if number of Allocated OutComponents = 0
  * - Check if number of loaded OutComponents in the OutManager stays at 9
- * - Extended Check Service (1,10) for an InReport ( no 1.10 should be created!)
+ * - Extended Check Service (1,10) for an InReport (no 1,10 should be created!)
  * - Check if number of Allocated OutComponents = 0
  * - Check if number of loaded OutComponents in the OutManager stays at 9
  * - Fill the outfactory so that an Error could occur (leave no free slot)
  * - Check if no Application Error has occured
- * - Extended Check Service (1,1) no free slots i the OutFactory! Application Error should be 10
- * - Check if Application Error 10 has occured (An OutComponent allocation request has failed)*
- * - Set the Application Error to 0 and check it
- * - Extended Check Service (1,2) no free slots i the OutFactory! Application Error should be 10
- * - Check if Application Error 10 has occured (An OutComponent allocation request has failed)*
- * - Set the Application Error to 0 and check it
- * - Extended Check Service (1,3) no free slots i the OutFactory! Application Error should be 10
- * - Check if Application Error 10 has occured (An OutComponent allocation request has failed)*
- * - Set the Application Error to 0 and check it
- * - Extended Check Service (1,4) no free slots i the OutFactory! Application Error should be 10
- * - Check if Application Error 10 has occured (An OutComponent allocation request has failed)*
- * - Set the Application Error to 0 and check it
- * - Extended Check Service (1,5) no free slots i the OutFactory! Application Error should be 10
- * - Check if Application Error 10 has occured (An OutComponent allocation request has failed)*
- * - Set the Application Error to 0 and check it
- * - Extended Check Service (1,6) no free slots i the OutFactory! Application Error should be 10
- * - Check if Application Error 10 has occured (An OutComponent allocation request has failed)*
- * - Set the Application Error to 0 and check it
- * - Extended Check Service (1,7) no free slots i the OutFactory! Application Error should be 10
- * - Check if Application Error 10 has occured (An OutComponent allocation request has failed)*
- * - Set the Application Error to 0 and check it
- * - Extended Check Service (1,8) no free slots i the OutFactory! Application Error should be 10
- * - Check if Application Error 10 has occured (An OutComponent allocation request has failed)*
- * - Set the Application Error to 0 and check it
- * - Extended Check Service (1,10) no free slots i the OutFactory! Application Error should be 10
+ * - Extended Check Service (1,1 - 1.10) no free slots i the OutFactory! Application Error should be 10
  * - Check if Application Error 10 has occured (An OutComponent allocation request has failed)*
  * - Set the Application Error to 0 and check it
  * - Reset OutManager and check that all OutComponents are unloaded and released
@@ -185,7 +161,7 @@
  * @verify trying to creat a Service 1.2 and 1.10 Report from an OutComponent
  * @verify trying to creat a Service 1.2 and 1.10 Report from an InReport
  * @verify fill the OutFactory
- * @verify trying to creat and verify all Service 1 subservices
+ * @verify trying to creat and verify all Service 1 subservices with a full outFactory (they will produce application errors)
  * @verify resetting the OutFactory, InFactory, OutManager and InManager
  */
 CrFwBool_t CrPsServVeriTestCase1();

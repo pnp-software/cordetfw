@@ -89,6 +89,9 @@ typedef signed char CrFwCounterS1_t;
 /** Type used for unsigned integers with a "medium" range. */
 typedef unsigned short CrFwCounterU2_t;
 
+/** Type used for unsigned integers with a "long" range. */
+typedef uint32_t CrFwCounterU4_t;
+
 /** Type for the packet length. */
 typedef unsigned short int CrFwPcktLength_t;
 
@@ -225,20 +228,6 @@ typedef enum {
 /** The identifier of the host application */
 #define CR_FW_HOST_APP_ID 10
 
-/** The number of bits reserved for the application identifier in a command or report identifier */
-#define CR_FW_NBITS_APP_ID 4
-
-/** Maximum value of the service type attribute of InReports and InCommands */
-#define CR_FW_MAX_SERV_TYPE 100
-
-/** Maximum value of the service sub-type attribute of InReports and InCommands */
-#define CR_FW_MAX_SERV_SUBTYPE 30
-
-/** Maximum value of the discriminant attribute of InReports and InCommands */
-#define CR_FW_MAX_DISCRIMINANT 50
-
-
-
 /**
  * The identifier of the APP2 Application.
  */
@@ -274,6 +263,17 @@ typedef enum {
  */
 #define CR_FW_CLIENT_OBC 12
 
+/** The number of bits reserved for the application identifier in a command or report identifier */
+#define CR_FW_NBITS_APP_ID 4
+
+/** Maximum value of the service type attribute of InReports and InCommands */
+#define CR_FW_MAX_SERV_TYPE 100
+
+/** Maximum value of the service sub-type attribute of InReports and InCommands */
+#define CR_FW_MAX_SERV_SUBTYPE 150
+
+/** Maximum value of the discriminant attribute of InReports and InCommands */
+#define CR_FW_MAX_DISCRIMINANT 50
 
 /* PCAT values */
 #define CR_FW_PCAT_SEM_TC            0x0C

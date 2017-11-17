@@ -52,26 +52,25 @@
  * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
-#include <stdlib.h>
 #include "CrFwConstants.h"
+#include "CrPsUserConstants.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 #include "Pckt/CrFwPckt.h"
 #include "BaseCmp/CrFwBaseCmp.h"
 #include <Services/General/CrPsPktServReqVerif.h>
-#include <Services/General/CrPsPktHk.h>
-#include <Services/General/CrPsPktEvt.h>
+#include <Services/General/CrPsPktServHk.h>
+#include <Services/General/CrPsPktServEvt.h>
 #include <Services/General/CrPsPktServTest.h>
-#include "stdio.h"
 
 /**
  * Maximum length of a packet expressed in number of bytes (see <code>CrFwPacket.h</code>).
  * The value of this constant must be smaller than the range of the <code>::CrFwPcktLength_t</code>
  * integer type.
  */
-#define CR_FW_MAX_PACKET_LENGTH 100
+#define CR_FW_MAX_PACKET_LENGTH 1000
 
 /** The maximum size in number of bytes of a packet */
-#define CR_FW_MAX_PCKT_LENGTH 100
+#define CR_FW_MAX_PCKT_LENGTH 1000
 
 /**
  * The array holding the packets.
@@ -89,87 +88,34 @@ static CrFwBool_t pcktInUse[CR_FW_MAX_NOF_PCKTS] = {0};
 /** The number of currently allocated packets. */
 static CrFwCounterU2_t nOfAllocatedPckts = 0;
 
-
-#if 0
-/** Offset of the length field in a packet */
-static const CrFwPcktLength_t offsetLength = 0;
-
-/** Offset of the flag defining the type of packet (1 for a command, 2 for a report) */
-static const CrFwPcktLength_t offsetCmdRepType = 4;
-
-/** Offset of the time stamp field in a packet */
-static const CrFwPcktLength_t offsetTimeStamp = 8;
-
-/** Offset of the service type field in a packet */
-static const CrFwPcktLength_t offsetServType = 12;
-
-/** Offset of the service sub-type field in a packet */
-static const CrFwPcktLength_t offsetServSubType = 16;
-
-/** Offset of the destination field in a packet */
-static const CrFwPcktLength_t offsetDest = 20;
-
-/** Offset of the source field in a packet */
-static const CrFwPcktLength_t offsetSrc = 24;
-
-/** Offset of the discriminant field in a packet */
-static const CrFwPcktLength_t offsetDiscriminant = 28;
-
-/** Offset of the sequence counter field in a packet */
-static const CrFwPcktLength_t offsetSeqCnt = 32;
-
-/** Offset of the command or report identifier in a packet */
-static const CrFwPcktLength_t offsetCmdRepId = 36;
-
-/** Offset of the acceptance acknowledge level field in a packet */
-static const CrFwPcktLength_t offsetAcceptAckLev = 40;
-
-/** Offset of the start acknowledge level field in a packet */
-static const CrFwPcktLength_t offsetStartAckLev = 44;
-
-/** Offset of the progress acknowledge level field in a packet */
-static const CrFwPcktLength_t offsetProgressAckLev = 48;
-
-/** Offset of the termination acknowledge level field in a packet */
-static const CrFwPcktLength_t offsetTermAckLev = 52;
-
-/** Offset of the group in a packet */
-static const CrFwPcktLength_t offsetGroup = 56;
-
-/** Offset of the parameter area in a packet */
-static const CrFwPcktLength_t offsetPar = 60;
-
-
-
-#endif
 /*static const CrFwPcktLength_t offsetPar = sizeof(TmHeader_t);*/
 /*internal functions*/
 /*-----------------------------------------------------------------------------------------*/
 
 CrFwGroup_t CrFwPcktGetPcat(CrFwPckt_t pckt) {
-	unsigned short apid;
+	CrPsApid_t apid;
 	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
 	{
-		apid =  getTmHeaderAPID(pckt);
+		apid = getTmHeaderAPID(pckt);
 	}
 	else
 	{
-		apid =  getTcHeaderAPID(pckt);
+		apid = getTcHeaderAPID(pckt);
 	}
 	return (apid & 0x000f);
 }
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwPcktSetPcat(CrFwPckt_t pckt, CrFwGroup_t pcat) {
-	unsigned short apid;
+	CrPsApid_t apid;
 	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
 	{
-		apid =  getTmHeaderAPID(pckt);
+		apid = getTmHeaderAPID(pckt);
 		setTmHeaderAPID (pckt, (apid & 0x07f0)|(pcat & 0x000f));
 	}
 	else
 	{
-		apid =  getTcHeaderAPID(pckt);
+		apid = getTcHeaderAPID(pckt);
 		setTcHeaderAPID (pckt, (apid & 0x07f0)|(pcat & 0x000f));
 	}
 }
@@ -177,23 +123,6 @@ void CrFwPcktSetPcat(CrFwPckt_t pckt, CrFwGroup_t pcat) {
 /*-----------------------------------------------------------------------------------------*/
 CrFwDestSrc_t CrFwPcktGetPid(CrFwPckt_t pckt)
 {
-	/*
-	unsigned short apid, pckttype, secheaderflag;
-	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
-	{
-		apid = getTmHeaderAPID(pckt);
-		pckttype = getTmHeaderPcktType(pckt);
-	    secheaderflag = getTmHeaderSecHeaderFlag(pckt);
-	}
-	else
-	{
-		apid = getTcHeaderAPID(pckt);
-		pckttype = getTcHeaderPcktType(pckt);
-	    secheaderflag = getTcHeaderSecHeaderFlag(pckt);
-	}
-	return ((apid & 0x07f0) | (secheaderflag<<12 & 0x1000) | (pckttype<<13 & 0x0800));
-	*/
-
 	/*SO WIE IN CHEOPS (PID ist nur ein TEIL der Appid)*/
 	/* maske ist 0x07f0 ( also 0000011111110000 ) */
 	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
@@ -212,7 +141,7 @@ void CrFwPcktSetPid(CrFwPckt_t pckt, unsigned short pid)
 {
 	/*SO WIE IN CHEOPS (PID ist nur ein TEIL der Appid)*/
 	/* maske ist 0x07f0 ( also 0000011111110000 ) */
-	unsigned short apid;
+	CrPsApid_t apid;
 	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
 	{
 		apid = getTmHeaderAPID(pckt);
@@ -231,7 +160,6 @@ void CrFwPcktSetPid(CrFwPckt_t pckt, unsigned short pid)
 /*-----------------------------------------------------------------------------------------*/
 CrFwPckt_t CrFwPcktMake(CrFwPcktLength_t pcktLength) {
 	CrFwCounterU2_t i;
-	printf("pcktLength%d\n",pcktLength);
 	if (pcktLength > CR_FW_MAX_PCKT_LENGTH) {
 		CrFwSetAppErrCode(crPcktAllocationFail);
 		return NULL;
@@ -317,7 +245,6 @@ CrFwPcktLength_t CrFwPcktGetLength(CrFwPckt_t pckt) {
 
 /*-----------------------------------------------------------------------------------------*/
 CrFwCmdRepType_t CrFwPcktGetCmdRepType(CrFwPckt_t p){
-	
 	if (getTcHeaderPcktType(p) == 0)
 	{
 		return crRepType;
@@ -442,7 +369,7 @@ CrFwServSubType_t CrFwPcktGetServSubType(CrFwPckt_t pckt) {
 /*-----------------------------------------------------------------------------------------*/
 void CrFwPcktSetDiscriminant(CrFwPckt_t pckt, CrFwDiscriminant_t discriminant) {
 
-
+	/*TODO: is a switch more performant?*/
 	if (CrFwPcktGetServType(pckt) == 1)
 	{
 		if(CrFwPcktGetServSubType(pckt) == 2)
@@ -474,35 +401,35 @@ void CrFwPcktSetDiscriminant(CrFwPckt_t pckt, CrFwDiscriminant_t discriminant) {
 	/*Service 3*/
 	if (CrFwPcktGetServType(pckt) == 3)
 	{
+		if(CrFwPcktGetServSubType(pckt) == 1)
+		{
+			/*Packet 3.1 - Create Housekeeping Parameter Report Structure Command*/
+			setHkCreateCmdRepStrucId(pckt, discriminant);
+		}
+		if(CrFwPcktGetServSubType(pckt) == 2)
+		{
+			/*Packet 3.2 - Create Diagnostic Parameter Report Structure Command*/
+			setHkCreateCmdRepStrucId(pckt, discriminant);
+		}
 		if(CrFwPcktGetServSubType(pckt) == 10)
 		{
 			/*Packet 3.10 - Housekeeping Parameter Report Structure Report*/
-			setHkRepStructHkParRepHKRepStrucID(pckt, discriminant);
+			setHkRepStructRepRepStrucId(pckt, discriminant);
 		}
 		if(CrFwPcktGetServSubType(pckt) == 12)
 		{
 			/*Packet 3.12 - Diagnostic Parameter Report Structure Report*/
-			setHkRepStructDiagParRepDiagRepStrucID(pckt, discriminant);
+			setHkRepStructRepRepStrucId(pckt, discriminant);
 		}
 		if(CrFwPcktGetServSubType(pckt) == 25)
 		{
 			/*Packet 3.25 - Housekeeping Parameter Report*/
-			setHkOneShotHkRepHKRepStrucID(pckt, discriminant);
+			setHkRepRepStrucId(pckt, discriminant);
 		}
 		if(CrFwPcktGetServSubType(pckt) == 26)
 		{
 			/*Packet 3.26 - Diagnostic Parameter Report*/
-			setHkOneShotDiagRepDiagRepStrucID(pckt, discriminant);
-		}
-		if(CrFwPcktGetServSubType(pckt) == 27)
-		{
-			/*Packet 3.27 - Generate One-Shot Report for Housekeeping Parameters*/
-			setHkOneShotHkCmdHKRepStrucID(pckt, discriminant);
-		}
-		if(CrFwPcktGetServSubType(pckt) == 28)
-		{
-			/*Packet 3.28 - Generate One-Shot Report for Diagnostic Parameters*/
-			setHkOneShotDiagCmdDiagRepStrucID(pckt, discriminant);
+			setHkRepRepStrucId(pckt, discriminant);
 		}
 	}
 
@@ -512,26 +439,26 @@ void CrFwPcktSetDiscriminant(CrFwPckt_t pckt, CrFwDiscriminant_t discriminant) {
 		if(CrFwPcktGetServSubType(pckt) == 1)
 		{
 			/*Packet 5.1 - Informative Event Report (Level 1)*/
-			setEvtRep1EventD(pckt, discriminant);
+			setEvtRep1EventId(pckt, discriminant);
 		}
 		if(CrFwPcktGetServSubType(pckt) == 2)
 		{
 			/*Packet 5.2 - Low Severity Event Report (Level 2)*/
-			setEvtRep2EventD(pckt, discriminant);			
+			setEvtRep2EventId(pckt, discriminant);			
 		}
 		if(CrFwPcktGetServSubType(pckt) == 3)
 		{
 			/*Packet 5.3 - Medium Severity Event Report (Level 3)*/
-			setEvtRep3EventD(pckt, discriminant);
+			setEvtRep3EventId(pckt, discriminant);
 		}
 		if(CrFwPcktGetServSubType(pckt) == 4)
 		{
 			/*Packet 5.4 - High Severity Event Report (Level 4)*/
-			setEvtRep4EventD(pckt, discriminant);			
+			setEvtRep4EventId(pckt, discriminant);			
 		}	
 	}
 
-/*TODO add all IF'S (service 1 .. the failcode acts as discriminant*/
+/*TODO: add all IF'S (service 1 .. the failcode acts as discriminant*/
 	
 }
 
@@ -571,35 +498,35 @@ CrFwDiscriminant_t CrFwPcktGetDiscriminant(CrFwPckt_t pckt) {
 /*Service 3*/
 	if (CrFwPcktGetServType(pckt) == 3)
 	{
+		if(CrFwPcktGetServSubType(pckt) == 1)
+		{
+			/*Packet 3.1 - Create Housekeeping Parameter Report Structure Command*/
+			return (CrFwDiscriminant_t) getHkCreateCmdRepStrucId(pckt);
+		}
+		if(CrFwPcktGetServSubType(pckt) == 2)
+		{
+			/*Packet 3.2 - Create Diagnostic Parameter Report Structure Command*/
+			return (CrFwDiscriminant_t) getHkCreateCmdRepStrucId(pckt);
+		}
 		if(CrFwPcktGetServSubType(pckt) == 10)
 		{
 			/*Packet 3.10 - Housekeeping Parameter Report Structure Report*/
-			return (CrFwDiscriminant_t) getHkRepStructHkParRepHKRepStrucID(pckt);
+			return (CrFwDiscriminant_t) getHkRepStructRepRepStrucId(pckt);
 		}
 		if(CrFwPcktGetServSubType(pckt) == 12)
 		{
 			/*Packet 3.12 - Diagnostic Parameter Report Structure Report*/
-			return (CrFwDiscriminant_t) getHkRepStructDiagParRepDiagRepStrucID(pckt);
+			return (CrFwDiscriminant_t) getHkRepStructRepRepStrucId(pckt);
 		}
-		if(CrFwPcktGetServSubType(pckt) == 25)
+			if(CrFwPcktGetServSubType(pckt) == 25)
 		{
 			/*Packet 3.25 - Housekeeping Parameter Report*/
-			return (CrFwDiscriminant_t) getHkOneShotHkRepHKRepStrucID(pckt);
+			return (CrFwDiscriminant_t) getHkRepRepStrucId(pckt);
 		}
 		if(CrFwPcktGetServSubType(pckt) == 26)
 		{
 			/*Packet 3.26 - Diagnostic Parameter Report*/
-			return (CrFwDiscriminant_t) getHkOneShotDiagRepDiagRepStrucID(pckt);
-		}
-		if(CrFwPcktGetServSubType(pckt) == 27)
-		{
-			/*Packet 3.27 - Generate One-Shot Report for Housekeeping Parameters*/
-			return (CrFwDiscriminant_t) getHkOneShotHkCmdHKRepStrucID(pckt);
-		}
-		if(CrFwPcktGetServSubType(pckt) == 28)
-		{
-			/*Packet 3.28 - Generate One-Shot Report for Diagnostic Parameters*/
-			return (CrFwDiscriminant_t) getHkOneShotDiagCmdDiagRepStrucID(pckt);
+			return (CrFwDiscriminant_t) getHkRepRepStrucId(pckt);
 		}
 	}
 
@@ -609,22 +536,22 @@ CrFwDiscriminant_t CrFwPcktGetDiscriminant(CrFwPckt_t pckt) {
 		if(CrFwPcktGetServSubType(pckt) == 1)
 		{
 			/*Packet 5.1 - Informative Event Report (Level 1)*/
-			return (CrFwDiscriminant_t) getEvtRep1EventD(pckt);
+			return (CrFwDiscriminant_t) getEvtRep1EventId(pckt);
 		}
 		if(CrFwPcktGetServSubType(pckt) == 2)
 		{
 			/*Packet 5.2 - Low Severity Event Report (Level 2)*/
-			return (CrFwDiscriminant_t) getEvtRep2EventD(pckt);			
+			return (CrFwDiscriminant_t) getEvtRep2EventId(pckt);			
 		}
 		if(CrFwPcktGetServSubType(pckt) == 3)
 		{
 			/*Packet 5.3 - Medium Severity Event Report (Level 3)*/
-			return (CrFwDiscriminant_t) getEvtRep3EventD(pckt);
+			return (CrFwDiscriminant_t) getEvtRep3EventId(pckt);
 		}
 		if(CrFwPcktGetServSubType(pckt) == 4)
 		{
 			/*Packet 5.4 - High Severity Event Report (Level 4)*/
-			return (CrFwDiscriminant_t) getEvtRep4EventD(pckt);			
+			return (CrFwDiscriminant_t) getEvtRep4EventId(pckt);			
 		}	
 	}
 
@@ -731,11 +658,11 @@ CrFwBool_t CrFwPcktIsTermAck(CrFwPckt_t pckt) {
 char* CrFwPcktGetParStart(CrFwPckt_t pckt) {
 	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
 	{
-		return (char *) &pckt[sizeof(TmHeader_t)];
+		return (CrFwPckt_t) &pckt[sizeof(TmHeader_t)];
 	}
 	else
 	{
-		return (char *) &pckt[sizeof(TcHeader_t)];
+		return (CrFwPckt_t) &pckt[sizeof(TcHeader_t)];
 	}
 }
 

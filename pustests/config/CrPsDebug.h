@@ -18,30 +18,34 @@
 #define DEBUGP_17(...)     //printf(COLOR_MAGENTA); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD)
 
 /* Service 3 Printouts*/
-#define DEBUGP_3(...)      printf(COLOR_STANDARD); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD)
+#define DEBUGP_3(...)      //printf(COLOR_STANDARD); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD)
 
 /* Service 5 Printouts*/
-#define DEBUGP_5(...)      printf(COLOR_STANDARD); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD)
+#define DEBUGP_5(...)      //printf(COLOR_BLUE); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD)
 
+/* Service 13 Printouts*/
+#define DEBUGP_13(...)     printf(COLOR_YELLOW); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD)
 
 /* TestSuite for Service 1 Printouts*/
 #define DEBUGP_TS1(...)    //printf(COLOR_YELLOW); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD)
 
 /* TestSuite for Service 17 Printouts*/
 #define DEBUGP_TS17(...)   //printf(COLOR_CYAN); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD) 
- 
 
 /* TestSuite for Service 3 Printouts*/
-#define DEBUGP_TS3(...)    printf(COLOR_STANDARD); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD)
+#define DEBUGP_TS3(...)    //printf(COLOR_YELLOW); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD)
 
-/* TestSuite for Service 5 COLOR_STANDARD*/
-#define DEBUGP_TS5(...)    printf(COLOR_CYAN); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD)
+/* TestSuite for Service 5 Printouts*/
+#define DEBUGP_TS5(...)    //printf(COLOR_CYAN); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD)
+
+/* TestSuite for Service 13 Printouts*/
+#define DEBUGP_TS13(...)    printf(COLOR_MAGENTA); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD)
 
 /* Testsuite DataPool Printouts*/
-#define DEBUGP_TSDP(...)   printf(COLOR_YELLOW); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD) 
+#define DEBUGP_TSDP(...)   //printf(COLOR_YELLOW); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD) 
 
 /* Testsuite Getter and Setter Printouts*/
-#define DEBUGP_TSGS(...)   printf(COLOR_BLUE); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD)
+#define DEBUGP_TSGS(...)   //printf(COLOR_BLUE); printf("%s %d - ", __FILE__, __LINE__); printf(__VA_ARGS__); printf(COLOR_STANDARD)
 
 
 /* Red Text */
@@ -66,11 +70,11 @@
 #define DEBUGP(...)        printf(COLOR_STANDARD); printf(__VA_ARGS__); printf(COLOR_STANDARD)
 
 /* debugPacket printouts*/
-#define DEBUG_PCKT(...)    printf(COLOR_STANDARD); printf(__VA_ARGS__); printf(COLOR_STANDARD)
+#define DEBUG_PCKT(...)    printf(__VA_ARGS__)
 
 
 void debugPacket(char* pckt, size_t size);
-
+void clearPacket(char* pckt, size_t size);
 
 
 

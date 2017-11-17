@@ -19,7 +19,7 @@
 /* Include Framework Files */
 #include "CrFwConstants.h"
 #include "CrPsRepErr.h"
-#include <CrPsUtilities.h>
+#include <CrPsUtilitiesServReqVerif.h>
 
 /*-----------------------------------------------------------------------------------------*/
 void CrPsRepErr(CrPsRepErrCode_t errCode, CrFwServType_t tmtcType, CrFwServSubType_t tmtcSubType, CrFwDiscriminant_t tmtcDiscriminant)
