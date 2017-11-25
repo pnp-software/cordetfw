@@ -229,7 +229,7 @@ static void InLoaderLoadCmdRep(CrFwPckt_t pckt) {
 			return;
 		} else {
 			CrFwInFactoryReleaseInCmd(inCmp);
-			CrFwRepInCmdOutcome(crCmdAckAccFail, instanceId, servType, servSubType, disc, 0, inCmp);
+			CrFwRepInCmdOutcome(crCmdAckLdFail, instanceId, servType, servSubType, disc, 0, inCmp);
 			return;
 		}
 	} else 	/* Load operation was successful */

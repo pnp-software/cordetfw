@@ -862,7 +862,7 @@ CrFwBool_t CrFwInLoaderTestCase8() {
 	CrFwInStreamStubSetPcktCollectionCnt(1); /* One pending packet in InStream */
 	CrFwInStreamStubSetPcktType(50,1,0);		 /* Set packet type to Sample 1 InCommand */
 	CrFwInStreamStubSetPcktDest(CR_FW_HOST_APP_ID);		 /* Set packet destination to current destination */
-	CrFwInStreamStubSetPcktCmdRepType(crCmdType);		 /* Define packet as InReport */
+	CrFwInStreamStubSetPcktCmdRepType(crCmdType);		 /* Define packet as InCommand */
 	CrFwInStreamStubSetPcktCmdRepId(111);		 /* Define command/report identifier */
 	CrFwInCmdSample1SetValidityFlag(1);		/* Validity Check of InCommand will succeed */
 	CrFwCmpReset(inStream);
@@ -879,7 +879,7 @@ CrFwBool_t CrFwInLoaderTestCase8() {
 	/* Check that acceptance failure report has been generated */
 	if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos+1)
 		return 0;
-	if (CrFwRepInCmdOutcomeStubGetOutcome(cmdRepPos) != crCmdAckAccFail)
+	if (CrFwRepInCmdOutcomeStubGetOutcome(cmdRepPos) != crCmdAckLdFail)
 		return 0;
 	if (CrFwRepInCmdOutcomeStubGetFailCode(cmdRepPos) != 0)
 		return 0;
