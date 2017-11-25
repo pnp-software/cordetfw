@@ -41,9 +41,9 @@
  * - Failure of sub-checks 1 and 2 is handled by calling function <code>::CrFwRepInCmdOutcomeCreFail</code>
  *   with outcome #crCmdAckCreFail.
  * - Failure of sub-check 3 is handled by calling function <code>::CrFwRepInCmdOutcome</code> with
- *   with outcome #CrCmdAckAccFail.
+ *   outcome #crCmdAckAccFail.
  * - Failure of sub-check 4 is handled by calling function <code>::CrFwRepInCmdOutcome</code> with
- *   outcome #CrCmdAckLdFail.
+ *   outcome #crCmdAckLdFail.
  * .
  * If all sub-checks is passed, the incoming command is declared "accepted" and function
  * <code>::CrFwRepInCmdOutcome</code> is called with outcome set to #crCmdAckAccSucc.

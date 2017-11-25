@@ -120,7 +120,7 @@ typedef enum {
 	crCmdAckTrmSucc = 8,
 	/** Creation failure */
 	crCmdAckCreFail = 9,
-	/** Creation failure */
+	/** Load failure */
 	crCmdAckLdFail = 10
 } CrFwRepInCmdOutcome_t;
 
