@@ -18,7 +18,7 @@ The specification of the CORDET Framework is language-independent. This project 
 These characteristics make the C2 Implementation especially well-suited for use in embedded and mission-critical applications. 
 
 # Releases
-* Version [0.9](http://pnp-software.com/cordetfw/CordetFw_C2_Impl_LGPLv3_0.9.zip), LGPLv3
+* Version [0.9.1](http://pnp-software.com/cordetfw/CordetFw_C2_Impl_LGPLv3_0.9.1.zip), LGPLv3
 
 # Ownership
 
@@ -26,4 +26,4 @@ The owner of the project is [P&P Software GmbH](http://pnp-software.com/).
 
 # License
 
-Free use of this software is granted under the terms of the GNU Lesser General Public License (LGPL) v3, see LICENSE.
+Free use of this software is granted under the terms of the GNU Lesser General Public License (LGPL) v3. Commercial licences can be purchased from [P&P Software GmbH](http://pnp-software.com/).
