@@ -58,3 +58,4 @@ S1,8,Closes ICM-16,Operation to Report Termination Failed for InCommand ,Run the
 S1,9,Closes ICM-17,Operation to Report Report Termination Successful for InCommand ,Run the Command Verification Success Procedure of figure \ref{fig:CmdPrgrSucc}
 S12,1,New AP,Definition of Parameter Monitoring Procedures,"Three parameter monitoring procedures are defined (limit check, expected value and delta check)"
 S12,2,New AP,Definition of Parameter Monitoring List,"By default, all parameter monitors are empty"
+S13,1,New AP,Operation to access the i-th LPT Buffer,No default defined at framework level

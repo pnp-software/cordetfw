@@ -1402,7 +1402,7 @@ The service 12 observables are listed in table \ref{tab:Obs-S12}. The initial va
 \subsection{Service 12 Adaptation Points}
 The table in this section lists the adaptation points for the On-Board Monitoring Service.
 
-\begin{cr_ap}{S12}{Adaptation Points for 12 (On-Board Monitoring Service)}
+\begin{cr_ap}{S12}{Adaptation Points for Service 12 (On-Board Monitoring Service)}
 \end{cr_ap}
 
 
@@ -1604,6 +1604,15 @@ The service 13 observables are listed in table \ref{tab:Obs-S13}.
 
 \begin{cr_obs}{S13}{Observables for Service 13 (Large Packet Transfer Service)}
 \end{cr_obs}
+
+%----------------------------------------------------------------------------------------
+\newpage
+\subsection{Service 13 Adaptation Points}
+The PUS Extension of the CORDET Framework defines service 13 in full with the exception of the mechanism to access the LPT Buffers. The location of these buffers and the means to access them are application-specific and the framework accordingly defines an Adaptation Point to access these buffers. In a simple case, the adaptation point might take the form of a function which takes the identifier of an LPT Buffer as an argument and whcih returns the start address and size of the buffer itself.
+
+\begin{cr_ap}{S13}{Adaptation Points for Service 13 (Large Packet Transfer Service)}
+\end{cr_ap}
+
 
 %---------------------------------------------------------------------------------
 \subsection{Service 13 Parameters}\label{sec:serv13Par}
