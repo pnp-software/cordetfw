@@ -1254,7 +1254,7 @@ Conditional checking is supported for all parameter monitors. To each parameter 
 \begin{itemize}
 \item A validity parameter (a data pool item given by identifier \texttt{valDataItemId})
 \item A bit-mask \texttt{valMask}
-\item An expected value \texttt(valExpVal}
+\item An expected value \texttt{valExpVal}
 \end{itemize}
 
 The parameter monitoring action is only performed if the bit-wise AND of the bit-mask with the validity parameter is equal to the expected value. When a parameter is invalid, its checking status is set to INVALID. Note that, where desired, unconditional checking is achieved by setting the bit-mask and the expected value to zero.
@@ -1450,7 +1450,7 @@ The  number of LPT Buffers in an application is statically defined and is equalt
 \item \texttt{lptFailCode}: the failure code for an up-transfer to the LPT Buffer which was aborted (only meaningful for LPT Buffers which act as destinations of an up-transfer). 
 \end{fw_itemize}
 
-Different LPT Buffers may have different values of \texttt{lptDest} or \texttt{partSize}. This allows the application designers to allocate LPT Buffers to different destinations (e.g. one LPT Buffer is used for large transfers to/from the ground and another LPT Buffer is used for large transfers to/from other destinations). Or, it allows them to use different LPT Buffers for different large packet sizes. Also, \texttt{lptDest} and \texttt{partSize} are data pool parameters (see section TBD). Their values can therefore be adjusted by the service 13 user. It is the user responsibility to avoid changing the value of \texttt{lptDest} or \texttt{partSize} for a given LPT Buffer while a transfer to or from that buffer is under way.
+Different LPT Buffers may have different values of \texttt{lptDest} or \texttt{partSize}. This allows the application designers to allocate LPT Buffers to different destinations (e.g. one LPT Buffer is used for large transfers to/from the ground and another LPT Buffer is used for large transfers to/from other destinations). Or, it allows them to use different LPT Buffers for different large packet sizes. Also, \texttt{lptDest} and \texttt{partSize} are data pool parameters (see section \ref{sec:serv13Par}). Their values can therefore be adjusted by the service 13 user. It is the user responsibility to avoid changing the value of \texttt{lptDest} or \texttt{partSize} for a given LPT Buffer while a transfer to or from that buffer is under way.
 
 In accordance with [PS-SP], each large packet transfer has a unique \textit{Large Message Transaction Identifier}. This identifier is stored in  variable \texttt{largeMsgTransId}. Its value is set as follows:
 
@@ -1481,7 +1481,7 @@ The LPT State Machine controls a down- or up-transfer. Its diagram is shown in f
 
 \begin{figure}[H]
  \centering
- \includegraphics[scale=0.415,keepaspectratio=true]{CrPsLPT.png}
+ \includegraphics[scale=0.5,keepaspectratio=true]{CrPsLpt.png}
  \caption{Large Packet Transfer (LPT) State Machine}
  \label{fig:LPT}
 \end{figure}
@@ -1605,6 +1605,12 @@ The service 13 observables are listed in table \ref{tab:Obs-S13}.
 \begin{cr_obs}{S13}{Observables for Service 13 (Large Packet Transfer Service)}
 \end{cr_obs}
 
+%---------------------------------------------------------------------------------
+\subsection{Service 13 Parameters}\label{sec:serv13Par}
+The service 13 parameters are listed in table \ref{tab:Par-S13}.
+
+\begin{cr_par}{S13}{Parameters for Service 3 (Large Packet Transfer Service)}
+\end{cr_par}
 
 \newpage
 %---------------------------------------------------------------------------------
