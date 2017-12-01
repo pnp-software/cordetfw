@@ -1455,7 +1455,7 @@ Different LPT Buffers may have different values of \texttt{lptDest} or \texttt{p
 In accordance with [PS-SP], each large packet transfer has a unique \textit{Large Message Transaction Identifier}. This identifier is stored in  variable \texttt{largeMsgTransId}. Its value is set as follows:
 
 \begin{fw_itemize}
-\item At application initialization time, the value of \texttt{largeMsgTransId} for the i-th LPT Buffer is initialized to: (i-1).
+\item At application initialization time, the value of \texttt{largeMsgTransId} for the i-th LPT Buffer is initialized to: i.
 \item When a down-transfer from an LPT Buffer is started, then the value of its Large Message Transaction Identifier is set to the value of the \texttt{largeMsgTransId} variable for the LPT Buffer
 \item When a down-transfer from an LPT Buffer is terminated, then the value of the buffer's \texttt{largeMsgTransId} variable is incremented by LPT\_N\_BUF.
 \item When an up-transfer to an LPT Buffer is started, then the value of the buffer's \texttt{largeMsgTransId} variable is set equal to the value of the transfer's Large Message Transaction Identifier
