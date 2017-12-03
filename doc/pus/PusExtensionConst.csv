@@ -17,5 +17,6 @@ S12,MON\_N\_PMON,Maximum number of entries in the Parameter Monitoring Definitio
 S12,MON\_N\_LIM,Maximum number of parameter monitors with a limit check
 S12,MON\_N\_EXP,Maximum number of parameter monitors with an expected value check
 S12,MON\_N\_DEL,Maximum number of parameter monitors with a delta value check
-S12,MON\_PER,Minimum monitoring period
+S12,MON\_PER,Minimum monitoring period 
+S12,MON\_N\_CLST,Maximum number of entries in the Check Transition List
 S13,LPT\_N\_BUF,Number of Large Packet Transfer Buffers available for down- or up-link of large packets

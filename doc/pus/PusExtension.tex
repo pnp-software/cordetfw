@@ -1267,44 +1267,25 @@ The monitoring action is performed by a \textit{Monitor Procedure}. Thus, for in
 
 Attribute \texttt{monPrPrevRetVal} is set to INVALID when a Parameter Monitor or the Monitoring Function are enabled and subsequently holds the return value of the Monitor Procedure at the previous execution. This attribute is used by the Monitoring Function Procedure to establish the number of consecutive times that the Monitor Procedure has the same return value (e.g. the number of consecutive times that a parameter is found to be above its upper limit).
 
-After it is established that the Monitor Procedure has returned the same value \texttt{repNmb} times, this return value becomes the new checking status of the parameter monitor. The checking status is held in attribute \texttt{checkStatus}. Its range of values is given in table \ref{tab:retValMonPr}. When the checking status is updated, the following actions are taken:
-
-
-
-The value of \texttt{monPrRetVal} drives the \textit{Monitor State Machine} which, based on the monitor procedure outcome and on the repetition count for the parameter, sets its to one of the following:
+After it is established that the Monitor Procedure has returned the same value \texttt{repNmb} times, this return value becomes the new checking status of the parameter monitor. The checking status is held in attribute \texttt{checkStatus}. Its range of values is given in table \ref{tab:retValMonPr}. When the checking status is updated, the following acions are executed:
 
 \begin{itemize}
-\item MON\_UNCHECKED: the monitor procedure has not yet been run since the parameter monitoring function or the parameter monitor was last enabled 
-\item MON\_VALID: the latest execution of the monitor procedure found the parameter value to be nominal
-\item MON\_SUSPECTED: the latest execution of the monitor procedure found the parameter value to be non-nominal but the number of consecutive non-nominal outcomes is smaller than the repetition number \texttt{repNmb}
-\item MON\_INVALID: the latest execution of the monitor procedure found the parameter value to be non-nominal and the number of consecutive non-nominal outcomes is equal to or larger than the repetition number \texttt{repNmb}
+\item An entry is made in the Checking Transition List (see section \ref{sec:ChkTransList})
+\item If an event is associated to the parameter monitor (i.e. if field \texttt{evtId} in table \ref{tab:pmonAtt} is different from zero), then the Generate Prefined Event Function is called to generate the event
 \end{itemize}
 
+TBD: violation event.
 
+Parameter monitors can be individually enabled and disabled. When a parameter monitor becomes disabled, its Parameter Monitor Procedure is stopped. When a parameter monitor becomes enabled, its Parameter Monitor Procedure is started. Thus, the enable status of a parameter monitor is given by the started/stopped state of its Parameter Monitor Procedure.
 
-
-
-
-Parameter monitors can be individually enabled and disabled. When a parameter monitor becomes disabled, its Parameter Monitor State Machine and its Parameyter Monitor Procedure are stopped. When a parameter monitor becomes enabled, its Parameter Monitor State Machine and Procedure are started. Thus, the enable status of a parameter monitor is given by the started/stopped state of its Parameter Monitor State Machine and Procedure.
-
-Note that the overall enable status of a parameter monitor can be controlled at global level (the Monitoring Function Procedure is started/stopped which enables/disables the entire monitoring function) or at local level (a specific Parameter Monitor State Machine and Procedure are started/stopped).
+The overall enable status of a parameter monitor can be controlled at global level (the Monitoring Function Procedure is started/stopped which enables/disables the entire monitoring function) or at local level (a specific Parameter Monitor State Machine and Procedure are started/stopped).
 
 The Monitoring Function Procedure is executed cyclically. Individual parameter monitors may either be executed every time the procedure is executed or they may be executed only every N executions of the procedure. The value of N (a positive integer) is the period of the parameter monitor and is stored in attribute \texttt{per}. Attribute \texttt{perCnt} iterates in the range [0..(\texttt{per}-1)] and is used to keep track of the execution period of the parameter monitor.
 
-
-
-
-The behaviour of a parameter monitor is represented by the Parameter Monitor State Machine of figure TBD and is described in sub-section \ref{sec:TBD}.
-
-
-
-
-The last three attributes in the table define the validity check and are therefore only applicable to parameter monitors in the PMDL1 list. The validity check is performed by taking the value of data pool item \texttt{valDataItemId} and AND-ing it with mask \texttt{valMask}. If the result is equal to the expected value \texttt{valExpVal}, then the monitored parameter is declared to be valid and is subjected to the validity check. Otherwise, no monitoring action is applied to the parameter and its status is set to MON\_INVALID and its repetition counter is set to zero.
-
-\begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{4.3cm}|}{Attributes of Parameter Monitor}{tab:pmonAtt}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
+\begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of Parameter Monitor}{tab:pmonAtt}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
 \texttt{dataItemId} & Identifier of the data item monitored by the parameter monitor & Integer in range: 1..HK\_MAX\_ID \\
 \hline
-\texttt{monPrId} & Identifier of the Monitor Procedure type  which checks the parameter value & See section \ref{sec:MonProc} \\
+\texttt{monPrId} & Identifier of the Monitor Procedure which checks the parameter value & See section \ref{sec:MonProc} \\
 \hline
 \texttt{monPrType} & Identifier of the Monitor Procedure type which checks the parameter value & See section \ref{sec:MonProc} \\
 \hline
@@ -1322,6 +1303,8 @@ The last three attributes in the table define the validity check and are therefo
 \hline
 \texttt{repCnt} & The repetition counter for the monitoring check  & Integer in range: 0..(\texttt{repNmb}-1) \\
 \hline
+\texttt{evtId} & The identifier of the event to be generated if the parameter monitor detects a limit violation or zero if no event is to be generated & Zero or valid event identifier \\
+\hline
 \texttt{valDataItemId} & Identifier of data item used for validity check & Integer in range: 1..HK\_MAX\_ID \\
 \hline
 \texttt{valMask} & Mask used for validity check & Unsigned integer  \\
@@ -1331,23 +1314,16 @@ The last three attributes in the table define the validity check and are therefo
 \end{pnptable}  
 
 %=============================================================================================
-\subsubsection{Parameter Monitor State Machine}\label{sec:ParMonSM}
-The Parameter Monitor State Machine is started and stopped when the parameter monitor is, respectively, enabled and disabled and it is periodically executed by the Parameter Monitoring Function. The state machine controls the execution of the  defines the states in which a parameter monitor
-When a parameter monitor is executed, its monitor procedure is run on the current value of the parameter. 
-
-The status and sub-status of a parameter monitor are stored in attributes \texttt{status} and \texttt{subStatus}. The repetition number for the parameter is held in attribute \texttt{repNmb}. Attribute \texttt{repCnt} is the repetition counter which counts the number of consecutive non-nominal values. Its value therefore lies in the range [0..\texttt{repNmb}].
-
-If a monitoring violation is found, an event report is generated. Attributes \texttt{edi} holds the identifier of the event report.
-
-%=============================================================================================
 \subsubsection{Monitor Procedures}\label{sec:MonProc}
-The monitor procedures are responsible for checking the values of the monitored parameters and for determining whether or not they are nominal. The definition of the monitor procedures is an adaptation point for which the PUS Extension pre-defines the following default procedure types:
+The monitor procedures are responsible for checking the values of the monitored parameters and for determining whether or not they are nominal. The definition of the monitor procedures is an adaptation point for which the PUS Extension pre-defines the following options:
 
 \begin{itemize}
 \item Limit Check Monitor Procedure: verifies whether the value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:MonLimCheckPr}.
 \item Expected Value Monitor Procedure: verifies whether the monitored parameter has  pre-defined value. See figure \ref{fig:MonExpValCheckPr}.
 \item Delta Check Monitor Procedure: verifies whether the difference between the current and previous value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:MonDelCheckPr}.
 \end{itemize}
+
+The PUS Standard [PS=SP] asks for the delta check to be performed on a mean value computed over a variable number of consecutive samples. The Delta Check Monitor Procedure uses a first-order moving average process. This is nearly equivalent to the mean value and is much simpler to implement.
 
 To each parameter monitor, one instance of a monitor procedure is associated. The following limits apply to the number of monitor procedures of each type:
 
@@ -1378,6 +1354,33 @@ An application may define and load some parameter monitors as part of its initia
 \hline
 \end{pnptable}  
 
+%=============================================================================================
+\subsubsection{Check Transition List}\label{sec:ChkTransList}
+The Check Transition List (CTL) is a data structure consisting where the monitoring violations are accumulated. It consists of MON\_N\_CLST entries where each entry has the attributes listed in table \ref{tab:chkTransAttr}.
+
+Entries are added to the CTL by the Monitoring Function Procedure (see figure \ref{fig:MonFncPr}) when it wishes to report a monitoring violation. The CTL is cleared by the Update Action of the TBD report. This report is generated either autonomously when the list becomes full or in response to command TBD.
+
+If the list is full when the "add entry to CTL" operation is called, event EVT\_CLST\_FULL is generated.
+
+\begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of a Check Transition}{tab:chkTransAttr}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
+\texttt{dataItemId} & Identifier of the data item where the monitoring violation was detected & Integer in range: 1..HK\_MAX\_ID \\
+\hline
+\texttt{monId} & Identifier of the Parameter Monitor which detected the violation & Integer in range: 1..MON\_N\_PMON \\
+\hline
+\texttt{monPrType} & Identifier of the type of the Monitor Procedure which detected the violation & See section \ref{sec:MonProc} \\
+\hline
+\texttt{expValChkMask} & In the case of an Expected Value Monitor violation, the expected value check mask & See section \ref{sec:MonProc} \\
+\hline
+\texttt{parVal} & The parameter value which triggered the violation & n.a. \\
+\hline
+\texttt{parValLim} & The parameter value limit which triggered the violation & n.a. \\
+\hline
+\texttt{checkStatus} & Checking status which triggered the violation & See table \ref{tab:retValMonPr} \\
+\hline
+\texttt{prevCheckStatus} & Checking status in the cycle before the violation was detected & A CUC time value \\
+\hline
+\end{pnptable}  
+
 %-------------------------------------------------------------------------------------
 \subsection{Service 12 Report and Command Definition}\label{sec:serv12RepCmdDef}
 Tables \ref{tab:CR-S12-1} to TBD. 
@@ -1393,6 +1396,8 @@ The service 12 constants are listed in table \ref{tab:Const-S12}.
 %----------------------------------------------------------------------------------------
 \subsection{Service 12 Observables}\label{sec:serv12Obs}
 The service 12 observables are listed in table \ref{tab:Obs-S12}. The initial values of the variables carrying the number of available and enabled parameter monitors depends on the number parameter monitors which are pre-defined at initialization time (which is an adaptation point) and must therefore be done by the application as part of its initialization.
+
+The attributes of the parameter monitors are visible through service 12 reports and are therefore not defined as "observables" in the data pool.
 
 \begin{cr_obs}{S12}{Observables for Service 12 (On-Board Monitoring Service)}
 \end{cr_obs}
@@ -1417,6 +1422,38 @@ The table in this section lists the requirements for the On-Board Monitoring Ser
 \pnpfigure[scale=0.45]{Monitoring Function Procedure}{fig:MonFncPr}{CrPsMonFncPr.png}
 
 \pnpfigure[scale=0.5]{Limit Check Monitor Procedure}{fig:MonLimCheckPr}{CrPsMonLimCheckPr.png}
+
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.55,keepaspectratio=true]{CrPsMonFncPr.png}
+ \caption{Parameter Monitoring Procedure}
+ \label{fig:MonFncPr}
+\end{figure}
+
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.55,keepaspectratio=true]{CrPsMonLimCheckPr.png}
+ \caption{Limiting Check Monitor Procedure}
+ \label{fig:MonLimCheckPr}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.55,keepaspectratio=true]{MonExpValPr.png}
+ \caption{Expected Value Monitor Procedure}
+ \label{fig:MonExpValPr}
+\end{figure}
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.55,keepaspectratio=true]{MonDeltaValPr.png}
+ \caption{Delta Value Monitor Procedure}
+ \label{fig:MonDeltaValPr}
+\end{figure}
+
+
 
 
 
