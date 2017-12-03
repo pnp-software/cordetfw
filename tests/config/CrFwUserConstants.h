@@ -121,14 +121,18 @@ typedef enum {
 	crInManagerPcrlFull =7,
 	/** The InLoader has retrieved a packet with an invalid destination (see <code>CrFwInLoader.h</code>) */
 	crInLoaderInvDest = 8,
-	/** An InReport or InCommand has failed its acceptance check */
+	/** An InReport has failed its validity check */
 	crInLoaderAccFail = 9,
 	/** An OutComponent has an illegal group */
 	crOutStreamIllGroup = 10,
 	/** An incoming command or report has an illegal group */
 	crInStreamIllGroup = 11,
 	/** An OutStream cannot buffer an out-going packet because no more packets are available (see <code>CrFwOutStream.h</code>) */
-	crOutStreamNoMorePckt =12
+	crOutStreamNoMorePckt =12,
+	/** An InReport could not be created due to insufficient resources or illegal type/sub-type/discriminant */
+	crInLoaderCreFail = 13,
+	/** An InReport could not be loaded in its InManager */
+	crInLoaderLdFail = 14
 } CrFwRepErrCode_t;
 
 /**

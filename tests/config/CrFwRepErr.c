@@ -196,6 +196,34 @@ void CrFwRepErrInstanceIdAndOutcome(CrFwRepErrCode_t errCode, CrFwTypeId_t typeI
 }
 
 /*-----------------------------------------------------------------------------------------*/
+void CrFwRepErrPckt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
+                                    CrFwInstanceId_t instanceId, CrFwPckt_t pckt) {
+	CrFwCounterU1_t i;
+
+	errRepArray[errRepPos].errCode = errCode;
+	errRepArray[errRepPos].instanceId = instanceId;
+	errRepArray[errRepPos].typeId = typeId;
+	for (i=0; i<CR_FW_ERR_REP_PAR_SIZE; i++)
+		errRepArray[errRepPos].par[i] = pckt[i];
+
+	errRepPos = (CrFwCounterU2_t)((errRepPos + 1) % CR_FW_ERR_REP_ARRAY_SIZE);
+}
+
+/*-----------------------------------------------------------------------------------------*/
+void CrFwRepErrRep(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
+                                    CrFwInstanceId_t instanceId, FwSmDesc_t rep) {
+	CrFwCounterU1_t i;
+
+	errRepArray[errRepPos].errCode = errCode;
+	errRepArray[errRepPos].instanceId = instanceId;
+	errRepArray[errRepPos].typeId = typeId;
+	for (i=0; i<CR_FW_ERR_REP_PAR_SIZE; i++)
+		errRepArray[errRepPos].par[i] = 255;
+
+	errRepPos = (CrFwCounterU2_t)((errRepPos + 1) % CR_FW_ERR_REP_ARRAY_SIZE);
+}
+
+/*-----------------------------------------------------------------------------------------*/
 CrFwRepErrCode_t CrFwRepErrStubGetErrCode(CrFwCounterU2_t errRepPos) {
 	return errRepArray[errRepPos].errCode;
 }

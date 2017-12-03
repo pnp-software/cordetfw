@@ -384,15 +384,11 @@ CrFwBool_t CrFwInLoaderTestCase5() {
 	/* Check that error report has been generated */
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+1)
 		return 0;
-	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crInLoaderAccFail)
+	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crInLoaderCreFail)
 		return 0;
 	if (CrFwRepErrStubGetTypeId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != CR_FW_INLOADER_TYPE)
 		return 0;
 	if (CrFwRepErrStubGetInstanceId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != 0)
-		return 0;
-	if (CrFwRepErrStubGetSecondatyInstanceId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != 111)
-		return 0;
-	if (CrFwRepErrStubGetOutcome((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != 0)
 		return 0;
 
 	/* Load the InStream with a packet representing an InCommand */
@@ -536,15 +532,11 @@ CrFwBool_t CrFwInLoaderTestCase6() {
 	/* Check that error report has been generated */
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+1)
 		return 0;
-	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crInLoaderAccFail)
+	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crInLoaderCreFail)
 		return 0;
 	if (CrFwRepErrStubGetTypeId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != CR_FW_INLOADER_TYPE)
 		return 0;
 	if (CrFwRepErrStubGetInstanceId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != 0)
-		return 0;
-	if (CrFwRepErrStubGetSecondatyInstanceId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != 111)
-		return 0;
-	if (CrFwRepErrStubGetOutcome((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != 0)
 		return 0;
 
 	/* Release all InReports */
@@ -832,13 +824,11 @@ CrFwBool_t CrFwInLoaderTestCase8() {
 	 * and one by the InLoader) */
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+2)
 		return 0;
-	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crInLoaderAccFail)
+	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crInLoaderLdFail)
 		return 0;
 	if (CrFwRepErrStubGetTypeId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != CR_FW_INLOADER_TYPE)
 		return 0;
 	if (CrFwRepErrStubGetInstanceId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != 0)
-		return 0;
-	if (CrFwRepErrStubGetSecondatyInstanceId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != 111)
 		return 0;
 
 	/* Reset the InManager (this should clear the PCRL and release all loaded components) */

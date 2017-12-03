@@ -131,4 +131,27 @@ void CrFwRepErrInstanceIdAndOutcome(CrFwRepErrCode_t errCode, CrFwTypeId_t typeI
 void CrFwRepErrInstanceIdAndDest(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
                                  CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId, CrFwDestSrc_t dest);
 
+/**
+ * Report an error which has one parameter attached to it representing a command or report packet.
+ * This function generate an error report with one parameter.
+ * @param errCode the error code
+ * @param instanceId the instance identifier of the component which raises the error report
+ * @param typeId the type identifier of the component which raises the error report
+ * @param pckt a packet holding a command or report
+ */
+void CrFwRepErrPckt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
+                                    CrFwInstanceId_t instanceId, CrFwPckt_t pckt);
+
+/**
+ * Report an error which has one parameter attached to it representing an report component.
+ * This function generate an error report with one parameter.
+ * @param errCode the error code
+ * @param instanceId the instance identifier of the component which raises the error report
+ * @param typeId the type identifier of the component which raises the error report
+ * @param pckt a packet holding a command or report
+ */
+void CrFwRepErrRep(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
+                                    CrFwInstanceId_t instanceId, FwSmDesc_t rep);
+
+
 #endif /* CRFW_REPERR_H_ */
