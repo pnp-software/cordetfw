@@ -195,8 +195,7 @@ static void InLoaderLoadCmdRep(CrFwPckt_t pckt) {
 	} else {
 		inCmp = CrFwInFactoryMakeInRep(pckt);
 		if (inCmp == NULL) {	/* InRep had invalid type or no more resources are available */
-			CrFwRepErrInstanceIdAndOutcome(crInLoaderCreFail, inLoaderData.typeId,
-			                               inLoaderData.instanceId, instanceId, 0);
+			CrFwRepErrPckt(crInLoaderCreFail, inLoaderData.typeId,inLoaderData.instanceId, pckt);
 			CrFwPcktRelease(pckt);
 			return;
 		}
@@ -206,8 +205,7 @@ static void InLoaderLoadCmdRep(CrFwPckt_t pckt) {
 		inCmpData = FwSmGetData(inCmp);
 		if (cmdRepFlag == crRepType) {
 			CrFwInFactoryReleaseInRep(inCmp);
-			CrFwRepErrInstanceIdAndOutcome(crInLoaderAccFail, inLoaderData.typeId,
-			                               inLoaderData.instanceId, instanceId, inCmpData->outcome);
+			CrFwRepErrRep(crInLoaderAccFail, inLoaderData.typeId,inLoaderData.instanceId, inCmp);
 			return;
 		} else {
 			CrFwInFactoryReleaseInCmd(inCmp);
@@ -224,8 +222,7 @@ static void InLoaderLoadCmdRep(CrFwPckt_t pckt) {
 	if (inManagerLoadOutcome == 0) {	/* Load operation has failed */
 		if (cmdRepFlag == crRepType) {
 			CrFwInFactoryReleaseInRep(inCmp);
-			CrFwRepErrInstanceIdAndOutcome(crInLoaderLdFail, inLoaderData.typeId,
-			                               inLoaderData.instanceId,instanceId, 0);
+			CrFwRepErrRep(crInLoaderLdFail, inLoaderData.typeId,inLoaderData.instanceId,inCmp);
 			return;
 		} else {
 			CrFwInFactoryReleaseInCmd(inCmp);

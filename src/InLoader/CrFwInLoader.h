@@ -45,12 +45,18 @@
  * - Failure of sub-check 4 is handled by calling function <code>::CrFwRepInCmdOutcome</code> with
  *   outcome #crCmdAckLdFail.
  * .
- * If all sub-checks is passed, the incoming command is declared "accepted" and function
- * <code>::CrFwRepInCmdOutcome</code> is called with outcome set to #crCmdAckAccSucc.
+ * If all sub-checks is passed, the incoming command is declared "accepted" and, if acknowledgement of
+ * successful acceptance for the command was required, function
+ * <code>::CrFwRepInCmdOutcome</code> is called with the outcome set to #crCmdAckAccSucc.
  *
- * For incoming reports, failure to pass a sub-check is treated as an error which is handled
- * by calling function <code>::CrFwRepErrInstanceIdAndOutcome</code>
- * with error code #crInLoaderAccFail.
+ * For incoming reports, failure to pass a sub-check is treated as an error and is handled as follows:
+ * - Failure of sub-checks 1 and 2 is handled by calling function <code>::CrFwRepInCmdOutcomeCreFail</code>
+ *   with failure code #crCmdAckCreFail.
+ * - Failure of sub-check 3 is handled by calling function <code>::CrFwRepErrRep</code>
+ *   with failure code #crInLoaderAccFail.
+ * - Failure of sub-check 4 is handled by calling function <code>::CrFwRepErrRep</code>
+ *   with failure code #crInLoaderLdFail.
+ * .
  *
  * <b>Mode of Use of an InLoader Component</b>
  *
