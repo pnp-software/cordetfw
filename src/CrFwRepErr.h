@@ -148,7 +148,7 @@ void CrFwRepErrPckt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
  * @param errCode the error code
  * @param instanceId the instance identifier of the component which raises the error report
  * @param typeId the type identifier of the component which raises the error report
- * @param pckt a packet holding a command or report
+ * @param rep the component holding the report which triggered the error
  */
 void CrFwRepErrRep(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
                                     CrFwInstanceId_t instanceId, FwSmDesc_t rep);
