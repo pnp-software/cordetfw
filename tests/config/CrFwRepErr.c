@@ -213,11 +213,14 @@ void CrFwRepErrPckt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
 void CrFwRepErrRep(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
                                     CrFwInstanceId_t instanceId, FwSmDesc_t rep) {
 	CrFwCounterU1_t i;
+	FwSmDesc_t* temp = NULL;
 
 	errRepArray[errRepPos].errCode = errCode;
 	errRepArray[errRepPos].instanceId = instanceId;
 	errRepArray[errRepPos].typeId = typeId;
-	for (i=0; i<CR_FW_ERR_REP_PAR_SIZE; i++)
+	temp = (FwSmDesc_t*)&errRepArray[errRepPos].par[0];	/* Load address of rep in first 4 elements of par[] */
+	*temp = rep;
+	for (i=4; i<CR_FW_ERR_REP_PAR_SIZE; i++)
 		errRepArray[errRepPos].par[i] = 255;
 
 	errRepPos = (CrFwCounterU2_t)((errRepPos + 1) % CR_FW_ERR_REP_ARRAY_SIZE);
