@@ -1274,7 +1274,7 @@ After it is established that the Monitor Procedure has returned the same value \
 \item If an event is associated to the parameter monitor (i.e. if field \texttt{evtId} in table \ref{tab:pmonAtt} is different from zero), then the Generate Prefined Event Function is called to generate the event
 \end{itemize}
 
-TBD: violation event.
+The violation events are: EVT\_MON\_*. The ground can choose whether or not an event is associated to a monitor but, once the type of monitor and the type of the monitored parameter (integer or real) is specified, the event type is also defined.
 
 Parameter monitors can be individually enabled and disabled. When a parameter monitor becomes disabled, its Parameter Monitor Procedure is stopped. When a parameter monitor becomes enabled, its Parameter Monitor Procedure is started. Thus, the enable status of a parameter monitor is given by the started/stopped state of its Parameter Monitor Procedure.
 
@@ -1319,8 +1319,8 @@ The monitor procedures are responsible for checking the values of the monitored 
 
 \begin{itemize}
 \item Limit Check Monitor Procedure: verifies whether the value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:MonLimCheckPr}.
-\item Expected Value Monitor Procedure: verifies whether the monitored parameter has  pre-defined value. See figure \ref{fig:MonExpValCheckPr}.
-\item Delta Check Monitor Procedure: verifies whether the difference between the current and previous value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:MonDelCheckPr}.
+\item Expected Value Monitor Procedure: verifies whether the monitored parameter has  pre-defined value. See figure \ref{fig:MonExpValPr}.
+\item Delta Check Monitor Procedure: verifies whether the difference between the current and previous value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:MonDeltaPr}.
 \end{itemize}
 
 The PUS Standard [PS=SP] asks for the delta check to be performed on a mean value computed over a variable number of consecutive samples. The Delta Check Monitor Procedure uses a first-order moving average process. This is nearly equivalent to the mean value and is much simpler to implement.
@@ -1419,39 +1419,16 @@ The table in this section lists the requirements for the On-Board Monitoring Ser
 \end{cr_req}
 
 %-------------------------------------------------------------------------------------
-\pnpfigure[scale=0.45]{Monitoring Function Procedure}{fig:MonFncPr}{CrPsMonFncPr.png}
+\pnpfigure[scale=0.55]{Monitoring Function Procedure}{fig:MonFncPr}{CrPsMonFncPr.png}
 
 \pnpfigure[scale=0.5]{Limit Check Monitor Procedure}{fig:MonLimCheckPr}{CrPsMonLimCheckPr.png}
 
+\pnpfigure[scale=0.5]{Expected Value Monitor Procedure}{fig:MonExpValPr}{CrPsMonExpValPr.png}
 
-\begin{figure}[H]
- \centering
- \includegraphics[scale=0.55,keepaspectratio=true]{CrPsMonFncPr.png}
- \caption{Parameter Monitoring Procedure}
- \label{fig:MonFncPr}
-\end{figure}
+\pnpfigure[scale=0.5]{Delta Value Monitor Procedure}{fig:MonDeltaValPr}{CrPsMonDeltaValPr.png}
 
 
-\begin{figure}[H]
- \centering
- \includegraphics[scale=0.55,keepaspectratio=true]{CrPsMonLimCheckPr.png}
- \caption{Limiting Check Monitor Procedure}
- \label{fig:MonLimCheckPr}
-\end{figure}
 
-\begin{figure}[H]
- \centering
- \includegraphics[scale=0.55,keepaspectratio=true]{MonExpValPr.png}
- \caption{Expected Value Monitor Procedure}
- \label{fig:MonExpValPr}
-\end{figure}
-
-\begin{figure}[H]
- \centering
- \includegraphics[scale=0.55,keepaspectratio=true]{MonDeltaValPr.png}
- \caption{Delta Value Monitor Procedure}
- \label{fig:MonDeltaValPr}
-\end{figure}
 
 
 
