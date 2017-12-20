@@ -257,7 +257,7 @@ static inline CrPsSid_t getHkCreateCmdRepStrucId(void* p)
 {
   HkCreateCmd_t* t;
   t = (HkCreateCmd_t*)p;
-  return t->RepStrucId;
+  return (t->RepStrucId);
 }
 
 /**
@@ -269,7 +269,7 @@ static inline void setHkCreateCmdRepStrucId(void* p, CrPsSid_t RepStrucId)
 {
   HkCreateCmd_t* t;
   t = (HkCreateCmd_t*)p;
-  t->RepStrucId = RepStrucId;
+  t->RepStrucId = (RepStrucId);
 }
 
 /**
@@ -426,7 +426,7 @@ static inline CrPsSid_t getHkRepStructRepRepStrucId(void* p)
 {
   HkRepStructRep_t* t;
   t = (HkRepStructRep_t*)p;
-  return t->RepStrucId;
+  return (t->RepStrucId);
 }
 
 /**
@@ -438,7 +438,7 @@ static inline void setHkRepStructRepRepStrucId(void* p, CrPsSid_t RepStrucId)
 {
   HkRepStructRep_t* t;
   t = (HkRepStructRep_t*)p;
-  t->RepStrucId = RepStrucId;
+  t->RepStrucId = (RepStrucId);
 }
 
 /**
@@ -524,7 +524,7 @@ static inline CrPsSid_t getHkRepRepStrucId(void* p)
 {
   HkRep_t* t;
   t = (HkRep_t*)p;
-  return t->RepStrucId;
+  return (t->RepStrucId);
 }
 
 /**
@@ -536,7 +536,7 @@ static inline void setHkRepRepStrucId(void* p, CrPsSid_t RepStrucId)
 {
   HkRep_t* t;
   t = (HkRep_t*)p;
-  t->RepStrucId = RepStrucId;
+  t->RepStrucId = (RepStrucId);
 }
 
 /**

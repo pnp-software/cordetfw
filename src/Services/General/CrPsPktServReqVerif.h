@@ -517,7 +517,7 @@ static inline CrFwDiscriminant_t getVerFailedAccRepTcDisc(void* p)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
-  return t->TcDisc;
+  return __builtin_bswap16(t->TcDisc);
 }
 
 /**
@@ -529,7 +529,7 @@ static inline void setVerFailedAccRepTcDisc(void* p, CrFwDiscriminant_t TcDisc)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
-  t->TcDisc = TcDisc;
+  t->TcDisc = __builtin_bswap16(TcDisc);
 }
 
 /**
@@ -733,7 +733,7 @@ static inline CrFwDiscriminant_t getVerFailedStartRepTcDisc(void* p)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
-  return t->TcDisc;
+  return __builtin_bswap16(t->TcDisc);
 }
 
 /**
@@ -745,7 +745,7 @@ static inline void setVerFailedStartRepTcDisc(void* p, CrFwDiscriminant_t TcDisc
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
-  t->TcDisc = TcDisc;
+  t->TcDisc = __builtin_bswap16(TcDisc);
 }
 
 /**
@@ -997,7 +997,7 @@ static inline CrFwDiscriminant_t getVerFailedPrgrRepTcDisc(void* p)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
-  return t->TcDisc;
+  return __builtin_bswap16(t->TcDisc);
 }
 
 /**
@@ -1009,7 +1009,7 @@ static inline void setVerFailedPrgrRepTcDisc(void* p, CrFwDiscriminant_t TcDisc)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
-  t->TcDisc = TcDisc;
+  t->TcDisc = __builtin_bswap16(TcDisc);
 }
 
 /**
@@ -1213,7 +1213,7 @@ static inline CrFwDiscriminant_t getVerFailedTermRepTcDisc(void* p)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
-  return t->TcDisc;
+  return __builtin_bswap16(t->TcDisc);
 }
 
 /**
@@ -1225,7 +1225,7 @@ static inline void setVerFailedTermRepTcDisc(void* p, CrFwDiscriminant_t TcDisc)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
-  t->TcDisc = TcDisc;
+  t->TcDisc = __builtin_bswap16(TcDisc);
 }
 
 /**
@@ -1381,7 +1381,7 @@ static inline CrFwDiscriminant_t getVerFailedRoutingRepTcDisc(void* p)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
-  return t->TcDisc;
+  return __builtin_bswap16(t->TcDisc);
 }
 
 /**
@@ -1393,7 +1393,7 @@ static inline void setVerFailedRoutingRepTcDisc(void* p, CrFwDiscriminant_t TcDi
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
-  t->TcDisc = TcDisc;
+  t->TcDisc = __builtin_bswap16(TcDisc);
 }
 
 /**

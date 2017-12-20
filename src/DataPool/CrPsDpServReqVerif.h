@@ -175,7 +175,7 @@ static inline void setDpfailCodeTermFailed(CrPsFailCode_t failCodeTermFailed)
  * Gets the value of the datapool item invDestRerouting
  * \return The value of datapool item invDestRerouting
  */
-static inline uint32_t getDpinvDestRerouting()
+static inline CrPsDestSrc_t getDpinvDestRerouting()
 {
   return dpServReqVerifVars.invDestRerouting;
 }
@@ -185,7 +185,7 @@ static inline uint32_t getDpinvDestRerouting()
  * \param invDestRerouting The value to be stored into the datapool item
  * invDestRerouting.
  */
-static inline void setDpinvDestRerouting(uint32_t invDestRerouting)
+static inline void setDpinvDestRerouting(CrPsDestSrc_t invDestRerouting)
 {
   dpServReqVerifVars.invDestRerouting = invDestRerouting;
 }
@@ -384,7 +384,7 @@ static inline void setDppcktIdTermFailed(CrFwTypeId_t pcktIdTermFailed)
  * Gets the value of the datapool item stepPrgrFailed
  * \return The value of datapool item stepPrgrFailed
  */
-static inline uint16_t getDpstepPrgrFailed()
+static inline CrPsStepId_t getDpstepPrgrFailed()
 {
   return dpServReqVerifVars.stepPrgrFailed;
 }
@@ -394,7 +394,7 @@ static inline uint16_t getDpstepPrgrFailed()
  * \param stepPrgrFailed The value to be stored into the datapool item
  * stepPrgrFailed.
  */
-static inline void setDpstepPrgrFailed(uint16_t stepPrgrFailed)
+static inline void setDpstepPrgrFailed(CrPsStepId_t stepPrgrFailed)
 {
   dpServReqVerifVars.stepPrgrFailed = stepPrgrFailed;
 }

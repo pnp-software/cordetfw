@@ -10,6 +10,7 @@
 #ifndef CRPSPKT_H_
 #define CRPSPKT_H_
 
+#include "CrFwUserConstants.h"
 #include "CrPsDpTypes.h"
 
 /**
@@ -29,7 +30,7 @@ typedef struct __attribute__((packed)) _TcHeader_t {
   /**
    * (16 bit)
    */
-  uint16_t PcktDataLen;
+  CrFwPcktLength_t PcktDataLen;
   
   /**
    * Spacer block.
@@ -39,17 +40,17 @@ typedef struct __attribute__((packed)) _TcHeader_t {
   /**
    * Service Type (8 bit)
    */
-  uint8_t ServType;
+  CrFwServType_t ServType;
   
   /**
    * Service Sub Type (8 bit)
    */
-  uint8_t ServSubType;
+  CrFwServSubType_t ServSubType;
   
   /**
    * Source ID (16 bit)
    */
-  uint8_t SrcId;
+  CrFwDestSrc_t SrcId;
   
 } TcHeader_t ;
 
@@ -70,7 +71,7 @@ typedef struct __attribute__((packed)) _TmHeader_t {
   /**
    * (16 bit)
    */
-  uint16_t PcktDataLen;
+  CrFwPcktLength_t PcktDataLen;
   
   /**
    * Spacer block.
@@ -80,22 +81,22 @@ typedef struct __attribute__((packed)) _TmHeader_t {
   /**
    * Service Type (8 bit)
    */
-  uint8_t ServType;
+  CrFwServType_t ServType;
   
   /**
    * Service Sub Type (8 bit)
    */
-  uint8_t ServSubType;
+  CrFwServSubType_t ServSubType;
   
   /**
    * Destination ID (16bit)
    */
-  uint8_t DestId;
+  CrFwDestSrc_t DestId;
   
   /**
    * character array 6xchars
    */
-  uint8_t Time[6];
+  CrFwTimeStamp_t Time;
   
 } TmHeader_t ;
 
@@ -947,7 +948,7 @@ static inline uint8_t* getTmHeaderTimeArray(void* p)
 {
   TmHeader_t* t;
   t = (TmHeader_t*)p;
-  return &t->Time[0];
+  return &t->Time.t[0];
 }
 
 /**
@@ -959,7 +960,7 @@ static inline void getTmHeaderTime(void* p, void* dest)
 {
   TmHeader_t* t;
   t = (TmHeader_t*)p;
-  memcpy(dest, &t->Time[0], sizeof(t->Time));
+  memcpy(dest, &t->Time.t[0], sizeof(t->Time));
 }
 
 /**
@@ -971,7 +972,7 @@ static inline void setTmHeaderTime(void* p, const void* src)
 {
   TmHeader_t* t;
   t = (TmHeader_t*)p;
-  memcpy(&t->Time[0], src, sizeof(t->Time));
+  memcpy(&t->Time.t[0], src, sizeof(t->Time));
 }
 
 

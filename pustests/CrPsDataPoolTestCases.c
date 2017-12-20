@@ -64,6 +64,7 @@
 #include <DataPool/CrPsDpServReqVerif.h>
 #include <DataPool/CrPsDpServHk.h>
 #include <DataPool/CrPsDpServEvt.h>
+#include <DataPool/CrPsDpServLpt.h>
 #include <Services/General/CrPsPktServReqVerif.h>
 #include <CrPsDebug.h>
 
@@ -116,7 +117,6 @@ uint8_t testentry(uint32_t id, uint8_t size)
   {
     return 0;
   }
-
 
   /*to ensure that testget is not 0 or 255 set the first entry to any number*/
   testget[0] = 3;
@@ -225,25 +225,6 @@ CrFwBool_t CrPsDataPoolTestCase1()
   uint8_t testval;
   uint8_t maxval=MAX_CHAR;
   
-  
-  #if 0
-  DEBUGP_TSDP("GetDpSize(DpIdParamsLowest): %lu, \n",getDpSize(DpIdParamsLowest));
-  DEBUGP_TSDP("GetDpSize(DpIdVarsHighest+1): %lu, \n",getDpSize(DpIdVarsHighest+1));
-
-  DEBUGP_TSDP("getDpParamSize(DpIdParamsLowest): %lu, \n",getDpParamSize(DpIdParamsLowest));
-  DEBUGP_TSDP("getDpParamSize(DpIdVarsHighest+1): %lu, \n",getDpParamSize(DpIdVarsHighest+1));  
-
-  DEBUGP_TSDP("getDpVarSize(DpIdVarsLowest): %lu, \n",getDpVarSize(DpIdVarsLowest));
-  DEBUGP_TSDP("getDpVarSize(DpIdVarsHighest+1): %lu, \n",getDpVarSize(DpIdVarsHighest+1));
-
-  DEBUGP_TSDP("DpIdParamsLowest: %d \n", DpIdParamsLowest);
-  DEBUGP_TSDP("DpIdParamsHighest: %d \n", DpIdParamsHighest);
-
-  DEBUGP_TSDP("DpIdVarsLowest: %d \n", DpIdVarsLowest);
-  DEBUGP_TSDP("DpIdVarsHighest: %d \n", DpIdVarsHighest);
-#endif
-
-
   for (i=DpIdParamsLowest;i<=DpIdParamsHighest;i++)
   {
     DEBUGP_TSDP("getDpSize(%d): %lu\n", i, getDpSize(i));
@@ -1055,13 +1036,13 @@ CrFwBool_t CrPsDataPoolTestCase5()
     return 0;
   }
 
-  getDplastEvtEid_3(MIN_VAL);
+  setDplastEvtEid_3(MIN_VAL);
   DEBUGP_TSDP("getDplastEvtEid_3() -> MIN_VAL: %u \n",getDplastEvtEid_3());
   if (getDplastEvtEid_3() != MIN_VAL)
   {
     return 0;
   }
-  getDplastEvtEid_3(MAX_CHAR);
+  setDplastEvtEid_3(MAX_CHAR);
   DEBUGP_TSDP("getDplastEvtEid_3() -> MAX_CHAR: %u \n",getDplastEvtEid_3());
   if (getDplastEvtEid_3() != MAX_CHAR)
   {
@@ -1179,8 +1160,8 @@ CrFwBool_t CrPsDataPoolTestCase5()
     return 0;
   }
   setDpnOfDetectedEvts_4(MAX_CHAR);
-  DEBUGP_TSDP("getDpnOfDisabledEid_4() -> MAX_CHAR: %u \n",getDpnOfDisabledEid_4());
-  if (getDpnOfDisabledEid_4() != MAX_CHAR)
+  DEBUGP_TSDP("getDpnOfDisabledEid_4() -> MAX_CHAR: %u \n",getDpnOfDetectedEvts_4());
+  if (getDpnOfDetectedEvts_4() != MAX_CHAR)
   {
     return 0;
   }
@@ -1289,10 +1270,308 @@ CrFwBool_t CrPsDataPoolTestCase5()
     return 0;
   }
 
+  return 1;
+}
 
 
+/* ---------------------------------------------------------------------------------------------*/
+CrFwBool_t CrPsDataPoolTestCase6()
+{
+  /*Service 13: Large Packet Transfer Test the Datapool Getter and Setter*/
+  unsigned int i, len;
+  uint32_t* testarrptr32;
+  uint16_t* testarrptr16;
+  CrFwTimeStamp_t* testarrptrtim;
+  CrFwTimeStamp_t tim0, timmax;
+  DpServLptParams_t testparams;
+  DpServLptVars_t testvars;
+
+  for (i=0;i<6;i++)
+  {
+    tim0.t[i]=0;
+    timmax.t[i]=255u;
+  }
+
+  initDpServLpt();
+
+  len = sizeof(testparams.lptTimeOut)/sizeof(testparams.lptTimeOut[0]); 
+  DEBUGP_TSDP("Arraysize of lptTimeOut: %u Elements \n", len);
+  for (i=0; i<len; i++)
+  {
+    setDplptTimeOutItem(i, MIN_VAL);
+    DEBUGP_TSDP("getDplptTimeOutItem(i) -> MIN_VAL: %u \n",getDplptTimeOutItem(i));
+    if(getDplptTimeOutItem(i) != MIN_VAL)
+    {
+      return 0;
+    }
+  }
+  for (i=0; i<len; i++)
+  {
+    setDplptTimeOutItem(i, MAX_INT);
+    DEBUGP_TSDP("getDplptTimeOutItem(i) -> MAX_INT: %u \n",getDplptTimeOutItem(i));
+    if(getDplptTimeOutItem(i) != MAX_INT)
+    {
+      return 0;
+    }
+  }
+  testarrptr32 = getDplptTimeOutArray();
+  for (i =0;i<len;i++)
+  {
+    DEBUGP_TSDP("getDplptTimeOutArray[i] -> MAX_INT: %u \n",testarrptr32[i]);
+    if(testarrptr32[i] != MAX_INT)
+      return 0;
+  }
+
+  len = sizeof(testvars.largeMsgTransId)/sizeof(testvars.largeMsgTransId[0]); 
+  DEBUGP_TSDP("Arraysize of largeMsgTransId: %u Elements \n", len);
+  for (i=0; i<len; i++)
+  {
+    setDplargeMsgTransIdItem(i, MIN_VAL);
+    DEBUGP_TSDP("getDplargeMsgTransIdItem(i) -> MIN_VAL: %u \n",getDplargeMsgTransIdItem(i));
+    if(getDplargeMsgTransIdItem(i) != MIN_VAL)
+    {
+      return 0;
+    }
+  }
+  for (i=0; i<len; i++)
+  {
+    setDplargeMsgTransIdItem(i, MAX_INT);
+    DEBUGP_TSDP("getDplargeMsgTransIdItem(i) -> MAX_INT: %u \n",getDplargeMsgTransIdItem(i));
+    if(getDplargeMsgTransIdItem(i) != MAX_INT)
+    {
+      return 0;
+    }
+  }
+  testarrptr32 = getDplargeMsgTransIdArray();
+  for (i =0;i<len;i++)
+  {
+    DEBUGP_TSDP("getDplargeMsgTransIdArray[i] -> MAX_INT: %u \n",testarrptr32[i]);
+    if(testarrptr32[i] != MAX_INT)
+      return 0;
+  }
+
+  len = sizeof(testvars.lptFailCode)/sizeof(testvars.lptFailCode[0]); 
+  DEBUGP_TSDP("Arraysize of lptFailCode: %u Elements \n", len);
+  for (i=0; i<len; i++)
+  {
+    setDplptFailCodeItem(i, MIN_VAL);
+    DEBUGP_TSDP("getDplptFailCodeItem(i) -> MIN_VAL: %u \n",getDplptFailCodeItem(i));
+    if(getDplptFailCodeItem(i) != MIN_VAL)
+    {
+      return 0;
+    }
+  }
+  for (i=0; i<len; i++)
+  {
+    setDplptFailCodeItem(i, MAX_SHORT);
+    DEBUGP_TSDP("getDplptFailCodeItem(i) -> MAX_SHORT: %u \n",getDplptFailCodeItem(i));
+    if(getDplptFailCodeItem(i) != MAX_SHORT)
+    {
+      return 0;
+    }
+  }
+  testarrptr16 = getDplptFailCodeArray();
+  for (i =0;i<len;i++)
+  {
+    DEBUGP_TSDP("getDplptFailCodeArray[i] -> MAX_SHORT: %u \n",testarrptr16[i]);
+    if(testarrptr16[i] != MAX_SHORT)
+      return 0;
+  }
+
+  len = sizeof(testvars.lptRemSize)/sizeof(testvars.lptRemSize[0]); 
+  DEBUGP_TSDP("Arraysize of lptRemSize: %u Elements \n", len);
+  for (i=0; i<len; i++)
+  {
+    setDplptRemSizeItem(i, MIN_VAL);
+    DEBUGP_TSDP("getDplptRemSizeItem(i) -> MIN_VAL: %u \n",getDplptRemSizeItem(i));
+    if(getDplptRemSizeItem(i) != MIN_VAL)
+    {
+      return 0;
+    }
+  }
+  for (i=0; i<len; i++)
+  {
+    setDplptRemSizeItem(i, MAX_INT);
+    DEBUGP_TSDP("getDplptRemSizeItem(i) -> MAX_INT: %u \n",getDplptRemSizeItem(i));
+    if(getDplptRemSizeItem(i) != MAX_INT)
+    {
+      return 0;
+    }
+  }
+  testarrptr32 = getDplptRemSizeArray();
+  for (i =0;i<len;i++)
+  {
+    DEBUGP_TSDP("getDplptRemSizeArray[i] -> MAX_INT: %u \n",testarrptr32[i]);
+    if(testarrptr32[i] != MAX_INT)
+      return 0;
+  }
+
+  len = sizeof(testvars.lptSize)/sizeof(testvars.lptSize[0]); 
+  DEBUGP_TSDP("Arraysize of lptSize: %u Elements \n", len);
+  for (i=0; i<len; i++)
+  {
+    setDplptSizeItem(i, MIN_VAL);
+    DEBUGP_TSDP("getDplptSizeItem(i) -> MIN_VAL: %u \n",getDplptSizeItem(i));
+    if(getDplptSizeItem(i) != MIN_VAL)
+    {
+      return 0;
+    }
+  }
+  for (i=0; i<len; i++)
+  {
+    setDplptSizeItem(i, MAX_INT);
+    DEBUGP_TSDP("getDplptSizeItem(i) -> MAX_INT: %u \n",getDplptSizeItem(i));
+    if(getDplptSizeItem(i) != MAX_INT)
+    {
+      return 0;
+    }
+  }
+  testarrptr32 = getDplptSizeArray();
+  for (i =0;i<len;i++)
+  {
+    DEBUGP_TSDP("getDplptSizeArray[i] -> MAX_INT: %u \n",testarrptr32[i]);
+    if(testarrptr32[i] != MAX_INT)
+      return 0;
+  }
 
 
+  len = sizeof(testvars.lptSize)/sizeof(testvars.lptSize[0]); 
+  DEBUGP_TSDP("Arraysize of lptSize: %u Elements \n", len);
+  for (i=0; i<len; i++)
+  {
+    setDplptSizeItem(i, MIN_VAL);
+    DEBUGP_TSDP("getDplptSizeItem(i) -> MIN_VAL: %u \n",getDplptSizeItem(i));
+    if(getDplptSizeItem(i) != MIN_VAL)
+    {
+      return 0;
+    }
+  }
+  for (i=0; i<len; i++)
+  {
+    setDplptSizeItem(i, MAX_INT);
+    DEBUGP_TSDP("getDplptSizeItem(i) -> MAX_INT: %u \n",getDplptSizeItem(i));
+    if(getDplptSizeItem(i) != MAX_INT)
+    {
+      return 0;
+    }
+  }
+  testarrptr32 = getDplptSizeArray();
+  for (i =0;i<len;i++)
+  {
+    DEBUGP_TSDP("getDplptSizeArray[i] -> MAX_INT: %u \n",testarrptr32[i]);
+    if(testarrptr32[i] != MAX_INT)
+      return 0;
+  }
+
+  len = sizeof(testvars.lptSrc)/sizeof(testvars.lptSrc[0]); 
+  DEBUGP_TSDP("Arraysize of lptSrc: %u Elements \n", len);
+  for (i=0; i<len; i++)
+  {
+    setDplptSrcItem(i, MIN_VAL);
+    DEBUGP_TSDP("getDplptSrcItem(i) -> MIN_VAL: %u \n",getDplptSrcItem(i));
+    if(getDplptSrcItem(i) != MIN_VAL)
+    {
+      return 0;
+    }
+  }
+  for (i=0; i<len; i++)
+  {
+    setDplptSrcItem(i, MAX_SHORT);
+    DEBUGP_TSDP("getDplptSrcItem(i) -> MAX_SHORT: %u \n",getDplptSrcItem(i));
+    if(getDplptSrcItem(i) != MAX_SHORT)
+    {
+      return 0;
+    }
+  }
+  testarrptr16 = getDplptSrcArray();
+  for (i =0;i<len;i++)
+  {
+    DEBUGP_TSDP("getDplptSrcArray[i] -> MAX_SHORT: %u \n",testarrptr16[i]);
+    if(testarrptr16[i] != MAX_SHORT)
+      return 0;
+  }
+
+  len = sizeof(testvars.lptTime)/sizeof(testvars.lptTime[0]); 
+  DEBUGP_TSDP("Arraysize of lptTime: %u Elements \n", len);
+  for (i=0; i<len; i++)
+  {
+    setDplptTimeItem(i, tim0);
+    DEBUGP_TSDP("getDplptTimeItem(i) -> tim0: %u \n",getDplptTimeItem(i).t[0]);
+    if(memcmp(getDplptTimeItem(i).t, tim0.t, sizeof(tim0))!=0)
+    {
+      return 0;
+    }
+  }
+  for (i=0; i<len; i++)
+  {
+    setDplptTimeItem(i, timmax);
+    DEBUGP_TSDP("getDplptTimeItem(i) -> timmax: %u \n",getDplptTimeItem(i).t[0]);
+    if(memcmp(getDplptTimeItem(i).t, timmax.t, sizeof(timmax))!=0)
+    {
+      return 0;
+    }
+  }
+  testarrptrtim = getDplptTimeArray();
+  for (i =0;i<len;i++)
+  {
+    DEBUGP_TSDP("getDplptTimeArray[i] -> timmax: %u \n",testarrptrtim[i].t[0]);
+    if(memcmp(testarrptrtim[i].t, timmax.t, sizeof(timmax))!=0)
+      return 0;
+  }
+
+  setDpnOfDownlinks(MIN_VAL);
+  DEBUGP_TSDP("getDpnOfDownlinks() -> MIN_VAL: %u \n",getDpnOfDownlinks());
+  if (getDpnOfDownlinks() != MIN_VAL)
+  {
+    return 0;
+  }
+  setDpnOfDownlinks(MAX_INT);
+  DEBUGP_TSDP("getDpnOfDownlinks() -> MAX_INT: %u \n",getDpnOfDownlinks());
+  if (getDpnOfDownlinks() != MAX_INT)
+  {
+    return 0;
+  }
+
+  setDpnOfUplinks(MIN_VAL);
+  DEBUGP_TSDP("getDpnOfUplinks() -> MIN_VAL: %u \n",getDpnOfUplinks());
+  if (getDpnOfUplinks() != MIN_VAL)
+  {
+    return 0;
+  }
+  setDpnOfUplinks(MAX_INT);
+  DEBUGP_TSDP("getDpnOfUplinks() -> MAX_INT: %u \n",getDpnOfUplinks());
+  if (getDpnOfUplinks() != MAX_INT)
+  {
+    return 0;
+  }
+
+  len = sizeof(testvars.partSeqNmb)/sizeof(testvars.partSeqNmb[0]); 
+  DEBUGP_TSDP("Arraysize of partSeqNmb: %u Elements \n", len);
+  for (i=0; i<len; i++)
+  {
+    setDppartSeqNmbItem(i, MIN_VAL);
+    DEBUGP_TSDP("getDppartSeqNmbItem(i) -> MIN_VAL: %u \n",getDppartSeqNmbItem(i));
+    if(getDppartSeqNmbItem(i) != MIN_VAL)
+    {
+      return 0;
+    }
+  }
+  for (i=0; i<len; i++)
+  {
+    setDppartSeqNmbItem(i, MAX_INT);
+    DEBUGP_TSDP("getDppartSeqNmbItem(i) -> MAX_INT: %u \n",getDppartSeqNmbItem(i));
+    if(getDppartSeqNmbItem(i) != MAX_INT)
+    {
+      return 0;
+    }
+  }
+  testarrptr32 = getDppartSeqNmbArray();
+  for (i =0;i<len;i++)
+  {
+    DEBUGP_TSDP("getDppartSeqNmbArray[i] -> MAX_INT: %u \n",testarrptr32[i]);
+    if(testarrptr32[i] != MAX_INT)
+      return 0;
+  }
 
   return 1;
 }

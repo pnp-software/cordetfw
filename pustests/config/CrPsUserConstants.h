@@ -73,13 +73,13 @@ typedef uint16_t CrPsEid_t;
 /** Type used for the Auxiliary Data of a packet. */
 typedef uint32_t CrPsAux_t;
 
-/* Type used for Addresses*/
+/* Type used for Addresses */
 typedef uint32_t CrPsAddr_t;
 
 /* Type used as a Flag e.g.(Enable/Disable)  */
 typedef uint8_t CrPsFlag_t;
 
-/* Type used as a Number 16 bit*/
+/* Type used as a Number 16 bit */
 typedef uint16_t CrPsNumberU2_t;
 
 /* Type used for a repetition count */
@@ -88,16 +88,16 @@ typedef uint16_t CrPsRepetition_t;
 /* Type used for a 32 bit Number */
 typedef uint32_t CrPsNumberU4_t;
 
-/* Type used for a Group*/
+/* Type used for a Group */
 typedef uint16_t CrPsGroup_t;
 
-/* Type used as the Transaction Identifier*/
+/* Type used as the Transaction Identifier */
 typedef uint32_t CrPsTid_t;
 
-/* Type used as size of Packets*/
+/* Type used as size of Packets */
 typedef uint32_t CrPsSize_t;
 
-/* Type used for a reason of a failure*/
+/* Type used for a reason of a failure */
 typedef uint32_t CrPsFailReason_t;
 
 /* Type used as an identifier of the number of parts of a packet */
@@ -121,6 +121,18 @@ typedef enum
   /** The Outfactory failed to make the component (see <code>CrPsRepErr.h</code>) */
   crOutfactoryFail = 4
 } CrPsRepErrCode_t;
+
+
+
+/**
+ * Maximum length of a packet expressed in number of bytes (see <code>CrFwPacket.h</code>).
+ * The value of this constant must be smaller than the range of the <code>::CrFwPcktLength_t</code>
+ * integer type.
+ */
+/** The maximum size in number of bytes of a packet */
+#define CR_FW_MAX_PCKT_LENGTH 1000
+
+
 
 
 /* Service 17: Test Service Constants */
@@ -227,8 +239,5 @@ typedef enum
 
 /** Failure Codes of Service 5 (Event Report) for Service 1 (Request Verification) */
 #define VER_ILL_EID      225
-
-
-
 
 #endif /* CRPS_USERCONSTANTS_H_ */

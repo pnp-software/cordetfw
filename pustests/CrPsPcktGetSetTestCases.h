@@ -79,5 +79,8 @@ CrFwBool_t CrPsPcktGetSetTestCase2();
 /* TODO either include this into testcase 2 or make a testcase for every service*/
 CrFwBool_t CrPsPcktGetSetTestCase3();
 
+/* TODO either include this into testcase 2 or make a testcase for every service*/
+CrFwBool_t CrPsPcktGetSetTestCase4();
+
 
 #endif /* CRPS_PCKTGETSET_TESTCASES_H_ */

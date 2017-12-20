@@ -355,7 +355,7 @@ CrFwBool_t CrPsEvtTestCase1()
   outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
   outCmp = outManagerCSData->pocl[0];
   
-  /* Check if there is a 3,25 Command waitig in the OutManager (loaded) */
+  /* Check if there is a 1,4 Command waitig in the OutManager (loaded) */
   if (CrFwCmpGetTypeId(outCmp) != CR_FW_OUTCMP_TYPE)
     return 0;
   if (CrFwOutCmpGetServType(outCmp) != 1)
@@ -485,7 +485,7 @@ CrFwBool_t CrPsEvtTestCase1()
   outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
   outCmp = outManagerCSData->pocl[0];
   
-  /* Check if there is a 3,25 Command waitig in the OutManager (loaded) */
+  /* Check if there is a 5,8 Command waitig in the OutManager (loaded) */
   if (CrFwCmpGetTypeId(outCmp) != CR_FW_OUTCMP_TYPE)
     return 0;
   if (CrFwOutCmpGetServType(outCmp) != 5)

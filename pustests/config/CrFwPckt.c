@@ -63,16 +63,6 @@
 #include <Services/General/CrPsPktServTest.h>
 
 /**
- * Maximum length of a packet expressed in number of bytes (see <code>CrFwPacket.h</code>).
- * The value of this constant must be smaller than the range of the <code>::CrFwPcktLength_t</code>
- * integer type.
- */
-#define CR_FW_MAX_PACKET_LENGTH 1000
-
-/** The maximum size in number of bytes of a packet */
-#define CR_FW_MAX_PCKT_LENGTH 1000
-
-/**
  * The array holding the packets.
  * Packets are stored in this array in blocks of size CR_FW_MAX_PCKT_LENGTH.
  */

@@ -5,7 +5,6 @@
 #include <Services/General/CrPsPktServHk.h>
 #include <Services/General/CrPsPktServHkSupp.h>
 
-
 void print31(char* pckt)
 {
   uint32_t i, j, n1, nfa, n2;
@@ -188,7 +187,4 @@ void clearPacket(char* pckt, size_t size)
   }
 
 }
-
-
-
 

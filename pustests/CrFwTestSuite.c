@@ -33,7 +33,7 @@
 #include <string.h>
 
 /** The number of tests in the test suite. */
-#define NOF_TESTS 16
+#define NOF_TESTS 22
 
 /* Include framework files */
 #include "CrFwConstants.h"
@@ -46,6 +46,7 @@
 #include "CrPsServiceVeriTestCases.h"
 #include "CrPsHkTestCases.h"
 #include "CrPsEvtTestCases.h"
+#include "CrPsLptTestCases.h"
 #include "CrPsDebug.h"
 
 
@@ -102,30 +103,42 @@ int main() {
 	testCases[6] = &CrPsDataPoolTestCase3;
     testNames[7] = "Pusext_DataPool_TestCase4";
 	testCases[7] = &CrPsDataPoolTestCase4;
+	testNames[8] = "Pusext_DataPool_TestCase5";
+	testCases[8] = &CrPsDataPoolTestCase5;
+	testNames[9] = "Pusext_DataPool_TestCase6";
+	testCases[9] = &CrPsDataPoolTestCase6;
 	
 	/*Getter and Setter*/
-	testNames[8] = "Pusext_PacketGetterSetter_TestCase1";
-	testCases[8] = &CrPsPcktGetSetTestCase1;
-	testNames[9] = "Pusext_PacketGetterSetter_TestCase2";
-	testCases[9] = &CrPsPcktGetSetTestCase2;
-	testNames[10] = "Pusext_PacketGetterSetter_TestCase3";
-	testCases[10] = &CrPsPcktGetSetTestCase3;
-
+	testNames[10] = "Pusext_PacketGetterSetter_TestCase1";
+	testCases[10] = &CrPsPcktGetSetTestCase1;
+	testNames[11] = "Pusext_PacketGetterSetter_TestCase2";
+	testCases[11] = &CrPsPcktGetSetTestCase2;
+	testNames[12] = "Pusext_PacketGetterSetter_TestCase3";
+	testCases[12] = &CrPsPcktGetSetTestCase3;
+	testNames[13] = "Pusext_PacketGetterSetter_TestCase4";
+	testCases[13] = &CrPsPcktGetSetTestCase4;
 
 	/*Service 3*/
-	testNames[11] = "Pusext_Housekeeping_TestCase1";
-	testCases[11] = &CrPsHkTestCase1;
-	testNames[12] = "Pusext_Housekeeping_TestCase2";
-	testCases[12] = &CrPsHkTestCase2;
-	testNames[13] = "Pusext_Housekeeping_TestCase3";
-	testCases[13] = &CrPsHkTestCase3;
-	testNames[14] = "Pusext_Housekeeping_TestCase4";
-	testCases[14] = &CrPsHkTestCase4;
+	testNames[14] = "Pusext_Housekeeping_TestCase1";
+	testCases[14] = &CrPsHkTestCase1;
+	testNames[15] = "Pusext_Housekeeping_TestCase2";
+	testCases[15] = &CrPsHkTestCase2;
+	testNames[16] = "Pusext_Housekeeping_TestCase3";
+	testCases[16] = &CrPsHkTestCase3;
+	testNames[17] = "Pusext_Housekeeping_TestCase4";
+	testCases[17] = &CrPsHkTestCase4;
 
 	/*Service 5*/
-	testNames[15] = "Pusext_EventReporting_TestCase1";
-	testCases[15] = &CrPsEvtTestCase1;
+	testNames[18] = "Pusext_EventReporting_TestCase1";
+	testCases[18] = &CrPsEvtTestCase1;
 
+	/*Service ¹3*/
+	testNames[19] = "Pusext_LargePacketTransfer_TestCase1";
+	testCases[19] = &CrPsLptTestCase1;
+	testNames[20] = "Pusext_LargePacketTransfer_TestCase2";
+	testCases[20] = &CrPsLptTestCase2;
+	testNames[21] = "Pusext_LargePacketTransfer_TestCase3";
+	testCases[21] = &CrPsLptTestCase3;
 
 
 	/* Run test cases in sequence */

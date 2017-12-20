@@ -78,6 +78,15 @@ typedef struct {
 	unsigned short* eidPtr;
 } prDescCmdEidStart_t;
 
+typedef struct {
+	FwSmDesc_t smDesc;
+    unsigned short outcome;
+} prDescCmd13Start_t;
+
+
+#define LPT_FAILCODE_NO_FAIL 0
+#define LPT_FAILCODE_TIME_OUT 1
+#define EVT_DOWN_ABORT 131
 
 /* ######################################################################################
  * ### Identifiers (e.g. service type, service sub-type)
@@ -265,6 +274,56 @@ typedef struct {
 #define CRPS_EVT_REPDISABLED_REP 8
 
 /**
+ * Type identifier of the Large Packet Transfer Service.
+ */
+#define CRPS_LPT 13
+
+/**
+ * Subtype identifier of the Large Packet Transfer First Downlink Part out-going report packet.
+ */
+#define CRPS_LPT_DOWNFIRST_REP 1
+
+/**
+ * Subtype identifier of the Large Packet Transfer Intermediate Downlink Part out-going report packet.
+ */
+#define CRPS_LPT_DOWNINTER_REP 2
+
+/**
+ * Subtype identifier of the Large Packet Transfer Last Downlink Part out-going report packet.
+ */
+#define CRPS_LPT_DOWNLAST_REP 3
+
+/**
+ * Subtype identifier of the Large Packet Transfer First Uplink Part command packet.
+ */
+#define CRPS_LPT_UPFIRST_CMD 9
+
+/**
+ * Subtype identifier of the Large Packet Transfer Intermediate Uplink Part command packet.
+ */
+#define CRPS_LPT_UPINTER_CMD 10
+
+/**
+ * Subtype identifier of the Large Packet Transfer Last Uplink Part command packet.
+ */
+#define CRPS_LPT_UPLAST_CMD 11
+
+/**
+ * Subtype identifier of the Large Packet Transfer Abort Uplink out-going report packet.
+ */
+#define CRPS_LPT_UPABORT_REP 16
+
+/**
+ * Subtype identifier of the Large Packet Transfer Start Downlink command packet.
+ */
+#define CRPS_LPT_STARTDOWN_CMD 129
+
+/**
+ * Subtype identifier of the Large Packet Transfer Abort Downlink command packet.
+ */
+#define CRPS_LPT_ABORTDOWN_CMD 130
+
+/**
  * Type identifier of the Test Service.
  */
 #define CRPS_TEST 17
@@ -446,6 +505,13 @@ typedef struct {
  * Length of the Event Report out-going report packet.
  */
 #define CRPS_EVT__REP_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 10 + CRC_LENGTH) /*TODO .. hier noch die korrekten längen angeben!!*/
+
+/**
+ * Length of the Large Packet Transfer out-going report packet.
+ */
+#define CRPS_LPT__REP_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 982 + CRC_LENGTH) /*TODO .. hier noch die korrekten längen angeben!!*/
+
+#define CRPS_LPT_UPABORT_REP_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 6 + CRC_LENGTH)
 
 
 /**

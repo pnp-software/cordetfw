@@ -67,6 +67,8 @@
 #include <Services/General/CrPsPktServHkSupp.h>
 #include <Services/General/CrPsPktServEvt.h>
 #include <Services/General/CrPsPktServEvtSupp.h>
+#include <Services/General/CrPsPktServLpt.h>
+#include <Services/General/CrPsPktServLptSupp.h>
 #include <Services/General/CrPsPktUtil.h>
 #include <CrPsDebug.h>
 
@@ -74,6 +76,7 @@
 #define MAX_SHORT 65535
 #define MAX_INT 4294967295u
 #define MIN_VAL 0
+
 
 /* ---------------------------------------------------------------------------------------------*/
 
@@ -2110,7 +2113,537 @@ CrFwBool_t CrPsPcktGetSetTestCase3()
 
   CrFwPcktRelease(pckt);
 
+  return 1;
+}
 
+
+CrFwBool_t CrPsPcktGetSetTestCase4()
+{
+  CrFwPckt_t pckt;
+  unsigned int i;
+  unsigned short pcktsize = 100;
+  unsigned short parts = 5;
+
+  CrFwSetAppErrCode(crNoAppErr);
+  if (CrFwGetAppErrCode() != 0)
+    return 0;
+
+  /* Check if number of Allocated Packets = 0*/
+  DEBUGP_TSGS("Check if no packets are allocated yet \n");
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Allocate a Packet */
+  DEBUGP_TSGS("Allocating a Packet \n");
+  pckt = CrFwPcktMake(pcktsize);
+
+  /* Check if there now one packet is allocated*/
+  DEBUGP_TSGS("Check if there now one packet is allocated \n");
+  if (CrFwPcktGetNOfAllocated() != 1)
+    return 0;
+
+  /* Check 13,1 packet*/
+  DEBUGP_TSGS("Check 13,1 packet \n");
+  CrFwPcktSetCmdRepType(pckt,crRepType);
+  CrFwPcktSetServType(pckt, 13);
+  CrFwPcktSetServSubType(pckt, 1);
+  CrFwPcktSetDiscriminant(pckt, 0);
+
+  if (CrFwPcktGetCmdRepType(pckt) != crRepType)
+    return 0;
+  if (CrFwPcktGetServType(pckt) != 13)
+    return 0;
+  if (CrFwPcktGetServSubType(pckt) != 1)
+    return 0;
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  CrFwPcktSetDiscriminant(pckt, MAX_CHAR);
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  setLptDownFirstRepTid(pckt, MIN_VAL);
+  if (getLptDownFirstRepTid(pckt) != MIN_VAL)
+    return 0;
+  setLptDownFirstRepTid(pckt, MAX_INT);
+  if (getLptDownFirstRepTid(pckt) != MAX_INT)
+    return 0;
+
+  setLptDownFirstRepPartSeqNmb(pckt, MIN_VAL);
+  if (getLptDownFirstRepPartSeqNmb(pckt) != MIN_VAL)
+    return 0;
+  setLptDownFirstRepPartSeqNmb(pckt, MAX_INT);
+  if (getLptDownFirstRepPartSeqNmb(pckt) != MAX_INT)
+    return 0;
+
+  CrFwPcktRelease(pckt);
+
+  if (CrFwGetAppErrCode() != 0)
+    return 0;
+
+  /* Check if number of Allocated Packets = 0*/
+  DEBUGP_TSGS("Check if no packets are allocated yet \n");
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Allocate a Packet */
+  DEBUGP_TSGS("Allocating a Packet \n");
+  pckt = CrFwPcktMake(pcktsize);
+
+  /* Check if there now one packet is allocated*/
+  DEBUGP_TSGS("Check if there now one packet is allocated \n");
+  if (CrFwPcktGetNOfAllocated() != 1)
+    return 0;
+
+  /* Check 13,2 packet*/
+  DEBUGP_TSGS("Check 13,2 packet \n");
+  CrFwPcktSetCmdRepType(pckt,crRepType);
+  CrFwPcktSetServType(pckt, 13);
+  CrFwPcktSetServSubType(pckt, 2);
+  CrFwPcktSetDiscriminant(pckt, 0);
+
+  if (CrFwPcktGetCmdRepType(pckt) != crRepType)
+    return 0;
+  if (CrFwPcktGetServType(pckt) != 13)
+    return 0;
+  if (CrFwPcktGetServSubType(pckt) != 2)
+    return 0;
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  CrFwPcktSetDiscriminant(pckt, MAX_CHAR);
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  setLptDownInterRepTid(pckt, MIN_VAL);
+  if (getLptDownInterRepTid(pckt) != MIN_VAL)
+    return 0;
+  setLptDownInterRepTid(pckt, MAX_INT);
+  if (getLptDownInterRepTid(pckt) != MAX_INT)
+    return 0;
+
+  setLptDownInterRepPartSeqNmb(pckt, MIN_VAL);
+  if (getLptDownInterRepPartSeqNmb(pckt) != MIN_VAL)
+    return 0;
+  setLptDownInterRepPartSeqNmb(pckt, MAX_INT);
+  if (getLptDownInterRepPartSeqNmb(pckt) != MAX_INT)
+    return 0;
+/*
+  for (i=0;i<=parts;i++)
+  {
+    setLptDownInterRepPart(pckt, MIN_VAL, i);
+    if (getLptDownInterRepPart(pckt, i) != MIN_VAL)
+      return 0;
+    setLptDownInterRepPart(pckt, MAX_SHORT, i);
+    if (getLptDownInterRepPart(pckt, i) != MAX_SHORT)
+      return 0;    
+  }
+*/
+  CrFwPcktRelease(pckt);
+
+  if (CrFwGetAppErrCode() != 0)
+    return 0;
+
+  /* Check if number of Allocated Packets = 0*/
+  DEBUGP_TSGS("Check if no packets are allocated yet \n");
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Allocate a Packet */
+  DEBUGP_TSGS("Allocating a Packet \n");
+  pckt = CrFwPcktMake(pcktsize);
+
+  /* Check if there now one packet is allocated*/
+  DEBUGP_TSGS("Check if there now one packet is allocated \n");
+  if (CrFwPcktGetNOfAllocated() != 1)
+    return 0;
+
+  /* Check 13,3 packet*/
+  DEBUGP_TSGS("Check 13,3 packet \n");
+  CrFwPcktSetCmdRepType(pckt,crRepType);
+  CrFwPcktSetServType(pckt, 13);
+  CrFwPcktSetServSubType(pckt, 3);
+  CrFwPcktSetDiscriminant(pckt, 0);
+
+  if (CrFwPcktGetCmdRepType(pckt) != crRepType)
+    return 0;
+  if (CrFwPcktGetServType(pckt) != 13)
+    return 0;
+  if (CrFwPcktGetServSubType(pckt) != 3)
+    return 0;
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  CrFwPcktSetDiscriminant(pckt, MAX_CHAR);
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  setLptDownLastRepTid(pckt, MIN_VAL);
+  if (getLptDownLastRepTid(pckt) != MIN_VAL)
+    return 0;
+  setLptDownLastRepTid(pckt, MAX_INT);
+  if (getLptDownLastRepTid(pckt) != MAX_INT)
+    return 0;
+
+  setLptDownLastRepPartSeqNmb(pckt, MIN_VAL);
+  if (getLptDownLastRepPartSeqNmb(pckt) != MIN_VAL)
+    return 0;
+  setLptDownLastRepPartSeqNmb(pckt, MAX_INT);
+  if (getLptDownLastRepPartSeqNmb(pckt) != MAX_INT)
+    return 0;
+/*
+  for (i=0;i<=parts;i++)
+  {
+    setLptDownLastRepPart(pckt, MIN_VAL, i);
+    if (getLptDownLastRepPart(pckt, i) != MIN_VAL)
+      return 0;
+    setLptDownLastRepPart(pckt, MAX_SHORT, i);
+    if (getLptDownLastRepPart(pckt, i) != MAX_SHORT)
+      return 0;    
+  }
+*/
+  CrFwPcktRelease(pckt);
+
+  if (CrFwGetAppErrCode() != 0)
+    return 0;
+
+  /* Check if number of Allocated Packets = 0*/
+  DEBUGP_TSGS("Check if no packets are allocated yet \n");
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Allocate a Packet */
+  DEBUGP_TSGS("Allocating a Packet \n");
+  pckt = CrFwPcktMake(pcktsize);
+
+  /* Check if there now one packet is allocated*/
+  DEBUGP_TSGS("Check if there now one packet is allocated \n");
+  if (CrFwPcktGetNOfAllocated() != 1)
+    return 0;
+
+  /* Check 13,9 packet*/
+  DEBUGP_TSGS("Check 13,9 packet \n");
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt, 13);
+  CrFwPcktSetServSubType(pckt, 9);
+  CrFwPcktSetDiscriminant(pckt, 0);
+
+  if (CrFwPcktGetCmdRepType(pckt) != crCmdType)
+    return 0;
+  if (CrFwPcktGetServType(pckt) != 13)
+    return 0;
+  if (CrFwPcktGetServSubType(pckt) != 9)
+    return 0;
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  CrFwPcktSetDiscriminant(pckt, MAX_CHAR);
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  setLptUpFirstCmdTid(pckt, MIN_VAL);
+  if (getLptUpFirstCmdTid(pckt) != MIN_VAL)
+    return 0;
+  setLptUpFirstCmdTid(pckt, MAX_INT);
+  if (getLptUpFirstCmdTid(pckt) != MAX_INT)
+    return 0;
+
+  setLptUpFirstCmdPartSeqNmb(pckt, MIN_VAL);
+  if (getLptUpFirstCmdPartSeqNmb(pckt) != MIN_VAL)
+    return 0;
+  setLptUpFirstCmdPartSeqNmb(pckt, MAX_INT);
+  if (getLptUpFirstCmdPartSeqNmb(pckt) != MAX_INT)
+    return 0;
+
+  for (i=0;i<=parts;i++)
+  {
+    setLptUpFirstCmdPart(pckt, MIN_VAL, i);
+    if (getLptUpFirstCmdPart(pckt, i) != MIN_VAL)
+      return 0;
+    setLptUpFirstCmdPart(pckt, MAX_SHORT, i);
+    if (getLptUpFirstCmdPart(pckt, i) != MAX_SHORT)
+      return 0;    
+  }
+
+  CrFwPcktRelease(pckt);
+
+  if (CrFwGetAppErrCode() != 0)
+    return 0;
+
+  /* Check if number of Allocated Packets = 0*/
+  DEBUGP_TSGS("Check if no packets are allocated yet \n");
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Allocate a Packet */
+  DEBUGP_TSGS("Allocating a Packet \n");
+  pckt = CrFwPcktMake(pcktsize);
+
+  /* Check if there now one packet is allocated*/
+  DEBUGP_TSGS("Check if there now one packet is allocated \n");
+  if (CrFwPcktGetNOfAllocated() != 1)
+    return 0;
+
+  /* Check 13,10 packet*/
+  DEBUGP_TSGS("Check 13,10 packet \n");
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt, 13);
+  CrFwPcktSetServSubType(pckt, 10);
+  CrFwPcktSetDiscriminant(pckt, 0);
+
+  if (CrFwPcktGetCmdRepType(pckt) != crCmdType)
+    return 0;
+  if (CrFwPcktGetServType(pckt) != 13)
+    return 0;
+  if (CrFwPcktGetServSubType(pckt) != 10)
+    return 0;
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  CrFwPcktSetDiscriminant(pckt, MAX_CHAR);
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  setLptUpInterCmdTid(pckt, MIN_VAL);
+  if (getLptUpInterCmdTid(pckt) != MIN_VAL)
+    return 0;
+  setLptUpInterCmdTid(pckt, MAX_INT);
+  if (getLptUpInterCmdTid(pckt) != MAX_INT)
+    return 0;
+
+  setLptUpInterCmdPartSeqNmb(pckt, MIN_VAL);
+  if (getLptUpInterCmdPartSeqNmb(pckt) != MIN_VAL)
+    return 0;
+  setLptUpInterCmdPartSeqNmb(pckt, MAX_INT);
+  if (getLptUpInterCmdPartSeqNmb(pckt) != MAX_INT)
+    return 0;
+
+  for (i=0;i<=parts;i++)
+  {
+    setLptUpInterCmdPart(pckt, MIN_VAL, i);
+    if (getLptUpInterCmdPart(pckt, i) != MIN_VAL)
+      return 0;
+    setLptUpInterCmdPart(pckt, MAX_SHORT, i);
+    if (getLptUpInterCmdPart(pckt, i) != MAX_SHORT)
+      return 0;    
+  }
+
+  CrFwPcktRelease(pckt);
+
+  if (CrFwGetAppErrCode() != 0)
+    return 0;
+
+  /* Check if number of Allocated Packets = 0*/
+  DEBUGP_TSGS("Check if no packets are allocated yet \n");
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Allocate a Packet */
+  DEBUGP_TSGS("Allocating a Packet \n");
+  pckt = CrFwPcktMake(pcktsize);
+
+  /* Check if there now one packet is allocated*/
+  DEBUGP_TSGS("Check if there now one packet is allocated \n");
+  if (CrFwPcktGetNOfAllocated() != 1)
+    return 0;
+
+  /* Check 13,11 packet*/
+  DEBUGP_TSGS("Check 13,11 packet \n");
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt, 13);
+  CrFwPcktSetServSubType(pckt, 11);
+  CrFwPcktSetDiscriminant(pckt, 0);
+
+  if (CrFwPcktGetCmdRepType(pckt) != crCmdType)
+    return 0;
+  if (CrFwPcktGetServType(pckt) != 13)
+    return 0;
+  if (CrFwPcktGetServSubType(pckt) != 11)
+    return 0;
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  CrFwPcktSetDiscriminant(pckt, MAX_CHAR);
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  setLptUpLastCmdTid(pckt, MIN_VAL);
+  if (getLptUpLastCmdTid(pckt) != MIN_VAL)
+    return 0;
+  setLptUpLastCmdTid(pckt, MAX_INT);
+  if (getLptUpLastCmdTid(pckt) != MAX_INT)
+    return 0;
+
+  setLptUpLastCmdPartSeqNmb(pckt, MIN_VAL);
+  if (getLptUpLastCmdPartSeqNmb(pckt) != MIN_VAL)
+    return 0;
+  setLptUpLastCmdPartSeqNmb(pckt, MAX_INT);
+  if (getLptUpLastCmdPartSeqNmb(pckt) != MAX_INT)
+    return 0;
+
+  for (i=0;i<=parts;i++)
+  {
+    setLptUpLastCmdPart(pckt, MIN_VAL, i);
+    if (getLptUpLastCmdPart(pckt, i) != MIN_VAL)
+      return 0;
+    setLptUpLastCmdPart(pckt, MAX_SHORT, i);
+    if (getLptUpLastCmdPart(pckt, i) != MAX_SHORT)
+      return 0;    
+  }
+
+  CrFwPcktRelease(pckt);
+
+  if (CrFwGetAppErrCode() != 0)
+    return 0;
+
+  /* Check if number of Allocated Packets = 0*/
+  DEBUGP_TSGS("Check if no packets are allocated yet \n");
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Allocate a Packet */
+  DEBUGP_TSGS("Allocating a Packet \n");
+  pckt = CrFwPcktMake(pcktsize);
+
+  /* Check if there now one packet is allocated*/
+  DEBUGP_TSGS("Check if there now one packet is allocated \n");
+  if (CrFwPcktGetNOfAllocated() != 1)
+    return 0;
+
+  /* Check 13,16 packet*/
+  DEBUGP_TSGS("Check 13,16 packet \n");
+  CrFwPcktSetCmdRepType(pckt,crRepType);
+  CrFwPcktSetServType(pckt, 13);
+  CrFwPcktSetServSubType(pckt, 16);
+  CrFwPcktSetDiscriminant(pckt, 0);
+
+  if (CrFwPcktGetCmdRepType(pckt) != crRepType)
+    return 0;
+  if (CrFwPcktGetServType(pckt) != 13)
+    return 0;
+  if (CrFwPcktGetServSubType(pckt) != 16)
+    return 0;
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  CrFwPcktSetDiscriminant(pckt, MAX_CHAR);
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  setLptUpAbortRepTid(pckt, MIN_VAL);
+  if (getLptUpAbortRepTid(pckt) != MIN_VAL)
+    return 0;
+  setLptUpAbortRepTid(pckt, MAX_INT);
+  if (getLptUpAbortRepTid(pckt) != MAX_INT)
+    return 0;
+
+  setLptUpAbortRepFailReason(pckt, MIN_VAL);
+  if (getLptUpAbortRepFailReason(pckt) != MIN_VAL)
+    return 0;
+  setLptUpAbortRepFailReason(pckt, MAX_INT);
+  if (getLptUpAbortRepFailReason(pckt) != MAX_INT)
+    return 0;
+
+  CrFwPcktRelease(pckt);
+
+  if (CrFwGetAppErrCode() != 0)
+    return 0;
+
+  /* Check if number of Allocated Packets = 0*/
+  DEBUGP_TSGS("Check if no packets are allocated yet \n");
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Allocate a Packet */
+  DEBUGP_TSGS("Allocating a Packet \n");
+  pckt = CrFwPcktMake(pcktsize);
+
+  /* Check if there now one packet is allocated*/
+  DEBUGP_TSGS("Check if there now one packet is allocated \n");
+  if (CrFwPcktGetNOfAllocated() != 1)
+    return 0;
+
+  /* Check 13,129 packet*/
+  DEBUGP_TSGS("Check 13,129 packet \n");
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt, 13);
+  CrFwPcktSetServSubType(pckt, 129);
+  CrFwPcktSetDiscriminant(pckt, 0);
+
+  if (CrFwPcktGetCmdRepType(pckt) != crCmdType)
+    return 0;
+  if (CrFwPcktGetServType(pckt) != 13)
+    return 0;
+  if (CrFwPcktGetServSubType(pckt) != 129)
+    return 0;
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  CrFwPcktSetDiscriminant(pckt, MAX_CHAR);
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  setLptStartDownCmdTid(pckt, MIN_VAL);
+  if (getLptStartDownCmdTid(pckt) != MIN_VAL)
+    return 0;
+  setLptStartDownCmdTid(pckt, MAX_INT);
+  if (getLptStartDownCmdTid(pckt) != MAX_INT)
+    return 0;
+
+  CrFwPcktRelease(pckt);
+  if (CrFwGetAppErrCode() != 0)
+    return 0;
+
+  /* Check if number of Allocated Packets = 0*/
+  DEBUGP_TSGS("Check if no packets are allocated yet \n");
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
+
+  /* Allocate a Packet */
+  DEBUGP_TSGS("Allocating a Packet \n");
+  pckt = CrFwPcktMake(pcktsize);
+
+  /* Check if there now one packet is allocated*/
+  DEBUGP_TSGS("Check if there now one packet is allocated \n");
+  if (CrFwPcktGetNOfAllocated() != 1)
+    return 0;
+
+  /* Check 13,130 packet*/
+  DEBUGP_TSGS("Check 13,130 packet \n");
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetServType(pckt, 13);
+  CrFwPcktSetServSubType(pckt, 130);
+  CrFwPcktSetDiscriminant(pckt, 0);
+
+  if (CrFwPcktGetCmdRepType(pckt) != crCmdType)
+    return 0;
+  if (CrFwPcktGetServType(pckt) != 13)
+    return 0;
+  if (CrFwPcktGetServSubType(pckt) != 130)
+    return 0;
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  CrFwPcktSetDiscriminant(pckt, MAX_CHAR);
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  setLptAbortDownCmdTid(pckt, MIN_VAL);
+  if (getLptAbortDownCmdTid(pckt) != MIN_VAL)
+    return 0;
+  setLptAbortDownCmdTid(pckt, MAX_INT);
+  if (getLptAbortDownCmdTid(pckt) != MAX_INT)
+    return 0;
+
+  CrFwPcktRelease(pckt);
+
+  if (CrFwGetAppErrCode() != 0)
+    return 0;
+
+  /* Check if number of Allocated Packets = 0*/
+  DEBUGP_TSGS("Check if no packets are allocated yet \n");
+  if (CrFwPcktGetNOfAllocated() != 0)
+    return 0;
 
   return 1;
 }

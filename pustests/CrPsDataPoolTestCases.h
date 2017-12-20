@@ -115,6 +115,22 @@ CrFwBool_t CrPsDataPoolTestCase4();
  */
 CrFwBool_t CrPsDataPoolTestCase5();
 
+/**
+ * Test the Service 13 Large Packet Transfer 
+ *
+ * The following actions are performed in this test:
+ * - use the Setter and Getter for the Datapool entry for Service 13
+ * - set each Entry to 0 and its maximal value depending on its type
+ * - check if the right getter returns the correct value
+ *
+ * @verify that the initialization function is used to initially set all Service 13 Datapool entries
+ * @verify that all Getter and Setter functions for Serive 5 Datapool entries are used
+ * @verify that all this Getters and Setters work with the minimum and maximum value of the Datapool entries
+ * .
+ * @return true if the test was successful, false otherwise.
+ */
+CrFwBool_t CrPsDataPoolTestCase6();
+
 
 
 #endif /* CRPS_DATAPOOL_TESTCASES_H_ */

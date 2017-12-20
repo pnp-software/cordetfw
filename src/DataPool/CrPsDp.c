@@ -8,13 +8,14 @@
  * \copyright (c) Copyright
  */
 
-#include "CrPsDp.h"
+#include <DataPool/CrPsDp.h>
+#include <DataPool/CrPsDpServTest.h>
+#include <DataPool/CrPsDpServHk.h>
+#include <DataPool/CrPsDpServReqVerif.h>
+#include <DataPool/CrPsDpServEvt.h>
+#include <DataPool/CrPsDpServLpt.h>
+#include <CrPsUserConstants.h>
 
-#include "CrPsDpServTest.h"
-#include "CrPsDpServHk.h"
-#include "CrPsDpServReqVerif.h"
-#include "CrPsDpServEvt.h"
-#include "CrPsUserConstants.h"
 
 /**
  * Structure to hold the location and size information of a datapool entry.
@@ -49,6 +50,7 @@ static DpMetaInfoEntry_t dpMetaInfoParams[] = {
   {(void*)&dpServHkParams.isEnabled, sizeof(dpServHkParams.isEnabled), HK_N_REP_DEF, sizeof(dpServHkParams.isEnabled[0])},
   {(void*)&dpServHkParams.period, sizeof(dpServHkParams.period), HK_N_REP_DEF, sizeof(dpServHkParams.period[0])},
   {(void*)&dpServHkParams.sid, sizeof(dpServHkParams.sid), HK_N_REP_DEF, sizeof(dpServHkParams.sid[0])},
+  {(void*)&dpServLptParams.lptTimeOut, sizeof(dpServLptParams.lptTimeOut), LPT_N_BUF, sizeof(dpServLptParams.lptTimeOut[0])},
   {(void*)&dpServTestParams.AreYouAliveTimeOut, sizeof(dpServTestParams.AreYouAliveTimeOut), 1, sizeof(dpServTestParams.AreYouAliveTimeOut)},
   {(void*)&dpServTestParams.OnBoardConnectDestLst, sizeof(dpServTestParams.OnBoardConnectDestLst), TEST_MAX_APP, sizeof(dpServTestParams.OnBoardConnectDestLst[0])}
 };
@@ -82,6 +84,15 @@ static DpMetaInfoEntry_t dpMetaInfoVars[] = {
   {(void*)&dpServHkVars.lstSampleRep, sizeof(dpServHkVars.lstSampleRep), HK_N_REP_DEF*HK_MAX_N_GR, sizeof(dpServHkVars.lstSampleRep[0])},
   {(void*)&dpServHkVars.nSimple, sizeof(dpServHkVars.nSimple), HK_N_REP_DEF, sizeof(dpServHkVars.nSimple[0])},
   {(void*)&dpServHkVars.sampleBufId, sizeof(dpServHkVars.sampleBufId), HK_N_REP_DEF, sizeof(dpServHkVars.sampleBufId[0])},
+  {(void*)&dpServLptVars.largeMsgTransId, sizeof(dpServLptVars.largeMsgTransId), LPT_N_BUF, sizeof(dpServLptVars.largeMsgTransId[0])},
+  {(void*)&dpServLptVars.lptFailCode, sizeof(dpServLptVars.lptFailCode), LPT_N_BUF, sizeof(dpServLptVars.lptFailCode[0])},
+  {(void*)&dpServLptVars.lptRemSize, sizeof(dpServLptVars.lptRemSize), LPT_N_BUF, sizeof(dpServLptVars.lptRemSize[0])},
+  {(void*)&dpServLptVars.lptSize, sizeof(dpServLptVars.lptSize), LPT_N_BUF, sizeof(dpServLptVars.lptSize[0])},
+  {(void*)&dpServLptVars.lptSrc, sizeof(dpServLptVars.lptSrc), LPT_N_BUF, sizeof(dpServLptVars.lptSrc[0])},
+  {(void*)&dpServLptVars.lptTime, sizeof(dpServLptVars.lptTime), LPT_N_BUF, sizeof(dpServLptVars.lptTime[0])},
+  {(void*)&dpServLptVars.nOfDownlinks, sizeof(dpServLptVars.nOfDownlinks), 1, sizeof(dpServLptVars.nOfDownlinks)},
+  {(void*)&dpServLptVars.nOfUplinks, sizeof(dpServLptVars.nOfUplinks), 1, sizeof(dpServLptVars.nOfUplinks)},
+  {(void*)&dpServLptVars.partSeqNmb, sizeof(dpServLptVars.partSeqNmb), LPT_N_BUF, sizeof(dpServLptVars.partSeqNmb[0])},
   {(void*)&dpServReqVerifVars.failCodeAccFailed, sizeof(dpServReqVerifVars.failCodeAccFailed), 1, sizeof(dpServReqVerifVars.failCodeAccFailed)},
   {(void*)&dpServReqVerifVars.failCodePrgrFailed, sizeof(dpServReqVerifVars.failCodePrgrFailed), 1, sizeof(dpServReqVerifVars.failCodePrgrFailed)},
   {(void*)&dpServReqVerifVars.failCodeStartFailed, sizeof(dpServReqVerifVars.failCodeStartFailed), 1, sizeof(dpServReqVerifVars.failCodeStartFailed)},
