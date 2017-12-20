@@ -352,10 +352,10 @@ E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-
 % \pnpfigure[ht][scale=0.5]{A nice figure}{fig:whatever1}{diagram.png}
 %
 \newcommand{\pnpfigure}[4][scale=1]{
-  \begin{figure}[h]
+  \begin{figure}[H]
     \begin{center} 
-    \ifx\foo#2\foo\else\caption{#2}\label{#3}\fi       
     \includegraphics[#1]{#4}
+    \ifx\foo#2\foo\else\caption{#2}\label{#3}\fi       
     \end{center}
   \end{figure}  
 }
