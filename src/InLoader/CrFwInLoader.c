@@ -204,12 +204,12 @@ static void InLoaderLoadCmdRep(CrFwPckt_t pckt) {
 	if (FwSmGetCurState(inCmp) != CR_FW_BASE_STATE_CONFIGURED) {	/* InRep/InCmd has failed its validity check */
 		inCmpData = FwSmGetData(inCmp);
 		if (cmdRepFlag == crRepType) {
-			CrFwInFactoryReleaseInRep(inCmp);
 			CrFwRepErrRep(crInLoaderAccFail, inLoaderData.typeId,inLoaderData.instanceId, inCmp);
+			CrFwInFactoryReleaseInRep(inCmp);
 			return;
 		} else {
-			CrFwInFactoryReleaseInCmd(inCmp);
 			CrFwRepInCmdOutcome(crCmdAckAccFail, instanceId, servType, servSubType, disc, inCmpData->outcome, inCmp);
+			CrFwInFactoryReleaseInCmd(inCmp);
 			return;
 		}
 	}
@@ -221,12 +221,12 @@ static void InLoaderLoadCmdRep(CrFwPckt_t pckt) {
 	inManagerLoadOutcome = CrFwInManagerLoad(CrFwInManagerMake(inManagerInstanceId), inCmp);
 	if (inManagerLoadOutcome == 0) {	/* Load operation has failed */
 		if (cmdRepFlag == crRepType) {
-			CrFwInFactoryReleaseInRep(inCmp);
 			CrFwRepErrRep(crInLoaderLdFail, inLoaderData.typeId,inLoaderData.instanceId,inCmp);
+			CrFwInFactoryReleaseInRep(inCmp);
 			return;
 		} else {
-			CrFwInFactoryReleaseInCmd(inCmp);
 			CrFwRepInCmdOutcome(crCmdAckLdFail, instanceId, servType, servSubType, disc, 0, inCmp);
+			CrFwInFactoryReleaseInCmd(inCmp);
 			return;
 		}
 	} else 	/* Load operation was successful */
