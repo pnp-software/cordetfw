@@ -1365,7 +1365,7 @@ The CTL is processed by the CTL Procedure of figure \ref{fig:ProcCTL}. This proc
 
 \begin{itemize}
 \item The CTL is full (it contains at least MON\_N\_CTL entries)
-\item The CTL has not been flushed for longer than MON\_CTL\_DEL monitoring cycles of duration MON\_PER
+\item The CTL has not been flushed for longer than \texttt{maxRepDelay} monitoring cycles of duration MON\_PER
 \end{itemize}
  
 If either condition is satisfied, the procedure generates the MonCheckTransRep report (12,12) to send the current content of the CTL to the service 12 user. The procedure then clears the CTL and sets \texttt{ctlTimeFirstEntry} to a value very far in the future.
