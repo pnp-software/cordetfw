@@ -19,4 +19,6 @@ S12,MON\_N\_EXP,Maximum number of parameter monitors with an expected value chec
 S12,MON\_N\_DEL,Maximum number of parameter monitors with a delta value check
 S12,MON\_PER,Minimum monitoring period 
 S12,MON\_N\_CLST,Maximum number of entries in the Check Transition List
+S12,MON\_CTL\_NLIM,"Number of entries in the Check Transition List (CTL) at which generation of a (12,12) report is triggered"
+S12,MON\_CTL\_DEL,"Maximum delay with which a (12,12) report is generated"
 S13,LPT\_N\_BUF,Number of Large Packet Transfer Buffers available for down- or up-link of large packets

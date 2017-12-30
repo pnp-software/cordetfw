@@ -1356,11 +1356,18 @@ An application may define and load some parameter monitors as part of its initia
 
 %=============================================================================================
 \subsubsection{Check Transition List}\label{sec:ChkTransList}
-The Check Transition List (CTL) is a data structure consisting where the monitoring violations are accumulated. It consists of MON\_N\_CLST entries where each entry has the attributes listed in table \ref{tab:chkTransAttr}.
+The Check Transition List (CTL) is a data structure where the monitoring violations are accumulated. It consists of MON\_N\_CTL entries where each entry has the attributes listed in table \ref{tab:chkTransAttr}.
 
-Entries are added to the CTL by the Monitoring Function Procedure (see figure \ref{fig:MonFncPr}) when it wishes to report a monitoring violation. The CTL is cleared by the Update Action of the TBD report. This report is generated either autonomously when the list becomes full or in response to command TBD.
+Entries are added to the CTL by the Monitoring Function Procedure (see figure \ref{fig:MonFncPr}) when it wishes to report a monitoring violation. If the list is full when the "add entry to CTL" operation is called, event EVT\_CLST\_FULL is generated.
 
-If the list is full when the "add entry to CTL" operation is called, event EVT\_CLST\_FULL is generated.
+The CTL is processed by the MonCheckTransRep report (12,12). Applications should load this report as part of their initialization. The report is always enabled and remains permanently pending. By default it is not ready but, every time it is executed, it checks whether one of the following conditions holds:
+
+\begin{itemize}
+\item The CTL contains at least MON\_CTL\_NLIM entries
+\item The CTL has not been flushed for longer than MON\_CTL\_DEL monitoring cycles of duration MON\_PER
+\end{itemize}
+ 
+If either condition is satisfied, the MonCheckTransRep report is declared to be ready and is therefore sent to its destination. Its update action collects the content of the report from the CTL and then clears the CTL.
 
 \begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of a Check Transition}{tab:chkTransAttr}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
 \texttt{dataItemId} & Identifier of the data item where the monitoring violation was detected & Integer in range: 1..HK\_MAX\_ID \\
@@ -1430,7 +1437,12 @@ The table in this section lists the requirements for the On-Board Monitoring Ser
 
 
 
-
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.55,keepaspectratio=true]{CrPsCmd12PMonIdStart.png}
+ \caption{Start Action of Multi-Parameter Monitor Commands}
+ \label{fig:Cmd12PMonIdStart}
+\end{figure}
 
 
 
