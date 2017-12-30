@@ -1270,7 +1270,8 @@ Attribute \texttt{monPrPrevRetVal} is set to INVALID when a Parameter Monitor or
 After it is established that the Monitor Procedure has returned the same value \texttt{repNmb} times, this return value becomes the new checking status of the parameter monitor. The checking status is held in attribute \texttt{checkStatus}. Its range of values is given in table \ref{tab:retValMonPr}. When the checking status is updated, the following acions are executed:
 
 \begin{itemize}
-\item An entry is made in the Checking Transition List (see section \ref{sec:ChkTransList})
+\item An entry is made in the Check Transition List (see section \ref{sec:ChkTransList})
+\item The procedure to process the Check Transition List is run (see section \ref{sec:ChkTransList})
 \item If an event is associated to the parameter monitor (i.e. if field \texttt{evtId} in table \ref{tab:pmonAtt} is different from zero), then the Generate Prefined Event Function is called to generate the event
 \end{itemize}
 
@@ -1335,7 +1336,7 @@ To each parameter monitor, one instance of a monitor procedure is associated. Th
 
 It is an implementation-level decision whether the above procedures are "split by type" with separate version for different syntactical types of the parameter to be checked (e.g. one version for real-values parameters and another version for integer-valued parameters). 
 
-A monitor procedure is started when the parameter monitor is enabled (either because the entire parameter monitoring function is enabled or because the monitor itself is enabled) and may then be executed every time the parameter monitor is executed. At each execution, the procedure returns an outcome. If the procedure has found the parameter value to be nominal, it returns: MON\_VALID. If, instead, it has found the parameter value to be non-nominal, it returns some other value. The range of return values other than MON\_VALID is specific to each monitor procedure. Table \ref{tab:retValMonPr} lists the potential outcomes of the three pre-defined monitor procedures. Applications may  have to extend this range if they define new monitor procedures. 
+A monitor procedure is started when the parameter monitor is enabled (either because the entire parameter monitoring function is enabled or because the monitor itself is enabled) and may then be executed every time the parameter monitor is executed. At each execution, the procedure returns an outcome. If the procedure has found the parameter value to be nominal, it returns: MON\_VALID. If, instead, it has found the parameter value to be non-nominal, it returns some other value. The range of return values other than MON\_VALID is specific to each monitor procedure. Table \ref{tab:retValMonPr} lists the potential outcomes of the three pre-defined monitor procedures. Applications must extend this range if they define new monitor procedures. 
 
 An application may define and load some parameter monitors as part of its initialization. In that case, the application is also responsible for starting the associated monitor procedures. In the case of parameter monitors which are defined dynamically using command (12,5), their monitor procedures are started by the command's progress action. Monitor procedures are also started and stopped when a parameter monitor is enabled and disabled through commands (12,1) and (12,2). In the case of parameter monitors which are modified dynamically using command (12,7), their monitor procedures are re-started by first stopping them and then starting them. 
 
@@ -1358,16 +1359,19 @@ An application may define and load some parameter monitors as part of its initia
 \subsubsection{Check Transition List}\label{sec:ChkTransList}
 The Check Transition List (CTL) is a data structure where the monitoring violations are accumulated. It consists of MON\_N\_CTL entries where each entry has the attributes listed in table \ref{tab:chkTransAttr}.
 
-Entries are added to the CTL by the Monitoring Function Procedure (see figure \ref{fig:MonFncPr}) when it wishes to report a monitoring violation. If the list is full when the "add entry to CTL" operation is called, event EVT\_CLST\_FULL is generated.
+Entries are added to the CTL by the Monitoring Function Procedure (see figure \ref{fig:MonFncPr}) when it wishes to report a monitoring violation. For this purpose, the framework provides an operation to add an entry to the CTL. When the first entry is added to the CTL, variable \texttt{ctlTimeFirstEntry} is updated with the current time.
 
-The CTL is processed by the MonCheckTransRep report (12,12). Applications should load this report as part of their initialization. The report is always enabled and remains permanently pending. By default it is not ready but, every time it is executed, it checks whether one of the following conditions holds:
+The CTL is processed by the CTL Procedure of figure \ref{fig:ProcCTL}. This procedure checks whether either of the following conditions holds:
 
 \begin{itemize}
-\item The CTL contains at least MON\_CTL\_NLIM entries
+\item The CTL is full (it contains at least MON\_N\_CTL entries)
 \item The CTL has not been flushed for longer than MON\_CTL\_DEL monitoring cycles of duration MON\_PER
 \end{itemize}
  
-If either condition is satisfied, the MonCheckTransRep report is declared to be ready and is therefore sent to its destination. Its update action collects the content of the report from the CTL and then clears the CTL.
+If either condition is satisfied, the procedure generates the MonCheckTransRep report (12,12) to send the current content of the CTL to the service 12 user. The procedure then clears the CTL and sets \texttt{ctlTimeFirstEntry} to a value very far in the future.
+
+The destination of the (12,12) report is the "service 12 user". This is either pre-defined or it is the source of the most recent (12,15) command which enabled the parameter monitoring function (see section \ref{sec:serv12Par}.
+
 
 \begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of a Check Transition}{tab:chkTransAttr}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
 \texttt{dataItemId} & Identifier of the data item where the monitoring violation was detected & Integer in range: 1..HK\_MAX\_ID \\
@@ -1409,6 +1413,13 @@ The attributes of the parameter monitors are visible through service 12 reports 
 \begin{cr_obs}{S12}{Observables for Service 12 (On-Board Monitoring Service)}
 \end{cr_obs}
 
+%---------------------------------------------------------------------------------
+\newpage
+\subsection{Service 12 Parameters}\label{sec:serv12Par}
+The service 12 configuration is defined by the parameter holding the identifier of the service 12 user. This is either a pre-defined value or it is the source of the most recent (12,15) command to enable the Parameter Monitoring Function.
+
+\begin{cr_par}{S12}{Parameters for Service 12 (On-Board Monitoring Service)}
+\end{cr_par}
 
 %----------------------------------------------------------------------------------------
 \subsection{Service 12 Adaptation Points}
@@ -1434,15 +1445,9 @@ The table in this section lists the requirements for the On-Board Monitoring Ser
 
 \pnpfigure[scale=0.5]{Delta Value Monitor Procedure}{fig:MonDeltaValPr}{CrPsMonDeltaValPr.png}
 
+\pnpfigure[scale=0.5]{Start Action of Multi-Parameter Monitor Commands}{fig:Cmd12PMonIdStart}{CrPsCmd12PMonIdStart.png}
 
-
-
-\begin{figure}[H]
- \centering
- \includegraphics[scale=0.55,keepaspectratio=true]{CrPsCmd12PMonIdStart.png}
- \caption{Start Action of Multi-Parameter Monitor Commands}
- \label{fig:Cmd12PMonIdStart}
-\end{figure}
+\pnpfigure[scale=0.5]{CTL Processing Procedure}{fig:ProcCTL}{CrPsProcCTL.png}
 
 
 
