@@ -163,7 +163,7 @@
 %---------------------------------------------
 % Import tables with requirements and adaptation points
 %---------------------------------------------
-\DTLloaddb{dbPus}{PusCompliance.csv}
+%\DTLloaddb{dbPus}{PusCompliance.csv}
 \DTLloaddb{dbAP}{PusExtensionAP.csv}
 \DTLloaddb{dbCmd}{PusExtensionCmds.csv}
 \DTLloaddb{dbRep}{PusExtensionReps.csv}
@@ -1247,7 +1247,7 @@ The behaviour of the parameter monitoring function is described by the Parameter
 
 The Parameter Monitoring Procedure should be executed cyclically with a period of MON\_PER by the host application. The period MON\_PER is the unit of time for all parameter monitoring actions in the sense that parameters are monitored periodically with a period which is a multiple of MON\_PER.
 
-Every time it is executed, the Monitoring Function Procedure processes a \textit{parameter monitoring definition list} (PMDL). The PMDL consists of up to MON\_N\_PMON \textit{parameter monitors}. Each parameter monitor defines a monitoring action for a data pool item. The same data pool item may be the object of several parameter monitors in the PMDL. Each parameter monitor has an identifier which is an integer in the range: [1..(MON\_N\_PMON].
+Every time it is executed, the Parameter Monitoring Procedure processes a \textit{parameter monitoring definition list} (PMDL). The PMDL consists of up to MON\_N\_PMON \textit{parameter monitors}. Each parameter monitor defines a monitoring action for a data pool item. The same data pool item may be the object of several parameter monitors in the PMDL. Each parameter monitor has an identifier which is an integer in the range: [1..(MON\_N\_PMON].
 
 Conditional checking is supported for all parameter monitors. To each parameter monitoring, the following items are associated: 
 
@@ -1263,9 +1263,9 @@ Service 12 offers the means to report the content of the PMDL and to alter its c
 
 A parameter monitor is characterized by the attributes listed in table \ref{tab:pmonAtt}. The first item is the identifier of the data pool item whose value the parameter monitor checks. 
 
-The monitoring action is performed by a \textit{Monitor Procedure}. Thus, for instance, there may be a Monitor Procedure which verifies that a parameter has a pre-defined value or there may another procedure which verifies that a parameter remains within pre-defined limits. Attributes \texttt{monPrType} and \texttt{monPrId} identify, respectively, the type of the monitor procedure (e.g. Limit Monitoring Procedure or Delta Value Monitoring Procedure) and the specific parameter procedure instance which is used in the parameter monitor. Attribute \texttt{monPrRetVal} is the most recent return value of the Monitor Procedure and might, for instance, be equal to MON\_ABOVE if the monitored value is above its upper limit or MON\_NOT\_EXP if the monitored parameter does not have the expected value.
+The monitoring action is performed by a \textit{Monitor Procedure}. Thus, for instance, there may be a Monitor Procedure which verifies that a parameter has a pre-defined value or there may be another procedure which verifies that a parameter remains within pre-defined limits. Attributes \texttt{monPrType} and \texttt{monPrId} identify, respectively, the type of the monitor procedure (e.g. Limit Monitoring Procedure or Delta Value Monitoring Procedure) and the specific parameter procedure instance which is used in the parameter monitor. Attribute \texttt{monPrRetVal} is the most recent return value of the Monitor Procedure and might, for instance, be equal to MON\_ABOVE if the monitored value is above its upper limit or MON\_NOT\_EXP if the monitored parameter does not have the expected value.
 
-Attribute \texttt{monPrPrevRetVal} is set to INVALID when a Parameter Monitor or the Monitoring Function are enabled and subsequently holds the return value of the Monitor Procedure at the previous execution. This attribute is used by the Monitoring Function Procedure to establish the number of consecutive times that the Monitor Procedure has the same return value (e.g. the number of consecutive times that a parameter is found to be above its upper limit).
+Attribute \texttt{monPrPrevRetVal} is set to INVALID when a Parameter Monitor or the Monitoring Function are enabled and subsequently holds the return value of the Monitor Procedure at the previous execution. This attribute is used by the Parameter Monitoring Procedure to establish the number of consecutive times that the Monitor Procedure has the same return value (e.g. the number of consecutive times that a parameter is found to be above its upper limit).
 
 After it is established that the Monitor Procedure has returned the same value \texttt{repNmb} times, this return value becomes the new checking status of the parameter monitor. The checking status is held in attribute \texttt{checkStatus}. Its range of values is given in table \ref{tab:retValMonPr}. When the checking status is updated, the following acions are executed:
 
@@ -1279,9 +1279,22 @@ The violation events are: EVT\_MON\_*. The ground can choose whether or not an e
 
 Parameter monitors can be individually enabled and disabled. When a parameter monitor becomes disabled, its Parameter Monitor Procedure is stopped. When a parameter monitor becomes enabled, its Parameter Monitor Procedure is started. Thus, the enable status of a parameter monitor is given by the started/stopped state of its Parameter Monitor Procedure.
 
-The overall enable status of a parameter monitor can be controlled at global level (the Monitoring Function Procedure is started/stopped which enables/disables the entire monitoring function) or at local level (a specific Parameter Monitor State Machine and Procedure are started/stopped).
+The overall enable status of a parameter monitor can be controlled at global level (the Parameter Monitoring Procedure is started/stopped which enables/disables the entire monitoring function) or at local level (a specific Parameter Monitor State Machine and Procedure are started/stopped).
 
-The Monitoring Function Procedure is executed cyclically. Individual parameter monitors may either be executed every time the procedure is executed or they may be executed only every N executions of the procedure. The value of N (a positive integer) is the period of the parameter monitor and is stored in attribute \texttt{per}. Attribute \texttt{perCnt} iterates in the range [0..(\texttt{per}-1)] and is used to keep track of the execution period of the parameter monitor.
+The Parameter Monitoring Procedure is executed cyclically. Individual parameter monitors may either be executed every time the procedure is executed or they may be executed only every N executions of the procedure. The value of N (a positive integer) is the period of the parameter monitor and is stored in attribute \texttt{per}. Attribute \texttt{perCnt} iterates in the range [0..(\texttt{per}-1)] and is used to keep track of the execution period of the parameter monitor.
+
+The PUS Extension of the CORDET Framework provides the following commands to control the Parameter Monitoring Function:
+
+\begin{itemize}
+\item Commands (12,5) and (12,6) enable and disable the Parameter Monitoring Function
+\item Commands (12,1) and (12,2) enable and disable indivual parameter monitors
+\item Command (12,5) adds new parameter monitoring definitions to the PMDL
+\item Command (12,6) deletes some or all the parameter monitoring definitions in the PMDL
+\item Command (12,7) modifies one or more parameter monitoring definitions
+\item Command (12,8) triggers the generation of report (12,9) which reports the content of all or part of the PMDL
+\item Command (12,13) triggers the generation of report (12,14) which reports the status of all or some of the parameter monitors in the PMDL
+\end{itemize}
+
 
 \begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of Parameter Monitor}{tab:pmonAtt}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
 \texttt{dataItemId} & Identifier of the data item monitored by the parameter monitor & Integer in range: 1..HK\_MAX\_ID \\
@@ -1321,7 +1334,7 @@ The monitor procedures are responsible for checking the values of the monitored 
 \begin{itemize}
 \item Limit Check Monitor Procedure: verifies whether the value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:MonLimCheckPr}.
 \item Expected Value Monitor Procedure: verifies whether the monitored parameter has  pre-defined value. See figure \ref{fig:MonExpValPr}.
-\item Delta Check Monitor Procedure: verifies whether the difference between the current and previous value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:MonDeltaPr}.
+\item Delta Check Monitor Procedure: verifies whether the difference between the current and previous value of the monitored parameter is within a pre-defined interval. See figure \ref{fig:MonDeltaValPr}.
 \end{itemize}
 
 The PUS Standard [PS=SP] asks for the delta check to be performed on a mean value computed over a variable number of consecutive samples. The Delta Check Monitor Procedure uses a first-order moving average process. This is nearly equivalent to the mean value and is much simpler to implement.
@@ -1359,7 +1372,7 @@ An application may define and load some parameter monitors as part of its initia
 \subsubsection{Check Transition List}\label{sec:ChkTransList}
 The Check Transition List (CTL) is a data structure where the monitoring violations are accumulated. It consists of MON\_N\_CTL entries where each entry has the attributes listed in table \ref{tab:chkTransAttr}.
 
-Entries are added to the CTL by the Monitoring Function Procedure (see figure \ref{fig:MonFncPr}) when it wishes to report a monitoring violation. For this purpose, the framework provides an operation to add an entry to the CTL. When the first entry is added to the CTL, variable \texttt{ctlTimeFirstEntry} is updated with the current time.
+Entries are added to the CTL by the Parameter Monitoring Procedure (see figure \ref{fig:MonFncPr}) when it wishes to report a monitoring violation. For this purpose, the framework provides an operation to add an entry to the CTL. When the first entry is added to the CTL, variable \texttt{ctlTimeFirstEntry} is updated with the current time.
 
 The CTL is processed by the CTL Procedure of figure \ref{fig:ProcCTL}. This procedure checks whether either of the following conditions holds:
 
@@ -1368,9 +1381,11 @@ The CTL is processed by the CTL Procedure of figure \ref{fig:ProcCTL}. This proc
 \item The CTL has not been flushed for longer than \texttt{maxRepDelay} monitoring cycles of duration MON\_PER
 \end{itemize}
  
-If either condition is satisfied, the procedure generates the MonCheckTransRep report (12,12) to send the current content of the CTL to the service 12 user. The procedure then clears the CTL and sets \texttt{ctlTimeFirstEntry} to a value very far in the future.
+If either condition is satisfied, the procedure generates the MonCheckTransRep report (12,12) to send the current content of the CTL to the service 12 user. The procedure then clears the CTL and sets \texttt{ctlTimeFirstEntry} to a value very far into the future.
 
-The destination of the (12,12) report is the "service 12 user". This is either pre-defined or it is the source of the most recent (12,15) command which enabled the parameter monitoring function (see section \ref{sec:serv12Par}.
+The maximum reporting delay \texttt{maxRepDelay} can be modified with the \texttt{MonChgTransDelCmd} command (12,3). A report of the out-of-limits transitions in the CTL can also be triggered through the MonRepOOLCmd command (12,10) and is reported through the MonRepOOLRep report (12,9). 
+
+The destination of the (12,12) report is the "service 12 user". This is either pre-defined or it is the source of the most recent (12,15) command which enabled the parameter monitoring function (see section \ref{sec:serv12Par}).
 
 
 \begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of a Check Transition}{tab:chkTransAttr}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
@@ -1391,6 +1406,83 @@ The destination of the (12,12) report is the "service 12 user". This is either p
 \texttt{prevCheckStatus} & Checking status in the cycle before the violation was detected & A CUC time value \\
 \hline
 \end{pnptable}  
+
+%----------------------------------------------------------------------------------------
+\subsection{Functional Monitoring Sub-Service}
+The functional monitoring subservice controls the \textit{functional monitoring function}. This function monitors the status of the parameter monitors.
+
+The behaviour of the functional monitoring function is described by the Functional Monitoring Procedure of figure \ref{fig:FMonPr}. The procedure is started when the functional monitoring function becomes enabled and it is stopped when it becomes disabled. Thus, the enable status of the functional monitoring function is given by the status of the Functional Monitoring Procedure.
+
+The Functional Monitoring Procedure should be executed cyclically with period FMON\_PER by the host application. The period MON\_FPER is expressed as a multiple of the monitoring period MON\_PER.
+
+Every time it is executed, the Functional Monitoring Procedure processes a \textit{functional monitoring definition list} (FMDL). The FMDL consists of up to MON\_N\_FMON \textit{functional monitors}. Each functional monitor defines a monitoring action for a set of up to MON\_N\_PFMON parameter monitors. Each functional monitor has an identifier which is an integer in the range: [1..(MON\_N\_FMON].
+
+Conditional checking is supported for all functional monitors. To each parameter monitoring, the following items are associated: 
+
+\begin{itemize}
+\item A validity parameter (a data pool item given by identifier \texttt{valDataItemId})
+\item A bit-mask \texttt{valMask}
+\item An expected value \texttt{valExpVal}
+\end{itemize}
+
+The parameter monitoring action is only performed if the bit-wise AND of the bit-mask with the validity parameter is equal to the expected value. When a parameter is invalid, its checking status is set to INVALID. Note that, where desired, unconditional checking is achieved by setting the bit-mask and the expected value to zero.
+
+Service 12 offers the means to report the content of the PMDL and to alter its content by adding or deleting parameter monitors from it.
+
+A parameter monitor is characterized by the attributes listed in table \ref{tab:pmonAtt}. The first item is the identifier of the data pool item whose value the parameter monitor checks. 
+
+
+
+
+
+
+If a functional monitor declares a failure, the pre-defined event EVT\_FMON\_FAIL is raised. This event carries the identifier of TBD.
+
+
+\begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of a Functional Monitor}{tab:fmonAtt}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
+\texttt{pmonIdList} & List of MON\_N\_PFMON identifiers of parameter monitors in the functional monitor & Integers in range: 0..MON\_N\_PMON \\
+\hline
+\texttt{nOfMon} & Number of parameter monitors defined in the functional monitor (number of non-zero entries in \texttt{pmonIdList} & Integers in range: 0..MON\_N\_PFMON \\
+\hline
+\texttt{minFailNumber} & Minimum parameter monitor failing number & Integer in range: 1..\texttt{nOfMon} \\
+\hline
+\texttt{checkStatus} & Checking status of functional monitor & See table \ref{tab:TBD} \\
+\hline
+\texttt{isProtected} & The flag indicating whether the functional monitor is protected & Boolean flag \\
+\hline
+
+
+
+
+
+
+\texttt{monPrType} & Identifier of the Monitor Procedure type which checks the parameter value & See section \ref{sec:MonProc} \\
+\hline
+\texttt{monPrRetVal} & Most recent return value of the Monitor Procedure & See table \ref{tab:retValMonPr} \\
+\hline
+\texttt{monPrPrevRetVal} & Previous return value of the Monitor Procedure (or INVALID after the monitoring procedure or the monitoring function has been enabled) & See table \ref{tab:retValMonPr} \\
+\hline
+\texttt{checkStatus} & Checking status of monitored parameter & See table \ref{tab:retValMonPr} \\
+\hline
+\texttt{per} & The monitoring period for the parameter monitor expressed as an integer multiple of the minimum monitoring period MON\_PER & Positive integer \\
+\hline
+\texttt{perCnt} & The phase counter & Integer in range: 0..(\texttt{per}-1) \\
+\hline
+\texttt{repNmb} & The repetition number for the monitoring check  & Positive integer \\
+\hline
+\texttt{repCnt} & The repetition counter for the monitoring check  & Integer in range: 0..(\texttt{repNmb}-1) \\
+\hline
+\texttt{evtId} & The identifier of the event to be generated if the parameter monitor detects a limit violation or zero if no event is to be generated & Zero or valid event identifier \\
+\hline
+\texttt{valDataItemId} & Identifier of data item used for validity check & Integer in range: 1..HK\_MAX\_ID \\
+\hline
+\texttt{valMask} & Mask used for validity check & Unsigned integer  \\
+\hline
+\texttt{valExpVal} & Expected value for validity check & Unsigned integer  \\
+\hline
+\end{pnptable}  
+
+
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 12 Report and Command Definition}\label{sec:serv12RepCmdDef}
@@ -1437,7 +1529,7 @@ The table in this section lists the requirements for the On-Board Monitoring Ser
 \end{cr_req}
 
 %-------------------------------------------------------------------------------------
-\pnpfigure[scale=0.55]{Monitoring Function Procedure}{fig:MonFncPr}{CrPsMonFncPr.png}
+\pnpfigure[scale=0.55]{Parameter Monitoring Procedure}{fig:MonFncPr}{CrPsMonFncPr.png}
 
 \pnpfigure[scale=0.5]{Limit Check Monitor Procedure}{fig:MonLimCheckPr}{CrPsMonLimCheckPr.png}
 
@@ -1895,20 +1987,24 @@ Only requirements in sections 5 to 7 of the PUS are covered. Requirements in sec
 
 \begin{landscape} 
 
-\begin{longtable}{|c|>{\raggedright\arraybackslash}p{3.0cm}|>{\raggedright\arraybackslash}p{7cm}|c|>{\raggedright\arraybackslash}p{7cm}|}
-\caption{Mapping of PUS Requirements to CORDET Requirement}\label{tab:mappingPusToCr}\\
-\hline
-\rowcolor{light-gray}
-\textbf{N} & \textbf{Title} & \textbf{Requirement} & \textbf{C} & \textbf{Justification}  \\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{N} & \textbf{Title} & \textbf{Requirement} & \textbf{C} & \textbf{Justification}  \\
-\hline\hline
-\endhead
-\DTLforeach*{dbPus}{\reqN=ReqN,\reqTitle=ReqTitle,\reqText=ReqText,\status=Status,\justification=Justification}
-{\DTLiffirstrow{}{\\\hline}\reqN & \reqTitle & \reqText & \status & \justification}\\\hline
-\end{longtable}
+\pnpcsvtable[separator=comma]{|c|>{\raggedright\arraybackslash}p{3.0cm}|>{\raggedright\arraybackslash}p{7cm}|c|>{\raggedright\arraybackslash}p{7cm}|}{Mapping of PUS Requirements to CORDET Requirement}{tab:mappingPusToCr}{N & Title & Requirement & C & Justification}{PusCompliance.csv}{\ReqN & \ReqTitle & \ReqText & \Status & \Justification}
+
+
+
+%\begin{longtable}{|c|>{\raggedright\arraybackslash}p{3.0cm}|>{\raggedright\arraybackslash}p{7cm}|c|>{\raggedright\arraybackslash}p{7cm}|}
+%\caption{Mapping of PUS Requirements to CORDET Requirement}\label{tab:mappingPusToCr}\\
+%\hline
+%\rowcolor{light-gray}
+%\textbf{N} & \textbf{Title} & \textbf{Requirement} & \textbf{C} & \textbf{Justification}  \\
+%\hline\hline
+%\endfirsthead
+%\rowcolor{light-gray}
+%\textbf{N} & \textbf{Title} & \textbf{Requirement} & \textbf{C} & \textbf{Justification}  \\
+%\hline\hline
+%\endhead
+%\DTLforeach*{dbPus}{\reqN=ReqN,\reqTitle=ReqTitle,\reqText=ReqText,\status=Status,\justification=Justification}
+%{\DTLiffirstrow{}{\\\hline}\reqN & \reqTitle & \reqText & \status & \justification}\\\hline
+%\end{longtable}
 
 \end{landscape}
 

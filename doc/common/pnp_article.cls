@@ -288,8 +288,7 @@ E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-
   }
 
 % pnpcsvtable
-% Command to include a CSV file
-% arg[1] - optional filter argument in square brackets
+% arg[1] - optional argument in square brackets: either a filter argument or the comma/semicolon separator (default is semicolon)
 % arg[2] - Table spec
 % arg[3] - Caption
 % arg[4] - Label
@@ -297,8 +296,9 @@ E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-
 % arg[6] - CSV file name
 % arg[7] - Columns
 %
-% Example:
-% \pnpcsvtable[filter equal={\col}{abcd}]{lll}{Example CSV table}{tab:exp}{Col1 & Col2 & Col3}{mydata.csv}{\col1 & \col2 & \col3}
+% Examples:
+% \pnpcsvtable[filter equal={\col}{abcd}]{|l|l|l|}{Example CSV table}{tab:exp}{Col1 & Col2 & Col3}{mydata.csv}{\col1 & \col2 & \col3}
+% \pnpcsvtable[separator=comma]{|l|l|l|}{Example CSV table}{tab:exp}{Col1 & Col2 & Col3}{mydata.csv}{\col1 & \col2 & \col3}
 %
 \newcommand{\pnpcsvtable}[7][head to column names]{
   \begin{pnptable}{#2}{#3}{#4}{#5}
