@@ -1273,6 +1273,7 @@ After it is established that the Monitor Procedure has returned the same value \
 \item An entry is made in the Check Transition List (see section \ref{sec:ChkTransList})
 \item The procedure to process the Check Transition List is run (see section \ref{sec:ChkTransList})
 \item If an event is associated to the parameter monitor (i.e. if field \texttt{evtId} in table \ref{tab:pmonAtt} is different from zero), then the Generate Prefined Event Function is called to generate the event
+\item If the parameter monitor is part of one or more functional monitors (i.e. if there non-zero entries in \texttt{fMonList} in table \ref{tab:pmonAtt}), then the functional monitors are notified
 \end{itemize}
 
 The violation events are: EVT\_MON\_*. The ground can choose whether or not an event is associated to a monitor but, once the type of monitor and the type of the monitored parameter (integer or real) is specified, the event type is also defined.
@@ -1318,6 +1319,8 @@ The PUS Extension of the CORDET Framework provides the following commands to con
 \texttt{repCnt} & The repetition counter for the monitoring check  & Integer in range: 0..(\texttt{repNmb}-1) \\
 \hline
 \texttt{evtId} & The identifier of the event to be generated if the parameter monitor detects a limit violation or zero if no event is to be generated & Zero or valid event identifier \\
+\hline
+\texttt{fMonList} & The list of MON\_N\_FPMON identifiers of the functional monitor to which the parameter monitor belongs (or zero if the parameter monitor does not belong to a functional monitor) & Integer in range: 0..MON\_N\_FMON \\
 \hline
 \texttt{valDataItemId} & Identifier of data item used for validity check & Integer in range: 1..HK\_MAX\_ID \\
 \hline
@@ -1410,6 +1413,8 @@ The destination of the (12,12) report is the "service 12 user". This is either p
 %----------------------------------------------------------------------------------------
 \subsection{Functional Monitoring Sub-Service}
 The functional monitoring subservice controls the \textit{functional monitoring function}. This function monitors the status of the parameter monitors.
+
+A functional monitor acts as a listener for up to MON\_N\_PFMON parameter monitors: when one of these parameter monitors changes its checking status, the functional monitor is notified. The notification is sent out by the Parameter Monitoring Procedure. 
 
 The behaviour of the functional monitoring function is described by the Functional Monitoring Procedure of figure \ref{fig:FMonPr}. The procedure is started when the functional monitoring function becomes enabled and it is stopped when it becomes disabled. Thus, the enable status of the functional monitoring function is given by the status of the Functional Monitoring Procedure.
 
