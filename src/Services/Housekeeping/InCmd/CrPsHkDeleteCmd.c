@@ -97,22 +97,8 @@ void CrPsHkDeleteCmdProgressAction(FwSmDesc_t smDesc)
 
           if (!isEnabled)
             {
-              /* Delete the entries in the RDL */
-              setDpdestItem(rdlSlot, 0);
-              setDpperiodItem(rdlSlot, 0);
+              /* Delete the SID entry in the RDL */
               setDpsidItem(rdlSlot, 0);
-              setDpcycleCntItem(rdlSlot, 0);
-              setDpnSimpleItem(rdlSlot, 0);
-              setDpsampleBufIdItem(rdlSlot, 0);
-              for (k=0; k<HK_MAX_N_GR; k++)
-                {
-                  setDplstSampleRepItem(rdlSlot*HK_MAX_N_GR + k, 0);
-                  setDplstNSampRepItem(rdlSlot*HK_MAX_N_GR + k, 0);
-                }
-              for (k=0; k<HK_MAX_N_ITEMS; k++)
-                {
-                  setDplstIdItem(rdlSlot*HK_MAX_N_ITEMS + k, 0);
-                }
             }    
         }
 
