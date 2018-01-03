@@ -6,9 +6,11 @@ VER\_SID\_IN\_USE,"Failure code for start action of commands (3,1) and (3,2) whe
 VER\_FULL\_RDL,"Failure code for start action of commands (3,1) and (3,2) when they attempt to create a new report at a time when the RDL is already full",None
 VER\_RDL\_CONSTr,"Failure code for start action of commands (3,1) and (3,2) when their report configuration data violate an RDL constraint of table \ref{tab:repDefDataStruct}",The identifier of the violated constraint
 VER\_DUPL\_DI,"Failure code for start action of commands (3,1) and (3,2) when they carry the same data item identifier twice",The duplicated data item identifier
-VER\_ILL\_SID,Failure code for start action of a service 3 command when an illegal SID is encountered,The illegal SID
+VER\_ILL\_SID,Failure code for start action of a service 3 command when an invalid SID is encountered,The invalid SID
 VER\_ENBABLED\_SID,"Failure code for start action of commands (3,3) and (3,4) when a SID which is enabled is encountered",The enabled SID
-VER\_SID\_START\_FD,Failure code for start action of multi-instruction service 3 commands when all the SIDs in the command are found to be invalid,None
+VER\_SID\_START\_FD,Failure code for start action of multi-instruction service 3 commands when all the instructions in the command have been rejected,None
 VER\_FACT\_PRGR\_FD,Failure code for progress action of multi-instruction service 3 command when the attempt to retrieve a report from the OutFactory fails,The SID for which the retrieval from the OutFactory was attempted
 VER\_ILL\_EID,Failure code for start action of a service 5 command when an illegal EID is encountered,The illegal EID
-VER\_EID\_START\_FD,Failure code for start action of multi-instruction service 5 commands when all the EIDs in the command are found to be invalid,None
+VER\_EID\_START\_FD,Failure code for start action of multi-instruction service 5 commands when all the instructions in the command have been rejected,None
+VER\_ILL\_MON,Failure code for start action of a service 12 command when a Parameter Monitor Identifier is rejected,The rejected Parameter Monitor Identifier
+VER\_MON\_START\_FD,Failure code for start action of multi-instruction service 12 commands when all the instructions in the command have been rejected,None

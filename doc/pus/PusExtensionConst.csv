@@ -13,10 +13,14 @@ S3,HK\_N\_DEBUG\_VAR,Number of debug variables
 S5,EVT\_N\_EID,Number of event identifiers supported by the application
 S5,EVT\_EID,Array of EVT\_N\_EID elements holding the event identifiers in ascending order
 S5,EVT\_EID\_LEVEL,Array of EVT\_N\_EID elements holding the severity level of the event identifiers
-S12,MON\_N\_PMON,Maximum number of entries in the Parameter Monitoring Definition List PMDL
+S12,MON\_N\_PMON,Maximum number of entries in the Parameter Monitoring Definition List PMDL (maximum number of parameter monitors in the application)
 S12,MON\_N\_LIM,Maximum number of parameter monitors with a limit check
 S12,MON\_N\_EXP,Maximum number of parameter monitors with an expected value check
 S12,MON\_N\_DEL,Maximum number of parameter monitors with a delta value check
 S12,MON\_PER,Minimum monitoring period 
 S12,MON\_N\_CLST,Maximum number of entries in the Check Transition List
+S12,MON\_N\_FMON,Maximum number of entries in the Functional Monitoring Definition List FMDL  (maximum number of functional monitors in the application)
+S12,MON\_N\_PFMON,Maximum number of parameter monitors in a functional monitor
+S12,MON\_N\_FPMON,Maximum number of functional monitors to which the same parameter monitor may belong
+S12,MON\_FPER,Period of execution of the Functional Monitoring Procedure expressed as a multiple of MON\_PER
 S13,LPT\_N\_BUF,Number of Large Packet Transfer Buffers available for down- or up-link of large packets
