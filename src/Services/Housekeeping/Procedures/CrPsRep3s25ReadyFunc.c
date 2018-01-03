@@ -35,25 +35,14 @@
 /** Action for node N1. */
 void CrPsRep3s25ReadyN1(FwPrDesc_t prDesc)
 {
-  CrPsSid_t                sid, rdlSid, rdlSlot;
   prDataHkRepReadyCheck_t *prDataPtr;
 
   /* Set Cycle Counter to zero */
 
-  /* Get SID from prData */
+  /* Get prData */
   prDataPtr = FwPrGetData(prDesc);
-  sid = prDataPtr->sid;
 
-  /* look for the slot */
-  for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
-    {
-      rdlSid = getDpsidItem(rdlSlot);
-      
-      if (sid == rdlSid)
-        break;
-    }
-
-  setDpcycleCntItem(rdlSlot, 0);
+  setDpcycleCntItem(prDataPtr->rdlSlot, 0);
 
   return;
 }
@@ -63,17 +52,15 @@ void CrPsRep3s25ReadyN2(FwPrDesc_t prDesc)
 {
   prDataHkRepReadyCheck_t *prDataPtr;
   CrFwCmpData_t           *cmpData;
-  FwSmDesc_t               smDesc;
 
   /* Ready Check returns 'Ready' */
 
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
 
-  cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
+  cmpData = (CrFwCmpData_t*) FwSmGetData(prDataPtr->smDesc);
   cmpData->outcome = 1;
-  FwSmSetData(smDesc, cmpData);
+  FwSmSetData(prDataPtr->smDesc, cmpData);
 
   return;
 }
@@ -89,11 +76,10 @@ void CrPsRep3s25ReadyN3(FwPrDesc_t prDesc)
 
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
 
-  cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
+  cmpData = (CrFwCmpData_t*) FwSmGetData(prDataPtr->smDesc);
   cmpData->outcome = 0;
-  FwSmSetData(smDesc, cmpData);
+  FwSmSetData(prDataPtr->smDesc, cmpData);
 
   return;
 }
@@ -101,28 +87,17 @@ void CrPsRep3s25ReadyN3(FwPrDesc_t prDesc)
 /** Action for node N4. */
 void CrPsRep3s25ReadyN4(FwPrDesc_t prDesc)
 {
-  CrPsSid_t                sid, rdlSid, rdlSlot;
   CrFwCounterU4_t          cycleCnt;
   prDataHkRepReadyCheck_t *prDataPtr;
 
   /* Increment Cycle Counter */
 
-  /* Get SID from prData */
+  /* Get prData */
   prDataPtr = FwPrGetData(prDesc);
-  sid = prDataPtr->sid;
 
-  /* look for the slot */
-  for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
-    {
-      rdlSid = getDpsidItem(rdlSlot);
-      
-      if (sid == rdlSid)
-        break;
-    }
-
-  cycleCnt = getDpcycleCntItem(rdlSlot);
+  cycleCnt = getDpcycleCntItem(prDataPtr->rdlSlot);
   cycleCnt++;
-  setDpcycleCntItem(rdlSlot, cycleCnt);
+  setDpcycleCntItem(prDataPtr->rdlSlot, cycleCnt);
 
   return;
 }
@@ -134,7 +109,6 @@ void CrPsRep3s25ReadyN4(FwPrDesc_t prDesc)
 /** Guard on the Control Flow from DECISION1 to N3. */
 FwPrBool_t CrPsRep3s25ReadyG1(FwPrDesc_t prDesc)
 {
-  CrPsSid_t                sid, rdlSid, rdlSlot;
   CrFwCounterU4_t          cycleCnt;
   CrFwBool_t               rdlEnabled;
   prDataHkRepReadyCheck_t *prDataPtr;
@@ -142,24 +116,14 @@ FwPrBool_t CrPsRep3s25ReadyG1(FwPrDesc_t prDesc)
   /*  Flag_1 */
   /* [ (Cycle Counter != 0) || (SID is not enabled in RDL) ] */
 
-  /* Get SID from prData */
+  /* Get prData */
   prDataPtr = FwPrGetData(prDesc);
-  sid = prDataPtr->sid;
-
-  /* look for the slot */
-  for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
-    {
-      rdlSid = getDpsidItem(rdlSlot);
-      
-      if (sid == rdlSid)
-        break;
-    }
 
   /* Get Cycle Counter from RDL */
-  cycleCnt = getDpcycleCntItem(rdlSlot);
+  cycleCnt = getDpcycleCntItem(prDataPtr->rdlSlot);
 
   /* Get isEnabled from RDL */
-  rdlEnabled = getDpisEnabledItem(rdlSlot);
+  rdlEnabled = getDpisEnabledItem(prDataPtr->rdlSlot);
 
   if ((cycleCnt != 0) || (rdlEnabled == 0))
     {
@@ -189,33 +153,22 @@ FwPrBool_t CrPsRep3s25ReadyG2(FwPrDesc_t prDesc)
 /** Guard on the Control Flow from DECISION2 to N1. */
 FwPrBool_t CrIaReadyChk3s25ReadyGoToRst(FwPrDesc_t prDesc)
 {
-  CrPsSid_t                sid, rdlSid, rdlSlot;
   CrFwCounterU4_t          cycleCnt;
   CrPsCollectInterval_t    period;
   prDataHkRepReadyCheck_t *prDataPtr;
 
   /* (Cycle Counter == Period) && (SID is Defined) */
 
-  /* Get SID from prData */
+  /* Get prData */
   prDataPtr = FwPrGetData(prDesc);
-  sid = prDataPtr->sid;
-
-  /* look for the slot */
-  for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
-    {
-      rdlSid = getDpsidItem(rdlSlot);
-      
-      if (sid == rdlSid)
-        break;
-    }
 
   /* Get Cycle Counter from RDL */
-  cycleCnt = getDpcycleCntItem(rdlSlot);
+  cycleCnt = getDpcycleCntItem(prDataPtr->rdlSlot);
 
   /* Get Period from RDL */
-  period = getDpperiodItem(rdlSlot);
+  period = getDpperiodItem(prDataPtr->rdlSlot);
 
-  if ((cycleCnt == period) && (rdlSlot < HK_N_REP_DEF))
+  if ((cycleCnt == period) && (prDataPtr->rdlSlot < HK_N_REP_DEF))
     {
       return 1;
     }
@@ -228,25 +181,14 @@ FwPrBool_t CrIaReadyChk3s25ReadyGoToRst(FwPrDesc_t prDesc)
 /** Guard on the Control Flow from DECISION2 to Final Node. */
 FwPrBool_t CrPsRep3s25ReadyGoToFin(FwPrDesc_t prDesc)
 {
-  CrPsSid_t                sid, rdlSid, rdlSlot;
   prDataHkRepReadyCheck_t *prDataPtr;
 
   /* (SID is not Defined) */
 
-  /* Get SID from prData */
+  /* Get prData */
   prDataPtr = FwPrGetData(prDesc);
-  sid = prDataPtr->sid;
 
-  /* look for the slot */
-  for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
-    {
-      rdlSid = getDpsidItem(rdlSlot);
-      
-      if (sid == rdlSid)
-        break;
-    }
-
-  if (rdlSlot == HK_N_REP_DEF)
+  if (prDataPtr->rdlSlot == HK_N_REP_DEF)
     {
       return 1;
     }
