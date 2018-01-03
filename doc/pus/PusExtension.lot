@@ -1,0 +1,77 @@
+\contentsline {table}{\numberline {1.1}{\ignorespaces Detailed List of Changes in Issue 0.1\relax }}{7}{table.1.1}
+\contentsline {table}{\numberline {2.1}{\ignorespaces Applicable Documents\relax }}{8}{table.2.1}
+\contentsline {table}{\numberline {2.2}{\ignorespaces Reference Documents\relax }}{8}{table.2.2}
+\contentsline {table}{\numberline {3.1}{\ignorespaces Services Supported by PUS Extension\relax }}{11}{table.3.1}
+\contentsline {table}{\numberline {3.2}{\ignorespaces Terminological Mapping PUS-CORDET\relax }}{16}{table.3.2}
+\contentsline {table}{\numberline {4.1}{\ignorespaces Mapping of CORDET Attributes to PUS Attributes\relax }}{17}{table.4.1}
+\contentsline {table}{\numberline {4.2}{\ignorespaces Requirements for Command and Report Attributes\relax }}{19}{table.4.2}
+\contentsline {table}{\numberline {5.1}{\ignorespaces Adaptation Points for Data Pool Component\relax }}{22}{table.5.1}
+\contentsline {table}{\numberline {5.2}{\ignorespaces Requirements for Data Pool Component\relax }}{23}{table.5.2}
+\contentsline {table}{\numberline {6.1}{\ignorespaces Data Items for Factory Components\relax }}{24}{table.6.1}
+\contentsline {table}{\numberline {6.2}{\ignorespaces Requirements for Factory Components\relax }}{25}{table.6.2}
+\contentsline {table}{\numberline {7.1}{\ignorespaces Adaptation Points for PUS Reports\relax }}{28}{table.7.1}
+\contentsline {table}{\numberline {7.2}{\ignorespaces Adaptation Points for PUS Commands\relax }}{30}{table.7.2}
+\contentsline {table}{\numberline {7.3}{\ignorespaces Service Dependencies\relax }}{31}{table.7.3}
+\contentsline {table}{\numberline {7.4}{\ignorespaces Requirements for Framework Extension Commands and Reports\relax }}{32}{table.7.4}
+\contentsline {table}{\numberline {7.5}{\ignorespaces Supported PUS Commands and Reports\relax }}{33}{table.7.5}
+\contentsline {table}{\numberline {8.1}{\ignorespaces Sources of Routing, Acceptance and Execution Notifications\relax }}{36}{table.8.1}
+\contentsline {table}{\numberline {8.2}{\ignorespaces Specification of ReqVerRep Component\relax }}{39}{table.8.2}
+\contentsline {table}{\numberline {8.3}{\ignorespaces Observables for Service 1 (Request Verification)\relax }}{39}{table.8.3}
+\contentsline {table}{\numberline {8.4}{\ignorespaces Adaptation Points for Service 1 (Request Verification)\relax }}{40}{table.8.4}
+\contentsline {table}{\numberline {8.5}{\ignorespaces Requirements for Service 1 (Request Verification)\relax }}{41}{table.8.5}
+\contentsline {table}{\numberline {9.1}{\ignorespaces Fields in Report Definition Data Structure\relax }}{46}{table.9.1}
+\contentsline {table}{\numberline {9.2}{\ignorespaces Specification of HkCreateCmd Component\relax }}{49}{table.9.2}
+\contentsline {table}{\numberline {9.3}{\ignorespaces Specification of HkDeleteCmd Component\relax }}{49}{table.9.3}
+\contentsline {table}{\numberline {9.4}{\ignorespaces Specification of HkEnableCmd Component\relax }}{50}{table.9.4}
+\contentsline {table}{\numberline {9.5}{\ignorespaces Specification of HkDisableCmd Component\relax }}{50}{table.9.5}
+\contentsline {table}{\numberline {9.6}{\ignorespaces Specification of HkRepStructCmd Component\relax }}{51}{table.9.6}
+\contentsline {table}{\numberline {9.7}{\ignorespaces Specification of HkRepStructRep Component\relax }}{51}{table.9.7}
+\contentsline {table}{\numberline {9.8}{\ignorespaces Specification of HkRep Component\relax }}{52}{table.9.8}
+\contentsline {table}{\numberline {9.9}{\ignorespaces Specification of HkOneShotCmd Component\relax }}{52}{table.9.9}
+\contentsline {table}{\numberline {9.10}{\ignorespaces Constants for Service 3 (Housekeeping Service)\relax }}{53}{table.9.10}
+\contentsline {table}{\numberline {9.11}{\ignorespaces Observables for Service 3 (Housekeeping Service)\relax }}{53}{table.9.11}
+\contentsline {table}{\numberline {9.12}{\ignorespaces Parameters for Service 3 (Housekeeping Service)\relax }}{54}{table.9.12}
+\contentsline {table}{\numberline {9.13}{\ignorespaces Requirements for Service 3 (Housekeeping Service)\relax }}{54}{table.9.13}
+\contentsline {table}{\numberline {10.1}{\ignorespaces Specification of EvtRep Component\relax }}{62}{table.10.1}
+\contentsline {table}{\numberline {10.2}{\ignorespaces Specification of EvtEnableCmd Component\relax }}{63}{table.10.2}
+\contentsline {table}{\numberline {10.3}{\ignorespaces Specification of EvtDisableCmd Component\relax }}{63}{table.10.3}
+\contentsline {table}{\numberline {10.4}{\ignorespaces Specification of EvtRepDisabledCmd Component\relax }}{64}{table.10.4}
+\contentsline {table}{\numberline {10.5}{\ignorespaces Specification of EvtRepDisableRep Component\relax }}{64}{table.10.5}
+\contentsline {table}{\numberline {10.6}{\ignorespaces Constants for Service 5 (Event Reporting Service)\relax }}{65}{table.10.6}
+\contentsline {table}{\numberline {10.7}{\ignorespaces Observables for Service 5 (Event Reporting Service)\relax }}{65}{table.10.7}
+\contentsline {table}{\numberline {10.8}{\ignorespaces Requirements for Service 5 (Event Reporting Service)\relax }}{66}{table.10.8}
+\contentsline {table}{\numberline {11.1}{\ignorespaces Attributes of Parameter Monitor\relax }}{70}{table.11.1}
+\contentsline {table}{\numberline {11.2}{\ignorespaces Return Values of Monitor Procedure Execution\relax }}{72}{table.11.2}
+\contentsline {table}{\numberline {11.3}{\ignorespaces Attributes of a Check Transition\relax }}{72}{table.11.3}
+\contentsline {table}{\numberline {11.4}{\ignorespaces Attributes of a Functional Monitor\relax }}{74}{table.11.4}
+\contentsline {table}{\numberline {11.5}{\ignorespaces Checking Statuses of a Functional Monitor\relax }}{74}{table.11.5}
+\contentsline {table}{\numberline {11.6}{\ignorespaces Constants for Service 12 (On-Board Monitoring Service)\relax }}{75}{table.11.6}
+\contentsline {table}{\numberline {11.7}{\ignorespaces Observables for Service 12 (On-Board Monitoring Service)\relax }}{75}{table.11.7}
+\contentsline {table}{\numberline {11.8}{\ignorespaces Parameters for Service 12 (On-Board Monitoring Service)\relax }}{77}{table.11.8}
+\contentsline {table}{\numberline {11.9}{\ignorespaces Adaptation Points for Service 12 (On-Board Monitoring Service)\relax }}{77}{table.11.9}
+\contentsline {table}{\numberline {11.10}{\ignorespaces Requirements for Service 12 (On-Board Monitoring Service)\relax }}{77}{table.11.10}
+\contentsline {table}{\numberline {12.1}{\ignorespaces Specification of LptDownFirstRep Component\relax }}{88}{table.12.1}
+\contentsline {table}{\numberline {12.2}{\ignorespaces Specification of LptDownInterRep Component\relax }}{89}{table.12.2}
+\contentsline {table}{\numberline {12.3}{\ignorespaces Specification of LptDownLastRep Component\relax }}{89}{table.12.3}
+\contentsline {table}{\numberline {12.4}{\ignorespaces Specification of LptUpFirstCmd Component\relax }}{90}{table.12.4}
+\contentsline {table}{\numberline {12.5}{\ignorespaces Specification of LptUpInterCmd Component\relax }}{90}{table.12.5}
+\contentsline {table}{\numberline {12.6}{\ignorespaces Specification of LptUpLastCmd Component\relax }}{91}{table.12.6}
+\contentsline {table}{\numberline {12.7}{\ignorespaces Specification of LptUpAbortRep Component\relax }}{91}{table.12.7}
+\contentsline {table}{\numberline {12.8}{\ignorespaces Specification of LptStartDownCmd Component\relax }}{92}{table.12.8}
+\contentsline {table}{\numberline {12.9}{\ignorespaces Specification of LptAbortDownCmd Component\relax }}{92}{table.12.9}
+\contentsline {table}{\numberline {12.10}{\ignorespaces Constants for Service 13 (Large Packet Transfer Service)\relax }}{93}{table.12.10}
+\contentsline {table}{\numberline {12.11}{\ignorespaces Observables for Service 13 (Large Packet Transfer Service)\relax }}{93}{table.12.11}
+\contentsline {table}{\numberline {12.12}{\ignorespaces Adaptation Points for Service 13 (Large Packet Transfer Service)\relax }}{94}{table.12.12}
+\contentsline {table}{\numberline {12.13}{\ignorespaces Parameters for Service 3 (Large Packet Transfer Service)\relax }}{94}{table.12.13}
+\contentsline {table}{\numberline {12.14}{\ignorespaces Requirements for Service 13 (Large Packet Transfer Service)\relax }}{95}{table.12.14}
+\contentsline {table}{\numberline {13.1}{\ignorespaces Specification of AreYouAliveCmd Component\relax }}{99}{table.13.1}
+\contentsline {table}{\numberline {13.2}{\ignorespaces Specification of AreYouAliveRep Component\relax }}{99}{table.13.2}
+\contentsline {table}{\numberline {13.3}{\ignorespaces Specification of OnBoardConnectCmd Component\relax }}{100}{table.13.3}
+\contentsline {table}{\numberline {13.4}{\ignorespaces Specification of OnBoardConnectRep Component\relax }}{100}{table.13.4}
+\contentsline {table}{\numberline {13.5}{\ignorespaces Observables for Service 17 (Test Service)\relax }}{100}{table.13.5}
+\contentsline {table}{\numberline {13.6}{\ignorespaces Parameters for Service 17 (Test Service)\relax }}{101}{table.13.6}
+\contentsline {table}{\numberline {13.7}{\ignorespaces Requirements for Service 17 (Test Service)\relax }}{101}{table.13.7}
+\contentsline {table}{\numberline {A.1}{\ignorespaces Error Reports\relax }}{105}{table.A.1}
+\contentsline {table}{\numberline {B.1}{\ignorespaces Error Reports\relax }}{107}{table.B.1}
+\contentsline {table}{\numberline {C.1}{\ignorespaces Request Verification Failure Codes\relax }}{108}{table.C.1}
+\contentsline {table}{\numberline {D.1}{\ignorespaces Mapping of PUS Requirements to CORDET Requirement\relax }}{111}{table.D.1}

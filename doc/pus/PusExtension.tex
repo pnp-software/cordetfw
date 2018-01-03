@@ -1414,7 +1414,7 @@ The destination of the (12,12) report is the "service 12 user". This is either p
 \subsection{Functional Monitoring Sub-Service}
 The functional monitoring subservice controls the \textit{functional monitoring function}. This function monitors the status of the parameter monitors.
 
-The state of the functional monitoring function is held by the a \textit{functional monitoring definition list} (FMDL). The FMDL consists of up to MON\_N\_FMON \textit{functional monitors}.  Each functional monitor acts as a listener for up to MON\_N\_PFMON parameter monitors: when one of these parameter monitors changes its checking status, the functional monitor is notified. The notification is sent out by the Parameter Monitoring Procedure. The functional monitoring function processes a notification by running the Functional Monitor Notify Procedure of figure  \ref{fig:TBD}. 
+The state of the functional monitoring function is held by the a \textit{functional monitoring definition list} (FMDL). The FMDL consists of up to MON\_N\_FMON \textit{functional monitors}.  Each functional monitor acts as a listener for up to MON\_N\_PFMON parameter monitors: when one of these parameter monitors changes its checking status, the functional monitor is notified. The notification is sent out by the Parameter Monitoring Procedure. The functional monitoring function processes a notification by running the Functional Monitor Notification Procedure of figure  \ref{fig:FuncMonNotif}. 
 
 Each functional monitor has an identifier which is an integer in the range: [1..MON\_N\_FMON].  Table {tab:fmonAtt} lists the attributes of a functional monitor in the FMDL.
 
@@ -1467,7 +1467,7 @@ If a functional monitor declares a failure, the pre-defined event EVT\_FMON\_FAI
 \hline
 \texttt{MON\_RUNNING} & The number of parameter monitors in the functional monitor which reporterd a monitoring violation is below the minimum failing number \\
 \hline
-\texttt{MON\FAILED} & The number of parameter monitors in the functional monitor which reporterd a monitoring violation is greater than or eqaul to the minimum failing number  \\
+\texttt{MON\_FAILED} & The number of parameter monitors in the functional monitor which reported a monitoring violation is greater than or eqaul to the minimum failing number  \\
 \hline
 \end{pnptable}  
 
@@ -1525,10 +1525,25 @@ The table in this section lists the requirements for the On-Board Monitoring Ser
 
 \pnpfigure[scale=0.5]{Delta Value Monitor Procedure}{fig:MonDeltaValPr}{CrPsMonDeltaValPr.png}
 
-\pnpfigure[scale=0.5]{Start Action of Multi-Parameter Monitor Commands}{fig:Cmd12PMonIdStart}{CrPsCmd12PMonIdStart.png}
-
 \pnpfigure[scale=0.5]{CTL Processing Procedure}{fig:ProcCTL}{CrPsProcCTL.png}
 
+\pnpfigure[scale=0.5]{Functional Monitor Notification Procedure}{fig:FuncMonNotif}{CrPsFuncMonNotif.png}
+
+\pnpfigure[scale=0.5]{Start Action of (12,1) and (12m2) Command Procedure}{fig:Cmd12s1and2Start}{CrPsCmd12s1and2Start.png}
+
+\pnpfigure[scale=0.5]{Start Action of (12,5) Command Procedure}{fig:Cmd12s5Start}{CrPsCmd12s5Start.png}
+
+\pnpfigure[scale=0.5]{Start Action of (12,6) Command Procedure}{fig:Cmd12s6Start}{CrPsCmd12s6Start.png}
+
+\pnpfigure[scale=0.5]{Start Action of (12,7) Command Procedure}{fig:Cmd12s7Start}{CrPsCmd12s7Start.png}
+
+\pnpfigure[scale=0.5]{Start Action of (12,8) Command Procedure}{fig:Cmd12s8Start}{CrPsCmd12s8Start.png}
+
+\pnpfigure[scale=0.5]{Start Action of (12,23) Command Procedure}{fig:Cmd12s23Start}{CrPsCmd12s23Start.png}
+
+\pnpfigure[scale=0.5]{Start Action of (12,24) Command Procedure}{fig:Cmd12s24Start}{CrPsCmd12s24Start.png}
+
+\pnpfigure[scale=0.5]{Start Action of Multi-Functional Monitor Command Procedure}{fig:Cmd12FMonStart}{CrPsCmd12FMonStart.png}
 
 
 
