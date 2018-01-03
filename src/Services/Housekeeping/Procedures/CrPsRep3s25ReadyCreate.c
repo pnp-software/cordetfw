@@ -2,7 +2,7 @@
  * @file CrPsRep3s25ReadyCreate.c
  *
  * @author FW Profile code generator version 5.01
- * @date Created on: Oct 3 2017 22:4:57
+ * @date Created on: Jan 3 2018 14:31:12
  */
 #include "CrFwConstants.h"
 
@@ -17,6 +17,13 @@
 
 /** Guard on the Control Flow from DECISION1 to N2. */
 FwPrBool_t CrPsRep3s25ReadyG1E(FwPrDesc_t prDesc)
+{
+	CRFW_UNUSED(prDesc);
+	return 1;
+}
+
+/** Guard on the Control Flow from DECISION2 to DECISION1. */
+FwPrBool_t CrIaReadyChk3s25ReadyGoToDec(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);
 	return 1;
