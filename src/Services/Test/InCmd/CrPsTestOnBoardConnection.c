@@ -59,10 +59,10 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t smDesc)
   setDpOnBoardConnectDest(appId);
 
   /* Run the procedure */
-  FwPrRun(prDescServTestOnBoardConnStart);
+  FwPrRun(getPrDescServTestOnBoardConnStart());
 
   /* Get procedure parameters */
-  prDataStartActionPtr = FwPrGetData(prDescServTestOnBoardConnStart);
+  prDataStartActionPtr = FwPrGetData(getPrDescServTestOnBoardConnStart());
 
   /*Setting the Outcome*/
   cmpDataStart->outcome = prDataStartActionPtr->outcome;
@@ -90,16 +90,16 @@ void CrPsTestOnBoardConnectionProgressAction(FwSmDesc_t smDesc)
   srcId = CrFwPcktGetSrc(inPckt);
 
   /* Set prData of procedure */
-  prDataPrgrActionPtr = FwPrGetData(prDescServTestOnBoardConnPrgr);
+  prDataPrgrActionPtr = FwPrGetData(getPrDescServTestOnBoardConnPrgr());
   prDataPrgrActionPtr->source = srcId;
   prDataPrgrActionPtr->stepId = timeOut_cnt;
-  FwPrSetData(prDescServTestOnBoardConnPrgr, prDataPrgrActionPtr);
+  FwPrSetData(getPrDescServTestOnBoardConnPrgr(), prDataPrgrActionPtr);
 
   /* Run the procedure */
-  FwPrRun(prDescServTestOnBoardConnPrgr);
+  FwPrRun(getPrDescServTestOnBoardConnPrgr());
   
   /* Get procedure parameters */
-  prDataPrgrActionPtr = FwPrGetData(prDescServTestOnBoardConnPrgr);
+  prDataPrgrActionPtr = FwPrGetData(getPrDescServTestOnBoardConnPrgr());
 
   /* Set the Outcome*/
   cmpDataPrgr->outcome = prDataPrgrActionPtr->outcome;
@@ -123,7 +123,7 @@ void CrPsTestOnBoardConnectionTerminationAction(FwSmDesc_t smDesc)
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
   
   /* Get procedure parameters */
-  prDataPrgrActionPtr = (prDataPrgrAction_t*) FwPrGetData(prDescServTestOnBoardConnPrgr);
+  prDataPrgrActionPtr = (prDataPrgrAction_t*) FwPrGetData(getPrDescServTestOnBoardConnPrgr());
 
   /* Get the Outcome*/
   outcome = prDataPrgrActionPtr->outcome;

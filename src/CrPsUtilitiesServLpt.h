@@ -30,10 +30,7 @@
 
 #include <CrFwConstants.h>
 
-
 /* global handles for the procedures */
-extern FwPrDesc_t prDescLptUpCmdStart;
-extern FwSmDesc_t smDescLpt;
 extern unsigned int DownTransferLptBufferId;
 extern unsigned int UpTransferLptBufferId;
 
@@ -55,6 +52,16 @@ void CrPsExecServLpt();
  * @return nothing
  */
 void CrPsExecServLptSm();
+
+/**
+ * Getter for LptUpCmdStart procedure descriptor
+ */
+FwPrDesc_t getPrDescLptUpCmdStart();
+
+/**
+ * Getter for Lpt state machine descriptor
+ */
+FwSmDesc_t getSmDescLpt();
 
 unsigned int* getLptMemStartAddr(unsigned int LptBuffer); /* Adaptation Point */
 

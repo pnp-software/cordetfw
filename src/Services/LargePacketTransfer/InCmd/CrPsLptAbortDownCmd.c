@@ -50,7 +50,7 @@ void CrPsLptAbortDownCmdStartAction(FwSmDesc_t smDesc)
   /* Get in data */
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 
-  sm_state = FwSmGetCurState(smDescLpt);
+  sm_state = FwSmGetCurState(getSmDescLpt());
   if (sm_state == CrPsLpt_DOWN_TRANSFER)
     {
       inData->outcome = 1;
@@ -74,7 +74,7 @@ void CrPsLptAbortDownCmdProgressAction(FwSmDesc_t smDesc)
 
   CRFW_UNUSED(smDesc);
 
-  FwSmMakeTrans(smDescLpt, Abort);
+  FwSmMakeTrans(getSmDescLpt(), Abort);
 
   /* Get in data */
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);

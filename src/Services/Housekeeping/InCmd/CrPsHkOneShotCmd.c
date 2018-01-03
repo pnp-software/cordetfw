@@ -65,9 +65,9 @@ void CrPsHkOneShotCmdStartAction(FwSmDesc_t smDesc)
   /* initial setting of prData */
   prData.smDesc = smDesc;
   prData.sidPtr = sid;
-  FwPrSetData(prDescMultiSidCmdStart, &prData);
+  FwPrSetData(getPrDescMultiSidCmdStart(), &prData);
 
-  FwPrRun(prDescMultiSidCmdStart);
+  FwPrRun(getPrDescMultiSidCmdStart());
 
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
 

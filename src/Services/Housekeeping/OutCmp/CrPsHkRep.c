@@ -116,10 +116,10 @@ CrFwBool_t CrPsHkRepReadyCheck(FwSmDesc_t smDesc)
   /* initial setting of prData */
   prData.smDesc = smDesc;
   prData.rdlSlot = rdlSlot;
-  FwPrSetData(prDescHkRepReadyCheck, &prData);
+  FwPrSetData(getPrDescHkRepReadyCheck(), &prData);
 
-  FwPrStart(prDescHkRepReadyCheck);
-  FwPrExecute(prDescHkRepReadyCheck);
+  FwPrStart(getPrDescHkRepReadyCheck());
+  FwPrExecute(getPrDescHkRepReadyCheck());
 
   cmpData = (CrFwCmpData_t   *) FwSmGetData(smDesc);
 

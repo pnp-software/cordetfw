@@ -65,9 +65,9 @@ void CrPsHkRepStructCmdStartAction(FwSmDesc_t smDesc)
   /* initial setting of prData */
   prData.smDesc = smDesc;
   prData.sidPtr = sid;
-  FwPrSetData(prDescMultiSidCmdStart, &prData);
+  FwPrSetData(getPrDescMultiSidCmdStart(), &prData);
 
-  FwPrRun(prDescMultiSidCmdStart);
+  FwPrRun(getPrDescMultiSidCmdStart());
 
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
 
@@ -106,10 +106,10 @@ void CrPsHkRepStructCmdProgressAction(FwSmDesc_t smDesc)
   prDataPtr = (prDescCmd3s9Prgr_t *)malloc(sizeof(prDescCmd3s9Prgr_t));
   prDataPtr->smDesc = smDesc;
   prDataPtr->sidPtr = sid;
-  FwPrSetData(prDescCmd3s9Prgr, prDataPtr);
+  FwPrSetData(getPrDescCmd3s9Prgr(), prDataPtr);
 
-  FwPrStart(prDescCmd3s9Prgr);
-  FwPrExecute(prDescCmd3s9Prgr);
+  FwPrStart(getPrDescCmd3s9Prgr());
+  FwPrExecute(getPrDescCmd3s9Prgr());
 
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
 
@@ -130,7 +130,7 @@ void CrPsHkRepStructCmdTerminationAction(FwSmDesc_t smDesc)
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
   
   /* Get procedure parameters */
-  prDataPtr = (prDescCmd3s9Prgr_t*) FwPrGetData(prDescCmd3s9Prgr);
+  prDataPtr = (prDescCmd3s9Prgr_t*) FwPrGetData(getPrDescCmd3s9Prgr());
 
   /* Get the Outcome*/
   outcome = prDataPtr->outcome;

@@ -159,7 +159,7 @@ void CrPsTestOnBoardConnectionStartN9(FwPrDesc_t prDesc)
   /* Initialize and set prData of procedure */
   prDataPrgrActionPtr = (prDataPrgrAction_t *)malloc(sizeof(prDataPrgrAction_t));
   prDataPrgrActionPtr->smDesc = rep;
-  FwPrSetData(prDescServTestOnBoardConnPrgr, prDataPrgrActionPtr);
+  FwPrSetData(getPrDescServTestOnBoardConnPrgr(), prDataPrgrActionPtr);
 
   return;
 }
@@ -236,7 +236,7 @@ FwPrBool_t CrPsTestOnBoardConnectionStartG3(FwPrDesc_t prDesc)
 
   /* [ OutFactory returns OutComponent ] */
 
-  prDataPrgrActionPtr = FwPrGetData(prDescServTestOnBoardConnPrgr);
+  prDataPrgrActionPtr = FwPrGetData(getPrDescServTestOnBoardConnPrgr());
   rep = prDataPrgrActionPtr->smDesc;
 
   if (rep != NULL)

@@ -30,9 +30,6 @@
 
 #include <CrFwConstants.h>
 
-/* global handles for the procedures */
-extern FwPrDesc_t prDescServTestOnBoardConnStart, prDescServTestOnBoardConnPrgr;
-
 
 /**
  * Initialization of CORDET Framework PUS Extension application-specific components
@@ -51,5 +48,15 @@ int CrPsInitServTest();
  * @return nothing
  */
 void CrPsExecServTest();
+
+/**
+ * Getter for TestOnBoardConnStart procedure descriptor
+ */
+FwPrDesc_t getPrDescServTestOnBoardConnStart();
+
+/**
+ * Getter for TestOnBoardConnPrgr procedure descriptor
+ */
+FwPrDesc_t getPrDescServTestOnBoardConnPrgr();
 
 #endif /* CRPS_UTILITIES_SERVTEST_H_ */

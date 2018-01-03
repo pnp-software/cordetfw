@@ -31,10 +31,6 @@
 #include <CrFwConstants.h>
 
 
-/* global handles for the procedures */
-extern FwPrDesc_t prDescEvtCmd5EidStart;
-
-
 /**
  * Initialization of CORDET Framework PUS Extension components
  * @return nothing
@@ -46,5 +42,10 @@ int CrPsInitServEvt();
  * @return nothing
  */
 void CrPsExecServEvt();
+
+/**
+ * Getter for EvtCmd5EidStart procedure descriptor
+ */
+FwPrDesc_t getPrDescEvtCmd5EidStart();
 
 #endif /* CRPS_UTILITIES_SERVEVT_H_ */

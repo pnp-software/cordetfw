@@ -46,9 +46,9 @@ void CrPsHkCreateCmdStartAction(FwSmDesc_t smDesc)
   /* Set prData of procedure   */
   /* initial setting of prData */
   prData.smDesc = smDesc;
-  FwPrSetData(prDescHkCmd3s1Start, &prData);
+  FwPrSetData(getPrDescHkCmd3s1Start(), &prData);
 
-  FwPrRun(prDescHkCmd3s1Start);
+  FwPrRun(getPrDescHkCmd3s1Start());
 
   return;
 }

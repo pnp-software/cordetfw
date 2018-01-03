@@ -133,7 +133,7 @@ FwPrBool_t CrPsLptUpCmdStartG1(FwPrDesc_t prDesc)
 
   /* LPT State Machine associated to LPT Buffer is not in state UP_TRANSFER */
 
-  sm_state = FwSmGetCurState(smDescLpt);
+  sm_state = FwSmGetCurState(getSmDescLpt());
   if (sm_state != CrPsLpt_UP_TRANSFER)
     {
       return 1;

@@ -39,9 +39,9 @@ void CrPsEvtEnableCmdStartAction(FwSmDesc_t smDesc)
   /* initial setting of prData */
   prData.smDesc = smDesc;
   prData.evtFlagPtr = evtFlag;
-  FwPrSetData(prDescEvtCmd5EidStart, &prData);
+  FwPrSetData(getPrDescEvtCmd5EidStart(), &prData);
 
-  FwPrRun(prDescEvtCmd5EidStart);
+  FwPrRun(getPrDescEvtCmd5EidStart());
 
   return ;
 }
@@ -131,5 +131,5 @@ void CrPsEvtEnableCmdTerminationAction(FwSmDesc_t smDesc)
 
   inData->outcome = 1;
 
-  return ;
+  return;
 }

@@ -55,7 +55,7 @@ void CrPsLptStartDownCmdStartAction(FwSmDesc_t smDesc)
   /* Get in data */
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 
-  sm_state = FwSmGetCurState(smDescLpt);
+  sm_state = FwSmGetCurState(getSmDescLpt());
   if (sm_state == CrPsLpt_INACTIVE)
     {
       inData->outcome = 1;
@@ -79,7 +79,7 @@ void CrPsLptStartDownCmdProgressAction(FwSmDesc_t smDesc)
 
   CRFW_UNUSED(smDesc);
 
-  FwSmMakeTrans(smDescLpt, StartDownTransfer);
+  FwSmMakeTrans(getSmDescLpt(), StartDownTransfer);
 
   /* Get in data */
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);
