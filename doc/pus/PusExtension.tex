@@ -1414,15 +1414,17 @@ The destination of the (12,12) report is the "service 12 user". This is either p
 \subsection{Functional Monitoring Sub-Service}
 The functional monitoring subservice controls the \textit{functional monitoring function}. This function monitors the status of the parameter monitors.
 
-A functional monitor acts as a listener for up to MON\_N\_PFMON parameter monitors: when one of these parameter monitors changes its checking status, the functional monitor is notified. The notification is sent out by the Parameter Monitoring Procedure. 
+The state of the functional monitoring function is held by the a \textit{functional monitoring definition list} (FMDL). The FMDL consists of up to MON\_N\_FMON \textit{functional monitors}.  Each functional monitor acts as a listener for up to MON\_N\_PFMON parameter monitors: when one of these parameter monitors changes its checking status, the functional monitor is notified. The notification is sent out by the Parameter Monitoring Procedure. The functional monitoring function processes a notification by running the Functional Monitor Notify Procedure of figure  \ref{fig:TBD}. 
 
-The behaviour of the functional monitoring function is described by the Functional Monitoring Procedure of figure \ref{fig:FMonPr}. The procedure is started when the functional monitoring function becomes enabled and it is stopped when it becomes disabled. Thus, the enable status of the functional monitoring function is given by the status of the Functional Monitoring Procedure.
+Each functional monitor has an identifier which is an integer in the range: [1..MON\_N\_FMON].  Table {tab:fmonAtt} lists the attributes of a functional monitor in the FMDL.
 
-The Functional Monitoring Procedure should be executed cyclically with period FMON\_PER by the host application. The period MON\_FPER is expressed as a multiple of the monitoring period MON\_PER.
+Attribute \texttt{pmonIdList} holds the list of parameter monitors associated to the functional monitor. The list has a statically defined size of MON\_N\_FMON. The number of non-zero entries in the list is given by attribute \texttt{nOfMon}. Attribute \texttt{minFailNumber} holds the minimum failing number for the functional monitor: the monitor is declared to have failed only if at least \texttt{minFailNumber} of its \texttt{nOfMon} parameter monitors have detected a monitoring violation.
 
-Every time it is executed, the Functional Monitoring Procedure processes a \textit{functional monitoring definition list} (FMDL). The FMDL consists of up to MON\_N\_FMON \textit{functional monitors}. Each functional monitor defines a monitoring action for a set of up to MON\_N\_PFMON parameter monitors. Each functional monitor has an identifier which is an integer in the range: [1..(MON\_N\_FMON].
+Attribute \texttt{checkStatus} holds the checking status for the functional monitor which is one of the values listed in table \ref{tab:fmonChckStat}. The checking status is initialized to UNCHECKED when the functional monitor is created or when it is enabled and is then updated every time the functional monitor is notified.
 
-Conditional checking is supported for all functional monitors. To each parameter monitoring, the following items are associated: 
+Attribute \texttt{isProtected} is a boolean flag which indicates whether the functional monitor is protected.
+
+Conditional checking is supported for all functional monitors. For this purpose, to each functional monitor, the following items are associated: 
 
 \begin{itemize}
 \item A validity parameter (a data pool item given by identifier \texttt{valDataItemId})
@@ -1430,18 +1432,11 @@ Conditional checking is supported for all functional monitors. To each parameter
 \item An expected value \texttt{valExpVal}
 \end{itemize}
 
-The parameter monitoring action is only performed if the bit-wise AND of the bit-mask with the validity parameter is equal to the expected value. When a parameter is invalid, its checking status is set to INVALID. Note that, where desired, unconditional checking is achieved by setting the bit-mask and the expected value to zero.
+The monitoring action is only performed if the bit-wise AND of the bit-mask with the validity parameter is equal to the expected value. When a functional monitor is invalid, its checking status is set to INVALID. Note that, where desired, unconditional checking is achieved by setting the bit-mask and the expected value to zero.
 
-Service 12 offers the means to report the content of the PMDL and to alter its content by adding or deleting parameter monitors from it.
+Service 12 offers the means to report the content of the FMDL and to alter its content by adding or deleting parameter monitors from it.
 
-A parameter monitor is characterized by the attributes listed in table \ref{tab:pmonAtt}. The first item is the identifier of the data pool item whose value the parameter monitor checks. 
-
-
-
-
-
-
-If a functional monitor declares a failure, the pre-defined event EVT\_FMON\_FAIL is raised. This event carries the identifier of TBD.
+If a functional monitor declares a failure, the pre-defined event EVT\_FMON\_FAIL is raised. This event carries the identifiers of the \texttt{nOfMon} parameter monitors and their current checking status.
 
 
 \begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of a Functional Monitor}{tab:fmonAtt}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
@@ -1455,29 +1450,7 @@ If a functional monitor declares a failure, the pre-defined event EVT\_FMON\_FAI
 \hline
 \texttt{isProtected} & The flag indicating whether the functional monitor is protected & Boolean flag \\
 \hline
-
-
-
-
-
-
-\texttt{monPrType} & Identifier of the Monitor Procedure type which checks the parameter value & See section \ref{sec:MonProc} \\
-\hline
-\texttt{monPrRetVal} & Most recent return value of the Monitor Procedure & See table \ref{tab:retValMonPr} \\
-\hline
-\texttt{monPrPrevRetVal} & Previous return value of the Monitor Procedure (or INVALID after the monitoring procedure or the monitoring function has been enabled) & See table \ref{tab:retValMonPr} \\
-\hline
-\texttt{checkStatus} & Checking status of monitored parameter & See table \ref{tab:retValMonPr} \\
-\hline
-\texttt{per} & The monitoring period for the parameter monitor expressed as an integer multiple of the minimum monitoring period MON\_PER & Positive integer \\
-\hline
-\texttt{perCnt} & The phase counter & Integer in range: 0..(\texttt{per}-1) \\
-\hline
-\texttt{repNmb} & The repetition number for the monitoring check  & Positive integer \\
-\hline
-\texttt{repCnt} & The repetition counter for the monitoring check  & Integer in range: 0..(\texttt{repNmb}-1) \\
-\hline
-\texttt{evtId} & The identifier of the event to be generated if the parameter monitor detects a limit violation or zero if no event is to be generated & Zero or valid event identifier \\
+\texttt{isEnabled} & The flag indicating whether the functional monitor is enabled & Boolean flag \\
 \hline
 \texttt{valDataItemId} & Identifier of data item used for validity check & Integer in range: 1..HK\_MAX\_ID \\
 \hline
@@ -1487,6 +1460,16 @@ If a functional monitor declares a failure, the pre-defined event EVT\_FMON\_FAI
 \hline
 \end{pnptable}  
 
+\begin{pnptable}{|l|p{10cm}|}{Checking Statuses of a Functional Monitor}{tab:fmonChckStat}{\textbf{Name} & \textbf{Description}}
+\texttt{MON\_UNCHECKED} & Functional monitor has not yet been notified since it was last enabled \\
+\hline
+\texttt{MON\_INVALID} & The validity condition for the functional monitor is not satisfied  \\
+\hline
+\texttt{MON\_RUNNING} & The number of parameter monitors in the functional monitor which reporterd a monitoring violation is below the minimum failing number \\
+\hline
+\texttt{MON\FAILED} & The number of parameter monitors in the functional monitor which reporterd a monitoring violation is greater than or eqaul to the minimum failing number  \\
+\hline
+\end{pnptable}  
 
 
 %-------------------------------------------------------------------------------------
