@@ -57,7 +57,9 @@ void CrPsEvtRepDisabledCmdStartAction(FwSmDesc_t smDesc)
     }
   else
     {
-      /* TODO: Generate Error Report OUTFACTORY_FAILED */
+      /* TM(5,8) OUTFACTORY_FAIL */
+      CrPsRepErr(crOutfactoryFail, CRPS_EVT, CRPS_EVT_REPDISABLED_REP, 0);
+
       cmpData->outcome = 0;
     }
 
