@@ -56,7 +56,7 @@ CrFwBool_t CrPsHkRepEnableCheck(FwSmDesc_t smDesc)
   CrFwPckt_t          pckt;
   CrFwDiscriminant_t  disc;
 
-  /* The enable status is read from the isEnabled field of the Report Definition corresponding to the report’s SID */
+  /* The report is enabled if its SID is defined in the RDL */
 
   cmpData	        = (CrFwCmpData_t    *) FwSmGetData(smDesc);
   cmpSpecificData = (CrFwOutCmpData_t *) cmpData->cmpSpecificData;
