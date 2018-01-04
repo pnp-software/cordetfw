@@ -95,11 +95,11 @@ void CrPsCmd3s1StartN2(FwPrDesc_t prDesc)
   sid = getHkCreateCmdRepStrucId(pckt);
 
   /* Generate report of type (3,25) or (3,26) according to TC(3,1) or TC(3,2) */
-  if (tcServSubType == 1)
+  if (tcServSubType == CRPS_HK_CREATE_HKSTRUCT_CMD)
     {
       rep  = CrFwOutFactoryMakeOutCmp(CRPS_HK, CRPS_HK_HKPARAM_REP, sid, getHkRepSizeFromPckt(pckt)); /* arguments: type, subType, discriminant/evtId, length */
     }
-  else if (tcServSubType == 2)
+  else if (tcServSubType == CRPS_HK_CREATE_DIAGSTRUCT_CMD)
     {
       rep  = CrFwOutFactoryMakeOutCmp(CRPS_HK, CRPS_HK_DIAGPARAM_REP, sid, getHkRepSizeFromPckt(pckt)); /* arguments: type, subType, discriminant/evtId, length */
     }

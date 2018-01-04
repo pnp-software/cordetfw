@@ -49,7 +49,9 @@ void CrPsTestAreYouAliveConnectionStartAction(FwSmDesc_t smDesc)
     }
   else
     {
-      /* TODO: Generate error report OUTFACTORY_FAILED */
+      /* TM(17,2) OUTFACTORY_FAIL */
+      CrPsRepErr(crOutfactoryFail, CRPS_TEST, CRPS_TEST_AREYOUALIVE_CONNECTION_REP, 0);
+
       inData->outcome = 0;
     }
 

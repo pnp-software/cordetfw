@@ -96,7 +96,7 @@ void CrPsLptDownTransferDoAction(FwSmDesc_t smDesc)
       if (rep == NULL)
         {
           /* TM(13,1) OUTFACTORY_FAIL */
-          CrPsRepErr(crOutfactoryFail, 13, 1, 0);
+          CrPsRepErr(crOutfactoryFail, CRPS_LPT, CRPS_LPT_DOWNFIRST_REP, 0);
         }
       else
         {
@@ -114,7 +114,7 @@ void CrPsLptDownTransferDoAction(FwSmDesc_t smDesc)
       if (rep == NULL)
         {
           /* TM(13,2) OUTFACTORY_FAIL */
-          CrPsRepErr(crOutfactoryFail, 13, 2, 0);
+          CrPsRepErr(crOutfactoryFail, CRPS_LPT, CRPS_LPT_DOWNINTER_REP, 0);
         }
       else
         {
@@ -132,7 +132,7 @@ void CrPsLptDownTransferDoAction(FwSmDesc_t smDesc)
       if (rep == NULL)
         {
           /* TM(13,3) OUTFACTORY_FAIL */
-          CrPsRepErr(crOutfactoryFail, 13, 3, 0);
+          CrPsRepErr(crOutfactoryFail, CRPS_LPT, CRPS_LPT_DOWNLAST_REP, 0);
         }
       else
         {
