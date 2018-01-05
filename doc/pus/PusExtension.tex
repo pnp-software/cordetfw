@@ -968,6 +968,9 @@ The parameters HK\_MAX\_* are application constants. Applications which do not n
 
 The sampling buffer mentioned in the last row in table \ref{tab:repDefDataStruct} is discussed in the next section.
 
+Several service 3 commands operate on a set of RDL entries (e.g. command (3,3) requestes that a list of SIDs be deleted from the RDL). In such cases, it is useful to "mark" an entry in the RDL. For this purpose, flag \texttt{isMarked} has been introduced in table \ref{tab:repDefDataStruct}.
+
+
 \begin{pnptable}{|l|p{5cm}|>{\raggedright\arraybackslash}p{6cm}|}{Fields in Report Definition Data Structure}{tab:repDefDataStruct}{\textbf{Field Name} & \textbf{Description} & \textbf{Constraint}}
 \texttt{sid} & Structure identifier (SID) & Integer in range: 1..HK\_MAX\_SID \\
 \hline
@@ -988,6 +991,8 @@ The sampling buffer mentioned in the last row in table \ref{tab:repDefDataStruct
 \texttt{lstId} & List of identifiers of data items in the report & Not more than HK\_MAX\_N\_ITEMS data items and each identifier is in range: 1..HK\_MAX\_ID \\
 \hline
 \texttt{sampleBufId} & The identifier of the sampling buffer holding the super-commutated data item values & An integer in the range: 1..HK\_N\_SAMP\_BUF \\
+\hline
+\texttt{isMarked} & Marker flag & Boolean flag \\
 \hline
 \end{pnptable}  
 
@@ -1543,7 +1548,7 @@ The table in this section lists the requirements for the On-Board Monitoring Ser
 
 \pnpfigure[scale=0.5]{Start Action of (12,24) Command Procedure}{fig:Cmd12s24Start}{CrPsCmd12s24Start.png}
 
-\pnpfigure[scale=0.5]{Start Action of Multi-Functional Monitor Command Procedure}{fig:Cmd12FMonStart}{CrPsCmd12FMonStart.png}
+\pnpfigure[scale=0.5]{Start Action of Multi-Functional Monitor Command Procedure}{fig:Cmd12FMonIdStart}{CrPsCmd12FMonIdStart.png}
 
 
 
