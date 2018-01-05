@@ -37,7 +37,7 @@ typedef struct {
 
 typedef struct {
 	FwSmDesc_t smDesc;
-	unsigned char sid;
+	CrPsSid_t rdlSlot;
 } prDataHkRepReadyCheck_t;
 
 typedef struct {

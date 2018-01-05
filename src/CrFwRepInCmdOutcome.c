@@ -72,7 +72,7 @@ void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanc
     case crCmdAckPrgFail:
       printf ("########## CrFwRepInCmdOutcome: Progress Failed, Send TM(1,6)\n");
       /* Get procedure parameters */
-      prDataPrgrAction = (prDataPrgrAction_t *)FwPrGetData(prDescServTestOnBoardConnPrgr);
+      prDataPrgrAction = (prDataPrgrAction_t *)FwPrGetData(getPrDescServTestOnBoardConnPrgr());
       stepIdentifier = prDataPrgrAction->stepId;
       /* Send Request Verification Progress Failed out-going report */
       SendReqVerifPrgrFailRep(inCmd, stepIdentifier, failCode);
@@ -80,7 +80,7 @@ void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanc
     case crCmdAckPrgSucc:
       printf ("########## CrFwRepInCmdOutcome: Progress Success, Send TM(1,5)\n");
       /* Get procedure parameters */
-      prDataPrgrAction = (prDataPrgrAction_t *)FwPrGetData(prDescServTestOnBoardConnPrgr);
+      prDataPrgrAction = (prDataPrgrAction_t *)FwPrGetData(getPrDescServTestOnBoardConnPrgr());
       if (prDataPrgrAction != NULL)
         {
           stepIdentifier = prDataPrgrAction->stepId;

@@ -49,9 +49,9 @@ void CrPsLptUpInterCmdStartAction(FwSmDesc_t smDesc)
   /* Set prData of procedure   */
   /* initial setting of prData */
   prData.smDesc = smDesc;
-  FwPrSetData(prDescLptUpCmdStart, &prData);
+  FwPrSetData(getPrDescLptUpCmdStart(), &prData);
 
-  FwPrRun(prDescLptUpCmdStart);
+  FwPrRun(getPrDescLptUpCmdStart());
 
   return;
 }

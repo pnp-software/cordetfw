@@ -37,8 +37,8 @@
 #include <stdlib.h>
 
 /* global handles for the procedures */
-FwPrDesc_t prDescHkCmd3s1Start, prDescHkCmd3s3Start, prDescCmd3s9Prgr, prDescHkRepReadyCheck;
-FwPrDesc_t prDescMultiSidCmdStart, prDescGenerateHkOneShotPrgr;
+FwPrDesc_t prDescHkCmd3s1Start, prDescHkCmd3s3Start, prDescHkRepReadyCheck;
+FwPrDesc_t prDescMultiSidCmdStart, prDescCmd3s9Prgr;
 
 
 /**
@@ -110,4 +110,44 @@ void CrPsExecServHk()
   printf("CrPsExecServHk()\n");
 
   return;
+}
+
+/**
+ * Getter for HkCmd3s1Start procedure descriptor
+ */
+inline FwPrDesc_t getPrDescHkCmd3s1Start()
+{
+  return prDescHkCmd3s1Start;
+}
+
+/**
+ * Getter for HkCmd3s3Start procedure descriptor
+ */
+inline FwPrDesc_t getPrDescHkCmd3s3Start()
+{
+  return prDescHkCmd3s3Start;
+}
+
+/**
+ * Getter for HkRepReadyCheck procedure descriptor
+ */
+inline FwPrDesc_t getPrDescHkRepReadyCheck()
+{
+  return prDescHkRepReadyCheck;
+}
+
+/**
+ * Getter for MultiSidCmdStart procedure descriptor
+ */
+inline FwPrDesc_t getPrDescMultiSidCmdStart()
+{
+  return prDescMultiSidCmdStart;
+}
+
+/**
+ * Getter for Cmd3s9Prgr procedure descriptor
+ */
+inline FwPrDesc_t getPrDescCmd3s9Prgr()
+{
+  return prDescCmd3s9Prgr;
 }

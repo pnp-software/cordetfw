@@ -67,3 +67,11 @@ void CrPsExecServEvt()
 
   return;
 }
+
+/**
+ * Getter for EvtCmd5EidStart procedure descriptor
+ */
+inline FwPrDesc_t getPrDescEvtCmd5EidStart()
+{
+  return prDescEvtCmd5EidStart;
+}

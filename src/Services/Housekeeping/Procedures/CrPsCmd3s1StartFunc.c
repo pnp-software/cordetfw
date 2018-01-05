@@ -152,14 +152,6 @@ void CrPsCmd3s1StartN4(FwPrDesc_t prDesc)
   return;
 }
 
-/** Action for node N5. */
-void CrPsCmd3s1StartN5(FwPrDesc_t prDesc)
-{
-	DEBUGP_3("CrPsCmd3s1StartN5.\n");
-  CRFW_UNUSED(prDesc);
-  return;
-}
-
 /** Action for node N6. */
 void CrPsCmd3s1StartN6(FwPrDesc_t prDesc)
 {
@@ -520,7 +512,7 @@ FwPrBool_t CrPsCmd3s1StartG5(FwPrDesc_t prDesc)
     }
 }
 
-/** Guard on the Control Flow from DECISION6 to N5. */
+/** Guard on the Control Flow from DECISION6 to N6. */
 FwPrBool_t CrPsCmd3s1StartG6(FwPrDesc_t prDesc)
 {
 #if 0

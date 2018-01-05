@@ -91,6 +91,22 @@ void CrPsExecServLpt()
 }
 
 /**
+ * Getter for LptUpCmdStart procedure descriptor
+ */
+inline FwPrDesc_t getPrDescLptUpCmdStart()
+{
+  return prDescLptUpCmdStart;
+}
+
+/**
+ * Getter for Lpt state machine descriptor
+ */
+inline FwSmDesc_t getSmDescLpt()
+{
+  return smDescLpt;
+}
+
+/**
  * Provide the current time.
  *
  * This function implements the CORDET interface from CrFwTime.h. Time is

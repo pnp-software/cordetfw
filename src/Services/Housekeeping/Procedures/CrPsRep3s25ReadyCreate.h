@@ -12,7 +12,7 @@
  * @image html CrPsRep3s25Ready.png
  *
  * @author FW Profile code generator version 5.01
- * @date Created on: Oct 3 2017 22:4:57
+ * @date Created on: Jan 3 2018 14:31:12
  */
 
 /** Make sure to include this header file only once */
@@ -82,7 +82,7 @@ FwPrBool_t CrPsRep3s25ReadyG1(FwPrDesc_t prDesc);
 
 /**
  * Guard on the Control Flow from DECISION1 to N2.
- * Else
+ *  ! Flag_1 
  * @param smDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */
@@ -98,6 +98,7 @@ FwPrBool_t CrPsRep3s25ReadyG2(FwPrDesc_t prDesc);
 
 /**
  * Guard on the Control Flow from DECISION2 to N1.
+ *  (Cycle Counter == Period) && (SID is Defined) 
  * @param smDesc the procedure descriptor
  * @return 1 if the guard is fulfilled, otherwise 0.
  */

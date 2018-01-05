@@ -46,9 +46,9 @@ void CrPsHkDeleteCmdStartAction(FwSmDesc_t smDesc)
   /* Set prData of procedure   */
   /* initial setting of prData */
   prData.smDesc = smDesc;
-  FwPrSetData(prDescHkCmd3s3Start, &prData);
+  FwPrSetData(getPrDescHkCmd3s3Start(), &prData);
 
-  FwPrRun(prDescHkCmd3s3Start);
+  FwPrRun(getPrDescHkCmd3s3Start());
 
   return;
 }

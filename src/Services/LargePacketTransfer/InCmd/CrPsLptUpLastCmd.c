@@ -49,9 +49,9 @@ void CrPsLptUpLastCmdStartAction(FwSmDesc_t smDesc)
   /* Set prData of procedure   */
   /* initial setting of prData */
   prData.smDesc = smDesc;
-  FwPrSetData(prDescLptUpCmdStart, &prData);
+  FwPrSetData(getPrDescLptUpCmdStart(), &prData);
 
-  FwPrRun(prDescLptUpCmdStart);
+  FwPrRun(getPrDescLptUpCmdStart());
 
   return;
 }
@@ -113,7 +113,7 @@ void CrPsLptUpLastCmdProgressAction(FwSmDesc_t smDesc)
   setDppartSeqNmbItem(LptBufferId, PartSeqNmb);
 
   /* Send EndUpTransfer command to LPT State Machine */
-  FwSmMakeTrans(smDescLpt, EndUpTransfer);
+  FwSmMakeTrans(getSmDescLpt(), EndUpTransfer);
   
   cmpData->outcome = 1;
 

@@ -39,7 +39,7 @@ CrFwBool_t CrPsLptDownLastRepEnableCheck(FwSmDesc_t smDesc)
 
   CRFW_UNUSED(smDesc);
 
-  sm_state = FwSmGetCurState(smDescLpt);
+  sm_state = FwSmGetCurState(getSmDescLpt());
   if (sm_state == CrPsLpt_DOWN_TRANSFER)
     {
       return 1;

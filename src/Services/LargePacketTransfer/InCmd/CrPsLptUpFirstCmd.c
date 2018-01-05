@@ -95,7 +95,7 @@ void CrPsLptUpFirstCmdProgressAction(FwSmDesc_t smDesc)
   unsigned short fine;
 
   /* Send command StartUpTransfer to LPT State Machine */
-  FwSmMakeTrans(smDescLpt, StartUpTransfer);
+  FwSmMakeTrans(getSmDescLpt(), StartUpTransfer);
 
   LptBufferId = UpTransferLptBufferId;
 

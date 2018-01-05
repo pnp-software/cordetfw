@@ -91,7 +91,7 @@ CrFwBool_t CrPsHkRepReadyCheck(FwSmDesc_t smDesc)
   CrFwPckt_t          pckt;
   CrFwDiscriminant_t  disc;
   prDataHkRepReadyCheck_t prData;
-  CrPsSid_t           sid;
+  CrPsSid_t           sid, rdlSid, rdlSlot;
 
   /* Run the procedure Ready Check of HkRep Report of figure 9.5 */
 
@@ -103,14 +103,23 @@ CrFwBool_t CrPsHkRepReadyCheck(FwSmDesc_t smDesc)
   /* Get the SID: discriminant for HK is the SID */
   sid = (CrPsSid_t) disc;
 
+  /* look for the slot */
+  for (rdlSlot = 0; rdlSlot < HK_N_REP_DEF; rdlSlot++)
+    {
+      rdlSid = getDpsidItem(rdlSlot);
+      
+      if (sid == rdlSid)
+        break;
+    }
+
   /* Set prData of procedure   */
   /* initial setting of prData */
   prData.smDesc = smDesc;
-  prData.sid = sid;
-  FwPrSetData(prDescHkRepReadyCheck, &prData);
+  prData.rdlSlot = rdlSlot;
+  FwPrSetData(getPrDescHkRepReadyCheck(), &prData);
 
-  FwPrStart(prDescHkRepReadyCheck);
-  FwPrExecute(prDescHkRepReadyCheck);
+  FwPrStart(getPrDescHkRepReadyCheck());
+  FwPrExecute(getPrDescHkRepReadyCheck());
 
   cmpData = (CrFwCmpData_t   *) FwSmGetData(smDesc);
 

@@ -121,3 +121,19 @@ void CrPsExecServTest()
 
   return;
 }
+
+/**
+ * Getter for TestOnBoardConnStart procedure descriptor
+ */
+inline FwPrDesc_t getPrDescServTestOnBoardConnStart()
+{
+  return prDescServTestOnBoardConnStart;
+}
+
+/**
+ * Getter for TestOnBoardConnPrgr procedure descriptor
+ */
+inline FwPrDesc_t getPrDescServTestOnBoardConnPrgr()
+{
+  return prDescServTestOnBoardConnPrgr;
+}

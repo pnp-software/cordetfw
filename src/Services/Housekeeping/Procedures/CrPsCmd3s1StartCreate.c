@@ -2,7 +2,7 @@
  * @file CrPsCmd3s1StartCreate.c
  *
  * @author FW Profile code generator version 5.01
- * @date Created on: Sep 6 2017 17:15:56
+ * @date Created on: Jan 3 2018 14:29:33
  */
 
 #include "CrPsCmd3s1StartCreate.h"
@@ -78,10 +78,10 @@ FwPrDesc_t CrPsCmd3s1StartCreate(void* prData)
 
 	/** Create the procedure */
 	FwPrDesc_t prDesc = FwPrCreate(
-		11,	/* N_ANODES - The number of action nodes */
+		10,	/* N_ANODES - The number of action nodes */
 		6,	/* N_DNODES - The number of decision nodes */
-		24,	/* N_FLOWS - The number of control flows */
-		11,	/* N_ACTIONS - The number of actions */
+		23,	/* N_FLOWS - The number of control flows */
+		10,	/* N_ACTIONS - The number of actions */
 		12	/* N_GUARDS - The number of guards */
 	);
 
@@ -97,7 +97,6 @@ FwPrDesc_t CrPsCmd3s1StartCreate(void* prData)
 	FwPrAddDecisionNode(prDesc, DECISION5, N_OUT_OF_DECISION5);
 	FwPrAddActionNode(prDesc, CrPsCmd3s1Start_N3, &CrPsCmd3s1StartN3);
 	FwPrAddDecisionNode(prDesc, DECISION6, N_OUT_OF_DECISION6);
-	FwPrAddActionNode(prDesc, CrPsCmd3s1Start_N5, &CrPsCmd3s1StartN5);
 	FwPrAddActionNode(prDesc, CrPsCmd3s1Start_N6, &CrPsCmd3s1StartN6);
 	FwPrAddActionNode(prDesc, CrPsCmd3s1Start_N7, &CrPsCmd3s1StartN7);
 	FwPrAddActionNode(prDesc, CrPsCmd3s1Start_N8, &CrPsCmd3s1StartN8);
@@ -119,9 +118,8 @@ FwPrDesc_t CrPsCmd3s1StartCreate(void* prData)
 	FwPrAddFlowDecToAct(prDesc, DECISION5, CrPsCmd3s1Start_N3, &CrPsCmd3s1StartG5);
 	FwPrAddFlowDecToAct(prDesc, DECISION5, CrPsCmd3s1Start_N4, &CrPsCmd3s1StartG5E);
 	FwPrAddFlowActToAct(prDesc, CrPsCmd3s1Start_N3, CrPsCmd3s1Start_N10, NULL);
-	FwPrAddFlowDecToAct(prDesc, DECISION6, CrPsCmd3s1Start_N5, &CrPsCmd3s1StartG6);
+	FwPrAddFlowDecToAct(prDesc, DECISION6, CrPsCmd3s1Start_N6, &CrPsCmd3s1StartG6);
 	FwPrAddFlowDecToAct(prDesc, DECISION6, CrPsCmd3s1Start_N11, &CrPsCmd3s1StartG6E);
-	FwPrAddFlowActToAct(prDesc, CrPsCmd3s1Start_N5, CrPsCmd3s1Start_N6, NULL);
 	FwPrAddFlowActToFin(prDesc, CrPsCmd3s1Start_N6, NULL);
 	FwPrAddFlowActToFin(prDesc, CrPsCmd3s1Start_N7, NULL);
 	FwPrAddFlowActToFin(prDesc, CrPsCmd3s1Start_N8, NULL);

@@ -12,7 +12,7 @@
  * @image html CrPsCmd3s1Start.png
  *
  * @author FW Profile code generator version 5.01
- * @date Created on: Sep 6 2017 17:15:56
+ * @date Created on: Jan 3 2018 14:29:33
  */
 
 /** Make sure to include this header file only once */
@@ -27,13 +27,12 @@
 #define CrPsCmd3s1Start_N2 (2)		/* The identifier of action node N2 in procedure CrPsCmd3s1Start */
 #define CrPsCmd3s1Start_N3 (3)		/* The identifier of action node N3 in procedure CrPsCmd3s1Start */
 #define CrPsCmd3s1Start_N4 (4)		/* The identifier of action node N4 in procedure CrPsCmd3s1Start */
-#define CrPsCmd3s1Start_N5 (5)		/* The identifier of action node N5 in procedure CrPsCmd3s1Start */
-#define CrPsCmd3s1Start_N6 (6)		/* The identifier of action node N6 in procedure CrPsCmd3s1Start */
-#define CrPsCmd3s1Start_N7 (7)		/* The identifier of action node N7 in procedure CrPsCmd3s1Start */
-#define CrPsCmd3s1Start_N8 (8)		/* The identifier of action node N8 in procedure CrPsCmd3s1Start */
-#define CrPsCmd3s1Start_N9 (9)		/* The identifier of action node N9 in procedure CrPsCmd3s1Start */
-#define CrPsCmd3s1Start_N10 (10)		/* The identifier of action node N10 in procedure CrPsCmd3s1Start */
-#define CrPsCmd3s1Start_N11 (11)		/* The identifier of action node N11 in procedure CrPsCmd3s1Start */
+#define CrPsCmd3s1Start_N6 (5)		/* The identifier of action node N6 in procedure CrPsCmd3s1Start */
+#define CrPsCmd3s1Start_N7 (6)		/* The identifier of action node N7 in procedure CrPsCmd3s1Start */
+#define CrPsCmd3s1Start_N8 (7)		/* The identifier of action node N8 in procedure CrPsCmd3s1Start */
+#define CrPsCmd3s1Start_N9 (8)		/* The identifier of action node N9 in procedure CrPsCmd3s1Start */
+#define CrPsCmd3s1Start_N10 (9)		/* The identifier of action node N10 in procedure CrPsCmd3s1Start */
+#define CrPsCmd3s1Start_N11 (10)		/* The identifier of action node N11 in procedure CrPsCmd3s1Start */
 
 /**
  * Create a new procedure descriptor.
@@ -81,16 +80,6 @@ void CrPsCmd3s1StartN3(FwPrDesc_t prDesc);
  * @param smDesc the procedure descriptor
  */
 void CrPsCmd3s1StartN4(FwPrDesc_t prDesc);
-
-/**
- * Action for node N5.
- * <pre>
- * Add report definition to the RDL
- * and set initial enable status to 'not enabled'
- * </pre>
- * @param smDesc the procedure descriptor
- */
-void CrPsCmd3s1StartN5(FwPrDesc_t prDesc);
 
 /**
  * Action for node N6.
@@ -249,7 +238,7 @@ FwPrBool_t CrPsCmd3s1StartG5(FwPrDesc_t prDesc);
 FwPrBool_t CrPsCmd3s1StartG5E(FwPrDesc_t prDesc);
 
 /**
- * Guard on the Control Flow from DECISION6 to N5.
+ * Guard on the Control Flow from DECISION6 to N6.
  * <pre>
  * Load Operation
  * is successful  

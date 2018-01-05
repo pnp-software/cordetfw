@@ -30,10 +30,6 @@
 
 #include <CrFwConstants.h>
 
-/* global handles for the procedures */
-extern FwPrDesc_t prDescHkCmd3s1Start, prDescHkCmd3s3Start, prDescCmd3s9Prgr, prDescHkRepReadyCheck;
-extern FwPrDesc_t prDescMultiSidCmdStart, prDescGenerateHkOneShotPrgr;
-
 
 /**
  * Initialization of CORDET Framework PUS Extension components
@@ -46,5 +42,30 @@ int CrPsInitServHk();
  * @return nothing
  */
 void CrPsExecServHk();
+
+/**
+ * Getter for HkCmd3s1Start procedure descriptor
+ */
+FwPrDesc_t getPrDescHkCmd3s1Start();
+
+/**
+ * Getter for HkCmd3s3Start procedure descriptor
+ */
+FwPrDesc_t getPrDescHkCmd3s3Start();
+
+/**
+ * Getter for HkRepReadyCheck procedure descriptor
+ */
+FwPrDesc_t getPrDescHkRepReadyCheck();
+
+/**
+ * Getter for MultiSidCmdStart procedure descriptor
+ */
+FwPrDesc_t getPrDescMultiSidCmdStart();
+
+/**
+ * Getter for Cmd3s9Prgr procedure descriptor
+ */
+FwPrDesc_t getPrDescCmd3s9Prgr();
 
 #endif /* CRPS_UTILITIES_SERVHK_H_ */
