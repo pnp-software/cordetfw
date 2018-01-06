@@ -1481,39 +1481,41 @@ If a functional monitor declares a failure, the pre-defined event EVT\_FMON\_FAI
 \subsection{Service 12 Report and Command Definition}\label{sec:serv12RepCmdDef}
 Tables \ref{tab:MonEnbMonDefCmdSpec} to TBD. 
 
-\input{GeneratedTables/CrPs_MonEnbMonDefCmd_Spec.tex}
-\printMonEnbMonDefCmdSpec{|c|p{10cm}|}
+\input{GeneratedTables/CrPs_MonEnbParMonDefCmd_Spec.tex}
+\printMonEnbParMonDefCmdSpec{|c|p{10cm}|}
 
 \input{GeneratedTables/CrPs_MonDisParMonDefCmd_Spec.tex}
 \printMonDisParMonDefCmdSpec{|c|p{10cm}|}
 
+\newpage
 \input{GeneratedTables/CrPs_MonChgTransDelCmd_Spec.tex}
 \printMonChgTransDelCmdSpec{|c|p{10cm}|}
 
-\newpage
 \input{GeneratedTables/CrPs_MonDelAllParMonCmd_Spec.tex}
 \printMonDelAllParMonCmdSpec{|c|p{10cm}|}
 
-\input{GeneratedTables/CrPs_MonAddParMonCmd_Spec.tex}
-\printMonAddParMonCmdSpec{|c|p{10cm}|}
+\newpage
+\input{GeneratedTables/CrPs_MonAddParMonDefCmd_Spec.tex}
+\printMonAddParMonDefCmdSpec{|c|p{10cm}|}
 
-\input{GeneratedTables/CrPs_MonDelParMonCmd_Spec.tex}
-\printMonDelParMonCmdSpec{|c|p{10cm}|}
+\input{GeneratedTables/CrPs_MonDelParMonDefCmd_Spec.tex}
+\printMonDelParMonDefCmdSpec{|c|p{10cm}|}
 
 \newpage
-\input{GeneratedTables/CrPs_MonModParMonCmd_Spec.tex}
-\printMonModParMonCmdSpec{|c|p{10cm}|}
+\input{GeneratedTables/CrPs_MonModParMonDefCmd_Spec.tex}
+\printMonModParMonDefCmdSpec{|c|p{10cm}|}
 
-\input{GeneratedTables/CrPs_MonRepParMonCmd_Spec.tex}
-\printMonRepParMonCmdSpec{|c|p{10cm}|}
+\input{GeneratedTables/CrPs_MonRepParMonDefCmd_Spec.tex}
+\printMonRepParMonDefCmdSpec{|c|p{10cm}|}
 
+\newpage
 \input{GeneratedTables/CrPs_MonRepParMonRep_Spec.tex}
 \printMonRepParMonRepSpec{|c|p{10cm}|}
 
-\newpage
 \input{GeneratedTables/CrPs_MonCheckTransRep_Spec.tex}
 \printMonCheckTransRepSpec{|c|p{10cm}|}
 
+\newpage
 \input{GeneratedTables/CrPs_MonRepParMonStatCmd_Spec.tex}
 \printMonRepParMonStatCmdSpec{|c|p{10cm}|}
 
@@ -1521,21 +1523,46 @@ Tables \ref{tab:MonEnbMonDefCmdSpec} to TBD.
 \printMonRepParMonStatRepSpec{|c|p{10cm}|}
 
 \newpage
-\input{GeneratedTables/CrPs_MonEnbMonFuncCmd_Spec.tex}
-\printMonEnbMonFuncCmdSpec{|c|p{10cm}|}
+\input{GeneratedTables/CrPs_MonEnbParMonFuncCmd_Spec.tex}
+\printMonEnbParMonFuncCmdSpec{|c|p{10cm}|}
 
-\input{GeneratedTables/CrPs_MonDisMonFuncCmd_Spec.tex}
-\printMonDisMonFuncCmdSpec{|c|p{10cm}|}
+\input{GeneratedTables/CrPs_MonDisParMonFuncCmd_Spec.tex}
+\printMonDisParMonFuncCmdSpec{|c|p{10cm}|}
 
-%\input{GeneratedTables/CrPs_MonEnbFuncMonCmd_Spec.tex}
-%\printMonEnbFuncMonCmdSpec{|c|p{10cm}|}
+\newpage
+\input{GeneratedTables/CrPs_MonEnbFuncMonDefCmd_Spec.tex}
+\printMonEnbFuncMonDefCmdSpec{|c|p{10cm}|}
 
-%\input{GeneratedTables/CrPs_MonDisFuncMonCmd_Spec.tex}
-%\printMonDisFuncMonCmdSpec{|c|p{10cm}|}
+\input{GeneratedTables/CrPs_MonDisFuncMonDefCmd_Spec.tex}
+\printMonDisFuncMonDefCmdSpec{|c|p{10cm}|}
 
+\newpage
+\input{GeneratedTables/CrPs_MonProtFuncMonDefCmd_Spec.tex}
+\printMonProtFuncMonDefCmdSpec{|c|p{10cm}|}
 
+\input{GeneratedTables/CrPs_MonUnprotFuncMonDefCmd_Spec.tex}
+\printMonUnprotFuncMonDefCmdSpec{|c|p{10cm}|}
+
+\newpage
 \input{GeneratedTables/CrPs_MonAddFuncMonDefCmd_Spec.tex}
 \printMonAddFuncMonDefCmdSpec{|c|p{10cm}|}
+
+\input{GeneratedTables/CrPs_MonDelFuncMonDefCmd_Spec.tex}
+\printMonDelFuncMonDefCmdSpec{|c|p{10cm}|}
+
+\newpage
+\input{GeneratedTables/CrPs_MonRepFuncMonDefCmd_Spec.tex}
+\printMonRepFuncMonDefCmdSpec{|c|p{10cm}|}
+
+\input{GeneratedTables/CrPs_MonRepFuncMonDefRep_Spec.tex}
+\printMonRepFuncMonDefRepSpec{|c|p{10cm}|}
+
+\newpage
+\input{GeneratedTables/CrPs_MonRepFuncMonStatCmd_Spec.tex}
+\printMonRepFuncMonStatCmdSpec{|c|p{10cm}|}
+
+\input{GeneratedTables/CrPs_MonRepFuncMonStatRep_Spec.tex}
+\printMonRepFuncMonStatRepSpec{|c|p{10cm}|}
 
 
 
@@ -1602,6 +1629,8 @@ The table in this section lists the requirements for the On-Board Monitoring Ser
 \pnpfigure[scale=0.5]{Start Action of (12,7) Command Procedure}{fig:Cmd12s7Start}{CrPsCmd12s7Start.png}
 
 \pnpfigure[scale=0.5]{Start Action of (12,8) Command Procedure}{fig:Cmd12s8Start}{CrPsCmd12s8Start.png}
+
+\pnpfigure[scale=0.5]{Start Action of (12,10) Command Procedure}{fig:Cmd12s10Start}{CrPsCmd12s10Start.png}
 
 \pnpfigure[scale=0.5]{Start Action of (12,23) Command Procedure}{fig:Cmd12s23Start}{CrPsCmd12s23Start.png}
 
