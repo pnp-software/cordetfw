@@ -57,5 +57,6 @@ S1,7,Overrides ICM-15,Operation to Report Progress Successful for InCommand ,"De
 S1,8,Closes ICM-16,Operation to Report Termination Failed for InCommand ,Run the Command Verification Failure Procedure of figure \ref{fig:CmdVerSucc}
 S1,9,Closes ICM-17,Operation to Report Report Termination Successful for InCommand ,Run the Command Verification Success Procedure of figure \ref{fig:CmdPrgrSucc}
 S12,1,New AP,Definition of Parameter Monitoring Procedures,"Three parameter monitoring procedures are defined (limit check, expected value and delta check)"
-S12,2,New AP,Definition of Parameter Monitoring List,"By default, all parameter monitors are empty"
+S12,2,New AP,Definition of Parameter Monitoring Definition List (PMDL),"By default, all parameter monitors are empty"
+S12,3,New AP,Definition of Functional Monitoring Definition List (FMDL),"By default, all parameter monitors are empty"
 S13,1,New AP,Operation to access the i-th LPT Buffer,No default defined at framework level

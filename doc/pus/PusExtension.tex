@@ -1034,7 +1034,7 @@ In order to illustrate the use of the debug variables, consider a situation wher
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 3 Report and Command Definition}\label{sec:serv3RepCmdDef}
-Tables \ref{tab:CR-S3-1} to \ref{tab:CR-S3-27} formally specify the service 3 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 3 (see section \ref{sec:defPusRepCmd}). The following remarks apply.
+Tables \ref{tab:CR-S3-1} to \ref{tab:CR-S3-27} formally specify the service 3 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 3 (see section \ref{sec:defPusRepCmd}). The following remarks apply:
 
 \begin{fw_itemize}
 \item In the PUS, service 3 commands and reports appear twice: once for housekeeping reports and once for diagnostic reports. The PUS Extension of the CORDET Framework does not distinguish between housekeeping and diagnostic reports/commands and therefore each CORDET report/command component implements two PUS reports/commands.
@@ -1479,7 +1479,7 @@ If a functional monitor declares a failure, the pre-defined event EVT\_FMON\_FAI
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 12 Report and Command Definition}\label{sec:serv12RepCmdDef}
-Tables \ref{tab:MonEnbMonDefCmdSpec} to TBD. 
+Tables \ref{tab:MonEnbParMonDefCmdSpec} to \ref{tab:MonRepFuncMonStatRepSpec} . 
 
 \input{GeneratedTables/CrPs_MonEnbParMonDefCmd_Spec.tex}
 \printMonEnbParMonDefCmdSpec{|c|p{10cm}|}
@@ -1509,8 +1509,8 @@ Tables \ref{tab:MonEnbMonDefCmdSpec} to TBD.
 \printMonRepParMonDefCmdSpec{|c|p{10cm}|}
 
 \newpage
-\input{GeneratedTables/CrPs_MonRepParMonRep_Spec.tex}
-\printMonRepParMonRepSpec{|c|p{10cm}|}
+\input{GeneratedTables/CrPs_MonRepParMonDefRep_Spec.tex}
+\printMonRepParMonDefRepSpec{|c|p{10cm}|}
 
 \input{GeneratedTables/CrPs_MonCheckTransRep_Spec.tex}
 \printMonCheckTransRepSpec{|c|p{10cm}|}
@@ -1528,6 +1528,13 @@ Tables \ref{tab:MonEnbMonDefCmdSpec} to TBD.
 
 \input{GeneratedTables/CrPs_MonDisParMonFuncCmd_Spec.tex}
 \printMonDisParMonFuncCmdSpec{|c|p{10cm}|}
+
+\newpage
+\input{GeneratedTables/CrPs_MonEnbFuncMonCmd_Spec.tex}
+\printMonEnbFuncMonCmdSpec{|c|p{10cm}|}
+
+\input{GeneratedTables/CrPs_MonDisFuncMonCmd_Spec.tex}
+\printMonDisFuncMonCmdSpec{|c|p{10cm}|}
 
 \newpage
 \input{GeneratedTables/CrPs_MonEnbFuncMonDefCmd_Spec.tex}
@@ -1569,32 +1576,28 @@ Tables \ref{tab:MonEnbMonDefCmdSpec} to TBD.
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 12 Constants}\label{sec:serv12Const}
-The service 12 constants are listed in table \ref{tab:Const-S12}. 
+The service 12 constants are listed in table \ref{tab:Const-S12} formally specify the service 12 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 12 (see section \ref{sec:defPusRepCmd}). 
 
 \begin{cr_const}{S12}{Constants for Service 12 (On-Board Monitoring Service)}
 \end{cr_const}
 
 
 %----------------------------------------------------------------------------------------
-\subsection{Service 12 Observables}\label{sec:serv12Obs}
-The service 12 observables are listed in table \ref{tab:Obs-S12}. The initial values of the variables carrying the number of available and enabled monitors depends on the number parameter and functional monitors which are pre-defined at initialization time (which is an adaptation point) and must therefore be done by the application as part of its initialization.
+\subsection{Service 12 Observables and Parameters}\label{sec:serv12ObsPar}
+The service 12 observables and parameters are listed in table \ref{tab:Obs-S12}. The initial values of the variables carrying the number of available and enabled monitors depends on the number parameter and functional monitors which are pre-defined at initialization time (which is an adaptation point) and must therefore be done by the application as part of its initialization.
 
 The attributes of the parameter and functional monitors in the PMDL and FMDL are visible through service 12 reports and are therefore not defined as "observables" in the data pool.
 
-\pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|>{\raggedright\arraybackslash}p{9.0cm}|}{Observables for Service 12 (On-Board Monitoring)}{tab:Obs-S12}{Name & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \ShortDesc}
-
-
-%---------------------------------------------------------------------------------
-\newpage
-\subsection{Service 12 Parameters}\label{sec:serv12Par}
 The service 12 configuration is defined by the parameter holding the identifier of the service 12 user. This is either a pre-defined value or it is the source of the most recent (12,15) command to enable the Parameter Monitoring Function.
 
-\begin{cr_par}{S12}{Parameters for Service 12 (On-Board Monitoring Service)}
-\end{cr_par}
+\pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{8.5cm}|}{Observables and Parameters for On-Board Monitoring Service}{tab:Obs-S12}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
+
 
 %----------------------------------------------------------------------------------------
 \subsection{Service 12 Adaptation Points}
-The table in this section lists the adaptation points for the On-Board Monitoring Service.
+The table in this section lists the adaptation points for the On-Board Monitoring Service. The first adaptation point covers the range of monitor procedures. Those supported by default by the PUS Extension of the CORDET Framework are those defined by the PUS. 
+
+The second and third adaptation points cover the initialization of the PMDL and FMDL. Both lists are empty by default but applications are free to pre-define both parameter monitors and functional monitors. In this case, it becomes their responsibility to populate the PMDL and FMDL with the predefined items. This should normally be done as part of the application initialization. 
 
 \begin{cr_ap}{S12}{Adaptation Points for Service 12 (On-Board Monitoring Service)}
 \end{cr_ap}
