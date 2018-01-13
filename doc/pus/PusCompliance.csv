@@ -513,7 +513,7 @@ f,,"For each valid instruction to perform an on-board connection test, the test 
 g,,"For each valid request to perform an on-board connection test, the test subservice shall generate a single on-board connection test report that includes the related on-board connection test notification.",C1,"See progress action of command (17,3) and specification of report (17,4)",,,,
 6.18,On-Board Control Procedure,Definition of service 18,n.a.,This service is not yet supported by the PUS Extension of the CORDET Framework,,,,
 6.19,Event-Action,Definition of service 19,n.a.,This service is not yet supported by the PUS Extension of the CORDET Framework,,,,
-6.2,,Definition of service 20,n.a.,This service is not yet supported by the PUS Extension of the CORDET Framework,,,,
+6.20,,Definition of service 20,n.a.,This service is not yet supported by the PUS Extension of the CORDET Framework,,,,
 6.21,Request Sequencing,Definition of service 21,n.a.,This service is not yet supported by the PUS Extension of the CORDET Framework,,,,
 6.22,Position-Based Scheduling,Definition of service 22,n.a.,This service is not yet supported by the PUS Extension of the CORDET Framework,,,,
 6.23,File Management,Definition of service 23,n.a.,This service is not yet supported by the PUS Extension of the CORDET Framework,,,,
