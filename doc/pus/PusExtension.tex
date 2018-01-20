@@ -661,7 +661,7 @@ The components of the CORDET Framework are defined as models which comply with t
 
 Thus, for each supported PUS command, the framework extension defines an extension of the InCommand component which closes all the InCommand adaptation points. Similarly, for each supported PUS report, it defines an extension of the OutComponent component which closes all the OutComponent adaptation points.
 
-Table \ref{tab:supportedPus} lists the command and report components provided by the PUS Extension of the CORDET Framework to support the PUS services. The first column in the table gives the name of the CORDET component which implements the command or report; the second column gives its PUS names as it is given in section 8 of [PS-SP]; and the third column gives the [type,sub-type] pair which identifies the command or report. Note that, in some cases, the same CORDET components implements two PUS commands or reports. This is the case where the two commands or reports share the same behaviour and only differ for the value of some of their attributes (e.g. the (3,25) and (3,26) reports).
+Table \ref{tab:supportedPus} lists the command and report components provided by the PUS Extension of the CORDET Framework to support the PUS services. The first column in the table gives the command or report type and sub=type; the second column gives the name of the CORDET component which implements the command or report; the last column gives its PUS names as it is given in section 8 of [PS-SP]. Note that, in some cases, the same CORDET components implements two PUS commands or reports. This is the case where the two commands or reports share the same behaviour and only differ for the value of some of their attributes (e.g. the (3,25) and (3,26) reports).
 
 \begin{figure}[H]
  \centering
@@ -712,8 +712,7 @@ The following considerations apply to the data in table \ref{tab:AP-ICM} concern
 A service S1 depends on another service S2 if the decision by an application to deploy service S1 requires the same application to also deploy service S2. The services defined in this document minimize this kind of dependencies. Table \ref{tab:dependencies} lists the service dependencies. These are limited to:
 
 \begin{itemize}
-\item Services 13 and TBD generate event reports and therefore need service 5
-\item TBD
+\item Services 13 and 12 generate event reports and therefore need service 5
 \end{itemize}
 
 Note that, although dependencies between services are minimized, all services depend on the data pool because the data pool holds the variable and parameters which are used by the services. Hence, all applications instantiated from the CORDET Extension of the PUS Framework must deploy the data pool component of section \ref{sec:dp}.
@@ -726,7 +725,7 @@ Note that, although dependencies between services are minimized, all services de
 \hline
 \texttt{5} & Event Reporting Service & None \\
 \hline
-\texttt{12} & On-Board Monitoring Service & TBD \\
+\texttt{12} & On-Board Monitoring Service & Requires Service 5 \\
 \hline
 \texttt{13} & Large Packet Transfer Service & Requires Service 5 \\
 \hline
