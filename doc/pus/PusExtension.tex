@@ -661,7 +661,7 @@ The components of the CORDET Framework are defined as models which comply with t
 
 Thus, for each supported PUS command, the framework extension defines an extension of the InCommand component which closes all the InCommand adaptation points. Similarly, for each supported PUS report, it defines an extension of the OutComponent component which closes all the OutComponent adaptation points.
 
-Table \ref{tab:supportedPus} lists the command and report components provided by the PUS Extension of the CORDET Framework to support the PUS services. The first column in the table gives the command or report type and sub=type; the second column gives the name of the CORDET component which implements the command or report; the last column gives its PUS names as it is given in section 8 of [PS-SP]. Note that, in some cases, the same CORDET components implements two PUS commands or reports. This is the case where the two commands or reports share the same behaviour and only differ for the value of some of their attributes (e.g. the (3,25) and (3,26) reports).
+Table \ref{tab:supportedPus} lists the command and report components provided by the PUS Extension of the CORDET Framework to support the PUS services. The first column in the table gives the name of the CORDET component which implements the command or report; the second column gives its PUS names as it is given in section 8 of [PS-SP]; and the third column gives the [type,sub-type] pair which identifies the command or report. Note that, in some cases, the same CORDET components implements two PUS commands or reports. This is the case where the two commands or reports share the same behaviour and only differ for the value of some of their attributes (e.g. the (3,25) and (3,26) reports).
 
 \begin{figure}[H]
  \centering
@@ -712,7 +712,7 @@ The following considerations apply to the data in table \ref{tab:AP-ICM} concern
 A service S1 depends on another service S2 if the decision by an application to deploy service S1 requires the same application to also deploy service S2. The services defined in this document minimize this kind of dependencies. Table \ref{tab:dependencies} lists the service dependencies. These are limited to:
 
 \begin{itemize}
-\item Services 13 and 12 generate event reports and therefore need service 5
+\item Services 12 and 13 generate event reports and therefore need service 5
 \end{itemize}
 
 Note that, although dependencies between services are minimized, all services depend on the data pool because the data pool holds the variable and parameters which are used by the services. Hence, all applications instantiated from the CORDET Extension of the PUS Framework must deploy the data pool component of section \ref{sec:dp}.
@@ -745,7 +745,7 @@ The requirements in table \ref{tab:Req-PCR} make the adaptation points defined i
 \end{cr_req}
 
 \newpage
-\begin{longtable}{|>{\raggedright\arraybackslash}p{3.3cm}|>{\raggedright\arraybackslash}p{8.7cm}|c|}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{7.7cm}|c|}
 \caption{Supported PUS Commands and Reports}\label{tab:supportedPus} \\
 \hline
 \rowcolor{light-gray}
@@ -1020,12 +1020,12 @@ The Configuration Function is used when a housekeeping/diagnostic report which c
 
 %-------------------------------------------------------------------------------------
 \subsection{Debug Variables}\label{sec:debugVar}
-Service 3 offers visibility over the internal state of the IFSW by allowing periodic or sporadic access to the data items in the data pool. The data items in the data pool are defined at design time and should cover all application functions. For situations where additional visibility is required (e.g. in case of debugging during AIT activities), the framework the concept of \textit{debug variables} is introduced. A debug variable is a variable of 4 bytes of length whose address in RAM can be set using service TBD. More precisely, a total of N\_DEBUG\_VAR debug variables are defined which are encapsulated in data pool variables \texttt{debugVar\_x} where x ranges from 1 to HK\_N\_DEBUG\_VAR. Additionally, data pool parameters \texttt{debugVarAddr\_x} are defined to hold the address of \texttt{debugVar\_x}. The Execution Procedure of the data pool (see section \ref{sec:dpBehaviour}) loads the values of the memory locations pointed at by the elements of \texttt{debugVarAddr} into the elements of \texttt{debugVar}.  
+Service 3 offers visibility over the internal state of the IFSW by allowing periodic or sporadic access to the data items in the data pool. The data items in the data pool are defined at design time and should cover all application functions. For situations where additional visibility is required (e.g. in case of debugging during AIT activities), the framework the concept of \textit{debug variables} is introduced. A debug variable is a variable of 4 bytes of length whose address in RAM is a data pool parameter. More precisely, a total of N\_DEBUG\_VAR debug variables are defined which are encapsulated in data pool variables \texttt{debugVar\_x} where x ranges from 1 to HK\_N\_DEBUG\_VAR. Additionally, data pool parameters \texttt{debugVarAddr\_x} are defined to hold the address of \texttt{debugVar\_x}. The Execution Procedure of the data pool (see section \ref{sec:dpBehaviour}) loads the values of the memory locations pointed at by the elements of \texttt{debugVarAddr} into the elements of \texttt{debugVar}.  
 
 In order to illustrate the use of the debug variables, consider a situation where the user wishes to have read access to two memory locations holding two integers: 
 
 \begin{fw_enumerate}
-\item The user uses service TBD to load the addresses of the desired locations into the first two elements of \texttt{debugVarAddr}
+\item The user loads the addresses of the desired locations into the first two elements of \texttt{debugVarAddr}
 \item The user uses command (3,1) or (3,2) to define a new housekeeping report packet holding \texttt{debugVar\_1} and \texttt{debugVar\_2} 
 \item The users uses command (3,6) or (3,7) to enable the newly defined housekeeping packet and receives the values of \texttt{debugVar\_1} and \texttt{debugVar\_2} .
 \end{fw_enumerate}
@@ -1392,7 +1392,7 @@ If either condition is satisfied, the procedure generates the MonCheckTransRep r
 
 The maximum reporting delay \texttt{maxRepDelay} can be modified with the \texttt{MonChgTransDelCmd} command (12,3). A report of the out-of-limits transitions in the CTL can also be triggered through the MonRepOOLCmd command (12,10) and is reported through the MonRepOOLRep report (12,9). 
 
-The destination of the (12,12) report is the "service 12 user". This is either pre-defined or it is the source of the most recent (12,15) command which enabled the parameter monitoring function (see section \ref{sec:serv12Par}).
+The destination of the (12,12) report is the "service 12 user". This is either pre-defined or it is the source of the most recent (12,15) command which enabled the parameter monitoring function (see section \ref{sec:serv12ObsPar}).
 
 
 \begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of a Check Transition}{tab:chkTransAttr}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
@@ -1450,7 +1450,7 @@ If a functional monitor declares a failure, the pre-defined event EVT\_FMON\_FAI
 \hline
 \texttt{minFailNumber} & Minimum parameter monitor failing number & Integer in range: 1..\texttt{nOfMon} \\
 \hline
-\texttt{checkStatus} & Checking status of functional monitor & See table \ref{tab:TBD} \\
+\texttt{checkStatus} & Checking status of functional monitor & See table \ref{tab:fmonChckStat} \\
 \hline
 \texttt{isProtected} & The flag indicating whether the functional monitor is protected & Boolean flag \\
 \hline
@@ -1478,7 +1478,7 @@ If a functional monitor declares a failure, the pre-defined event EVT\_FMON\_FAI
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 12 Report and Command Definition}\label{sec:serv12RepCmdDef}
-Tables \ref{tab:MonEnbParMonDefCmdSpec} to \ref{tab:MonRepFuncMonStatRepSpec} . 
+Tables \ref{tab:MonEnbParMonDefCmdSpec} to \ref{tab:MonRepFuncMonStatRepSpec} formally specify the service 12 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 5 (see section \ref{sec:defPusRepCmd}). 
 
 \input{GeneratedTables/CrPs_MonEnbParMonDefCmd_Spec.tex}
 \printMonEnbParMonDefCmdSpec{|c|p{10cm}|}
@@ -1584,7 +1584,7 @@ Tables \ref{tab:MonEnbParMonDefCmdSpec} to \ref{tab:MonRepFuncMonStatRepSpec} .
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 12 Constants}\label{sec:serv12Const}
-The service 12 constants are listed in table \ref{tab:Const-S12} formally specify the service 12 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 12 (see section \ref{sec:defPusRepCmd}). 
+The service 12 constants are listed in table \ref{tab:Const-S12} formally specify the service 12 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 12 (see section \ref{sec:defPusRepCmd}).    
 
 \begin{cr_const}{S12}{Constants for Service 12 (On-Board Monitoring Service)}
 \end{cr_const}
@@ -1599,6 +1599,7 @@ The attributes of the parameter and functional monitors in the PMDL and FMDL are
 The service 12 configuration is defined by the parameter holding the identifier of the service 12 user. This is either a pre-defined value or it is the source of the most recent (12,15) command to enable the Parameter Monitoring Function.
 
 \pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{8.5cm}|}{Observables and Parameters for On-Board Monitoring Service}{tab:Obs-S12}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
+
 
 
 %----------------------------------------------------------------------------------------
@@ -1646,6 +1647,8 @@ The table in this section lists the requirements for the On-Board Monitoring Ser
 \pnpfigure[scale=0.5]{Start Action of (12,23) Command Procedure}{fig:Cmd12s23Start}{CrPsCmd12s23Start.png}
 
 \pnpfigure[scale=0.5]{Start Action of (12,24) Command Procedure}{fig:Cmd12s24Start}{CrPsCmd12s24Start.png}
+
+\pnpfigure[scale=0.5]{Start Action of (12,25) Command Procedure}{fig:Cmd12s25Start}{CrPsCmd12s25Start.png}
 
 \pnpfigure[scale=0.5]{Start Action of Multi-Functional Monitor Command Procedure}{fig:Cmd12FMonIdStart}{CrPsCmd12FMonIdStart.png}
 
@@ -1911,7 +1914,7 @@ The mechanism through which the AreYouAliveRep report notifies the OnBoardConnec
 
 One implication of this mechanism is that only one On-Board-Connection Test may be active at a given time (i.e. the user should only send a new OnBoardConnectCmd command to an application after execution of the previous OnBoardConnectCmd command has completed). This constraint is not enforced by the framework and is under the responsibility of the user of the service.
 
-The time-out parameter \texttt{areYouAliveTimeOut} is the same for all target applications. There is, in other words, an underlying assumption that the response time of all target applications is similar and that there is therefore no need to maintain separate time-outs for each target application. If this assumption is not satisfied, the user must update the value of \texttt{areYouAliveTimeOut} with service TBD before starting an On-Board-Connection Test.
+The time-out parameter \texttt{areYouAliveTimeOut} is the same for all target applications. There is, in other words, an underlying assumption that the response time of all target applications is similar and that there is therefore no need to maintain separate time-outs for each target application. If this assumption is not satisfied, the user must update the value of \texttt{areYouAliveTimeOut} before starting an On-Board-Connection Test.
 
 Tables \ref{tab:CR-S17-1} to \ref{tab:CR-S17-4} formally specify the service 17 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 17 (see section \ref{sec:defPusRepCmd}). The following considerations apply to the service 17 commands and reports:
 

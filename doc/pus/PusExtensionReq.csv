@@ -45,7 +45,7 @@ S3,S,18,The hkDisableCmd component shall close the InCommand adaptation points a
 S3,S,19,The hkRepStructCmd component shall close the InCommand adaptation points as indicated in table \ref{tab:CR-S3-9},,
 S3,S,20,The hkRepStructRep component shall close the OutComponent adaptation points as indicated in table \ref{tab:CR-S3-10},,
 S3,S,21,The hkRep component shall close the OutComponent adaptation points as indicated in table \ref{tab:CR-S3-25},,
-S3,S,22,The hkRepOneShot component shall close the OutComponent adaptation points as indicated in table \ref{tab:CR-S3-25s},,
+S3,S,22,The hkRepOneShot component shall close the OutComponent adaptation points as indicated in table \ref{tab:CR-S3-27},,
 S3,S,23,The PUS Extension of the CORDET Framework shall maintain and make accessible through the data pool the observables listed in table \ref{tab:Obs-S3},,
 S3,S,24,The PUS Extension of the CORDET Framework shall maintain and make accessible through the data pool the parameters listed in table \ref{tab:Par-S3},,
 S5,S,25,"The PUS Extension of the CORDET Framework shall provide, as an extension of the OutComponent, an EvtRep component to encapsulate an event report of type (5,1) to (5,4)",,
