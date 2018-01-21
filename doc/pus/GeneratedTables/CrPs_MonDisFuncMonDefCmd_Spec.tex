@@ -1,0 +1,11 @@
+\def \printMonDisFuncMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonDisFuncMonDefCmd Component}{tab:MonDisFuncMonDefCmdSpec}{Name & MonDisFuncMonDefCmd}
+Description & TC(12,20) to disable one ore more functional monitoring definitions \\\hline
+Parameters & The identifiers of the functional monitors to be disabled \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Run the procedure Start Action of Multi-Functional Monitor Commands of figure \ref{fig:Cmd12FMonIdStart} \\\hline
+Progress Action & For all the valid functional monitor identifiers: enable the functional monitor by setting its isEnabled field in the FDML to true. Set action outcome to 'completed'. Decrement the data pool variable representing the number of enabled functional monitors by the number of disabled functional monitors. Set the action outcome to 'completed'. \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}

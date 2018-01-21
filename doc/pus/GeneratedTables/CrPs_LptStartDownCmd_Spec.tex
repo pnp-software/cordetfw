@@ -1,0 +1,11 @@
+\def \printLptStartDownCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of LptStartDownCmd Component}{tab:LptStartDownCmdSpec}{Name & LptStartDownCmd}
+Description & Command (13,129) to start a down-transfer \\\hline
+Parameters & Large message transaction identifier \\\hline
+Discriminant & None \\\hline
+Ready Check & Return 'command is ready' \\\hline
+Start Action & Determine the identifier of the LPT Buffer for the up-transfer by computing: (x MOD LPT\_\-N\_\-BUF) where `x' is the Large Message Transaction Identifier. Set action outcome to 'success' if the LPT State Machine is in state INACTIVE; otherwise set the action outcome to `failure' \\\hline
+Progress Action & Send command StartDownTransfer to the LPT State Machine \\\hline
+Termination Action & Set action outcome to 'success' \\\hline
+Abort Action & Do nothing \\\hline
+\end{pnptable}}

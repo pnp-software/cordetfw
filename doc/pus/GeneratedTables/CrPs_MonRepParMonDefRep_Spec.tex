@@ -1,0 +1,10 @@
+\def \printMonRepParMonDefRepSpec#1 {
+\begin{pnptable}{#1}{Specification of MonRepParMonDefRep Component}{tab:MonRepParMonDefRepSpec}{Name & MonRepParMonDefRep}
+Description & TM(12,9) to report some or all parameter monitoring definitions in the Parameter Monitoring Definition List (PMDL) \\\hline
+Parameters & The maximum transition reporting delay, and the description of all requested parameter monitors. Each parameter monitor description consists of: parameter monitor identifier, identifier of monitored data item, description of validity condition of parameter monitor (identifier of validity data item, mask and expected value), monitoring interval, monitoring status, repetition number, check type and check-dependent data \\\hline
+Discriminant & None \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
+Ready Check & Default implementation (report is always ready) \\\hline
+Repeat Check & Default implementation (report is not repeated) \\\hline
+Update Action & Default implementation (do nothing) \\\hline
+\end{pnptable}}

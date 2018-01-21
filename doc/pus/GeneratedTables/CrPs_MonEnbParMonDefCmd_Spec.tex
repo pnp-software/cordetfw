@@ -1,0 +1,11 @@
+\def \printMonEnbParMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonEnbParMonDefCmd Component}{tab:MonEnbParMonDefCmdSpec}{Name & MonEnbParMonDefCmd}
+Description & Command (12,1) to enable one or more monitoring definitions \\\hline
+Parameters & The identifiers of the monitoring definitions to be enabled \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Run the procedure Start Action of Multi-Parameter Monitor Commands of figure \ref{fig:Cmd12s1and2Start} \\\hline
+Progress Action & For every parameter monitor identifier in the command which has not been rejected by the Start Action: reset its repetition counter (attribute repCnt) and start its Monitor Procedure. Increment the data pool variable representing the number of enabled parameter monitors by the number of enabled parameter monitors. Set the action outcome to 'completed'. \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}

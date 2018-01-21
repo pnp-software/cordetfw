@@ -1,0 +1,10 @@
+\def \printHkRepSpec#1 {
+\begin{pnptable}{#1}{Specification of HkRep Component}{tab:HkRepSpec}{Name & HkRep}
+Description & Periodic Housekeeping or Diagnostic Report (3,25) or (3,26) \\\hline
+Parameters & The values of the data items associated to the report's SID in the RDL with the layout defined in clauses 8.3.2.25 and 8.3.2.26 of [PS-SP] \\\hline
+Discriminant & None \\\hline
+Enable Check & The enable status is read from the isEnabled field of the Report Definition corresponding to the report's SID \\\hline
+Ready Check & Run the procedure Ready Check of HkRep Report of figure 9.5 \\\hline
+Repeat Check & Report is always repeated \\\hline
+Update Action & Load the value of the simply-commutated data items from the data pool and that of the super-commutated data items from the Sampling Buffer associated to the report's SID according to the Report Definition \\\hline
+\end{pnptable}}

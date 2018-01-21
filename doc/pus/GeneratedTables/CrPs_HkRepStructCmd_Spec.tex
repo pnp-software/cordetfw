@@ -1,0 +1,11 @@
+\def \printHkRepStructCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkRepStructCmd Component}{tab:HkRepStructCmdSpec}{Name & HkRepStructCmd}
+Description & Command (3,9) or (3,11) to Report Structure of a Housekeeping\newline or Diagnostic Report \\\hline
+Parameters & List of SIDs whose structure is to be reported with a layout as\newline in clauses 8.3.2.9 and 8.3.2.11 of [PS-SP] \\\hline
+Discriminant & None \\\hline
+Ready Check & Return 'command is ready' \\\hline
+Start Action & Run the procedure Start Action of Multi-SID Command of figure 9.3 \\\hline
+Progress Action & Run the procedure Progress Action of Report Housekeeping Structure of figure 9.4 \\\hline
+Termination Action & Set action outcome to 'success' if all valid SIDs in the command were successfully processed by the progress action; set it to 'failure' otherwise \\\hline
+Abort Action & Do nothing \\\hline
+\end{pnptable}}

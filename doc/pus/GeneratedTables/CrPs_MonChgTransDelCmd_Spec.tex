@@ -1,0 +1,11 @@
+\def \printMonChgTransDelCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonChgTransDelCmd Component}{tab:MonChgTransDelCmdSpec}{Name & MonChgTransDelCmd}
+Description & Command (12,3) to change the maximum delay after which the content of the check transition list (CTL) is reported through a (12,12) report \\\hline
+Parameters & The new value of the maximum transition reporting delay \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Set action outcome to 'success' if the argument of the command (the new maximum reporting delay) is a positive integer; otherwise, set the outcome to 'failure' \\\hline
+Progress Action & Update the maximum report delay in the data pool with the value in the command \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}

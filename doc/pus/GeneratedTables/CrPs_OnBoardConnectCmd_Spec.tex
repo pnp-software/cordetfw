@@ -1,0 +1,11 @@
+\def \printOnBoardConnectCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of OnBoardConnectCmd Component}{tab:OnBoardConnectCmdSpec}{Name & OnBoardConnectCmd}
+Description & Command (17,1) to Perform On-Board Connection Test. This command triggers the sending of a (17,1) to the application with which the connection test is performed. \\\hline
+Parameters & Destination to which the (17,1) command must be sent. \\\hline
+Discriminant & None \\\hline
+Ready Check & Return 'command is ready' \\\hline
+Start Action & Run the procedure Start Action of OnBoardConnectCmd Command of figure 13.1 \\\hline
+Progress Action & Run the procedure Progress Action of OnBoardConnectCmd Command of figure 13.2 \\\hline
+Termination Action & Set action outcome to 'success' if the (17,4) report was issued and to 'failure' otherwise \\\hline
+Abort Action & Do nothing \\\hline
+\end{pnptable}}

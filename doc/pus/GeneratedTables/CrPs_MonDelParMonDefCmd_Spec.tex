@@ -1,0 +1,11 @@
+\def \printMonDelParMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonDelParMonDefCmd Component}{tab:MonDelParMonDefCmdSpec}{Name & MonDelParMonDefCmd}
+Description & TC(12,6) to delete one or more parameter monitoring definitions \\\hline
+Parameters & The identifiers of the parameter monitors to be deleted \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Run the procedure Start Action of (12,6) Command of figure \ref{fig:Cmd12s6Start} \\\hline
+Progress Action & For all parameter monitor identifiers which have been accepted by the Start Action: delete the parameter monitor from the Parameter Monitor Definition List (PMDL). Increment the data pool variable representing the number of remaining available PMDL entries by the number of deleted parameter monitoring definitions. Set the action outcome to 'completed'. \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}

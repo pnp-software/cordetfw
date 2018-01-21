@@ -1,0 +1,11 @@
+\def \printMonEnbFuncMonCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonEnbFuncMonCmd Component}{tab:MonEnbFuncMonCmdSpec}{Name & MonEnbFuncMonCmd}
+Description & TC(12,17) to enable the functional monitoring function \\\hline
+Parameters & None \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Set the action outcome to 'failed' if the Parameter Monitoring Function is 'disabled'; otherwise set the action outcome to 'success'. \\\hline
+Progress Action & Set the enable status of the Functional Monitoring Function in the data pool to 'enabled'. Set the action outcome to 'completed'. \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}

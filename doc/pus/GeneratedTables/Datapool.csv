@@ -1,0 +1,75 @@
+Kind,Domain,Name,ShortDesc,Desc,Value,Size,Unit,Multiplicity,Type
+par,Mon,MaxRepDelay,Maximum reporting delay,,,NULL,,NULL,CrPsMonTypes/CrPsRepDelay\_t
+par,Mon,ServUser,Identifier of the application acting as user of the on-board monitoring service,The default user of the service is the ground.,0,NULL,,NULL,CrFwUserConstants/CrFwDestSrc\_t
+par,ServHk,debugVarAddr,Array of HK\_N\_DEBUG\_VAR elements. The I-th element is the address of the I-th debug variable,,"{0,0,0}",NULL,,3,CrPsUserConstants/CrPsAddr\_t
+par,ServHk,dest,Array of HK\_N\_REP\_DEF elements. The I-th element is the destination of the I-th Report Definition in the RDL,,"{0,0,0}",NULL,,3,CrPsUserConstants/CrPsDestSrc\_t
+par,ServHk,isEnabled,Array of HK\_N\_REP\_DEF elements. The I-th element is the enable status of the I-th Report Definition in the RDL,,"{0,0,0}",NULL,,3,CrPsUserConstants/CrPsFlag\_t
+par,ServHk,period,Collection period in units of HK\_COLLECT\_PER,,"{0,0,0}",NULL,,3,CrPsUserConstants/CrPsPeriod\_t
+par,ServHk,sid,Array of HK\_N\_REP\_DEF elements. The I-th element is the SID of the I-th Report Definition in the RDL,,"{0,0,0}",NULL,,3,CrPsUserConstants/CrPsSid\_t
+par,ServLpt,lptTimeOut,CrPsTimeOut\_t  TimeOut,,"{100,100,100}",NULL,,3,CrPsUserConstants/CrPsTimeOut\_t
+par,ServTest,AreYouAliveTimeOut,Time-out for the Are-You-Alive Test initiated in response to an Is-Application-Process-Alive Test,,10,NULL,,NULL,CrPsUserConstants/CrPsTimeOut\_t
+par,ServTest,OnBoardConnectDestLst,List of identifiers of target applications for an On-Board-Connection Test,,"{0,0,0,0,0,0,0,0,0,0}",NULL,,10,CrPsUserConstants/CrPsDestSrc\_t
+var,Evt,isEidEnabled,Array of EVT\_N\_EID elements holding the enable status of the event identifiers,,"{0,0,0}",NULL,,3,CrPsUserConstants/CrPsFlag\_t
+var,Evt,lastEvtEid\_1,Event identifier of the last generated level 1 event report,,0,NULL,,NULL,CrPsUserConstants/CrPsEid\_t
+var,Evt,lastEvtEid\_2,Event identifier of the last generated level 2 event report,,0,NULL,,NULL,CrPsUserConstants/CrPsEid\_t
+var,Evt,lastEvtEid\_3,Event identifier of the last generated level 3 event report,,0,NULL,,NULL,CrPsUserConstants/CrPsEid\_t
+var,Evt,lastEvtEid\_4,Event identifier of the last generated level 4event report,,0,NULL,,NULL,CrPsUserConstants/CrPsEid\_t
+var,Evt,lastEvtTime\_1,Time when the last level 1 event report was generated,,0,NULL,,NULL,CrFwUserConstants/CrFwTimeStamp\_t
+var,Evt,lastEvtTime\_2,Time when the last level 2 event report was generated,,0,NULL,,NULL,CrFwUserConstants/CrFwTimeStamp\_t
+var,Evt,lastEvtTime\_3,Time when the last level 3 event report was generated,,0,NULL,,NULL,CrFwUserConstants/CrFwTimeStamp\_t
+var,Evt,lastEvtTime\_4,Time when the last level 4 event report was generated,,0,NULL,,NULL,CrFwUserConstants/CrFwTimeStamp\_t
+var,Evt,nOfDetectedEvts\_1,Number of detected occurrences of level 1 events,,0,NULL,,NULL,CrPsUserConstants/CrPsNumberU4\_t
+var,Evt,nOfDetectedEvts\_2,Number of detected occurrences of level 2 events,,0,NULL,,NULL,CrPsUserConstants/CrPsNumberU4\_t
+var,Evt,nOfDetectedEvts\_3,Number of detected occurrences of level 3 events,,0,NULL,,NULL,CrPsUserConstants/CrPsNumberU4\_t
+var,Evt,nOfDetectedEvts\_4,Number of detected occurrences of level 4 events,,0,NULL,,NULL,CrPsUserConstants/CrPsNumberU4\_t
+var,Evt,nOfDisabledEid\_1,Number of event identifiers of level 1 which are disabled,,0,NULL,,NULL,CrPsUserConstants/CrPsNumberU2\_t
+var,Evt,nOfDisabledEid\_2,Number of event identifiers of level 2 which are disabled,,0,NULL,,NULL,CrPsUserConstants/CrPsNumberU2\_t
+var,Evt,nOfDisabledEid\_3,Number of event identifiers of level 3 which are disabled,,0,NULL,,NULL,CrPsUserConstants/CrPsNumberU2\_t
+var,Evt,nOfDisabledEid\_4,Number of event identifiers of level 4 which are disabled,,0,NULL,,NULL,CrPsUserConstants/CrPsNumberU2\_t
+var,Evt,nOfGenEvtRep\_1,Number of generated level 1 event reports,,0,NULL,,NULL,CrPsUserConstants/CrPsNumberU4\_t
+var,Evt,nOfGenEvtRep\_2,Number of generated level 2 event reports,,0,NULL,,NULL,CrPsUserConstants/CrPsNumberU4\_t
+var,Evt,nOfGenEvtRep\_3,Number of generated level 3 event reports,,0,NULL,,NULL,CrPsUserConstants/CrPsNumberU4\_t
+var,Evt,nOfGenEvtRep\_4,Number of generated level 4 event reports,,0,NULL,,NULL,CrPsUserConstants/CrPsNumberU4\_t
+var,Mon,CtlRepDelay,Maximum reporting delay for the CTL in multiples of MON\_PER,,,NULL,,NULL,CrPsMonTypes/CrPsRepDelay\_t
+var,Mon,CtlTimeFirstEntry,Time when first entry has been added to the CTL,,,NULL,,NULL,CrFwUserConstants/CrFwTimeStamp\_t
+var,Mon,FuncMonEnbStatus,Functional monitoring enable status,,0,NULL,,NULL,CrPsMonTypes/CrPsEnableStatus\_t
+var,Mon,NmbAvailFuncMon,Number of available functional monitors in the FMDL,,,NULL,,NULL,CrPsMonTypes/CrPsFuncMonId\_t
+var,Mon,NmbAvailParMon,Number of available parameter monitors in the PMDL,,,NULL,,NULL,CrPsMonTypes/CrPsParMonId\_t
+var,Mon,NmbEnbFuncMon,Number of enabled functional monitors in the FMDL,,,NULL,,NULL,CrPsMonTypes/CrPsFuncMonId\_t
+var,Mon,NmbEnbParMon,Number of enabled parameter monitors in the PMDL,,,NULL,,NULL,CrPsMonTypes/CrPsParMonId\_t
+var,Mon,ParMonEnbStatus,Enable state of parameter monitoring function,,,NULL,,NULL,CrPsMonTypes/CrPsEnableStatus\_t
+var,ServHk,cycleCnt,Array of HK\_N\_REP\_DEF elements. The I-th element is the cycle counter for the I-th Report Definitions in the RDL,,"{0,0,0}",NULL,,3,CrFwUserConstants/CrFwCounterU4\_t
+var,ServHk,debugVar,Array of HK\_N\_DEBUG\_VAR elements. The I-th element is the value of the I-th debug variable,,"{0,0,0}",NULL,,3,CrPsUserConstants/CrPsValueU4\_t
+var,ServHk,lstId,Max N Items,,"{0,0}",NULL,,2,CrPsUserConstants/CrPsParamId\_t
+var,ServHk,lstNSampRep,Max N rep,,"{0,0}",NULL,,2,CrPsUserConstants/CrPsNumberU2\_t
+var,ServHk,lstSampleRep,max N group,,"{0,0}",NULL,,2,CrPsUserConstants/CrPsRepetition\_t
+var,ServHk,nSimple,max ximple,,"{0,0}",NULL,,2,CrPsUserConstants/CrPsNumberU2\_t
+var,ServHk,sampleBufId,Array of HK\_N\_REP\_DEF elements. The I-th element is the identifier of the Sampling Buffer for the I-th Report Definition in the RDL,,"{0,0,0}",NULL,,3,CrPsUserConstants/CrPsParamId\_t
+var,ServLpt,largeMsgTransId,CrPsTid\_t Array of LPT\_N\_BUF elements. The I-th element holds the large message transaction identifier associated to the packet in the I-th LPT Buffer,,"{0,0,0}",NULL,,3,CrPsUserConstants/CrPsTid\_t
+var,ServLpt,lptFailCode,CrPsFailCode\_t Array of LPT\_N\_BUF elements. The I-th element holds the failure code for the up-transfer to the LPT Buffer,,"{0,0,0}",NULL,,3,CrPsUserConstants/CrPsFailCode\_t
+var,ServLpt,lptRemSize,CrPsSize\_t Array of LPT\_N\_BUF elements. The I-th element holds the remaining size of the large packet in the I-th LPT Buffer (the part of the large packet not yet down-transferred),,"{0,0,0}",NULL,,3,CrPsUserConstants/CrPsSize\_t
+var,ServLpt,lptSize,CrPsSize\_t Array of LPT\_N\_BUF elements. The I-th element holds the size of the large packet in the I-th LPT Buffer,,"{0,0,0}",NULL,,3,CrPsUserConstants/CrPsSize\_t
+var,ServLpt,lptSrc,crPsDestSrc\_t Array of LPT\_N\_BUF elements. The I-th element holds the source for the currently on-going large packet up-transfer to the LPT Buffer,,"{0,0,0}",NULL,,3,CrPsUserConstants/CrPsDestSrc\_t
+var,ServLpt,lptTime,CrFwTimeStamp\_t Array of LPT\_N\_BUF elements. The I-th element holds the time when the last up-transfer command to the LPT Buffer was received,,"{0,0,0}",NULL,,3,CrFwUserConstants/CrFwTimeStamp\_t
+var,ServLpt,nOfDownlinks,conteru4\_t Number of on-going down-link transfers,,0,NULL,,NULL,CrFwUserConstants/CrFwCounterU4\_t
+var,ServLpt,nOfUplinks,conteru4\_t Number of on-going up-link transfers,,0,NULL,,NULL,CrFwUserConstants/CrFwCounterU4\_t
+var,ServLpt,partSeqNmb,conteru4\_t Array of LPT\_N\_BUF elements. The I-th element holds the part sequence number for the currently on-going large packet transfer to/from the LPT Buffer,,"{0,0,0}",NULL,,3,CrFwUserConstants/CrFwCounterU4\_t
+var,ServReqVerif,failCodeAccFailed,Failure code of last command which failed its Acceptance,,0,NULL,,NULL,CrPsUserConstants/CrPsFailCode\_t
+var,ServReqVerif,failCodePrgrFailed,Failure code of last command which failed its Progress Check,,0,NULL,,NULL,CrPsUserConstants/CrPsFailCode\_t
+var,ServReqVerif,failCodeStartFailed,Failure code of last command which failed its Start Check,,0,NULL,,NULL,CrPsUserConstants/CrPsFailCode\_t
+var,ServReqVerif,failCodeTermFailed,Failure code of last command which failed its Termination,,0,NULL,,NULL,CrPsUserConstants/CrPsFailCode\_t
+var,ServReqVerif,invDestRerouting,Destination of last command for which re-routing failed,,0,NULL,,NULL,CrPsUserConstants/CrPsDestSrc\_t
+var,ServReqVerif,nOfAccFailed,Number of commands which have failed their acceptance check,,0,NULL,,NULL,CrFwUserConstants/CrFwCounterU4\_t
+var,ServReqVerif,nOfPrgrFailed,Number of commands which have failed their Progress Check,,0,NULL,,NULL,CrFwUserConstants/CrFwCounterU4\_t
+var,ServReqVerif,nOfReroutingFailed,Number of commands for which re-routing failed,,0,NULL,,NULL,CrFwUserConstants/CrFwCounterU4\_t
+var,ServReqVerif,nOfStartFailed,Number of commands which have failed their Start Check since,,0,NULL,,NULL,CrFwUserConstants/CrFwCounterU4\_t
+var,ServReqVerif,nOfTermFailed,Number of commands which have failed their Termination,,0,NULL,,NULL,CrFwUserConstants/CrFwCounterU4\_t
+var,ServReqVerif,pcktIdAccFailed,Packet identifier of last command which failed its Acceptance,,0,NULL,,NULL,CrFwUserConstants/CrFwTypeId\_t
+var,ServReqVerif,pcktIdPrgrFailed,Packet identifier of last command which failed its Progress,,0,NULL,,NULL,CrFwUserConstants/CrFwTypeId\_t
+var,ServReqVerif,pcktIdReroutingFailed,Packet identifier of last command for which re-routing failed,,0,NULL,,NULL,CrFwUserConstants/CrFwTypeId\_t
+var,ServReqVerif,pcktIdStartFailed,Packet identifier of last command which failed its Start Check,,0,NULL,,NULL,CrFwUserConstants/CrFwTypeId\_t
+var,ServReqVerif,pcktIdTermFailed,Packet identifier of last command which failed its Termination,,0,NULL,,NULL,CrFwUserConstants/CrFwTypeId\_t
+var,ServReqVerif,stepPrgrFailed,Step identifier of last command which failed its Progress Check,,0,NULL,,NULL,CrPsUserConstants/CrPsStepId\_t
+var,ServReqVerif,verFailData,Verification Failure Data (data item of fixed size but variable,,0,NULL,,NULL,CrPsUserConstants/CrPsFailData\_t
+var,ServTest,AreYouAliveSrc,"Source of the latest (17,2) report received in response to a (17,1) command triggered by a (17,3) command",,0,NULL,,NULL,CrPsUserConstants/CrPsDestSrc\_t
+var,ServTest,OnBoardConnectDest,"Destination of the (17,1) triggered by a (17,3) command",,0,NULL,,NULL,CrPsUserConstants/CrPsDestSrc\_t

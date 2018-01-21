@@ -1,0 +1,10 @@
+\def \printEvtRepDisabledRepSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtRepDisabledRep Component}{tab:EvtRepDisabledRepSpec}{Name & EvtRepDisabledRep}
+Description & List of Disabled Event Identifiers Report (5,8) \\\hline
+Parameters & The list of disabled event identifiers with the layout defined in\newline clause 8.5.2.8 of [PS-SP] \\\hline
+Discriminant & None \\\hline
+Enable Check & Report is always enabled \\\hline
+Ready Check & Report is always ready \\\hline
+Repeat Check & Report is never repeated \\\hline
+Update Action & Load the list of disabled event identifiers from arrays isEidEnabled1 to isEidEnabled4 \\\hline
+\end{pnptable}}

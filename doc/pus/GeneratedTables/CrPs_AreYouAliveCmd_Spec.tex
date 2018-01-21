@@ -1,0 +1,11 @@
+\def \printAreYouAliveCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of AreYouAliveCmd Component}{tab:AreYouAliveCmdSpec}{Name & AreYouAliveCmd}
+Description & Command (17,1) to Perform Are-You-Alive Connection Test \\\hline
+Parameters & None \\\hline
+Discriminant & None \\\hline
+Ready Check & Return 'command is ready' \\\hline
+Start Action & Retrieve (17,2) report from OutFactory and set action outcome\newline to ``success' if retrieval succeeds. If the retrieval fails, generate\newline error report OUTFACTORY FAILED and set outcome of Start\newline Action to 'failed' \\\hline
+Progress Action & Configure the (17,2) report with a destination equal to the\newline source of the (17,1), load it in the OutLoader, and set action\newline outcome to 'completed' \\\hline
+Termination Action & Set action outcome to 'success' \\\hline
+Abort Action & Do nothing \\\hline
+\end{pnptable}}

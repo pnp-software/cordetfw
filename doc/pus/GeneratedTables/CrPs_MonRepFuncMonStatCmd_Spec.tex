@@ -1,0 +1,11 @@
+\def \printMonRepFuncMonStatCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonRepFuncMonStatCmd Component}{tab:MonRepFuncMonStatCmdSpec}{Name & MonRepFuncMonStatCmd}
+Description & Command (12,27) to report the status of all functional monitors \\\hline
+Parameters & None \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Attempt to retrieve an OutComponent of type (12,28) from the OutFactory with a size adequate to hold the status of all currently defined functional monitors in the FMDL and set the action outcome to 'success' if the operation is successful. If, instead, the OutFactory fails to return the requested OutComponent generate error report OUTFACTORY\_\-FAIL   \\\hline
+Progress Action & Configure the OutComponent retrieved by the Start Action with the status of all functional monitors currently defined in the FMDL and load it in the OutLoader. Set action outcome to 'success' if the load operation was successful and to 'failed' otherwise. \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}

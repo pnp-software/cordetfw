@@ -1,0 +1,11 @@
+\def \printMonRepOutOfLimitsCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonRepOutOfLimitsCmd Component}{tab:MonRepOutOfLimitsCmdSpec}{Name & MonRepOutOfLimitsCmd}
+Description & Command (12,10) to report the parameter monitors which are out of limits \\\hline
+Parameters & None \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Run the Start Action of (12,10) Command Procedure of figure \ref{fig:Cmd12s8Start} \\\hline
+Progress Action & Attempt to load the (12,11) report created by the Start Manager in the OutLoader. If the load operation is successful, set the action outcome to 'completed'. Otherwise, release the (12,11) report and set the action outcome to 'failed'. \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}

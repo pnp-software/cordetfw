@@ -1,0 +1,11 @@
+\def \printHkOneShotCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkOneShotCmd Component}{tab:HkOneShotCmdSpec}{Name & HkOneShotCmd}
+Description & One-Shot Housekeeping or Diagnostic Report (response to com-\newline mand (3,27) or (3,28)) \\\hline
+Parameters & The values of the data items associated to the report's SID in the RDL with the layout defined in clauses 8.3.2.25 and 8.3.2.26 of [PS-SP] \\\hline
+Discriminant & None \\\hline
+Ready Check & Return 'command is ready' \\\hline
+Start Action & Run the procedure Start Action of Multi-SID Command of figure 9.3 \\\hline
+Progress Action & Run the procedure Progress Action of Generate One-Shot Housekeeping Report of figure 9.6 \\\hline
+Termination Action & Set action outcome to 'success' if all valid SIDs in the command were successfully processed by the progress action; set it to 'failure' otherwise \\\hline
+Abort Action & Do nothing \\\hline
+\end{pnptable}}

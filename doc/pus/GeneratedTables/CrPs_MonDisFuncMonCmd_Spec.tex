@@ -1,0 +1,11 @@
+\def \printMonDisFuncMonCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonDisFuncMonCmd Component}{tab:MonDisFuncMonCmdSpec}{Name & MonDisFuncMonCmd}
+Description & TC(12,18) to disable the functional monitoring function \\\hline
+Parameters & None \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Default implementation (set action outcome to 'success') \\\hline
+Progress Action & Set the enable status of the Functional Monitoring Function in the data pool to 'disabled'. Set the action outcome to 'completed'. \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}
