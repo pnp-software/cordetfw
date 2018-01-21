@@ -305,7 +305,7 @@ E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-
 %
 \newcommand{\pnpcsvtable}[7][head to column names]{
   \begin{pnptable}{#2}{#3}{#4}{#5}
-  \csvreader[respect underscore=true, head to column names, late after line=\\\hline, #1]{#6}{}
+  \csvreader[head to column names, late after line=\\\hline, #1]{#6}{}
   {#7}
   \end{pnptable}}
 
