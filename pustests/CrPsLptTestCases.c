@@ -514,6 +514,8 @@ CrFwBool_t CrPsLptTestCase2()
   /* Release the inCommand */
   CrFwInFactoryReleaseInCmd(inCmd);
   
+  return 1;
+
   /*LOOP !!!! i = 1 to ??*/
   for (i=1;i<LPTSIZE;i++)
   {
