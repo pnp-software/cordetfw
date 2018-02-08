@@ -57,7 +57,7 @@
 
 uint8_t testentry(uint32_t id, uint8_t size)
 {
-  uint8_t testset[size], testget[size], dest[size], i, success;
+  uint8_t testset[MAX_CHAR], testget[MAX_CHAR], dest[MAX_CHAR], i, success;
   size_t lene;
   uint32_t nume;
   success = 0;
@@ -851,6 +851,7 @@ CrFwBool_t CrPsDataPoolTestCase5()
   unsigned char* testarrptr;
   DpServEvtVars_t testvals;
   CrFwTimeStamp_t tim0, timmax;
+  int ret;
 
   for (i=0;i<6;i++)
   {
@@ -930,45 +931,56 @@ CrFwBool_t CrPsDataPoolTestCase5()
   }
 
   setDplastEvtTime_1(tim0);
-  if (memcmp(getDplastEvtTime_1().t, tim0.t, sizeof(tim0))!=0)
+  ret = memcmp(getDplastEvtTime_1().t, tim0.t, sizeof(tim0)); 
+  if (ret!=0)
   {
     return 0;
   }
   setDplastEvtTime_1(timmax);
-  if (memcmp(getDplastEvtTime_1().t, timmax.t, sizeof(timmax))!=0)
+  ret = memcmp(getDplastEvtTime_1().t, timmax.t, sizeof(timmax));
+  if (ret!=0)
   {
     return 0;
   }
 
   setDplastEvtTime_2(tim0);
-  if (memcmp(getDplastEvtTime_2().t, tim0.t, sizeof(tim0))!=0)
+  ret = memcmp(getDplastEvtTime_2().t, tim0.t, sizeof(tim0));
+  if (ret!=0)
   {
     return 0;
   }
+
   setDplastEvtTime_2(timmax);
-  if (memcmp(getDplastEvtTime_2().t, timmax.t, sizeof(timmax))!=0)
+  ret = memcmp(getDplastEvtTime_2().t, timmax.t, sizeof(timmax));
+  if (ret!=0)
   {
     return 0;
   }
 
   setDplastEvtTime_3(tim0);
-  if (memcmp(getDplastEvtTime_3().t, tim0.t, sizeof(tim0))!=0)
+  ret = memcmp(getDplastEvtTime_3().t, tim0.t, sizeof(tim0));
+  if (ret!=0)
   {
     return 0;
   }
+
   setDplastEvtTime_3(timmax);
-  if (memcmp(getDplastEvtTime_3().t, timmax.t, sizeof(timmax))!=0)
+  ret = memcmp(getDplastEvtTime_3().t, timmax.t, sizeof(timmax));
+  if (ret!=0)
   {
     return 0;
   }
 
   setDplastEvtTime_4(tim0);
-  if (memcmp(getDplastEvtTime_4().t, tim0.t, sizeof(tim0))!=0)
+  ret = memcmp(getDplastEvtTime_4().t, tim0.t, sizeof(tim0));
+  if (ret!=0)
   {
     return 0;
   }
+
   setDplastEvtTime_4(timmax);
-  if (memcmp(getDplastEvtTime_4().t, timmax.t, sizeof(timmax))!=0)
+  ret = memcmp(getDplastEvtTime_4().t, timmax.t, sizeof(timmax));
+  if (ret!=0)
   {
     return 0;
   }
@@ -1120,6 +1132,7 @@ CrFwBool_t CrPsDataPoolTestCase6()
   CrFwTimeStamp_t tim0, timmax;
   DpServLptParams_t testparams;
   DpServLptVars_t testvars;
+  int ret;
 
   for (i=0;i<6;i++)
   {
@@ -1302,7 +1315,8 @@ CrFwBool_t CrPsDataPoolTestCase6()
   for (i=0; i<len; i++)
   {
     setDplptTimeItem(i, tim0);
-    if(memcmp(getDplptTimeItem(i).t, tim0.t, sizeof(tim0))!=0)
+    ret = memcmp(getDplptTimeItem(i).t, tim0.t, sizeof(tim0));
+    if(ret!=0)
     {
       return 0;
     }
@@ -1310,7 +1324,8 @@ CrFwBool_t CrPsDataPoolTestCase6()
   for (i=0; i<len; i++)
   {
     setDplptTimeItem(i, timmax);
-    if(memcmp(getDplptTimeItem(i).t, timmax.t, sizeof(timmax))!=0)
+    ret = memcmp(getDplptTimeItem(i).t, timmax.t, sizeof(timmax));
+    if(ret!=0)
     {
       return 0;
     }
@@ -1318,7 +1333,8 @@ CrFwBool_t CrPsDataPoolTestCase6()
   testarrptrtim = getDplptTimeArray();
   for (i =0;i<len;i++)
   {
-    if(memcmp(testarrptrtim[i].t, timmax.t, sizeof(timmax))!=0)
+    ret = memcmp(testarrptrtim[i].t, timmax.t, sizeof(timmax));
+    if(ret!=0)
       return 0;
   }
 

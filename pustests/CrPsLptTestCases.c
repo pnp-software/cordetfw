@@ -67,7 +67,7 @@
 /** The maximum size in number of bytes of a packet */
 #define LPTSIZE 4000
 
-static uint8_t memArray2set[LPTSIZE*2]; /* TODO *2 because GCOV needs it wo work properly */
+static uint8_t memArray2set[LPTSIZE*2]; /* NOTE: *2 because GCOV needs it wo work properly */
 static uint8_t memArray2get[LPTSIZE*2];
 
 /* ---------------------------------------------------------------------------------------------*/
@@ -624,7 +624,7 @@ CrFwBool_t CrPsLptTestCase2()
   memcpy(&memArray2get, (uint8_t*)getLptMemStartAddr(LptBuffer), getLptMemSize(LptBuffer));
 
   /* Check if the Data is stored in the Buffer correctly*/
-  if (memcmp(memArray2set, memArray2get, LPTSIZE) != 0)
+  if (memcmp(memArray2set, memArray2get, LPTSIZE))
   {
     return 0;
   }
@@ -878,11 +878,11 @@ CrFwBool_t CrPsLptTestCase3()
   CrFwCmpExecute(outCmp); 
 
   /* get the data from the outCmp (last Packet)*/
-  memcpy(&memArray2get[partsize*4], &((uint8_t*)cmpSpecificData->pckt)[o], (CrFwPcktGetLength(cmpSpecificData->pckt) - o - CRC_LENGTH)); /* TODO TODO .. hier versagt die GCOV !!!*/
+  memcpy(&memArray2get[partsize*4], &((uint8_t*)cmpSpecificData->pckt)[o], (CrFwPcktGetLength(cmpSpecificData->pckt) - o - CRC_LENGTH));
 
   /* Test the memory */
   /* Check if the Data is stored in the Buffer correctly*/
-  if (memcmp(memArray2set, memArray2get, LPTSIZE) != 0)
+  if (memcmp(memArray2set, memArray2get, LPTSIZE))
   {
     return 0;
   }
