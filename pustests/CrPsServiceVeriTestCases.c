@@ -414,7 +414,7 @@ CrFwBool_t CrPsServVeriTestCase1()
 
   /* Successful Completion of Execution Verification Report */
   /* Standard Check Service (1,7) */
-  SendReqVerifAccSuccRep(inCmd, CRPS_REQVERIF_TERM_SUCC); //(1,7)
+  SendReqVerifAccSuccRep(inCmd, CRPS_REQVERIF_TERM_SUCC);
   
   /* Check if number of Allocated OutComponents = 1*/
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)

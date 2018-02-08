@@ -116,7 +116,6 @@ void CrPsCmdVerSuccN4(FwPrDesc_t prDesc)
   inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
   inPckt         = inSpecificData->pckt;
 
-  //tcPacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
   Rid = getPcktRid(inPckt);
 
   if (prData->ushortParam1 == CRPS_REQVERIF_ACC_SUCC)

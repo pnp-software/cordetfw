@@ -1304,12 +1304,6 @@ CrFwBool_t CrPsLptTestCase4()
   /* Reset application error Corde */
   CrFwSetAppErrCode(crNoAppErr);
 
-  /* Release all outcomponents, that have been created to fill the outfactory */
-  //for (i=0;i<=CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-4;i++)
-  //{ 
-  //  CrFwOutFactoryReleaseOutCmp(outCmpArr[i]);
- // }
-
   CRFW_UNUSED(outCmpArr);
 
   /* Check application errors */
