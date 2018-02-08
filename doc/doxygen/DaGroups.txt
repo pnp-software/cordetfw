@@ -1,4 +1,7 @@
 /** @defgroup crDemo Demo Application 
+ * 
+ * @brief Demo application for the CORDET Framework
+ *
  * The CORDET Demo consists of three applications: the Master Application,
  * the Slave 1 Application and the Slave 2 Application.
  * The two slave applications are responsible for monitoring a temperature sensor.
