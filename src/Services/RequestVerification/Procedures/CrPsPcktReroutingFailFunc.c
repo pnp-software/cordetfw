@@ -49,7 +49,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-static FwSmDesc_t cmd, rep;
+static FwSmDesc_t rep;
 
 
 /* ----------------------------------------------------------------------------------------------------------------- */
@@ -172,7 +172,7 @@ void CrPsPcktReroutingFailN5(FwPrDesc_t prDesc)
   CrFwCounterU4_t nOfReroutingFailed;
 
   CRFW_UNUSED(prDesc);
-  
+
   /* Increment data pool variable nOfReroutingFailed */
 
   nOfReroutingFailed = getDpnOfReroutingFailed();

@@ -47,8 +47,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+static FwSmDesc_t rep;
 
-FwSmDesc_t cmd, rep;
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 
@@ -118,7 +118,7 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc)
   Rid = getPcktRid(inPckt);
   setVerFailedPrgrRepRid(pckt, Rid);
 
-  /*TODO  Step Id eventually ushortparam1 ?? */
+  /* Set step Id */
   setVerFailedPrgrRepStepId(pckt, (CrPsStepId_t)prData->ushortParam1);
 
   /* Set failCodeAccFailed = discriminant */

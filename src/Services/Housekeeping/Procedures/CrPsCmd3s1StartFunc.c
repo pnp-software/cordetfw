@@ -52,7 +52,7 @@
 #include <time.h>
 
 static FwSmDesc_t rep;
-CrPsSid_t  rdlSlot;
+static CrPsSid_t  rdlSlot;
 
 
 /* ----------------------------------------------------------------------------------------------------------------- */
