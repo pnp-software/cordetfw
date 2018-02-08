@@ -1,19 +1,19 @@
 
 CC = gcc
-INCLUDES = -I./src -I./lib/fwprofile/src -I./pustests/config -I./pustests -include stdint.h
-CFLAGS = -W -Wall -Werror -Wextra -pedantic -g2 -O0 -fprofile-arcs -ftest-coverage -DPC_TARGET
+INCLUDES = -I./src -I./lib/fwprofile/src -I./tests/config -I./tests -include stdint.h
+CFLAGS = -W -Wall -Wextra -Werror -pedantic -g2 -O0 -fprofile-arcs -ftest-coverage -DPC_TARGET
 LFLAGS =
 LIBS = -lpthread
 HEADERS = $(shell find . -name *.h)
 SRCS_FW = $(shell find ./lib/fwprofile/src -name *.c)
 SRCS_CR = $(shell find ./src -name *.c)
-SRCS_TS = $(shell find ./pustests -name *.c)
+SRCS_TS = $(shell find ./tests -name *.c)
 SRCS = $(SRCS_FW) $(SRCS_CR) $(SRCS_TS)
 ODIR = bin
 OBJS = $(patsubst %,$(ODIR)/%,$(SRCS:.c=.o))
 GCOV = $(patsubst %,$(ODIR)/%,$(SRCS:.c=.gcov))
 OBJS_DIR = $(dir $(OBJS))
-MAIN = $(ODIR)/pustestsuite
+MAIN = $(ODIR)/testsuite
 
 .PHONY: clean test create_dir coverage run-test coverage-info coverage-cp info
 
