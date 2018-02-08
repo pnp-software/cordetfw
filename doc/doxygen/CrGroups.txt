@@ -98,8 +98,8 @@
  */
  
 /** @defgroup crConfigGroup Configurable Header Files
- * The files in this module must be modified by application developers to
- * adapt them to the needs of their target application.
+ * Files to be modified by application developers to
+ * match the needs of their target application.
  * These files customize the behaviour of the
  * framework components by being included (via <code>include</code> directives) into the component
  * bodies.

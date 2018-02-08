@@ -3,7 +3,7 @@
 *
 * The C2 Implementation is a C-language implementation of the <strong>CORDET Framework</strong>.
 * The CORDET Framework is a software framework for service-oriented distributed embedded applications. 
-* The CORDET Framework defines an application in terms of the services it provides to 
+* It defines an application in terms of the services it provides to 
 * other applications and in terms of the services it uses from other applications.
 * A <strong>service</strong> is implemented by a set of <strong>commands</strong> through which 
 * an application is asked to 
@@ -13,10 +13,15 @@
 * The full documentation and code of the CORDET Framework is available from its
 * <a href="http://www.pnp-software.com/cordetfw">project web site</a>.
 *
+* The CORDET Framework uses the same service concept as the <strong>Packet Utilization Standard</strong> (PUS).
+* The PUS has been introduced by the European Space Agency (ESA) to define the protocol through which 
+* on-board applications make their services available to each other and to the ground. 
+* The CORDET Framework offers a <strong>PUS Extension</strong> which provides an implementation of the most commonly used
+* PUS services.
+* 
 * The CORDET Framework is implementation-independent. 
-* The C2 Implementation is a C language implementation of the components which implement the service
-* concept of the CORDET Framework. 
-* The main features of the C2 Implementation are: 
+* The C2 Implementation is a C-language implementation of its components. 
+* Its main features are: 
 * - <strong>Well-Defined Semantics</strong>: clearly and unambiguously defined behaviour. 
 * - <strong>Minimal Memory and CPU Requirements</strong>: core module footprint of a few kBytes and efficient
 *   implementation in C.
