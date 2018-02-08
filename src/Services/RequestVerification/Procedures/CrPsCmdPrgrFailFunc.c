@@ -70,8 +70,9 @@ void CrPsCmdPrgrFailN2(FwPrDesc_t prDesc)
 /** Action for node N3. */
 void CrPsCmdPrgrFailN3(FwPrDesc_t prDesc)
 {
-  CRFW_UNUSED(prDesc);
   CrPsRepErrCode_t errCode;
+
+  CRFW_UNUSED(prDesc);
 
   /* Generate error report OUTFACTORY_FAIL */
 
@@ -141,9 +142,10 @@ void CrPsCmdPrgrFailN4(FwPrDesc_t prDesc)
 /** Action for node N5. */
 void CrPsCmdPrgrFailN5(FwPrDesc_t prDesc)
 {
-  CRFW_UNUSED(prDesc);
   CrFwCounterU4_t nOfPrgrFailed;
 
+  CRFW_UNUSED(prDesc);
+  
   /* Increment data pool variable nOfPrgrFailed */
 
   nOfPrgrFailed = getDpnOfPrgrFailed();

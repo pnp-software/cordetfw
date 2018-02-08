@@ -72,9 +72,10 @@ void CrPsCmdVerSuccN2(FwPrDesc_t prDesc)
 /** Action for node N3. */
 void CrPsCmdVerSuccN3(FwPrDesc_t prDesc)
 {
-  CRFW_UNUSED(prDesc);
   CrPsRepErrCode_t errCode;
 
+  CRFW_UNUSED(prDesc);
+  
   /* Generate error report OUTFACTORY_FAIL */
 
   errCode = crOutfactoryFail;

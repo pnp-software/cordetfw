@@ -52,15 +52,16 @@
 #include <stdlib.h>
 #include <time.h>
 
-FwSmDesc_t cmd;
+static FwSmDesc_t cmd;
 
 
 /* ------------------------------------------------------------------------------------ */
 /* Action for node N1. */
 void CrPsTestOnBoardConnectionStartN1(FwPrDesc_t prDesc)
 {
-  CRFW_UNUSED(prDesc);
   CrPsDestSrc_t areYouAliveSrc; 
+
+  CRFW_UNUSED(prDesc);
 
   /* Set areYouAliveSrc to zero */
 
@@ -87,8 +88,9 @@ void CrPsTestOnBoardConnectionStartN2(FwPrDesc_t prDesc)
 /* Action for node N3. */
 void CrPsTestOnBoardConnectionStartN3(FwPrDesc_t prDesc)
 {
-  CRFW_UNUSED(prDesc);
   CrPsRepErrCode_t errCode;
+
+  CRFW_UNUSED(prDesc);
 
   /* Generate error report OUTFACTORY_FAIL */
 
@@ -102,8 +104,9 @@ void CrPsTestOnBoardConnectionStartN3(FwPrDesc_t prDesc)
 /* Action for node N4. */
 void CrPsTestOnBoardConnectionStartN4(FwPrDesc_t prDesc)
 {
-  CRFW_UNUSED(prDesc);
   CrFwDestSrc_t destId;
+
+  CRFW_UNUSED(prDesc);
 
   /* Configure (17,1) OutComponent */
 
@@ -209,10 +212,11 @@ void CrPsTestOnBoardConnectionStartN10(FwPrDesc_t prDesc)
 /* Guard on the Control Flow from DECISION1 to N1. */
 FwPrBool_t CrPsTestOnBoardConnectionStartG1(FwPrDesc_t prDesc)
 {
-  CRFW_UNUSED(prDesc);
   CrFwCounterU4_t i, pos;
   CrPsApid_t      appId;
   CrPsDestSrc_t   destId;
+
+  CRFW_UNUSED(prDesc);
 
   /* [ Identifier of target application is legal ] */
 

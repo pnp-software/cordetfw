@@ -49,8 +49,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+static FwSmDesc_t cmd, rep;
 
-FwSmDesc_t cmd, rep;
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 
@@ -100,8 +100,9 @@ void CrPsPcktReroutingFailN2(FwPrDesc_t prDesc)
 /** Action for node N3. */
 void CrPsPcktReroutingFailN3(FwPrDesc_t prDesc)
 {
-  CRFW_UNUSED(prDesc);
   CrPsRepErrCode_t errCode;
+
+  CRFW_UNUSED(prDesc);
 
   /* Generate error report OUTFACTORY_FAIL */
 
@@ -168,9 +169,10 @@ void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc)
 /** Action for node N5. */
 void CrPsPcktReroutingFailN5(FwPrDesc_t prDesc)
 {
-  CRFW_UNUSED(prDesc);
   CrFwCounterU4_t nOfReroutingFailed;
 
+  CRFW_UNUSED(prDesc);
+  
   /* Increment data pool variable nOfReroutingFailed */
 
   nOfReroutingFailed = getDpnOfReroutingFailed();

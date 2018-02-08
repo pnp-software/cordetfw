@@ -87,61 +87,6 @@ void CrPsCmd3s3StartN1(FwPrDesc_t prDesc)
   currentSid = getHkDeleteCmdRepStrucIdItem(pckt, i+1); 
   iMax = getHkDeleteCmdN(pckt); 
 
-#if 0
-  servSubType = CrFwPcktGetServSubType(pckt);
-  switch(servSubType)
-  {
-    case 3:
-      currentSid = getHkDeleteCmdRepStrucIdItem(pckt, i+1); 
-      iMax = getHkDeleteCmdN(pckt); 
-      break;
-    case 4:
-      currentSid = getHkDeleteCmdRepStrucIdItem(pckt, i+1); 
-      iMax = getHkDeleteCmdN(pckt); 
-      break;
-
-    case 5:
-      currentSid = getHkEnableCmdRepStrucIdItem(pckt, i+1); 
-      iMax = getHkEnableCmdN(pckt); 
-      break;
-    case 7:
-      currentSid = getHkEnableCmdRepStrucIdItem(pckt, i+1); 
-      iMax = getHkEnableCmdN(pckt); 
-      break;
-
-    case 6:
-      currentSid = getHkDisableCmdRepStrucIdItem(pckt, i+1); 
-      iMax = getHkDisableCmdN(pckt); 
-      break;
-    case 8:
-      currentSid = getHkDisableCmdRepStrucIdItem(pckt, i+1); 
-      iMax = getHkDisableCmdN(pckt);     
-      break;
-
-    case 9:
-      currentSid = getHkRepStructCmdRepStrucIdItem(pckt, i+1); 
-      iMax = getHkRepStructCmdN(pckt); 
-      break;
-    case 11:
-      currentSid = getHkRepStructCmdRepStrucIdItem(pckt, i+1); 
-      iMax = getHkRepStructCmdN(pckt); 
-      break;
-
-    case 27:
-      currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i+1); 
-      iMax = getHkOneShotCmdN(pckt); 
-      break;
-    case 28:
-      currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i+1); 
-      iMax = getHkOneShotCmdN(pckt); 
-      break;
-
-    default:
-      currentSid = 0;
-      iMax = 1;
-      break;
-  }
-#endif
   return;
 }
 
@@ -196,52 +141,6 @@ void CrPsCmd3s3StartN4(FwPrDesc_t prDesc)
 
   /* Get current SID */
   currentSid = getHkDeleteCmdRepStrucIdItem(pckt, i+1); 
-
-#if 0
-  servSubType = CrFwPcktGetServSubType(pckt);
-
-  switch(servSubType)
-  {
-    case 3:
-      currentSid = getHkDeleteCmdRepStrucIdItem(pckt, i+1); 
-      break;
-    case 4:
-      currentSid = getHkDeleteCmdRepStrucIdItem(pckt, i+1); 
-      break;
-
-    case 5:
-      currentSid = getHkEnableCmdRepStrucIdItem(pckt, i+1); 
-      break;
-    case 7:
-      currentSid = getHkEnableCmdRepStrucIdItem(pckt, i+1); 
-      break;
-
-    case 6:
-      currentSid = getHkDisableCmdRepStrucIdItem(pckt, i+1); 
-      break;
-    case 8:
-      currentSid = getHkDisableCmdRepStrucIdItem(pckt, i+1); 
-      break;
-
-    case 9:
-      currentSid = getHkRepStructCmdRepStrucIdItem(pckt, i+1); 
-      break;
-    case 11:
-      currentSid = getHkRepStructCmdRepStrucIdItem(pckt, i+1); 
-      break;
-
-    case 27:
-      currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i+1); 
-      break;
-    case 28:
-      currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i+1); 
-      break;
-
-    default:
-      currentSid = 0;
-      break;
-  }
-#endif
 
   return;
 }
