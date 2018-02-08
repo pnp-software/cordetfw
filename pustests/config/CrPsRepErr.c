@@ -1,9 +1,9 @@
 /**
  * @file CrPsRepErr.c
- * @ingroup 
+ * @ingroup PUSTestsuite
+ * @ingroup PUSTestconfig
  *
- * Implementation of the PUS extension error reporting interface for the Test
- * Application.
+ * @brief Implementation of the PUS extension error reporting interface for the Test Application.
  *
  * \see CrFwRepErr.h
  *
@@ -11,6 +11,18 @@
  *
  * @authors V. Cechticky and A. Pasetti
  * @copyright P&P Software GmbH, 2014
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ *
+ * last modification: 22.01.2018
+ *
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include <stdio.h>

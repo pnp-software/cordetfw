@@ -1,8 +1,24 @@
 /**
  * @file CrPsCmd3SidStartFunc.c
+ * @ingroup Serv3
+ * @ingroup procedures
+ *
+ * @brief Start Action for service 3 commands which carry a list of SIDs
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Sep 6 2017 17:17:19
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 /** CrPsCmd3SidStart function definitions */
@@ -33,9 +49,7 @@
 #include <CrPsUtilitiesServHk.h>
 #include <CrPsUtilitiesServReqVerif.h>
 #include <CrPsUserConstants.h>
-#include <CrPsDebug.h>
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -56,7 +70,6 @@ void CrPsCmd3SidStartN1(FwPrDesc_t prDesc)
   CrFwServSubType_t         servSubType;
 
   /*Set i equal to 1 */
-  DEBUGP_3("CrPsCmd3SidStartN1.\n");
   i = 0;
   iSidFail = 0;
 
@@ -122,11 +135,10 @@ void CrPsCmd3SidStartN1(FwPrDesc_t prDesc)
 void CrPsCmd3SidStartN2(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  DEBUGP_3("CrPsCmd3SidStartN2.\n");
   /*Load invalid SID in data pool item verFailData */
 
   iSidFail++;
-  setDpverFailData((uint32_t)currentSid);
+  setDpverFailData((CrPsFailData_t)currentSid);
 
   return;
 }
@@ -138,7 +150,6 @@ void CrPsCmd3SidStartN3(FwPrDesc_t prDesc)
   prDescMultiSidCmdStart_t *prDataPtr;
 
   /* Run Command Verification Failure Procedure to generate (1,4) report with failure code VER_ILL_SID */
-  DEBUGP_3("CrPsCmd3SidStartN3.\n");
   /* Get smDesc from prData */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -159,7 +170,6 @@ void CrPsCmd3SidStartN4(FwPrDesc_t prDesc)
   CrFwServSubType_t         servSubType;
 
   /*Increment i */
-  DEBUGP_3("CrPsCmd3SidStartN4.\n");
   i++;
 
   /* Get smDesc from prData */
@@ -203,7 +213,7 @@ void CrPsCmd3SidStartN4(FwPrDesc_t prDesc)
       currentSid = getHkOneShotCmdRepStrucIdItem(pckt, i+1); 
       break;
 
-    default: /*TODO kann nicht mehr ausgeführt werden ! (weil beim N1 maxsid auf 1 gesetzt wird!*/
+    default: /*TODO (01.02.2018) can not be reached because(N1 maxsid is set to 1 !)*/
       currentSid = 0;
       break;
   }
@@ -219,7 +229,6 @@ void CrPsCmd3SidStartN7(FwPrDesc_t prDesc)
   FwSmDesc_t                smDesc;
 
   /*Set action outcome to 'success' */
-  DEBUGP_3("CrPsCmd3SidStartN7.\n");
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -240,7 +249,6 @@ void CrPsCmd3SidStartN8(FwPrDesc_t prDesc)
   FwSmDesc_t                smDesc;
   
   /*Set action outcome to 'failure' with failure code VER_SID_START_FD */
-  DEBUGP_3("CrPsCmd3SidStartN8.\n");
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -263,7 +271,6 @@ FwPrBool_t CrPsCmd3SidStartG1(FwPrDesc_t prDesc)
   CrPsSid_t rdlSid, rdlSlot;
 
   CRFW_UNUSED(prDesc);
-  DEBUGP_3("CrPsCmd3SidStartG1.\n");
   /*The i-th SID is not in the RDL */
 
   /* look for the slot */
@@ -292,7 +299,6 @@ FwPrBool_t CrPsCmd3SidStartG2(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /*The i-th SID was the last SID in the command*/
-  DEBUGP_3("CrPsCmd3SidStartG2.\n");
   if (i == iMax-1)
     {
       return 1;
@@ -309,7 +315,6 @@ FwPrBool_t CrPsCmd3SidStartG3(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /*All SIDs in the command are invalid */
-	  DEBUGP_3("CrPsCmd3SidStartG3.\n");
   if (iSidFail == iMax)
     {
       return 1;

@@ -301,22 +301,22 @@ static void InManagerShutdownAction(FwSmDesc_t smDesc) {
 
 /*-----------------------------------------------------------------------------------------*/
 CrFwCounterU1_t CrFwInManagerGetNOfPendingInCmp(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* inManagerData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerData->cmpSpecificData;
+	CrFwCmpData_t* inManagerDataLocal = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerDataLocal->cmpSpecificData;
 	return inManagerCSData->nOfInCmpInPcrl;
 }
 
 /*-----------------------------------------------------------------------------------------*/
 CrFwCounterU2_t CrFwInManagerGetNOfLoadedInCmp(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* inManagerData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerData->cmpSpecificData;
+	CrFwCmpData_t* inManagerDataLocal = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwInManagerData_t* inManagerCSData = (CrFwInManagerData_t*)inManagerDataLocal->cmpSpecificData;
 	return inManagerCSData->nOfLoadedInCmp;
 }
 
 /*-----------------------------------------------------------------------------------------*/
 CrFwCounterU1_t CrFwInManagerGetPCRLSize(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* inManagerData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwInstanceId_t id = inManagerData->instanceId;
+	CrFwCmpData_t* inManagerDataLocal = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwInstanceId_t id = inManagerDataLocal->instanceId;
 	return (CrFwCounterU1_t)inManagerPcrlSize[id];
 }
 

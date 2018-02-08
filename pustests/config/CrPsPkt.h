@@ -1,17 +1,32 @@
 /**
- * \file
+ * @file CrPsPkt.h
+ * @ingroup PUSTestsuite
+ * @ingroup PUSTestconfig 
  *
- * Packet header definitions.
+ * @brief Packet header definitions.
  *
- * \note This file was generated on 2017-10-13 12:48:17
- * \author PnP Generator
- * \copyright (c) Copyright
+ * @note This file was generated on 2017-10-13 12:48:17
+ * @author PnP Generator
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ *
+ * last modification: 22.01.2018
+ *
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
+
 #ifndef CRPSPKT_H_
 #define CRPSPKT_H_
 
 #include "CrFwUserConstants.h"
-#include "CrPsDpTypes.h"
+#include "CrPsUserConstants.h"
+#include "Pckt/CrFwPckt.h"
 
 /**
  * Structure for TcHeader
@@ -975,6 +990,97 @@ static inline void setTmHeaderTime(void* p, const void* src)
   memcpy(&t->Time.t[0], src, sizeof(t->Time));
 }
 
+
+/**/
+static inline uint16_t CrFwPcktGetSeqCtrl(CrFwPckt_t pckt)
+{
+	uint32_t seqflags, seqcount;
+
+	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
+	{
+		seqflags = getTmHeaderSeqFlags(pckt);
+		seqcount = getTmHeaderSeqCount(pckt);
+	}
+	else
+	{
+		seqflags = getTcHeaderSeqFlags(pckt);
+		seqcount = getTcHeaderSeqCount(pckt);
+	}
+	
+	return ((seqflags << 14) & 0xc000) | (seqcount & 0x3fff);
+}
+
+/**/
+static inline void CrFwPcktSetSeqCtrl(CrFwPckt_t pckt, uint16_t psc)
+{
+	uint32_t seqflags, seqcount;
+
+	seqflags = ((psc & 0xc000)>>14)&0x0003;
+	seqcount = psc & 0x3fff;
+
+	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
+	{
+		setTmHeaderSeqFlags(pckt, seqflags);
+		setTmHeaderSeqCount(pckt, seqcount);
+	}
+	else
+	{
+		setTmHeaderSeqFlags(pckt, seqflags);
+		setTmHeaderSeqCount(pckt, seqcount);
+	}
+
+	return;
+}
+
+/**/
+static inline uint16_t CrFwPcktGetApid(CrFwPckt_t pckt)
+{
+	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
+	{
+		return getTmHeaderAPID(pckt);
+	}
+	else
+	{
+		return getTcHeaderAPID(pckt);
+	}
+}
+
+/**/
+static inline void CrFwPcktSetApid(CrFwPckt_t pckt, uint16_t apid)
+{
+	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
+	{
+		setTmHeaderAPID(pckt, apid);
+	}
+	else
+	{
+		setTcHeaderAPID(pckt, apid);
+	}
+}
+
+
+/**
+ * Getter for the RequestId from a packet.
+ * \param p Pointer to the packet.
+ * \return RequestId Item Value.
+ */
+static inline CrPsRid_t getPcktRid(void* p)
+{
+  CrPsRid_t ret;
+  memcpy(&ret, &((uint8_t*)p)[0], sizeof(CrPsRid_t));
+  return __builtin_bswap32(ret);
+}
+
+/**
+ * Setter for the RequestId from a packet.
+ * \param p Pointer to the packet.
+ * \param rid Variable from where RequestId is copied.
+ */
+static inline void setPcktRid(void* p, CrPsRid_t Rid)
+{
+  Rid = __builtin_bswap32(Rid);
+  memcpy(&((uint8_t*)p)[0], &Rid, sizeof(CrPsRid_t));
+}
 
 /*----------------------------------------------------------------------------*/
 #endif /* CRPSPKT_H */

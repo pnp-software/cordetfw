@@ -1,6 +1,7 @@
 /**
  * @file CrPsUserConstants.h
- * @ingroup CrIaDemo
+ * @ingroup PUSTestsuite
+ * @ingroup PUSTestconfig
  *
  * Header file to define all user-configurable constants and types for the IASW
  * Application.
@@ -13,13 +14,32 @@
  *    attributes
  *
  * @authors V. Cechticky and A. Pasetti
- * edited: Markus Rockenbauer
- * 25.04.2017
- * @copyright P&P Software GmbH, 2014
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ *
+ * last modification: 22.01.2018
+ *
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #ifndef CRPS_USERCONSTANTS_H_
 #define CRPS_USERCONSTANTS_H_
+#include <string.h>
+
+typedef uint32_t One_Bit_t;
+typedef uint32_t Two_Bit_t;
+typedef uint32_t Three_Bit_t;
+typedef uint32_t Four_Bit_t;
+typedef uint32_t Eleven_Bit_t;
+typedef uint32_t FourTeen_Bit_t;
+
+typedef uint32_t ParameterId_t;
 
 
 /** Type used for the Application ID of a packet. */
@@ -102,6 +122,9 @@ typedef uint32_t CrPsFailReason_t;
 
 /* Type used as an identifier of the number of parts of a packet */
 typedef uint16_t CrPsPart_t;
+
+/* Type used as the Request ID which are the first 4 bytes of a packet */
+typedef uint32_t CrPsRid_t;
 
 
 /**
@@ -191,6 +214,8 @@ typedef enum
 /* Number of Large Packet Transfer Buffers available for down- or up-link of large packets */
 #define LPT_N_BUF 5
 
+/* Timeout for Up-Link Packages */
+#define LPT_UP_TIMEOUT 100
 
 /** Failure Codes for Service 5 (Event Report) */
 /* Generated when an attempt to retrieve a report from the OutFactory has failed */
@@ -239,5 +264,11 @@ typedef enum
 
 /** Failure Codes of Service 5 (Event Report) for Service 1 (Request Verification) */
 #define VER_ILL_EID      225
+
+#define LPT_FAILCODE_NO_FAIL 0
+#define LPT_FAILCODE_TIME_OUT 1
+#define EVT_DOWN_ABORT 131
+
+
 
 #endif /* CRPS_USERCONSTANTS_H_ */

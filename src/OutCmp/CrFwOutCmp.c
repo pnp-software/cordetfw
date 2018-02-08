@@ -342,7 +342,8 @@ void PendingEntryAction(FwSmDesc_t smDesc) {
 			cmpData->outcome = 1;
 		else
 			cmpData->outcome = 2;
-	}
+	} else
+		cmpData->outcome = 1;
 }
 
 /* --------------------------------------------------------------------------------- */

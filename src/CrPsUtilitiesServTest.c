@@ -1,17 +1,25 @@
 /**
- * @file CrPsUtilities.c
+ * @file CrPsUtilitiesServTest.c
+ * @ingroup Utilities
+ * @ingroup Serv17
  *
- * Implementation of the utility functions of the CORDET Framework PUS Extension
+ * @brief Implementation of the utility functions of the CORDET Framework PUS Extension Service 17 (Test)
  *
- * @author code generator
- * edited: Christian Reimers
- * 25.05.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsUtilitiesServTest.h"
 #include "Pckt/CrFwPckt.h"     /* --- interface to adaptation point CrFwPckt --- */
-
 
 /* CrFramework includes */
 #include <OutFactory/CrFwOutFactory.h>
@@ -34,7 +42,6 @@
 #include <DataPool/CrPsDpServEvt.h>
 /*hier CrPsDpPkt dateien hinzufügen!*/
 
-#include <stdio.h>
 #include <stdlib.h>
 
 /* global handles for the procedures */
@@ -46,10 +53,8 @@ FwPrDesc_t prDescServTestOnBoardConnStart, prDescServTestOnBoardConnPrgr;
  */
 void CrPsInitServTestApp(unsigned short onBoardTestConnectAppId)
 {
-  unsigned short destId;
-  unsigned int i, pos;
-
-  printf("CrPsInitServTestApp(%d): Mult = %d\n", onBoardTestConnectAppId, 10);
+  uint16_t destId;
+  uint32_t i, pos;
 
   /*************************************************************/
   /* Service Test On-Board Connection Data Pool Initialization */
@@ -58,16 +63,13 @@ void CrPsInitServTestApp(unsigned short onBoardTestConnectAppId)
     {
       pos = i;
       destId = getDpOnBoardConnectDestLstItem(pos);
-      printf("CrPsInitServTestApp(): got destId %d at slot %d from data pool\n", destId, i);
       if (destId == 0) /* got empty#include <> slot */
         {
-          printf("CrPsInitServTestApp(): new slot for appId found: pos = %d\n", pos);
           setDpOnBoardConnectDestLstItem(pos, onBoardTestConnectAppId);
           return;
         }
     }
 
-  printf("CrPsInitServTestApp(): no empty slot found!\n");
   return;
 }
 
@@ -76,7 +78,6 @@ void CrPsInitServTestApp(unsigned short onBoardTestConnectAppId)
  */
 int CrPsInitServTest()
 {
-  printf("CrPsInitServTest()\n");
 
   /***********************************************************************/
   /* Initialization of Data Pool variables and parameter                 */
@@ -89,7 +90,6 @@ int CrPsInitServTest()
   prDescServTestOnBoardConnStart = CrPsCmd17s3StartCreate(NULL);
   if (FwPrCheck(prDescServTestOnBoardConnStart) != prSuccess)
     {
-      printf("Service Test On-Board Connection Start PR is NOT properly configured ... FAILURE\n");
       return EXIT_FAILURE;
     }
 
@@ -99,7 +99,6 @@ int CrPsInitServTest()
   prDescServTestOnBoardConnPrgr = CrPsCmd17s3PrgrCreate(NULL);
   if (FwPrCheck(prDescServTestOnBoardConnPrgr) != prSuccess)
     {
-      printf("Service Test On-Board Connection Progress PR is NOT properly configured ... FAILURE\n");
       return EXIT_FAILURE;
     }
 
@@ -114,7 +113,6 @@ int CrPsInitServTest()
  */
 void CrPsExecServTest()
 {
-  printf("CrPsExecServTest()\n");
 
   FwPrExecute(prDescServTestOnBoardConnStart);
   /*FwPrExecute(prDescServTestOnBoardConnPrgr);*/

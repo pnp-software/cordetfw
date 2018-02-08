@@ -1,10 +1,22 @@
 /**
  * @file CrPsHkDeleteCmd.c
+ * @ingroup Serv3
+ * @ingroup InCmd
  *
- * Implementation of the Command (3,3) to Delete a Housekeeping Report Structure in-coming command packet.
+ * @brief Implementation of the Command (3,3) to Delete a Housekeeping Report Structure in-coming command packet.
  *
- * @author C. Reimers and M. Rockenbauer 13.06.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsHkDeleteCmd.h"
@@ -32,20 +44,19 @@
 #include <Services/General/CrPsPktServHk.h>
 #include <Services/General/CrPsPktServHkSupp.h>
 
-#include <stdio.h>
-#include "CrPsDebug.h"
-
 
 /* ------------------------------------------------------------------------------------ */
 void CrPsHkDeleteCmdStartAction(FwSmDesc_t smDesc)
 {
   prDescCmd3s3Start_t prData;
+  unsigned char rdlSlotList[HK_N_REP_DEF];
 
   /* Run the procedure Start Action of HkDelete Command of figure 9.2 */
 
   /* Set prData of procedure   */
   /* initial setting of prData */
   prData.smDesc = smDesc;
+  prData.rdlSlotListPtr = rdlSlotList;
   FwPrSetData(getPrDescHkCmd3s3Start(), &prData);
 
   FwPrRun(getPrDescHkCmd3s3Start());
@@ -59,7 +70,7 @@ void CrPsHkDeleteCmdProgressAction(FwSmDesc_t smDesc)
   CrFwCmpData_t      *cmpData;
   CrFwInCmdData_t    *cmpSpecificData;
   CrFwPckt_t          pckt;
-  CrFwCounterU4_t     i, k, N;
+  CrFwCounterU4_t     i, N;
   CrPsSid_t           rdlSid, rdlSlot;
   CrPsSid_t           sid;
   CrFwBool_t          isEnabled;

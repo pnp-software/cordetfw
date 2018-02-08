@@ -1,8 +1,24 @@
 /**
  * @file CrPsCmd3s1StartCreate.c
+ * @ingroup Serv3
+ * @ingroup procedures
+ *
+ * @brief Create one instance of the CrPsCmd3s1Start procedure
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Jan 3 2018 14:29:33
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsCmd3s1StartCreate.h"
@@ -16,7 +32,6 @@
 
 /** CrPsCmd3s1Start function definitions */
 #include <stdlib.h>
-#include "CrPsDebug.h"
 
 /** Guard on the Control Flow from DECISION1 to DECISION2. */
 FwPrBool_t CrPsCmd3s1StartG1E(FwPrDesc_t prDesc)
@@ -53,7 +68,7 @@ FwPrBool_t CrPsCmd3s1StartG5E(FwPrDesc_t prDesc)
 	return 1;
 }
 
-/** Guard on the Control Flow from DECISION6 to N11. */
+/** Guard on the Control Flow from DECISION6 to N11. */ /*TODO (01.02.2018) never reached in Testsuite*/
 FwPrBool_t CrPsCmd3s1StartG6E(FwPrDesc_t prDesc)
 {
 	CRFW_UNUSED(prDesc);

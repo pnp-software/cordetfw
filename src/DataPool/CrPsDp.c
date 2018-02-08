@@ -1,11 +1,22 @@
 /**
- * \file
+ * @file CrPsDp.c
+ * @ingroup DataPool
  *
- * Interface for accessing data pool items.
+ * @brief Interface for accessing data pool items.
  *
- * \note This file was generated on 2017-10-13 12:48:17
- * \author PnP Generator
- * \copyright (c) Copyright
+ * @note This file was generated on 2017-10-13 12:48:17
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include <DataPool/CrPsDp.h>
@@ -42,7 +53,7 @@ typedef struct _DpMetaInfoEntry_t {
 /**
  *
  * Array of \ref _DpMetaInfoEntry_t to hold the meta information of all
- * datapool entries.
+ * datapool entries of the type parameter.
  */
 static DpMetaInfoEntry_t dpMetaInfoParams[] = {
   {(void*)&dpServHkParams.debugVarAddr, sizeof(dpServHkParams.debugVarAddr), HK_N_DEBUG_VAR, sizeof(dpServHkParams.debugVarAddr[0])},
@@ -55,6 +66,11 @@ static DpMetaInfoEntry_t dpMetaInfoParams[] = {
   {(void*)&dpServTestParams.OnBoardConnectDestLst, sizeof(dpServTestParams.OnBoardConnectDestLst), TEST_MAX_APP, sizeof(dpServTestParams.OnBoardConnectDestLst[0])}
 };
 
+/**
+ *
+ * Array of \ref _DpMetaInfoEntry_t to hold the meta information of all
+ * datapool entries of the type variable.
+ */
 static DpMetaInfoEntry_t dpMetaInfoVars[] = {
   {(void*)&dpServEvtVars.isEidEnabled, sizeof(dpServEvtVars.isEidEnabled), EVT_N_EID, sizeof(dpServEvtVars.isEidEnabled[0])},
   {(void*)&dpServEvtVars.lastEvtEid_1, sizeof(dpServEvtVars.lastEvtEid_1), 1, sizeof(dpServEvtVars.lastEvtEid_1)},
@@ -114,6 +130,12 @@ static DpMetaInfoEntry_t dpMetaInfoVars[] = {
   {(void*)&dpServTestVars.OnBoardConnectDest, sizeof(dpServTestVars.OnBoardConnectDest), 1, sizeof(dpServTestVars.OnBoardConnectDest)}
 };
 
+/**
+ * Get the meta information of a datapool parameter by identifier.
+ * Which contains the starting address, the length, the multiplicity and the length of a single datapool entry.
+ * \param id The datapool item identifier
+ * \return Meta information in the form of the struct DpMetaInfoEntry_t
+ */
 static DpMetaInfoEntry_t* getMetaInfoParam(ParameterId_t id)
 {
   DpMetaInfoEntry_t* p;
@@ -125,6 +147,12 @@ static DpMetaInfoEntry_t* getMetaInfoParam(ParameterId_t id)
   return p;
 }
 
+/**
+ * Get the meta information of a datapool variable by identifier.
+ * Which contains the starting address, the length, the multiplicity and the length of a single datapool entry.
+ * \param id The datapool item identifier
+ * \return Meta information in the form of the struct DpMetaInfoEntry_t
+ */
 static DpMetaInfoEntry_t* getMetaInfoVar(ParameterId_t id)
 {
   DpMetaInfoEntry_t* p;
@@ -136,6 +164,12 @@ static DpMetaInfoEntry_t* getMetaInfoVar(ParameterId_t id)
   return p;
 }
 
+/**
+ * Get the meta information of a datapool item by identifier.
+ * Which contains the starting address, the length, the multiplicity and the length of a single datapool entry.
+ * \param id The datapool item identifier
+ * \return Meta information in the form of the struct DpMetaInfoEntry_t
+ */
 static DpMetaInfoEntry_t* getMetaInfo(ParameterId_t id)
 {
   DpMetaInfoEntry_t* p;

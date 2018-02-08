@@ -1,11 +1,24 @@
 /**
- * \file
+ * @file CrPsLptUpInterCmd.c
+ * @ingroup Serv13
+ * @ingroup InCmd
  *
- * Implementation of TC(13,10) LptUpInterCmd.
+ * @brief Implementation of TC(13,10) LptUpInterCmd.
  *
- * \note This file was generated on 2017-11-22 12:47:43
- * \author PnP Generator
- * \copyright (c) Copyright
+ * @note This file was generated on 2017-11-22 12:47:43
+ *
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsLptUpInterCmd.h"
@@ -44,12 +57,9 @@
  */
 void CrPsLptUpInterCmdStartAction(FwSmDesc_t smDesc)
 {
-  prDescCmd13Start_t    prData;
-
   /* Set prData of procedure   */
   /* initial setting of prData */
-  prData.smDesc = smDesc;
-  FwPrSetData(getPrDescLptUpCmdStart(), &prData);
+  FwPrSetData(getPrDescLptUpCmdStart(), smDesc);
 
   FwPrRun(getPrDescLptUpCmdStart());
 
@@ -68,16 +78,15 @@ void CrPsLptUpInterCmdProgressAction(FwSmDesc_t smDesc)
   CrFwCmpData_t        *cmpData;
   CrFwInCmdData_t      *cmpSpecificData;
   CrFwPckt_t            pckt;
-  unsigned int dataSize, pos;
-  unsigned int *lptMemStartAddr;
-  CrPsNumberU4_t PartSeqNmb;
-  CrPsSize_t partSize;
-  CrFwTimeStamp_t ts;
-  time_t coarse;
-  unsigned short fine;
-
-  CrPsTid_t Tid;
-  unsigned int LptBufferId;
+  uint32_t              dataSize, pos;
+  uint32_t             *lptMemStartAddr;
+  CrPsNumberU4_t        PartSeqNmb;
+  CrPsSize_t            partSize;
+  CrFwTimeStamp_t       ts;
+  time_t                coarse;
+  uint16_t              fine;
+  CrPsTid_t             Tid;
+  uint32_t              LptBufferId;
 
   /* Get inPckt */
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
@@ -97,7 +106,7 @@ void CrPsLptUpInterCmdProgressAction(FwSmDesc_t smDesc)
   lptMemStartAddr = getLptMemStartAddr(LptBufferId);
   partSize = (CR_FW_MAX_PCKT_LENGTH - (sizeof(TcHeader_t) + sizeof(CrPsTid_t) + sizeof(CrPsNumberU4_t) + CRC_LENGTH));
   pos = sizeof(TcHeader_t)+sizeof(CrPsTid_t) + sizeof(CrPsNumberU4_t);
-  memcpy((unsigned char *)lptMemStartAddr + (PartSeqNmb-1)*partSize, &((uint8_t*)pckt)[pos], dataSize);
+  memcpy((uint8_t *)lptMemStartAddr + (PartSeqNmb-1)*partSize, &((uint8_t*)pckt)[pos], dataSize);
 
   /* Increment lptSize by the amount of copied data */
   setDplptSizeItem(LptBufferId, getDplptSizeItem(LptBufferId) + (CrPsSize_t)dataSize);
@@ -112,6 +121,10 @@ void CrPsLptUpInterCmdProgressAction(FwSmDesc_t smDesc)
   setDppartSeqNmbItem(LptBufferId, PartSeqNmb);
 
   cmpData->outcome = 1;
+
+  /*TODO*/
+  CRFW_UNUSED(coarse);
+  CRFW_UNUSED(fine);
 
   return;
 }

@@ -1,8 +1,24 @@
 /**
  * @file CrPsLptFunc.c
+ * @ingroup Serv13
+ * @ingroup statemachines
+ *
+ * @brief To each Large Packet Transfer Buffer, an instance of this state machine is associated
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Nov 26 2017 12:16:43
+ 
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 /** CrPsLpt function definitions */
@@ -33,7 +49,7 @@
 #include <stdlib.h>
 
 CrFwBool_t FirstPartFlag, SecondPartFlag, LastPartFlag;
-unsigned int LptBufferId;
+uint32_t LptBufferId;
 
 
 /* ----------------------------------------------------------------------------------------------------------------- */
@@ -42,6 +58,7 @@ unsigned int LptBufferId;
 void CrPsLptDownTransferEntryAction(FwSmDesc_t smDesc)
 {
   CRFW_UNUSED(smDesc);
+
 
   LptBufferId = DownTransferLptBufferId;
 
@@ -95,7 +112,6 @@ void CrPsLptDownTransferDoAction(FwSmDesc_t smDesc)
       rep = (FwSmDesc_t) CrFwOutFactoryMakeOutCmp(CRPS_LPT, CRPS_LPT_DOWNFIRST_REP, 0, CR_FW_MAX_PCKT_LENGTH);
       if (rep == NULL)
         {
-          /* TM(13,1) OUTFACTORY_FAIL */
           CrPsRepErr(crOutfactoryFail, CRPS_LPT, CRPS_LPT_DOWNFIRST_REP, 0);
         }
       else
@@ -113,7 +129,6 @@ void CrPsLptDownTransferDoAction(FwSmDesc_t smDesc)
       rep = (FwSmDesc_t) CrFwOutFactoryMakeOutCmp(CRPS_LPT, CRPS_LPT_DOWNINTER_REP, 0, CR_FW_MAX_PCKT_LENGTH);
       if (rep == NULL)
         {
-          /* TM(13,2) OUTFACTORY_FAIL */
           CrPsRepErr(crOutfactoryFail, CRPS_LPT, CRPS_LPT_DOWNINTER_REP, 0);
         }
       else
@@ -131,7 +146,6 @@ void CrPsLptDownTransferDoAction(FwSmDesc_t smDesc)
       rep = (FwSmDesc_t) CrFwOutFactoryMakeOutCmp(CRPS_LPT, CRPS_LPT_DOWNLAST_REP, 0, sizeof(TmHeader_t) + sizeof(CrPsTid_t) + sizeof(CrPsNumberU4_t) + CRC_LENGTH + getDplptRemSizeItem(LptBufferId));
       if (rep == NULL)
         {
-          /* TM(13,3) OUTFACTORY_FAIL */
           CrPsRepErr(crOutfactoryFail, CRPS_LPT, CRPS_LPT_DOWNLAST_REP, 0);
         }
       else
@@ -167,7 +181,7 @@ void CrPsLptUpTransferDoAction(FwSmDesc_t smDesc)
   CrPsTimeOut_t timeOut;
   CrFwTimeStamp_t ts;
   time_t coarse_prev, coarse_now;
-  unsigned short fine_prev, fine_now;
+  uint16_t fine_prev, fine_now;
 
   CRFW_UNUSED(smDesc);
 
@@ -187,12 +201,14 @@ void CrPsLptUpTransferDoAction(FwSmDesc_t smDesc)
   coarse_now = (ts.t[0] << 24) | (ts.t[1] << 16) | (ts.t[2] << 8) | ts.t[3];
   fine_now =  (ts.t[4] << 7) | (ts.t[5] & 0xfe);
 
-  if ((coarse_now - coarse_prev) > timeOut)
+  if ((int)(coarse_now - coarse_prev) > (int)timeOut)
     {
       /* lptFailCode = TIME_OUT */
       setDplptFailCodeItem(LptBufferId, LPT_FAILCODE_TIME_OUT);
     }
-
+    
+  CRFW_UNUSED(fine_prev);
+  CRFW_UNUSED(fine_now);
   return;
 }
 
@@ -250,7 +266,7 @@ void CrPsLptLoadReport(FwSmDesc_t smDesc)
   if (rep == NULL)
     {
       /* TM(13,16) OUTFACTORY_FAIL */
-      CrPsRepErr(crOutfactoryFail, 13, 16, 0);
+      CrPsRepErr(crOutfactoryFail, CRPS_LPT, CRPS_LPT_UPABORT_REP, 0);
     }
   else
     {
@@ -278,7 +294,7 @@ FwSmBool_t CrPsLptIsFailed(FwSmDesc_t smDesc)
 /** Action on the transition from Initial State to INACTIVE. */
 void CrPsLptInitialization(FwSmDesc_t smDesc)
 {
-  int i;
+  uint32_t i;
 
   CRFW_UNUSED(smDesc);
 

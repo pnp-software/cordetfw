@@ -1,8 +1,24 @@
 /**
  * @file CrPsPcktReroutingFailFunc.c
+ * @ingroup Serv1
+ * @ingroup procedures
+ *
+ * @brief This procedure is run when the InLoader has found a packet with invalid destination
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Jul 11 2017 18:26:2
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 /** CrPsPcktReroutingFail function definitions */
@@ -22,17 +38,17 @@
 #include <OutLoader/CrFwOutLoader.h>
 #include <OutCmp/CrFwOutCmp.h>
 
-#include <CrPsPcktUtilities.h>
 #include <CrPsUserConstants.h>
 #include <CrPsRepErr.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsPktServReqVerif.h>
+#include <Services/General/CrPsPktServReqVerifSupp.h>
+#include <Services/General/CrPsPktUtil.h>
 #include <DataPool/CrPsDpServReqVerif.h>
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "CrPsDebug.h"
+
 
 FwSmDesc_t cmd, rep;
 
@@ -62,7 +78,7 @@ void CrPsPcktReroutingFailN1(FwPrDesc_t prDesc)
 
   errCode = crInloaderInvDest;
   CrPsRepErr(errCode, CrFwPcktGetServType(inPckt), CrFwPcktGetServSubType(inPckt), CrFwPcktGetDiscriminant(inPckt));
-
+  
   return;
 }
 
@@ -99,21 +115,17 @@ void CrPsPcktReroutingFailN3(FwPrDesc_t prDesc)
 /** Action for node N4. */
 void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc)
 {
-  CrFwDestSrc_t source;
-  unsigned short tcPacketId, tcSeqCtrl;
-  unsigned char tcType, tcSubtype, tcDiscriminant;
-  unsigned int tcVerFailData;
-
-  CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;
-  
-  FwSmDesc_t  smDesc;
-  prData_t* prData;
-
+  CrFwDestSrc_t     source;
+  CrPsFailData_t    VerFailData;
+  CrFwCmpData_t*    inData;
+  CrFwInCmdData_t*  inSpecificData;
+  CrFwPckt_t        inPckt;
+  CrPsRid_t         Rid;
+  FwSmDesc_t        smDesc;
+  prData_t*         prData;
   CrFwCmpData_t*    cmpDataStart;
   CrFwOutCmpData_t* cmpSpecificData;
-  CrFwPckt_t pckt;
+  CrFwPckt_t        pckt;
 
   cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(rep);
   cmpSpecificData = (CrFwOutCmpData_t *) cmpDataStart->cmpSpecificData;
@@ -131,33 +143,16 @@ void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc)
   inSpecificData  = (CrFwInCmdData_t*)inData->cmpSpecificData;
   inPckt          = inSpecificData->pckt;
 
-
-  /* Set pcktIdAccFailed */
-  tcPacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
-  setVerFailedRoutingRepTcPacketId(pckt, tcPacketId);
-
-  /* Set packetSeqCtrl */
-  tcSeqCtrl = CrFwPcktGetSeqCtrl(inPckt); /* --- adaptation point CrFwPckt ---> */
-  setVerFailedAccRepTcPacketSeqCtrl(pckt, tcSeqCtrl);
+  /* set Packet request ID */
+  Rid = getPcktRid(inPckt);
+  setVerFailedRoutingRepRid(pckt, Rid);
 
   /* Set failCodeAccFailed */
-  setVerFailedRoutingRepTcFailureCode(pckt, INLOADER_INV_DEST); 
-
-  /* Set Type of the command */
-  tcType = CrFwPcktGetServType(inPckt); /* --- adaptation point CrFwPckt ---> */
-  setVerFailedRoutingRepTcType(pckt, tcType);
-
-  /* Set Subtype of the command */
-  tcSubtype = CrFwPcktGetServSubType(inPckt); /* --- adaptation point CrFwPckt ---> */
-  setVerFailedRoutingRepTcSubtype(pckt, tcSubtype);
-
-  /* Set Discriminant of the command */
-  tcDiscriminant = CrFwPcktGetDiscriminant(inPckt); /* --- adaptation point CrFwPckt ---> */
-  setVerFailedRoutingRepTcFailureCode(pckt, tcDiscriminant); /* Discriminant acts as FailureCode*/
+  setVerFailedRoutingRepFailureCode(pckt, (CrPsFailCode_t)INLOADER_INV_DEST); 
 
   /* Set verFailData */
-  tcVerFailData = getDpverFailData(); /* get it from data pool */
-  setVerFailedRoutingRepinvDest(pckt, tcVerFailData); 
+  VerFailData = getDpverFailData(); /* get it from data pool */
+  setVerFailedRoutingRepFailureData(pckt, VerFailData); 
 
   /* Set the destination of the report to the source of the in-coming packet */
   source = CrFwPcktGetSrc(inPckt);
@@ -174,7 +169,7 @@ void CrPsPcktReroutingFailN4(FwPrDesc_t prDesc)
 void CrPsPcktReroutingFailN5(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  unsigned int nOfReroutingFailed;
+  CrFwCounterU4_t nOfReroutingFailed;
 
   /* Increment data pool variable nOfReroutingFailed */
 
@@ -189,8 +184,7 @@ void CrPsPcktReroutingFailN5(FwPrDesc_t prDesc)
 /** Action for node N6. */
 void CrPsPcktReroutingFailN6(FwPrDesc_t prDesc)
 {
-  unsigned short tcPacketId;
-
+  CrFwTypeId_t     PacketId;
   CrFwCmpData_t   *inData;
   CrFwInCmdData_t *inSpecificData;
   CrFwPckt_t       inPckt;
@@ -209,8 +203,8 @@ void CrPsPcktReroutingFailN6(FwPrDesc_t prDesc)
   inPckt         = inSpecificData->pckt;
 
   /* Set pcktIdRerouting */
-  tcPacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
-  setDppcktIdReroutingFailed(tcPacketId);
+  PacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
+  setDppcktIdReroutingFailed(PacketId);
 
   /* Set invDestRerouting */
   setDpinvDestRerouting(prData->ushortParam1);
@@ -243,7 +237,6 @@ FwPrBool_t CrPsPcktReroutingFailG1(FwPrDesc_t prDesc)
     {
       return 0;
     }
-
 }
 
 /** Guard on the Control Flow from DECISION1 to N2. */
@@ -266,7 +259,6 @@ FwPrBool_t CrPsPcktReroutingFailG1E(FwPrDesc_t prDesc)
     {
       return 0;
     }
-
 }
 
 /** Guard on the Control Flow from DECISION2 to N3. */

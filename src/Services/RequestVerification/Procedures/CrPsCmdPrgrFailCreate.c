@@ -1,8 +1,24 @@
 /**
  * @file CrPsCmdPrgrFailCreate.c
+ * @ingroup Serv1
+ * @ingroup procedures
+ *
+ * @brief Create one instance of the CrPsCmdPrgrFail procedure
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Jul 11 2017 17:58:12
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsCmdPrgrFailCreate.h"
@@ -13,7 +29,7 @@
 #include <CrFwConstants.h>
 /** CrPsCmdPrgrFail function definitions */
 #include <stdlib.h>
-#include "CrPsDebug.h"
+
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 /** Guard on the Control Flow from DECISION2 to N4. */

@@ -1,6 +1,7 @@
 /**
- * @file
- * @ingroup crOpenIfGroup
+ * @file CrPsRepErr.h
+ * @ingroup PUSconfig
+ * 
  * Interface for reporting an error detected by a PUS Extension component.
  * When a PUS Extension component encounters an error, it reports it by calling one of
  * the functions defined by this header file (error report).
@@ -27,24 +28,15 @@
  *
  * @author Christian Reimers <christian.reimersy@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ *
  * @copyright Department of Astrophysics, University of Vienna, 2017, All Rights Reserved
  *
- * This file is part of CORDET Framework.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  *
- * CORDET Framework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * CORDET Framework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with CORDET Framework.  If not, see <http://www.gnu.org/licenses/>.
- *
- * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
 #ifndef CRPS_REPERR_H_

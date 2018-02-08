@@ -14,18 +14,18 @@
  * @image html InLoaderLoadCommandReport.png
  *
  * Execution of the InLoader causes a query to be made on InStream to check whether a packet is
- * available at that InStream. If a packet is available, it is collected and if, it passes
+ * available at that InStream. If a packet is available, it is collected and if it passes
  * its acceptance check, it is loaded in an InManager. The selection of the InManager is an
  * adaptation point implemented through a function pointer defined in
  * <code>CrFwInLoaderUserPar.h</code>.
  *
  * The acceptance check is split into four sub-checks:
- * - The type/sub-type/discriminant of the incoming command or report is valid (i.e. it is
- *   defined in <code>CrFwInFactoryUserPar.h</code> and is therefore known to the application);
- * - The InFactory has sufficient resources to provide an InCommand or InReport component
- *   to hold the command or report encapsulated in the packet;
- * - The InCommand or InReport is successfully configured (i.e. it enters state CONFIGURED);
- * - The InCommand or InReport is successfully loaded in the InManager.
+ * -# The type/sub-type/discriminant of the incoming command or report is valid (i.e. it is
+ *    defined in <code>CrFwInFactoryUserPar.h</code> and is therefore known to the application);
+ * -# The InFactory has sufficient resources to provide an InCommand or InReport component
+ *    to hold the command or report encapsulated in the packet;
+ * -# The InCommand or InReport is successfully configured (i.e. it enters state CONFIGURED);
+ * -# The InCommand or InReport is successfully loaded in the InManager.
  * .
  * Sub-checks 1, 2 and 4 are fully implemented at framework level.
  * Sub-check 3 is application-specific.
@@ -34,6 +34,29 @@
  * to the prototype of function pointers <code>::CrFwInRepValidityCheck_t</code> for incoming
  * reports or <code>::CrFwInCmdValidityCheck_t</code> for incoming commands.
  * The functions implementing the validity checks are defined in <code>CrFwInFactoryUserPar.h</code>.
+ *
+ * Function <code>::InLoaderLoadCmdRep</code> in the InLoader is responsible for checking whether the
+ * sub-checks are passed.
+ * For incoming commands, failure to pass a sub-check is handled as follows:
+ * - Failure of sub-checks 1 and 2 is handled by calling function <code>::CrFwRepInCmdOutcomeCreFail</code>
+ *   with outcome #crCmdAckCreFail.
+ * - Failure of sub-check 3 is handled by calling function <code>::CrFwRepInCmdOutcome</code> with
+ *   outcome #crCmdAckAccFail.
+ * - Failure of sub-check 4 is handled by calling function <code>::CrFwRepInCmdOutcome</code> with
+ *   outcome #crCmdAckLdFail.
+ * .
+ * If all sub-checks is passed, the incoming command is declared "accepted" and, if acknowledgement of
+ * successful acceptance for the command was required, function
+ * <code>::CrFwRepInCmdOutcome</code> is called with the outcome set to #crCmdAckAccSucc.
+ *
+ * For incoming reports, failure to pass a sub-check is treated as an error and is handled as follows:
+ * - Failure of sub-checks 1 and 2 is handled by calling function <code>::CrFwRepInCmdOutcomeCreFail</code>
+ *   with failure code #crCmdAckCreFail.
+ * - Failure of sub-check 3 is handled by calling function <code>::CrFwRepErrRep</code>
+ *   with failure code #crInLoaderAccFail.
+ * - Failure of sub-check 4 is handled by calling function <code>::CrFwRepErrRep</code>
+ *   with failure code #crInLoaderLdFail.
+ * .
  *
  * <b>Mode of Use of an InLoader Component</b>
  *

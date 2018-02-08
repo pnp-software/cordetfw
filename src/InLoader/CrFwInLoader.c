@@ -164,7 +164,7 @@ static void InLoaderExecAction(FwPrDesc_t prDesc) {
 	reroutingDest = getReroutingDest(pcktDest);
 	if (reroutingDest == 0) {	/* destination is invalid */
 		CrFwRepErrInstanceIdAndDest(crInLoaderInvDest, inLoaderData.typeId, inLoaderData.instanceId,
-		                            CrFwPcktGetCmdRepId(pckt), reroutingDest);
+		                            CrFwPcktGetCmdRepId(pckt), pcktDest);
 		CrFwPcktRelease(pckt);
 		return;
 	}
@@ -191,15 +191,14 @@ static void InLoaderLoadCmdRep(CrFwPckt_t pckt) {
 	if (CrFwPcktGetCmdRepType(pckt) == crCmdType) {
 		inCmp = CrFwInFactoryMakeInCmd(pckt);
 		if (inCmp == NULL) {	/* InCmd had invalid type or no more resources are available */
-			CrFwRepInCmdOutcome(crCmdAckAccFail, instanceId, servType, servSubType, disc, 0, NULL);
+			CrFwRepInCmdOutcomeCreFail(crCmdAckCreFail, 0, pckt);
 			CrFwPcktRelease(pckt);
 			return;
 		}
 	} else {
 		inCmp = CrFwInFactoryMakeInRep(pckt);
 		if (inCmp == NULL) {	/* InRep had invalid type or no more resources are available */
-			CrFwRepErrInstanceIdAndOutcome(crInLoaderAccFail, inLoaderData.typeId,
-			                               inLoaderData.instanceId, instanceId, 0);
+			CrFwRepErrPckt(crInLoaderCreFail, inLoaderData.typeId, inLoaderData.instanceId, pckt);
 			CrFwPcktRelease(pckt);
 			return;
 		}
@@ -208,13 +207,12 @@ static void InLoaderLoadCmdRep(CrFwPckt_t pckt) {
 	if (FwSmGetCurState(inCmp) != CR_FW_BASE_STATE_CONFIGURED) {	/* InRep/InCmd has failed its validity check */
 		inCmpData = FwSmGetData(inCmp);
 		if (cmdRepFlag == crRepType) {
+			CrFwRepErrRep(crInLoaderAccFail, inLoaderData.typeId, inLoaderData.instanceId, inCmp);
 			CrFwInFactoryReleaseInRep(inCmp);
-			CrFwRepErrInstanceIdAndOutcome(crInLoaderAccFail, inLoaderData.typeId,
-			                               inLoaderData.instanceId, instanceId, inCmpData->outcome);
 			return;
 		} else {
-			CrFwInFactoryReleaseInCmd(inCmp);
 			CrFwRepInCmdOutcome(crCmdAckAccFail, instanceId, servType, servSubType, disc, inCmpData->outcome, inCmp);
+			CrFwInFactoryReleaseInCmd(inCmp);
 			return;
 		}
 	}
@@ -226,13 +224,12 @@ static void InLoaderLoadCmdRep(CrFwPckt_t pckt) {
 	inManagerLoadOutcome = CrFwInManagerLoad(CrFwInManagerMake(inManagerInstanceId), inCmp);
 	if (inManagerLoadOutcome == 0) {	/* Load operation has failed */
 		if (cmdRepFlag == crRepType) {
+			CrFwRepErrRep(crInLoaderLdFail, inLoaderData.typeId, inLoaderData.instanceId,inCmp);
 			CrFwInFactoryReleaseInRep(inCmp);
-			CrFwRepErrInstanceIdAndOutcome(crInLoaderAccFail, inLoaderData.typeId,
-			                               inLoaderData.instanceId,instanceId, 0);
 			return;
 		} else {
+			CrFwRepInCmdOutcome(crCmdAckLdFail, instanceId, servType, servSubType, disc, 0, inCmp);
 			CrFwInFactoryReleaseInCmd(inCmp);
-			CrFwRepInCmdOutcome(crCmdAckAccFail, instanceId, servType, servSubType, disc, 0, inCmp);
 			return;
 		}
 	} else 	/* Load operation was successful */

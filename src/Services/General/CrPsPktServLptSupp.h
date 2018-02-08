@@ -1,16 +1,27 @@
 /**
  * \file CrPsPktServLptSupp.h
+ * @ingroup Serv13
+ * @ingroup pktgetset
  *
- * Interface for accessing fields in packets of service "ServLPT".
+ * @brief auxiliary Interface for accessing fields in packets of service "ServLPT".
  *
- * \author C. Reimers and M. Rockenbauer 24.10.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
+
 #ifndef CRPSPKTSERVLPTSUPP_H_
 #define CRPSPKTSERVLPTSUPP_H_
 
 #include "CrPsUserConstants.h"
-#include <Services/General/CrPsPktServLpt.h>
 
 /**
  * Get "Part" from "LptUpLastCmd" packet.
@@ -107,8 +118,6 @@ CrPsPart_t getLptDownFirstRepPart(void* p, uint32_t o);
  * \param o offset in parts (PartNumber)
  */
 /*void setLptDownFirstRepPart(void* p, CrPsPart_t Part, uint32_t o);*/
-
-
 void setLptDownFirstRepPart(void* p,  unsigned char * Part, unsigned short length);
 
 

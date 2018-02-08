@@ -1,8 +1,24 @@
 /**
  * @file CrPsLptCreate.c
+ * @ingroup Serv13
+ * @ingroup statemachines
+ *
+ * @brief Create one instance of the CrPsLpt state machine
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Nov 26 2017 12:16:43
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 /** CrPsLpt function definitions */

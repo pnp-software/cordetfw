@@ -1,10 +1,22 @@
 /**
  * @file CrPsHkCreateCmd.c
+ * @ingroup Serv3
+ * @ingroup InCmd 
  *
- * Implementation of the Command (3,1) to Create a Housekeeping Report Structure in-coming command packet.
+ * @brief Implementation of the Command (3,1) to Create a Housekeeping Report Structure in-coming command packet.
  *
- * @author C. Reimers and M. Rockenbauer 13.06.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsHkCreateCmd.h"
@@ -32,21 +44,13 @@
 #include <CrPsUserConstants.h>
 #include <DataPool/CrPsDpServHk.h>
 
-#include <stdio.h>
-#include "CrPsDebug.h"
-
 
 /* ------------------------------------------------------------------------------------ */
 void CrPsHkCreateCmdStartAction(FwSmDesc_t smDesc)
 {
-  prDescCmd3s1Start_t prData;
-
   /* Run the procedure Start Action of HkCreate Command of figure 9.1 */
 
-  /* Set prData of procedure   */
-  /* initial setting of prData */
-  prData.smDesc = smDesc;
-  FwPrSetData(getPrDescHkCmd3s1Start(), &prData);
+  FwPrSetData(getPrDescHkCmd3s1Start(), smDesc);
 
   FwPrRun(getPrDescHkCmd3s1Start());
 

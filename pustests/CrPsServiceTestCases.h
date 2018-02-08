@@ -1,28 +1,20 @@
 /**
  * @file CrPsServiceTestCases.h
- * @ingroup CrTestSuiteGroup
- * Declaration of the test cases for the Service Components
+ * @ingroup PUSTestsuite
+ *
+ * @brief Declaration of the test cases for the Test Service Components.
  *
  * @author Christian Reimers <christian.reimersy@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- * @copyright Department of Astrophysics, University of Vienna, 2017, All Rights Reserved
  *
- * This file is part of CORDET Framework.
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
- * CORDET Framework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  *
- * CORDET Framework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with CORDET Framework.  If not, see <http://www.gnu.org/licenses/>.
- *
- * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
 #ifndef CRPS_SERVICE_TESTCASES_H_
@@ -38,6 +30,7 @@
  *
  * The following actions are performed in this test:
  *
+ * - run all getters for the procedure descriptors
  * - Initializing OutFactory, InFactory and OutManager
  * - Check that OutFactory, InFactory and OutManager are configured
  * - Check that the number of allocated Packets is initially 0
@@ -62,6 +55,14 @@
  * - Check if there is no InCommand in the InFactory
  * - Execute the outComponent (17,2)
  * - release the outComponent and Check number of allocated Packets and OutComponents
+ * - Allocate a 17,1 packet 
+ * - make an inCommand out of the packet
+ * - Check that the number of allocated InCommands is 1
+ * - Fill the outfactory so that an Error could occur
+ * - Execute the inCommand
+ * - Check application errors -> CrOutCmpAllocationFail
+ * - reset the application error code
+ * - release all OutComponents and the InCommand
  * - Reset the outManager, outFactory and in Factory and check again if an application error occures
  *  
  * 
@@ -71,6 +72,8 @@
  * @verify executing the InCommand
  * @verify service 17 will create a 17,2 Report
  * @verify executing the 17,2 Report
+ * @verify creating 17,1 InCommand
+ * @verify executing the InCommand while the OutFactory is full -> trigger an crOutCmpAllocationFail error
  * @verify releasing all allocated packets
  * @verify resetting the OutFactory, InFactory and OutManager
  *

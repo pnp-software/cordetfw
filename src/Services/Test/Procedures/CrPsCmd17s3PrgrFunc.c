@@ -1,11 +1,24 @@
 /**
  * @file CrPsCmd17s3PrgrFunc.c
- * @ingroup CrIaDemo
+ * @ingroup Serv17
+ * @ingroup procedures 
  *
- * ???
+ * @brief This procedure is run by the Progress Action of the command (17,3)
  *
- * @author C. Reimers and M. Rockenbauer 13.06.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author FW Profile code generator version 5.01
+ * @date Created on: May 23 2017 23:43:35
+ * 
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 /** CrPsCmd17s3Prgr function definitions */
@@ -30,8 +43,7 @@
 #include <Services/General/CrPsPktServTest.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/Test/InCmd/CrPsTestOnBoardConnection.h> /* for global handles */
-#include <stdio.h>
-#include "CrPsDebug.h"
+#include "CrPsUserConstants.h"
 
 
 /* ------------------------------------------------------------------------------------ */
@@ -142,8 +154,8 @@ void CrPsTestOnBoardConnectionPrgrN4(FwPrDesc_t prDesc)
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  CrPsApid_t appId;
-  int        timeOut;
+  CrPsApid_t    appId;
+  CrPsTimeOut_t timeOut;
 
   /* [ (areYouAliveSrc > 0) &&
        (time elapsed since command execution started smaller than areYouAliveTimeOut) ] */
@@ -170,8 +182,8 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
   /*FwPrCounterU3_t execCnt, nodeExecCnt;*/
-  CrPsApid_t appId;
-  int        timeOut;
+  CrPsApid_t    appId;
+  CrPsTimeOut_t timeOut;
 
   /* [ (areYouAliveSrc == 0) &&
         (time elapsed since command execution started smaller than areYouAliveTimeOut) ] */
@@ -197,8 +209,7 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc)
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG13(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  /*FwPrCounterU3_t execCnt, nodeExecCnt;*/
-  int timeOut; /* TODO ... welcher Typ ?? */
+  CrPsTimeOut_t timeOut; 
 
   /* [ (time elapsed since command execution started equal or greater than areYouAliveTimeOut) ] */
 

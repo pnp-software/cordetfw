@@ -1,10 +1,26 @@
 /**
  * @file CrPsCmdVerFailFunc.c
+ * @ingroup Serv1
+ * @ingroup procedures
+ *
+ * @brief This procedure is run when a command has failed its start check or its termination check
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Jul 11 2017 18:1:13
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
-
+ 
 /** CrPsCmdVerFail function definitions */
 #include "CrPsCmdVerFailCreate.h"
 
@@ -21,17 +37,16 @@
 #include <OutLoader/CrFwOutLoader.h>
 #include <OutCmp/CrFwOutCmp.h>
 
-#include <CrPsPcktUtilities.h>
 #include <CrPsRepErr.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsPktServReqVerif.h>
+#include <Services/General/CrPsPktServReqVerifSupp.h>
+#include <Services/General/CrPsPktUtil.h>
 #include <DataPool/CrPsDpServReqVerif.h>
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <stdint.h>
-#include "CrPsDebug.h"
+
 
 FwSmDesc_t cmd, rep;
 
@@ -77,10 +92,7 @@ void CrPsCmdVerFailN3(FwPrDesc_t prDesc)
 void CrPsCmdVerFailN4(FwPrDesc_t prDesc)
 {
   CrFwDestSrc_t source;
-  unsigned short    tcPacketId, tcSeqCtrl;
-  CrFwServType_t    tcType;
-  CrFwServSubType_t tcSubtype;
-  uint32_t          tcVerFailData;
+  CrPsFailData_t    VerFailData;
   CrFwCmpData_t    *inData;
   CrFwInCmdData_t  *inSpecificData;
   CrFwPckt_t        inPckt;
@@ -89,6 +101,7 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc)
   CrFwCmpData_t    *cmpDataStart;
   CrFwOutCmpData_t *cmpSpecificData;
   CrFwPckt_t        pckt;
+  CrPsRid_t         Rid;
 
   cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(rep);
   cmpSpecificData = (CrFwOutCmpData_t *) cmpDataStart->cmpSpecificData;
@@ -106,58 +119,34 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc)
   inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
   inPckt         = inSpecificData->pckt;
 
+  Rid = getPcktRid(inPckt);
+
   if (prData->ushortParam2 == 4)
   {
     /* 1,4 */
-    /* Set pcktIdAccFailed */
-    tcPacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
-    setVerFailedStartRepTcPacketId(pckt, tcPacketId);
-
-    /* Set packetSeqCtrl */
-    tcSeqCtrl = CrFwPcktGetSeqCtrl(inPckt); /* --- adaptation point CrFwPckt ---> */
-    setVerFailedStartRepTcPacketSeqCtrl(pckt, tcSeqCtrl);
-
-    /* Set Type of the command */
-    tcType = CrFwPcktGetServType(inPckt); /* --- adaptation point CrFwPckt ---> */
-    setVerFailedStartRepTcType(pckt, tcType);
-
-    /* Set Subtype of the command */
-    tcSubtype = CrFwPcktGetServSubType(inPckt); /* --- adaptation point CrFwPckt ---> */
-    setVerFailedStartRepTcSubtype(pckt, tcSubtype);
+    /* set Packet request ID */
+    setVerFailedStartRepRid(pckt, Rid);
 
     /* Set failCodeAccFailed */
-    setVerFailedStartRepTcFailureCode(pckt, prData->ushortParam1);
+    setVerFailedStartRepFailureCode(pckt, (CrPsFailCode_t)prData->ushortParam1);
 
     /* Set verFailData */
-    tcVerFailData = getDpverFailData();
-    setVerFailedStartRepTcFailureData(pckt, tcVerFailData);
+    VerFailData = getDpverFailData();
+    setVerFailedStartRepFailureData(pckt, VerFailData);
   }
 
   if (prData->ushortParam2 == 8)
   {
     /* 1,8 */
-    /* Set pcktIdAccFailed */
-    tcPacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
-    setVerFailedTermRepTcPacketId(pckt, tcPacketId);
-
-    /* Set packetSeqCtrl */
-    tcSeqCtrl = CrFwPcktGetSeqCtrl(inPckt); /* --- adaptation point CrFwPckt ---> */
-    setVerFailedTermRepTcPacketSeqCtrl(pckt, tcSeqCtrl);
-
-    /* Set Type of the command */
-    tcType = CrFwPcktGetServType(inPckt); /* --- adaptation point CrFwPckt ---> */
-    setVerFailedTermRepTcType(pckt, tcType);
-
-    /* Set Subtype of the command */
-    tcSubtype = CrFwPcktGetServSubType(inPckt); /* --- adaptation point CrFwPckt ---> */
-    setVerFailedTermRepTcSubtype(pckt, tcSubtype);
+    /* set Packet request ID */
+    setVerFailedTermRepRid(pckt, Rid);
 
     /* Set failCodeAccFailed */
-    setVerFailedTermRepTcFailureCode(pckt, prData->ushortParam1);
+    setVerFailedTermRepFailureCode(pckt, (CrPsFailCode_t)prData->ushortParam1);
   
     /* Set verFailData */
-    tcVerFailData = getDpverFailData();
-    setVerFailedTermRepTcFailureData(pckt, tcVerFailData);
+    VerFailData = getDpverFailData();
+    setVerFailedTermRepFailureData(pckt, VerFailData);
   }
 
   /* Set the destination of the report to the source of the in-coming packet */
@@ -174,8 +163,8 @@ void CrPsCmdVerFailN4(FwPrDesc_t prDesc)
 /** Action for node N5. */
 void CrPsCmdVerFailN5(FwPrDesc_t prDesc)
 {
-  prData_t    *prData;
-  unsigned int nOfStartFailed, nOfTermFailed;
+  prData_t        *prData;
+  CrFwCounterU4_t  nOfStartFailed, nOfTermFailed;
 
   /* Increment data pool variable nOfXyFailed */
 
@@ -202,7 +191,7 @@ void CrPsCmdVerFailN5(FwPrDesc_t prDesc)
 /** Action for node N6. */
 void CrPsCmdVerFailN6(FwPrDesc_t prDesc)
 {
-  unsigned short   tcPacketId;
+  CrFwTypeId_t     PacketId;
   CrFwCmpData_t   *inData;
   CrFwInCmdData_t *inSpecificData;
   CrFwPckt_t       inPckt;
@@ -222,12 +211,12 @@ void CrPsCmdVerFailN6(FwPrDesc_t prDesc)
   inPckt         = inSpecificData->pckt;
 
   /* Set pcktIdAccFailed */
-  tcPacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
+  PacketId = (CrFwTypeId_t)CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
 
   if (prData->ushortParam2 == CRPS_REQVERIF_START_FAIL)
     {
       /* Set pcktIdStartFailed */
-      setDppcktIdStartFailed(tcPacketId);
+      setDppcktIdStartFailed(PacketId);
 
       /* Set failCodeStartFailed */
       setDpfailCodeStartFailed(prData->ushortParam1);
@@ -235,7 +224,7 @@ void CrPsCmdVerFailN6(FwPrDesc_t prDesc)
   else if (prData->ushortParam2 == CRPS_REQVERIF_TERM_FAIL)
     {
       /* Set pcktIdTermFailed */
-      setDppcktIdTermFailed(tcPacketId);
+      setDppcktIdTermFailed(PacketId);
 
       /* Set failCodeTermFailed */
       setDpfailCodeTermFailed(prData->ushortParam1);

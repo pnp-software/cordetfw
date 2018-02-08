@@ -1,5 +1,10 @@
 /**
- * @file
+ * @file CrPsCmd5EidStartCreate.h
+ * @ingroup Serv5
+ * @ingroup procedures
+ *
+ * @brief Create one instance of the CrPsCmd5EidStart procedure
+ *
  * This header file declares the function to create one instance of the CrPsCmd5EidStart procedure.
  * The procedure is configured with a set of function pointers representing the non-default
  * actions and guards of the procedure. Some of these functions may also be declared in
@@ -13,7 +18,20 @@
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Sep 6 2017 17:17:43
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
+
 
 /** Make sure to include this header file only once */
 #ifndef CRPSCMD5EIDSTART_H_

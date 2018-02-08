@@ -1,17 +1,25 @@
 /**
- * @file CrPsUtilities.c
+ * @file CrPsUtilitiesServHk.c
+ * @ingroup Utilities
+ * @ingroup Serv3
  *
- * Implementation of the utility functions of the CORDET Framework PUS Extension
+ * @brief Implementation of the utility functions of the CORDET Framework PUS Extension Service 3 (Housekeeping)
  *
- * @author code generator
- * edited: Christian Reimers
- * 25.05.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ *  
+ * last modification: 22.01.2018
+ *
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsUtilitiesServHk.h"
 #include "Pckt/CrFwPckt.h"     /* --- interface to adaptation point CrFwPckt --- */
-
 
 /* CrFramework includes */
 #include <OutFactory/CrFwOutFactory.h>
@@ -33,7 +41,6 @@
 #include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServHk.h>
 
-#include <stdio.h>
 #include <stdlib.h>
 
 /* global handles for the procedures */
@@ -46,15 +53,12 @@ FwPrDesc_t prDescMultiSidCmdStart, prDescCmd3s9Prgr;
  */
 int CrPsInitServHk()
 {
-  printf("CrPsInitServHk()\n");
-
   /***********************************************************************/
   /* Service Housekeeping Create Hk ParRep Procedure                     */
   /***********************************************************************/
   prDescHkCmd3s1Start = CrPsCmd3s1StartCreate(NULL);
   if (FwPrCheck(prDescHkCmd3s1Start) != prSuccess)
     {
-      printf("The procedure CrPsCmd3s1Start is NOT properly configured ... FAILURE\n");
       return EXIT_FAILURE;
     }
 
@@ -64,7 +68,6 @@ int CrPsInitServHk()
   prDescHkCmd3s3Start = CrPsCmd3s3StartCreate(NULL);
   if (FwPrCheck(prDescHkCmd3s3Start) != prSuccess)
     {
-      printf("The procedure CrPsCmd3s3Start is NOT properly configured ... FAILURE\n");
       return EXIT_FAILURE;
     }
 
@@ -74,7 +77,6 @@ int CrPsInitServHk()
   prDescHkRepReadyCheck = CrPsRep3s25ReadyCreate(NULL);
   if (FwPrCheck(prDescHkRepReadyCheck) != prSuccess)
     {
-      printf("The procedure CrPsRep3s25Ready is NOT properly configured ... FAILURE\n");
       return EXIT_FAILURE;
     }
 
@@ -83,7 +85,6 @@ int CrPsInitServHk()
   /***********************************************************************/
   prDescMultiSidCmdStart = CrPsCmd3SidStartCreate(NULL);
   if (FwPrCheck(prDescMultiSidCmdStart) != prSuccess) {
-    printf("The procedure CrPsCmd3SidStart is NOT properly configured ... FAILURE\n");
     return EXIT_FAILURE;
   }
 
@@ -92,7 +93,6 @@ int CrPsInitServHk()
   /***********************************************************************/
   prDescCmd3s9Prgr = CrPsCmd3s9PrgrCreate(NULL);
   if (FwPrCheck(prDescCmd3s9Prgr) != prSuccess) {
-    printf("The procedure CrPsCmd3s9Prgr is NOT properly configured ... FAILURE\n");
     return EXIT_FAILURE;
   }
 
@@ -107,8 +107,6 @@ int CrPsInitServHk()
  */
 void CrPsExecServHk()
 {
-  printf("CrPsExecServHk()\n");
-
   return;
 }
 

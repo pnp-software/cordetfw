@@ -1,6 +1,7 @@
 /**
- * @file
- * @ingroup CrTestSuiteGroup
+ * @file CrFwPckt.c
+ * @ingroup PUSTestsuite
+ * @ingroup PUSTestconfig 
  *
  * Default implementation of the packet interface of <code>CrFwPckt.h</code>.
  * The implementation of this interface is one of the adaptation points of the
@@ -34,22 +35,17 @@
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
  *
- * This file is part of CORDET Framework.
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
  *
- * CORDET Framework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * last modification: 22.01.2018
  *
- * CORDET Framework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with CORDET Framework.  If not, see <http://www.gnu.org/licenses/>.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  *
- * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
 #include "CrFwConstants.h"
@@ -365,27 +361,27 @@ void CrFwPcktSetDiscriminant(CrFwPckt_t pckt, CrFwDiscriminant_t discriminant) {
 		if(CrFwPcktGetServSubType(pckt) == 2)
 		{
 			/*Packet 1.2 - Failed Acceptance Verification Report*/
-			setVerFailedAccRepTcFailureCode(pckt, discriminant);			
+			setVerFailedAccRepFailureCode(pckt, discriminant);			
 		}
 		if(CrFwPcktGetServSubType(pckt) == 4)
 		{
 			/*Packet 1.4 - Failed Start of Execution Verification Report*/
-			setVerFailedStartRepTcFailureCode(pckt, discriminant);			
+			setVerFailedStartRepFailureCode(pckt, discriminant);			
 		}	
 		if(CrFwPcktGetServSubType(pckt) == 6)
 		{
 			/*Packet 1.6 - Failed Progress of Execution Verification Report*/
-			setVerFailedPrgrRepTcFailureCode(pckt, discriminant);			
+			setVerFailedPrgrRepFailureCode(pckt, discriminant);			
 		}
 		if(CrFwPcktGetServSubType(pckt) == 8)
 		{
 			/*Packet 1.8 - Failed Completion of Execution Verification Report*/
-			setVerFailedTermRepTcFailureCode(pckt, discriminant);			
+			setVerFailedTermRepFailureCode(pckt, discriminant);			
 		}
 		if(CrFwPcktGetServSubType(pckt) == 10)
 		{
 			/*Packet 1.10 - Failed Routing Verification Report*/
-			setVerFailedRoutingRepTcFailureCode(pckt, discriminant);
+			setVerFailedRoutingRepFailureCode(pckt, discriminant);
 		}
 	}
 	/*Service 3*/
@@ -461,27 +457,27 @@ CrFwDiscriminant_t CrFwPcktGetDiscriminant(CrFwPckt_t pckt) {
 		if(CrFwPcktGetServSubType(pckt) == 2)
 		{
 			/*Packet 1.2 - Failed Acceptance Verification Report*/
-			return (CrFwDiscriminant_t) getVerFailedAccRepTcFailureCode(pckt);			
+			return (CrFwDiscriminant_t) getVerFailedAccRepFailureCode(pckt);			
 		}
 		if(CrFwPcktGetServSubType(pckt) == 4)
 		{
 			/*Packet 1.4 - Failed Start of Execution Verification Report*/
-			return (CrFwDiscriminant_t) getVerFailedStartRepTcFailureCode(pckt);			
+			return (CrFwDiscriminant_t) getVerFailedStartRepFailureCode(pckt);			
 		}	
 		if(CrFwPcktGetServSubType(pckt) == 6)
 		{
 			/*Packet 1.6 - Failed Progress of Execution Verification Report*/
-			return (CrFwDiscriminant_t) getVerFailedPrgrRepTcFailureCode(pckt);			
+			return (CrFwDiscriminant_t) getVerFailedPrgrRepFailureCode(pckt);			
 		}
 		if(CrFwPcktGetServSubType(pckt) == 8)
 		{
 			/*Packet 1.8 - Failed Completion of Execution Verification Report*/
-			return (CrFwDiscriminant_t) getVerFailedTermRepTcFailureCode(pckt);			
+			return (CrFwDiscriminant_t) getVerFailedTermRepFailureCode(pckt);			
 		}
 		if(CrFwPcktGetServSubType(pckt) == 10)
 		{
 			/*Packet 1.10 - Failed Routing Verification Report*/
-			return (CrFwDiscriminant_t) getVerFailedRoutingRepTcFailureCode(pckt);
+			return (CrFwDiscriminant_t) getVerFailedRoutingRepFailureCode(pckt);
 		}
 	}
 

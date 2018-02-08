@@ -1,12 +1,21 @@
 /**
- * @file CrPsUtilities.c
+ * @file CrPsUtilitiesServLpt.c
+ * @ingroup Utilities
+ * @ingroup Serv13
  *
- * Implementation of the utility functions of the CORDET Framework PUS Extension
+ * @brief Implementation of the utility functions of the CORDET Framework PUS Extension
  *
- * @author code generator
- * edited: Christian Reimers
- * 25.05.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsUtilitiesServLpt.h"
@@ -115,18 +124,18 @@ inline FwSmDesc_t getSmDescLpt()
  *
  * \note This implementation uses a fixed value of `1413208149`. This is the
  *       output of `date +%s` at some time in October 2014.
- * \todo Reimplement for the final application.
+ * \TODO Reimplement for the final application.
  */
 CrFwTimeStamp_t CrFwGetCurrentTimeServer()
 {
-  struct timespec now;
-  time_t coarse;
-  unsigned int fine;
+  struct          timespec now;
+  time_t          coarse;
+  uint32_t        fine;
   CrFwTimeStamp_t ts; /* unsigned char struct.t[6] */
   
   clock_gettime(CLOCK_REALTIME, &now);
   coarse = now.tv_sec;
-  fine = (unsigned int)(32.768 * (float)now.tv_nsec / (float)1000000);
+  fine = (uint32_t)(32.768 * (float)now.tv_nsec / (float)1000000);
     
   ts.t[3] = coarse & 0xff;
   ts.t[2] = (coarse >> 8) & 0xff;

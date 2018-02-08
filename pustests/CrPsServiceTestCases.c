@@ -1,38 +1,22 @@
 /**
- * @file
+ * @file CrPsServiceTestCases.c
+ * @ingroup PUSTestsuite
  *
- * Implementation of test cases for Service Components.
+ * @brief Implementation of test cases for the Test Service Components.
  *
  * @author Christian Reimers <christian.reimersy@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- * @copyright Department of Astrophysics, University of Vienna, 2017, All Rights Reserved
  *
- * This file is part of CORDET Framework.
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
- * CORDET Framework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  *
- * CORDET Framework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with CORDET Framework.  If not, see <http://www.gnu.org/licenses/>.
- *
- * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
-#include "CrFwRepErrStub.h"
-#include "CrFwInStreamSocket.h"
-#include "CrFwClientSocket.h"
-#include "CrFwServerSocket.h"
-#include "CrFwOutStreamSocket.h"
-#include "CrFwInStreamTestCases.h"
-#include "CrFwRepInCmdOutcomeStub.h"
-#include "CrFwInStreamStub.h"
 /* Include FW Profile files */
 #include "FwSmConstants.h"
 #include "FwSmConfig.h"
@@ -69,21 +53,25 @@
 #include "config/CrFwOutFactoryUserPar.h"
 
 /* Include system files */
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
-#include "CrPsDebug.h"
 
 /* ---------------------------------------------------------------------------------------------*/
 CrFwBool_t CrPsServTestConnTestCase1()
 {
   /* Check 17,1 and 17,2 */
-  FwSmDesc_t inFactory, outFactory, outManager, inCmd, outCmp;
+  FwSmDesc_t inFactory, outFactory, outManager, inCmd, outCmp, outCmpArr[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
   CrFwPckt_t pckt;
   CrFwCmpData_t* outManagerData;
   CrFwOutManagerData_t* outManagerCSData;
+  uint16_t i;
   
+  /* run all getters for the procedure descriptors*/
+  CrPsInitServTest();
+  CrPsExecServTest();
+  CrPsInitServReqVerif();
+
   /* Instantiate the OutFactory, InFactory and OutManager*/
   outFactory = CrFwOutFactoryMake();
   if (outFactory == NULL)
@@ -229,6 +217,50 @@ CrFwBool_t CrPsServTestConnTestCase1()
   /* Check that there are no allocated packets */
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
+
+  /* Allocate a 17,1 Packet */
+  pckt = CrFwPcktMake(20);
+  CrFwPcktSetServType(pckt,17);
+  CrFwPcktSetServSubType(pckt,1);
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  CrFwPcktSetDiscriminant(pckt,0);
+  CrFwPcktSetSrc(pckt,0);
+  CrFwPcktSetDest(pckt,10);
+  CrFwPcktSetGroup(pckt,1);
+  CrFwPcktSetAckLevel(pckt,1,1,1,1);  
+  CrFwPcktSetSeqCnt(pckt,2);  
+
+  /*Creating an InCommand out of the 17,1 packet*/
+  inCmd = CrFwInFactoryMakeInCmd(pckt);
+
+  /*Check if number of Allocated InCommands is now 1*/
+  if (CrFwInFactoryGetNOfAllocatedInCmd() != 1)
+    return 0;
+
+  /* Fill the outfactory so that an Error could occur (leave one free slot) */
+  for (i=0;i<=CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
+  {
+    outCmpArr[i] = CrFwOutFactoryMakeOutCmp(17,2,0,0);
+  }
+
+  /* Execute the InCommand  */
+  CrFwCmpExecute(inCmd); 
+
+  /* Check application errors */
+  if (CrFwGetAppErrCode() != crOutCmpAllocationFail)
+    return 0;
+
+  /*Reset application error Code*/
+  CrFwSetAppErrCode(crNoAppErr);
+
+  /* Release all outcomponents, that have been created to fill the outfactory */
+  for (i=0;i<=CR_FW_OUTFACTORY_MAX_NOF_OUTCMP-1;i++)
+  { 
+    CrFwOutFactoryReleaseOutCmp(outCmpArr[i]);
+  }
+
+  /*Release the InCommand */
+  CrFwInFactoryReleaseInCmd(inCmd);
 
   /* Reset OutManager and check that all OutComponents are unloaded and released */
   CrFwCmpReset(outManager);
@@ -946,7 +978,7 @@ CrFwBool_t CrPsServTestConnTestCase3()
 
   setDpAreYouAliveTimeOut(timeout);
 
-  FwPrExecute(prDescServTestOnBoardConnStart);
+  FwPrExecute(getPrDescServTestOnBoardConnStart());
 
   /* call the N10 release function for coverage (an error 11 is created) */
   CrPsTestOnBoardConnectionStartN10(prDesc);

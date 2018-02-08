@@ -1,10 +1,21 @@
 /**
  * @file CrPsTestOnBoardConnection.c
+ * @ingroup Serv17
+ * @ingroup InCmd 
  *
- * Implementation of the Perform Connection Test in-coming command packet.
+ * @brief Implementation of the Perform Connection Test in-coming command packet.
  *
- * @author C. Reimers and M. Rockenbauer 13.06.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsTestOnBoardConnection.h"
@@ -27,11 +38,9 @@
 #include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServTest.h>
 
-#include <stdio.h>
 #include <stdlib.h>
-#include "CrPsDebug.h"
 
-unsigned short timeOut_cnt;
+uint16_t timeOut_cnt;  /*TODO which Type ??*/
 
 void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t smDesc) 
 {
@@ -39,7 +48,6 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t smDesc)
   CrFwInCmdData_t     *cmpSpecificData;
   CrFwPckt_t           inPckt;
   CrPsApid_t           appId;
-  prDataStartAction_t *prDataStartActionPtr;
 
   /* Run the procedure Start Action of OnBoardConnectCmd Command (see figure 13.1 in PP-DF-COR-003) */
 
@@ -58,14 +66,12 @@ void CrPsTestOnBoardConnectionStartAction(FwSmDesc_t smDesc)
   /* store in data pool */
   setDpOnBoardConnectDest(appId);
 
+  /* Set prData of procedure   */
+  /* initial setting of prData */  
+  FwPrSetData(getPrDescServTestOnBoardConnStart(), smDesc);
+
   /* Run the procedure */
   FwPrRun(getPrDescServTestOnBoardConnStart());
-
-  /* Get procedure parameters */
-  prDataStartActionPtr = FwPrGetData(getPrDescServTestOnBoardConnStart());
-
-  /*Setting the Outcome*/
-  cmpDataStart->outcome = prDataStartActionPtr->outcome;
 
   return;
 }
@@ -115,9 +121,9 @@ void CrPsTestOnBoardConnectionTerminationAction(FwSmDesc_t smDesc)
 {
   CrFwCmpData_t      *inData;
   prDataPrgrAction_t *prDataPrgrActionPtr;
-  unsigned short      outcome;
+  uint16_t            outcome;
 
-  /* Set action outcome to 'success' if the (17,4) report was issued and to 'failure' otherwise */
+  /* TODO: Set action outcome to 'success' if the (17,4) report was issued and to 'failure' otherwise */
   
   /* Get in data */
   inData = (CrFwCmpData_t*)FwSmGetData(smDesc);

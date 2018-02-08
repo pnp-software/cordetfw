@@ -1,20 +1,22 @@
 /**
  * @file CrPsHkRepStructRep.c
- * @ingroup CrIaServices
- * @authors FW Profile code generator, P&P Software GmbH, 2015; Institute for Astrophysics, 2015-2016
+ * @ingroup Serv3
+ * @ingroup OutCmp
  *
  * @brief Implementation of the Housekeeping Structure Report (3,10) out-going report packet.
  *
- * @copyright
- * This program is free software; you can redistribute it and/or modify it
- * under the terms and conditions of the GNU General Public License,
- * version 2, as published by the Free Software Foundation.
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
- * This program is distributed in the hope it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
- * more details.
- * SERVICE 3,10 and 3,12
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsHkRepStructRep.h"
@@ -33,10 +35,8 @@
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsPktServHk.h>
 #include <Services/General/CrPsPktServHkSupp.h>
-#include <CrPsDebug.h>
 
 #include <stdlib.h>
-#include <stdio.h>
 
 
 void CrPsHkRepStructRepUpdateAction(FwSmDesc_t smDesc)

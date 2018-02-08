@@ -1,38 +1,26 @@
 /**
- * @file
+ * @file CrPsGetSetTestCases.c
+ * @ingroup PUSTestsuite
  *
- * Implementation of test cases for DataPool Components.
+ * @brief Implementation of the test cases for all Getter and Setter components.
  *
  * @author Christian Reimers <christian.reimersy@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- * @copyright Department of Astrophysics, University of Vienna, 2017, All Rights Reserved
  *
- * This file is part of CORDET Framework.
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
- * CORDET Framework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  *
- * CORDET Framework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with CORDET Framework.  If not, see <http://www.gnu.org/licenses/>.
- *
- * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
+/* Include system files */
+#include <unistd.h>
 #include <stdlib.h>
-#include "CrFwRepErrStub.h"
-#include "CrFwInStreamSocket.h"
-#include "CrFwClientSocket.h"
-#include "CrFwServerSocket.h"
-#include "CrFwOutStreamSocket.h"
-#include "CrFwInStreamTestCases.h"
-#include "CrFwInStreamStub.h"
+
 /* Include FW Profile files */
 #include "FwSmConstants.h"
 #include "FwSmConfig.h"
@@ -52,16 +40,17 @@
 #include "Pckt/CrFwPckt.h"
 
 #include "CrFwTime.h"
-#include "CrFwRepErr.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
-/* Include system files */
-#include <stdio.h>
-#include <unistd.h>
 
-#include <CrFwOutCmpSample1.h>
 #include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServTest.h>
+#include <DataPool/CrPsDpServReqVerif.h>
+#include <DataPool/CrPsDpServHk.h>
+#include <DataPool/CrPsDpServEvt.h>
+#include <DataPool/CrPsDpServLpt.h>
+
 #include <Services/General/CrPsPktServReqVerif.h>
+#include <Services/General/CrPsPktServReqVerifSupp.h>
 #include <Services/General/CrPsPktServTest.h>
 #include <Services/General/CrPsPktServHk.h>
 #include <Services/General/CrPsPktServHkSupp.h>
@@ -70,13 +59,12 @@
 #include <Services/General/CrPsPktServLpt.h>
 #include <Services/General/CrPsPktServLptSupp.h>
 #include <Services/General/CrPsPktUtil.h>
-#include <CrPsDebug.h>
+#include <Services/General/CrPsConstants.h>
 
 #define MAX_CHAR 255
 #define MAX_SHORT 65535
 #define MAX_INT 4294967295u
 #define MIN_VAL 0
-
 
 /* ---------------------------------------------------------------------------------------------*/
 
@@ -84,9 +72,9 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
 {
 
   CrFwPckt_t pckt, pckt2, pckt3, pckt4;
-  unsigned char tim[6], timi[6];
-  char * pstart;
-  unsigned short pcktsize = 30;
+  uint8_t  tim[6], timi[6];
+  char    *pstart;
+  uint16_t pcktsize = 30;
   CrFwTimeStamp_t timstp,timstpi;
 
   CrFwSetAppErrCode(crNoAppErr);
@@ -94,154 +82,121 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /*test all TC header Getter and Setter*/
   setTcHeaderPcktVersionNmb(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderPcktVersionNmb(): %d \n", getTcHeaderPcktVersionNmb(pckt));
   if (getTcHeaderPcktVersionNmb(pckt) != 0) 
     return 0; 
 
   setTcHeaderPcktVersionNmb(pckt, 7);
-  DEBUGP_TSGS("getTcHeaderPcktVersionNmb(): %d \n", getTcHeaderPcktVersionNmb(pckt));
   if (getTcHeaderPcktVersionNmb(pckt) != 7) 
     return 0;
 
   setTcHeaderPcktType(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderPcktType(): %d \n", getTcHeaderPcktType(pckt));
   if (getTcHeaderPcktType(pckt) != 0) 
     return 0; 
   setTcHeaderPcktType(pckt, 1);
-  DEBUGP_TSGS("getTcHeaderPcktType(): %d \n", getTcHeaderPcktType(pckt));
   if (getTcHeaderPcktType(pckt) != 1) 
     return 0; 
 
   setTcHeaderSecHeaderFlag(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderSecHeaderFlag(): %d \n", getTcHeaderSecHeaderFlag(pckt));
   if (getTcHeaderSecHeaderFlag(pckt) != 0) 
     return 0; 
   setTcHeaderSecHeaderFlag(pckt, 1);
-  DEBUGP_TSGS("getTcHeaderSecHeaderFlag(): %d \n", getTcHeaderSecHeaderFlag(pckt));
   if (getTcHeaderSecHeaderFlag(pckt) != 1) 
     return 0; 
 
   setTcHeaderAPID(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderAPID(): %d \n", getTcHeaderAPID(pckt));
   if (getTcHeaderAPID(pckt) != 0) 
     return 0; 
   setTcHeaderAPID(pckt, 2047);
-  DEBUGP_TSGS("getTcHeaderAPID(): %d \n", getTcHeaderAPID(pckt));
   if (getTcHeaderAPID(pckt) != 2047) 
     return 0; 
 
   setTcHeaderSeqFlags(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderSeqFlags(): %d \n", getTcHeaderSeqFlags(pckt));
   if (getTcHeaderSeqFlags(pckt) != 0) 
     return 0; 
   setTcHeaderSeqFlags(pckt, 3);
-  DEBUGP_TSGS("getTcHeaderSeqFlags(): %d \n", getTcHeaderSeqFlags(pckt));
   if (getTcHeaderSeqFlags(pckt) != 3) 
     return 0; 
 
   setTcHeaderSeqCount(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderSeqCount(): %d \n", getTcHeaderSeqCount(pckt));
   if (getTcHeaderSeqCount(pckt) != 0) 
     return 0; 
   setTcHeaderSeqCount(pckt, 16383);
-  DEBUGP_TSGS("getTcHeaderSeqCount(): %d \n", getTcHeaderSeqCount(pckt));
   if (getTcHeaderSeqCount(pckt) != 16383) 
     return 0; 
 
   setTcHeaderPcktDataLen(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderPcktDataLen(): %d \n", getTcHeaderPcktDataLen(pckt));
   if (getTcHeaderPcktDataLen(pckt) != 0) 
     return 0; 
   setTcHeaderPcktDataLen(pckt, MAX_SHORT);
-  DEBUGP_TSGS("getTcHeaderPcktDataLen(): %d \n", getTcHeaderPcktDataLen(pckt));
   if (getTcHeaderPcktDataLen(pckt) != MAX_SHORT) 
     return 0; 
 
   setTcHeaderPUSVersion(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderPUSVersion(): %d \n", getTcHeaderPUSVersion(pckt));
   if (getTcHeaderPUSVersion(pckt) != 0) 
     return 0; 
   setTcHeaderPUSVersion(pckt, 15);
-  DEBUGP_TSGS("getTcHeaderPUSVersion(): %d \n", getTcHeaderPUSVersion(pckt));
   if (getTcHeaderPUSVersion(pckt) != 15) 
     return 0; 
 
   setTcHeaderAckAccFlag(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderAckAccFlag(): %d \n", getTcHeaderAckAccFlag(pckt));
   if (getTcHeaderAckAccFlag(pckt) != 0) 
     return 0; 
   setTcHeaderAckAccFlag(pckt, 1);
-  DEBUGP_TSGS("getTcHeaderAckAccFlag(): %d \n", getTcHeaderAckAccFlag(pckt));
   if (getTcHeaderAckAccFlag(pckt) != 1) 
     return 0; 
 
   setTcHeaderAckStartFlag(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderAckStartFlag(): %d \n", getTcHeaderAckStartFlag(pckt));
   if (getTcHeaderAckStartFlag(pckt) != 0) 
     return 0; 
   setTcHeaderAckStartFlag(pckt, 1);
-  DEBUGP_TSGS("getTcHeaderAckStartFlag(): %d \n", getTcHeaderAckStartFlag(pckt));
   if (getTcHeaderAckStartFlag(pckt) != 1) 
     return 0; 
 
   setTcHeaderAckProgFlag(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderAckProgFlag(): %d \n", getTcHeaderAckProgFlag(pckt));
   if (getTcHeaderAckProgFlag(pckt) != 0) 
     return 0; 
   setTcHeaderAckProgFlag(pckt, 1);
-  DEBUGP_TSGS("getTcHeaderAckProgFlag(): %d \n", getTcHeaderAckProgFlag(pckt));
   if (getTcHeaderAckProgFlag(pckt) != 1) 
     return 0; 
 
   setTcHeaderAckTermFlag(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderAckTermFlag(): %d \n", getTcHeaderAckTermFlag(pckt));
   if (getTcHeaderAckTermFlag(pckt) != 0) 
     return 0; 
   setTcHeaderAckTermFlag(pckt, 1);
-  DEBUGP_TSGS("getTcHeaderAckTermFlag(): %d \n", getTcHeaderAckTermFlag(pckt));
   if (getTcHeaderAckTermFlag(pckt) != 1) 
     return 0; 
 
   setTcHeaderServType(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderServType(): %d \n", getTcHeaderServType(pckt));
   if (getTcHeaderServType(pckt) != 0) 
     return 0; 
   setTcHeaderServType(pckt, MAX_CHAR);
-  DEBUGP_TSGS("getTcHeaderServType(): %d \n", getTcHeaderServType(pckt));
   if (getTcHeaderServType(pckt) != MAX_CHAR) 
     return 0; 
 
   setTcHeaderServSubType(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderServSubType(): %d \n", getTcHeaderServSubType(pckt));
   if (getTcHeaderServSubType(pckt) != 0) 
     return 0; 
   setTcHeaderServSubType(pckt, MAX_CHAR);
-  DEBUGP_TSGS("getTcHeaderServSubType(): %d \n", getTcHeaderServSubType(pckt));
   if (getTcHeaderServSubType(pckt) != MAX_CHAR) 
     return 0; 
 
   setTcHeaderSrcId(pckt, 0);
-  DEBUGP_TSGS("getTcHeaderSrcId(): %d \n", getTcHeaderSrcId(pckt));
   if (getTcHeaderSrcId(pckt) != 0) 
     return 0; 
 
   setTcHeaderSrcId(pckt, MAX_CHAR);
-  DEBUGP_TSGS("getTcHeaderSrcId(): %d \n", getTcHeaderSrcId(pckt));
   if (getTcHeaderSrcId(pckt) != MAX_CHAR) 
     return 0; 
 
@@ -249,125 +204,98 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
   CrFwPcktRelease(pckt);
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt2 = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /*test all TM header Getter and Setter*/
   setTmHeaderPcktVersionNmb(pckt2, 0);
-  DEBUGP_TSGS("getTmHeaderPcktVersionNmb(): %d \n", getTmHeaderPcktVersionNmb(pckt2));
   if (getTmHeaderPcktVersionNmb(pckt2) != 0) 
     return 0; 
   setTmHeaderPcktVersionNmb(pckt, 7);
-  DEBUGP_TSGS("getTmHeaderPcktVersionNmb(): %d \n", getTmHeaderPcktVersionNmb(pckt2));
   if (getTmHeaderPcktVersionNmb(pckt2) != 7) 
     return 0; 
 
   setTmHeaderPcktType(pckt2, 0);
-  DEBUGP_TSGS("getTmHeaderPcktType(): %d \n", getTmHeaderPcktType(pckt2));
   if (getTmHeaderPcktType(pckt2) != 0) 
     return 0; 
   setTmHeaderPcktType(pckt2, 1);
-  DEBUGP_TSGS("getTmHeaderPcktType(): %d \n", getTmHeaderPcktType(pckt2));
   if (getTmHeaderPcktType(pckt2) != 1) 
     return 0; 
 
   setTmHeaderSecHeaderFlag(pckt2, 0);
-  DEBUGP_TSGS("getTmHeaderSecHeaderFlag(): %d \n", getTmHeaderSecHeaderFlag(pckt2));
   if (getTmHeaderSecHeaderFlag(pckt2) != 0) 
     return 0; 
   setTmHeaderSecHeaderFlag(pckt2, 1);
-  DEBUGP_TSGS("getTmHeaderSecHeaderFlag(): %d \n", getTmHeaderSecHeaderFlag(pckt2));
   if (getTmHeaderSecHeaderFlag(pckt2) != 1) 
     return 0; 
 
   setTmHeaderAPID(pckt2, 0);
-  DEBUGP_TSGS("getTmHeaderAPID(): %d \n", getTmHeaderAPID(pckt2));
   if (getTmHeaderAPID(pckt2) != 0) 
     return 0; 
   setTmHeaderAPID(pckt2, 2047);
-  DEBUGP_TSGS("getTmHeaderAPID(): %d \n", getTmHeaderAPID(pckt2));
   if (getTmHeaderAPID(pckt2) != 2047) 
     return 0; 
 
   setTmHeaderSeqFlags(pckt2, 0);
-  DEBUGP_TSGS("getTmHeaderSeqFlags(): %d \n", getTmHeaderSeqFlags(pckt2));
   if (getTmHeaderSeqFlags(pckt2) != 0) 
     return 0; 
   setTmHeaderSeqFlags(pckt2, 3);
-  DEBUGP_TSGS("getTmHeaderSeqFlags(): %d \n", getTmHeaderSeqFlags(pckt2));
   if (getTmHeaderSeqFlags(pckt2) != 3) 
     return 0; 
 
   setTmHeaderSeqCount(pckt2, 0);
-  DEBUGP_TSGS("getTmHeaderSeqCount(): %d \n", getTmHeaderSeqCount(pckt2));
   if (getTmHeaderSeqCount(pckt2) != 0) 
     return 0; 
   setTmHeaderSeqCount(pckt2, 16383);
-  DEBUGP_TSGS("getTmHeaderSeqCount(): %d \n", getTmHeaderSeqCount(pckt2));
   if (getTmHeaderSeqCount(pckt2) != 16383) 
     return 0; 
 
   setTmHeaderPcktDataLen(pckt2, 0);
-  DEBUGP_TSGS("getTmHeaderPcktDataLen(): %d \n", getTmHeaderPcktDataLen(pckt2));
   if (getTmHeaderPcktDataLen(pckt2) != 0) 
     return 0; 
   setTmHeaderPcktDataLen(pckt2, MAX_SHORT);
-  DEBUGP_TSGS("getTmHeaderPcktDataLen(): %d \n", getTmHeaderPcktDataLen(pckt2));
   if (getTmHeaderPcktDataLen(pckt2) != MAX_SHORT) 
     return 0; 
 
   setTmHeaderPUSVersion(pckt2, 0);
-  DEBUGP_TSGS("getTmHeaderPUSVersion(): %d \n", getTmHeaderPUSVersion(pckt2));
   if (getTmHeaderPUSVersion(pckt2) != 0) 
     return 0; 
   setTmHeaderPUSVersion(pckt2, 15);
-  DEBUGP_TSGS("getTmHeaderPUSVersion(): %d \n", getTmHeaderPUSVersion(pckt2));
   if (getTmHeaderPUSVersion(pckt2) != 15) 
     return 0; 
 
   setTmHeaderSpaceTimeRefStatus(pckt2, 0);
-  DEBUGP_TSGS("getTmHeaderSpaceTimeRefStatus(): %d \n", getTmHeaderSpaceTimeRefStatus(pckt2));
   if (getTmHeaderSpaceTimeRefStatus(pckt2) != 0) 
     return 0; 
   setTmHeaderSpaceTimeRefStatus(pckt2, 15);
-  DEBUGP_TSGS("getTmHeaderSpaceTimeRefStatus(): %d \n", getTmHeaderSpaceTimeRefStatus(pckt2));
   if (getTmHeaderSpaceTimeRefStatus(pckt2) != 15) 
     return 0; 
 
   setTmHeaderServType(pckt2, 0);
-  DEBUGP_TSGS("getTmHeaderServType(): %d \n", getTmHeaderServType(pckt2));
   if (getTmHeaderServType(pckt2) != 0) 
     return 0; 
   setTmHeaderServType(pckt2, MAX_CHAR);
-  DEBUGP_TSGS("getTmHeaderServType(): %d \n", getTmHeaderServType(pckt2));
   if (getTmHeaderServType(pckt2) != MAX_CHAR) 
     return 0; 
 
   setTmHeaderServSubType(pckt2, 0);
-  DEBUGP_TSGS("getTmHeaderServSubType(): %d \n", getTmHeaderServSubType(pckt2));
   if (getTmHeaderServSubType(pckt2) != 0) 
     return 0; 
   setTmHeaderServSubType(pckt2, MAX_CHAR);
-  DEBUGP_TSGS("getTmHeaderServSubType(): %d \n", getTmHeaderServSubType(pckt2));
   if (getTmHeaderServSubType(pckt2) != MAX_CHAR) 
     return 0; 
 
   setTmHeaderDestId(pckt2, 0);
-  DEBUGP_TSGS("getTmHeaderDestId(): %d \n", getTmHeaderDestId(pckt2));
   if (getTmHeaderDestId(pckt2) != 0) 
     return 0; 
   setTmHeaderDestId(pckt2, MAX_CHAR);
-  DEBUGP_TSGS("getTmHeaderDestId(): %d \n", getTmHeaderDestId(pckt2));
   if (getTmHeaderDestId(pckt2) != MAX_CHAR) 
     return 0; 
 
@@ -380,14 +308,6 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
 
   setTmHeaderTime(pckt2, tim);
   getTmHeaderTime(pckt2, timi);
-  DEBUGP_TSGS("timi(1): %d \n", timi[0]);
-  DEBUGP_TSGS("timi(2): %d \n", timi[1]);
-  DEBUGP_TSGS("timi(3): %d \n", timi[2]);
-  DEBUGP_TSGS("timi(4): %d \n", timi[3]);
-  DEBUGP_TSGS("timi(5): %d \n", timi[4]);
-  DEBUGP_TSGS("timi(6): %d \n", timi[5]);
-  DEBUGP_TSGS("timi: %s \n", timi);
-  DEBUGP_TSGS("tim: %s \n", tim);
   if (memcmp(tim, timi, sizeof(tim))) 
     return 0; 
 
@@ -400,12 +320,6 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
 
   setTmHeaderTime(pckt2, tim);
   getTmHeaderTime(pckt2, timi);
-  DEBUGP_TSGS("timi(1): %d \n", timi[0]);
-  DEBUGP_TSGS("timi(2): %d \n", timi[1]);
-  DEBUGP_TSGS("timi(3): %d \n", timi[2]);
-  DEBUGP_TSGS("timi(4): %d \n", timi[3]);
-  DEBUGP_TSGS("timi(5): %d \n", timi[4]);
-  DEBUGP_TSGS("timi(6): %d \n", timi[5]);
   if (memcmp(tim, timi, sizeof(tim))) 
     return 0; 
 
@@ -413,61 +327,49 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
   CrFwPcktRelease(pckt2);
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt3 = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   CrFwPcktSetCmdRepType(pckt3,crCmdType);
-  DEBUGP_TSGS("CrFwPcktGetCmdRepType(pckt3) %d \n", CrFwPcktGetCmdRepType(pckt3));
   if (CrFwPcktGetCmdRepType(pckt3) != crCmdType) 
     return 0;
 
-  DEBUGP_TSGS("CrFwPcktGetLength(pckt3) %d \n", CrFwPcktGetLength(pckt3));
   if (CrFwPcktGetLength(pckt3) != pcktsize) 
     return 0;
 
   /*functions not used!!*/
   CrFwPcktSetCmdRepId(pckt3,1);
-  DEBUGP_TSGS("CrFwPcktGetCmdRepId(pckt3) %d \n", CrFwPcktGetCmdRepId(pckt3));
   if (CrFwPcktGetCmdRepId(pckt3) != 0) 
     return 0;
 
   CrFwPcktSetSeqCnt(pckt3,0);
-  DEBUGP_TSGS("CrFwPcktGetSeqCnt(pckt3) %d \n", CrFwPcktGetSeqCnt(pckt3));
   if (CrFwPcktGetSeqCnt(pckt3) != 0) 
     return 0;
 
   CrFwPcktSetServType(pckt3,17);
-  DEBUGP_TSGS("CrFwPcktGetServType(pckt3) %d \n", CrFwPcktGetServType(pckt3));
   if (CrFwPcktGetServType(pckt3) != 17) 
     return 0;
 
   CrFwPcktSetServSubType(pckt3,1);
-  DEBUGP_TSGS("CrFwPcktGetServSubType(pckt3) %d \n", CrFwPcktGetServSubType(pckt3));
   if (CrFwPcktGetServSubType(pckt3) != 1) 
     return 0;
 
   CrFwPcktSetDiscriminant(pckt3,0);
-  DEBUGP_TSGS("CrFwPcktGetDiscriminant(pckt3) %d \n", CrFwPcktGetDiscriminant(pckt3));
   if (CrFwPcktGetDiscriminant(pckt3) != 0) 
     return 0; 
 
   CrFwPcktSetSrc(pckt3,12);
-  DEBUGP_TSGS("CrFwPcktGetSrc(pckt3) %d \n", CrFwPcktGetSrc(pckt3));
   if (CrFwPcktGetSrc(pckt3) != 12) 
     return 0;
   
   CrFwPcktSetAckLevel(pckt3,1,0,0,0);
-  DEBUGP_TSGS("CrFwPcktIsAcceptAck(pckt3) %d \n", CrFwPcktIsAcceptAck(pckt3));
   if (CrFwPcktIsAcceptAck(pckt3) != 1) 
     return 0;
   if (CrFwPcktIsStartAck(pckt3) != 0) 
@@ -479,7 +381,6 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
 
 
   CrFwPcktSetAckLevel(pckt3,0,1,0,0);
-  DEBUGP_TSGS("CrFwPcktIsStartAck(pckt3) %d \n", CrFwPcktIsStartAck(pckt3));
   if (CrFwPcktIsAcceptAck(pckt3) != 0) 
     return 0;
   if (CrFwPcktIsStartAck(pckt3) != 1) 
@@ -491,7 +392,6 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
 
 
   CrFwPcktSetAckLevel(pckt3,0,0,1,0);
-  DEBUGP_TSGS("CrFwPcktIsProgressAck(pckt3) %d \n", CrFwPcktIsProgressAck(pckt3));
   if (CrFwPcktIsAcceptAck(pckt3) != 0) 
     return 0;
   if (CrFwPcktIsStartAck(pckt3) != 0) 
@@ -503,7 +403,6 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
 
 
   CrFwPcktSetAckLevel(pckt3,0,0,0,1);
-  DEBUGP_TSGS("CrFwPcktIsTermAck(pckt3) %d \n", CrFwPcktIsTermAck(pckt3));
   if (CrFwPcktIsAcceptAck(pckt3) != 0) 
     return 0;
   if (CrFwPcktIsStartAck(pckt3) != 0) 
@@ -514,47 +413,46 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
     return 0;
 
   CrFwPcktSetGroup(pckt3,2);
-  DEBUGP_TSGS("CrFwPcktGetGroup(pckt3) %d \n", CrFwPcktGetGroup(pckt3));
   if (CrFwPcktGetGroup(pckt3) != 2) 
     return 0;
 
-  DEBUGP_TSGS("CrFwPcktGetParStart(pckt3) %p \n", CrFwPcktGetParStart(pckt3));
-  DEBUGP_TSGS("CrFwPcktGetParLength(pckt3) %d \n", CrFwPcktGetParLength(pckt3));
+  CrFwPcktSetSeqCtrl(pckt3, 0);
+  if (CrFwPcktGetSeqCtrl(pckt3) != 0)
+    return 0;
+
+  CrFwPcktSetApid(pckt3, 0);
+  if (CrFwPcktGetApid(pckt3) != 0)
+    return 0;
+
+
 
   /*release packet and create a new one!*/
   CrFwPcktRelease(pckt3);
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt4 = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   CrFwPcktSetCmdRepType(pckt4,crRepType);
-  DEBUGP_TSGS("CrFwPcktGetCmdRepType(pckt4) %d \n", CrFwPcktGetCmdRepType(pckt4));
   if (CrFwPcktGetCmdRepType(pckt4) != crRepType) 
     return 0;
 
-  DEBUGP_TSGS("CrFwPcktGetLength(pckt4) %d \n", CrFwPcktGetLength(pckt4));
   if (CrFwPcktGetLength(pckt4) != pcktsize) 
     return 0;
 
   /*functions not used!!*/
   CrFwPcktSetCmdRepId(pckt4,1);
-  DEBUGP_TSGS("CrFwPcktGetCmdRepId(pckt4) %d \n", CrFwPcktGetCmdRepId(pckt4));
   if (CrFwPcktGetCmdRepId(pckt4) != 0) 
     return 0;
 
   CrFwPcktSetSeqCnt(pckt4,0);
-  DEBUGP_TSGS("CrFwPcktGetSeqCnt(pckt4) %d \n", CrFwPcktGetSeqCnt(pckt4));
   if (CrFwPcktGetSeqCnt(pckt4) != 0) 
     return 0;
 
@@ -567,58 +465,46 @@ CrFwBool_t CrPsPcktGetSetTestCase1()
   
   CrFwPcktSetTimeStamp(pckt4,timstp);
   timstpi = CrFwPcktGetTimeStamp(pckt4);
-  DEBUGP_TSGS("timi(1): %d \n", timstpi.t[0]);
-  DEBUGP_TSGS("timi(2): %d \n", timstpi.t[1]);
-  DEBUGP_TSGS("timi(3): %d \n", timstpi.t[2]);
-  DEBUGP_TSGS("timi(4): %d \n", timstpi.t[3]);
-  DEBUGP_TSGS("timi(5): %d \n", timstpi.t[4]);
-  DEBUGP_TSGS("timi(6): %d \n", timstpi.t[5]);
 
   if (memcmp(&timstp, &timstpi, sizeof(timstp))) 
     return 0; 
 
   CrFwPcktSetServType(pckt4,17);
-  DEBUGP_TSGS("CrFwPcktGetServType(pckt4) %d \n", CrFwPcktGetServType(pckt4));
   if (CrFwPcktGetServType(pckt4) != 17) 
     return 0;
 
   CrFwPcktSetServSubType(pckt4,2);
-  DEBUGP_TSGS("CrFwPcktGetServSubType(pckt4) %d \n", CrFwPcktGetServSubType(pckt4));
   if (CrFwPcktGetServSubType(pckt4) != 2) 
     return 0;
 
   CrFwPcktSetDiscriminant(pckt4,44);
-  DEBUGP_TSGS("CrFwPcktGetDiscriminant(pckt4) %d \n", CrFwPcktGetDiscriminant(pckt4));
   if (CrFwPcktGetDiscriminant(pckt4) != 0) 
     return 0; 
 
   CrFwPcktSetDest(pckt4,13);
-  DEBUGP_TSGS("CrFwPcktGetDest(pckt4) %d \n", CrFwPcktGetDest(pckt4));
   if (CrFwPcktGetDest(pckt4) != 13) 
     return 0;
 
   CrFwPcktSetGroup(pckt4,2);
-  DEBUGP_TSGS("CrFwPcktGetGroup(pckt4) %d \n", CrFwPcktGetGroup(pckt4));
   if (CrFwPcktGetGroup(pckt4) != 2) 
     return 0;
 
-  DEBUGP_TSGS("CrFwPcktGetParStart(pckt4) %p \n", CrFwPcktGetParStart(pckt4));
-  DEBUGP_TSGS("CrFwPcktGetParLength(pckt4) %d \n", CrFwPcktGetParLength(pckt4));
+  CrFwPcktSetSeqCtrl(pckt4, 0);
+  if (CrFwPcktGetSeqCtrl(pckt4) != 0)
+    return 0;
+
+  CrFwPcktSetApid(pckt4, 0);
+  if (CrFwPcktGetApid(pckt4) != 0)
+    return 0;
+
 
 /*TBD remove if it works*/
-  DEBUGP_TSGS("pcktsize: %d \n", pcktsize);
-  DEBUGP_TSGS("CrFwPcktGetLength(pckt4) %d \n", CrFwPcktGetLength(pckt4));
-  DEBUGP_TSGS("tmheader: %lu \n", sizeof(TmHeader_t));
   pstart = CrFwPcktGetParStart(pckt4);
-  DEBUGP_TSGS("pcktstart: %i \n", *pstart);
-  DEBUGP_TSGS("pcktsize: %d \n", pcktsize);
-  DEBUGP_TSGS("pcktsize: %d \n", pcktsize);
   CRFW_UNUSED(pstart);
   /*release packet and create a new one!*/
   CrFwPcktRelease(pckt4);
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
@@ -636,21 +522,17 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 17.1 packet*/
-  DEBUGP_TSGS("Check 17.1 packet \n");
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt, 17);
   CrFwPcktSetServSubType(pckt, 1);
@@ -670,7 +552,6 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     return 0;
 
   /* Check 17.2 packet*/
-  DEBUGP_TSGS("Check 17.2 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 17);
   CrFwPcktSetServSubType(pckt, 2);
@@ -690,7 +571,6 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     return 0;
 
   /* Check 17.3 packet*/
-  DEBUGP_TSGS("Check 17.3 packet \n");
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt, 17);
   CrFwPcktSetServSubType(pckt, 3);
@@ -716,7 +596,6 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     return 0;
 
   /* Check 17.4 packet*/
-  DEBUGP_TSGS("Check 17.4 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 17);
   CrFwPcktSetServSubType(pckt, 4);
@@ -742,13 +621,16 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     return 0;
 
   /* Check 1.1 packet*/
-  DEBUGP_TSGS("Check 1.1 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 1);
   CrFwPcktSetServSubType(pckt, 1);
   CrFwPcktSetDiscriminant(pckt, 0);
-  setVerSuccessAccRepTcPacketId(pckt, 0);
-  setVerSuccessAccRepTcPacketSeqCtrl(pckt, 0);  
+  setVerSuccessAccRepPcktVersionNmb(pckt, 0);
+  setVerSuccessAccRepPcktType(pckt, 0);
+  setVerSuccessAccRepSecHeaderFlag(pckt, 0);
+  setVerSuccessAccRepAPID(pckt, 0);
+  setVerSuccessAccRepSeqFlags(pckt, 0);
+  setVerSuccessAccRepSeqCount(pckt, 0);
 
   if (CrFwPcktGetCmdRepType(pckt) != crRepType)
     return 0;
@@ -758,33 +640,62 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     return 0;
   if (CrFwPcktGetDiscriminant(pckt) != 0)
     return 0;
-  if (getVerSuccessAccRepTcPacketId(pckt) != 0)
+  if (getVerSuccessAccRepPcktVersionNmb(pckt) != 0)
     return 0;
-  if (getVerSuccessAccRepTcPacketSeqCtrl(pckt) != 0)
+  if (getVerSuccessAccRepPcktType(pckt) != 0)
+    return 0;
+  if (getVerSuccessAccRepSecHeaderFlag(pckt) != 0)
+    return 0;
+  if (getVerSuccessAccRepAPID(pckt) != 0)
+    return 0;
+  if (getVerSuccessAccRepSeqFlags(pckt) != 0)
+    return 0;
+  if (getVerSuccessAccRepSeqCount(pckt) != 0)
     return 0;
 
   CrFwPcktSetDiscriminant(pckt, MAX_SHORT);
-  setVerSuccessAccRepTcPacketId(pckt, MAX_SHORT);
-  setVerSuccessAccRepTcPacketSeqCtrl(pckt, MAX_SHORT);
+  setVerSuccessAccRepPcktVersionNmb(pckt, 7);
+  setVerSuccessAccRepPcktType(pckt, 1);
+  setVerSuccessAccRepSecHeaderFlag(pckt, 1);
+  setVerSuccessAccRepAPID(pckt, 2047);
+  setVerSuccessAccRepSeqFlags(pckt, 3);
+  setVerSuccessAccRepSeqCount(pckt, 16383);
   if (CrFwPcktGetDiscriminant(pckt) != 0)
     return 0;
-  if (getVerSuccessAccRepTcPacketId(pckt) != MAX_SHORT)
+  if (getVerSuccessAccRepPcktVersionNmb(pckt) != 7)
     return 0;
-  if (getVerSuccessAccRepTcPacketSeqCtrl(pckt) != MAX_SHORT)
+  if (getVerSuccessAccRepPcktType(pckt) != 1)
+    return 0;
+  if (getVerSuccessAccRepSecHeaderFlag(pckt) != 1)
+    return 0;
+  if (getVerSuccessAccRepAPID(pckt) != 2047)
+    return 0;
+  if (getVerSuccessAccRepSeqFlags(pckt) != 3)
+    return 0;
+  if (getVerSuccessAccRepSeqCount(pckt) != 16383)
+    return 0;
+
+  setVerSuccessAccRepRid(pckt, 0);
+  if (getVerSuccessAccRepRid(pckt) != 0)
+    return 0;
+
+  setVerSuccessAccRepRid(pckt, MAX_INT);
+  if (getVerSuccessAccRepRid(pckt) != MAX_INT)
     return 0;
 
   /* Check 1.2 packet*/
-  DEBUGP_TSGS("Check 1.2 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 1);
   CrFwPcktSetServSubType(pckt, 2);
   CrFwPcktSetDiscriminant(pckt, 0);
-  setVerFailedAccRepTcFailureCode(pckt, 0);
-  setVerFailedAccRepTcPacketId(pckt, 0);
-  setVerFailedAccRepTcPacketSeqCtrl(pckt, 0);  
-  setVerFailedAccRepTcType(pckt, 0);
-  setVerFailedAccRepTcSubtype(pckt, 0);
-  setVerFailedAccRepTcDisc(pckt, 0);   
+  setVerFailedAccRepPcktVersionNmb(pckt, 0);
+  setVerFailedAccRepPcktType(pckt, 0);
+  setVerFailedAccRepSecHeaderFlag(pckt, 0);
+  setVerFailedAccRepAPID(pckt, 0);
+  setVerFailedAccRepSeqFlags(pckt, 0);
+  setVerFailedAccRepSeqCount(pckt, 0);
+  setVerFailedAccRepFailureCode(pckt, 0);
+  setVerFailedAccRepFailureData(pckt, 0);
 
   if (CrFwPcktGetCmdRepType(pckt) != crRepType)
     return 0;
@@ -794,49 +705,71 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     return 0;
   if (CrFwPcktGetDiscriminant(pckt) != 0)
     return 0;
-  if (getVerFailedAccRepTcFailureCode(pckt) != 0)
+  if (getVerFailedAccRepPcktVersionNmb(pckt) != 0)
     return 0;
-  if (getVerFailedAccRepTcPacketId(pckt) != 0)
+  if (getVerFailedAccRepPcktType(pckt) != 0)
     return 0;
-  if (getVerFailedAccRepTcPacketSeqCtrl(pckt) != 0)
+  if (getVerFailedAccRepSecHeaderFlag(pckt) != 0)
     return 0;
-  if (getVerFailedAccRepTcType(pckt) != 0)
+  if (getVerFailedAccRepAPID(pckt) != 0)
     return 0;
-  if (getVerFailedAccRepTcSubtype(pckt) != 0)
+  if (getVerFailedAccRepSeqFlags(pckt) != 0)
     return 0;
-  if (getVerFailedAccRepTcDisc(pckt) != 0)
+  if (getVerFailedAccRepSeqCount(pckt) != 0)
+    return 0;
+  if (getVerFailedAccRepFailureCode(pckt) != 0)
+    return 0;
+  if (getVerFailedAccRepFailureData(pckt) != 0)
     return 0;
 
   CrFwPcktSetDiscriminant(pckt, MAX_SHORT);
-  setVerFailedAccRepTcFailureCode(pckt, MAX_SHORT);
-  setVerFailedAccRepTcPacketId(pckt, MAX_SHORT);
-  setVerFailedAccRepTcPacketSeqCtrl(pckt, MAX_SHORT);
-  setVerFailedAccRepTcType(pckt, MAX_CHAR);
-  setVerFailedAccRepTcSubtype(pckt, MAX_CHAR);  
-  setVerFailedAccRepTcDisc(pckt, MAX_CHAR); 
+  setVerFailedAccRepPcktVersionNmb(pckt, 7);
+  setVerFailedAccRepPcktType(pckt, 1);
+  setVerFailedAccRepSecHeaderFlag(pckt, 1);
+  setVerFailedAccRepAPID(pckt, 2047);
+  setVerFailedAccRepSeqFlags(pckt, 3);
+  setVerFailedAccRepSeqCount(pckt, 16383);
+  setVerFailedAccRepFailureCode(pckt, MAX_SHORT);
+  setVerFailedAccRepFailureData(pckt, MAX_INT);
+
   if (CrFwPcktGetDiscriminant(pckt) != MAX_SHORT)
     return 0;
-  if (getVerFailedAccRepTcFailureCode(pckt) != MAX_SHORT)
+  if (getVerFailedAccRepPcktVersionNmb(pckt) != 7)
     return 0;
-  if (getVerFailedAccRepTcPacketId(pckt) != MAX_SHORT)
+  if (getVerFailedAccRepPcktType(pckt) != 1)
     return 0;
-  if (getVerFailedAccRepTcPacketSeqCtrl(pckt) != MAX_SHORT)
+  if (getVerFailedAccRepSecHeaderFlag(pckt) != 1)
     return 0;
-  if (getVerFailedAccRepTcType(pckt) != MAX_CHAR)
+  if (getVerFailedAccRepAPID(pckt) != 2047)
     return 0;
-  if (getVerFailedAccRepTcSubtype(pckt) != MAX_CHAR)
+  if (getVerFailedAccRepSeqFlags(pckt) != 3)
     return 0;
-  if (getVerFailedAccRepTcDisc(pckt) != MAX_CHAR)
+  if (getVerFailedAccRepSeqCount(pckt) != 16383)
+    return 0;
+  if (getVerFailedAccRepFailureCode(pckt) != MAX_SHORT)
+    return 0;
+  if (getVerFailedAccRepFailureData(pckt) != MAX_INT)
+    return 0;  
+
+  setVerFailedAccRepRid(pckt, 0);
+  if (getVerFailedAccRepRid(pckt) != 0)
+    return 0;
+
+  setVerFailedAccRepRid(pckt, MAX_INT);
+  if (getVerFailedAccRepRid(pckt) != MAX_INT)
     return 0;
 
   /* Check 1.3 packet*/
-  DEBUGP_TSGS("Check 1.3 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 1);
   CrFwPcktSetServSubType(pckt, 3);
   CrFwPcktSetDiscriminant(pckt, 0);
-  setVerSuccessStartRepTcPacketId(pckt, 0);
-  setVerSuccessStartRepTcPacketSeqCtrl(pckt, 0);  
+  setVerSuccessStartRepPcktVersionNmb(pckt, 0);
+  setVerSuccessStartRepPcktType(pckt, 0);
+  setVerSuccessStartRepSecHeaderFlag(pckt, 0);
+  setVerSuccessStartRepAPID(pckt, 0);
+  setVerSuccessStartRepSeqFlags(pckt, 0);
+  setVerSuccessStartRepSeqCount(pckt, 0);
 
   if (CrFwPcktGetCmdRepType(pckt) != crRepType)
     return 0;
@@ -846,33 +779,62 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     return 0;
   if (CrFwPcktGetDiscriminant(pckt) != 0)
     return 0;
-  if (getVerSuccessStartRepTcPacketId(pckt) != 0)
+  if (getVerSuccessStartRepPcktVersionNmb(pckt) != 0)
     return 0;
-  if (getVerSuccessStartRepTcPacketSeqCtrl(pckt) != 0)
+  if (getVerSuccessStartRepPcktType(pckt) != 0)
+    return 0;
+  if (getVerSuccessStartRepSecHeaderFlag(pckt) != 0)
+    return 0;
+  if (getVerSuccessStartRepAPID(pckt) != 0)
+    return 0;
+  if (getVerSuccessStartRepSeqFlags(pckt) != 0)
+    return 0;
+  if (getVerSuccessStartRepSeqCount(pckt) != 0)
     return 0;
 
   CrFwPcktSetDiscriminant(pckt, MAX_SHORT);
-  setVerSuccessStartRepTcPacketId(pckt, MAX_SHORT);
-  setVerSuccessStartRepTcPacketSeqCtrl(pckt, MAX_SHORT);
+  setVerSuccessStartRepPcktVersionNmb(pckt, 7);
+  setVerSuccessStartRepPcktType(pckt, 1);
+  setVerSuccessStartRepSecHeaderFlag(pckt, 1);
+  setVerSuccessStartRepAPID(pckt, 2047);
+  setVerSuccessStartRepSeqFlags(pckt, 3);
+  setVerSuccessStartRepSeqCount(pckt, 16383);
   if (CrFwPcktGetDiscriminant(pckt) != 0)
     return 0;
-  if (getVerSuccessStartRepTcPacketId(pckt) != MAX_SHORT)
+  if (getVerSuccessStartRepPcktVersionNmb(pckt) != 7)
     return 0;
-  if (getVerSuccessStartRepTcPacketSeqCtrl(pckt) != MAX_SHORT)
+  if (getVerSuccessStartRepPcktType(pckt) != 1)
+    return 0;
+  if (getVerSuccessStartRepSecHeaderFlag(pckt) != 1)
+    return 0;
+  if (getVerSuccessStartRepAPID(pckt) != 2047)
+    return 0;
+  if (getVerSuccessStartRepSeqFlags(pckt) != 3)
+    return 0;
+  if (getVerSuccessStartRepSeqCount(pckt) != 16383)
+    return 0;
+
+  setVerSuccessStartRepRid(pckt, 0);
+  if (getVerSuccessStartRepRid(pckt) != 0)
+    return 0;
+
+  setVerSuccessStartRepRid(pckt, MAX_INT);
+  if (getVerSuccessStartRepRid(pckt) != MAX_INT)
     return 0;
 
   /* Check 1.4 packet*/
-  DEBUGP_TSGS("Check 1.4 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 1);
   CrFwPcktSetServSubType(pckt, 4);
   CrFwPcktSetDiscriminant(pckt, 0);
-  setVerFailedStartRepTcFailureCode(pckt, 0);
-  setVerFailedStartRepTcPacketId(pckt, 0);
-  setVerFailedStartRepTcPacketSeqCtrl(pckt, 0);  
-  setVerFailedStartRepTcType(pckt, 0);
-  setVerFailedStartRepTcSubtype(pckt, 0);
-  setVerFailedStartRepTcDisc(pckt, 0);   
+  setVerFailedStartRepPcktVersionNmb(pckt, 0);
+  setVerFailedStartRepPcktType(pckt, 0);
+  setVerFailedStartRepSecHeaderFlag(pckt, 0);
+  setVerFailedStartRepAPID(pckt, 0);
+  setVerFailedStartRepSeqFlags(pckt, 0);
+  setVerFailedStartRepSeqCount(pckt, 0);
+  setVerFailedStartRepFailureCode(pckt, 0);
+  setVerFailedStartRepFailureData(pckt, 0);   
 
   if (CrFwPcktGetCmdRepType(pckt) != crRepType)
     return 0;
@@ -882,49 +844,71 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     return 0;
   if (CrFwPcktGetDiscriminant(pckt) != 0)
     return 0;
-  if (getVerFailedStartRepTcFailureCode(pckt) != 0)
+  if (getVerFailedStartRepPcktVersionNmb(pckt) != 0)
     return 0;
-  if (getVerFailedStartRepTcPacketId(pckt) != 0)
+  if (getVerFailedStartRepPcktType(pckt) != 0)
     return 0;
-  if (getVerFailedStartRepTcPacketSeqCtrl(pckt) != 0)
+  if (getVerFailedStartRepSecHeaderFlag(pckt) != 0)
     return 0;
-  if (getVerFailedStartRepTcType(pckt) != 0)
+  if (getVerFailedStartRepAPID(pckt) != 0)
     return 0;
-  if (getVerFailedStartRepTcSubtype(pckt) != 0)
+  if (getVerFailedStartRepSeqFlags(pckt) != 0)
     return 0;
-  if (getVerFailedStartRepTcDisc(pckt) != 0)
+  if (getVerFailedStartRepSeqCount(pckt) != 0)
+    return 0;
+  if (getVerFailedStartRepFailureCode(pckt) != 0)
+    return 0;
+  if (getVerFailedStartRepFailureData(pckt) != 0)
     return 0;
 
   CrFwPcktSetDiscriminant(pckt, MAX_SHORT);
-  setVerFailedStartRepTcFailureCode(pckt, MAX_SHORT);
-  setVerFailedStartRepTcPacketId(pckt, MAX_SHORT);
-  setVerFailedStartRepTcPacketSeqCtrl(pckt, MAX_SHORT);
-  setVerFailedStartRepTcType(pckt, MAX_CHAR);
-  setVerFailedStartRepTcSubtype(pckt, MAX_CHAR);  
-  setVerFailedStartRepTcDisc(pckt, MAX_CHAR); 
+  setVerFailedStartRepPcktVersionNmb(pckt, 7);
+  setVerFailedStartRepPcktType(pckt, 1);
+  setVerFailedStartRepSecHeaderFlag(pckt, 1);
+  setVerFailedStartRepAPID(pckt, 2047);
+  setVerFailedStartRepSeqFlags(pckt, 3);
+  setVerFailedStartRepSeqCount(pckt, 16383);
+  setVerFailedStartRepFailureCode(pckt, MAX_SHORT);
+  setVerFailedStartRepFailureData(pckt, MAX_INT);
+
   if (CrFwPcktGetDiscriminant(pckt) != MAX_SHORT)
     return 0;
-  if (getVerFailedStartRepTcFailureCode(pckt) != MAX_SHORT)
+  if (getVerFailedStartRepPcktVersionNmb(pckt) != 7)
     return 0;
-  if (getVerFailedStartRepTcPacketId(pckt) != MAX_SHORT)
+  if (getVerFailedStartRepPcktType(pckt) != 1)
     return 0;
-  if (getVerFailedStartRepTcPacketSeqCtrl(pckt) != MAX_SHORT)
+  if (getVerFailedStartRepSecHeaderFlag(pckt) != 1)
     return 0;
-  if (getVerFailedStartRepTcType(pckt) != MAX_CHAR)
+  if (getVerFailedStartRepAPID(pckt) != 2047)
     return 0;
-  if (getVerFailedStartRepTcSubtype(pckt) != MAX_CHAR)
+  if (getVerFailedStartRepSeqFlags(pckt) != 3)
     return 0;
-  if (getVerFailedStartRepTcDisc(pckt) != MAX_CHAR)
+  if (getVerFailedStartRepSeqCount(pckt) != 16383)
+    return 0;
+  if (getVerFailedStartRepFailureCode(pckt) != MAX_SHORT)
+    return 0;
+  if (getVerFailedStartRepFailureData(pckt) != MAX_INT)
+    return 0; 
+
+  setVerFailedStartRepRid(pckt, 0);
+  if (getVerFailedStartRepRid(pckt) != 0)
+    return 0;
+
+  setVerFailedStartRepRid(pckt, MAX_INT);
+  if (getVerFailedStartRepRid(pckt) != MAX_INT)
     return 0;
 
   /* Check 1.5 packet*/
-  DEBUGP_TSGS("Check 1.5 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 1);
   CrFwPcktSetServSubType(pckt, 5);
   CrFwPcktSetDiscriminant(pckt, 0);
-  setVerSuccessPrgrRepTcPacketId(pckt, 0);
-  setVerSuccessPrgrRepTcPacketSeqCtrl(pckt, 0);  
+  setVerSuccessPrgrRepPcktVersionNmb(pckt, 0);
+  setVerSuccessPrgrRepPcktType(pckt, 0);
+  setVerSuccessPrgrRepSecHeaderFlag(pckt, 0);
+  setVerSuccessPrgrRepAPID(pckt, 0);
+  setVerSuccessPrgrRepSeqFlags(pckt, 0);
+  setVerSuccessPrgrRepSeqCount(pckt, 0);
   setVerSuccessPrgrRepStepId(pckt, 0);    
 
   if (CrFwPcktGetCmdRepType(pckt) != crRepType)
@@ -935,40 +919,69 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     return 0;
   if (CrFwPcktGetDiscriminant(pckt) != 0)
     return 0;
-  if (getVerSuccessPrgrRepTcPacketId(pckt) != 0)
+  if (getVerSuccessPrgrRepPcktVersionNmb(pckt) != 0)
     return 0;
-  if (getVerSuccessPrgrRepTcPacketSeqCtrl(pckt) != 0)
+  if (getVerSuccessPrgrRepPcktType(pckt) != 0)
+    return 0;
+  if (getVerSuccessPrgrRepSecHeaderFlag(pckt) != 0)
+    return 0;
+  if (getVerSuccessPrgrRepAPID(pckt) != 0)
+    return 0;
+  if (getVerSuccessPrgrRepSeqFlags(pckt) != 0)
+    return 0;
+  if (getVerSuccessPrgrRepSeqCount(pckt) != 0)
     return 0;
   if (getVerSuccessPrgrRepStepId(pckt) != 0)
     return 0;
 
   CrFwPcktSetDiscriminant(pckt, MAX_SHORT);
-  setVerSuccessPrgrRepTcPacketId(pckt, MAX_SHORT);
-  setVerSuccessPrgrRepTcPacketSeqCtrl(pckt, MAX_SHORT);
+  setVerSuccessPrgrRepPcktVersionNmb(pckt, 7);
+  setVerSuccessPrgrRepPcktType(pckt, 1);
+  setVerSuccessPrgrRepSecHeaderFlag(pckt, 1);
+  setVerSuccessPrgrRepAPID(pckt, 2047);
+  setVerSuccessPrgrRepSeqFlags(pckt, 3);
+  setVerSuccessPrgrRepSeqCount(pckt, 16383);
   setVerSuccessPrgrRepStepId(pckt, MAX_INT);  
   if (CrFwPcktGetDiscriminant(pckt) != 0)
     return 0;
-  if (getVerSuccessPrgrRepTcPacketId(pckt) != MAX_SHORT)
+  if (getVerSuccessPrgrRepPcktVersionNmb(pckt) != 7)
     return 0;
-  if (getVerSuccessPrgrRepTcPacketSeqCtrl(pckt) != MAX_SHORT)
+  if (getVerSuccessPrgrRepPcktType(pckt) != 1)
+    return 0;
+  if (getVerSuccessPrgrRepSecHeaderFlag(pckt) != 1)
+    return 0;
+  if (getVerSuccessPrgrRepAPID(pckt) != 2047)
+    return 0;
+  if (getVerSuccessPrgrRepSeqFlags(pckt) != 3)
+    return 0;
+  if (getVerSuccessPrgrRepSeqCount(pckt) != 16383)
     return 0;
   if (getVerSuccessPrgrRepStepId(pckt) != MAX_INT)
     return 0;
 
+  setVerSuccessPrgrRepRid(pckt, 0);
+  if (getVerSuccessPrgrRepRid(pckt) != 0)
+    return 0;
+
+  setVerSuccessPrgrRepRid(pckt, MAX_INT);
+  if (getVerSuccessPrgrRepRid(pckt) != MAX_INT)
+    return 0;
+
   /* Check 1.6 packet*/
-  DEBUGP_TSGS("Check 1.6 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 1);
   CrFwPcktSetServSubType(pckt, 6);
   CrFwPcktSetDiscriminant(pckt, 0);
-  setVerFailedPrgrRepTcFailureCode(pckt, 0);
-  setVerFailedPrgrRepTcPacketId(pckt, 0);
-  setVerFailedPrgrRepTcPacketSeqCtrl(pckt, 0);
-  setVerFailedPrgrRepStepId(pckt, 0);  
-  setVerFailedPrgrRepTcType(pckt, 0);
-  setVerFailedPrgrRepTcSubtype(pckt, 0);
-  setVerFailedPrgrRepTcDisc(pckt, 0);   
-
+  setVerFailedPrgrRepPcktVersionNmb(pckt, 0);
+  setVerFailedPrgrRepPcktType(pckt, 0);
+  setVerFailedPrgrRepSecHeaderFlag(pckt, 0);
+  setVerFailedPrgrRepAPID(pckt, 0);
+  setVerFailedPrgrRepSeqFlags(pckt, 0);
+  setVerFailedPrgrRepSeqCount(pckt, 0);
+  setVerFailedPrgrRepStepId(pckt, 0);
+  setVerFailedPrgrRepFailureCode(pckt, 0);
+  setVerFailedPrgrRepFailureData(pckt, 0);
+  
   if (CrFwPcktGetCmdRepType(pckt) != crRepType)
     return 0;
   if (CrFwPcktGetServType(pckt) != 1)
@@ -977,55 +990,76 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     return 0;
   if (CrFwPcktGetDiscriminant(pckt) != 0)
     return 0;
-  if (getVerFailedPrgrRepTcFailureCode(pckt) != 0)
+  if (getVerFailedPrgrRepPcktVersionNmb(pckt) != 0)
     return 0;
-  if (getVerFailedPrgrRepTcPacketId(pckt) != 0)
+  if (getVerFailedPrgrRepPcktType(pckt) != 0)
     return 0;
-  if (getVerFailedPrgrRepTcPacketSeqCtrl(pckt) != 0)
+  if (getVerFailedPrgrRepSecHeaderFlag(pckt) != 0)
+    return 0;
+  if (getVerFailedPrgrRepAPID(pckt) != 0)
+    return 0;
+  if (getVerFailedPrgrRepSeqFlags(pckt) != 0)
+    return 0;
+  if (getVerFailedPrgrRepSeqCount(pckt) != 0)
     return 0;
   if (getVerFailedPrgrRepStepId(pckt) != 0)
     return 0;
-  if (getVerFailedPrgrRepTcType(pckt) != 0)
+  if (getVerFailedPrgrRepFailureCode(pckt) != 0)
     return 0;
-  if (getVerFailedPrgrRepTcSubtype(pckt) != 0)
-    return 0;
-  if (getVerFailedPrgrRepTcDisc(pckt) != 0)
+  if (getVerFailedPrgrRepFailureData(pckt) != 0)
     return 0;
 
   CrFwPcktSetDiscriminant(pckt, MAX_SHORT);
-  setVerFailedPrgrRepTcFailureCode(pckt, MAX_SHORT);
-  setVerFailedPrgrRepTcPacketId(pckt, MAX_SHORT);
-  setVerFailedPrgrRepTcPacketSeqCtrl(pckt, MAX_SHORT);
+  setVerFailedPrgrRepPcktVersionNmb(pckt, 7);
+  setVerFailedPrgrRepPcktType(pckt, 1);
+  setVerFailedPrgrRepSecHeaderFlag(pckt, 1);
+  setVerFailedPrgrRepAPID(pckt, 2047);
+  setVerFailedPrgrRepSeqFlags(pckt, 3);
+  setVerFailedPrgrRepSeqCount(pckt, 16383);
   setVerFailedPrgrRepStepId(pckt, MAX_INT);
-  setVerFailedPrgrRepTcType(pckt, MAX_CHAR);
-  setVerFailedPrgrRepTcSubtype(pckt, MAX_CHAR);  
-  setVerFailedPrgrRepTcDisc(pckt, MAX_CHAR); 
+  setVerFailedPrgrRepFailureCode(pckt, MAX_SHORT);
+  setVerFailedPrgrRepFailureData(pckt, MAX_INT);
+    
   if (CrFwPcktGetDiscriminant(pckt) != MAX_SHORT)
     return 0;
-  if (getVerFailedPrgrRepTcFailureCode(pckt) != MAX_SHORT)
+  if (getVerFailedPrgrRepPcktVersionNmb(pckt) != 7)
     return 0;
-  if (getVerFailedPrgrRepTcPacketId(pckt) != MAX_SHORT)
+  if (getVerFailedPrgrRepPcktType(pckt) != 1)
     return 0;
-  if (getVerFailedPrgrRepTcPacketSeqCtrl(pckt) != MAX_SHORT)
+  if (getVerFailedPrgrRepSecHeaderFlag(pckt) != 1)
+    return 0;
+  if (getVerFailedPrgrRepAPID(pckt) != 2047)
+    return 0;
+  if (getVerFailedPrgrRepSeqFlags(pckt) != 3)
+    return 0;
+  if (getVerFailedPrgrRepSeqCount(pckt) != 16383)
     return 0;
   if (getVerFailedPrgrRepStepId(pckt) != MAX_INT)
-    return 0;;
+    return 0;
+  if (getVerFailedPrgrRepFailureCode(pckt) != MAX_SHORT)
+    return 0;
+  if (getVerFailedPrgrRepFailureData(pckt) != MAX_INT)
+    return 0;
 
-  if (getVerFailedPrgrRepTcType(pckt) != MAX_CHAR)
+  setVerFailedPrgrRepRid(pckt, 0);
+  if (getVerFailedPrgrRepRid(pckt) != 0)
     return 0;
-  if (getVerFailedPrgrRepTcSubtype(pckt) != MAX_CHAR)
-    return 0;
-  if (getVerFailedPrgrRepTcDisc(pckt) != MAX_CHAR)
+
+  setVerFailedPrgrRepRid(pckt, MAX_INT);
+  if (getVerFailedPrgrRepRid(pckt) != MAX_INT)
     return 0;
 
   /* Check 1.7 packet*/
-  DEBUGP_TSGS("Check 1.7 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 1);
   CrFwPcktSetServSubType(pckt, 7);
   CrFwPcktSetDiscriminant(pckt, 0);
-  setVerSuccessTermRepTcPacketId(pckt, 0);
-  setVerSuccessTermRepTcPacketSeqCtrl(pckt, 0);   
+  setVerSuccessTermRepPcktVersionNmb(pckt, 0);
+  setVerSuccessTermRepPcktType(pckt, 0);
+  setVerSuccessTermRepSecHeaderFlag(pckt, 0);
+  setVerSuccessTermRepAPID(pckt, 0);
+  setVerSuccessTermRepSeqFlags(pckt, 0);
+  setVerSuccessTermRepSeqCount(pckt, 0);
 
   if (CrFwPcktGetCmdRepType(pckt) != crRepType)
     return 0;
@@ -1035,34 +1069,62 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     return 0;
   if (CrFwPcktGetDiscriminant(pckt) != 0)
     return 0;
-  if (getVerSuccessTermRepTcPacketId(pckt) != 0)
+  if (getVerSuccessTermRepPcktVersionNmb(pckt) != 0)
     return 0;
-  if (getVerSuccessTermRepTcPacketSeqCtrl(pckt) != 0)
+  if (getVerSuccessTermRepPcktType(pckt) != 0)
+    return 0;
+  if (getVerSuccessTermRepSecHeaderFlag(pckt) != 0)
+    return 0;
+  if (getVerSuccessTermRepAPID(pckt) != 0)
+    return 0;
+  if (getVerSuccessTermRepSeqFlags(pckt) != 0)
+    return 0;
+  if (getVerSuccessTermRepSeqCount(pckt) != 0)
     return 0;
 
   CrFwPcktSetDiscriminant(pckt, MAX_SHORT);
-  setVerSuccessTermRepTcPacketId(pckt, MAX_SHORT);
-  setVerSuccessTermRepTcPacketSeqCtrl(pckt, MAX_SHORT);
+  setVerSuccessTermRepPcktVersionNmb(pckt, 7);
+  setVerSuccessTermRepPcktType(pckt, 1);
+  setVerSuccessTermRepSecHeaderFlag(pckt, 1);
+  setVerSuccessTermRepAPID(pckt, 2047);
+  setVerSuccessTermRepSeqFlags(pckt, 3);
+  setVerSuccessTermRepSeqCount(pckt, 16383);
   if (CrFwPcktGetDiscriminant(pckt) != 0)
     return 0;
-  if (getVerSuccessTermRepTcPacketId(pckt) != MAX_SHORT)
+  if (getVerSuccessTermRepPcktVersionNmb(pckt) != 7)
     return 0;
-  if (getVerSuccessTermRepTcPacketSeqCtrl(pckt) != MAX_SHORT)
+  if (getVerSuccessTermRepPcktType(pckt) != 1)
+    return 0;
+  if (getVerSuccessTermRepSecHeaderFlag(pckt) != 1)
+    return 0;
+  if (getVerSuccessTermRepAPID(pckt) != 2047)
+    return 0;
+  if (getVerSuccessTermRepSeqFlags(pckt) != 3)
+    return 0;
+  if (getVerSuccessTermRepSeqCount(pckt) != 16383)
+    return 0;;
+
+  setVerSuccessTermRepRid(pckt, 0);
+  if (getVerSuccessTermRepRid(pckt) != 0)
+    return 0;
+
+  setVerSuccessTermRepRid(pckt, MAX_INT);
+  if (getVerSuccessTermRepRid(pckt) != MAX_INT)
     return 0;
 
   /* Check 1.8 packet*/
-  DEBUGP_TSGS("Check 1.8 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 1);
   CrFwPcktSetServSubType(pckt, 8);
   CrFwPcktSetDiscriminant(pckt, 0);
-  setVerFailedTermRepTcFailureCode(pckt, 0);
-  setVerFailedTermRepTcPacketId(pckt, 0);
-  setVerFailedTermRepTcPacketSeqCtrl(pckt, 0); 
-  setVerFailedTermRepTcType(pckt, 0);
-  setVerFailedTermRepTcSubtype(pckt, 0);
-  setVerFailedTermRepTcDisc(pckt, 0);   
-
+  setVerFailedTermRepPcktVersionNmb(pckt, 0);
+  setVerFailedTermRepPcktType(pckt, 0);
+  setVerFailedTermRepSecHeaderFlag(pckt, 0);
+  setVerFailedTermRepAPID(pckt, 0);
+  setVerFailedTermRepSeqFlags(pckt, 0);
+  setVerFailedTermRepSeqCount(pckt, 0);
+  setVerFailedTermRepFailureCode(pckt, 0);
+  setVerFailedTermRepFailureData(pckt, 0);
   if (CrFwPcktGetCmdRepType(pckt) != crRepType)
     return 0;
   if (CrFwPcktGetServType(pckt) != 1)
@@ -1071,54 +1133,72 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     return 0;
   if (CrFwPcktGetDiscriminant(pckt) != 0)
     return 0;
-  if (getVerFailedTermRepTcFailureCode(pckt) != 0)
+  if (getVerFailedTermRepPcktVersionNmb(pckt) != 0)
     return 0;
-  if (getVerFailedTermRepTcPacketId(pckt) != 0)
+  if (getVerFailedTermRepPcktType(pckt) != 0)
     return 0;
-  if (getVerFailedTermRepTcPacketSeqCtrl(pckt) != 0)
+  if (getVerFailedTermRepSecHeaderFlag(pckt) != 0)
     return 0;
-  if (getVerFailedTermRepTcType(pckt) != 0)
+  if (getVerFailedTermRepAPID(pckt) != 0)
     return 0;
-  if (getVerFailedTermRepTcSubtype(pckt) != 0)
+  if (getVerFailedTermRepSeqFlags(pckt) != 0)
     return 0;
-  if (getVerFailedTermRepTcDisc(pckt) != 0)
+  if (getVerFailedTermRepSeqCount(pckt) != 0)
+    return 0;
+  if (getVerFailedTermRepFailureCode(pckt) != 0)
+    return 0;
+  if (getVerFailedTermRepFailureData(pckt) != 0)
     return 0;
 
   CrFwPcktSetDiscriminant(pckt, MAX_SHORT);
-  setVerFailedTermRepTcFailureCode(pckt, MAX_SHORT);
-  setVerFailedTermRepTcPacketId(pckt, MAX_SHORT);
-  setVerFailedTermRepTcPacketSeqCtrl(pckt, MAX_SHORT);
-  setVerFailedTermRepTcType(pckt, MAX_CHAR);
-  setVerFailedTermRepTcSubtype(pckt, MAX_CHAR);  
-  setVerFailedTermRepTcDisc(pckt, MAX_CHAR); 
+  setVerFailedTermRepPcktVersionNmb(pckt, 7);
+  setVerFailedTermRepPcktType(pckt, 1);
+  setVerFailedTermRepSecHeaderFlag(pckt, 1);
+  setVerFailedTermRepAPID(pckt, 2047);
+  setVerFailedTermRepSeqFlags(pckt, 3);
+  setVerFailedTermRepSeqCount(pckt, 16383);
+  setVerFailedTermRepFailureCode(pckt, MAX_SHORT);
+  setVerFailedTermRepFailureData(pckt, MAX_INT);
   if (CrFwPcktGetDiscriminant(pckt) != MAX_SHORT)
     return 0;
-  if (getVerFailedTermRepTcFailureCode(pckt) != MAX_SHORT)
+  if (getVerFailedTermRepPcktVersionNmb(pckt) != 7)
     return 0;
-  if (getVerFailedTermRepTcPacketId(pckt) != MAX_SHORT)
+  if (getVerFailedTermRepPcktType(pckt) != 1)
     return 0;
-  if (getVerFailedTermRepTcPacketSeqCtrl(pckt) != MAX_SHORT)
+  if (getVerFailedTermRepSecHeaderFlag(pckt) != 1)
     return 0;
-  if (getVerFailedTermRepTcType(pckt) != MAX_CHAR)
+  if (getVerFailedTermRepAPID(pckt) != 2047)
     return 0;
-  if (getVerFailedTermRepTcSubtype(pckt) != MAX_CHAR)
+  if (getVerFailedTermRepSeqFlags(pckt) != 3)
     return 0;
-  if (getVerFailedTermRepTcDisc(pckt) != MAX_CHAR)
+  if (getVerFailedTermRepSeqCount(pckt) != 16383)
+    return 0;
+  if (getVerFailedTermRepFailureCode(pckt) != MAX_SHORT)
+    return 0;
+  if (getVerFailedTermRepFailureData(pckt) != MAX_INT)
+    return 0;
+
+  setVerFailedTermRepRid(pckt, 0);
+  if (getVerFailedTermRepRid(pckt) != 0)
+    return 0;
+
+  setVerFailedTermRepRid(pckt, MAX_INT);
+  if (getVerFailedTermRepRid(pckt) != MAX_INT)
     return 0;
 
   /* Check 1.10 packet*/
-  DEBUGP_TSGS("Check 1.10 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 1);
   CrFwPcktSetServSubType(pckt, 10);
   CrFwPcktSetDiscriminant(pckt, 0);
-  setVerFailedRoutingRepTcFailureCode(pckt, 0);
-  setVerFailedRoutingRepTcPacketId(pckt, 0);
-  setVerFailedRoutingRepTcPacketSeqCtrl(pckt, 0); 
-  setVerFailedRoutingRepTcType(pckt, 0);
-  setVerFailedRoutingRepTcSubtype(pckt, 0);
-  setVerFailedRoutingRepTcDisc(pckt, 0);
-  setVerFailedRoutingRepinvDest(pckt, 0);   
+  setVerFailedRoutingRepPcktVersionNmb(pckt, 0);
+  setVerFailedRoutingRepPcktType(pckt, 0);
+  setVerFailedRoutingRepSecHeaderFlag(pckt, 0);
+  setVerFailedRoutingRepAPID(pckt, 0);
+  setVerFailedRoutingRepSeqFlags(pckt, 0);
+  setVerFailedRoutingRepSeqCount(pckt, 0);
+  setVerFailedRoutingRepFailureCode(pckt, 0);
+  setVerFailedRoutingRepFailureData(pckt, 0);  
 
   if (CrFwPcktGetCmdRepType(pckt) != crRepType)
     return 0;
@@ -1128,55 +1208,66 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     return 0;
   if (CrFwPcktGetDiscriminant(pckt) != 0)
     return 0;
-  if (getVerFailedRoutingRepTcFailureCode(pckt) != 0)
+  if (getVerFailedRoutingRepPcktVersionNmb(pckt) != 0)
     return 0;
-  if (getVerFailedRoutingRepTcPacketId(pckt) != 0)
+  if (getVerFailedRoutingRepPcktType(pckt) != 0)
     return 0;
-  if (getVerFailedRoutingRepTcPacketSeqCtrl(pckt) != 0)
+  if (getVerFailedRoutingRepSecHeaderFlag(pckt) != 0)
     return 0;
-  if (getVerFailedRoutingRepTcType(pckt) != 0)
+  if (getVerFailedRoutingRepAPID(pckt) != 0)
     return 0;
-  if (getVerFailedRoutingRepTcSubtype(pckt) != 0)
+  if (getVerFailedRoutingRepSeqFlags(pckt) != 0)
     return 0;
-  if (getVerFailedRoutingRepTcDisc(pckt) != 0)
+  if (getVerFailedRoutingRepSeqCount(pckt) != 0)
     return 0;
-  if (getVerFailedRoutingRepinvDest(pckt) != 0)
+  if (getVerFailedRoutingRepFailureCode(pckt) != 0)
+    return 0;
+  if (getVerFailedRoutingRepFailureData(pckt) != 0)
     return 0;
 
   CrFwPcktSetDiscriminant(pckt, MAX_SHORT);
-  setVerFailedRoutingRepTcFailureCode(pckt, MAX_SHORT);
-  setVerFailedRoutingRepTcPacketId(pckt, MAX_SHORT);
-  setVerFailedRoutingRepTcPacketSeqCtrl(pckt, MAX_SHORT);
-  setVerFailedRoutingRepTcType(pckt, MAX_CHAR);
-  setVerFailedRoutingRepTcSubtype(pckt, MAX_CHAR);  
-  setVerFailedRoutingRepTcDisc(pckt, MAX_CHAR); 
-  setVerFailedRoutingRepinvDest(pckt, MAX_SHORT);
+  setVerFailedRoutingRepPcktVersionNmb(pckt, 7);
+  setVerFailedRoutingRepPcktType(pckt, 1);
+  setVerFailedRoutingRepSecHeaderFlag(pckt, 1);
+  setVerFailedRoutingRepAPID(pckt, 2047);
+  setVerFailedRoutingRepSeqFlags(pckt, 3);
+  setVerFailedRoutingRepSeqCount(pckt, 16383);
+  setVerFailedRoutingRepFailureCode(pckt, MAX_SHORT);
+  setVerFailedRoutingRepFailureData(pckt, MAX_INT);
   if (CrFwPcktGetDiscriminant(pckt) != MAX_SHORT)
     return 0;
-  if (getVerFailedRoutingRepTcFailureCode(pckt) != MAX_SHORT)
+  if (getVerFailedRoutingRepPcktVersionNmb(pckt) != 7)
     return 0;
-  if (getVerFailedRoutingRepTcPacketId(pckt) != MAX_SHORT)
+  if (getVerFailedRoutingRepPcktType(pckt) != 1)
     return 0;
-  if (getVerFailedRoutingRepTcPacketSeqCtrl(pckt) != MAX_SHORT)
+  if (getVerFailedRoutingRepSecHeaderFlag(pckt) != 1)
     return 0;
-  if (getVerFailedRoutingRepTcType(pckt) != MAX_CHAR)
+  if (getVerFailedRoutingRepAPID(pckt) != 2047)
     return 0;
-  if (getVerFailedRoutingRepTcSubtype(pckt) != MAX_CHAR)
+  if (getVerFailedRoutingRepSeqFlags(pckt) != 3)
     return 0;
-  if (getVerFailedRoutingRepTcDisc(pckt) != MAX_CHAR)
+  if (getVerFailedRoutingRepSeqCount(pckt) != 16383)
     return 0;
-  if (getVerFailedRoutingRepinvDest(pckt) != MAX_SHORT)
+  if (getVerFailedRoutingRepFailureCode(pckt) != MAX_SHORT)
+    return 0;
+  if (getVerFailedRoutingRepFailureData(pckt) != MAX_INT)
+    return 0;
+
+  setVerFailedRoutingRepRid(pckt, 0);
+  if (getVerFailedRoutingRepRid(pckt) != 0)
+    return 0;
+
+  setVerFailedRoutingRepRid(pckt, MAX_INT);
+  if (getVerFailedRoutingRepRid(pckt) != MAX_INT)
     return 0;
 
 /* Service 3: Housekeeping Service */
   /*It is easier to test each getter or setter not the whole packet*/
 
-  clearPacket(pckt, pcktsize);
   CrFwPcktRelease(pckt);
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check 3,1 packet*/
-  DEBUGP_TSGS("Check 3,1 or 3,2 packet \n");
 
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   if (CrFwPcktGetCmdRepType(pckt) != crCmdType)
@@ -1276,12 +1367,10 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     }      
   }
 
-  clearPacket(pckt, pcktsize);
   CrFwPcktRelease(pckt);
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check 3,3 packet*/
-  DEBUGP_TSGS("Check 3,3 or 3,4 packet \n");
 
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   if (CrFwPcktGetCmdRepType(pckt) != crCmdType)
@@ -1329,12 +1418,10 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
       return 0;
   }
 
-  clearPacket(pckt, pcktsize);
   CrFwPcktRelease(pckt);
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check 3,5 packet*/
-  DEBUGP_TSGS("Check 3,5 or 3,7 packet \n");
 
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   if (CrFwPcktGetCmdRepType(pckt) != crCmdType)
@@ -1382,13 +1469,11 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
       return 0;
   }
 
-  clearPacket(pckt, pcktsize);
   CrFwPcktRelease(pckt);
   pckt = CrFwPcktMake(pcktsize);
 
 
   /* Check 3,6 packet*/
-  DEBUGP_TSGS("Check 3,6 or 3,8 packet \n");
 
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   if (CrFwPcktGetCmdRepType(pckt) != crCmdType)
@@ -1436,13 +1521,11 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
       return 0;
   }
 
-  clearPacket(pckt, pcktsize);
   CrFwPcktRelease(pckt);
   pckt = CrFwPcktMake(pcktsize);
 
 
   /* Check 3,9 packet*/
-  DEBUGP_TSGS("Check 3,9 or 3,11 packet \n");
 
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   if (CrFwPcktGetCmdRepType(pckt) != crCmdType)
@@ -1490,13 +1573,11 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
       return 0;
   }
 
-  clearPacket(pckt, pcktsize);
   CrFwPcktRelease(pckt);
   pckt = CrFwPcktMake(pcktsize);
 
 
 /* Check 3,10 packet*/
-  DEBUGP_TSGS("Check 3,10 or 3,12 packet \n");
 
   CrFwPcktSetCmdRepType(pckt,crRepType);
   if (CrFwPcktGetCmdRepType(pckt) != crRepType)
@@ -1606,12 +1687,16 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
     }      
   }
 
-  clearPacket(pckt, pcktsize);
   CrFwPcktRelease(pckt);
   pckt = CrFwPcktMake(pcktsize);
 
+  /* Prepare the Datapool */
+  setDpsidItem(0,0);
+  setDpnSimpleItem(0,1);
+  setDplstIdItem(0, 1);
+
+
   /* Check 3,25 packet*/
-  DEBUGP_TSGS("Check 3,25 or 3,26 packet \n");
 
   CrFwPcktSetCmdRepType(pckt,crRepType);
   if (CrFwPcktGetCmdRepType(pckt) != crRepType)
@@ -1648,15 +1733,15 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
   setHkRepParamVal(pckt, 0); 
   if (getHkRepParamVal(pckt) != 0)
     return 0;  
-
-  /*TODO ein Packet aufbauen und testen*/
   
-  clearPacket(pckt, pcktsize);
+  a = sizeof(TmHeader_t) + getDpSize(1) + 1;
+  if (getHkPcktSize(pckt) != a)
+    return 0;
+
   CrFwPcktRelease(pckt);
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check 3.27 packet*/
-  DEBUGP_TSGS("Check 3,27 or 3,28 packet \n");
 
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   if (CrFwPcktGetCmdRepType(pckt) != crCmdType)
@@ -1704,8 +1789,28 @@ CrFwBool_t CrPsPcktGetSetTestCase2()
       return 0;
   }
 
-  CrFwPcktRelease(pckt);
+  /* Create a 13,130 packet to test an impossible situation */
 
+  CrFwPcktSetCmdRepType(pckt,crCmdType);
+  if (CrFwPcktGetCmdRepType(pckt) != crCmdType)
+    return 0;
+
+  CrFwPcktSetServType(pckt, 13);
+  if (CrFwPcktGetServType(pckt) != 13)
+    return 0;
+
+  CrFwPcktSetServSubType(pckt, 130);
+  if (CrFwPcktGetServSubType(pckt) != 130)
+    return 0;
+
+  CrFwPcktSetDiscriminant(pckt, 0);
+  if (CrFwPcktGetDiscriminant(pckt) != 0)
+    return 0;
+
+  if (getHkPcktSize(pckt)!=0)
+    return 0;
+
+  CrFwPcktRelease(pckt);
   return 1;
 }
 
@@ -1726,21 +1831,17 @@ CrFwBool_t CrPsPcktGetSetTestCase3()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 5,1 packet*/
-  DEBUGP_TSGS("Check 5,1 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 5);
   CrFwPcktSetServSubType(pckt, 1);
@@ -1779,21 +1880,17 @@ CrFwBool_t CrPsPcktGetSetTestCase3()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 5,2 packet*/
-  DEBUGP_TSGS("Check 5,2 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 5);
   CrFwPcktSetServSubType(pckt, 2);
@@ -1832,21 +1929,17 @@ CrFwBool_t CrPsPcktGetSetTestCase3()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 5,3 packet*/
-  DEBUGP_TSGS("Check 5,3 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 5);
   CrFwPcktSetServSubType(pckt, 3);
@@ -1885,21 +1978,17 @@ CrFwBool_t CrPsPcktGetSetTestCase3()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 5,4 packet*/
-  DEBUGP_TSGS("Check 5,4 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 5);
   CrFwPcktSetServSubType(pckt, 4);
@@ -1938,21 +2027,17 @@ CrFwBool_t CrPsPcktGetSetTestCase3()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 5,5 packet*/
-  DEBUGP_TSGS("Check 5,5 packet \n");
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt, 5);
   CrFwPcktSetServSubType(pckt, 5);
@@ -1997,21 +2082,17 @@ CrFwBool_t CrPsPcktGetSetTestCase3()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 5,6 packet*/
-  DEBUGP_TSGS("Check 5,6 packet \n");
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt, 5);
   CrFwPcktSetServSubType(pckt, 6);
@@ -2057,21 +2138,17 @@ CrFwBool_t CrPsPcktGetSetTestCase3()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 5,8 packet*/
-  DEBUGP_TSGS("Check 5,8 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 5);
   CrFwPcktSetServSubType(pckt, 8);
@@ -2129,21 +2206,17 @@ CrFwBool_t CrPsPcktGetSetTestCase4()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 13,1 packet*/
-  DEBUGP_TSGS("Check 13,1 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 13);
   CrFwPcktSetServSubType(pckt, 1);
@@ -2182,21 +2255,17 @@ CrFwBool_t CrPsPcktGetSetTestCase4()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 13,2 packet*/
-  DEBUGP_TSGS("Check 13,2 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 13);
   CrFwPcktSetServSubType(pckt, 2);
@@ -2228,38 +2297,24 @@ CrFwBool_t CrPsPcktGetSetTestCase4()
   setLptDownInterRepPartSeqNmb(pckt, MAX_INT);
   if (getLptDownInterRepPartSeqNmb(pckt) != MAX_INT)
     return 0;
-/*
-  for (i=0;i<=parts;i++)
-  {
-    setLptDownInterRepPart(pckt, MIN_VAL, i);
-    if (getLptDownInterRepPart(pckt, i) != MIN_VAL)
-      return 0;
-    setLptDownInterRepPart(pckt, MAX_SHORT, i);
-    if (getLptDownInterRepPart(pckt, i) != MAX_SHORT)
-      return 0;    
-  }
-*/
+
   CrFwPcktRelease(pckt);
 
   if (CrFwGetAppErrCode() != 0)
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 13,3 packet*/
-  DEBUGP_TSGS("Check 13,3 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 13);
   CrFwPcktSetServSubType(pckt, 3);
@@ -2291,38 +2346,24 @@ CrFwBool_t CrPsPcktGetSetTestCase4()
   setLptDownLastRepPartSeqNmb(pckt, MAX_INT);
   if (getLptDownLastRepPartSeqNmb(pckt) != MAX_INT)
     return 0;
-/*
-  for (i=0;i<=parts;i++)
-  {
-    setLptDownLastRepPart(pckt, MIN_VAL, i);
-    if (getLptDownLastRepPart(pckt, i) != MIN_VAL)
-      return 0;
-    setLptDownLastRepPart(pckt, MAX_SHORT, i);
-    if (getLptDownLastRepPart(pckt, i) != MAX_SHORT)
-      return 0;    
-  }
-*/
+
   CrFwPcktRelease(pckt);
 
   if (CrFwGetAppErrCode() != 0)
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 13,9 packet*/
-  DEBUGP_TSGS("Check 13,9 packet \n");
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt, 13);
   CrFwPcktSetServSubType(pckt, 9);
@@ -2371,21 +2412,17 @@ CrFwBool_t CrPsPcktGetSetTestCase4()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 13,10 packet*/
-  DEBUGP_TSGS("Check 13,10 packet \n");
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt, 13);
   CrFwPcktSetServSubType(pckt, 10);
@@ -2434,21 +2471,17 @@ CrFwBool_t CrPsPcktGetSetTestCase4()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 13,11 packet*/
-  DEBUGP_TSGS("Check 13,11 packet \n");
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt, 13);
   CrFwPcktSetServSubType(pckt, 11);
@@ -2497,21 +2530,17 @@ CrFwBool_t CrPsPcktGetSetTestCase4()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 13,16 packet*/
-  DEBUGP_TSGS("Check 13,16 packet \n");
   CrFwPcktSetCmdRepType(pckt,crRepType);
   CrFwPcktSetServType(pckt, 13);
   CrFwPcktSetServSubType(pckt, 16);
@@ -2550,21 +2579,17 @@ CrFwBool_t CrPsPcktGetSetTestCase4()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 13,129 packet*/
-  DEBUGP_TSGS("Check 13,129 packet \n");
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt, 13);
   CrFwPcktSetServSubType(pckt, 129);
@@ -2595,21 +2620,17 @@ CrFwBool_t CrPsPcktGetSetTestCase4()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Allocate a Packet */
-  DEBUGP_TSGS("Allocating a Packet \n");
   pckt = CrFwPcktMake(pcktsize);
 
   /* Check if there now one packet is allocated*/
-  DEBUGP_TSGS("Check if there now one packet is allocated \n");
   if (CrFwPcktGetNOfAllocated() != 1)
     return 0;
 
   /* Check 13,130 packet*/
-  DEBUGP_TSGS("Check 13,130 packet \n");
   CrFwPcktSetCmdRepType(pckt,crCmdType);
   CrFwPcktSetServType(pckt, 13);
   CrFwPcktSetServSubType(pckt, 130);
@@ -2641,9 +2662,9 @@ CrFwBool_t CrPsPcktGetSetTestCase4()
     return 0;
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TSGS("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   return 1;
 }
+

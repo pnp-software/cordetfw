@@ -1,16 +1,27 @@
 /**
  * \file CrPsPktServLptSupp.c
+ * @ingroup Serv13
+ * @ingroup pktgetset
  *
- * Interface for accessing fields in packets of service "ServLpt".
+ * @brief auxiliary Interface for accessing fields in packets of service "ServLpt".
  *
- * \author C. Reimers and M. Rockenbauer 24.10.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
-#include <Services/General/CrPsPktServLptSupp.h>
-#include "Services/General/CrPsPktUtil.h"
-#include "CrPsUserConstants.h"
 #include <Services/General/CrPsPktServLpt.h>
+#include <Services/General/CrPsPktServLptSupp.h>
+
+#include "CrPsUserConstants.h"
 #include <string.h>
 
 
@@ -94,7 +105,7 @@ void setLptUpFirstCmdPart(void* p, CrPsPart_t Part, uint32_t o)
   Part = __builtin_bswap16(Part);
   memcpy(&((uint8_t*)p)[o], &Part, sizeof(CrPsPart_t));
 }
-
+#if 0
 /**
  * Get "Part" from "LptDownLastRep" packet.
  * \param p Pointer to the packet.
@@ -108,7 +119,7 @@ CrPsPart_t getLptDownLastRepPart(void* p, uint32_t o)
   memcpy(&ret, &((uint8_t*)p)[o], sizeof(CrPsPart_t));
   return __builtin_bswap16(ret);
 }
-
+#endif
 /**
  * Set "Part" in "LptDownLastRep" packet.
  * \param p Pointer to the packet.
@@ -122,7 +133,7 @@ void setLptDownLastRepPart(void* p, unsigned char * Part, unsigned short length)
   memcpy(&((uint8_t*)p)[o], (uint8_t *)Part, length);
   return;
 }
-
+#if 0
 /**
  * Get "Part" from "LptDownInterRep" packet.
  * \param p Pointer to the packet.
@@ -164,7 +175,7 @@ CrPsPart_t getLptDownFirstRepPart(void* p, uint32_t o)
   memcpy(&ret, &((uint8_t*)p)[o], sizeof(CrPsPart_t));
   return __builtin_bswap16(ret);
 }
-
+#endif
 /**
  * Set "Part" in "LptDownFirstRep" packet.
  * \param p Pointer to the packet.

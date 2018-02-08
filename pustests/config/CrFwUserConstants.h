@@ -1,6 +1,8 @@
 /**
- * @file
- * @ingroup crConfigGroup
+ * @file CrFwUserConstants.h
+ * @ingroup PUSTestsuite
+ * @ingroup PUSTestconfig 
+ *
  * Header file to define all user-configurable constants and types for the CORDET
  * Framework (the non-configurable constants and types are defined in
  * <code>CrFwConstants.h</code>).
@@ -9,22 +11,17 @@
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
  *
- * This file is part of CORDET Framework.
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
  *
- * CORDET Framework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * last modification: 22.01.2018
  *
- * CORDET Framework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with CORDET Framework.  If not, see <http://www.gnu.org/licenses/>.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  *
- * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
 #ifndef CRFW_USERCONSTANTS_H_
@@ -141,7 +138,11 @@ typedef enum {
 	/** An incoming command or report has an illegal group */
 	crInStreamIllGroup = 11,
 	/** An OutStream cannot buffer an out-going packet because no more packets are available (see <code>CrFwOutStream.h</code>) */
-	crOutStreamNoMorePckt =12
+	crOutStreamNoMorePckt =12,
+	/** An InReport cannot be created **/
+	crInLoaderCreFail = 13,
+	/** An InReport cannot be loaded **/
+	crInLoaderLdFail = 14
 } CrFwRepErrCode_t;
 
 /**
@@ -264,7 +265,7 @@ typedef enum {
 #define CR_FW_CLIENT_OBC 12
 
 /** The number of bits reserved for the application identifier in a command or report identifier */
-#define CR_FW_NBITS_APP_ID 4
+#define CR_FW_NBITS_APP_ID 11
 
 /** Maximum value of the service type attribute of InReports and InCommands */
 #define CR_FW_MAX_SERV_TYPE 100

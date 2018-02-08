@@ -1,16 +1,28 @@
 /**
- * \file
+ * @file CrPsLptDownLastRep.h
+ * @ingroup Serv13
+ * @ingroup OutCmp
  *
- * Implementation of TM(13,3) LptDownLastRep.
+ * @brief Implementation of TM(13,3) LptDownLastRep.
  *
- * \note This file was generated on 2017-11-22 12:47:43
- * \author PnP Generator
- * \copyright (c) Copyright
+ * @note This file was generated on 2017-11-22 12:47:43
+ *
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
+ 
 #ifndef CRPSLPTDOWNLASTREP_H_
 #define CRPSLPTDOWNLASTREP_H_
-
-#include "CrPsDpTypes.h"
 
 #include <FwSmCore.h>
 #include <CrFwConstants.h>

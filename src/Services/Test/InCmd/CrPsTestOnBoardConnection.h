@@ -1,20 +1,30 @@
 /**
  * @file CrPsTestOnBoardConnection.h
+ * @ingroup Serv17
+ * @ingroup InCmd 
  *
- * Declaration of the Perform Connection Test in-coming command packet.
+ * @brief Declaration of the Perform Connection Test in-coming command packet.
  *
- * @author C. Reimers and M. Rockenbauer 13.06.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #ifndef CRPS_TEST_ONBOARD_CONNECTION_H
 #define CRPS_TEST_ONBOARD_CONNECTION_H
 
 #include "CrFwConstants.h"
-#include <time.h>
 
 /* global handles */
-extern unsigned short timeOut_cnt;
+extern uint16_t timeOut_cnt;
 
 /**
  * Start action of the Perform Connection Test in-coming command packet.

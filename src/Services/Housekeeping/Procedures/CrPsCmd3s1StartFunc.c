@@ -1,8 +1,24 @@
 /**
  * @file CrPsCmd3s1StartFunc.c
+ * @ingroup Serv3
+ * @ingroup procedures
+ *
+ * @brief Start Action for Commands (3,1) and (3,2) to create a new housekeeping/diagnostic report
  *
  * @author FW Profile code generator version 5.01
- * @date Created on: Sep 6 2017 17:15:56
+ * @date Created on: Sep 6 2017 17:15:26
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 /** CrPsCmd3s1Start function definitions */
@@ -31,13 +47,11 @@
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsPktServHk.h>
 #include <Services/General/CrPsPktServHkSupp.h>
-#include <CrPsDebug.h>
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-FwSmDesc_t rep;
+static FwSmDesc_t rep;
 CrPsSid_t  rdlSlot;
 
 
@@ -46,16 +60,13 @@ CrPsSid_t  rdlSlot;
 /** Action for node N1. */
 void CrPsCmd3s1StartN1(FwPrDesc_t prDesc)
 {
-  prDescCmd3s1Start_t *prDataPtr;
   CrFwCmpData_t       *cmpData;
   FwSmDesc_t           smDesc;
 
-	DEBUGP_3("CrPsCmd3s1StartN1.\n");
   /* Set action outcome to 'failure' with failure code VER_FULL_RDL */
 
   /* Get smDesc from OutCmp */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Set outcome in InCmd prData to 'failure' */ 
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
@@ -71,17 +82,14 @@ void CrPsCmd3s1StartN2(FwPrDesc_t prDesc)
   CrFwCmpData_t       *cmpData;
   CrFwInCmdData_t     *cmpSpecificData;
   CrFwPckt_t           pckt;
-  prDescCmd3s1Start_t *prDataPtr;
   FwSmDesc_t           smDesc;
   CrFwServSubType_t    tcServSubType;
   CrPsSid_t            sid;
 
-	DEBUGP_3("CrPsCmd3s1StartN2.\n");
   /* Retrieve a report of type (3,25) or (3,26) from the OutFactory */
 
   /* Get smDesc from prData */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Get inPckt */
   cmpData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -113,7 +121,6 @@ void CrPsCmd3s1StartN3(FwPrDesc_t prDesc)
   CrPsRepErrCode_t errCode;
   CRFW_UNUSED(prDesc);
 
-	DEBUGP_3("CrPsCmd3s1StartN3.\n");
   /* Generate error report OUTFACTORY_FAIL */
 
   errCode = crOutfactoryFail;
@@ -128,16 +135,12 @@ void CrPsCmd3s1StartN4(FwPrDesc_t prDesc)
   CrFwCmpData_t       *cmpData;
   CrFwInCmdData_t     *cmpSpecificData;
   CrFwPckt_t           pckt;  
-  prDescCmd3s1Start_t *prDataPtr;
   FwSmDesc_t           smDesc;
   CrFwDestSrc_t dest;
   
   /* Load the report in the OutLoader */
 
-	DEBUGP_3("CrPsCmd3s1StartN4.\n");
-  /* Get smDesc from OutCmp */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Get inPckt */
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
@@ -155,16 +158,13 @@ void CrPsCmd3s1StartN4(FwPrDesc_t prDesc)
 /** Action for node N6. */
 void CrPsCmd3s1StartN6(FwPrDesc_t prDesc)
 {
-  prDescCmd3s1Start_t *prDataPtr;
   CrFwCmpData_t       *cmpData;
   FwSmDesc_t           smDesc;
 
-	DEBUGP_3("CrPsCmd3s1StartN6.\n");
   /* Set action outcome to 'success' */
 
   /* Get smDesc from OutCmp */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Set outcome in InCmd prData to 'success' */ 
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
@@ -180,16 +180,13 @@ void CrPsCmd3s1StartN7(FwPrDesc_t prDesc)
   CrFwCmpData_t       *cmpData;
   CrFwInCmdData_t     *cmpSpecificData;
   CrFwPckt_t           pckt;    
-  prDescCmd3s1Start_t *prDataPtr;
   FwSmDesc_t           smDesc;
   CrPsSid_t            sid;
 
-	DEBUGP_3("CrPsCmd3s1StartN7.\n");
   /* Set action outcome to 'failure' with code VER_SID_IN_USE and load SID in verFailData data pool item */
 
   /* Get smDesc from OutCmp */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Set outcome in InCmd prData to 'failure' */ 
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
@@ -212,16 +209,13 @@ void CrPsCmd3s1StartN7(FwPrDesc_t prDesc)
 /** Action for node N8. */
 void CrPsCmd3s1StartN8(FwPrDesc_t prDesc)
 {
-  prDescCmd3s1Start_t *prDataPtr;
   CrFwCmpData_t       *cmpData;
   FwSmDesc_t           smDesc;
 
-	DEBUGP_3("CrPsCmd3s1StartN8.\n");
   /* Set action outcome to 'failure' with failure code VER_RDL_CONSTR and load identifier of constraint in verFailData */
 
   /* Get smDesc from OutCmp */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Set outcome in InCmd prData to 'failure' */ 
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
@@ -237,16 +231,13 @@ void CrPsCmd3s1StartN8(FwPrDesc_t prDesc)
 /** Action for node N9. */
 void CrPsCmd3s1StartN9(FwPrDesc_t prDesc)
 {
-  prDescCmd3s1Start_t *prDataPtr;
   CrFwCmpData_t       *cmpData;
   FwSmDesc_t           smDesc;
 
-	DEBUGP_3("CrPsCmd3s1StartN9.\n");
   /* Set action outcome to 'failure' with code VER_DUPL_DI and load identifier of duplicated DI in verFailData */
 
   /* Get smDesc from OutCmp */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Set outcome in InCmd prData to 'failure' */ 
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
@@ -254,7 +245,7 @@ void CrPsCmd3s1StartN9(FwPrDesc_t prDesc)
   FwSmSetData(smDesc, cmpData);
 
   /* Load identifier of duplicated DI in verFailData */
-  setDpverFailData((uint32_t)VER_DUPL_DI);
+  setDpverFailData((CrPsFailData_t)VER_DUPL_DI);
 
   return;
 }
@@ -262,16 +253,13 @@ void CrPsCmd3s1StartN9(FwPrDesc_t prDesc)
 /** Action for node N10. */
 void CrPsCmd3s1StartN10(FwPrDesc_t prDesc)
 {
-  prDescCmd3s1Start_t *prDataPtr;
   CrFwCmpData_t       *cmpData;
   FwSmDesc_t           smDesc;
 
-	DEBUGP_3("CrPsCmd3s1StartN10.\n");
   /* Set action outcome to 'failure' with failure code VER_REP_CR_FD */
 
   /* Get smDesc from OutCmp */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Set outcome in InCmd prData to 'failure' */ 
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
@@ -281,19 +269,16 @@ void CrPsCmd3s1StartN10(FwPrDesc_t prDesc)
   return;
 }
 
-/** Action for node N11. */
+/** Action for node N11. */ /* TODO (01.02.2018): cannot be reached due to Guard always returns 1 */
 void CrPsCmd3s1StartN11(FwPrDesc_t prDesc)
 {
-  prDescCmd3s1Start_t *prDataPtr;
   CrFwCmpData_t       *cmpData;
   FwSmDesc_t           smDesc;
 
-	DEBUGP_3("CrPsCmd3s1StartN11.\n");
   /* Set action outcome to 'failure' with falure code VER_OUTLOADER_FD */
 
   /* Get smDesc from OutCmp */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Set outcome in InCmd prData to 'failure' */ 
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
@@ -312,7 +297,6 @@ FwPrBool_t CrPsCmd3s1StartG1(FwPrDesc_t prDesc)
 {
   CrPsSid_t rdlSid;
 
-	DEBUGP_3("CrPsCmd3s1StartG1.\n");
   CRFW_UNUSED(prDesc);
   /* There is no free slot in the RDL  */
 
@@ -341,17 +325,14 @@ FwPrBool_t CrPsCmd3s1StartG2(FwPrDesc_t prDesc)
   CrFwCmpData_t        *cmpData;
   CrFwInCmdData_t      *cmpSpecificData;
   CrFwPckt_t            pckt;  
-  prDescCmd3s1Start_t  *prDataPtr;
   FwSmDesc_t            smDesc;
   CrPsSid_t             sid;
   CrFwCounterU4_t       N1;
 
-	DEBUGP_3("CrPsCmd3s1StartG2.\n");
   /* One or more constraints listed in table 9.1 are not satisfied */
 
   /* Get smDesc from prData */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Get in data */
   cmpData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -368,7 +349,7 @@ FwPrBool_t CrPsCmd3s1StartG2(FwPrDesc_t prDesc)
   if ((N1 == 0) || (N1 > HK_MAX_N_SIMPLE))
     return 1;
 
-	return 0;
+  return 0;
 }
 
 /** Guard on the Control Flow from DECISION3 to N7. */
@@ -377,17 +358,13 @@ FwPrBool_t CrPsCmd3s1StartG3(FwPrDesc_t prDesc)
   CrFwCmpData_t       *cmpData;
   CrFwInCmdData_t     *cmpSpecificData;
   CrFwPckt_t           pckt;  
-  prDescCmd3s1Start_t *prDataPtr;
   FwSmDesc_t           smDesc;
   CrPsSid_t            rdlSid, sid;
 
-	DEBUGP_3("CrPsCmd3s1StartG3.\n");
-
-   /* The SID in the command is already in use  */
+  /* The SID in the command is already in use  */
  
   /* Get smDesc from prData */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Get in data */
   cmpData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -422,20 +399,16 @@ FwPrBool_t CrPsCmd3s1StartG4(FwPrDesc_t prDesc)
   CrFwCmpData_t       *cmpData;
   CrFwInCmdData_t     *cmpSpecificData;
   CrFwPckt_t           pckt;  
-  prDescCmd3s1Start_t *prDataPtr;
   FwSmDesc_t           smDesc;
   uint16_t             currentDataItem, checkDataItem;
   CrFwCounterU4_t      i, k, m, a=0;
   CrFwCounterU4_t      N1, NFA, N2[10], LSTNMB; /* TODO: set maximum as constant */
   unsigned short       dataItemArray[100];      /* TODO: set maximum as constant */
 
-	DEBUGP_3("CrPsCmd3s1StartG4.\n");
-
   /* The same data item identifier appears twice in the definition of the new report  */
 
   /* Get smDesc from prData */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Get in data */
   cmpData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -487,7 +460,6 @@ FwPrBool_t CrPsCmd3s1StartG4(FwPrDesc_t prDesc)
           if (checkDataItem == currentDataItem)
             return 1;
         }
-
     }
 
   return 0;
@@ -497,8 +469,6 @@ FwPrBool_t CrPsCmd3s1StartG4(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s1StartG5(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-
-	DEBUGP_3("CrPsCmd3s1StartG5.\n");
 
   /* Factory fails to return the report  */
 
@@ -515,34 +485,13 @@ FwPrBool_t CrPsCmd3s1StartG5(FwPrDesc_t prDesc)
 /** Guard on the Control Flow from DECISION6 to N6. */
 FwPrBool_t CrPsCmd3s1StartG6(FwPrDesc_t prDesc)
 {
-#if 0
-  FwSmDesc_t outManager;
-  CrFwCounterU1_t numberOfPendingOutCmp;
-#endif
-
-	DEBUGP_3("CrPsCmd3s1StartG6.\n");
-
   CRFW_UNUSED(prDesc);
 
   /* Load Operation is successful   */
-  /* TBV: could thois be done with checking the numberOfPendingOutCmp */
+  /* TBV: could this be done with checking the numberOfPendingOutCmp */
+  /* make a Ticket!! ??? application Error ??? */
 
   return 1;
-
-#if 0
-  /* TODO: get outManager */
-  outManager = CrFwOutManagerMake(0);
-  numberOfPendingOutCmp = CrFwOutManagerGetNOfPendingOutCmp(outManager);
-
-  if (numberOfPendingOutCmp == (numberOfPendingOutCmpOld + 1))
-    {
-      return 1;
-    }
-  else
-    {
-      return 0;
-    }
-#endif
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */

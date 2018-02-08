@@ -1,7 +1,9 @@
 /**
- * @file
- * @ingroup CrTestSuiteGroup
- * Interface for the InStream stub.
+ * @file CrFwInStreamStub.h
+ * @ingroup PUSTestsuite
+ * 
+ * @brief Interface for the InStream stub.
+ *
  * The InStream stub is used in the CORDET Test Suite to verify the implementation
  * of the InStream component (see <code>CrFwInStream.h</code>).
  *
@@ -9,22 +11,17 @@
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
  *
- * This file is part of CORDET Framework.
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
  *
- * CORDET Framework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * last modification: 22.01.2018
  *
- * CORDET Framework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with CORDET Framework.  If not, see <http://www.gnu.org/licenses/>.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  *
- * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
 #ifndef CRFW_INSTREAMSTUB_H_

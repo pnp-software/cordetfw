@@ -1,17 +1,25 @@
 /**
- * @file CrPsUtilities.c
+ * @file CrPsUtilitiesServEvt.c
+ * @ingroup Utilities
+ * @ingroup Serv5
  *
- * Implementation of the utility functions of the CORDET Framework PUS Extension
+ * @brief Implementation of the utility functions of the CORDET Framework PUS Extension Service 5 (Event Reporting)
  *
- * @author code generator
- * edited: Christian Reimers
- * 25.05.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsUtilitiesServEvt.h"
 #include "Pckt/CrFwPckt.h"     /* --- interface to adaptation point CrFwPckt --- */
-
 
 /* CrFramework includes */
 #include <OutFactory/CrFwOutFactory.h>
@@ -29,7 +37,6 @@
 #include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServEvt.h>
 
-#include <stdio.h>
 #include <stdlib.h>
 
 /* global handles for the procedures */
@@ -40,15 +47,12 @@ FwPrDesc_t prDescEvtCmd5EidStart;
  */
 int CrPsInitServEvt()
 {
-  printf("CrPsInitServEvt()\n");
-
   /***********************************************************************/
   /* Service Event Reporting Procedure                                   */
   /***********************************************************************/
   prDescEvtCmd5EidStart = CrPsCmd5EidStartCreate(NULL);
   if (FwPrCheck(prDescEvtCmd5EidStart) != prSuccess)
     {
-      printf("The procedure prDescEvtCmd5EidStart is NOT properly configured ... FAILURE\n");
       return EXIT_FAILURE;
     }
 
@@ -63,8 +67,6 @@ int CrPsInitServEvt()
  */
 void CrPsExecServEvt()
 {
-  printf("CrPsExecServEvt()\n");
-
   return;
 }
 

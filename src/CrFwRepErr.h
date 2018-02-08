@@ -29,22 +29,11 @@
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
  *
- * This file is part of CORDET Framework.
  *
- * CORDET Framework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  *
- * CORDET Framework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with CORDET Framework.  If not, see <http://www.gnu.org/licenses/>.
- *
- * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
 #ifndef CRFW_REPERR_H_
@@ -115,5 +104,43 @@ void CrFwRepErrSeqCnt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstanc
  */
 void CrFwRepErrInstanceIdAndOutcome(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
                                     CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId, CrFwOutcome_t outcome);
+
+/**
+ * Report an error which has two parameters attached to it representing the instance identifier
+ * of a component other than the originator of the error report (the secondary instance
+ * identifier) and a command or report destination.
+ * This function generate an error report with two parameters.
+ * @param errCode the error code
+ * @param instanceId the instance identifier of the component which raises the error report
+ * @param typeId the type identifier of the component which raises the error report
+ * @param secondaryInstanceId instance identifier of a component other than the originator of the error
+ * report
+ * @param dest a command or report destination
+ */
+void CrFwRepErrInstanceIdAndDest(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
+                                 CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId, CrFwDestSrc_t dest);
+
+/**
+ * Report an error which has one parameter attached to it representing a command or report packet.
+ * This function generate an error report with one parameter.
+ * @param errCode the error code
+ * @param instanceId the instance identifier of the component which raises the error report
+ * @param typeId the type identifier of the component which raises the error report
+ * @param pckt a packet holding a command or report
+ */
+void CrFwRepErrPckt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
+                                    CrFwInstanceId_t instanceId, CrFwPckt_t pckt);
+
+/**
+ * Report an error which has one parameter attached to it representing an report component.
+ * This function generate an error report with one parameter.
+ * @param errCode the error code
+ * @param instanceId the instance identifier of the component which raises the error report
+ * @param typeId the type identifier of the component which raises the error report
+ * @param rep the component holding the report which triggered the error
+ */
+void CrFwRepErrRep(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
+                                    CrFwInstanceId_t instanceId, FwSmDesc_t rep);
+
 
 #endif /* CRFW_REPERR_H_ */

@@ -1,10 +1,102 @@
 /**
  * @file CrPsConstants.h
+ * @ingroup PUSConfig
  *
  * Header file to define all service and packet identifiers.
  *
- * @author C. Reimers and M. Rockenbauer 13.06.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * 
+ * @defgroup PUSEXT CORDET PUS extension components
+ * @brief All CORDET PUS extension components
+ *
+ * @defgroup PUSSERVICES The CORDET PUS extension services
+ * @brief Services of the PUS extension of the CORDET Framework
+ *
+ * @defgroup PUSTEST The CORDET PUS extension Testsuite
+ * @brief Components for the Testsuite of the PUS extension
+ *
+ * 
+ * @defgroup DataPool all Datapool components
+ * @ingroup PUSEXT
+ * @ingroup PUSSERVICES
+ * @brief all Datapool components for the CORDET PUS extension
+ * 
+ * @defgroup Serv1 Request Verification Service
+ * @ingroup PUSEXT
+ * @ingroup PUSSERVICES
+ * @brief all components for the Request Verification service
+ * 
+ * @defgroup Serv3 Housekeeping Service
+ * @ingroup PUSEXT
+ * @ingroup PUSSERVICES
+ * @brief all components for the Housekeeping service
+ * 
+ * @defgroup Serv5 Event Reporting Service
+ * @ingroup PUSEXT
+ * @ingroup PUSSERVICES
+ * @brief all components for the Event Reporting service
+ *
+ * @defgroup Serv13 Large Packet Transfer Service
+ * @ingroup PUSEXT
+ * @ingroup PUSSERVICES
+ * @brief all components for the Large Packet Transfer service
+ *
+ * @defgroup Serv17 Test Service
+ * @ingroup PUSEXT
+ * @ingroup PUSSERVICES
+ * @brief all components for the Test service
+ *
+ * @defgroup PUSConfig General Configuration
+ * @ingroup PUSEXT
+ * @brief all components for the configuration and with general purpos
+ * 
+ * @defgroup Utilities Utility Functions
+ * @ingroup PUSEXT
+ * @brief Utility Functions to use the CORDET PUS extension services
+ *
+ * @defgroup pktgetset Getter and Setter
+ * @ingroup PUSEXT
+ * @brief Getter and Setter functions to access and modify packet data
+ *
+ * @defgroup InCmd Files containing InCommand components
+ * @ingroup PUSEXT
+ * @brief Files containing InCommand components for all CORDET PUS extension services
+ *
+ * @defgroup OutCmp Files containing OutComponents
+ * @ingroup PUSEXT
+ * @brief Files containing OutComponents for all CORDET PUS extension services
+ *
+ * @defgroup InRep Files containing InReport components
+ * @ingroup PUSEXT
+ * @brief Files containing InReport components for all CORDET PUS extension services
+ *
+ * @defgroup procedures Files containing procedure components
+ * @ingroup PUSEXT
+ * @brief Files containing procedure components for all CORDET PUS extension services
+ *
+ * @defgroup statemachines Files containing statemachine components
+ * @ingroup PUSEXT
+ * @brief Files containing statemachine components for all CORDET PUS extension services
+ *
+ * @defgroup PUSTestsuite Files of the PUS extension Testsuite
+ * @ingroup PUSTEST
+ * @brief All PUS extension Testsuite files
+ *
+ * @defgroup PUSTestconfig PUS Testsuite Configuration
+ * @ingroup PUSTEST
+ * @brief All configuration files for the PUS extension Testsuite
+ *
+ *
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #ifndef CRPS_CONSTANTS_H
@@ -25,10 +117,6 @@ typedef struct {
 } prData_t;
 
 typedef struct {
-	unsigned short outcome;
-} prDataStartAction_t;
-
-typedef struct {
 	FwSmDesc_t smDesc;
 	CrFwDestSrc_t source;
 	unsigned short outcome;
@@ -47,24 +135,8 @@ typedef struct {
 
 typedef struct {
 	FwSmDesc_t smDesc;
-	unsigned char* sidPtr;
-	unsigned short outcome;
-} prDescGenerateHkOneShotPrgr_t;
-
-typedef struct {
-	FwSmDesc_t smDesc;
-	/*unsigned char* sidPtr;*/
-} prDescCmd3s1Start_t;
-
-typedef struct {
-	FwSmDesc_t smDesc;
-	/*unsigned char* sidPtr;*/
+	unsigned char* rdlSlotListPtr;
 } prDescCmd3s3Start_t;
-
-typedef struct {
-	FwSmDesc_t smDesc;
-	/*unsigned char* sidPtr;*/
-} prDescCmd3s9Start_t;
 
 typedef struct {
 	FwSmDesc_t smDesc;
@@ -78,15 +150,6 @@ typedef struct {
 	unsigned short* eidPtr;
 } prDescCmdEidStart_t;
 
-typedef struct {
-	FwSmDesc_t smDesc;
-    unsigned short outcome;
-} prDescCmd13Start_t;
-
-
-#define LPT_FAILCODE_NO_FAIL 0
-#define LPT_FAILCODE_TIME_OUT 1
-#define EVT_DOWN_ABORT 131
 
 /* ######################################################################################
  * ### Identifiers (e.g. service type, service sub-type)
@@ -378,22 +441,22 @@ typedef struct {
 /**
  * Length of the Request Verification Acceptance Successful out-going report packet.
  */
-#define CRPS_REQVERIF_ACC_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 6 + CRC_LENGTH)
+#define CRPS_REQVERIF_ACC_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 4 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Acceptance Failed out-going report packet.
  */
-#define CRPS_REQVERIF_ACC_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 11 + CRC_LENGTH)
+#define CRPS_REQVERIF_ACC_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 10 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Start Successful out-going report packet.
  */
-#define CRPS_REQVERIF_START_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 6 + CRC_LENGTH)
+#define CRPS_REQVERIF_START_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 4 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Start Failed out-going report packet.
  */
-#define CRPS_REQVERIF_START_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 11 + CRC_LENGTH)
+#define CRPS_REQVERIF_START_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 10 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Progress Successful out-going report packet.
@@ -403,22 +466,22 @@ typedef struct {
 /**
  * Length of the Request Verification Progress Failed out-going report packet.
  */
-#define CRPS_REQVERIF_PROG_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 13 + CRC_LENGTH)
+#define CRPS_REQVERIF_PROG_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 14 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Termination Successful out-going report packet.
  */
-#define CRPS_REQVERIF_TERM_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 6 + CRC_LENGTH)
+#define CRPS_REQVERIF_TERM_SUCC_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 4 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Termination Failed out-going report packet.
  */
-#define CRPS_REQVERIF_TERM_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 11 + CRC_LENGTH)
+#define CRPS_REQVERIF_TERM_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 10 + CRC_LENGTH)
 
 /**
  * Length of the Request Verification Termination Failed out-going report packet.
  */
-#define CRPS_REQVERIF_REROUT_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 11 + CRC_LENGTH)
+#define CRPS_REQVERIF_REROUT_FAIL_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 10 + CRC_LENGTH)
 
 /**
  * Length of the Housekeeping Create a Housekeeping Parameter Report Structure command packet.

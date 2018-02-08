@@ -1,38 +1,23 @@
 /**
- * @file
+ * @file CrPsEvtTestCases.c
+ * @ingroup PUSTestsuite
  *
- * Implementation of test cases for Service Components.
+ * @brief Implementation of the test cases for the Event Reporting Service components.
  *
  * @author Christian Reimers <christian.reimersy@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- * @copyright Department of Astrophysics, University of Vienna, 2017, All Rights Reserved
  *
- * This file is part of CORDET Framework.
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
- * CORDET Framework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  *
- * CORDET Framework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with CORDET Framework.  If not, see <http://www.gnu.org/licenses/>.
- *
- * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
-#include "CrFwRepErrStub.h"
-#include "CrFwInStreamSocket.h"
-#include "CrFwClientSocket.h"
-#include "CrFwServerSocket.h"
-#include "CrFwOutStreamSocket.h"
-#include "CrFwInStreamTestCases.h"
-#include "CrFwRepInCmdOutcomeStub.h"
-#include "CrFwInStreamStub.h"
+
 /* Include FW Profile files */
 #include "FwSmConstants.h"
 #include "FwSmConfig.h"
@@ -68,11 +53,9 @@
 #include <Services/General/CrPsPktServEvtSupp.h>
 
 /* Include system files */
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
-#include "CrPsDebug.h"
 
 #define TESTNMB 10
 
@@ -89,11 +72,13 @@ CrFwBool_t CrPsEvtTestCase1()
   uint32_t i;
 
   /* Instantiate all relevant CORDET Framework PUS Extension components, e.g. all the procedures and state machines */
-  DEBUGP_TS5("Instantiate all relevant CORDET Framework PUS Extension components, e.g. all the procedures and state machines \n");
   CrPsInitServEvt();
+  CrPsExecServEvt();
+
+  /* run the getter for EvtCmd5EidStart procedure descriptor */
+  CRFW_UNUSED(getPrDescEvtCmd5EidStart());
 
   /* Instantiate the OutFactory, InFactory and OutManager*/
-  DEBUGP_TS5("Instantiate the OutFactory, InFactory and OutManager  \n");
   outFactory = CrFwOutFactoryMake();
   if (outFactory == NULL)
     return 0;
@@ -113,7 +98,6 @@ CrFwBool_t CrPsEvtTestCase1()
     return 0;
 
   /* Initialize and Configure OutFactory, InFactory and Outmanager and check success */
-  DEBUGP_TS5("Initialize and Configure OutFactory, InFactory and Outmanager and check success \n");
   CrFwCmpInit(outFactory);
   CrFwCmpReset(outFactory);
   if (!CrFwCmpIsInConfigured(outFactory))
@@ -130,12 +114,10 @@ CrFwBool_t CrPsEvtTestCase1()
     return 0; 
 
   /* Check if number of Allocated Packets = 0*/
-  DEBUGP_TS5("Check if no packets are allocated yet \n");
   if (CrFwPcktGetNOfAllocated() != 0)
     return 0;
 
   /* Create a 5,1 Packet to get outcome success*/
-  DEBUGP_TS5("Allocating a 5,1 Packet \n");
   outCmp = CrFwOutFactoryMakeOutCmp(5,1,1,80);
 
   /*run the Enable Check and Update Action and check for change of datapool variable*/
@@ -147,7 +129,6 @@ CrFwBool_t CrPsEvtTestCase1()
   nmbr = getDpnOfGenEvtRep_1();
   CrPsEvtRepUpdateAction(outCmp);
   cmpData = (CrFwCmpData_t*) FwSmGetData(outCmp);
-  DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
@@ -159,7 +140,6 @@ CrFwBool_t CrPsEvtTestCase1()
   CrFwOutFactoryReleaseOutCmp(outCmp);
 
   /* Create a 5,2 Packet to get outcome success*/
-  DEBUGP_TS5("Allocating a 5,2 Packet \n");
   outCmp = CrFwOutFactoryMakeOutCmp(5,2,1,80);
 
   /*run the Enable Check and Update Action and check for change of datapool variable*/
@@ -171,7 +151,6 @@ CrFwBool_t CrPsEvtTestCase1()
   nmbr = getDpnOfGenEvtRep_2();
   CrPsEvtRepUpdateAction(outCmp);
   cmpData = (CrFwCmpData_t*) FwSmGetData(outCmp);
-  DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
@@ -183,7 +162,6 @@ CrFwBool_t CrPsEvtTestCase1()
   CrFwOutFactoryReleaseOutCmp(outCmp);
 
   /* Create a 5,3 Packet to get outcome success*/
-  DEBUGP_TS5("Allocating a 5,3 Packet \n");
   outCmp = CrFwOutFactoryMakeOutCmp(5,3,1,80);
 
   /*run the Enable Check and Update Action and check for change of datapool variable*/
@@ -195,7 +173,6 @@ CrFwBool_t CrPsEvtTestCase1()
   nmbr = getDpnOfGenEvtRep_3();
   CrPsEvtRepUpdateAction(outCmp);
   cmpData = (CrFwCmpData_t*) FwSmGetData(outCmp);
-  DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
@@ -207,7 +184,6 @@ CrFwBool_t CrPsEvtTestCase1()
   CrFwOutFactoryReleaseOutCmp(outCmp);
 
   /* Create a 5,4 Packet to get outcome success*/
-  DEBUGP_TS5("Allocating a 5,4 Packet \n");
   outCmp = CrFwOutFactoryMakeOutCmp(5,4,1,80);
 
   /*run the Enable Check and Update Action and check for change of datapool variable*/
@@ -219,7 +195,6 @@ CrFwBool_t CrPsEvtTestCase1()
   nmbr = getDpnOfGenEvtRep_4();
   CrPsEvtRepUpdateAction(outCmp);
   cmpData = (CrFwCmpData_t*) FwSmGetData(outCmp);
-  DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
@@ -231,14 +206,12 @@ CrFwBool_t CrPsEvtTestCase1()
   CrFwOutFactoryReleaseOutCmp(outCmp);
 
   /* Create a 5,8 Packet to trigger an error and get coverage*/
-  DEBUGP_TS5("Allocating a 5,8 Packet \n");
   outCmp = CrFwOutFactoryMakeOutCmp(5,8,0,80);
 
   /*run the Enable Check and update Action for coverage */
   CrPsEvtRepEnableCheck(outCmp);
   CrPsEvtRepUpdateAction(outCmp);
   cmpData = (CrFwCmpData_t*) FwSmGetData(outCmp);
-  DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
@@ -248,10 +221,6 @@ CrFwBool_t CrPsEvtTestCase1()
   CrFwOutFactoryReleaseOutCmp(outCmp);
 
   /* Allocate a 5,5 Packet to get outcome success all valid EID's*/
-  DEBUGP_TS5("Allocating a 5,5 Packet \n");
-  pckt = CrFwPcktMake(80);
-  clearPacket(pckt, 80);
-  CrFwPcktRelease(pckt);
   pckt = CrFwPcktMake(80);
   CrFwPcktSetServType(pckt,5);
   CrFwPcktSetServSubType(pckt,5);
@@ -281,21 +250,18 @@ CrFwBool_t CrPsEvtTestCase1()
   /* run the start action, the progress action and the termination action */
   CrPsEvtEnableCmdStartAction(inCmd);
   cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
-  DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
   }
   CrPsEvtEnableCmdProgressAction(inCmd);
   cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
-  DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
   }
   CrPsEvtEnableCmdTerminationAction(inCmd);
   cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
-  DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
@@ -315,10 +281,6 @@ CrFwBool_t CrPsEvtTestCase1()
   CrFwInFactoryReleaseInCmd(inCmd);
 
   /* Allocate a 5,5 Packet to get outcome failure only wrong EID's*/
-  DEBUGP_TS5("Allocating a 5,5 Packet \n");
-  pckt = CrFwPcktMake(80);
-  clearPacket(pckt, 80);
-  CrFwPcktRelease(pckt);
   pckt = CrFwPcktMake(80);
   CrFwPcktSetServType(pckt,5);
   CrFwPcktSetServSubType(pckt,5);
@@ -341,7 +303,6 @@ CrFwBool_t CrPsEvtTestCase1()
 
   CrPsEvtEnableCmdStartAction(inCmd);
   cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
-  DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != VER_EID_START_FD)
   {
     return 0;
@@ -379,10 +340,6 @@ CrFwBool_t CrPsEvtTestCase1()
   CrFwSetAppErrCode(crNoAppErr);
 
   /* Allocate a 5,6 Packet to get outcome success*/
-  DEBUGP_TS5("Allocating a 5,6 Packet \n");
-  pckt = CrFwPcktMake(80);
-  clearPacket(pckt, 80);
-  CrFwPcktRelease(pckt);
   pckt = CrFwPcktMake(80);
   CrFwPcktSetServType(pckt,5);
   CrFwPcktSetServSubType(pckt,6);
@@ -405,7 +362,6 @@ CrFwBool_t CrPsEvtTestCase1()
 
   CrPsEvtDisableCmdStartAction(inCmd);
   cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
-  DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
@@ -413,7 +369,6 @@ CrFwBool_t CrPsEvtTestCase1()
 
   CrPsEvtDisableCmdProgressAction(inCmd);
   cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
-  DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
@@ -421,7 +376,6 @@ CrFwBool_t CrPsEvtTestCase1()
 
   CrPsEvtDisableCmdTerminationAction(inCmd);  
   cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
-  DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
@@ -441,10 +395,6 @@ CrFwBool_t CrPsEvtTestCase1()
     return 0;
 
   /* Allocate a 5,7 Packet to get outcome success*/
-  DEBUGP_TS5("Allocating a 5,7 Packet \n");
-  pckt = CrFwPcktMake(80);
-  clearPacket(pckt, 80);
-  CrFwPcktRelease(pckt);
   pckt = CrFwPcktMake(80);
   CrFwPcktSetServType(pckt,5);
   CrFwPcktSetServSubType(pckt,7);
@@ -459,19 +409,16 @@ CrFwBool_t CrPsEvtTestCase1()
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
   CrPsEvtRepDisabledCmdStartAction(inCmd);
-    DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
   }
   CrPsEvtRepDisabledCmdProgressAction(inCmd);
-    DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
   }
   CrPsEvtRepDisabledCmdTerminationAction(inCmd);
-    DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
@@ -507,10 +454,6 @@ CrFwBool_t CrPsEvtTestCase1()
   CrFwSetAppErrCode(crNoAppErr);
 
   /* Allocate a 5,7 Packet to get outcome Outfactory Failure*/
-  DEBUGP_TS5("Allocating a 5,7 Packet \n");
-  pckt = CrFwPcktMake(80);
-  clearPacket(pckt, 80);
-  CrFwPcktRelease(pckt);
   pckt = CrFwPcktMake(80);
   CrFwPcktSetServType(pckt,5);
   CrFwPcktSetServSubType(pckt,7);
@@ -531,7 +474,6 @@ CrFwBool_t CrPsEvtTestCase1()
   }
 
   CrPsEvtRepDisabledCmdStartAction(inCmd);
-    DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 0)
   {
     return 0;
@@ -555,10 +497,6 @@ CrFwBool_t CrPsEvtTestCase1()
 
 
   /* Allocate a 5,7 Packet to trigger an error in the enable start procedure*/
-  DEBUGP_TS5("Allocating a 5,7 Packet \n");
-  pckt = CrFwPcktMake(80);
-  clearPacket(pckt, 80);
-  CrFwPcktRelease(pckt);
   pckt = CrFwPcktMake(80);
   CrFwPcktSetServType(pckt,5);
   CrFwPcktSetServSubType(pckt,7);
@@ -580,7 +518,6 @@ CrFwBool_t CrPsEvtTestCase1()
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
   CrPsEvtEnableCmdStartAction(inCmd);
-  DEBUGP_TS5("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != VER_EID_START_FD)
   {
     return 0;
@@ -590,13 +527,11 @@ CrFwBool_t CrPsEvtTestCase1()
   CrFwInFactoryReleaseInCmd(inCmd);
 
   /* Create a 5,8 Packet to get outcome success*/
-  DEBUGP_TS5("Allocating a 5,8 Packet \n");
   outCmp = CrFwOutFactoryMakeOutCmp(5,8,0,80);
 
   /*run the Update Action and check for outcome = success*/
   CrPsEvtRepDisabledRepUpdateAction(outCmp);
   cmpData = (CrFwCmpData_t*) FwSmGetData(outCmp);
-  DEBUGP_TS3("Outcome = %d \n", cmpData->outcome);
   if (cmpData->outcome != 1)
   {
     return 0;
@@ -606,25 +541,21 @@ CrFwBool_t CrPsEvtTestCase1()
   CrFwOutFactoryReleaseOutCmp(outCmp);
 
   /* Reset OutManager and check that all OutComponents are unloaded and released */
-  DEBUGP_TS5("Reset OutManager and check that all OutComponents are unloaded and released \n");
   CrFwCmpReset(outManager);
   if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
     return 0;
 
   /* Reset the OutFactory */
-  DEBUGP_TS5("Reset the OutFactory and check that no OutComponents are allocated \n");
   CrFwCmpReset(outFactory);  
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
     return 0;
 
   /* Reset the InFactory and check that no InCommands are allocated */
-  DEBUGP_TS5("Reset the InFactory and check that no InCommands are allocated \n");
   CrFwCmpReset(inFactory);
   if (CrFwInFactoryGetNOfAllocatedInCmd() != 0)
     return 0;
 
   /* Check application errors */
-  DEBUGP_TS5("Check application errors\n");
   if (CrFwGetAppErrCode() != crNoAppErr)
     return 0;
 

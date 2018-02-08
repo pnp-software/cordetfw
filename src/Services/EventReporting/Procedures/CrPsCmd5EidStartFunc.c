@@ -1,8 +1,24 @@
 /**
  * @file CrPsCmd5EidStartFunc.c
+ * @ingroup Serv5
+ * @ingroup procedures
+ *
+ * @brief Create one instance of the CrPsCmd5EidStart procedure
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Sep 6 2017 17:17:44
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 /** CrPsCmd5EidStart function definitions */
@@ -30,10 +46,8 @@
 #include <Services/General/CrPsPktServEvt.h>
 #include <Services/General/CrPsPktServEvtSupp.h>
 #include <CrPsUtilitiesServReqVerif.h>
-#include <CrPsDebug.h>
 #include <CrPsUserConstants.h>
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -58,7 +72,7 @@ void CrPsCmd5EidStartN1(FwPrDesc_t prDesc)
   CrPsEid_t            evtEid;
   CrPsEid_t            evtEidArray[EVT_N_EID] = EVT_EID;
   CrPsFlag_t*          evtFlagPtr;
-  unsigned int j;
+  uint32_t             j;
 
   /* Set i equal to 1 */
 
@@ -116,7 +130,7 @@ void CrPsCmd5EidStartN1(FwPrDesc_t prDesc)
 currentEvtSlot = evtSlot;
 
   if (evtSlot < EVT_N_EID)
-    {  
+    {
       /* Set selected first EID in flag array */
       *(evtFlagPtr + currentEvtSlot) = 1;
     }
@@ -200,7 +214,7 @@ void CrPsCmd5EidStartN4(FwPrDesc_t prDesc)
       iMax = getEvtDisableCmdN(pckt); 
       break;
 
-    default:  /*TODO can never be reached, because of N1 */
+    default:  /*TODO (01.02.2018)can never be reached, because of N1 */
       currentEid = 0;
       iMax = 1;
       break;
@@ -281,6 +295,8 @@ FwPrBool_t CrPsCmd5EidStartG1(FwPrDesc_t prDesc)
   /* The i-th EID is not in EVT_EID */
 
   /* EID not found in list */
+
+  /*TODO ist nie erfüllt !!!*/
   if (currentEvtSlot == EVT_N_EID)
     {
       return 1;

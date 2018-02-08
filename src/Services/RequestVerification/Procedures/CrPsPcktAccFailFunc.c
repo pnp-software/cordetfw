@@ -1,8 +1,24 @@
 /**
  * @file CrPsPcktAccFailFunc.c
+ * @ingroup Serv1
+ * @ingroup procedures
+ *
+ * @brief This procedure is run when the InLoader has found a packet which failed its acceptance check.
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Jul 11 2017 18:24:51
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 /** CrPsPcktAccFail function definitions */
@@ -22,17 +38,16 @@
 #include <OutLoader/CrFwOutLoader.h>
 #include <OutCmp/CrFwOutCmp.h>
 
-#include <CrPsPcktUtilities.h>
 #include <CrPsRepErr.h>
 #include <DataPool/CrPsDpServReqVerif.h>
 #include <Services/General/CrPsPktServReqVerif.h>
+#include <Services/General/CrPsPktServReqVerifSupp.h>
+#include <Services/General/CrPsPktUtil.h>
 #include <Services/General/CrPsConstants.h>
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <stdint.h>
-#include "CrPsDebug.h"
+
 
 FwSmDesc_t cmd, rep;
 
@@ -71,7 +86,6 @@ void CrPsPcktAccFailN1(FwPrDesc_t prDesc)
 void CrPsPcktAccFailN2(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-
   /* Retrieve an OutComponent of type (1,2) from the OutFactory */
 
   /* Create out component */
@@ -99,21 +113,17 @@ void CrPsPcktAccFailN3(FwPrDesc_t prDesc)
 /** Action for node N4. */
 void CrPsPcktAccFailN4(FwPrDesc_t prDesc)
 {
-  CrFwDestSrc_t source;
-  unsigned short tcPacketId, tcSeqCtrl;
-  unsigned char tcType, tcSubtype;
-  uint32_t tcVerFailData;
-
-  CrFwCmpData_t*   inData;
-  CrFwInCmdData_t* inSpecificData;
-  CrFwPckt_t       inPckt;
-
-  FwSmDesc_t  smDesc;
-  prData_t* prData;
-  
-  CrFwCmpData_t*   cmpDataStart;
+  CrFwDestSrc_t     source;
+  CrPsFailData_t    VerFailData;
+  CrFwCmpData_t*    inData;
+  CrFwInCmdData_t*  inSpecificData;
+  CrFwPckt_t        inPckt;
+  FwSmDesc_t        smDesc;
+  prData_t*         prData;
+  CrFwCmpData_t*    cmpDataStart;
   CrFwOutCmpData_t* cmpSpecificData;
-  CrFwPckt_t pckt;
+  CrFwPckt_t        pckt;
+  CrPsRid_t         Rid;
 
   cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(rep);
   cmpSpecificData = (CrFwOutCmpData_t *) cmpDataStart->cmpSpecificData;
@@ -129,29 +139,17 @@ void CrPsPcktAccFailN4(FwPrDesc_t prDesc)
   inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
   inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
   inPckt         = inSpecificData->pckt;
-
-  /* Set pcktIdAccFailed */
-  tcPacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
-  setVerFailedAccRepTcPacketId(pckt, tcPacketId);
-
-  /* Set packetSeqCtrl */
-  tcSeqCtrl = CrFwPcktGetSeqCtrl(inPckt); /* --- adaptation point CrFwPckt ---> */
-  setVerFailedAccRepTcPacketSeqCtrl(pckt, tcSeqCtrl);
-
-  /* Set Type of the command */
-  tcType = CrFwPcktGetServType(inPckt); /* --- adaptation point CrFwPckt ---> */
-  setVerFailedAccRepTcType(pckt, tcType);
-
-  /* Set Subtype of the command */
-  tcSubtype = CrFwPcktGetServSubType(inPckt); /* --- adaptation point CrFwPckt ---> */
-  setVerFailedAccRepTcSubtype(pckt, tcSubtype);
+  
+  /* set Packet request ID */
+  Rid = getPcktRid(inPckt);
+  setVerFailedAccRepRid(pckt, Rid);
 
   /* Set failCodeAccFailed */
-  setVerFailedAccRepTcFailureCode(pckt, prData->ushortParam1);
+  setVerFailedAccRepFailureCode(pckt, (CrPsFailCode_t)prData->ushortParam1);
   
   /* Set verFailData */
-  tcVerFailData = getDpverFailData();
-  setVerFailedAccRepTcFailureData(pckt, tcVerFailData);
+  VerFailData = getDpverFailData();
+  setVerFailedAccRepFailureData(pckt, VerFailData);
 
   /* Set the destination of the report to the source of the in-coming packet */
   source = CrFwPcktGetSrc(inPckt);
@@ -168,7 +166,7 @@ void CrPsPcktAccFailN4(FwPrDesc_t prDesc)
 void CrPsPcktAccFailN5(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  unsigned short nOfAccFailed;
+  CrFwCounterU4_t nOfAccFailed;
 
   /* Increment data pool variable nOfAccFailed */
 
@@ -183,8 +181,7 @@ void CrPsPcktAccFailN5(FwPrDesc_t prDesc)
 /** Action for node N6. */
 void CrPsPcktAccFailN6(FwPrDesc_t prDesc)
 {
-  unsigned short tcPacketId;
-
+  CrFwTypeId_t     PacketId;
   CrFwCmpData_t   *inData;
   CrFwInCmdData_t *inSpecificData;
   CrFwPckt_t       inPckt;
@@ -203,8 +200,8 @@ void CrPsPcktAccFailN6(FwPrDesc_t prDesc)
   inPckt         = inSpecificData->pckt;
 
   /* Set pcktIdAccFailed */
-  tcPacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
-  setDppcktIdAccFailed(tcPacketId);
+  PacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
+  setDppcktIdAccFailed(PacketId);
 
   /* Set failCodeAccFailed */
   setDpfailCodeAccFailed(prData->ushortParam1);
@@ -282,4 +279,5 @@ FwPrBool_t CrPsPcktAccFailG2(FwPrDesc_t prDesc)
 }
 
 /* ----------------------------------------------------------------------------------------------------------------- */
+
 

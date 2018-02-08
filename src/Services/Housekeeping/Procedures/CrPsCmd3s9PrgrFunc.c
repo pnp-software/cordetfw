@@ -1,8 +1,24 @@
 /**
  * @file CrPsCmd3s9PrgrFunc.c
+ * @ingroup Serv3
+ * @ingroup procedures
+ *
+ * @brief Progress Action for the (3,9) and (3,11) commands
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Sep 6 2017 17:16:17
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 /** CrPsCmd3s9Prgr function definitions */
@@ -30,12 +46,11 @@
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsPktServHk.h>
 #include <Services/General/CrPsPktServHkSupp.h>
-#include <CrPsDebug.h>
 #include <CrPsUtilitiesServHk.h>
 #include <CrPsRepErr.h>
 
+#include <CrPsUtilitiesServReqVerif.h>
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -52,13 +67,13 @@ void CrPsCmd3s9PrgrN1(FwPrDesc_t prDesc)
   CrFwCmpData_t       *cmpData;
   CrFwInCmdData_t     *cmpSpecificData;
   CrFwPckt_t           pckt;
-  prDescCmd3s9Start_t *prDataPtr;
+  prDescCmd3s9Prgr_t  *prDataPtr;
   FwSmDesc_t           smDesc;
   CrFwServSubType_t    tcServSubType;
 
   /* Retrieve a (3,10) or (3,12) report from the OutFactory to hold
    * the structurereport for the SID which is being processed */
-    DEBUGP_3("CrPsCmd3s9PrgrN1.\n");
+
   /* Get smDesc from prData */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -88,9 +103,9 @@ void CrPsCmd3s9PrgrN1(FwPrDesc_t prDesc)
 void CrPsCmd3s9PrgrN2(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
+
   /* Load the SID which is being processed in data pool item verFailData */
-  DEBUGP_3("CrPsCmd3s9PrgrN2.\n");
-  setDpverFailData((uint32_t)currentSid);
+  setDpverFailData((CrPsFailData_t)currentSid);
 
   return;
 }
@@ -100,23 +115,23 @@ void CrPsCmd3s9PrgrN3(FwPrDesc_t prDesc)
 {
   FwSmDesc_t          smDesc;  
   prDescCmd3s9Prgr_t *prDataPtr;
-  CrPsStepId_t        stepIdentifier;  /*StepID ist 32 bit .. war aber unsigned short*/
-  CrPsFailCode_t      tcFailureCode;
+  CrPsStepId_t        stepIdentifier;  
+  CrPsFailCode_t      FailureCode;
 
   /* Run the Command Progress Failure Procedure */
-  DEBUGP_3("CrPsCmd3s9PrgrN3.\n");
+
   /* Get smDesc from prData */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
 
   stepIdentifier = iSid;
-  tcFailureCode = OUTFACTORY_FAIL; /* TODO: check if correct use for Service 1 reports */
+  FailureCode = OUTFACTORY_FAIL; /* TODO: check if correct use for Service 1 reports */
 
   CRFW_UNUSED(smDesc);
-  CRFW_UNUSED(tcFailureCode);
+  CRFW_UNUSED(FailureCode);
   CRFW_UNUSED(stepIdentifier);
 
-  /*SendReqVerifPrgrFailRep(smDesc, stepIdentifier, tcFailureCode);*/ /* TODO: can not be sent: segmentation fault 
+  SendReqVerifPrgrFailRep(smDesc, stepIdentifier, FailureCode); /* TODO: can not be sent: segmentation fault 
     pckt can not be retrieved by cmpSpecificData->pckt in CrFwOutCmp: CrFwOutCmpSetDest(FwSmDesc_t smDesc, CrFwDestSrc_t dest) */
 
   return;
@@ -129,7 +144,7 @@ void CrPsCmd3s9PrgrN4(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /* Generate error report OUTFACTORY_FAIL */
-  DEBUGP_3("CrPsCmd3s9PrgrN4.\n");
+
   errCode = crOutfactoryFail;
   CrPsRepErr(errCode, CRPS_REQVERIF, CRPS_REQVERIF_PROG_FAIL, 0);
 
@@ -147,7 +162,7 @@ void CrPsCmd3s9PrgrN5(FwPrDesc_t prDesc)
   CrFwDestSrc_t dest;
 
   /* Configure the (3,10) or (3,12) report with the SID being processed and load it in the OutLoader */
-  DEBUGP_3("CrPsCmd3s9PrgrN5.\n");
+
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -173,7 +188,7 @@ void CrPsCmd3s9PrgrN6(FwPrDesc_t prDesc)
   FwSmDesc_t          smDesc;
 
   /* Set action outcome to: 'completed' */
-  DEBUGP_3("CrPsCmd3s9PrgrN6.\n");
+
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -198,7 +213,7 @@ void CrPsCmd3s9PrgrN7(FwPrDesc_t prDesc)
   FwSmDesc_t          smDesc;
 
   /* Set action outcome to: 'continue' */
-  DEBUGP_3("CrPsCmd3s9PrgrN7.\n");
+
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   smDesc = prDataPtr->smDesc;
@@ -222,7 +237,7 @@ void CrPsCmd3s9PrgrN8(FwPrDesc_t prDesc)
   CrPsSid_t          *sid;
 
   /* Start processing the first valid SID in the command */
-  DEBUGP_3("CrPsCmd3s9PrgrN8.\n");
+
   /* Get sid from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   sid = prDataPtr->sidPtr;
@@ -241,7 +256,7 @@ void CrPsCmd3s9PrgrN9(FwPrDesc_t prDesc)
   CrPsSid_t          *sid;
 
   /* Process the next valid SID in the command */
-  DEBUGP_3("CrPsCmd3s9PrgrN9.\n");
+
   /* Get sid from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   sid = prDataPtr->sidPtr;
@@ -263,7 +278,7 @@ FwPrBool_t CrPsCmd3s9PrgrG1(FwPrDesc_t prDesc)
   CRFW_UNUSED(prDesc);
 
   /* OutFactory fails to return a report  */
-  DEBUGP_3("CrPsCmd3s9PrgrG1.\n");
+
   if (rep == NULL)
     {
       return 1;
@@ -281,7 +296,7 @@ FwPrBool_t CrPsCmd3s9PrgrG2(FwPrDesc_t prDesc)
   CrPsSid_t          *sid;
 
   /* This SID was the last valid SID in the (3,9) or (3,11)  */
-  DEBUGP_3("CrPsCmd3s9PrgrG2.\n");
+
   /* Get sid from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
   sid = prDataPtr->sidPtr;
@@ -301,7 +316,7 @@ FwPrBool_t CrPsCmd3s9PrgrG2(FwPrDesc_t prDesc)
 FwPrBool_t CrPsCmd3s9PrgrG3(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  DEBUGP_3("CrPsCmd3s9PrgrG3.\n");
+
   /* Next Execution  */
 
   if (FwPrGetNodeExecCnt(prDesc))

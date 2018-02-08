@@ -1,8 +1,24 @@
 /**
  * @file CrPsRep3s25ReadyFunc.c
+ * @ingroup Serv3
+ * @ingroup procedures
+ *
+ * @brief Implements the ReadyCheck for Housekeeping/Diagnostic reports (3,25) and (3,26)
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Jan 3 2018 14:31:12
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrFwConstants.h"
@@ -54,7 +70,6 @@ void CrPsRep3s25ReadyN2(FwPrDesc_t prDesc)
   CrFwCmpData_t           *cmpData;
 
   /* Ready Check returns 'Ready' */
-
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
 
@@ -70,10 +85,8 @@ void CrPsRep3s25ReadyN3(FwPrDesc_t prDesc)
 {
   prDataHkRepReadyCheck_t *prDataPtr;
   CrFwCmpData_t           *cmpData;
-  FwSmDesc_t               smDesc;
-
+  
   /* Ready Check returns 'Not Ready' */
-
   /* Get smDesc from OutCmp */
   prDataPtr = FwPrGetData(prDesc);
 
@@ -125,6 +138,8 @@ FwPrBool_t CrPsRep3s25ReadyG1(FwPrDesc_t prDesc)
   /* Get isEnabled from RDL */
   rdlEnabled = getDpisEnabledItem(prDataPtr->rdlSlot);
 
+
+
   if ((cycleCnt != 0) || (rdlEnabled == 0))
     {
       return 1;
@@ -139,7 +154,6 @@ FwPrBool_t CrPsRep3s25ReadyG1(FwPrDesc_t prDesc)
 FwPrBool_t CrPsRep3s25ReadyG2(FwPrDesc_t prDesc)
 {
   /* Next Execution */
-
   if (FwPrGetNodeExecCnt(prDesc))
     {
       return 1;

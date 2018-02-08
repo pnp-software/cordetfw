@@ -246,9 +246,9 @@ static void OutManagerInitAction(FwPrDesc_t initPr) {
 
 /*-----------------------------------------------------------------------------------------*/
 static void OutManagerConfigAction(FwPrDesc_t initPr) {
-	CrFwCmpData_t* outManagerData = (CrFwCmpData_t*)FwPrGetData(initPr);
-	CrFwOutManagerData_t* outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
-	CrFwInstanceId_t id = outManagerData->instanceId;
+	CrFwCmpData_t* outManagerDataLocal = (CrFwCmpData_t*)FwPrGetData(initPr);
+	CrFwOutManagerData_t* outManagerCSData = (CrFwOutManagerData_t*)outManagerDataLocal->cmpSpecificData;
+	CrFwInstanceId_t id = outManagerDataLocal->instanceId;
 	CrFwCounterU1_t i;
 
 	for (i=0; i<outManagerPoclSize[id]; i++) {
@@ -260,14 +260,14 @@ static void OutManagerConfigAction(FwPrDesc_t initPr) {
 	outManagerCSData->nOfOutCmpInPocl = 0;
 	outManagerCSData->nOfLoadedOutCmp = 0;
 	outManagerCSData->nextFreePoclPos = 0;
-	outManagerData->outcome = 1;
+	outManagerDataLocal->outcome = 1;
 }
 
 /*-----------------------------------------------------------------------------------------*/
 static void OutManagerShutdownAction(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* outManagerData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwOutManagerData_t* outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
-	CrFwInstanceId_t id = outManagerData->instanceId;
+	CrFwCmpData_t* outManagerDataLocal = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwOutManagerData_t* outManagerCSData = (CrFwOutManagerData_t*)outManagerDataLocal->cmpSpecificData;
+	CrFwInstanceId_t id = outManagerDataLocal->instanceId;
 	CrFwCounterU1_t i;
 
 	for (i=0; i<outManagerPoclSize[id]; i++) {
@@ -282,22 +282,22 @@ static void OutManagerShutdownAction(FwSmDesc_t smDesc) {
 
 /*-----------------------------------------------------------------------------------------*/
 CrFwCounterU1_t CrFwOutManagerGetNOfPendingOutCmp(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* outManagerData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwOutManagerData_t* outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
+	CrFwCmpData_t* outManagerDataLocal = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwOutManagerData_t* outManagerCSData = (CrFwOutManagerData_t*)outManagerDataLocal->cmpSpecificData;
 	return outManagerCSData->nOfOutCmpInPocl;
 }
 
 /*-----------------------------------------------------------------------------------------*/
 CrFwCounterU2_t CrFwOutManagerGetNOfLoadedOutCmp(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* outManagerData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwOutManagerData_t* outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
+	CrFwCmpData_t* outManagerDataLocal = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwOutManagerData_t* outManagerCSData = (CrFwOutManagerData_t*)outManagerDataLocal->cmpSpecificData;
 	return outManagerCSData->nOfLoadedOutCmp;
 }
 
 /*-----------------------------------------------------------------------------------------*/
 CrFwCounterU1_t CrFwOutManagerGetPOCLSize(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* outManagerData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwInstanceId_t id = outManagerData->instanceId;
+	CrFwCmpData_t* outManagerDataLocal = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwInstanceId_t id = outManagerDataLocal->instanceId;
 	return (CrFwCounterU1_t)outManagerPoclSize[id];
 }
 

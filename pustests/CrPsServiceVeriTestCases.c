@@ -1,38 +1,23 @@
 /**
- * @file
+ * @file CrPsServiceVeriTestCase.c
+ * @ingroup PUSTestsuite
  *
- * Implementation of test cases for Service Components.
+ * @brief Implementation of test cases for the Request Verification Service Components.
  *
  * @author Christian Reimers <christian.reimersy@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- * @copyright Department of Astrophysics, University of Vienna, 2017, All Rights Reserved
  *
- * This file is part of CORDET Framework.
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
- * CORDET Framework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  *
- * CORDET Framework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with CORDET Framework.  If not, see <http://www.gnu.org/licenses/>.
- *
- * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
-#include "CrFwRepErrStub.h"
-#include "CrFwInStreamSocket.h"
-#include "CrFwClientSocket.h"
-#include "CrFwServerSocket.h"
-#include "CrFwOutStreamSocket.h"
-#include "CrFwInStreamTestCases.h"
-#include "CrFwRepInCmdOutcomeStub.h"
-#include "CrFwInStreamStub.h"
+
 /* Include FW Profile files */
 #include "FwSmConstants.h"
 #include "FwSmConfig.h"
@@ -62,10 +47,9 @@
 #include "DataPool/CrPsDpServReqVerif.h"
 
 /* Include system files */
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "CrPsDebug.h"
+
 
 /* ---------------------------------------------------------------------------------------------*/
 CrFwBool_t CrPsServVeriTestCase1()
@@ -78,6 +62,7 @@ CrFwBool_t CrPsServVeriTestCase1()
   CrFwOutManagerData_t* outManagerCSData;
   unsigned short ACK_WRONG_CHKSM = 1002, pcktID;
 
+  /* run all getters for the procedure descriptors */
   CrPsInitServReqVerif();
   CrPsExecServReqVerif();
 
@@ -139,13 +124,14 @@ CrFwBool_t CrPsServVeriTestCase1()
   CrFwPcktSetServType(pckt,17);
   CrFwPcktSetServSubType(pckt,1);
   CrFwPcktSetDiscriminant(pckt,0);
+  CrFwPcktSetCmdRepType(pckt, crCmdType);
   CrFwPcktSetCmdRepId(pckt,0);
   CrFwPcktSetSrc(pckt,0);
   CrFwPcktSetDest(pckt,0);
   CrFwPcktSetGroup(pckt,1);
   CrFwPcktSetAckLevel(pckt,1,1,1,1);
   CrFwPcktSetSeqCnt(pckt,2);
-
+  
   /* Getting the Packet ID so that we can check that in the datapool later */
   pcktID = getTmHeaderAPID(pckt);
 
@@ -198,7 +184,7 @@ CrFwBool_t CrPsServVeriTestCase1()
   outManagerData = (CrFwCmpData_t*)FwSmGetData(outManager);
   outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
   outCmp = outManagerCSData->pocl[CrFwOutManagerGetNOfLoadedOutCmp(outManager)-1];
-  
+
   /* Check if there is a 1,1 Report waitig in the OutManager (loaded) */
   if (CrFwCmpGetTypeId(outCmp) != CR_FW_OUTCMP_TYPE)
     return 0;
@@ -278,7 +264,7 @@ CrFwBool_t CrPsServVeriTestCase1()
   outManagerData = (CrFwCmpData_t*)FwSmGetData(outManager);
   outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
   outCmp = outManagerCSData->pocl[CrFwOutManagerGetNOfLoadedOutCmp(outManager)-1];
-  
+
   /* Check if there is a 1,3 Report waitig in the OutManager (loaded) */
   if (CrFwCmpGetTypeId(outCmp) != CR_FW_OUTCMP_TYPE)
     return 0;
@@ -358,7 +344,7 @@ CrFwBool_t CrPsServVeriTestCase1()
   outManagerData = (CrFwCmpData_t*)FwSmGetData(outManager);
   outManagerCSData = (CrFwOutManagerData_t*)outManagerData->cmpSpecificData;
   outCmp = outManagerCSData->pocl[CrFwOutManagerGetNOfLoadedOutCmp(outManager)-1];
-  
+
   /* Check if there is a 1.5 Report waitig in the OutManager (loaded) */
   if (CrFwCmpGetTypeId(outCmp) != CR_FW_OUTCMP_TYPE)
     return 0;
@@ -428,8 +414,8 @@ CrFwBool_t CrPsServVeriTestCase1()
 
   /* Successful Completion of Execution Verification Report */
   /* Standard Check Service (1,7) */
-  SendReqVerifAccSuccRep(inCmd, CRPS_REQVERIF_TERM_SUCC);
-
+  SendReqVerifAccSuccRep(inCmd, CRPS_REQVERIF_TERM_SUCC); //(1,7)
+  
   /* Check if number of Allocated OutComponents = 1*/
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 1)
     return 0;
@@ -546,7 +532,7 @@ CrFwBool_t CrPsServVeriTestCase1()
     return 0;
   if (CrFwOutCmpGetServSubType(outCmp) != 10)
     return 0;
-
+  
   /* Checking OutComponent Desicions of the Guards (1,2 and 1,10) */
   /* Extended Check Service (1,2) for an OutComponent (no 1,2 should be created!) */
   SendReqVerifAccFailRep(outCmp, CRPS_REQVERIF_ACC_FAIL);
@@ -606,7 +592,7 @@ CrFwBool_t CrPsServVeriTestCase1()
     return 0;
 
   /* Extended Check Service (1,10) for an InReport (no 1,10 should be created!) */
-  SendReqVerifAccFailRep(inRep, ACK_WRONG_CHKSM);
+  SendReqVerifPcktReroutFailRep(inRep, ACK_WRONG_CHKSM);
 
   /* Check if number of Allocated OutComponents = 0*/
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
@@ -626,11 +612,11 @@ CrFwBool_t CrPsServVeriTestCase1()
   if (CrFwGetAppErrCode() != 0)
     return 0;
 
-  /*Extended Check Service (1,1) no free slots i the OutFactory! Application Error should be 10*/
+  /*Extended Check Service (1,1) no free slots in the OutFactory! Application Error should be 10*/
   SendReqVerifAccSuccRep(inCmd, CRPS_REQVERIF_ACC_SUCC);
 
   /* Check if Application Error 10 has occured (An OutComponent allocation request has failed)*/
-  if (CrFwGetAppErrCode() != 10)
+  if (CrFwGetAppErrCode() != crOutCmpAllocationFail)
     return 0;
 
   /* Set the Application Error to 0 and check it*/
@@ -642,7 +628,7 @@ CrFwBool_t CrPsServVeriTestCase1()
   SendReqVerifAccFailRep(inCmd, CRPS_REQVERIF_ACC_FAIL);
 
   /* Check if Application Error 10 has occured (An OutComponent allocation request has failed)*/
-  if (CrFwGetAppErrCode() != 10)
+  if (CrFwGetAppErrCode() != crOutCmpAllocationFail)
     return 0;
 
   /* Set the Application Error to 0 and check it*/
@@ -654,7 +640,7 @@ CrFwBool_t CrPsServVeriTestCase1()
   SendReqVerifAccSuccRep(inCmd, CRPS_REQVERIF_START_SUCC);
 
   /* Check if Application Error 10 has occured (An OutComponent allocation request has failed)*/
-  if (CrFwGetAppErrCode() != 10)
+  if (CrFwGetAppErrCode() != crOutCmpAllocationFail)
     return 0;
 
   /* Set the Application Error to 0 and check it*/
@@ -666,7 +652,7 @@ CrFwBool_t CrPsServVeriTestCase1()
   SendReqVerifCmdFailRep(inCmd, CRPS_REQVERIF_START_FAIL, ACK_WRONG_CHKSM);
 
   /* Check if Application Error 10 has occured (An OutComponent allocation request has failed)*/
-  if (CrFwGetAppErrCode() != 10)
+  if (CrFwGetAppErrCode() != crOutCmpAllocationFail)
     return 0;
 
   /* Set the Application Error to 0 and check it*/
@@ -678,7 +664,7 @@ CrFwBool_t CrPsServVeriTestCase1()
   SendReqVerifPrgrSuccRep(inCmd, CRPS_REQVERIF_PROG_SUCC);
 
   /* Check if Application Error 10 has occured (An OutComponent allocation request has failed)*/
-  if (CrFwGetAppErrCode() != 10)
+  if (CrFwGetAppErrCode() != crOutCmpAllocationFail)
     return 0;
 
   /* Set the Application Error to 0 and check it*/
@@ -690,7 +676,7 @@ CrFwBool_t CrPsServVeriTestCase1()
   SendReqVerifPrgrFailRep(inCmd, CRPS_REQVERIF_PROG_FAIL, ACK_WRONG_CHKSM);
 
   /* Check if Application Error 10 has occured (An OutComponent allocation request has failed)*/
-  if (CrFwGetAppErrCode() != 10)
+  if (CrFwGetAppErrCode() != crOutCmpAllocationFail)
     return 0;
 
   /* Set the Application Error to 0 and check it*/
@@ -702,7 +688,7 @@ CrFwBool_t CrPsServVeriTestCase1()
   SendReqVerifAccSuccRep(inCmd, CRPS_REQVERIF_TERM_SUCC);
 
   /* Check if Application Error 10 has occured (An OutComponent allocation request has failed)*/
-  if (CrFwGetAppErrCode() != 10)
+  if (CrFwGetAppErrCode() != crOutCmpAllocationFail)
     return 0;
 
   /* Set the Application Error to 0 and check it*/
@@ -714,7 +700,7 @@ CrFwBool_t CrPsServVeriTestCase1()
   SendReqVerifCmdFailRep(inCmd, CRPS_REQVERIF_TERM_FAIL, ACK_WRONG_CHKSM);
 
   /* Check if Application Error 10 has occured (An OutComponent allocation request has failed)*/
-  if (CrFwGetAppErrCode() != 10)
+  if (CrFwGetAppErrCode() != crOutCmpAllocationFail)
     return 0;
 
   /* Set the Application Error to 0 and check it*/
@@ -723,10 +709,10 @@ CrFwBool_t CrPsServVeriTestCase1()
     return 0;
 
   /*Extended Check Service (1,10) no free slots i the OutFactory! Application Error should be 10*/
-  SendReqVerifAccFailRep(inCmd, ACK_WRONG_CHKSM);
+  SendReqVerifPcktReroutFailRep(inCmd, ACK_WRONG_CHKSM);
 
   /* Check if Application Error 10 has occured (An OutComponent allocation request has failed)*/
-  if (CrFwGetAppErrCode() != 10)
+  if (CrFwGetAppErrCode() != crOutCmpAllocationFail)
     return 0;
 
   /* Release all outcomponents, that have been created to fill the outfactory */
@@ -798,6 +784,6 @@ CrFwBool_t CrPsServVeriTestCase1()
     return 0;
   if (getDppcktIdReroutingFailed() != pcktID)
     return 0;
-
+  
   return 1;
 }

@@ -1,5 +1,5 @@
 /**
- * @file CrPsPktUtil.h
+ * @file CrPsPktUtil.c
  * @ingroup Utilities
  * @ingroup pktgetset
  *
@@ -20,16 +20,18 @@
 
 #include <CrPsUserConstants.h>
 
-#ifndef CRPSPKTUTIL_H_
-#define CRPSPKTUTIL_H_
-
 /**
  * Generic Getter for Int Values from a Packet
  * \param p Pointer to the packet.
  * \param pos Position of the Int Value
  * \return integer Value from the packet starting at position "pos"
  */
-uint32_t getPcktInt(void* p, uint32_t pos);
+uint32_t getPcktInt(void* p, uint32_t pos)
+{
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[pos], sizeof(t));
+  return __builtin_bswap32(t);
+}
 
 /**
  * Generic Getter for Short Values from a Packet
@@ -37,7 +39,12 @@ uint32_t getPcktInt(void* p, uint32_t pos);
  * \param pos Position of the Short Value
  * \return short Value from the packet starting at position "pos"
  */
-uint16_t getPcktShort(void* p, uint32_t pos);
+uint16_t getPcktShort(void* p, uint32_t pos)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[pos], sizeof(t));
+  return __builtin_bswap16(t);
+}
 
 /**
  * Generic Getter for Character Values from a Packet
@@ -45,7 +52,12 @@ uint16_t getPcktShort(void* p, uint32_t pos);
  * \param pos Position of the Character Value
  * \return char Value from the packet starting at position "pos"
  */
-uint8_t getPcktChar(void* p, uint32_t pos);
+uint8_t getPcktChar(void* p, uint32_t pos)
+{
+  uint8_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[pos], sizeof(t));
+  return t;
+}
 
 /**
  * Generic Setter for Int Values from a Packet
@@ -53,7 +65,11 @@ uint8_t getPcktChar(void* p, uint32_t pos);
  * \param pos Position of the Int Value
  * \param t The Value to be set into the Packet
  */
-void setPcktInt(void* p, uint32_t pos, uint32_t t);
+void setPcktInt(void* p, uint32_t pos, uint32_t t)
+{
+  t=__builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[pos], &t, sizeof(t));
+}
 
 /**
  * Generic Setter for Short Values from a Packet
@@ -61,7 +77,11 @@ void setPcktInt(void* p, uint32_t pos, uint32_t t);
  * \param pos Position of the Short Value
  * \param t The Value to be set into the Packet
  */
-void setPcktShort(void* p, uint32_t pos, uint16_t t);
+void setPcktShort(void* p, uint32_t pos, uint16_t t)
+{
+  t=__builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[pos], &t, sizeof(t));
+}
 
 /**
  * Generic Setter for Character Values from a Packet
@@ -69,8 +89,10 @@ void setPcktShort(void* p, uint32_t pos, uint16_t t);
  * \param pos Position of the Character Value
  * \param t The Value to be set into the Packet
  */
-void setPcktChar(void* p, uint32_t pos, uint8_t t);
+void setPcktChar(void* p, uint32_t pos, uint8_t t)
+{
+  (void)memcpy(&((uint8_t*)p)[pos], &t, sizeof(t));
+}
 
 
 /*----------------------------------------------------------------------------*/
-#endif /* CRPSPKTUTIL_H */

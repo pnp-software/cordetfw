@@ -1,28 +1,20 @@
 /**
- * @file CrPsServiceTestCases.h
- * @ingroup CrTestSuiteGroup
- * Declaration of the test cases for the Service Components
+ * @file CrPsEvtTestCases.h
+ * @ingroup PUSTestsuite
+ *
+ * @brief Declaration of the test cases for the Event Reporting Service components.
  *
  * @author Christian Reimers <christian.reimersy@univie.ac.at>
  * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
- * @copyright Department of Astrophysics, University of Vienna, 2017, All Rights Reserved
  *
- * This file is part of CORDET Framework.
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
- * CORDET Framework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  *
- * CORDET Framework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with CORDET Framework.  If not, see <http://www.gnu.org/licenses/>.
- *
- * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
 #ifndef CRPS_EVT_TESTCASES_H_
@@ -38,6 +30,7 @@
  *
  * The following actions are performed in this test:
  *
+ * - run the getter for EvtCmd5EidStart procedure descriptor
  * - Instantiate all relevant CORDET Framework PUS Extension components
  * - Initializing OutFactory, InFactory and OutManager
  * - Check that OutFactory, InFactory and OutManager are configured

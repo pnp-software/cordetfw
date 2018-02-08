@@ -94,14 +94,9 @@ CrFwPckt_t CrFwPcktMake(CrFwPcktLength_t pcktLength);
  * <code>CrFwPcktMake</code>.
  * This function releases the memory which was allocated to the argument packet.
  * After this function is called, the argument packet cannot be used.
- * The function does not perform any checks on the existence or status of the
- * argument packet.
- * An attempt to use a packet which had already been released will
- * result in undefined behaviour.
  *
  * An attempt to release a packet which had already been released, or to release a
- * non-existent packet will result in undefined behaviour.
- * Depending on the implementation, such attempts may result in the application
+ * non-existent packet results in the application
  * error code being set to: <code>::crPcktRelErr</code>.
  * @param pckt the packet to be released
  */

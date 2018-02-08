@@ -1,20 +1,28 @@
 /**
- * \file CrPsPktServHkSupp.h
+ * @file CrPsPktServHkSupp.h
+ * @ingroup Serv3
+ * @ingroup pktgetset
  *
- * Interface for accessing fields in packets of service "ServHk".
+ * @brief auxiliary Interface for accessing fields in packets of service "ServHk".
  *
- * \author C. Reimers and M. Rockenbauer 24.10.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
+
 #ifndef CRPSPKTSERVHKSUPP_H_
 #define CRPSPKTSERVHKSUPP_H_
 
-#include "Services/General/CrPsPktUtil.h"
 #include "CrPsUserConstants.h"
-#include <DataPool/CrPsDp.h>
-#include <DataPool/CrPsDpServHk.h>
-#include <Services/General/CrPsPktServHk.h>
-#include <stdio.h>
+#include "CrFwUserConstants.h"
 
 
 /**

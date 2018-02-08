@@ -1,39 +1,29 @@
 /**
- * @file
- * @ingroup crPsUtilities
- * Interface through which applications can initialize and execute framework PUS extension components
+ * @file CrPsUtilitiesServReqVerif.h
+ * @ingroup Utilities
+ * @ingroup Serv1
+ *
+ * @brief Interface through which applications can initialize and execute framework PUS extension components
  *
  * @author Christian Reimers <christian.reimers@univie.ac.at>
- * @copyright P&P Software GmbH, 2013 / Department of Astrophysics, University of Vienna, All Rights Reserved
- * @version GPLv3_0.7.1
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
- * This file is part of CORDET Framework PUS Extension.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  *
- * CORDET Framework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * CORDET Framework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with CORDET Framework.  If not, see <http://www.gnu.org/licenses/>.
- *
- * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
 #ifndef CRPS_UTILITIES_SERVREQVERIF_H_
 #define CRPS_UTILITIES_SERVREQVERIF_H_
 
 #include <CrFwConstants.h>
+#include "CrPsUserConstants.h"
 
-/* global handles for the procedures */
-extern FwPrDesc_t prDescServReqVerifPcktReroutFail, prDescServReqVerifPcktAccFail;
-extern FwPrDesc_t prDescServReqVerifCmdVerSucc, prDescServReqVerifCmdVerFail;
-extern FwPrDesc_t prDescServReqVerifCmdPrgrSucc, prDescServReqVerifCmdPrgrFail;
 
 
 /**
@@ -49,40 +39,69 @@ int CrPsInitServReqVerif();
 void CrPsExecServReqVerif();
 
 /**
+ * Getter for ReqVerifPcktReroutFail procedure descriptor
+ */
+FwPrDesc_t getPrDescServReqVerifPcktReroutFail();
+
+/**
+ * Getter for ReqVerifPcktAccFail procedure descriptor
+ */
+FwPrDesc_t getPrDescServReqVerifPcktAccFail();
+
+/**
+ * Getter for ReqVerifCmdVerSucc procedure descriptor
+ */
+FwPrDesc_t getPrDescServReqVerifCmdVerSucc();
+
+/**
+ * Getter for ReqVerifCmdVerFail procedure descriptor
+ */
+FwPrDesc_t getPrDescServReqVerifCmdVerFail();
+
+/**
+ * Getter for ReqVerifCmdPrgrSucc procedure descriptor
+ */
+FwPrDesc_t getPrDescServReqVerifCmdPrgrSucc();
+
+/**
+ * Getter for ReqVerifCmdPrgrFail procedure descriptor
+ */
+FwPrDesc_t getPrDescServReqVerifCmdPrgrFail();
+
+/**
  * Generate a Request Verification Acceptance/Start/Termination Successful out-going report.
  * @return nothing
  */
-void SendReqVerifAccSuccRep(FwSmDesc_t smDesc, unsigned short reqVerifAccSuccType);
+void SendReqVerifAccSuccRep(FwSmDesc_t smDesc, uint16_t reqVerifAccSuccType);
 
 /**
  * Generate a Request Verification Acceptance Failed out-going report.
  * @return nothing
  */
-void SendReqVerifAccFailRep(FwSmDesc_t smDesc, unsigned short tcFailureCode);
-
+void SendReqVerifAccFailRep(FwSmDesc_t smDesc, CrPsFailCode_t FailureCode);
 
 /**
  * Generate a Request Verification Start/Termination Failed out-going report.
  * @return nothing
  */
-void SendReqVerifCmdFailRep(FwSmDesc_t smDesc, unsigned short reqVerifCmdFailType, unsigned short tcFailureCode);
+void SendReqVerifCmdFailRep(FwSmDesc_t smDesc, uint16_t reqVerifCmdFailType, CrPsFailCode_t FailureCode);
 
 /**
  * Generate a Request Verification Progress Successful out-going report.
  * @return nothing
  */
-void SendReqVerifPrgrSuccRep(FwSmDesc_t smDesc, unsigned short stepIdentifier);
+void SendReqVerifPrgrSuccRep(FwSmDesc_t smDesc, CrPsStepId_t stepIdentifier);
 
 /**
  * Generate a Request Verification Progress Failed out-going report.
  * @return nothing
  */
-void SendReqVerifPrgrFailRep(FwSmDesc_t smDesc, unsigned short stepIdentifier, unsigned short tcFailureCode);
+void SendReqVerifPrgrFailRep(FwSmDesc_t smDesc, CrPsStepId_t stepIdentifier, CrPsFailCode_t FailureCode);
 
 /**
  * Generate a Request Verification Packet Rerouting Failed out-going report.
  * @return nothing
  */
-void SendReqVerifPcktReroutFailRep(FwSmDesc_t smDesc, unsigned short tcFailureCode);
+void SendReqVerifPcktReroutFailRep(FwSmDesc_t smDesc, CrPsFailCode_t FailureCode);
 
 #endif /* CRPS_UTILITIES_SERVREQVERIF_H_ */

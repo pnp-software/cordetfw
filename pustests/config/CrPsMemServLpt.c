@@ -1,3 +1,22 @@
+/**
+ * @file CrPsMemServLpt.c
+ * @ingroup PUSTestsuite
+ * @ingroup PUSTestconfig 
+ *
+ * @brief Adaptation Points for the Large Packet Transfer Service
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ *
+ * last modification: 22.01.2018
+ *
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
+ */
 
 /** The maximum size in number of bytes of a packet */
 #define LPTSIZE 4000
@@ -8,39 +27,26 @@
  */
 static char memArray[LPTSIZE];
 
-
-void initmemArray()
-{
-  unsigned int i;
-  unsigned char a, b;
-
-  a=0;
-  b=0;
-
-  for (i=0;i<LPTSIZE;i+=2)
-  {
-    memArray[i] = a;
-    memArray[i+1] = b;
-    b++;
-    if (b==255)
-    {
-      b=0;
-      a++;
-    }
-  }
-}
-
-
-unsigned int* getLptMemStartAddr(unsigned int LptBuffer) /* Adaptation Point */
+/**
+ * Getter function for the Address of the Data
+ * @param LptBuffer The number ot the Large Packet Transfer Buffer 
+ * @return Pointer to the memory array of the LptBuffer
+ */
+uint32_t* getLptMemStartAddr(uint32_t LptBuffer) /* Adaptation Point */
 {
   (void)LptBuffer;
 
-  return (unsigned int*)memArray;
+  return (uint32_t*)memArray;
 }
 
-unsigned int getLptMemSize(unsigned int LptBuffer) /* Adaptation Point */
+/**
+ * Getter function to return the size of the Data
+ * @param LptBuffer The number ot the Large Packet Transfer Buffer 
+ * @return LPTSIZE The size of the LptBuffer
+ */
+uint32_t getLptMemSize(uint32_t LptBuffer) /* Adaptation Point */
 {
   (void)LptBuffer;
 
-  return (unsigned int)LPTSIZE;
+  return (uint32_t)LPTSIZE;
 }

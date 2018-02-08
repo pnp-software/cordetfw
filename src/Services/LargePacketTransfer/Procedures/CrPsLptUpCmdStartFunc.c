@@ -1,8 +1,24 @@
 /**
  * @file CrPsLptUpCmdStartFunc.c
+ * @ingroup Serv13
+ * @ingroup procedures
+ *
+ * @brief Start Action for (13,10) and (13,11) commands
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Nov 26 2017 12:7:49
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 /** CrPsLptUpCmdStart function definitions */
@@ -44,14 +60,12 @@ void CrPsLptUpCmdStartN1(FwPrDesc_t prDesc)
   CrFwCmpData_t      *cmpData;
   CrFwInCmdData_t    *cmpSpecificData;
   CrFwPckt_t          pckt;
-  prDescCmd13Start_t *prDataPtr;
   FwSmDesc_t          smDesc;
 
   /* Determine the identifier of the LPT Buffer */
 
   /* Get smDesc from OutCmp */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Get inPckt */
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
@@ -66,15 +80,13 @@ void CrPsLptUpCmdStartN1(FwPrDesc_t prDesc)
 /** Action for node N2. */
 void CrPsLptUpCmdStartN2(FwPrDesc_t prDesc)
 {
-  prDescCmd13Start_t *prDataPtr;
   CrFwCmpData_t      *cmpData;
   FwSmDesc_t          smDesc;
 
   /* Set action outcome to 'Failure' */
 
   /* Get smDesc from OutCmp */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Set outcome in InCmd prData to 'failure' */ 
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
@@ -87,7 +99,7 @@ void CrPsLptUpCmdStartN2(FwPrDesc_t prDesc)
 /** Action for node N3. */
 void CrPsLptUpCmdStartN3(FwPrDesc_t prDesc)
 {
-  unsigned int LptBufferId;
+  uint32_t LptBufferId;
 
   CRFW_UNUSED(prDesc);
 
@@ -102,15 +114,13 @@ void CrPsLptUpCmdStartN3(FwPrDesc_t prDesc)
 /** Action for node N4. */
 void CrPsLptUpCmdStartN4(FwPrDesc_t prDesc)
 {
-  prDescCmd13Start_t *prDataPtr;
   CrFwCmpData_t      *cmpData;
   FwSmDesc_t          smDesc;
 
   /* Set action outcome to 'Success' */
 
   /* Get smDesc from OutCmp */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Set outcome in InCmd prData to 'success' */ 
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
@@ -127,7 +137,7 @@ void CrPsLptUpCmdStartN4(FwPrDesc_t prDesc)
 /** Guard on the Control Flow from DECISION1 to N2. */
 FwPrBool_t CrPsLptUpCmdStartG1(FwPrDesc_t prDesc)
 {
-  unsigned short sm_state;
+  uint16_t sm_state;
 
   CRFW_UNUSED(prDesc);
 
@@ -147,12 +157,11 @@ FwPrBool_t CrPsLptUpCmdStartG1(FwPrDesc_t prDesc)
 /** Guard on the Control Flow from DECISION2 to N3. */
 FwPrBool_t CrPsLptUpCmdStartNG2(FwPrDesc_t prDesc)
 {
-  CrFwCmpData_t        *cmpData;
-  CrFwInCmdData_t      *cmpSpecificData;
-  CrFwPckt_t            pckt;
-  CrPsNumberU4_t PartSeqNmbOld, PartSeqNmb;
-  unsigned int LptBufferId;
-  prDescCmd13Start_t *prDataPtr;
+  CrFwCmpData_t      *cmpData;
+  CrFwInCmdData_t    *cmpSpecificData;
+  CrFwPckt_t          pckt;
+  CrPsNumberU4_t      PartSeqNmbOld, PartSeqNmb;
+  uint32_t            LptBufferId;
   FwSmDesc_t          smDesc;  
 
   CRFW_UNUSED(prDesc);
@@ -165,8 +174,7 @@ FwPrBool_t CrPsLptUpCmdStartNG2(FwPrDesc_t prDesc)
   LptBufferId = Tid % LPT_N_BUF;
 
   /* Get smDesc from OutCmp */
-  prDataPtr = FwPrGetData(prDesc);
-  smDesc = prDataPtr->smDesc;
+  smDesc = FwPrGetData(prDesc);
 
   /* Get inPckt */
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);

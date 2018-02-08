@@ -1,17 +1,25 @@
 /**
- * @file CrPsUtilities.c
+ * @file CrPsUtilitiesServReqVerif.c
+ * @ingroup Utilities
+ * @ingroup Serv1
  *
- * Implementation of the utility functions of the CORDET Framework PUS Extension
+ * @brief Implementation of the utility functions of the CORDET Framework PUS Extension Service 1 (Request Verification)
  *
- * @author code generator
- * edited: Christian Reimers
- * 25.05.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsUtilitiesServReqVerif.h"
 #include "Pckt/CrFwPckt.h"     /* --- interface to adaptation point CrFwPckt --- */
-
 
 /* CrFramework includes */
 #include <OutFactory/CrFwOutFactory.h>
@@ -34,8 +42,8 @@
 #include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServReqVerif.h>
 
-#include <stdio.h>
 #include <stdlib.h>
+
 
 /* global handles for the procedures */
 FwPrDesc_t prDescServReqVerifPcktReroutFail, prDescServReqVerifPcktAccFail;
@@ -48,7 +56,6 @@ FwPrDesc_t prDescServReqVerifCmdPrgrSucc, prDescServReqVerifCmdPrgrFail;
  */
 int CrPsInitServReqVerif()
 {
-  printf("CrPsInitServReqVerif()\n");
 
   /***********************************************************************/
   /* Service Request Verification Packet Rerouting Failure Procedure     */
@@ -56,7 +63,6 @@ int CrPsInitServReqVerif()
   prDescServReqVerifPcktReroutFail = CrPsPcktReroutingFailCreate(NULL);
   if (FwPrCheck(prDescServReqVerifPcktReroutFail) != prSuccess)
     {
-      printf("Service Request Verification Packet Rerouting Failure PR is NOT properly configured ... FAILURE\n");
       return EXIT_FAILURE;
     }
 
@@ -66,7 +72,6 @@ int CrPsInitServReqVerif()
   prDescServReqVerifPcktAccFail = CrPsPcktAccFailCreate(NULL);
   if (FwPrCheck(prDescServReqVerifPcktAccFail) != prSuccess)
     {
-      printf("Service Request Verification Packet Acceptance Failure PR is NOT properly configured ... FAILURE\n");
       return EXIT_FAILURE;
     }
 
@@ -76,7 +81,6 @@ int CrPsInitServReqVerif()
   prDescServReqVerifCmdVerSucc = CrPsCmdVerSuccCreate(NULL);
   if (FwPrCheck(prDescServReqVerifCmdVerSucc) != prSuccess)
     {
-      printf("Service Request Verification Command Verification Success PR is NOT properly configured ... FAILURE\n");
       return EXIT_FAILURE;
     }
 
@@ -86,7 +90,6 @@ int CrPsInitServReqVerif()
   prDescServReqVerifCmdVerFail = CrPsCmdVerFailCreate(NULL);
   if (FwPrCheck(prDescServReqVerifCmdVerFail) != prSuccess)
     {
-      printf("Service Request Verification Command Verification Failure PR is NOT properly configured ... FAILURE\n");
       return EXIT_FAILURE;
     }
 
@@ -96,7 +99,6 @@ int CrPsInitServReqVerif()
   prDescServReqVerifCmdPrgrSucc = CrPsCmdPrgrSuccCreate(NULL);
   if (FwPrCheck(prDescServReqVerifCmdPrgrSucc) != prSuccess)
     {
-      printf("Service Request Verification Command Progress Success PR is NOT properly configured ... FAILURE\n");
       return EXIT_FAILURE;
     }
 
@@ -106,7 +108,6 @@ int CrPsInitServReqVerif()
   prDescServReqVerifCmdPrgrFail = CrPsCmdPrgrFailCreate(NULL);
   if (FwPrCheck(prDescServReqVerifCmdPrgrFail) != prSuccess)
     {
-      printf("Service Request Verification Command Progress Failure PR is NOT properly configured ... FAILURE\n");
       return EXIT_FAILURE;
     }
 
@@ -121,23 +122,68 @@ int CrPsInitServReqVerif()
  */
 void CrPsExecServReqVerif()
 {
-  printf("CrPsExecServReqVerif()\n");
-
   return;
+}
+
+/**
+ * Getter for ReqVerifPcktReroutFail procedure descriptor
+ */
+inline FwPrDesc_t getPrDescServReqVerifPcktReroutFail()
+{
+  return prDescServReqVerifPcktReroutFail;
+}
+
+/**
+ * Getter for ReqVerifPcktAccFail procedure descriptor
+ */
+inline FwPrDesc_t getPrDescServReqVerifPcktAccFail()
+{
+  return prDescServReqVerifPcktAccFail;
+}
+
+/**
+ * Getter for ReqVerifCmdVerSucc procedure descriptor
+ */
+inline FwPrDesc_t getPrDescServReqVerifCmdVerSucc()
+{
+  return prDescServReqVerifCmdVerSucc;
+}
+
+/**
+ * Getter for ReqVerifCmdVerFail procedure descriptor
+ */
+inline FwPrDesc_t getPrDescServReqVerifCmdVerFail()
+{
+  return prDescServReqVerifCmdVerFail;
+}
+
+/**
+ * Getter for ReqVerifCmdPrgrSucc procedure descriptor
+ */
+inline FwPrDesc_t getPrDescServReqVerifCmdPrgrSucc()
+{
+  return prDescServReqVerifCmdPrgrSucc;
+}
+
+/**
+ * Getter for ReqVerifCmdPrgrFail procedure descriptor
+ */
+inline FwPrDesc_t getPrDescServReqVerifCmdPrgrFail()
+{
+  return prDescServReqVerifCmdPrgrFail;
 }
 
 /**
  * Generate a Request Verification Acceptance/Start/Termination Successful out-going report.
  * @return nothing
  */
-void SendReqVerifAccSuccRep(FwSmDesc_t smDesc, unsigned short reqVerifAccSuccType)
+void SendReqVerifAccSuccRep(FwSmDesc_t smDesc, uint16_t reqVerifAccSuccType)
 {
   CrFwCmpData_t*   inData;
   CrFwInCmdData_t* inSpecificData;
   CrFwPckt_t       inPckt;
-
-  CrFwBool_t isAckFlag;
-  prData_t prData;
+  CrFwBool_t       isAckFlag;
+  prData_t         prData;
 
   /* Get in packet */
   inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -176,29 +222,28 @@ void SendReqVerifAccSuccRep(FwSmDesc_t smDesc, unsigned short reqVerifAccSuccTyp
  * Generate a Request Verification Acceptance Failed out-going report.
  * @return nothing
  */
-void SendReqVerifAccFailRep(FwSmDesc_t smDesc, unsigned short tcFailureCode)
+void SendReqVerifAccFailRep(FwSmDesc_t smDesc, CrPsFailCode_t FailureCode)
 {
   prData_t prData;
 
   prData.smDesc = smDesc;
-  prData.ushortParam1 = tcFailureCode;
+  prData.ushortParam1 = FailureCode;
   FwPrSetData(prDescServReqVerifPcktAccFail, &prData);
   FwPrRun(prDescServReqVerifPcktAccFail);
 
   return;
 }
 
-
 /**
  * Generate a Request Verification Start/Termination Failed out-going report.
  * @return nothing
  */
-void SendReqVerifCmdFailRep(FwSmDesc_t smDesc, unsigned short reqVerifCmdFailType, unsigned short tcFailureCode)
+void SendReqVerifCmdFailRep(FwSmDesc_t smDesc, uint16_t reqVerifCmdFailType, CrPsFailCode_t FailureCode)
 {
   prData_t prData;
 
   prData.smDesc = smDesc;
-  prData.ushortParam1 = tcFailureCode;
+  prData.ushortParam1 = FailureCode;
   prData.ushortParam2 = reqVerifCmdFailType;
   FwPrSetData(prDescServReqVerifCmdVerFail, &prData);
   FwPrRun(prDescServReqVerifCmdVerFail);
@@ -210,14 +255,13 @@ void SendReqVerifCmdFailRep(FwSmDesc_t smDesc, unsigned short reqVerifCmdFailTyp
  * Generate a Request Verification Progress Successful out-going report.
  * @return nothing
  */
-void SendReqVerifPrgrSuccRep(FwSmDesc_t smDesc, unsigned short stepIdentifier)
+void SendReqVerifPrgrSuccRep(FwSmDesc_t smDesc, CrPsStepId_t stepIdentifier)
 {
   CrFwCmpData_t*   inData;
   CrFwInCmdData_t* inSpecificData;
   CrFwPckt_t       inPckt;
-
-  CrFwBool_t isAckFlag;
-  prData_t prData;
+  CrFwBool_t       isAckFlag;
+  prData_t         prData;
 
   /* Get in packet */
   inData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -237,25 +281,33 @@ void SendReqVerifPrgrSuccRep(FwSmDesc_t smDesc, unsigned short stepIdentifier)
   return;
 }
 
-void SendReqVerifPrgrFailRep(FwSmDesc_t smDesc, unsigned short stepIdentifier, unsigned short tcFailureCode)
+/**
+ * Generate a Request Verification Progress Failed out-going report.
+ * @return nothing
+ */
+void SendReqVerifPrgrFailRep(FwSmDesc_t smDesc, CrPsStepId_t stepIdentifier, CrPsFailCode_t FailureCode)
 {
   prData_t prData;
 
   prData.smDesc = smDesc;
   prData.ushortParam1 = stepIdentifier;
-  prData.ushortParam2 = tcFailureCode;
+  prData.ushortParam2 = FailureCode;
   FwPrSetData(prDescServReqVerifCmdPrgrFail, &prData);
   FwPrRun(prDescServReqVerifCmdPrgrFail);
 
   return;
 }
 
-void SendReqVerifPcktReroutFailRep(FwSmDesc_t smDesc, unsigned short tcFailureCode)
+/**
+ * Generate a Request Verification Package Rerouting Failed out-going report.
+ * @return nothing
+ */
+void SendReqVerifPcktReroutFailRep(FwSmDesc_t smDesc, CrPsFailCode_t FailureCode)
 {
   prData_t prData;
 
   prData.smDesc = smDesc;
-  prData.ushortParam1 = tcFailureCode;
+  prData.ushortParam1 = FailureCode;
   FwPrSetData(prDescServReqVerifPcktReroutFail, &prData);
   FwPrRun(prDescServReqVerifPcktReroutFail);
 

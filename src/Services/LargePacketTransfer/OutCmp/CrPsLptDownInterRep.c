@@ -1,11 +1,24 @@
 /**
- * \file
+ * @file CrPsLptDownInterRep.c
+ * @ingroup Serv13
+ * @ingroup OutCmp
  *
- * Implementation of TM(13,2) LptDownInterRep.
+ * @brief Implementation of TM(13,2) LptDownInterRep.
  *
- * \note This file was generated on 2017-11-22 12:47:43
- * \author PnP Generator
- * \copyright (c) Copyright
+ * @note This file was generated on 2017-11-22 12:47:43
+  *
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsLptDownInterRep.h"
@@ -36,7 +49,7 @@
  */
 CrFwBool_t CrPsLptDownInterRepEnableCheck(FwSmDesc_t smDesc)
 {
-  unsigned short sm_state;
+  uint16_t sm_state;
 
   CRFW_UNUSED(smDesc);
 
@@ -59,7 +72,7 @@ CrFwBool_t CrPsLptDownInterRepEnableCheck(FwSmDesc_t smDesc)
  */
 CrFwBool_t CrPsLptDownInterRepRepeatCheck(FwSmDesc_t smDesc)
 {
-  unsigned int LptBufferId;
+  uint32_t LptBufferId;
 
   CRFW_UNUSED(smDesc);
 
@@ -87,12 +100,11 @@ void CrPsLptDownInterRepUpdateAction(FwSmDesc_t smDesc)
   CrFwCmpData_t      *cmpData;
   CrFwOutCmpData_t   *cmpSpecificData;
   CrFwPckt_t          pckt;
-  unsigned int* lptMemStartAddr;
-
-  unsigned int LptBufferId;
-  CrPsSize_t partSize, lptRemSize;
-  CrPsTid_t Tid;
-  CrPsNumberU4_t PartSeqNmb;
+  uint32_t           *lptMemStartAddr;
+  uint32_t            LptBufferId;
+  CrPsSize_t          partSize, lptRemSize;
+  CrPsTid_t           Tid;
+  CrPsNumberU4_t      PartSeqNmb;
 
   cmpData         = (CrFwCmpData_t    *) FwSmGetData(smDesc);
   cmpSpecificData = (CrFwOutCmpData_t *) cmpData->cmpSpecificData;
@@ -111,8 +123,7 @@ void CrPsLptDownInterRepUpdateAction(FwSmDesc_t smDesc)
   /* Load the first part of the large packet from the LPT Buffer */
   lptMemStartAddr = getLptMemStartAddr(LptBufferId); /* Adaptation Point */
   partSize = (CR_FW_MAX_PCKT_LENGTH - (sizeof(TmHeader_t) + sizeof(CrPsTid_t) + sizeof(CrPsNumberU4_t) + CRC_LENGTH));
-  /*setLptDownInterRepPart(pckt, (unsigned char *)&(lptMemStartAddr[(PartSeqNmb-1)*partSize]), partSize);*/
-  setLptDownFirstRepPart(pckt, (unsigned char *)lptMemStartAddr + (PartSeqNmb-1)*partSize, partSize);
+  setLptDownFirstRepPart(pckt, (uint8_t *)lptMemStartAddr + (PartSeqNmb-1)*partSize, partSize);
 
   /* increment partSeqNmb */
   PartSeqNmb++;

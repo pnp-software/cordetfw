@@ -1,21 +1,32 @@
 /**
- * \file CrPsPktServReqVerif.h
+ * @file CrPsPktServReqVerif.h
+ * @ingroup Serv1
+ * @ingroup pktgetset
  *
- * Interface for accessing fields in packets of service "ServReqVerif".
+ * @brief Interface for accessing fields in packets of service "ServReqVerif".
  *
- * \note This file was generated on 2017-10-17 15:38:24
- * \author PnP Generator
- * \copyright (c) Copyright
+ * @note This file was generated on 2017-10-17 15:38:24
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
+
 #ifndef CRPSPKTSERVREQVERIF_H_
 #define CRPSPKTSERVREQVERIF_H_
 
 #include "CrFwUserConstants.h"
-
-#include "CrPsDpTypes.h"
 #include "CrPsUserConstants.h"
-
 #include "CrPsPkt.h"
+
 /**
  * Structure for VerSuccessAccRep
  */
@@ -26,15 +37,15 @@ typedef struct __attribute__((packed)) _VerSuccessAccRep_t {
   TmHeader_t Header;
 
   /**
-   * Copy of the PACKET ID fields of the command being reported on
+   * Spacer block.
    */
-  CrFwTypeId_t TcPacketId;
-  
+  uint8_t block_5[2];
+
   /**
-   * Copy of the PACKET SEQUENCE CONTROL fields of the received command
+   * Spacer block.
    */
-  CrPsSeqCtrl_t TcPacketSeqCtrl;
-  
+  uint8_t block_18[2];
+
 } VerSuccessAccRep_t ;
 
 /**
@@ -47,39 +58,24 @@ typedef struct __attribute__((packed)) _VerFailedAccRep_t {
   TmHeader_t Header;
 
   /**
+   * Spacer block.
+   */
+  uint8_t block_5[2];
+
+  /**
+   * Spacer block.
+   */
+  uint8_t block_18[2];
+
+  /**
    * The failure idetification code.
    */
-  CrPsFailCode_t TcFailureCode;
-  
-  /**
-   * Copy of the PACKET ID fields of the command being reported on
-   */
-  CrFwTypeId_t TcPacketId;
-  
-  /**
-   * Copy of the PACKET SEQUENCE CONTROL fields of the received command
-   */
-  CrPsSeqCtrl_t TcPacketSeqCtrl;
-  
-  /**
-   * Packet type from the received TC
-   */
-  CrFwServType_t TcType;
-  
-  /**
-   * Packet sub-type from the received TC
-   */
-  CrFwServSubType_t TcSubtype;
-  
-  /**
-   * Discriminant from the received TC
-   */
-  CrFwDiscriminant_t TcDisc;
+  CrPsFailCode_t FailureCode;
   
   /**
    * The failure Data
    */
-  CrPsFailData_t TcFailureData;
+  CrPsFailData_t FailureData;
   
 } VerFailedAccRep_t ;
 
@@ -93,15 +89,15 @@ typedef struct __attribute__((packed)) _VerSuccessStartRep_t {
   TmHeader_t Header;
 
   /**
-   * Copy of the PACKET ID fields of the command being reported on
+   * Spacer block.
    */
-  CrFwTypeId_t TcPacketId;
-  
+  uint8_t block_5[2];
+
   /**
-   * Copy of the PACKET SEQUENCE CONTROL fields of the received command
+   * Spacer block.
    */
-  CrPsSeqCtrl_t TcPacketSeqCtrl;
-  
+  uint8_t block_18[2];
+
 } VerSuccessStartRep_t ;
 
 /**
@@ -114,39 +110,24 @@ typedef struct __attribute__((packed)) _VerFailedStartRep_t {
   TmHeader_t Header;
 
   /**
+   * Spacer block.
+   */
+  uint8_t block_5[2];
+
+  /**
+   * Spacer block.
+   */
+  uint8_t block_18[2];
+
+  /**
    * The failure idetification code.
    */
-  CrPsFailCode_t TcFailureCode;
-  
-  /**
-   * Copy of the PACKET ID fields of the command being reported on
-   */
-  CrFwTypeId_t TcPacketId;
-  
-  /**
-   * Copy of the PACKET SEQUENCE CONTROL fields of the received command
-   */
-  CrPsSeqCtrl_t TcPacketSeqCtrl;
-  
-  /**
-   * Packet type from the received TC
-   */
-  CrFwServType_t TcType;
-  
-  /**
-   * Packet sub-type from the received TC
-   */
-  CrFwServSubType_t TcSubtype;
-  
-  /**
-   * Discriminant from the received TC
-   */
-  CrFwDiscriminant_t TcDisc;
+  CrPsFailCode_t FailureCode;
   
   /**
    * The failure Data
    */
-  CrPsFailData_t TcFailureData;
+  CrPsFailData_t FailureData;
   
 } VerFailedStartRep_t ;
 
@@ -160,15 +141,15 @@ typedef struct __attribute__((packed)) _VerSuccessPrgrRep_t {
   TmHeader_t Header;
 
   /**
-   * Copy of the PACKET ID fields of the command being reported on
+   * Spacer block.
    */
-  CrFwTypeId_t TcPacketId;
-  
+  uint8_t block_5[2];
+
   /**
-   * Copy of the PACKET SEQUENCE CONTROL fields of the received command
+   * Spacer block.
    */
-  CrPsSeqCtrl_t TcPacketSeqCtrl;
-  
+  uint8_t block_18[2];
+
   /**
    * Step ID
    */
@@ -186,44 +167,29 @@ typedef struct __attribute__((packed)) _VerFailedPrgrRep_t {
   TmHeader_t Header;
 
   /**
-   * The failure idetification code.
+   * Spacer block.
    */
-  CrPsFailCode_t TcFailureCode;
-  
+  uint8_t block_5[2];
+
   /**
-   * Copy of the PACKET ID fields of the command being reported on
+   * Spacer block.
    */
-  CrFwTypeId_t TcPacketId;
-  
-  /**
-   * Copy of the PACKET SEQUENCE CONTROL fields of the received command
-   */
-  CrPsSeqCtrl_t TcPacketSeqCtrl;
-  
+  uint8_t block_18[2];
+
   /**
    * Step ID
    */
   CrPsStepId_t StepId;
   
   /**
-   * Packet type from the received TC
+   * The failure idetification code.
    */
-  CrFwServType_t TcType;
-  
-  /**
-   * Packet sub-type from the received TC
-   */
-  CrFwServSubType_t TcSubtype;
-  
-  /**
-   * Discriminant from the received TC
-   */
-  CrFwDiscriminant_t TcDisc;
+  CrPsFailCode_t FailureCode;
   
   /**
    * The failure Data
    */
-  CrPsFailData_t TcFailureData;
+  CrPsFailData_t FailureData;
   
 } VerFailedPrgrRep_t ;
 
@@ -237,15 +203,15 @@ typedef struct __attribute__((packed)) _VerSuccessTermRep_t {
   TmHeader_t Header;
 
   /**
-   * Copy of the PACKET ID fields of the command being reported on
+   * Spacer block.
    */
-  CrFwTypeId_t TcPacketId;
-  
+  uint8_t block_5[2];
+
   /**
-   * Copy of the PACKET SEQUENCE CONTROL fields of the received command
+   * Spacer block.
    */
-  CrPsSeqCtrl_t TcPacketSeqCtrl;
-  
+  uint8_t block_18[2];
+
 } VerSuccessTermRep_t ;
 
 /**
@@ -258,39 +224,24 @@ typedef struct __attribute__((packed)) _VerFailedTermRep_t {
   TmHeader_t Header;
 
   /**
+   * Spacer block.
+   */
+  uint8_t block_5[2];
+
+  /**
+   * Spacer block.
+   */
+  uint8_t block_18[2];
+
+  /**
    * The failure idetification code.
    */
-  CrPsFailCode_t TcFailureCode;
-  
-  /**
-   * Copy of the PACKET ID fields of the command being reported on
-   */
-  CrFwTypeId_t TcPacketId;
-  
-  /**
-   * Copy of the PACKET SEQUENCE CONTROL fields of the received command
-   */
-  CrPsSeqCtrl_t TcPacketSeqCtrl;
-  
-  /**
-   * Packet type from the received TC
-   */
-  CrFwServType_t TcType;
-  
-  /**
-   * Packet sub-type from the received TC
-   */
-  CrFwServSubType_t TcSubtype;
-  
-  /**
-   * Discriminant from the received TC
-   */
-  CrFwDiscriminant_t TcDisc;
+  CrPsFailCode_t FailureCode;
   
   /**
    * The failure Data
    */
-  CrPsFailData_t TcFailureData;
+  CrPsFailData_t FailureData;
   
 } VerFailedTermRep_t ;
 
@@ -304,520 +255,1141 @@ typedef struct __attribute__((packed)) _VerFailedRoutingRep_t {
   TmHeader_t Header;
 
   /**
+   * Spacer block.
+   */
+  uint8_t block_5[2];
+
+  /**
+   * Spacer block.
+   */
+  uint8_t block_18[2];
+
+  /**
    * The failure idetification code.
    */
-  CrPsFailCode_t TcFailureCode;
+  CrPsFailCode_t FailureCode;
   
   /**
-   * Copy of the PACKET ID fields of the command being reported on
+   * The failure Data
    */
-  CrFwTypeId_t TcPacketId;
-  
-  /**
-   * Copy of the PACKET SEQUENCE CONTROL fields of the received command
-   */
-  CrPsSeqCtrl_t TcPacketSeqCtrl;
-  
-  /**
-   * Packet type from the received TC
-   */
-  CrFwServType_t TcType;
-  
-  /**
-   * Packet sub-type from the received TC
-   */
-  CrFwServSubType_t TcSubtype;
-  
-  /**
-   * Discriminant from the received TC
-   */
-  CrFwDiscriminant_t TcDisc;
-  
-  /**
-   * invalid Destination for Rerouting Failure
-   */
-  CrPsDestSrc_t invDest;
+  CrPsFailData_t FailureData;
   
 } VerFailedRoutingRep_t ;
 
 /**
- * Get "TcPacketId" from "VerSuccessAccRep" packet.
+ * Get "PcktVersionNmb" from "VerSuccessAccRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketId".
+ * \return Value of "PcktVersionNmb".
  */
-static inline CrFwTypeId_t getVerSuccessAccRepTcPacketId(void* p)
+static inline Three_Bit_t getVerSuccessAccRepPcktVersionNmb(void* p)
 {
-  VerSuccessAccRep_t* t;
-  t = (VerSuccessAccRep_t*)p;
-  return __builtin_bswap16(t->TcPacketId);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 13;
+  t &= 0x7;
+  return (Three_Bit_t)t;
 }
 
 /**
- * Set "TcPacketId" in "VerSuccessAccRep" packet.
+ * Set "PcktVersionNmb" in "VerSuccessAccRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketId Value of "TcPacketId" to be set in packet.
+ * \param PcktVersionNmb Value of "PcktVersionNmb" to be set in packet.
  */
-static inline void setVerSuccessAccRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
+static inline void setVerSuccessAccRepPcktVersionNmb(void* p, Three_Bit_t PcktVersionNmb)
 {
-  VerSuccessAccRep_t* t;
-  t = (VerSuccessAccRep_t*)p;
-  t->TcPacketId = __builtin_bswap16(TcPacketId);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktVersionNmb << 13);
+  s &= (uint16_t)0xe000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xe000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcPacketSeqCtrl" from "VerSuccessAccRep" packet.
+ * Get "PcktType" from "VerSuccessAccRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketSeqCtrl".
+ * \return Value of "PcktType".
  */
-static inline CrPsSeqCtrl_t getVerSuccessAccRepTcPacketSeqCtrl(void* p)
+static inline One_Bit_t getVerSuccessAccRepPcktType(void* p)
 {
-  VerSuccessAccRep_t* t;
-  t = (VerSuccessAccRep_t*)p;
-  return __builtin_bswap16(t->TcPacketSeqCtrl);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 12;
+  t &= 0x1;
+  return (One_Bit_t)t;
 }
 
 /**
- * Set "TcPacketSeqCtrl" in "VerSuccessAccRep" packet.
+ * Set "PcktType" in "VerSuccessAccRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
+ * \param PcktType Value of "PcktType" to be set in packet.
  */
-static inline void setVerSuccessAccRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
+static inline void setVerSuccessAccRepPcktType(void* p, One_Bit_t PcktType)
 {
-  VerSuccessAccRep_t* t;
-  t = (VerSuccessAccRep_t*)p;
-  t->TcPacketSeqCtrl = __builtin_bswap16(TcPacketSeqCtrl);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktType << 12);
+  s &= (uint16_t)0x1000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x1000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcFailureCode" from "VerFailedAccRep" packet.
+ * Get "SecHeaderFlag" from "VerSuccessAccRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcFailureCode".
+ * \return Value of "SecHeaderFlag".
  */
-static inline CrPsFailCode_t getVerFailedAccRepTcFailureCode(void* p)
+static inline One_Bit_t getVerSuccessAccRepSecHeaderFlag(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 11;
+  t &= 0x1;
+  return (One_Bit_t)t;
+}
+
+/**
+ * Set "SecHeaderFlag" in "VerSuccessAccRep" packet.
+ * \param p Pointer to the packet.
+ * \param SecHeaderFlag Value of "SecHeaderFlag" to be set in packet.
+ */
+static inline void setVerSuccessAccRepSecHeaderFlag(void* p, One_Bit_t SecHeaderFlag)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SecHeaderFlag << 11);
+  s &= (uint16_t)0x800ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x800ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "APID" from "VerSuccessAccRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "APID".
+ */
+static inline Eleven_Bit_t getVerSuccessAccRepAPID(void* p)
+{
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x7ff;
+  return (Eleven_Bit_t)t;
+}
+
+/**
+ * Set "APID" in "VerSuccessAccRep" packet.
+ * \param p Pointer to the packet.
+ * \param APID Value of "APID" to be set in packet.
+ */
+static inline void setVerSuccessAccRepAPID(void* p, Eleven_Bit_t APID)
+{
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)APID << 16);
+  s &= (uint32_t)0x7ff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x7ff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "SeqFlags" from "VerSuccessAccRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "SeqFlags".
+ */
+static inline Two_Bit_t getVerSuccessAccRepSeqFlags(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 14;
+  t &= 0x3;
+  return (Two_Bit_t)t;
+}
+
+/**
+ * Set "SeqFlags" in "VerSuccessAccRep" packet.
+ * \param p Pointer to the packet.
+ * \param SeqFlags Value of "SeqFlags" to be set in packet.
+ */
+static inline void setVerSuccessAccRepSeqFlags(void* p, Two_Bit_t SeqFlags)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SeqFlags << 14);
+  s &= (uint16_t)0xc000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xc000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
+}
+
+/**
+ * Get "SeqCount" from "VerSuccessAccRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "SeqCount".
+ */
+static inline FourTeen_Bit_t getVerSuccessAccRepSeqCount(void* p)
+{
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x3fff;
+  return (FourTeen_Bit_t)t;
+}
+
+/**
+ * Set "SeqCount" in "VerSuccessAccRep" packet.
+ * \param p Pointer to the packet.
+ * \param SeqCount Value of "SeqCount" to be set in packet.
+ */
+static inline void setVerSuccessAccRepSeqCount(void* p, FourTeen_Bit_t SeqCount)
+{
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)SeqCount << 16);
+  s &= (uint32_t)0x3fff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x3fff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
+}
+
+/**
+ * Get "PcktVersionNmb" from "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "PcktVersionNmb".
+ */
+static inline Three_Bit_t getVerFailedAccRepPcktVersionNmb(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 13;
+  t &= 0x7;
+  return (Three_Bit_t)t;
+}
+
+/**
+ * Set "PcktVersionNmb" in "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \param PcktVersionNmb Value of "PcktVersionNmb" to be set in packet.
+ */
+static inline void setVerFailedAccRepPcktVersionNmb(void* p, Three_Bit_t PcktVersionNmb)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktVersionNmb << 13);
+  s &= (uint16_t)0xe000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xe000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "PcktType" from "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "PcktType".
+ */
+static inline One_Bit_t getVerFailedAccRepPcktType(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 12;
+  t &= 0x1;
+  return (One_Bit_t)t;
+}
+
+/**
+ * Set "PcktType" in "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \param PcktType Value of "PcktType" to be set in packet.
+ */
+static inline void setVerFailedAccRepPcktType(void* p, One_Bit_t PcktType)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktType << 12);
+  s &= (uint16_t)0x1000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x1000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "SecHeaderFlag" from "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "SecHeaderFlag".
+ */
+static inline One_Bit_t getVerFailedAccRepSecHeaderFlag(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 11;
+  t &= 0x1;
+  return (One_Bit_t)t;
+}
+
+/**
+ * Set "SecHeaderFlag" in "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \param SecHeaderFlag Value of "SecHeaderFlag" to be set in packet.
+ */
+static inline void setVerFailedAccRepSecHeaderFlag(void* p, One_Bit_t SecHeaderFlag)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SecHeaderFlag << 11);
+  s &= (uint16_t)0x800ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x800ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "APID" from "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "APID".
+ */
+static inline Eleven_Bit_t getVerFailedAccRepAPID(void* p)
+{
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x7ff;
+  return (Eleven_Bit_t)t;
+}
+
+/**
+ * Set "APID" in "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \param APID Value of "APID" to be set in packet.
+ */
+static inline void setVerFailedAccRepAPID(void* p, Eleven_Bit_t APID)
+{
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)APID << 16);
+  s &= (uint32_t)0x7ff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x7ff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "SeqFlags" from "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "SeqFlags".
+ */
+static inline Two_Bit_t getVerFailedAccRepSeqFlags(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 14;
+  t &= 0x3;
+  return (Two_Bit_t)t;
+}
+
+/**
+ * Set "SeqFlags" in "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \param SeqFlags Value of "SeqFlags" to be set in packet.
+ */
+static inline void setVerFailedAccRepSeqFlags(void* p, Two_Bit_t SeqFlags)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SeqFlags << 14);
+  s &= (uint16_t)0xc000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xc000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
+}
+
+/**
+ * Get "SeqCount" from "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "SeqCount".
+ */
+static inline FourTeen_Bit_t getVerFailedAccRepSeqCount(void* p)
+{
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x3fff;
+  return (FourTeen_Bit_t)t;
+}
+
+/**
+ * Set "SeqCount" in "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \param SeqCount Value of "SeqCount" to be set in packet.
+ */
+static inline void setVerFailedAccRepSeqCount(void* p, FourTeen_Bit_t SeqCount)
+{
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)SeqCount << 16);
+  s &= (uint32_t)0x3fff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x3fff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
+}
+
+/**
+ * Get "FailureCode" from "VerFailedAccRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "FailureCode".
+ */
+static inline CrPsFailCode_t getVerFailedAccRepFailureCode(void* p)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
-  return __builtin_bswap16(t->TcFailureCode);
+  return __builtin_bswap16(t->FailureCode);
 }
 
 /**
- * Set "TcFailureCode" in "VerFailedAccRep" packet.
+ * Set "FailureCode" in "VerFailedAccRep" packet.
  * \param p Pointer to the packet.
- * \param TcFailureCode Value of "TcFailureCode" to be set in packet.
+ * \param FailureCode Value of "FailureCode" to be set in packet.
  */
-static inline void setVerFailedAccRepTcFailureCode(void* p, CrPsFailCode_t TcFailureCode)
+static inline void setVerFailedAccRepFailureCode(void* p, CrPsFailCode_t FailureCode)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
-  t->TcFailureCode = __builtin_bswap16(TcFailureCode);
+  t->FailureCode = __builtin_bswap16(FailureCode);
 }
 
 /**
- * Get "TcPacketId" from "VerFailedAccRep" packet.
+ * Get "FailureData" from "VerFailedAccRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketId".
+ * \return Value of "FailureData".
  */
-static inline CrFwTypeId_t getVerFailedAccRepTcPacketId(void* p)
+static inline CrPsFailData_t getVerFailedAccRepFailureData(void* p)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
-  return __builtin_bswap16(t->TcPacketId);
+  return __builtin_bswap32(t->FailureData);
 }
 
 /**
- * Set "TcPacketId" in "VerFailedAccRep" packet.
+ * Set "FailureData" in "VerFailedAccRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketId Value of "TcPacketId" to be set in packet.
+ * \param FailureData Value of "FailureData" to be set in packet.
  */
-static inline void setVerFailedAccRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
+static inline void setVerFailedAccRepFailureData(void* p, CrPsFailData_t FailureData)
 {
   VerFailedAccRep_t* t;
   t = (VerFailedAccRep_t*)p;
-  t->TcPacketId = __builtin_bswap16(TcPacketId);
+  t->FailureData = __builtin_bswap32(FailureData);
 }
 
 /**
- * Get "TcPacketSeqCtrl" from "VerFailedAccRep" packet.
+ * Get "PcktVersionNmb" from "VerSuccessStartRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketSeqCtrl".
+ * \return Value of "PcktVersionNmb".
  */
-static inline CrPsSeqCtrl_t getVerFailedAccRepTcPacketSeqCtrl(void* p)
+static inline Three_Bit_t getVerSuccessStartRepPcktVersionNmb(void* p)
 {
-  VerFailedAccRep_t* t;
-  t = (VerFailedAccRep_t*)p;
-  return __builtin_bswap16(t->TcPacketSeqCtrl);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 13;
+  t &= 0x7;
+  return (Three_Bit_t)t;
 }
 
 /**
- * Set "TcPacketSeqCtrl" in "VerFailedAccRep" packet.
+ * Set "PcktVersionNmb" in "VerSuccessStartRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
+ * \param PcktVersionNmb Value of "PcktVersionNmb" to be set in packet.
  */
-static inline void setVerFailedAccRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
+static inline void setVerSuccessStartRepPcktVersionNmb(void* p, Three_Bit_t PcktVersionNmb)
 {
-  VerFailedAccRep_t* t;
-  t = (VerFailedAccRep_t*)p;
-  t->TcPacketSeqCtrl = __builtin_bswap16(TcPacketSeqCtrl);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktVersionNmb << 13);
+  s &= (uint16_t)0xe000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xe000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcType" from "VerFailedAccRep" packet.
+ * Get "PcktType" from "VerSuccessStartRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcType".
+ * \return Value of "PcktType".
  */
-static inline CrFwServType_t getVerFailedAccRepTcType(void* p)
+static inline One_Bit_t getVerSuccessStartRepPcktType(void* p)
 {
-  VerFailedAccRep_t* t;
-  t = (VerFailedAccRep_t*)p;
-  return t->TcType;
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 12;
+  t &= 0x1;
+  return (One_Bit_t)t;
 }
 
 /**
- * Set "TcType" in "VerFailedAccRep" packet.
+ * Set "PcktType" in "VerSuccessStartRep" packet.
  * \param p Pointer to the packet.
- * \param TcType Value of "TcType" to be set in packet.
+ * \param PcktType Value of "PcktType" to be set in packet.
  */
-static inline void setVerFailedAccRepTcType(void* p, CrFwServType_t TcType)
+static inline void setVerSuccessStartRepPcktType(void* p, One_Bit_t PcktType)
 {
-  VerFailedAccRep_t* t;
-  t = (VerFailedAccRep_t*)p;
-  t->TcType = TcType;
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktType << 12);
+  s &= (uint16_t)0x1000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x1000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcSubtype" from "VerFailedAccRep" packet.
+ * Get "SecHeaderFlag" from "VerSuccessStartRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcSubtype".
+ * \return Value of "SecHeaderFlag".
  */
-static inline CrFwServSubType_t getVerFailedAccRepTcSubtype(void* p)
+static inline One_Bit_t getVerSuccessStartRepSecHeaderFlag(void* p)
 {
-  VerFailedAccRep_t* t;
-  t = (VerFailedAccRep_t*)p;
-  return t->TcSubtype;
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 11;
+  t &= 0x1;
+  return (One_Bit_t)t;
 }
 
 /**
- * Set "TcSubtype" in "VerFailedAccRep" packet.
+ * Set "SecHeaderFlag" in "VerSuccessStartRep" packet.
  * \param p Pointer to the packet.
- * \param TcSubtype Value of "TcSubtype" to be set in packet.
+ * \param SecHeaderFlag Value of "SecHeaderFlag" to be set in packet.
  */
-static inline void setVerFailedAccRepTcSubtype(void* p, CrFwServSubType_t TcSubtype)
+static inline void setVerSuccessStartRepSecHeaderFlag(void* p, One_Bit_t SecHeaderFlag)
 {
-  VerFailedAccRep_t* t;
-  t = (VerFailedAccRep_t*)p;
-  t->TcSubtype = TcSubtype;
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SecHeaderFlag << 11);
+  s &= (uint16_t)0x800ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x800ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcDisc" from "VerFailedAccRep" packet.
+ * Get "APID" from "VerSuccessStartRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcDisc".
+ * \return Value of "APID".
  */
-static inline CrFwDiscriminant_t getVerFailedAccRepTcDisc(void* p)
+static inline Eleven_Bit_t getVerSuccessStartRepAPID(void* p)
 {
-  VerFailedAccRep_t* t;
-  t = (VerFailedAccRep_t*)p;
-  return __builtin_bswap16(t->TcDisc);
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x7ff;
+  return (Eleven_Bit_t)t;
 }
 
 /**
- * Set "TcDisc" in "VerFailedAccRep" packet.
+ * Set "APID" in "VerSuccessStartRep" packet.
  * \param p Pointer to the packet.
- * \param TcDisc Value of "TcDisc" to be set in packet.
+ * \param APID Value of "APID" to be set in packet.
  */
-static inline void setVerFailedAccRepTcDisc(void* p, CrFwDiscriminant_t TcDisc)
+static inline void setVerSuccessStartRepAPID(void* p, Eleven_Bit_t APID)
 {
-  VerFailedAccRep_t* t;
-  t = (VerFailedAccRep_t*)p;
-  t->TcDisc = __builtin_bswap16(TcDisc);
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)APID << 16);
+  s &= (uint32_t)0x7ff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x7ff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcFailureData" from "VerFailedAccRep" packet.
+ * Get "SeqFlags" from "VerSuccessStartRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcFailureData".
+ * \return Value of "SeqFlags".
  */
-static inline CrPsFailData_t getVerFailedAccRepTcFailureData(void* p)
+static inline Two_Bit_t getVerSuccessStartRepSeqFlags(void* p)
 {
-  VerFailedAccRep_t* t;
-  t = (VerFailedAccRep_t*)p;
-  return __builtin_bswap32(t->TcFailureData);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 14;
+  t &= 0x3;
+  return (Two_Bit_t)t;
 }
 
 /**
- * Set "TcFailureData" in "VerFailedAccRep" packet.
+ * Set "SeqFlags" in "VerSuccessStartRep" packet.
  * \param p Pointer to the packet.
- * \param TcFailureData Value of "TcFailureData" to be set in packet.
+ * \param SeqFlags Value of "SeqFlags" to be set in packet.
  */
-static inline void setVerFailedAccRepTcFailureData(void* p, CrPsFailData_t TcFailureData)
+static inline void setVerSuccessStartRepSeqFlags(void* p, Two_Bit_t SeqFlags)
 {
-  VerFailedAccRep_t* t;
-  t = (VerFailedAccRep_t*)p;
-  t->TcFailureData = __builtin_bswap32(TcFailureData);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SeqFlags << 14);
+  s &= (uint16_t)0xc000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xc000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
 }
 
 /**
- * Get "TcPacketId" from "VerSuccessStartRep" packet.
+ * Get "SeqCount" from "VerSuccessStartRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketId".
+ * \return Value of "SeqCount".
  */
-static inline CrFwTypeId_t getVerSuccessStartRepTcPacketId(void* p)
+static inline FourTeen_Bit_t getVerSuccessStartRepSeqCount(void* p)
 {
-  VerSuccessStartRep_t* t;
-  t = (VerSuccessStartRep_t*)p;
-  return __builtin_bswap16(t->TcPacketId);
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x3fff;
+  return (FourTeen_Bit_t)t;
 }
 
 /**
- * Set "TcPacketId" in "VerSuccessStartRep" packet.
+ * Set "SeqCount" in "VerSuccessStartRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketId Value of "TcPacketId" to be set in packet.
+ * \param SeqCount Value of "SeqCount" to be set in packet.
  */
-static inline void setVerSuccessStartRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
+static inline void setVerSuccessStartRepSeqCount(void* p, FourTeen_Bit_t SeqCount)
 {
-  VerSuccessStartRep_t* t;
-  t = (VerSuccessStartRep_t*)p;
-  t->TcPacketId = __builtin_bswap16(TcPacketId);
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)SeqCount << 16);
+  s &= (uint32_t)0x3fff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x3fff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
 }
 
 /**
- * Get "TcPacketSeqCtrl" from "VerSuccessStartRep" packet.
+ * Get "PcktVersionNmb" from "VerFailedStartRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketSeqCtrl".
+ * \return Value of "PcktVersionNmb".
  */
-static inline CrPsSeqCtrl_t getVerSuccessStartRepTcPacketSeqCtrl(void* p)
+static inline Three_Bit_t getVerFailedStartRepPcktVersionNmb(void* p)
 {
-  VerSuccessStartRep_t* t;
-  t = (VerSuccessStartRep_t*)p;
-  return __builtin_bswap16(t->TcPacketSeqCtrl);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 13;
+  t &= 0x7;
+  return (Three_Bit_t)t;
 }
 
 /**
- * Set "TcPacketSeqCtrl" in "VerSuccessStartRep" packet.
+ * Set "PcktVersionNmb" in "VerFailedStartRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
+ * \param PcktVersionNmb Value of "PcktVersionNmb" to be set in packet.
  */
-static inline void setVerSuccessStartRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
+static inline void setVerFailedStartRepPcktVersionNmb(void* p, Three_Bit_t PcktVersionNmb)
 {
-  VerSuccessStartRep_t* t;
-  t = (VerSuccessStartRep_t*)p;
-  t->TcPacketSeqCtrl = __builtin_bswap16(TcPacketSeqCtrl);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktVersionNmb << 13);
+  s &= (uint16_t)0xe000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xe000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcFailureCode" from "VerFailedStartRep" packet.
+ * Get "PcktType" from "VerFailedStartRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcFailureCode".
+ * \return Value of "PcktType".
  */
-static inline CrPsFailCode_t getVerFailedStartRepTcFailureCode(void* p)
+static inline One_Bit_t getVerFailedStartRepPcktType(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 12;
+  t &= 0x1;
+  return (One_Bit_t)t;
+}
+
+/**
+ * Set "PcktType" in "VerFailedStartRep" packet.
+ * \param p Pointer to the packet.
+ * \param PcktType Value of "PcktType" to be set in packet.
+ */
+static inline void setVerFailedStartRepPcktType(void* p, One_Bit_t PcktType)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktType << 12);
+  s &= (uint16_t)0x1000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x1000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "SecHeaderFlag" from "VerFailedStartRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "SecHeaderFlag".
+ */
+static inline One_Bit_t getVerFailedStartRepSecHeaderFlag(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 11;
+  t &= 0x1;
+  return (One_Bit_t)t;
+}
+
+/**
+ * Set "SecHeaderFlag" in "VerFailedStartRep" packet.
+ * \param p Pointer to the packet.
+ * \param SecHeaderFlag Value of "SecHeaderFlag" to be set in packet.
+ */
+static inline void setVerFailedStartRepSecHeaderFlag(void* p, One_Bit_t SecHeaderFlag)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SecHeaderFlag << 11);
+  s &= (uint16_t)0x800ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x800ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "APID" from "VerFailedStartRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "APID".
+ */
+static inline Eleven_Bit_t getVerFailedStartRepAPID(void* p)
+{
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x7ff;
+  return (Eleven_Bit_t)t;
+}
+
+/**
+ * Set "APID" in "VerFailedStartRep" packet.
+ * \param p Pointer to the packet.
+ * \param APID Value of "APID" to be set in packet.
+ */
+static inline void setVerFailedStartRepAPID(void* p, Eleven_Bit_t APID)
+{
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)APID << 16);
+  s &= (uint32_t)0x7ff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x7ff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "SeqFlags" from "VerFailedStartRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "SeqFlags".
+ */
+static inline Two_Bit_t getVerFailedStartRepSeqFlags(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 14;
+  t &= 0x3;
+  return (Two_Bit_t)t;
+}
+
+/**
+ * Set "SeqFlags" in "VerFailedStartRep" packet.
+ * \param p Pointer to the packet.
+ * \param SeqFlags Value of "SeqFlags" to be set in packet.
+ */
+static inline void setVerFailedStartRepSeqFlags(void* p, Two_Bit_t SeqFlags)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SeqFlags << 14);
+  s &= (uint16_t)0xc000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xc000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
+}
+
+/**
+ * Get "SeqCount" from "VerFailedStartRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "SeqCount".
+ */
+static inline FourTeen_Bit_t getVerFailedStartRepSeqCount(void* p)
+{
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x3fff;
+  return (FourTeen_Bit_t)t;
+}
+
+/**
+ * Set "SeqCount" in "VerFailedStartRep" packet.
+ * \param p Pointer to the packet.
+ * \param SeqCount Value of "SeqCount" to be set in packet.
+ */
+static inline void setVerFailedStartRepSeqCount(void* p, FourTeen_Bit_t SeqCount)
+{
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)SeqCount << 16);
+  s &= (uint32_t)0x3fff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x3fff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
+}
+
+/**
+ * Get "FailureCode" from "VerFailedStartRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "FailureCode".
+ */
+static inline CrPsFailCode_t getVerFailedStartRepFailureCode(void* p)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
-  return __builtin_bswap16(t->TcFailureCode);
+  return __builtin_bswap16(t->FailureCode);
 }
 
 /**
- * Set "TcFailureCode" in "VerFailedStartRep" packet.
+ * Set "FailureCode" in "VerFailedStartRep" packet.
  * \param p Pointer to the packet.
- * \param TcFailureCode Value of "TcFailureCode" to be set in packet.
+ * \param FailureCode Value of "FailureCode" to be set in packet.
  */
-static inline void setVerFailedStartRepTcFailureCode(void* p, CrPsFailCode_t TcFailureCode)
+static inline void setVerFailedStartRepFailureCode(void* p, CrPsFailCode_t FailureCode)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
-  t->TcFailureCode = __builtin_bswap16(TcFailureCode);
+  t->FailureCode = __builtin_bswap16(FailureCode);
 }
 
 /**
- * Get "TcPacketId" from "VerFailedStartRep" packet.
+ * Get "FailureData" from "VerFailedStartRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketId".
+ * \return Value of "FailureData".
  */
-static inline CrFwTypeId_t getVerFailedStartRepTcPacketId(void* p)
+static inline CrPsFailData_t getVerFailedStartRepFailureData(void* p)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
-  return __builtin_bswap16(t->TcPacketId);
+  return __builtin_bswap32(t->FailureData);
 }
 
 /**
- * Set "TcPacketId" in "VerFailedStartRep" packet.
+ * Set "FailureData" in "VerFailedStartRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketId Value of "TcPacketId" to be set in packet.
+ * \param FailureData Value of "FailureData" to be set in packet.
  */
-static inline void setVerFailedStartRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
+static inline void setVerFailedStartRepFailureData(void* p, CrPsFailData_t FailureData)
 {
   VerFailedStartRep_t* t;
   t = (VerFailedStartRep_t*)p;
-  t->TcPacketId = __builtin_bswap16(TcPacketId);
+  t->FailureData = __builtin_bswap32(FailureData);
 }
 
 /**
- * Get "TcPacketSeqCtrl" from "VerFailedStartRep" packet.
+ * Get "PcktVersionNmb" from "VerSuccessPrgrRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketSeqCtrl".
+ * \return Value of "PcktVersionNmb".
  */
-static inline CrPsSeqCtrl_t getVerFailedStartRepTcPacketSeqCtrl(void* p)
+static inline Three_Bit_t getVerSuccessPrgrRepPcktVersionNmb(void* p)
 {
-  VerFailedStartRep_t* t;
-  t = (VerFailedStartRep_t*)p;
-  return __builtin_bswap16(t->TcPacketSeqCtrl);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 13;
+  t &= 0x7;
+  return (Three_Bit_t)t;
 }
 
 /**
- * Set "TcPacketSeqCtrl" in "VerFailedStartRep" packet.
+ * Set "PcktVersionNmb" in "VerSuccessPrgrRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
+ * \param PcktVersionNmb Value of "PcktVersionNmb" to be set in packet.
  */
-static inline void setVerFailedStartRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
+static inline void setVerSuccessPrgrRepPcktVersionNmb(void* p, Three_Bit_t PcktVersionNmb)
 {
-  VerFailedStartRep_t* t;
-  t = (VerFailedStartRep_t*)p;
-  t->TcPacketSeqCtrl = __builtin_bswap16(TcPacketSeqCtrl);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktVersionNmb << 13);
+  s &= (uint16_t)0xe000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xe000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcType" from "VerFailedStartRep" packet.
+ * Get "PcktType" from "VerSuccessPrgrRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcType".
+ * \return Value of "PcktType".
  */
-static inline CrFwServType_t getVerFailedStartRepTcType(void* p)
+static inline One_Bit_t getVerSuccessPrgrRepPcktType(void* p)
 {
-  VerFailedStartRep_t* t;
-  t = (VerFailedStartRep_t*)p;
-  return t->TcType;
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 12;
+  t &= 0x1;
+  return (One_Bit_t)t;
 }
 
 /**
- * Set "TcType" in "VerFailedStartRep" packet.
+ * Set "PcktType" in "VerSuccessPrgrRep" packet.
  * \param p Pointer to the packet.
- * \param TcType Value of "TcType" to be set in packet.
+ * \param PcktType Value of "PcktType" to be set in packet.
  */
-static inline void setVerFailedStartRepTcType(void* p, CrFwServType_t TcType)
+static inline void setVerSuccessPrgrRepPcktType(void* p, One_Bit_t PcktType)
 {
-  VerFailedStartRep_t* t;
-  t = (VerFailedStartRep_t*)p;
-  t->TcType = TcType;
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktType << 12);
+  s &= (uint16_t)0x1000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x1000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcSubtype" from "VerFailedStartRep" packet.
+ * Get "SecHeaderFlag" from "VerSuccessPrgrRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcSubtype".
+ * \return Value of "SecHeaderFlag".
  */
-static inline CrFwServSubType_t getVerFailedStartRepTcSubtype(void* p)
+static inline One_Bit_t getVerSuccessPrgrRepSecHeaderFlag(void* p)
 {
-  VerFailedStartRep_t* t;
-  t = (VerFailedStartRep_t*)p;
-  return t->TcSubtype;
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 11;
+  t &= 0x1;
+  return (One_Bit_t)t;
 }
 
 /**
- * Set "TcSubtype" in "VerFailedStartRep" packet.
+ * Set "SecHeaderFlag" in "VerSuccessPrgrRep" packet.
  * \param p Pointer to the packet.
- * \param TcSubtype Value of "TcSubtype" to be set in packet.
+ * \param SecHeaderFlag Value of "SecHeaderFlag" to be set in packet.
  */
-static inline void setVerFailedStartRepTcSubtype(void* p, CrFwServSubType_t TcSubtype)
+static inline void setVerSuccessPrgrRepSecHeaderFlag(void* p, One_Bit_t SecHeaderFlag)
 {
-  VerFailedStartRep_t* t;
-  t = (VerFailedStartRep_t*)p;
-  t->TcSubtype = TcSubtype;
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SecHeaderFlag << 11);
+  s &= (uint16_t)0x800ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x800ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcDisc" from "VerFailedStartRep" packet.
+ * Get "APID" from "VerSuccessPrgrRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcDisc".
+ * \return Value of "APID".
  */
-static inline CrFwDiscriminant_t getVerFailedStartRepTcDisc(void* p)
+static inline Eleven_Bit_t getVerSuccessPrgrRepAPID(void* p)
 {
-  VerFailedStartRep_t* t;
-  t = (VerFailedStartRep_t*)p;
-  return __builtin_bswap16(t->TcDisc);
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x7ff;
+  return (Eleven_Bit_t)t;
 }
 
 /**
- * Set "TcDisc" in "VerFailedStartRep" packet.
+ * Set "APID" in "VerSuccessPrgrRep" packet.
  * \param p Pointer to the packet.
- * \param TcDisc Value of "TcDisc" to be set in packet.
+ * \param APID Value of "APID" to be set in packet.
  */
-static inline void setVerFailedStartRepTcDisc(void* p, CrFwDiscriminant_t TcDisc)
+static inline void setVerSuccessPrgrRepAPID(void* p, Eleven_Bit_t APID)
 {
-  VerFailedStartRep_t* t;
-  t = (VerFailedStartRep_t*)p;
-  t->TcDisc = __builtin_bswap16(TcDisc);
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)APID << 16);
+  s &= (uint32_t)0x7ff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x7ff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcFailureData" from "VerFailedStartRep" packet.
+ * Get "SeqFlags" from "VerSuccessPrgrRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcFailureData".
+ * \return Value of "SeqFlags".
  */
-static inline CrPsFailData_t getVerFailedStartRepTcFailureData(void* p)
+static inline Two_Bit_t getVerSuccessPrgrRepSeqFlags(void* p)
 {
-  VerFailedStartRep_t* t;
-  t = (VerFailedStartRep_t*)p;
-  return __builtin_bswap32(t->TcFailureData);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 14;
+  t &= 0x3;
+  return (Two_Bit_t)t;
 }
 
 /**
- * Set "TcFailureData" in "VerFailedStartRep" packet.
+ * Set "SeqFlags" in "VerSuccessPrgrRep" packet.
  * \param p Pointer to the packet.
- * \param TcFailureData Value of "TcFailureData" to be set in packet.
+ * \param SeqFlags Value of "SeqFlags" to be set in packet.
  */
-static inline void setVerFailedStartRepTcFailureData(void* p, CrPsFailData_t TcFailureData)
+static inline void setVerSuccessPrgrRepSeqFlags(void* p, Two_Bit_t SeqFlags)
 {
-  VerFailedStartRep_t* t;
-  t = (VerFailedStartRep_t*)p;
-  t->TcFailureData = __builtin_bswap32(TcFailureData);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SeqFlags << 14);
+  s &= (uint16_t)0xc000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xc000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
 }
 
 /**
- * Get "TcPacketId" from "VerSuccessPrgrRep" packet.
+ * Get "SeqCount" from "VerSuccessPrgrRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketId".
+ * \return Value of "SeqCount".
  */
-static inline CrFwTypeId_t getVerSuccessPrgrRepTcPacketId(void* p)
+static inline FourTeen_Bit_t getVerSuccessPrgrRepSeqCount(void* p)
 {
-  VerSuccessPrgrRep_t* t;
-  t = (VerSuccessPrgrRep_t*)p;
-  return __builtin_bswap16(t->TcPacketId);
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x3fff;
+  return (FourTeen_Bit_t)t;
 }
 
 /**
- * Set "TcPacketId" in "VerSuccessPrgrRep" packet.
+ * Set "SeqCount" in "VerSuccessPrgrRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketId Value of "TcPacketId" to be set in packet.
+ * \param SeqCount Value of "SeqCount" to be set in packet.
  */
-static inline void setVerSuccessPrgrRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
+static inline void setVerSuccessPrgrRepSeqCount(void* p, FourTeen_Bit_t SeqCount)
 {
-  VerSuccessPrgrRep_t* t;
-  t = (VerSuccessPrgrRep_t*)p;
-  t->TcPacketId = __builtin_bswap16(TcPacketId);
-}
-
-/**
- * Get "TcPacketSeqCtrl" from "VerSuccessPrgrRep" packet.
- * \param p Pointer to the packet.
- * \return Value of "TcPacketSeqCtrl".
- */
-static inline CrPsSeqCtrl_t getVerSuccessPrgrRepTcPacketSeqCtrl(void* p)
-{
-  VerSuccessPrgrRep_t* t;
-  t = (VerSuccessPrgrRep_t*)p;
-  return __builtin_bswap16(t->TcPacketSeqCtrl);
-}
-
-/**
- * Set "TcPacketSeqCtrl" in "VerSuccessPrgrRep" packet.
- * \param p Pointer to the packet.
- * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
- */
-static inline void setVerSuccessPrgrRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
-{
-  VerSuccessPrgrRep_t* t;
-  t = (VerSuccessPrgrRep_t*)p;
-  t->TcPacketSeqCtrl = __builtin_bswap16(TcPacketSeqCtrl);
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)SeqCount << 16);
+  s &= (uint32_t)0x3fff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x3fff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
 }
 
 /**
@@ -845,75 +1417,207 @@ static inline void setVerSuccessPrgrRepStepId(void* p, CrPsStepId_t StepId)
 }
 
 /**
- * Get "TcFailureCode" from "VerFailedPrgrRep" packet.
+ * Get "PcktVersionNmb" from "VerFailedPrgrRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcFailureCode".
+ * \return Value of "PcktVersionNmb".
  */
-static inline CrPsFailCode_t getVerFailedPrgrRepTcFailureCode(void* p)
+static inline Three_Bit_t getVerFailedPrgrRepPcktVersionNmb(void* p)
 {
-  VerFailedPrgrRep_t* t;
-  t = (VerFailedPrgrRep_t*)p;
-  return __builtin_bswap16(t->TcFailureCode);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 13;
+  t &= 0x7;
+  return (Three_Bit_t)t;
 }
 
 /**
- * Set "TcFailureCode" in "VerFailedPrgrRep" packet.
+ * Set "PcktVersionNmb" in "VerFailedPrgrRep" packet.
  * \param p Pointer to the packet.
- * \param TcFailureCode Value of "TcFailureCode" to be set in packet.
+ * \param PcktVersionNmb Value of "PcktVersionNmb" to be set in packet.
  */
-static inline void setVerFailedPrgrRepTcFailureCode(void* p, CrPsFailCode_t TcFailureCode)
+static inline void setVerFailedPrgrRepPcktVersionNmb(void* p, Three_Bit_t PcktVersionNmb)
 {
-  VerFailedPrgrRep_t* t;
-  t = (VerFailedPrgrRep_t*)p;
-  t->TcFailureCode = __builtin_bswap16(TcFailureCode);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktVersionNmb << 13);
+  s &= (uint16_t)0xe000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xe000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcPacketId" from "VerFailedPrgrRep" packet.
+ * Get "PcktType" from "VerFailedPrgrRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketId".
+ * \return Value of "PcktType".
  */
-static inline CrFwTypeId_t getVerFailedPrgrRepTcPacketId(void* p)
+static inline One_Bit_t getVerFailedPrgrRepPcktType(void* p)
 {
-  VerFailedPrgrRep_t* t;
-  t = (VerFailedPrgrRep_t*)p;
-  return __builtin_bswap16(t->TcPacketId);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 12;
+  t &= 0x1;
+  return (One_Bit_t)t;
 }
 
 /**
- * Set "TcPacketId" in "VerFailedPrgrRep" packet.
+ * Set "PcktType" in "VerFailedPrgrRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketId Value of "TcPacketId" to be set in packet.
+ * \param PcktType Value of "PcktType" to be set in packet.
  */
-static inline void setVerFailedPrgrRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
+static inline void setVerFailedPrgrRepPcktType(void* p, One_Bit_t PcktType)
 {
-  VerFailedPrgrRep_t* t;
-  t = (VerFailedPrgrRep_t*)p;
-  t->TcPacketId = __builtin_bswap16(TcPacketId);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktType << 12);
+  s &= (uint16_t)0x1000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x1000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcPacketSeqCtrl" from "VerFailedPrgrRep" packet.
+ * Get "SecHeaderFlag" from "VerFailedPrgrRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketSeqCtrl".
+ * \return Value of "SecHeaderFlag".
  */
-static inline CrPsSeqCtrl_t getVerFailedPrgrRepTcPacketSeqCtrl(void* p)
+static inline One_Bit_t getVerFailedPrgrRepSecHeaderFlag(void* p)
 {
-  VerFailedPrgrRep_t* t;
-  t = (VerFailedPrgrRep_t*)p;
-  return __builtin_bswap16(t->TcPacketSeqCtrl);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 11;
+  t &= 0x1;
+  return (One_Bit_t)t;
 }
 
 /**
- * Set "TcPacketSeqCtrl" in "VerFailedPrgrRep" packet.
+ * Set "SecHeaderFlag" in "VerFailedPrgrRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
+ * \param SecHeaderFlag Value of "SecHeaderFlag" to be set in packet.
  */
-static inline void setVerFailedPrgrRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
+static inline void setVerFailedPrgrRepSecHeaderFlag(void* p, One_Bit_t SecHeaderFlag)
 {
-  VerFailedPrgrRep_t* t;
-  t = (VerFailedPrgrRep_t*)p;
-  t->TcPacketSeqCtrl = __builtin_bswap16(TcPacketSeqCtrl);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SecHeaderFlag << 11);
+  s &= (uint16_t)0x800ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x800ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "APID" from "VerFailedPrgrRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "APID".
+ */
+static inline Eleven_Bit_t getVerFailedPrgrRepAPID(void* p)
+{
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x7ff;
+  return (Eleven_Bit_t)t;
+}
+
+/**
+ * Set "APID" in "VerFailedPrgrRep" packet.
+ * \param p Pointer to the packet.
+ * \param APID Value of "APID" to be set in packet.
+ */
+static inline void setVerFailedPrgrRepAPID(void* p, Eleven_Bit_t APID)
+{
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)APID << 16);
+  s &= (uint32_t)0x7ff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x7ff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "SeqFlags" from "VerFailedPrgrRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "SeqFlags".
+ */
+static inline Two_Bit_t getVerFailedPrgrRepSeqFlags(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 14;
+  t &= 0x3;
+  return (Two_Bit_t)t;
+}
+
+/**
+ * Set "SeqFlags" in "VerFailedPrgrRep" packet.
+ * \param p Pointer to the packet.
+ * \param SeqFlags Value of "SeqFlags" to be set in packet.
+ */
+static inline void setVerFailedPrgrRepSeqFlags(void* p, Two_Bit_t SeqFlags)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SeqFlags << 14);
+  s &= (uint16_t)0xc000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xc000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
+}
+
+/**
+ * Get "SeqCount" from "VerFailedPrgrRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "SeqCount".
+ */
+static inline FourTeen_Bit_t getVerFailedPrgrRepSeqCount(void* p)
+{
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x3fff;
+  return (FourTeen_Bit_t)t;
+}
+
+/**
+ * Set "SeqCount" in "VerFailedPrgrRep" packet.
+ * \param p Pointer to the packet.
+ * \param SeqCount Value of "SeqCount" to be set in packet.
+ */
+static inline void setVerFailedPrgrRepSeqCount(void* p, FourTeen_Bit_t SeqCount)
+{
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)SeqCount << 16);
+  s &= (uint32_t)0x3fff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x3fff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
 }
 
 /**
@@ -941,484 +1645,761 @@ static inline void setVerFailedPrgrRepStepId(void* p, CrPsStepId_t StepId)
 }
 
 /**
- * Get "TcType" from "VerFailedPrgrRep" packet.
+ * Get "FailureCode" from "VerFailedPrgrRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcType".
+ * \return Value of "FailureCode".
  */
-static inline CrFwServType_t getVerFailedPrgrRepTcType(void* p)
+static inline CrPsFailCode_t getVerFailedPrgrRepFailureCode(void* p)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
-  return t->TcType;
+  return __builtin_bswap16(t->FailureCode);
 }
 
 /**
- * Set "TcType" in "VerFailedPrgrRep" packet.
+ * Set "FailureCode" in "VerFailedPrgrRep" packet.
  * \param p Pointer to the packet.
- * \param TcType Value of "TcType" to be set in packet.
+ * \param FailureCode Value of "FailureCode" to be set in packet.
  */
-static inline void setVerFailedPrgrRepTcType(void* p, CrFwServType_t TcType)
+static inline void setVerFailedPrgrRepFailureCode(void* p, CrPsFailCode_t FailureCode)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
-  t->TcType = TcType;
+  t->FailureCode = __builtin_bswap16(FailureCode);
 }
 
 /**
- * Get "TcSubtype" from "VerFailedPrgrRep" packet.
+ * Get "FailureData" from "VerFailedPrgrRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcSubtype".
+ * \return Value of "FailureData".
  */
-static inline CrFwServSubType_t getVerFailedPrgrRepTcSubtype(void* p)
+static inline CrPsFailData_t getVerFailedPrgrRepFailureData(void* p)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
-  return t->TcSubtype;
+  return __builtin_bswap32(t->FailureData);
 }
 
 /**
- * Set "TcSubtype" in "VerFailedPrgrRep" packet.
+ * Set "FailureData" in "VerFailedPrgrRep" packet.
  * \param p Pointer to the packet.
- * \param TcSubtype Value of "TcSubtype" to be set in packet.
+ * \param FailureData Value of "FailureData" to be set in packet.
  */
-static inline void setVerFailedPrgrRepTcSubtype(void* p, CrFwServSubType_t TcSubtype)
+static inline void setVerFailedPrgrRepFailureData(void* p, CrPsFailData_t FailureData)
 {
   VerFailedPrgrRep_t* t;
   t = (VerFailedPrgrRep_t*)p;
-  t->TcSubtype = TcSubtype;
+  t->FailureData = __builtin_bswap32(FailureData);
 }
 
 /**
- * Get "TcDisc" from "VerFailedPrgrRep" packet.
+ * Get "PcktVersionNmb" from "VerSuccessTermRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcDisc".
+ * \return Value of "PcktVersionNmb".
  */
-static inline CrFwDiscriminant_t getVerFailedPrgrRepTcDisc(void* p)
+static inline Three_Bit_t getVerSuccessTermRepPcktVersionNmb(void* p)
 {
-  VerFailedPrgrRep_t* t;
-  t = (VerFailedPrgrRep_t*)p;
-  return __builtin_bswap16(t->TcDisc);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 13;
+  t &= 0x7;
+  return (Three_Bit_t)t;
 }
 
 /**
- * Set "TcDisc" in "VerFailedPrgrRep" packet.
+ * Set "PcktVersionNmb" in "VerSuccessTermRep" packet.
  * \param p Pointer to the packet.
- * \param TcDisc Value of "TcDisc" to be set in packet.
+ * \param PcktVersionNmb Value of "PcktVersionNmb" to be set in packet.
  */
-static inline void setVerFailedPrgrRepTcDisc(void* p, CrFwDiscriminant_t TcDisc)
+static inline void setVerSuccessTermRepPcktVersionNmb(void* p, Three_Bit_t PcktVersionNmb)
 {
-  VerFailedPrgrRep_t* t;
-  t = (VerFailedPrgrRep_t*)p;
-  t->TcDisc = __builtin_bswap16(TcDisc);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktVersionNmb << 13);
+  s &= (uint16_t)0xe000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xe000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcFailureData" from "VerFailedPrgrRep" packet.
+ * Get "PcktType" from "VerSuccessTermRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcFailureData".
+ * \return Value of "PcktType".
  */
-static inline CrPsFailData_t getVerFailedPrgrRepTcFailureData(void* p)
+static inline One_Bit_t getVerSuccessTermRepPcktType(void* p)
 {
-  VerFailedPrgrRep_t* t;
-  t = (VerFailedPrgrRep_t*)p;
-  return __builtin_bswap32(t->TcFailureData);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 12;
+  t &= 0x1;
+  return (One_Bit_t)t;
 }
 
 /**
- * Set "TcFailureData" in "VerFailedPrgrRep" packet.
+ * Set "PcktType" in "VerSuccessTermRep" packet.
  * \param p Pointer to the packet.
- * \param TcFailureData Value of "TcFailureData" to be set in packet.
+ * \param PcktType Value of "PcktType" to be set in packet.
  */
-static inline void setVerFailedPrgrRepTcFailureData(void* p, CrPsFailData_t TcFailureData)
+static inline void setVerSuccessTermRepPcktType(void* p, One_Bit_t PcktType)
 {
-  VerFailedPrgrRep_t* t;
-  t = (VerFailedPrgrRep_t*)p;
-  t->TcFailureData = __builtin_bswap32(TcFailureData);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktType << 12);
+  s &= (uint16_t)0x1000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x1000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcPacketId" from "VerSuccessTermRep" packet.
+ * Get "SecHeaderFlag" from "VerSuccessTermRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketId".
+ * \return Value of "SecHeaderFlag".
  */
-static inline CrFwTypeId_t getVerSuccessTermRepTcPacketId(void* p)
+static inline One_Bit_t getVerSuccessTermRepSecHeaderFlag(void* p)
 {
-  VerSuccessTermRep_t* t;
-  t = (VerSuccessTermRep_t*)p;
-  return __builtin_bswap16(t->TcPacketId);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 11;
+  t &= 0x1;
+  return (One_Bit_t)t;
 }
 
 /**
- * Set "TcPacketId" in "VerSuccessTermRep" packet.
+ * Set "SecHeaderFlag" in "VerSuccessTermRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketId Value of "TcPacketId" to be set in packet.
+ * \param SecHeaderFlag Value of "SecHeaderFlag" to be set in packet.
  */
-static inline void setVerSuccessTermRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
+static inline void setVerSuccessTermRepSecHeaderFlag(void* p, One_Bit_t SecHeaderFlag)
 {
-  VerSuccessTermRep_t* t;
-  t = (VerSuccessTermRep_t*)p;
-  t->TcPacketId = __builtin_bswap16(TcPacketId);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SecHeaderFlag << 11);
+  s &= (uint16_t)0x800ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x800ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcPacketSeqCtrl" from "VerSuccessTermRep" packet.
+ * Get "APID" from "VerSuccessTermRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketSeqCtrl".
+ * \return Value of "APID".
  */
-static inline CrPsSeqCtrl_t getVerSuccessTermRepTcPacketSeqCtrl(void* p)
+static inline Eleven_Bit_t getVerSuccessTermRepAPID(void* p)
 {
-  VerSuccessTermRep_t* t;
-  t = (VerSuccessTermRep_t*)p;
-  return __builtin_bswap16(t->TcPacketSeqCtrl);
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x7ff;
+  return (Eleven_Bit_t)t;
 }
 
 /**
- * Set "TcPacketSeqCtrl" in "VerSuccessTermRep" packet.
+ * Set "APID" in "VerSuccessTermRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
+ * \param APID Value of "APID" to be set in packet.
  */
-static inline void setVerSuccessTermRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
+static inline void setVerSuccessTermRepAPID(void* p, Eleven_Bit_t APID)
 {
-  VerSuccessTermRep_t* t;
-  t = (VerSuccessTermRep_t*)p;
-  t->TcPacketSeqCtrl = __builtin_bswap16(TcPacketSeqCtrl);
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)APID << 16);
+  s &= (uint32_t)0x7ff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x7ff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcFailureCode" from "VerFailedTermRep" packet.
+ * Get "SeqFlags" from "VerSuccessTermRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcFailureCode".
+ * \return Value of "SeqFlags".
  */
-static inline CrPsFailCode_t getVerFailedTermRepTcFailureCode(void* p)
+static inline Two_Bit_t getVerSuccessTermRepSeqFlags(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 14;
+  t &= 0x3;
+  return (Two_Bit_t)t;
+}
+
+/**
+ * Set "SeqFlags" in "VerSuccessTermRep" packet.
+ * \param p Pointer to the packet.
+ * \param SeqFlags Value of "SeqFlags" to be set in packet.
+ */
+static inline void setVerSuccessTermRepSeqFlags(void* p, Two_Bit_t SeqFlags)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SeqFlags << 14);
+  s &= (uint16_t)0xc000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xc000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
+}
+
+/**
+ * Get "SeqCount" from "VerSuccessTermRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "SeqCount".
+ */
+static inline FourTeen_Bit_t getVerSuccessTermRepSeqCount(void* p)
+{
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x3fff;
+  return (FourTeen_Bit_t)t;
+}
+
+/**
+ * Set "SeqCount" in "VerSuccessTermRep" packet.
+ * \param p Pointer to the packet.
+ * \param SeqCount Value of "SeqCount" to be set in packet.
+ */
+static inline void setVerSuccessTermRepSeqCount(void* p, FourTeen_Bit_t SeqCount)
+{
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)SeqCount << 16);
+  s &= (uint32_t)0x3fff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x3fff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
+}
+
+/**
+ * Get "PcktVersionNmb" from "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "PcktVersionNmb".
+ */
+static inline Three_Bit_t getVerFailedTermRepPcktVersionNmb(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 13;
+  t &= 0x7;
+  return (Three_Bit_t)t;
+}
+
+/**
+ * Set "PcktVersionNmb" in "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \param PcktVersionNmb Value of "PcktVersionNmb" to be set in packet.
+ */
+static inline void setVerFailedTermRepPcktVersionNmb(void* p, Three_Bit_t PcktVersionNmb)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktVersionNmb << 13);
+  s &= (uint16_t)0xe000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xe000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "PcktType" from "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "PcktType".
+ */
+static inline One_Bit_t getVerFailedTermRepPcktType(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 12;
+  t &= 0x1;
+  return (One_Bit_t)t;
+}
+
+/**
+ * Set "PcktType" in "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \param PcktType Value of "PcktType" to be set in packet.
+ */
+static inline void setVerFailedTermRepPcktType(void* p, One_Bit_t PcktType)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktType << 12);
+  s &= (uint16_t)0x1000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x1000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "SecHeaderFlag" from "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "SecHeaderFlag".
+ */
+static inline One_Bit_t getVerFailedTermRepSecHeaderFlag(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 11;
+  t &= 0x1;
+  return (One_Bit_t)t;
+}
+
+/**
+ * Set "SecHeaderFlag" in "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \param SecHeaderFlag Value of "SecHeaderFlag" to be set in packet.
+ */
+static inline void setVerFailedTermRepSecHeaderFlag(void* p, One_Bit_t SecHeaderFlag)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SecHeaderFlag << 11);
+  s &= (uint16_t)0x800ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x800ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "APID" from "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "APID".
+ */
+static inline Eleven_Bit_t getVerFailedTermRepAPID(void* p)
+{
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x7ff;
+  return (Eleven_Bit_t)t;
+}
+
+/**
+ * Set "APID" in "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \param APID Value of "APID" to be set in packet.
+ */
+static inline void setVerFailedTermRepAPID(void* p, Eleven_Bit_t APID)
+{
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)APID << 16);
+  s &= (uint32_t)0x7ff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x7ff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
+}
+
+/**
+ * Get "SeqFlags" from "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "SeqFlags".
+ */
+static inline Two_Bit_t getVerFailedTermRepSeqFlags(void* p)
+{
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 14;
+  t &= 0x3;
+  return (Two_Bit_t)t;
+}
+
+/**
+ * Set "SeqFlags" in "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \param SeqFlags Value of "SeqFlags" to be set in packet.
+ */
+static inline void setVerFailedTermRepSeqFlags(void* p, Two_Bit_t SeqFlags)
+{
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SeqFlags << 14);
+  s &= (uint16_t)0xc000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xc000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
+}
+
+/**
+ * Get "SeqCount" from "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "SeqCount".
+ */
+static inline FourTeen_Bit_t getVerFailedTermRepSeqCount(void* p)
+{
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x3fff;
+  return (FourTeen_Bit_t)t;
+}
+
+/**
+ * Set "SeqCount" in "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \param SeqCount Value of "SeqCount" to be set in packet.
+ */
+static inline void setVerFailedTermRepSeqCount(void* p, FourTeen_Bit_t SeqCount)
+{
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)SeqCount << 16);
+  s &= (uint32_t)0x3fff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x3fff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
+}
+
+/**
+ * Get "FailureCode" from "VerFailedTermRep" packet.
+ * \param p Pointer to the packet.
+ * \return Value of "FailureCode".
+ */
+static inline CrPsFailCode_t getVerFailedTermRepFailureCode(void* p)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
-  return __builtin_bswap16(t->TcFailureCode);
+  return __builtin_bswap16(t->FailureCode);
 }
 
 /**
- * Set "TcFailureCode" in "VerFailedTermRep" packet.
+ * Set "FailureCode" in "VerFailedTermRep" packet.
  * \param p Pointer to the packet.
- * \param TcFailureCode Value of "TcFailureCode" to be set in packet.
+ * \param FailureCode Value of "FailureCode" to be set in packet.
  */
-static inline void setVerFailedTermRepTcFailureCode(void* p, CrPsFailCode_t TcFailureCode)
+static inline void setVerFailedTermRepFailureCode(void* p, CrPsFailCode_t FailureCode)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
-  t->TcFailureCode = __builtin_bswap16(TcFailureCode);
+  t->FailureCode = __builtin_bswap16(FailureCode);
 }
 
 /**
- * Get "TcPacketId" from "VerFailedTermRep" packet.
+ * Get "FailureData" from "VerFailedTermRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketId".
+ * \return Value of "FailureData".
  */
-static inline CrFwTypeId_t getVerFailedTermRepTcPacketId(void* p)
+static inline CrPsFailData_t getVerFailedTermRepFailureData(void* p)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
-  return __builtin_bswap16(t->TcPacketId);
+  return __builtin_bswap32(t->FailureData);
 }
 
 /**
- * Set "TcPacketId" in "VerFailedTermRep" packet.
+ * Set "FailureData" in "VerFailedTermRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketId Value of "TcPacketId" to be set in packet.
+ * \param FailureData Value of "FailureData" to be set in packet.
  */
-static inline void setVerFailedTermRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
+static inline void setVerFailedTermRepFailureData(void* p, CrPsFailData_t FailureData)
 {
   VerFailedTermRep_t* t;
   t = (VerFailedTermRep_t*)p;
-  t->TcPacketId = __builtin_bswap16(TcPacketId);
+  t->FailureData = __builtin_bswap32(FailureData);
 }
 
 /**
- * Get "TcPacketSeqCtrl" from "VerFailedTermRep" packet.
+ * Get "PcktVersionNmb" from "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketSeqCtrl".
+ * \return Value of "PcktVersionNmb".
  */
-static inline CrPsSeqCtrl_t getVerFailedTermRepTcPacketSeqCtrl(void* p)
+static inline Three_Bit_t getVerFailedRoutingRepPcktVersionNmb(void* p)
 {
-  VerFailedTermRep_t* t;
-  t = (VerFailedTermRep_t*)p;
-  return __builtin_bswap16(t->TcPacketSeqCtrl);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 13;
+  t &= 0x7;
+  return (Three_Bit_t)t;
 }
 
 /**
- * Set "TcPacketSeqCtrl" in "VerFailedTermRep" packet.
+ * Set "PcktVersionNmb" in "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
+ * \param PcktVersionNmb Value of "PcktVersionNmb" to be set in packet.
  */
-static inline void setVerFailedTermRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
+static inline void setVerFailedRoutingRepPcktVersionNmb(void* p, Three_Bit_t PcktVersionNmb)
 {
-  VerFailedTermRep_t* t;
-  t = (VerFailedTermRep_t*)p;
-  t->TcPacketSeqCtrl = __builtin_bswap16(TcPacketSeqCtrl);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktVersionNmb << 13);
+  s &= (uint16_t)0xe000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xe000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcType" from "VerFailedTermRep" packet.
+ * Get "PcktType" from "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcType".
+ * \return Value of "PcktType".
  */
-static inline CrFwServType_t getVerFailedTermRepTcType(void* p)
+static inline One_Bit_t getVerFailedRoutingRepPcktType(void* p)
 {
-  VerFailedTermRep_t* t;
-  t = (VerFailedTermRep_t*)p;
-  return t->TcType;
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 12;
+  t &= 0x1;
+  return (One_Bit_t)t;
 }
 
 /**
- * Set "TcType" in "VerFailedTermRep" packet.
+ * Set "PcktType" in "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \param TcType Value of "TcType" to be set in packet.
+ * \param PcktType Value of "PcktType" to be set in packet.
  */
-static inline void setVerFailedTermRepTcType(void* p, CrFwServType_t TcType)
+static inline void setVerFailedRoutingRepPcktType(void* p, One_Bit_t PcktType)
 {
-  VerFailedTermRep_t* t;
-  t = (VerFailedTermRep_t*)p;
-  t->TcType = TcType;
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)PcktType << 12);
+  s &= (uint16_t)0x1000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x1000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcSubtype" from "VerFailedTermRep" packet.
+ * Get "SecHeaderFlag" from "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcSubtype".
+ * \return Value of "SecHeaderFlag".
  */
-static inline CrFwServSubType_t getVerFailedTermRepTcSubtype(void* p)
+static inline One_Bit_t getVerFailedRoutingRepSecHeaderFlag(void* p)
 {
-  VerFailedTermRep_t* t;
-  t = (VerFailedTermRep_t*)p;
-  return t->TcSubtype;
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 11;
+  t &= 0x1;
+  return (One_Bit_t)t;
 }
 
 /**
- * Set "TcSubtype" in "VerFailedTermRep" packet.
+ * Set "SecHeaderFlag" in "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \param TcSubtype Value of "TcSubtype" to be set in packet.
+ * \param SecHeaderFlag Value of "SecHeaderFlag" to be set in packet.
  */
-static inline void setVerFailedTermRepTcSubtype(void* p, CrFwServSubType_t TcSubtype)
+static inline void setVerFailedRoutingRepSecHeaderFlag(void* p, One_Bit_t SecHeaderFlag)
 {
-  VerFailedTermRep_t* t;
-  t = (VerFailedTermRep_t*)p;
-  t->TcSubtype = TcSubtype;
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SecHeaderFlag << 11);
+  s &= (uint16_t)0x800ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0x800ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcDisc" from "VerFailedTermRep" packet.
+ * Get "APID" from "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcDisc".
+ * \return Value of "APID".
  */
-static inline CrFwDiscriminant_t getVerFailedTermRepTcDisc(void* p)
+static inline Eleven_Bit_t getVerFailedRoutingRepAPID(void* p)
 {
-  VerFailedTermRep_t* t;
-  t = (VerFailedTermRep_t*)p;
-  return __builtin_bswap16(t->TcDisc);
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x7ff;
+  return (Eleven_Bit_t)t;
 }
 
 /**
- * Set "TcDisc" in "VerFailedTermRep" packet.
+ * Set "APID" in "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \param TcDisc Value of "TcDisc" to be set in packet.
+ * \param APID Value of "APID" to be set in packet.
  */
-static inline void setVerFailedTermRepTcDisc(void* p, CrFwDiscriminant_t TcDisc)
+static inline void setVerFailedRoutingRepAPID(void* p, Eleven_Bit_t APID)
 {
-  VerFailedTermRep_t* t;
-  t = (VerFailedTermRep_t*)p;
-  t->TcDisc = __builtin_bswap16(TcDisc);
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)APID << 16);
+  s &= (uint32_t)0x7ff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x7ff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)], &t, sizeof(t));
 }
 
 /**
- * Get "TcFailureData" from "VerFailedTermRep" packet.
+ * Get "SeqFlags" from "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcFailureData".
+ * \return Value of "SeqFlags".
  */
-static inline CrPsFailData_t getVerFailedTermRepTcFailureData(void* p)
+static inline Two_Bit_t getVerFailedRoutingRepSeqFlags(void* p)
 {
-  VerFailedTermRep_t* t;
-  t = (VerFailedTermRep_t*)p;
-  return __builtin_bswap32(t->TcFailureData);
+  uint16_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t >>= 14;
+  t &= 0x3;
+  return (Two_Bit_t)t;
 }
 
 /**
- * Set "TcFailureData" in "VerFailedTermRep" packet.
+ * Set "SeqFlags" in "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \param TcFailureData Value of "TcFailureData" to be set in packet.
+ * \param SeqFlags Value of "SeqFlags" to be set in packet.
  */
-static inline void setVerFailedTermRepTcFailureData(void* p, CrPsFailData_t TcFailureData)
+static inline void setVerFailedRoutingRepSeqFlags(void* p, Two_Bit_t SeqFlags)
 {
-  VerFailedTermRep_t* t;
-  t = (VerFailedTermRep_t*)p;
-  t->TcFailureData = __builtin_bswap32(TcFailureData);
+  uint16_t s;
+  uint16_t t;
+  s = ((uint16_t)SeqFlags << 14);
+  s &= (uint16_t)0xc000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap16(t);
+  t &= (uint16_t)~0xc000ull;
+  t |= s;
+  t = __builtin_bswap16(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
 }
 
 /**
- * Get "TcFailureCode" from "VerFailedRoutingRep" packet.
+ * Get "SeqCount" from "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcFailureCode".
+ * \return Value of "SeqCount".
  */
-static inline CrPsFailCode_t getVerFailedRoutingRepTcFailureCode(void* p)
+static inline FourTeen_Bit_t getVerFailedRoutingRepSeqCount(void* p)
 {
-  VerFailedRoutingRep_t* t;
-  t = (VerFailedRoutingRep_t*)p;
-  return __builtin_bswap16(t->TcFailureCode);
+  uint32_t t;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t >>= 16;
+  t &= 0x3fff;
+  return (FourTeen_Bit_t)t;
 }
 
 /**
- * Set "TcFailureCode" in "VerFailedRoutingRep" packet.
+ * Set "SeqCount" in "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \param TcFailureCode Value of "TcFailureCode" to be set in packet.
+ * \param SeqCount Value of "SeqCount" to be set in packet.
  */
-static inline void setVerFailedRoutingRepTcFailureCode(void* p, CrPsFailCode_t TcFailureCode)
+static inline void setVerFailedRoutingRepSeqCount(void* p, FourTeen_Bit_t SeqCount)
 {
-  VerFailedRoutingRep_t* t;
-  t = (VerFailedRoutingRep_t*)p;
-  t->TcFailureCode = __builtin_bswap16(TcFailureCode);
+  uint32_t s;
+  uint32_t t;
+  s = ((uint32_t)SeqCount << 16);
+  s &= (uint32_t)0x3fff0000ull;
+  (void)memcpy(&t, &((uint8_t*)p)[sizeof(TmHeader_t)+2], sizeof(t));
+  t = __builtin_bswap32(t);
+  t &= (uint32_t)~0x3fff0000ull;
+  t |= s;
+  t = __builtin_bswap32(t);
+  (void)memcpy(&((uint8_t*)p)[sizeof(TmHeader_t)+2], &t, sizeof(t));
 }
 
 /**
- * Get "TcPacketId" from "VerFailedRoutingRep" packet.
+ * Get "FailureCode" from "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcPacketId".
+ * \return Value of "FailureCode".
  */
-static inline CrFwTypeId_t getVerFailedRoutingRepTcPacketId(void* p)
-{
-  VerFailedRoutingRep_t* t;
-  t = (VerFailedRoutingRep_t*)p;
-  return __builtin_bswap16(t->TcPacketId);
-}
-
-/**
- * Set "TcPacketId" in "VerFailedRoutingRep" packet.
- * \param p Pointer to the packet.
- * \param TcPacketId Value of "TcPacketId" to be set in packet.
- */
-static inline void setVerFailedRoutingRepTcPacketId(void* p, CrFwTypeId_t TcPacketId)
-{
-  VerFailedRoutingRep_t* t;
-  t = (VerFailedRoutingRep_t*)p;
-  t->TcPacketId = __builtin_bswap16(TcPacketId);
-}
-
-/**
- * Get "TcPacketSeqCtrl" from "VerFailedRoutingRep" packet.
- * \param p Pointer to the packet.
- * \return Value of "TcPacketSeqCtrl".
- */
-static inline CrPsSeqCtrl_t getVerFailedRoutingRepTcPacketSeqCtrl(void* p)
-{
-  VerFailedRoutingRep_t* t;
-  t = (VerFailedRoutingRep_t*)p;
-  return __builtin_bswap16(t->TcPacketSeqCtrl);
-}
-
-/**
- * Set "TcPacketSeqCtrl" in "VerFailedRoutingRep" packet.
- * \param p Pointer to the packet.
- * \param TcPacketSeqCtrl Value of "TcPacketSeqCtrl" to be set in packet.
- */
-static inline void setVerFailedRoutingRepTcPacketSeqCtrl(void* p, CrPsSeqCtrl_t TcPacketSeqCtrl)
-{
-  VerFailedRoutingRep_t* t;
-  t = (VerFailedRoutingRep_t*)p;
-  t->TcPacketSeqCtrl = __builtin_bswap16(TcPacketSeqCtrl);
-}
-
-/**
- * Get "TcType" from "VerFailedRoutingRep" packet.
- * \param p Pointer to the packet.
- * \return Value of "TcType".
- */
-static inline CrFwServType_t getVerFailedRoutingRepTcType(void* p)
-{
-  VerFailedRoutingRep_t* t;
-  t = (VerFailedRoutingRep_t*)p;
-  return t->TcType;
-}
-
-/**
- * Set "TcType" in "VerFailedRoutingRep" packet.
- * \param p Pointer to the packet.
- * \param TcType Value of "TcType" to be set in packet.
- */
-static inline void setVerFailedRoutingRepTcType(void* p, CrFwServType_t TcType)
-{
-  VerFailedRoutingRep_t* t;
-  t = (VerFailedRoutingRep_t*)p;
-  t->TcType = TcType;
-}
-
-/**
- * Get "TcSubtype" from "VerFailedRoutingRep" packet.
- * \param p Pointer to the packet.
- * \return Value of "TcSubtype".
- */
-static inline CrFwServSubType_t getVerFailedRoutingRepTcSubtype(void* p)
+static inline CrPsFailCode_t getVerFailedRoutingRepFailureCode(void* p)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
-  return t->TcSubtype;
+  return __builtin_bswap16(t->FailureCode);
 }
 
 /**
- * Set "TcSubtype" in "VerFailedRoutingRep" packet.
+ * Set "FailureCode" in "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \param TcSubtype Value of "TcSubtype" to be set in packet.
+ * \param FailureCode Value of "FailureCode" to be set in packet.
  */
-static inline void setVerFailedRoutingRepTcSubtype(void* p, CrFwServSubType_t TcSubtype)
+static inline void setVerFailedRoutingRepFailureCode(void* p, CrPsFailCode_t FailureCode)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
-  t->TcSubtype = TcSubtype;
+  t->FailureCode = __builtin_bswap16(FailureCode);
 }
 
 /**
- * Get "TcDisc" from "VerFailedRoutingRep" packet.
+ * Get "FailureData" from "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \return Value of "TcDisc".
+ * \return Value of "FailureData".
  */
-static inline CrFwDiscriminant_t getVerFailedRoutingRepTcDisc(void* p)
+static inline CrPsFailData_t getVerFailedRoutingRepFailureData(void* p)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
-  return __builtin_bswap16(t->TcDisc);
+  return __builtin_bswap32(t->FailureData);
 }
 
 /**
- * Set "TcDisc" in "VerFailedRoutingRep" packet.
+ * Set "FailureData" in "VerFailedRoutingRep" packet.
  * \param p Pointer to the packet.
- * \param TcDisc Value of "TcDisc" to be set in packet.
+ * \param FailureData Value of "FailureData" to be set in packet.
  */
-static inline void setVerFailedRoutingRepTcDisc(void* p, CrFwDiscriminant_t TcDisc)
+static inline void setVerFailedRoutingRepFailureData(void* p, CrPsFailData_t FailureData)
 {
   VerFailedRoutingRep_t* t;
   t = (VerFailedRoutingRep_t*)p;
-  t->TcDisc = __builtin_bswap16(TcDisc);
+  t->FailureData = __builtin_bswap32(FailureData);
 }
 
-/**
- * Get "invDest" from "VerFailedRoutingRep" packet.
- * \param p Pointer to the packet.
- * \return Value of "invDest".
- */
-static inline CrPsDestSrc_t getVerFailedRoutingRepinvDest(void* p)
-{
-  VerFailedRoutingRep_t* t;
-  t = (VerFailedRoutingRep_t*)p;
-  return __builtin_bswap16(t->invDest);
-}
-
-/**
- * Set "invDest" in "VerFailedRoutingRep" packet.
- * \param p Pointer to the packet.
- * \param invDest Value of "invDest" to be set in packet.
- */
-static inline void setVerFailedRoutingRepinvDest(void* p, CrPsDestSrc_t invDest)
-{
-  VerFailedRoutingRep_t* t;
-  t = (VerFailedRoutingRep_t*)p;
-  t->invDest = __builtin_bswap16(invDest);
-}
 
 
 /*----------------------------------------------------------------------------*/

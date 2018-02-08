@@ -1,11 +1,24 @@
 /**
- * \file
+ * @file CrPsLptStartDownCmd.c
+ * @ingroup Serv13
+ * @ingroup InCmd
  *
- * Implementation of TC(13,129) LptStartDownCmd.
+ * @brief Implementation of TC(13,129) LptStartDownCmd.
  *
- * \note This file was generated on 2017-11-22 12:47:43
- * \author PnP Generator
- * \copyright (c) Copyright
+ * @note This file was generated on 2017-11-22 12:47:43
+ *
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsLptStartDownCmd.h"
@@ -18,7 +31,7 @@
 #include <Services/General/CrPsPktServLpt.h>
 #include <Services/LargePacketTransfer/StateMachines/CrPsLptCreate.h>
 
-unsigned int DownTransferLptBufferId;
+uint32_t DownTransferLptBufferId;
 
 
 /**
@@ -34,9 +47,9 @@ void CrPsLptStartDownCmdStartAction(FwSmDesc_t smDesc)
   CrFwCmpData_t        *inData;
   CrFwInCmdData_t      *cmpSpecificData;
   CrFwPckt_t            inPckt;
-  CrPsTid_t Tid;
-  unsigned int LptBufferId;
-  unsigned short sm_state;
+  CrPsTid_t             Tid;
+  uint32_t              LptBufferId;
+  uint16_t              sm_state;
 
   CRFW_UNUSED(smDesc);
 

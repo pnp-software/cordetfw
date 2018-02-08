@@ -1,8 +1,24 @@
 /**
  * @file CrPsCmdVerSuccFunc.c
+ * @ingroup Serv1
+ * @ingroup procedures
+ *
+ * @brief This procedure is run when a command has passed its acceptance, start or termination check
  *
  * @author FW Profile code generator version 5.01
  * @date Created on: Jul 11 2017 18:2:22
+ *
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 /** CrPsCmdVerSucc function definitions */
@@ -21,18 +37,16 @@
 #include <OutLoader/CrFwOutLoader.h>
 #include <OutCmp/CrFwOutCmp.h>
 
-#include <CrPsPcktUtilities.h>
 #include <CrPsRepErr.h>
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsPktServReqVerif.h>
+#include <Services/General/CrPsPktServReqVerifSupp.h>
+#include <Services/General/CrPsPktUtil.h>
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <stdint.h>
-#include "CrPsDebug.h"
 
-FwSmDesc_t cmd, rep;
+static FwSmDesc_t rep;
 
 /* ----------------------------------------------------------------------------------------------------------------- */
 
@@ -47,6 +61,7 @@ void CrPsCmdVerSuccN2(FwPrDesc_t prDesc)
   /* Get procedure parameters */
   prData = FwPrGetData(prDesc);
   rep = NULL;
+
   /* Create out component */
   rep = CrFwOutFactoryMakeOutCmp(CRPS_REQVERIF, prData->ushortParam1, 0, 0);
 
@@ -73,7 +88,6 @@ void CrPsCmdVerSuccN3(FwPrDesc_t prDesc)
 void CrPsCmdVerSuccN4(FwPrDesc_t prDesc)
 {
   CrFwDestSrc_t     source;
-  unsigned short    tcPacketId, tcSeqCtrl;
   CrFwCmpData_t    *inData;
   CrFwInCmdData_t  *inSpecificData;
   CrFwPckt_t        inPckt;
@@ -82,6 +96,7 @@ void CrPsCmdVerSuccN4(FwPrDesc_t prDesc)
   CrFwCmpData_t    *cmpDataStart;
   CrFwOutCmpData_t *cmpSpecificData;
   CrFwPckt_t        pckt;
+  CrPsRid_t         Rid; /* The request ID containing the packet version number the packet id and the packet sequence control */
 
   cmpDataStart    = (CrFwCmpData_t   *) FwSmGetData(rep);
   cmpSpecificData = (CrFwOutCmpData_t *) cmpDataStart->cmpSpecificData;
@@ -100,32 +115,29 @@ void CrPsCmdVerSuccN4(FwPrDesc_t prDesc)
   inSpecificData = (CrFwInCmdData_t*)inData->cmpSpecificData;
   inPckt         = inSpecificData->pckt;
 
-  tcPacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
+  //tcPacketId = CrFwPcktGetApid(inPckt); /* --- adaptation point CrFwPckt ---> */
+  Rid = getPcktRid(inPckt);
 
   if (prData->ushortParam1 == CRPS_REQVERIF_ACC_SUCC)
   {
     /* 1,1 */
     /* Set pcktIdAccFailed */
-    setVerSuccessAccRepTcPacketId(pckt, tcPacketId);
+    setVerSuccessAccRepRid(pckt, Rid);
   }
 
   if (prData->ushortParam1 == CRPS_REQVERIF_START_SUCC)
   {
     /* 1,3 */
     /* Set pcktIdAccFailed */
-    setVerSuccessStartRepTcPacketId(pckt, tcPacketId);
+    setVerSuccessStartRepRid(pckt, Rid);
   }
 
   if (prData->ushortParam1 == CRPS_REQVERIF_TERM_SUCC)
   {
     /* 1,7 */
     /* Set pcktIdAccFailed */
-    setVerSuccessTermRepTcPacketId(pckt, tcPacketId);
+    setVerSuccessTermRepRid(pckt, Rid);
   }
-
-  /* Set packetSeqCtrl */
-  tcSeqCtrl = CrFwPcktGetSeqCtrl(inPckt); /* --- adaptation point CrFwPckt ---> */
-  setVerSuccessAccRepTcPacketSeqCtrl(pckt, tcSeqCtrl);
 
   /* Set the destination of the report to the source of the in-coming packet */
   source = CrFwPcktGetSrc(inPckt);

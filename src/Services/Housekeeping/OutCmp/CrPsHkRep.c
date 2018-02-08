@@ -1,20 +1,22 @@
 /**
  * @file CrPsHkRep.c
- * @ingroup CrIaServices
- * @authors FW Profile code generator, P&P Software GmbH, 2015; Institute for Astrophysics, 2015-2016
+ * @ingroup Serv3
+ * @ingroup OutCmp
  *
  * @brief Implementation of the Periodic Housekeeping Report (3,25) out-going report packet.
  *
- * @copyright
- * This program is free software; you can redistribute it and/or modify it
- * under the terms and conditions of the GNU General Public License,
- * version 2, as published by the Free Software Foundation.
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
- * This program is distributed in the hope it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
- * more details.
- * SERVICE 3,25 and 3,26
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsHkRep.h"
@@ -37,10 +39,8 @@
 #include <Services/General/CrPsPktServHk.h> 
 #include <Services/General/CrPsPktServHkSupp.h> 
 #include <Services/General/CrPsPktUtil.h> 
-#include <CrPsDebug.h>
 
 #include <stdlib.h>
-#include <stdio.h>
 
 #define HK_MAX_DP_MULT_SIZE 100
 
@@ -142,7 +142,7 @@ void CrPsHkRepUpdateAction(FwSmDesc_t smDesc)
   CrPsRepNum_t SCSampleRepNum;
   CrPsParamId_t N2ParamId;  
   size_t size;
-  uint8_t N1ParamCharValue, N2ParamCharValue;
+  uint8_t N1ParamCharValue, N2ParamCharValue; /* TODO Types ??*/
   uint16_t N1ParamShortValue, N2ParamShortValue;
   uint32_t N1ParamIntValue, N2ParamIntValue;
   uint32_t pos_data;
@@ -190,12 +190,12 @@ void CrPsHkRepUpdateAction(FwSmDesc_t smDesc)
           size = getDpSize(N1ParamId);
           switch (size)
           {
-            case 1:
+            case 1:  /*TODO (01.02.2018) never reached in Testsuite */
               getDpValue(N1ParamId, &N1ParamCharValue);
               setPcktChar(pckt, pos_data, N1ParamCharValue);
               pos_data += 1;
               break;
-            case 2:
+            case 2: /*TODO (01.02.2018) never reached in Testsuite */
               getDpValue(N1ParamId, &N1ParamShortValue);
               setPcktShort(pckt, pos_data, N1ParamShortValue);
               pos_data += 2;
@@ -245,13 +245,13 @@ void CrPsHkRepUpdateAction(FwSmDesc_t smDesc)
                   size = getDpSize(N2ParamId);
                   switch (size)
                   {
-                    case 1:
+                    case 1:/*TODO (01.02.2018) never reached in Testsuite */
                       /* Retrieve the i-th value of the j-th data item in the k-th group in the sampling buffer of ID l */
                       N2ParamCharValue = (uint8_t)getDpBufferElement(i, j, k, (uint32_t)getDpsampleBufIdItem(rdlSlot));
                       setPcktChar(pckt, pos_data, N2ParamCharValue);
                       pos_data += 1;
                       break;
-                    case 2:
+                    case 2:/*TODO (01.02.2018) never reached in Testsuite */
                       /* Retrieve the i-th value of the j-th data item in the k-th group in the sampling buffer of ID l */
                       N2ParamShortValue = (uint16_t)getDpBufferElement(i, j, k, (uint32_t)getDpsampleBufIdItem(rdlSlot));
                       setPcktShort(pckt, pos_data, N2ParamShortValue);

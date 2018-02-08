@@ -1,11 +1,23 @@
 /**
- * \file
+ * @file CrPsRep.c
+ * @ingroup Serv5
+ * @ingroup OutCmp
  *
- * Implementation of TM(5,x) EvtRep.
+ * @brief Implementation of TM(5,x) EvtRep.
  *
- * \note This file was generated on 2017-09-19 12:36:09
- * \author PnP Generator
- * \copyright (c) Copyright
+ * @note This file was generated on 2017-09-19 12:36:09
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsEvtRep.h"
@@ -27,7 +39,6 @@
 #include "FwPrCore.h"
 #include "FwPrConstants.h"
 
-#include <CrPsDebug.h>
 #include <DataPool/CrPsDpServEvt.h>
 #include <Services/General/CrPsConstants.h>
 
@@ -51,8 +62,6 @@ CrFwBool_t CrPsEvtRepEnableCheck(FwSmDesc_t smDesc)
   CrFwCounterU2_t      evtSlot;
   CrPsEid_t            eid, evtEid;
   CrPsEid_t            evtEidArray[EVT_N_EID] = EVT_EID;  
-
-  DEBUGP_5("CrPsEvtRepEnableCheck\n");
 
   /* Get packet */
   cmpData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -97,20 +106,16 @@ CrFwBool_t CrPsEvtRepEnableCheck(FwSmDesc_t smDesc)
     {
       evtEid = evtEidArray[evtSlot];
       
-      DEBUGP_5("CrPsEvtRepEnableCheck: evtSlot = %d, evtEid = %d\n", evtSlot, evtEid);
-
       if (eid == evtEid)
         break;
     }
 
   if (evtSlot == EVT_N_EID)
     {
-      DEBUGP_5("CrPsEvtRepEnableCheck: slot for EID = %d not found\n", eid);
       return 0;
     }
   else 
     {
-      DEBUGP_5("CrPsEvtRepEnableCheck: enabled = %d\n", getDpisEidEnabledItem(evtSlot));
       return getDpisEidEnabledItem(evtSlot);
     }
 }

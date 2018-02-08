@@ -1,11 +1,23 @@
 /**
- * \file
+ * @file CrPsEvtDisableCmd.c
+ * @ingroup Serv5
+ * @ingroup InCmd
  *
- * Implementation of TC(5,6) EvtDisableCmd.
+ * @brief Implementation of TC(5,6) EvtDisableCmd.
  *
- * \note This file was generated on 2017-09-19 12:36:09
- * \author PnP Generator
- * \copyright (c) Copyright
+ * @note This file was generated on 2017-09-19 12:36:09
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include <CrFwCmpData.h>
@@ -20,7 +32,6 @@
 #include <DataPool/CrPsDpServEvt.h>
 #include "Services/EventReporting/Procedures/CrPsCmd5EidStartCreate.h"
 #include "CrPsEvtDisableCmd.h"
-#include "CrPsDebug.h"
 
 CrPsFlag_t evtFlag[EVT_N_EID];
 
@@ -34,7 +45,6 @@ CrPsFlag_t evtFlag[EVT_N_EID];
 void CrPsEvtDisableCmdStartAction(FwSmDesc_t smDesc)
 {
   prDescCmdEidStart_t prData;
-  DEBUGP_5("CrPsEvtDisableCmdStartAction");
 
    /* Set prData of procedure   */
   /* initial setting of prData */
@@ -59,11 +69,12 @@ void CrPsEvtDisableCmdProgressAction(FwSmDesc_t smDesc)
 {
   CrFwCounterU2_t     evtSlot;
   CrFwBool_t          isEnabled;
-  uint8_t             evtEidLevelArray[EVT_N_EID] = EVT_EID_LEVEL;
+  uint8_t             evtEidLevelArray[EVT_N_EID] = EVT_EID_LEVEL; /*TODO Which Type ??*/
   uint8_t             evtEidLevel;
   CrPsFlag_t          evtEidFlag;
   CrPsNumberU2_t      nmbDisEvtLevel;
   CrFwCmpData_t      *cmpData;
+
 
   /* Get in data */
   cmpData         = (CrFwCmpData_t*)FwSmGetData(smDesc);
@@ -102,12 +113,10 @@ void CrPsEvtDisableCmdProgressAction(FwSmDesc_t smDesc)
               nmbDisEvtLevel++;
               setDpnOfDisabledEid_4(nmbDisEvtLevel);
               break;
-            default: /*TODO can not be reached, because in the EVT_EID_LEVEL should not be a other entry !? */
+            default: /*TODO (01.02.2018) can not be reached, because in the EVT_EID_LEVEL should not be a other entry !? */
               break;
           }
-
         }
-
     }
 
   cmpData->outcome = 1;  

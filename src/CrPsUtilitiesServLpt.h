@@ -1,28 +1,21 @@
 /**
- * @file
- * @ingroup crPsUtilities
- * Interface through which applications can initialize and execute framework PUS extension components
+ * @file CrPsUtilitiesServLpt.h
+ * @ingroup Utilities
+ * @ingroup Serv13
+ *
+ * @brief Interface through which applications can initialize and execute framework PUS extension components
  *
  * @author Christian Reimers <christian.reimers@univie.ac.at>
- * @copyright P&P Software GmbH, 2013 / Department of Astrophysics, University of Vienna, All Rights Reserved
- * @version GPLv3_0.7.1
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
  *
- * This file is part of CORDET Framework PUS Extension.
+ * last modification: 22.01.2018
  *
- * CORDET Framework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
  *
- * CORDET Framework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with CORDET Framework.  If not, see <http://www.gnu.org/licenses/>.
- *
- * For information on alternative licensing, please contact P&P Software GmbH.
  */
 
 #ifndef CRPS_UTILITIES_SERVLPT_H_
@@ -31,8 +24,8 @@
 #include <CrFwConstants.h>
 
 /* global handles for the procedures */
-extern unsigned int DownTransferLptBufferId;
-extern unsigned int UpTransferLptBufferId;
+extern uint32_t DownTransferLptBufferId;
+extern uint32_t UpTransferLptBufferId;
 
 
 /**
@@ -63,12 +56,31 @@ FwPrDesc_t getPrDescLptUpCmdStart();
  */
 FwSmDesc_t getSmDescLpt();
 
-unsigned int* getLptMemStartAddr(unsigned int LptBuffer); /* Adaptation Point */
+/**
+ * Getter function for the Address of the Data
+ * @param LptBuffer The number ot the Large Packet Transfer Buffer 
+ * @return Pointer to the memory array of the LptBuffer
+ */
+uint32_t* getLptMemStartAddr(uint32_t LptBuffer); /* Adaptation Point */
 
-unsigned int getLptMemSize(unsigned int LptBuffer); /* Adaptation Point */
+/**
+ * Getter function to return the size of the Data
+ * @param LptBuffer The number ot the Large Packet Transfer Buffer 
+ * @return LPTSIZE The size of the LptBuffer
+ */
+uint32_t getLptMemSize(uint32_t LptBuffer); /* Adaptation Point */
 
-void initmemArray(); /* for testing */
-
+/**
+ * Provide the current time.
+ *
+ * This function implements the CORDET interface from CrFwTime.h. Time is
+ * provided as a 32-bit integer of which the MSB 8 bits are set to zero and the
+ * remaining 24 bits comply with the CUC time format (the 0
+ *
+ * \note This implementation uses a fixed value of `1413208149`. This is the
+ *       output of `date +%s` at some time in October 2014.
+ * \TODO Reimplement for the final application.
+ */
 CrFwTimeStamp_t CrFwGetCurrentTimeServer();
 
 #endif /* CRPS_UTILITIES_SERVLPT_H_ */

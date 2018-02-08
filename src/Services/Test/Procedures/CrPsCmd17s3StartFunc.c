@@ -1,23 +1,40 @@
 /**
  * @file CrPsCmd17s3StartFunc.c
- * @ingroup CrIaDemo
+ * @ingroup Serv17
+ * @ingroup procedures 
  *
- * ???
+ * @brief This procedure is run by the Start Action of the command (17,3)
  *
- * @author C. Reimers and M. Rockenbauer 13.06.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author FW Profile code generator version 5.01
+ * @date Created on: May 23 2017 23:40:11
+ * 
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 /** CrPsCmd17s3Start function definitions */
 #include "CrPsCmd17s3StartCreate.h"
 
 /** FW Profile function definitions */
-#include "FwPrConstants.h"
+#include "FwSmConstants.h"
+#include "FwSmConfig.h"
+#include "FwSmCore.h"
 #include "FwPrDCreate.h"
 #include "FwPrConfig.h"
 #include "FwPrCore.h"
+#include "FwPrConstants.h"
 
 /* Framework function definitions */
+#include "Pckt/CrFwPckt.h"
 #include "OutFactory/CrFwOutFactory.h"
 #include "OutCmp/CrFwOutCmp.h"
 #include "OutLoader/CrFwOutLoader.h"
@@ -32,10 +49,8 @@
 #include <CrPsRepErr.h>
 #include <CrPsUtilitiesServTest.h>
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "CrPsDebug.h"
 
 FwSmDesc_t cmd;
 
@@ -45,7 +60,7 @@ FwSmDesc_t cmd;
 void CrPsTestOnBoardConnectionStartN1(FwPrDesc_t prDesc)
 {
   CRFW_UNUSED(prDesc);
-  CrPsDestSrc_t areYouAliveSrc; /*TODO ... hoffentlich haben wir hier kein durcheinander mit short und char (crps oder crfw descs/rc) */
+  CrPsDestSrc_t areYouAliveSrc; 
 
   /* Set areYouAliveSrc to zero */
 
@@ -118,12 +133,17 @@ void CrPsTestOnBoardConnectionStartN5(FwPrDesc_t prDesc)
 /* Action for node N7. */
 void CrPsTestOnBoardConnectionStartN7(FwPrDesc_t prDesc)
 {
-  prDataStartAction_t prDataStartAction;
+  FwSmDesc_t     smDesc;
+  CrFwCmpData_t *cmpData;
 
   /* Set outcome of Start Action to 'success' */
 
-  prDataStartAction.outcome = 1;
-  FwPrSetData(prDesc, &prDataStartAction);
+  /* Get smDesc from InCmd */
+  smDesc = FwPrGetData(prDesc);
+
+  /* Set outcome in InCmd prData to 'success' */ 
+  cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
+  cmpData->outcome = 1;
 
   return;
 }
@@ -132,12 +152,17 @@ void CrPsTestOnBoardConnectionStartN7(FwPrDesc_t prDesc)
 /* Action for node N8. */
 void CrPsTestOnBoardConnectionStartN8(FwPrDesc_t prDesc)
 {
-  prDataStartAction_t prDataStartAction;
+  FwSmDesc_t     smDesc;
+  CrFwCmpData_t *cmpData;
 
   /* Set outcome of Start Action to 'failure' with failure code VER_REP_CR_FD */
 
-  prDataStartAction.outcome = VER_REP_CR_FD;
-  FwPrSetData(prDesc, &prDataStartAction);
+  /* Get smDesc from InCmd */
+  smDesc = FwPrGetData(prDesc);
+
+  /* Set outcome in InCmd prData to 'failure' (VER_REP_CR_FD) */ 
+  cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
+  cmpData->outcome = VER_REP_CR_FD;
 
   return;
 }

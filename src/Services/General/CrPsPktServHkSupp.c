@@ -1,19 +1,31 @@
 /**
- * \file CrPsPktServHkSupp.c
+ * @file CrPsPktServHkSupp.c
+ * @ingroup Serv3
+ * @ingroup pktgetset
  *
- * Interface for accessing fields in packets of service "ServHk".
+ * @brief auxiliary Interface for accessing fields in packets of service "ServHk".
  *
- * \author C. Reimers and M. Rockenbauer 24.10.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
-#include <Services/General/CrPsPktServHkSupp.h>
-#include "Services/General/CrPsPktUtil.h"
+
 #include "CrPsUserConstants.h"
+#include "CrFwUserConstants.h"
 #include <DataPool/CrPsDp.h>
 #include <DataPool/CrPsDpServHk.h>
 #include <Services/General/CrPsPktServHk.h>
-#include <string.h>
+#include <Services/General/CrPsPktServHkSupp.h>
+#include <Services/General/CrPsPktUtil.h>
 #include <Pckt/CrFwPckt.h>
 
 
@@ -545,7 +557,11 @@ void setHkOneShotCmdRepStrucIdItem(void* p, CrFwCounterU4_t N, CrPsSid_t RepStru
   memcpy(&((uint8_t*)p)[sizeof(TcHeader_t)-1+sizeof(CrFwCounterU4_t)+sizeof(CrPsSid_t)*N], &RepStrucId, sizeof(CrFwCounterU4_t));
 }
 
-
+/**
+ * Get "RepStrucSize by SID" 
+ * \param sid the structure identifier.
+ * \return size of the structure in bytes.
+ */
 size_t getHkRepStructSize(CrPsSid_t sid)
 {
   size_t          s;
@@ -644,6 +660,11 @@ size_t getHkRepSizeFromDp(CrPsSid_t sid)
 }
 #endif
 
+/**
+ * Get the size of a HkRep Housekeeping packet.
+ * \param p Pointer to the packet.
+ * \return the size of the packet in bytes.
+ */
 size_t getHkRepSizeFromPckt(void* p)
 {
   size_t          s, N2ParamIdSize;

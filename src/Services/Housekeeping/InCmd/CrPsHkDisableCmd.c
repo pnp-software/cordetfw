@@ -1,10 +1,22 @@
 /**
  * @file CrPsHkDisableCmd.c
+ * @ingroup Serv3
+ * @ingroup InCmd
  *
- * Implementation of the Command (3,6) to Disable Periodic Generation of a Housekeeping Report Structure in-coming command packet.
+ * @brief Implementation of the Command (3,6) to Disable Periodic Generation of a Housekeeping Report Structure in-coming command packet.
  *
- * @author C. Reimers and M. Rockenbauer 13.06.2017
- * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2017
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrPsHkDisableCmd.h"
@@ -31,9 +43,6 @@
 #include <Services/General/CrPsConstants.h>
 #include <Services/General/CrPsPktServHk.h>
 #include <Services/General/CrPsPktServHkSupp.h>
-
-#include <stdio.h>
-#include "CrPsDebug.h"
 
 
 /* ------------------------------------------------------------------------------------ */

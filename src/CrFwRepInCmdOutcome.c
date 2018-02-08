@@ -10,6 +10,11 @@
  *
  * @authors V. Cechticky and A. Pasetti
  * @copyright P&P Software GmbH, 2014
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
 
 #include "CrFwRepInCmdOutcome.h"
@@ -35,8 +40,29 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define ACK_CREATE_FAIL 99
+
 
 /*-----------------------------------------------------------------------------------------*/
+void CrFwRepInCmdOutcomeCreFail(CrFwRepInCmdOutcome_t outcome, CrFwOutcome_t failCode, CrFwPckt_t pckt)
+{
+  CRFW_UNUSED(failCode);
+  CRFW_UNUSED(pckt);
+
+  switch (outcome)
+    {
+      case crCmdAckCreFail:
+        printf("CrFwRepInCmdOutcomeCreFail: InCmd had invalid type or no more resources are available\n");
+        /*SendReqVerifAccFailRep(smDesc, ACK_CREATE_FAIL);*/ /* TODO: need smDesc */
+        break;
+
+      default:
+        break;
+    }
+
+  return;
+}
+
 void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanceId, CrFwServType_t servType,
                          CrFwServSubType_t servSubType, CrFwDiscriminant_t disc, CrFwOutcome_t failCode, FwSmDesc_t inCmd)
 {
@@ -71,6 +97,7 @@ void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanc
       break;
     case crCmdAckPrgFail:
       printf ("########## CrFwRepInCmdOutcome: Progress Failed, Send TM(1,6)\n");
+      /*TODO:*/
       /* Get procedure parameters */
       prDataPrgrAction = (prDataPrgrAction_t *)FwPrGetData(getPrDescServTestOnBoardConnPrgr());
       stepIdentifier = prDataPrgrAction->stepId;

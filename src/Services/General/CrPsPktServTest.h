@@ -1,16 +1,28 @@
 /**
- * \file CrPSPktServTest.h
+ * @file CrPsPktServTest.h
+ * @ingroup Serv17
+ * @ingroup pktgetset
  *
- * Interface for accessing fields in packets of service "ServTest".
+ * @brief Interface for accessing fields in packets of service "ServTest".
  *
- * \note This file was generated on 2017-10-13 12:48:17
- * \author PnP Generator
- * \copyright (c) Copyright
+ * @note This file was generated on 2017-10-13 12:48:17
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
+
 #ifndef CRPSPKTSERVTEST_H_
 #define CRPSPKTSERVTEST_H_
 
-#include "CrPsDpTypes.h"
 #include "CrPsUserConstants.h"
 #include "CrPsPkt.h"
 

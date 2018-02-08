@@ -1,19 +1,31 @@
 /**
- * \file
+ * @file CrPsDpServReqVerif.h
+ * @ingroup Serv1
+ * @ingroup DataPool
  *
- * Interface for accessing data pool items.
+ * @brief Interface for accessing data pool items.
  *
- * \note This file was generated on 2017-10-13 12:48:17
- * \author PnP Generator
- * \copyright (c) Copyright
+ * @note This file was generated on 2017-10-13 12:48:17
+ * @author PnP Generator
+ * @author Christian Reimers <christian.reimers@univie.ac.at>
+ * @author Markus Rockenbauer <markus.rockenbauer@univie.ac.at>
+ * 
+ * last modification: 22.01.2018
+ * 
+ * @copyright P&P Software GmbH, 2015 / Department of Astrophysics, University of Vienna, 2018
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. 
+ *
  */
+
 #ifndef CRPSDPSERVREQVERIF_H_
 #define CRPSDPSERVREQVERIF_H_
 
 #include <CrFwUserConstants.h>
 #include <CrPsUserConstants.h>
-#include "CrPsDpTypes.h"
-#include <stdio.h>
+
 /**
  * Type description
  */

@@ -134,10 +134,13 @@ FwSmDesc_t CrFwOutFactoryMake();
  *
  * The value of the instance identifier is built as follows.
  * Let n be the number of OutComponents made by the factory since it was last reset;
- * let APP_ID be the application identifier (see <code>#CR_FW_HOST_APP_ID</code>); and let
+ * let APP_ID be the application identifier (see <code>#CR_FW_HOST_APP_ID</code>); let
  * m be the number of bits reserved for the application identifier (see
- * <code>#CR_FW_NBITS_APP_ID</code>).
- * The instance identifier is then given by: APP_ID*(2**m)+n.
+ * <code>#CR_FW_NBITS_APP_ID</code>); and let s be the number of bits of the instance
+ * identifier.
+ * The instance identifier is then given by: APP_ID*(2**(s-m))+n.
+ * In this formula, the value of n is incremented by 1 every time a new OutComponent is
+ * created by the OutFactory and it is reset to 0 when it reaches APP_ID*(2**(s-m)).
  *
  * The value of the sequence counter is initialized to zero.
  *
