@@ -40,7 +40,6 @@ void initDpServHk(void)
   static CrFwCounterU4_t initcycleCnt[HK_N_REP_DEF];
   static CrPsValueU4_t initdebugVar[HK_N_DEBUG_VAR];
   static CrPsParamId_t initlstId[HK_N_REP_DEF*HK_MAX_N_ITEMS];
-  static CrPsParamId_t initlstId[HK_N_REP_DEF*HK_MAX_N_ITEMS];
   static CrPsNumberU2_t initlstNSampRep[HK_N_REP_DEF*HK_MAX_N_GR];
   static CrPsRepetition_t initlstSampleRep[HK_N_REP_DEF*HK_MAX_N_GR];
   static CrPsNumberU2_t initnSimple[HK_N_REP_DEF];
