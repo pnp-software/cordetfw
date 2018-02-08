@@ -1,0 +1,11 @@
+\def \printHkDeleteCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of HkDeleteCmd Component}{tab:HkDeleteCmdSpec}{Name & HkDeleteCmd}
+Description & Command (3,3) or (3,4) to Delete a Housekeeping or Diagnostic\newline Report Structure \\\hline
+Parameters & List of SIDs whose definition is to be deleted with layout as in\newline clauses 8.3.2.3 and 8.3.2.4 of [PS-SP] \\\hline
+Discriminant & None \\\hline
+Ready Check & Return 'command is ready' \\\hline
+Start Action & Run the procedure Start Action of HkDelete Command of figure 9.2 \\\hline
+Progress Action & Delete the entries in the RDL corresponding to the SIDs which have been identified as valid by the Start Action and then set the action outcome to 'completed' \\\hline
+Termination Action & Set action outcome to 'success' \\\hline
+Abort Action & Do nothing \\\hline
+\end{pnptable}}

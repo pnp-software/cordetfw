@@ -1,0 +1,10 @@
+\def \printEvtRepcSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtRep3 Component}{tab:EvtRepcSpec}{Name & EvtRep3}
+Description & Event Report of Type (5,3) \\\hline
+Parameters & Parameter values are as application-specific \\\hline
+Discriminant & None \\\hline
+Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the OutRegistry as a function of the report type, sub-type and discriminant \\\hline
+Ready Check & Report is always ready \\\hline
+Repeat Check & Report is never repeated \\\hline
+Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the parameter values are set by the application which creates the event report at the time it creates the event report. \\\hline
+\end{pnptable}}

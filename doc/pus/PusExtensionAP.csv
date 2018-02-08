@@ -1,0 +1,62 @@
+Category,Id,Origin,AP,DefValue
+DP,1,Overrides BAS-1,Initialization Check in Initialization Procedure of Data Pool Component,Return 'success' if there are adequate resources for creating the data structures for the data items 
+DP,2,Overrides BAS-2,Initialization Action in Initialization Procedure of Data Pool Component,Create the data structures required for the data items and return 'success' if creation was successful
+DP,3,Overrides BAS-3,Configuration Check in Reset Procedure of Data Pool Component,Return 'success' if current values of data items can be initialized with their default values in zero logical execution time or else return 'success' if initialization of current value of data items has completed
+DP,4,Overrides BAS-4,Configuration Action in Reset Procedure of Data Pool Component,Start initialization of current values of data items with their default values and return 'success' if the initialization has completed
+DP,5,Overrides BAS-5,Shutdown Action of Data Pool Component,Same value as in Base Component
+DP,6,Overrides BAS-6,Execution Procedure of Data Pool Component,Refresh values of debug variables in data pool
+DP,7,New AP,Definition of Data Items in the Data Pool Component,No default defined at framework level
+DP,8,New AP,Operation to access the Current Value of a Data Item,No default defined at framework level
+DP,9,New AP,Operation to update the Current Value of a Data Item,No default defined at framework level
+OCM,1,Closes OCM-1,Initialization Check in Initialization Procedure of OutComponent,Always returns 'check successful'
+OCM,2,Closes OCM-2,Initialization Action in Initialization Procedure of OutComponent,Do nothing and return 'action successful'
+OCM,3,Closes OCM-3,Configuration Check in Reset Procedure of OutComponent,Always returns 'check successful'
+OCM,4,Closes OCM-4,Configuration Action in Reset Procedure of OutComponent,Do nothing and return 'action successful'
+OCM,5,Closes OCM-5,Shutdown Action in Base Component of OutComponent,Do nothing
+OCM,6,Closes OCM-6,Execution Procedure of OutComponent,Do nothing
+OCM,7,Closes OCM-7,Service Type Attribute of OutComponent,Set equal to PUS service type
+OCM,8,Closes OCM-8,Command/Report Sub-Type Attribute of OutComponent,Set equal to PUS service sub-type
+OCM,9,Closes OCM-9,Destination Attribute of OutComponent,See definition of individual reports
+OCM,10,Closes OCM-10,Acknowledge Level Attribute of OutComponent,Not relevant to out-going report
+OCM,11,Closes OCM-11,Discriminant Attribute of OutComponent,See definition of individual reports
+OCM,12,Closes OCM-12,Parameter Attribute of OutComponent,See definition of individual reports
+OCM,13,Closes OCM-13,Enable Check Operation of OutComponent,See definition of individual reports
+OCM,14,Closes OCM-14,Ready Check Operation of OutComponent,See definition of individual reports
+OCM,15,Closes OCM-15,Repeat Check Operation of OutComponent,See definition of individual reports
+OCM,16,Closes OCM-16,Update Action of OutComponent,See definition of individual reports
+OCM,17,Closes OCM-17,Serialize Operation of OutComponent,Build a packet with the layout specified by the PUS
+OCM,18,Closes OCM-18,Operation to Report Invalid Destination of an OutComponent,Generate SNDPCKT\_INV\_DEST Error Report 
+ICM,1,Closes ICM-1,Initialization Check in Initialization Procedure of InCommand,Returns 'check successful' if information for initializing InCommand using data in incoming packet is valid
+ICM,2,Closes ICM-2,Initialization Action in Initialization Procedure of InCommand,Use information in incoming packet to initialize InCommand and return “action successful' 
+ICM,3,Closes ICM-3,Configuration Check in Reset Procedure of InCommand,Returns 'check successful' if packet length and checksum are correct
+ICM,4,Closes ICM-4,Configuration Action in Reset Procedure of InCommand,Use information in incoming packet to configure InCommand and return “action successful' 
+ICM,5,Closes ICM-5,Shutdown Action of InCommand,Release all resources allocated to the InCommand
+ICM,6,Closes ICM-6,Execution Procedure of InCommand,Do nothing
+ICM,7,Closes ICM-7,Ready Check of InCommand,See definition of individual commands
+ICM,8,Closes ICM-8,Start Action of InCommand,See definition of individual commands
+ICM,9,Closes ICM-9,Progress Action of InCommand,See definition of individual commands
+ICM,10,Closes ICM-10,Termination Action of InCommand,See definition of individual commands
+ICM,11,Closes ICM-11,Abort Action of InCommand,See definition of individual commands
+ICM,12,Closes ICM-12,Operation to Report Start Failed for InCommand ,See definition of service 1
+ICM,13,Closes ICM-13,Operation to Report Start Successful for InCommand ,See definition of service 1
+ICM,14,Closes ICM-14,Operation to Report Progress Failed for InCommand,See definition of service 1
+ICM,15,Closes ICM-15,Operation to Report Progress Successful for InCommand ,See definition of service 1
+ICM,16,Closes ICM-16,Operation to Report Termination Failed for InCommand ,See definition of service 1
+ICM,17,Closes ICM-17,Operation to Report Report Termination Successful for InCommand ,See definition of service 1
+ICM,18,Closes ICM-18,Service Type Attribute of InCommand,Set equal to PUS service type
+ICM,19,Closes ICM-19,Command Sub-Type Attribute of InCommand,Set equal to PUS service sub-type
+ICM,20,Closes ICM-20,Discriminant Attribute of InCommand,See definition of individual commands
+ICM,21,Closes ICM-21,Parameter Attributes of InCommand,See definition of individual commands
+S1,1,Closes ILD-12,Operation to Report Packet Destination Invalid by InLoader,Run the Packet Re-Routing Failure Procedure of figure \ref{fig:PcktReroutingFail}
+S1,2,Closes ILD-14,Operation to Report Acceptance Failure by InLoader,Run the Packet Acceptance Failure Procedure of figure \ref{fig:PcktAccFail}
+S1,3,Closes ILD-13,Operation to Report Acceptance Success by InLoader,Run the Command Verification Success Procedure of figure \ref{fig:CmdVerSucc}
+S1,4,Closes ICM-12,Operation to Report Start Failed for InCommand ,Run the Command Verification Failure Procedure of figure \ref{fig:CmdVerFail}
+S1,5,Closes ICM-13,Operation to Report Start Successful for InCommand ,Run the Command Verification Success Procedure of figure \ref{fig:CmdPrgrSucc}
+S1,6,Closes ICM-14,Operation to Report Progress Failed for InCommand,Run the Command Progress Failure Procedure \ref{fig:CmdPrgrFail}
+S1,7,Overrides ICM-15,Operation to Report Progress Successful for InCommand ,"Determine if a progress step has been completed and, if so, run the Command Progress Success Procedure"
+S1,8,Closes ICM-16,Operation to Report Termination Failed for InCommand ,Run the Command Verification Failure Procedure of figure \ref{fig:CmdVerSucc}
+S1,9,Closes ICM-17,Operation to Report Report Termination Successful for InCommand ,Run the Command Verification Success Procedure of figure \ref{fig:CmdPrgrSucc}
+S12,1,New AP,Definition of Parameter Monitoring Procedures,"Three parameter monitoring procedures are defined (limit check, expected value and delta check)"
+S12,2,New AP,Definition of Parameter Monitoring Definition List (PMDL),"By default, all parameter monitors are empty"
+S12,3,New AP,Definition of Functional Monitoring Definition List (FMDL),"By default, all parameter monitors are empty"
+S13,1,New AP,Operation to access the i-th LPT Buffer,No default defined at framework level

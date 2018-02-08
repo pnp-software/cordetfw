@@ -1,0 +1,13 @@
+Category,Name,Desc
+S3,sid,Array of HK\_N\_REP\_DEF elements. The i-th element is the SID of the i-th Report Definition in the RDL 
+S3,period,Array of HK\_N\_REP\_DEF elements. The i-th element is the period of the i-th Report Definition in the RDL 
+S3,isEnabled,Array of HK\_N\_REP\_DEF elements. The i-th element is the enable status of the i-th Report Definition in the RDL 
+S3,dest,Array of HK\_N\_REP\_DEF elements. The i-th element is the destination of the i-th Report Definition in the RDL 
+S3,debugVarAddr,Array of HK\_N\_DEBUG\_VAR elements. The i-th element is the address of the i-th debug variable
+S12,servUser,Identifier of the application acting as user of the on-board monitoring service
+S12,ctlRepDelay,Maximum reporting delay for the Check Transition List expresssed in multiples of the monitoring period MON\_PER
+S13,lptDest,Array of LPT\_N\_BUF elements. The i-th element is the destination for large packets originating from the i-th LPT Buffer
+S13,partSize,Array of LPT\_N\_BUF elements. The i-th element is the part size for large packets originating from the i-th LPT Buffer
+S13,lptTimeOut,Array of LPT\_N\_BUF elements. The i-th element is the time-out for the up-transfer to the i-th LPT Buffer
+S17,areYouAliveTimeOut,Time-out for the Are-You-Alive Test initiated in response to an Is-Application-Process-Alive Test 
+S17,onBoardConnectDestLst,List of identifiers of target applications for an On-Board-Connection Test

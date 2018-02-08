@@ -1,0 +1,11 @@
+\def \printMonModParMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonModParMonDefCmd Component}{tab:MonModParMonDefCmdSpec}{Name & MonModParMonDefCmd}
+Description & Command (12,7) to modify one or more parameter definitions \\\hline
+Parameters & The modified parameter definitions. Each modified parameter definition consists of identifier of parameter monitor, identifier of parameter to be monitored, repetition counter, description of monitoring check (including identifiers of events to be generated in case of monitoring violation) \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Run the procedure Start Action for (12,7) Command of figure \ref{fig:Cmd12s7Start}  \\\hline
+Progress Action & For all the parameter monitors which have been accepted by the Start Action: modify the parameter monitor definition in the PMDL according to the command parameters, set the check status to 'unchecked', reset the repetition counter and the phase counter to zero \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}

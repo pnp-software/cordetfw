@@ -1,0 +1,10 @@
+\def \printLptDownInterRepSpec#1 {
+\begin{pnptable}{#1}{Specification of LptDownInterRep Component}{tab:LptDownInterRepSpec}{Name & LptDownInterRep}
+Description & Intermediate Downlink Report \\\hline
+Parameters & Large message transaction identifier, part sequence number and\newline transfer data with the layout defined in clause 8.13.2.2 of [PS-SP] \\\hline
+Discriminant & None \\\hline
+Enable Check & Report is enabled if the LPT State Machine is in state DOWN\_\-TRANSFER \\\hline
+Ready Check & Report is always ready \\\hline
+Repeat Check & Report is repeated as long as lptRemSize is greater than partSize \\\hline
+Update Action & Load the next part of the large packet from the LPT Buffer; set the transaction identifier equal to largeMsgTransId; set the part number equal to partSeqNmb; increase partSeqNmb; and decrement lptRemSize by partSize \\\hline
+\end{pnptable}}

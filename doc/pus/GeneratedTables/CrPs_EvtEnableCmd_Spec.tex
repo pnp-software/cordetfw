@@ -1,0 +1,11 @@
+\def \printEvtEnableCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtEnableCmd Component}{tab:EvtEnableCmdSpec}{Name & EvtEnableCmd}
+Description & Command (5,5) to Enable Generation of a List of Event Identifiers \\\hline
+Parameters & List of EIDs to be enabled with a layout as in clause 8.5.2.5 of [PS-SP] \\\hline
+Discriminant & None \\\hline
+Ready Check & Return 'command is ready' \\\hline
+Start Action & Run the procedure Start Action of Multi-EID Command of figure 10.1 \\\hline
+Progress Action & For each valid EID found by the Start Action of the command: set the corresponding element of the array isEidEnabled to true and then decrement nDisabledEid x ('x' is the severity level of the EID). Set the action outcome to 'completed'. \\\hline
+Termination Action & Set action outcome to 'success' \\\hline
+Abort Action & Do nothing \\\hline
+\end{pnptable}}

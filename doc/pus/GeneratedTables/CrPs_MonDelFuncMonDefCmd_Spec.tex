@@ -1,0 +1,11 @@
+\def \printMonDelFuncMonDefCmdSpec#1 {
+\begin{pnptable}{#1}{Specification of MonDelFuncMonDefCmd Component}{tab:MonDelFuncMonDefCmdSpec}{Name & MonDelFuncMonDefCmd}
+Description & TC(12,24) to delete one or more functional monitoring definitions to the FMDL \\\hline
+Parameters & The identifiers of the functional monitors to be deleted \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Run the Command (12,24) Start Action Procedure of figure \ref{fig:Cmd12s24Start} \\\hline
+Progress Action & For all functional monitors which have been accepted for execution by the Start Action: remove the functional monitor from the FMDL Increment the data pool variable representing the number of remaining available functional monitors by the number of deleted functional monitors. Set the action outcome to 'completed'. \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}
