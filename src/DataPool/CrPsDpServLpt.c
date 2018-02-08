@@ -34,42 +34,44 @@ void initDpServLpt(void)
   uint32_t i, j;
 
   static CrPsTimeOut_t initlptTimeOut[LPT_N_BUF];
+  static CrPsTid_t initlargeMsgTransId[LPT_N_BUF];
+  static CrPsFailCode_t initlptFailCode[LPT_N_BUF];
+  static CrPsSize_t initlptRemSize[LPT_N_BUF];
+  static CrPsSize_t initlptSize[LPT_N_BUF];
+  static CrPsDestSrc_t initlptSrc[LPT_N_BUF];
+  static CrFwTimeStamp_t initlptTime[LPT_N_BUF];
+  static CrFwCounterU4_t initpartSeqNmb[LPT_N_BUF];
+
   for (i=0;i<LPT_N_BUF;i++)
   {
     initlptTimeOut[i] = LPT_UP_TIMEOUT;
   }
 
-  static CrPsTid_t initlargeMsgTransId[LPT_N_BUF];
   for (i=0;i<LPT_N_BUF;i++)
   {
     initlargeMsgTransId[i] = 0;
   }
 
-  static CrPsFailCode_t initlptFailCode[LPT_N_BUF];
   for (i=0;i<LPT_N_BUF;i++)
   {
     initlptFailCode[i] = 0;
   }
 
-  static CrPsSize_t initlptRemSize[LPT_N_BUF];
   for (i=0;i<LPT_N_BUF;i++)
   {
     initlptRemSize[i] = 0;
   }
 
-  static CrPsSize_t initlptSize[LPT_N_BUF];
   for (i=0;i<LPT_N_BUF;i++)
   {
     initlptSize[i] = 0;
   }
 
-  static CrPsDestSrc_t initlptSrc[LPT_N_BUF];
   for (i=0;i<LPT_N_BUF;i++)
   {
     initlptSrc[i] = 0;
   }
 
-  static CrFwTimeStamp_t initlptTime[LPT_N_BUF];
   for (i=0;i<LPT_N_BUF;i++)
   {
     for (j=0;j<6;j++)
@@ -78,7 +80,6 @@ void initDpServLpt(void)
     }
   }
 
-  static CrFwCounterU4_t initpartSeqNmb[LPT_N_BUF];
   for (i=0;i<LPT_N_BUF;i++)
   {
     initpartSeqNmb[i] = 0;
