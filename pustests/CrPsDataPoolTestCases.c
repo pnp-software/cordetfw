@@ -931,13 +931,13 @@ CrFwBool_t CrPsDataPoolTestCase5()
 
   setDplastEvtTime_1(tim0);
   ret = getDplastEvtTime_1();
-  if (memcmp(ret.t, tim0.t, sizeof(tim0))!=0)
+  if (memcmp(ret.t, tim0.t, sizeof(tim0)))
   {
     return 0;
   }
   setDplastEvtTime_1(timmax);
   ret = getDplastEvtTime_1();
-  if (memcmp(ret.t, timmax.t, sizeof(timmax))!=0)
+  if (memcmp(ret.t, timmax.t, sizeof(timmax)))
   {
     return 0;
   }
@@ -948,7 +948,6 @@ CrFwBool_t CrPsDataPoolTestCase5()
   {
     return 0;
   }
-
   setDplastEvtTime_2(timmax);
   ret = getDplastEvtTime_2();
   if (memcmp(ret.t, timmax.t, sizeof(timmax)))
@@ -962,7 +961,6 @@ CrFwBool_t CrPsDataPoolTestCase5()
   {
     return 0;
   }
-
   setDplastEvtTime_3(timmax);
   ret = getDplastEvtTime_3();
   if (memcmp(ret.t, timmax.t, sizeof(timmax)))
@@ -976,7 +974,6 @@ CrFwBool_t CrPsDataPoolTestCase5()
   {
     return 0;
   }
-
   setDplastEvtTime_4(timmax);
   ret = getDplastEvtTime_4();
   if (memcmp(ret.t, timmax.t, sizeof(timmax)))

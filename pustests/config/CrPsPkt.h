@@ -324,7 +324,7 @@ static inline void setTcHeaderSeqCount(void* p, FourTeen_Bit_t SeqCount)
  * \param p Pointer to the packet.
  * \return Value of "PcktDataLen".
  */
-static inline uint16_t getTcHeaderPcktDataLen(void* p)
+static inline CrFwPcktLength_t getTcHeaderPcktDataLen(void* p)
 {
   TcHeader_t* t;
   t = (TcHeader_t*)p;
@@ -336,7 +336,7 @@ static inline uint16_t getTcHeaderPcktDataLen(void* p)
  * \param p Pointer to the packet.
  * \param PcktDataLen Value of "PcktDataLen" to be set in packet.
  */
-static inline void setTcHeaderPcktDataLen(void* p, uint16_t PcktDataLen)
+static inline void setTcHeaderPcktDataLen(void* p, CrFwPcktLength_t PcktDataLen)
 {
   TcHeader_t* t;
   t = (TcHeader_t*)p;
@@ -518,7 +518,7 @@ static inline void setTcHeaderAckTermFlag(void* p, One_Bit_t AckTermFlag)
  * \param p Pointer to the packet.
  * \return Value of "ServType".
  */
-static inline uint8_t getTcHeaderServType(void* p)
+static inline CrFwServType_t getTcHeaderServType(void* p)
 {
   TcHeader_t* t;
   t = (TcHeader_t*)p;
@@ -530,7 +530,7 @@ static inline uint8_t getTcHeaderServType(void* p)
  * \param p Pointer to the packet.
  * \param ServType Value of "ServType" to be set in packet.
  */
-static inline void setTcHeaderServType(void* p, uint8_t ServType)
+static inline void setTcHeaderServType(void* p, CrFwServType_t ServType)
 {
   TcHeader_t* t;
   t = (TcHeader_t*)p;
@@ -542,7 +542,7 @@ static inline void setTcHeaderServType(void* p, uint8_t ServType)
  * \param p Pointer to the packet.
  * \return Value of "ServSubType".
  */
-static inline uint8_t getTcHeaderServSubType(void* p)
+static inline CrFwServSubType_t getTcHeaderServSubType(void* p)
 {
   TcHeader_t* t;
   t = (TcHeader_t*)p;
@@ -554,7 +554,7 @@ static inline uint8_t getTcHeaderServSubType(void* p)
  * \param p Pointer to the packet.
  * \param ServSubType Value of "ServSubType" to be set in packet.
  */
-static inline void setTcHeaderServSubType(void* p, uint8_t ServSubType)
+static inline void setTcHeaderServSubType(void* p, CrFwServSubType_t ServSubType)
 {
   TcHeader_t* t;
   t = (TcHeader_t*)p;
@@ -566,7 +566,7 @@ static inline void setTcHeaderServSubType(void* p, uint8_t ServSubType)
  * \param p Pointer to the packet.
  * \return Value of "SrcId".
  */
-static inline uint8_t getTcHeaderSrcId(void* p)
+static inline CrFwDestSrc_t getTcHeaderSrcId(void* p)
 {
   TcHeader_t* t;
   t = (TcHeader_t*)p;
@@ -578,7 +578,7 @@ static inline uint8_t getTcHeaderSrcId(void* p)
  * \param p Pointer to the packet.
  * \param SrcId Value of "SrcId" to be set in packet.
  */
-static inline void setTcHeaderSrcId(void* p, uint8_t SrcId)
+static inline void setTcHeaderSrcId(void* p, CrFwDestSrc_t SrcId)
 {
   TcHeader_t* t;
   t = (TcHeader_t*)p;
@@ -794,7 +794,7 @@ static inline void setTmHeaderSeqCount(void* p, FourTeen_Bit_t SeqCount)
  * \param p Pointer to the packet.
  * \return Value of "PcktDataLen".
  */
-static inline uint16_t getTmHeaderPcktDataLen(void* p)
+static inline CrFwPcktLength_t getTmHeaderPcktDataLen(void* p)
 {
   TmHeader_t* t;
   t = (TmHeader_t*)p;
@@ -806,7 +806,7 @@ static inline uint16_t getTmHeaderPcktDataLen(void* p)
  * \param p Pointer to the packet.
  * \param PcktDataLen Value of "PcktDataLen" to be set in packet.
  */
-static inline void setTmHeaderPcktDataLen(void* p, uint16_t PcktDataLen)
+static inline void setTmHeaderPcktDataLen(void* p, CrFwPcktLength_t PcktDataLen)
 {
   TmHeader_t* t;
   t = (TmHeader_t*)p;
@@ -887,7 +887,7 @@ static inline void setTmHeaderSpaceTimeRefStatus(void* p, Four_Bit_t SpaceTimeRe
  * \param p Pointer to the packet.
  * \return Value of "ServType".
  */
-static inline uint8_t getTmHeaderServType(void* p)
+static inline CrFwServType_t getTmHeaderServType(void* p)
 {
   TmHeader_t* t;
   t = (TmHeader_t*)p;
@@ -899,7 +899,7 @@ static inline uint8_t getTmHeaderServType(void* p)
  * \param p Pointer to the packet.
  * \param ServType Value of "ServType" to be set in packet.
  */
-static inline void setTmHeaderServType(void* p, uint8_t ServType)
+static inline void setTmHeaderServType(void* p, CrFwServType_t ServType)
 {
   TmHeader_t* t;
   t = (TmHeader_t*)p;
@@ -911,7 +911,7 @@ static inline void setTmHeaderServType(void* p, uint8_t ServType)
  * \param p Pointer to the packet.
  * \return Value of "ServSubType".
  */
-static inline uint8_t getTmHeaderServSubType(void* p)
+static inline CrFwServType_t getTmHeaderServSubType(void* p)
 {
   TmHeader_t* t;
   t = (TmHeader_t*)p;
@@ -923,7 +923,7 @@ static inline uint8_t getTmHeaderServSubType(void* p)
  * \param p Pointer to the packet.
  * \param ServSubType Value of "ServSubType" to be set in packet.
  */
-static inline void setTmHeaderServSubType(void* p, uint8_t ServSubType)
+static inline void setTmHeaderServSubType(void* p, CrFwServType_t ServSubType)
 {
   TmHeader_t* t;
   t = (TmHeader_t*)p;
@@ -935,7 +935,7 @@ static inline void setTmHeaderServSubType(void* p, uint8_t ServSubType)
  * \param p Pointer to the packet.
  * \return Value of "DestId".
  */
-static inline uint8_t getTmHeaderDestId(void* p)
+static inline CrFwDestSrc_t getTmHeaderDestId(void* p)
 {
   TmHeader_t* t;
   t = (TmHeader_t*)p;
@@ -947,7 +947,7 @@ static inline uint8_t getTmHeaderDestId(void* p)
  * \param p Pointer to the packet.
  * \param DestId Value of "DestId" to be set in packet.
  */
-static inline void setTmHeaderDestId(void* p, uint8_t DestId)
+static inline void setTmHeaderDestId(void* p, CrFwDestSrc_t DestId)
 {
   TmHeader_t* t;
   t = (TmHeader_t*)p;
@@ -992,7 +992,7 @@ static inline void setTmHeaderTime(void* p, const void* src)
 
 
 /**/
-static inline uint16_t CrFwPcktGetSeqCtrl(CrFwPckt_t pckt)
+static inline CrPsSeqCtrl_t CrFwPcktGetSeqCtrl(CrFwPckt_t pckt)
 {
 	uint32_t seqflags, seqcount;
 
@@ -1011,7 +1011,7 @@ static inline uint16_t CrFwPcktGetSeqCtrl(CrFwPckt_t pckt)
 }
 
 /**/
-static inline void CrFwPcktSetSeqCtrl(CrFwPckt_t pckt, uint16_t psc)
+static inline void CrFwPcktSetSeqCtrl(CrFwPckt_t pckt, CrPsSeqCtrl_t psc)
 {
 	uint32_t seqflags, seqcount;
 
@@ -1033,7 +1033,7 @@ static inline void CrFwPcktSetSeqCtrl(CrFwPckt_t pckt, uint16_t psc)
 }
 
 /**/
-static inline uint16_t CrFwPcktGetApid(CrFwPckt_t pckt)
+static inline CrPsApid_t CrFwPcktGetApid(CrFwPckt_t pckt)
 {
 	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
 	{
@@ -1046,7 +1046,7 @@ static inline uint16_t CrFwPcktGetApid(CrFwPckt_t pckt)
 }
 
 /**/
-static inline void CrFwPcktSetApid(CrFwPckt_t pckt, uint16_t apid)
+static inline void CrFwPcktSetApid(CrFwPckt_t pckt, CrPsApid_t apid)
 {
 	if (CrFwPcktGetCmdRepType(pckt) == crRepType)
 	{

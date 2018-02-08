@@ -514,11 +514,8 @@ CrFwBool_t CrPsLptTestCase2()
   /* Release the inCommand */
   CrFwInFactoryReleaseInCmd(inCmd);
   
-  return 1;
 
-  /*LOOP !!!! i = 1 to ??*/
-  for (i=1;i<LPTSIZE;i++)
-  {
+
     /* Allocate a 13,10 Packet */
     pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
     CrFwPcktSetServType(pckt,13);
@@ -532,8 +529,8 @@ CrFwBool_t CrPsLptTestCase2()
     CrFwPcktSetSeqCnt(pckt,0); 
 
     setLptUpInterCmdTid(pckt, LptBuffer);
-    setLptUpInterCmdPartSeqNmb(pckt, i+1);
-    memptr = &memArray2set[partsize * i];
+    setLptUpInterCmdPartSeqNmb(pckt, 2);
+    memptr = &memArray2set[partsize];
     o=(sizeof(TcHeader_t)+sizeof(CrPsTid_t)+sizeof(CrPsNumberU4_t));
     partsize = CR_FW_MAX_PCKT_LENGTH - o - CRC_LENGTH;
     memcpy(&((uint8_t*)pckt)[o], memptr, partsize);
@@ -565,14 +562,103 @@ CrFwBool_t CrPsLptTestCase2()
 
     /* Release the inCommand */
     CrFwInFactoryReleaseInCmd(inCmd);
-    if ((partsize*(i+2)) >= (LPTSIZE))
-    {
-      /*end LOOP !!! when to few data left (break) */
-      break;
-    }
-  }
+    
 
-  i+=1;
+    /* Allocate a 13,10 Packet */
+    pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+    CrFwPcktSetServType(pckt,13);
+    CrFwPcktSetServSubType(pckt,10);
+    CrFwPcktSetCmdRepType(pckt,crCmdType);
+    CrFwPcktSetDiscriminant(pckt,0);
+    CrFwPcktSetSrc(pckt,0);
+    CrFwPcktSetDest(pckt,10);
+    CrFwPcktSetGroup(pckt,1);
+    CrFwPcktSetAckLevel(pckt,0,0,0,0);  
+    CrFwPcktSetSeqCnt(pckt,0); 
+
+    setLptUpInterCmdTid(pckt, LptBuffer);
+    setLptUpInterCmdPartSeqNmb(pckt, 3);
+    memptr = &memArray2set[partsize * 2];
+    o=(sizeof(TcHeader_t)+sizeof(CrPsTid_t)+sizeof(CrPsNumberU4_t));
+    partsize = CR_FW_MAX_PCKT_LENGTH - o - CRC_LENGTH;
+    memcpy(&((uint8_t*)pckt)[o], memptr, partsize);
+
+    inCmd = CrFwInFactoryMakeInCmd(pckt);
+
+    /* run the start action, the progress action and the termination action */
+    CrPsLptUpInterCmdStartAction(inCmd);
+    cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
+    if (cmpData->outcome != 1)
+    {
+      return 0;
+    }
+    CrPsLptUpInterCmdProgressAction(inCmd);
+    cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
+    if (cmpData->outcome != 1)
+    {
+      return 0;
+    }
+    CrPsLptUpInterCmdTerminationAction(inCmd);
+    cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
+    if (cmpData->outcome != 1)
+    {
+      return 0;
+    }
+
+    /* Execute the Statemachine */
+    CrPsExecServLptSm();
+
+    /* Release the inCommand */
+    CrFwInFactoryReleaseInCmd(inCmd);
+
+
+    /* Allocate a 13,10 Packet */
+    pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+    CrFwPcktSetServType(pckt,13);
+    CrFwPcktSetServSubType(pckt,10);
+    CrFwPcktSetCmdRepType(pckt,crCmdType);
+    CrFwPcktSetDiscriminant(pckt,0);
+    CrFwPcktSetSrc(pckt,0);
+    CrFwPcktSetDest(pckt,10);
+    CrFwPcktSetGroup(pckt,1);
+    CrFwPcktSetAckLevel(pckt,0,0,0,0);  
+    CrFwPcktSetSeqCnt(pckt,0); 
+
+    setLptUpInterCmdTid(pckt, LptBuffer);
+    setLptUpInterCmdPartSeqNmb(pckt, 4);
+    memptr = &memArray2set[partsize * 3];
+    o=(sizeof(TcHeader_t)+sizeof(CrPsTid_t)+sizeof(CrPsNumberU4_t));
+    partsize = CR_FW_MAX_PCKT_LENGTH - o - CRC_LENGTH;
+    memcpy(&((uint8_t*)pckt)[o], memptr, partsize);
+
+    inCmd = CrFwInFactoryMakeInCmd(pckt);
+
+    /* run the start action, the progress action and the termination action */
+    CrPsLptUpInterCmdStartAction(inCmd);
+    cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
+    if (cmpData->outcome != 1)
+    {
+      return 0;
+    }
+    CrPsLptUpInterCmdProgressAction(inCmd);
+    cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
+    if (cmpData->outcome != 1)
+    {
+      return 0;
+    }
+    CrPsLptUpInterCmdTerminationAction(inCmd);
+    cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
+    if (cmpData->outcome != 1)
+    {
+      return 0;
+    }
+
+    /* Execute the Statemachine */
+    CrPsExecServLptSm();
+
+    /* Release the inCommand */
+    CrFwInFactoryReleaseInCmd(inCmd);
+
   
   /* Allocate a 13,11 Packet */
   pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
@@ -587,13 +673,12 @@ CrFwBool_t CrPsLptTestCase2()
   CrFwPcktSetSeqCnt(pckt,0); 
 
   setLptUpLastCmdTid(pckt, LptBuffer);
-  setLptUpLastCmdPartSeqNmb(pckt, i+1);
+  setLptUpLastCmdPartSeqNmb(pckt, 5);
     
-  memptr = &memArray2set[partsize * i];
+  memptr = &memArray2set[partsize * 4];
   o=(sizeof(TcHeader_t)+sizeof(CrPsTid_t)+sizeof(CrPsNumberU4_t));
-  partsize = LPTSIZE - partsize*i;
+  partsize = LPTSIZE - partsize*4;
   memcpy(&((uint8_t*)pckt)[o], memptr, partsize);
-   
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
   /* run the start action, the progress action and the termination action */

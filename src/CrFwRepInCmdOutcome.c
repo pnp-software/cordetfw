@@ -52,7 +52,7 @@ void CrFwRepInCmdOutcomeCreFail(CrFwRepInCmdOutcome_t outcome, CrFwOutcome_t fai
   switch (outcome)
     {
       case crCmdAckCreFail:
-        printf("CrFwRepInCmdOutcomeCreFail: InCmd had invalid type or no more resources are available\n");
+        /*printf("CrFwRepInCmdOutcomeCreFail: InCmd had invalid type or no more resources are available\n");*/
         /*SendReqVerifAccFailRep(smDesc, ACK_CREATE_FAIL);*/ /* TODO: need smDesc */
         break;
 
@@ -69,34 +69,39 @@ void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanc
   unsigned short stepIdentifier;
   prDataPrgrAction_t* prDataPrgrAction;
 
-  printf("########## CrFwRepInCmdOutcome: unexpected outcome report %d for InCommand %d,\n", outcome, instanceId);
+  CRFW_UNUSED(instanceId);
+  CRFW_UNUSED(servType);
+  CRFW_UNUSED(servSubType);
+  CRFW_UNUSED(disc);
+
+/*  printf("########## CrFwRepInCmdOutcome: unexpected outcome report %d for InCommand %d,\n", outcome, instanceId);
   printf("                     service type %d, service sub-type %d, and discriminant %d\n", servType, servSubType, disc);
-  printf("\n>>>\n>>> Result with Code %d: \n", failCode);
+  printf("\n>>>\n>>> Result with Code %d: \n", failCode);*/
 
   switch (outcome)
   {
     case crCmdAckAccFail:
-      printf ("########## CrFwRepInCmdOutcome: Acceptance Failed, Send TM(1,2)\n");
+      /*printf ("########## CrFwRepInCmdOutcome: Acceptance Failed, Send TM(1,2)\n");*/
       /* Send Request Verification Acceptance Failed out-going report */
       SendReqVerifAccFailRep(inCmd, failCode);
       break;
     case crCmdAckAccSucc:
-      printf ("########## CrFwRepInCmdOutcome: Acceptance Success, Send TM(1,1)\n");
+      /*printf ("########## CrFwRepInCmdOutcome: Acceptance Success, Send TM(1,1)\n");*/
       /* Send Request Verification Acceptance Successful out-going report */
       SendReqVerifAccSuccRep(inCmd, CRPS_REQVERIF_ACC_SUCC);    
       break;
     case crCmdAckStrFail:
-      printf ("########## CrFwRepInCmdOutcome: Start Failed, Send TM(1,4)\n");
+      /*printf ("########## CrFwRepInCmdOutcome: Start Failed, Send TM(1,4)\n");*/
       /* Send Request Verification Start Failed out-going report */
       SendReqVerifCmdFailRep(inCmd, CRPS_REQVERIF_START_FAIL, failCode);
       break;
     case crCmdAckStrSucc:
-      printf ("########## CrFwRepInCmdOutcome: Start Success, Send TM(1,3)\n"); 
+      /*printf ("########## CrFwRepInCmdOutcome: Start Success, Send TM(1,3)\n"); */
       /* Send Request Verification Start Successful out-going report */
       SendReqVerifAccSuccRep(inCmd, CRPS_REQVERIF_START_SUCC);  
       break;
     case crCmdAckPrgFail:
-      printf ("########## CrFwRepInCmdOutcome: Progress Failed, Send TM(1,6)\n");
+      /*printf ("########## CrFwRepInCmdOutcome: Progress Failed, Send TM(1,6)\n");*/
       /*TODO:*/
       /* Get procedure parameters */
       prDataPrgrAction = (prDataPrgrAction_t *)FwPrGetData(getPrDescServTestOnBoardConnPrgr());
@@ -105,7 +110,7 @@ void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanc
       SendReqVerifPrgrFailRep(inCmd, stepIdentifier, failCode);
       break;
     case crCmdAckPrgSucc:
-      printf ("########## CrFwRepInCmdOutcome: Progress Success, Send TM(1,5)\n");
+      /*printf ("########## CrFwRepInCmdOutcome: Progress Success, Send TM(1,5)\n");*/
       /* Get procedure parameters */
       prDataPrgrAction = (prDataPrgrAction_t *)FwPrGetData(getPrDescServTestOnBoardConnPrgr());
       if (prDataPrgrAction != NULL)
@@ -120,45 +125,45 @@ void CrFwRepInCmdOutcome(CrFwRepInCmdOutcome_t outcome, CrFwInstanceId_t instanc
       SendReqVerifPrgrSuccRep(inCmd, stepIdentifier);
       break;
     case crCmdAckTrmFail:
-      printf ("########## CrFwRepInCmdOutcome: Termination Failed, Send TM(1,8)\n");
+      /*printf ("########## CrFwRepInCmdOutcome: Termination Failed, Send TM(1,8)\n");*/
       /* Send Request Verification Termination Failed out-going report */
       SendReqVerifCmdFailRep(inCmd, CRPS_REQVERIF_TERM_FAIL, failCode);
       break;
     case crCmdAckTrmSucc:
-      printf ("########## CrFwRepInCmdOutcome: Termination Success, Send TM(1,7)\n");
+      /*printf ("########## CrFwRepInCmdOutcome: Termination Success, Send TM(1,7)\n");*/
       /* Send Request Verification Termination Successful out-going report */
       SendReqVerifAccSuccRep(inCmd, CRPS_REQVERIF_TERM_SUCC);   
       break;
     default:
-      printf ("########## CrFwRepInCmdOutcome: unknown outcome\n");
+      /*printf ("########## CrFwRepInCmdOutcome: unknown outcome\n");*/
       break;
   }
 
   switch (failCode)
   {
     case 0:
-      printf("########## failed ...");
+      /*printf("########## failed ...");*/
       break;
     case 1:
-      printf("########## success/completed ...");
+      /*printf("########## success/completed ...");*/
       break;
     case 2:
-      printf("########## continue ...");
+      /*printf("########## continue ...");*/
       break;
     case 3:
-      printf("########## failed with cause: InCmd is not accepted\n>>> -> leads to action ...");
+      /*printf("########## failed with cause: InCmd is not accepted\n>>> -> leads to action ...");*/
       /*SendReqVerifCmdFailRep(inCmd, CRPS_REQVERIF_START_FAIL, failCode);*/
       break;
     case 4:
-      printf("########## failed with cause: InCmd can not processed successfully due to timeout\n>>> -> leads to action ...");
+      /*printf("########## failed with cause: InCmd can not processed successfully due to timeout\n>>> -> leads to action ...");*/
       /*SendReqVerifPrgrFailRep(inCmd, 0, failCode);*/
       break;
     default:
-      printf("########## unknown\n>>> -> leads to action ...");
+      /*printf("########## unknown\n>>> -> leads to action ...");*/
       break;
    }
 
-  printf("\n>>>\n");
+  /*printf("\n>>>\n");*/
 
   return;
 }

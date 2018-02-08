@@ -43,7 +43,7 @@
 #include "CrFwRepInCmdOutcomeStub.h"
 
 /** The size of the InCommand Outcome Report array */
-#define CR_FW_INCMD_OUTCOME_REP_ARRAY_SIZE 30
+#define CR_FW_INCMD_OUTCOME_REP_ARRAY_SIZE 100
 
 /** The structure for an InCommand Outcome Report. */
 typedef struct {

@@ -50,7 +50,6 @@
 #include "FwPrCore.h"
 /* Include PUS Extension Files*/
 #include <CrPsRepErr.h>
-#include <stdio.h>
 
 /** The InLoader singleton */
 static FwSmDesc_t inLoader = NULL;
