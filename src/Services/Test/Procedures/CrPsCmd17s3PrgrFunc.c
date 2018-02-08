@@ -153,9 +153,10 @@ void CrPsTestOnBoardConnectionPrgrN4(FwPrDesc_t prDesc)
 /* Guard on the Control Flow from DECISION1 to N1. */
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t prDesc)
 {
-  CRFW_UNUSED(prDesc);
   CrPsApid_t    appId;
   CrPsTimeOut_t timeOut;
+
+  CRFW_UNUSED(prDesc);
 
   /* [ (areYouAliveSrc > 0) &&
        (time elapsed since command execution started smaller than areYouAliveTimeOut) ] */
@@ -180,10 +181,10 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG11(FwPrDesc_t prDesc)
 /* Guard on the Control Flow from DECISION1 to N2. */
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc)
 {
-  CRFW_UNUSED(prDesc);
-  /*FwPrCounterU3_t execCnt, nodeExecCnt;*/
   CrPsApid_t    appId;
   CrPsTimeOut_t timeOut;
+
+  CRFW_UNUSED(prDesc);
 
   /* [ (areYouAliveSrc == 0) &&
         (time elapsed since command execution started smaller than areYouAliveTimeOut) ] */
@@ -208,8 +209,9 @@ FwPrBool_t CrPsTestOnBoardConnectionPrgrG12(FwPrDesc_t prDesc)
 /* Guard on the Control Flow from DECISION1 to N3. */
 FwPrBool_t CrPsTestOnBoardConnectionPrgrG13(FwPrDesc_t prDesc)
 {
-  CRFW_UNUSED(prDesc);
   CrPsTimeOut_t timeOut; 
+
+  CRFW_UNUSED(prDesc);
 
   /* [ (time elapsed since command execution started equal or greater than areYouAliveTimeOut) ] */
 
