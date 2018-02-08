@@ -1,6 +1,6 @@
 /**
  * @file CrPsTestSuite.c
- * @ingropu PUSTestsuite
+ * @ingroup PUSTestsuite
  *
  * Test Suite for the PUS extension of the CORDET Framework.
  * This file defines the <code>main</code> program for the PUS test suite.
