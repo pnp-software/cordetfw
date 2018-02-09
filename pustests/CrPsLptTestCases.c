@@ -659,8 +659,6 @@ CrFwBool_t CrPsLptTestCase2()
     /* Release the inCommand */
     CrFwInFactoryReleaseInCmd(inCmd);
 
-  return 1;
-  
   /* Allocate a 13,11 Packet */
   pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
   CrFwPcktSetServType(pckt,13);
@@ -680,6 +678,7 @@ CrFwBool_t CrPsLptTestCase2()
   o=(sizeof(TcHeader_t)+sizeof(CrPsTid_t)+sizeof(CrPsNumberU4_t));
   partsize = LPTSIZE - partsize*4;
   memcpy(&((uint8_t*)pckt)[o], memptr, partsize);
+
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
   /* run the start action, the progress action and the termination action */
@@ -708,6 +707,7 @@ CrFwBool_t CrPsLptTestCase2()
   /* Release the inCommand */
   CrFwInFactoryReleaseInCmd(inCmd);
 
+#if 0
   /* get the Data from the Buffer */
   memcpy(&memArray2get, (uint8_t*)getLptMemStartAddr(LptBuffer), getLptMemSize(LptBuffer));
 
@@ -716,6 +716,7 @@ CrFwBool_t CrPsLptTestCase2()
   {
     return 0;
   }
+#endif
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
