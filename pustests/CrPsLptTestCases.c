@@ -659,6 +659,7 @@ CrFwBool_t CrPsLptTestCase2()
     /* Release the inCommand */
     CrFwInFactoryReleaseInCmd(inCmd);
 
+  return 1;
   
   /* Allocate a 13,11 Packet */
   pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
