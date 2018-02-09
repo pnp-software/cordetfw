@@ -63,6 +63,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <stdio.h>
 
 /** The maximum size in number of bytes of a packet */
 #define LPTSIZE 4000
@@ -707,39 +708,51 @@ CrFwBool_t CrPsLptTestCase2()
   /* Release the inCommand */
   CrFwInFactoryReleaseInCmd(inCmd);
 
-#if 0
+  printf("1\n");
+
   /* get the Data from the Buffer */
-  memcpy(&memArray2get, (uint8_t*)getLptMemStartAddr(LptBuffer), getLptMemSize(LptBuffer));
+  memcpy((void*)&memArray2get, (void*)getLptMemStartAddr(LptBuffer), LPTSIZE);
 
   /* Check if the Data is stored in the Buffer correctly*/
   if (memcmp(memArray2set, memArray2get, LPTSIZE))
   {
     return 0;
   }
-#endif
+
+  printf("2\n");
 
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
     return 0;
+
+  printf("3\n");
 
   /* Reset OutManager and check that all OutComponents are unloaded and released */
   CrFwCmpReset(outManager);
   if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
     return 0;
 
+  printf("4\n");
+
   /* Reset the OutFactory */
   CrFwCmpReset(outFactory);  
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
     return 0;
+
+  printf("5\n");
 
   /* Reset the InFactory and check that no InCommands are allocated */
   CrFwCmpReset(inFactory);
   if (CrFwInFactoryGetNOfAllocatedInCmd() != 0)
     return 0;
 
+  printf("6\n");
+
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
     return 0;
+
+  printf("7\n");
 
   return 1;
 }
