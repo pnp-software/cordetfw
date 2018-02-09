@@ -46,7 +46,6 @@
 #include <Services/LargePacketTransfer/StateMachines/CrPsLptCreate.h>
 #include <CrPsUserConstants.h>
 #include <DataPool/CrPsDpServLpt.h>
-#include <stdio.h>
 
 #include <time.h>
 
@@ -90,8 +89,6 @@ void CrPsLptUpLastCmdProgressAction(FwSmDesc_t smDesc)
   CrPsTid_t             Tid;
   uint32_t              LptBufferId;
 
-  printf("B1\n");
-
   /* Get inPckt */
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
   cmpSpecificData = (CrFwInCmdData_t *) cmpData->cmpSpecificData;
@@ -100,17 +97,11 @@ void CrPsLptUpLastCmdProgressAction(FwSmDesc_t smDesc)
   Tid = getLptUpLastCmdTid(pckt);
   LptBufferId = Tid % LPT_N_BUF;
 
-  printf("B2 LptBufferId = %d\n", LptBufferId);
-
   /* Get packet size and calculate amount of data */
   dataSize = CrFwPcktGetLength(pckt) - (sizeof(TcHeader_t) + sizeof(CrPsTid_t) + sizeof(CrPsNumberU4_t) + CRC_LENGTH);
 
-  printf("B3 dataSize = %d\n", dataSize);
-
   /* Get PartSeqNum to determine memory address */
   PartSeqNmb = getLptUpLastCmdPartSeqNmb(pckt);
-
-  printf("B4 PartSeqNmb = %d\n", PartSeqNmb);
 
   /* Copy the lptSize up-transfer data to LPT Buffer */
   lptMemStartAddr = getLptMemStartAddr(LptBufferId);
@@ -118,12 +109,8 @@ void CrPsLptUpLastCmdProgressAction(FwSmDesc_t smDesc)
   pos = sizeof(TcHeader_t)+sizeof(CrPsTid_t) + sizeof(CrPsNumberU4_t);
   memcpy((uint8_t *)lptMemStartAddr + (PartSeqNmb-1)*partSize, &((uint8_t*)pckt)[pos], dataSize);
 
-  printf("B5 partSize = %d\n", partSize);
-
   /* Increment lptSize by the amount of copied data */
   setDplptSizeItem(LptBufferId, getDplptSizeItem(LptBufferId) + (CrPsSize_t)dataSize);
-
-  printf("B6 getDplptSizeItem(LptBufferId) = %d\n", getDplptSizeItem(LptBufferId));
 
   /* Set current time */
   ts = CrFwGetCurrentTimeServer();
@@ -131,27 +118,16 @@ void CrPsLptUpLastCmdProgressAction(FwSmDesc_t smDesc)
   fine =  (ts.t[4] << 7) | (ts.t[5] & 0xfe);
   setDplptTimeItem(LptBufferId, ts);
 
-  printf("B7\n");
-
   /* Set patSeqNmb to the part sequence number carried by the command */
   setDppartSeqNmbItem(LptBufferId, PartSeqNmb);
-
-  printf("B8\n");
 
   /* Send EndUpTransfer command to LPT State Machine */
   FwSmMakeTrans(getSmDescLpt(), EndUpTransfer);
   
-  printf("B9\n");
-
   cmpData->outcome = 1;
 
-  printf("B10\n");
-
-  /*TODO*/
   CRFW_UNUSED(coarse);
   CRFW_UNUSED(fine);
-
-  printf("B11\n");
 
   return;
 }

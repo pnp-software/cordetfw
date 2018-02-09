@@ -53,7 +53,7 @@ typedef struct {
    * Array of HK_N_REP_DEF elements. The I-th element is the SID of the I-th
    * Report Definition in the RDL
    */
-  CrPsSid_t sid[HK_N_REP_DEF];  /* TODO hier war uint16_t ???*/
+  CrPsSid_t sid[HK_N_REP_DEF];
 } DpServHkParams_t;
 
 /**
@@ -286,7 +286,7 @@ static inline CrPsSid_t* getDpsidArray()
  * \param i Index variable
  * \return The i-th element in the datapool array sid
  */
-static inline CrPsSid_t getDpsidItem(int i) /* TODO sid war hier auch uint16 */
+static inline CrPsSid_t getDpsidItem(int i)
 {
   return dpServHkParams.sid[i];
 }
@@ -297,7 +297,7 @@ static inline CrPsSid_t getDpsidItem(int i) /* TODO sid war hier auch uint16 */
  * \param sid The value to be stored into the i-th element of datapool array
  * sid.
  */
-static inline void setDpsidItem(int i, CrPsSid_t sid) /* TODO sid war hier auch uint16 */
+static inline void setDpsidItem(int i, CrPsSid_t sid)
 {
   dpServHkParams.sid[i] = sid;
 }

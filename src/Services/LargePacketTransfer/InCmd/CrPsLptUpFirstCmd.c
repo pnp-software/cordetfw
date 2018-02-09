@@ -68,7 +68,6 @@ void CrPsLptUpFirstCmdStartAction(FwSmDesc_t smDesc)
   CrFwPckt_t            pckt;
   CrPsTid_t             Tid;
   uint32_t              LptBufferId;
-  CrPsNumberU4_t        PartSeqNmb;
 
   /* Get inPckt */
   cmpData = (CrFwCmpData_t*) FwSmGetData(smDesc);
@@ -81,11 +80,6 @@ void CrPsLptUpFirstCmdStartAction(FwSmDesc_t smDesc)
 
   /* Set UpTransferLptBufferId for current Up Transfer */
   UpTransferLptBufferId = LptBufferId;
-
-  PartSeqNmb = getLptUpFirstCmdPartSeqNmb(pckt);
-
-  /*TODO*/
-  CRFW_UNUSED(PartSeqNmb);
 
   return;
 }
@@ -143,7 +137,6 @@ void CrPsLptUpFirstCmdProgressAction(FwSmDesc_t smDesc)
   /* Set lptSrc to the source of the command */
   setDplptSrcItem(LptBufferId, CrFwPcktGetSrc(pckt));
 
-  /*TODO*/
   CRFW_UNUSED(coarse);
   CRFW_UNUSED(fine);
 

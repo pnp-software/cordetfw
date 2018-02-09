@@ -49,7 +49,7 @@ typedef struct {
   /**
    * Destination of last command for which re-routing failed
    */
-  CrPsDestSrc_t invDestRerouting; /* TODO vorher uint32_t*/
+  CrPsDestSrc_t invDestRerouting;
   /**
    * Number of commands which have failed their acceptance check
    */
@@ -93,7 +93,7 @@ typedef struct {
   /**
    * Step identifier of last command which failed its Progress Check
    */
-  CrPsStepId_t stepPrgrFailed; /* TODO vorher wars ein uint16_t */
+  CrPsStepId_t stepPrgrFailed;
   /**
    * Verification Failure Data (data item of fixed size but variable
    */

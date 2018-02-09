@@ -481,19 +481,20 @@ typedef struct {
  */
 #define CRPS_HK_DIAGONESHOT_CMD_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 10 + CRC_LENGTH)
 
-
 /**
  * Length of the Event Report out-going report packet.
  */
-#define CRPS_EVT__REP_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 10 + CRC_LENGTH) /*TODO .. hier noch die korrekten längen angeben!!*/
+#define CRPS_EVT__REP_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 10 + CRC_LENGTH)
 
 /**
  * Length of the Large Packet Transfer out-going report packet.
  */
-#define CRPS_LPT__REP_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 982 + CRC_LENGTH) /*TODO .. hier noch die korrekten längen angeben!!*/
+#define CRPS_LPT__REP_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 982 + CRC_LENGTH)
 
+/**
+ * Length of the Large Packet Transfer Up Abort out-going report packet.
+ */
 #define CRPS_LPT_UPABORT_REP_LENGTH (OFFSET_PAR_LENGTH_OUT_REP_PCKT + 6 + CRC_LENGTH)
-
 
 /**
  * Length of the Perform Connection Test Are-You-Alive in-coming command packet.

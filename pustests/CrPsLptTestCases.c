@@ -63,7 +63,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
-#include <stdio.h>
 
 /** The maximum size in number of bytes of a packet */
 #define LPTSIZE 4000
@@ -682,8 +681,6 @@ CrFwBool_t CrPsLptTestCase2()
 
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
-  printf("A partsize = %d\n", partsize);
-
   /* run the start action, the progress action and the termination action */
   CrPsLptUpLastCmdStartAction(inCmd);
   cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
@@ -691,14 +688,12 @@ CrFwBool_t CrPsLptTestCase2()
   {
     return 0;
   }
-  printf("B\n");
   CrPsLptUpLastCmdProgressAction(inCmd);
   cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
   if (cmpData->outcome != 1)
   {
     return 0;
   }
-  printf("C\n");
   CrPsLptUpLastCmdTerminationAction(inCmd);
   cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
   if (cmpData->outcome != 1)
@@ -706,19 +701,11 @@ CrFwBool_t CrPsLptTestCase2()
     return 0;
   }
 
-  printf("D\n");
-
   /* Execute the Statemachine */
   CrPsExecServLptSm();
 
-  printf("E\n");
-
   /* Release the inCommand */
   CrFwInFactoryReleaseInCmd(inCmd);
-
-  printf("1\n");
-
-  return 1; 
 
   /* get the Data from the Buffer */
   memcpy((void*)&memArray2get, (void*)getLptMemStartAddr(LptBuffer), LPTSIZE);
@@ -729,40 +716,28 @@ CrFwBool_t CrPsLptTestCase2()
     return 0;
   }
 
-  printf("2\n");
-
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
     return 0;
-
-  printf("3\n");
 
   /* Reset OutManager and check that all OutComponents are unloaded and released */
   CrFwCmpReset(outManager);
   if (CrFwOutManagerGetNOfPendingOutCmp(outManager) != 0)
     return 0;
 
-  printf("4\n");
-
   /* Reset the OutFactory */
   CrFwCmpReset(outFactory);  
   if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 0)
     return 0;
-
-  printf("5\n");
 
   /* Reset the InFactory and check that no InCommands are allocated */
   CrFwCmpReset(inFactory);
   if (CrFwInFactoryGetNOfAllocatedInCmd() != 0)
     return 0;
 
-  printf("6\n");
-
   /* Check application errors */
   if (CrFwGetAppErrCode() != crNoAppErr)
     return 0;
-
-  printf("7\n");
 
   return 1;
 }

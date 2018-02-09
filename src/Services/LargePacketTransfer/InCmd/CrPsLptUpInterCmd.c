@@ -122,7 +122,6 @@ void CrPsLptUpInterCmdProgressAction(FwSmDesc_t smDesc)
 
   cmpData->outcome = 1;
 
-  /*TODO*/
   CRFW_UNUSED(coarse);
   CRFW_UNUSED(fine);
 
