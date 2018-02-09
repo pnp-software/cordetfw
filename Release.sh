@@ -172,7 +172,7 @@ cp -a ${EXAMPLE_PATH}/RunDemoApp.sh ${OUT}/examples/
 cp -ar ${EXAMPLE_PATH}/src/ ${OUT}/examples/
 
 ( cd ${OUT};
-  zip -r ./CordetFw_C2_Impl_LGPLv3_${VERSION}.zip .)
+  zip -r ./CordetFw_C2_Impl_MPLv2_${VERSION}.zip .)
 
 # ====================================================================================
 
