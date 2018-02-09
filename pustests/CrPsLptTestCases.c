@@ -682,6 +682,8 @@ CrFwBool_t CrPsLptTestCase2()
 
   inCmd = CrFwInFactoryMakeInCmd(pckt);
 
+  printf("A partsize = %d\n", partsize);
+
   /* run the start action, the progress action and the termination action */
   CrPsLptUpLastCmdStartAction(inCmd);
   cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
@@ -689,12 +691,14 @@ CrFwBool_t CrPsLptTestCase2()
   {
     return 0;
   }
+  printf("B\n");
   CrPsLptUpLastCmdProgressAction(inCmd);
   cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
   if (cmpData->outcome != 1)
   {
     return 0;
   }
+  printf("C\n");
   CrPsLptUpLastCmdTerminationAction(inCmd);
   cmpData = (CrFwCmpData_t*) FwSmGetData(inCmd);
   if (cmpData->outcome != 1)
@@ -702,8 +706,12 @@ CrFwBool_t CrPsLptTestCase2()
     return 0;
   }
 
+  printf("D\n");
+
   /* Execute the Statemachine */
   CrPsExecServLptSm();
+
+  printf("E\n");
 
   /* Release the inCommand */
   CrFwInFactoryReleaseInCmd(inCmd);
