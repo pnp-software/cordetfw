@@ -661,7 +661,7 @@ CrFwBool_t CrPsLptTestCase2()
     CrFwInFactoryReleaseInCmd(inCmd);
 
   /* Allocate a 13,11 Packet */
-  pckt = CrFwPcktMake(CR_FW_MAX_PCKT_LENGTH);
+  pckt = CrFwPcktMake(LPTSIZE - partsize*4 + o + CRC_LENGTH);
   CrFwPcktSetServType(pckt,13);
   CrFwPcktSetServSubType(pckt,11);
   CrFwPcktSetCmdRepType(pckt,crCmdType);

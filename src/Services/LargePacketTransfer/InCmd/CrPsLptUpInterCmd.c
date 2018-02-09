@@ -100,7 +100,7 @@ void CrPsLptUpInterCmdProgressAction(FwSmDesc_t smDesc)
   dataSize = CrFwPcktGetLength(pckt) - (sizeof(TcHeader_t) + sizeof(CrPsTid_t) + sizeof(CrPsNumberU4_t) + CRC_LENGTH);
 
   /* Get PartSeqNum to determine memory address */
-  PartSeqNmb = getLptUpFirstCmdPartSeqNmb(pckt);
+  PartSeqNmb = getLptUpInterCmdPartSeqNmb(pckt);
 
   /* Copy the up-transfer data to LPT Buffer */
   lptMemStartAddr = getLptMemStartAddr(LptBufferId);
