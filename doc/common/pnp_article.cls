@@ -42,6 +42,10 @@
 \usepackage{calc}
 \usepackage{ifthen}
 
+\usepackage{underscore}  % Allows underscores to be used in non-math text (use of
+                         % of this package apparently is not compatible with use of
+                         % underscores in labels and other 'special' text
+
 \newcolumntype{x}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
 
 %---------------------------------------------
@@ -288,7 +292,8 @@ E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-
   }
 
 % pnpcsvtable
-% arg[1] - optional argument in square brackets: either a filter argument or the comma/semicolon separator (default is comma)
+% arg[1] - optional argument in square brackets: a filter argument, or the comma/semicolon separator (default is comma), or
+%          "respect underscore=true". The latter will cause unwanted separators to be appended at the bottom of the table
 % arg[2] - Table spec
 % arg[3] - Caption
 % arg[4] - Label
@@ -305,7 +310,7 @@ E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-
 %
 \newcommand{\pnpcsvtable}[7][head to column names]{
   \begin{pnptable}{#2}{#3}{#4}{#5}
-  \csvreader[head to column names, late after line=\\\hline, #1]{#6}{}
+  \csvreader[head to column names, separator=pipe, late after line=\\\hline, #1]{#6}{}
   {#7}
   \end{pnptable}}
 
