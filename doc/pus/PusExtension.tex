@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\SetDocIssue{0.1}
+\SetDocIssue{0.2 (OnGoing)}
 \SetDocRefNumber{PP-DF-COR-0003}
 \SetDocTitle{The CORDET Framework}
 \SetDocSubtitle{PUS Extension}
@@ -16,7 +16,7 @@
 % Par #1: The string identifying the requirement category
 % Par #2: The table caption
 %---------------------------------------------
-\newenvironment{cr_req}[2]
+\newenvironment{crReq}[2]
 {
 \begin{longtable}{|l|p{11.8cm}|}
 \caption{#2}\label{tab:Req-#1} \\
@@ -39,7 +39,7 @@
 % Par #1: The string identifying the category to which the AP applies
 % Par #2: The table caption
 %---------------------------------------------
-\newenvironment{cr_ap}[2]
+\newenvironment{crAp}[2]
 {
 \begin{longtable}{|l|p{4.7cm}|p{6.9cm}|}
 \caption{#2}\label{tab:AP-#1} \\
@@ -63,7 +63,7 @@
 % Par #1: The string identifying the cmd name
 % Par #2: The table caption
 %---------------------------------------------
-\newenvironment{cr_cmd}[2]
+\newenvironment{crCmd}[2]
 {
 \begin{longtable}{|p{3cm}|p{9.6cm}|}
 \caption{#2} \label{tab:CR-#1} \\
@@ -79,7 +79,7 @@
 % Par #1: The string identifying the rep name
 % Par #2: The table caption
 %---------------------------------------------
-\newenvironment{cr_rep}[2]
+\newenvironment{crRep}[2]
 {
 \begin{longtable}{|c|p{10cm}|}
 \caption{#2} \label{tab:CR-#1}\\
@@ -90,35 +90,13 @@
 }
 {\end{longtable}}
 
-%---------------------------------------------
-% Define Environment for Observable Tables 
-% Par #1: The string identifying the category to which the observable belongs
-% Par #2: The table caption
-%---------------------------------------------
-\newenvironment{cr_obs}[2]
-{
-\begin{longtable}{|l|p{9.5cm}|}
-\caption{#2}\label{tab:Obs-#1} \\
-\hline
-\rowcolor{light-gray}
-\textbf{Name} & \textbf{Description}\\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{Name} & \textbf{Description}\\
-\hline\hline
-\endhead
-\DTLforeach*[\DTLiseq{\cat}{#1}]{dbObs}{\cat=Category,\name=Name,\desc=Desc}
-{\DTLiffirstrow{}{\\\hline}\texttt{\name} & \desc}\\\hline
-}
-{\end{longtable}}
 
 %---------------------------------------------
 % Define Environment for Constant Tables 
 % Par #1: The string identifying the category to which the constant belongs
 % Par #2: The table caption
 %---------------------------------------------
-\newenvironment{cr_const}[2]
+\newenvironment{crConst}[2]
 {
 \begin{longtable}{|l|p{9.5cm}|}
 \caption{#2}\label{tab:Const-#1} \\
@@ -136,29 +114,6 @@
 }
 {\end{longtable}}
 
-%---------------------------------------------
-% Define Environment for Parameter Tables 
-% Par #1: The string identifying the category to which the parameter belongs
-% Par #2: The table caption
-%---------------------------------------------
-\newenvironment{cr_par}[2]
-{
-\begin{longtable}{|l|p{9.5cm}|}
-\caption{#2}\label{tab:Par-#1} \\
-\hline
-\rowcolor{light-gray}
-\textbf{Name} & \textbf{Description}\\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{Name} & \textbf{Description}\\
-\hline\hline
-\endhead
-\DTLforeach*[\DTLiseq{\cat}{#1}]{dbPar}{\cat=Category,\name=Name,\desc=Desc}
-{\DTLiffirstrow{}{\\\hline}\texttt{\name} & \desc}\\\hline
-}
-{\end{longtable}}
-
 
 %---------------------------------------------
 % Import tables with requirements and adaptation points
@@ -168,13 +123,18 @@
 \DTLloaddb{dbCmd}{PusExtensionCmds.csv}
 \DTLloaddb{dbRep}{PusExtensionReps.csv}
 \DTLloaddb{dbReq}{PusExtensionReq.csv}
-\DTLloaddb{dbObs}{PusExtensionObs.csv}
-\DTLloaddb{dbPar}{PusExtensionPar.csv}
+%\DTLloaddb{dbObs}{PusExtensionObs.csv}
+%\DTLloaddb{dbPar}{PusExtensionPar.csv}
 \DTLloaddb{dbConst}{PusExtensionConst.csv}
 \DTLloaddb{dbErr}{PusExtensionErr.csv}
 \DTLloaddb{dbEvt}{PusExtensionEvt.csv}
 \DTLloaddb{dbReqVerFailCodes}{PusExtensionReqVerFailCodes.csv}
 \DTLloaddb{dbServ}{PusExtensionServices.csv}
+
+%---------------------------------------------
+% Import file with definition of commands and reports
+%---------------------------------------------
+\input{GeneratedTables/CrPsSpec.tex}
 
 
 % =======================================================================
@@ -189,14 +149,14 @@
 
 This section lists the changes made in the current and previous revisions. Changes are classified according to their type. The change type is identified in the second column in the table according to the following convention:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item "\textbf{E}": Editorial or stylistic change
 \item "\textbf{L}": Clarification of existing text
 \item "\textbf{D}": A requirement has in whole or in part been deleted
 \item "\textbf{C}": A requirement has been modified
 \item "\textbf{N}": A new requirement has been introduced
 \item "\textbf{T}": A TBD or TBC has been resolved
-\end{fw_itemize}
+\end{itemize}
 
 Text which is new or has been modified in the current revision is in red font. If a figure has been modified, then its caption is in red font. Section header numbers do not change from one revision to the next (but new sections may, of course, be introduced). However, figure and table numbers may change and these changes are not tracked. Changes in the appendices are not tracked as they are consequences of changes in the main body of the document.
 
@@ -294,14 +254,14 @@ Thus, a service consists of a set of commands which the user of the service send
 
 Against this background, the CORDET Framework of [CR-SP] fulfils two objectives:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item{} It provides a formal definition of the abstract command concept and of the abstract report concept by building behavioural models of commands and reports which:
-	\begin{fw_itemize}
+	\begin{itemize}
 	\item capture the aspects of the behaviour of commands and reports which are common to all commands and reports, and
 	\item identify the adaptation points where service- and implementation-specific behaviour can be added.
-	\end{fw_itemize}
+	\end{itemize}
 \item{} It specifies the component (the \textit{CORDET Components}) which implement the abstract command and report concept.
-\end{fw_itemize}
+\end{itemize}
 
 The CORDET Components cover, on the service user side, the sending of commands and the reception and distribution of reports and, on the service provider side, the processing of incoming commands and the generation of reports but do not cover the implementation of any concrete services. 
 
@@ -351,12 +311,12 @@ Table \ref{tab:supportedServ} lists the services supported by the PUS Extension 
 \subsection{Specification Format} 
 This document specifies the PUS Extension of the CORDET Framework. The framework is specified by defining its requirements. The requirements of the framework are of four types:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item{} \textit{Standard Requirements} which define a desired feature of the framework extension. They are analogous in scope and format to the user requirements of a conventional (non-framework) application.
 \item{} \textit{Adaptation Requirement} which define the points where a component offered by the framework extension can be extended by the application developers. In some cases, the definition of an adaptation point is accompanied by the definition of the default options offered by the framework extension for that adaptation point.  
 \item{} \textit{Use Constraint Requirements} which define the constraints on how the components offered by the framework extension may be used by application developers.
 \item{} \textit{Property Requirements} which define behavioural properties which are guaranteed to hold on all applications which: (a) are instantiated from the CORDET Framework and its extension by closing their adaptation points, and (b) comply with the framework's use constraints.
-\end{fw_itemize}
+\end{itemize}
 
 To each framework requirement an \textit{identifier} is attached.
 The requirement identifier takes the following form: x-y/t where 'x' is an acronym identifying the function to which the requirement applies; 'y' is a unique identifier within that function; and 't' identifies the requirement type. 
@@ -391,11 +351,11 @@ In the PUS, a request (command) contains one or more instructions. In the CORDET
 \paragraph{Verification of Multi-Instruction Requests}
 The request execution model of the PUS foresees the generation of verification reports both in response to request-level execution checks and in response to instruction-level execution checks\footnote{See, for instance, clauses 5.3.5.2.3a and b which specify that start of execution must be verified both for a request as a whole and for the instructions it contains}. The request-level verification is covered by the CORDET Framework: the Start Action, Progress Action and Termination Action of an InCommand have an outcome which determine whether the command is successfully started, executed or terminated. The CORDET Framework ensures that a verification report is generated in response to each execution outcome. The PUS Extension of the CORDET Framework adds instruction-level verification reports as follows:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item For requests which only contain one single instruction, the instruction-level verification check is subsumed in the request-level check.
 \item For requests which contain multiple instructions which are verified together (i.e. a request passes a verification stage only if all instructions pass the same verification stage), the instruction-level verification check is subsumed in the request-level check.
 \item For requests which contain multiple instructions which are verified individually, the instruction-level checks are implemented within the execution actions themselves. The request-level check is considered to be successful as long as at least one instruction-level check has been passed. In accordance with the rule stated in the previous paragraph, for instructions, only execution failures are reported.
-\end{fw_itemize}
+\end{itemize}
 
 As an example of the last bullet, consider the (3,5) command to enable a set of housekeeping reports. This command carries the SIDs of the reports to be enabled. Each SID defines one 'instruction' and the PUS stipulates that, as part of the Start-of-Execution verification, valid SIDs should be accepted for execution whereas invalid SIDs should trigger Failed-Start-of-Execution notifications which might eventually trigger the generation of (1,4) reports. The PUS Extension of the CORDET Framework responds to this requirement by specifying that the Start Action of the (3,5) command evaluates the validity of the SIDs and generates the (1,4) reports for each invalid SID. The Start Action is considered to be successful as long as at least one valid SID is found. 
 
@@ -505,11 +465,11 @@ Within the framework, commands and reports are handled as instances of component
 \subsection{Mapping of Discriminant Attribute}\label{sec:mapDisc}
 The CORDET discriminant is an optional attribute of a command or report. It is defined when the layout or the behaviour of a command or report are not exclusively determined by the command or report type and sub-type. In such cases, the discriminant becomes the determinant of the command or report layout and behaviour. The PUS does not have the concept of discriminant but some of its services use a particular field for the same purpose. For instance, the Event Identifier (EID) of service 5 reports determines the layout of a service 5 report and hence serves the same purpose as the CORDET discriminant. Similarly, some commands or reports carry variable-length blocks of data; in such cases, the parameter which defines the length of the data block acts as a discriminant. Bearing in mind these considerations, the PUS Extension maps the CORDET discriminant to the following PUS parameters:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item The Structure Identifier (SID) for (3,25) reports
 \item The Event Identifier (EID) for reports (5,1) to (5,4)
 \item The Failure Identifier (FID) for service 1 failure reports
-\end{fw_itemize}
+\end{itemize}
 
 %----------------------------------------------------------------------------------
 \subsection{Mapping of Group Attribute}\label{sec:mapGroup}
@@ -519,10 +479,10 @@ The CORDET Framework requires that, for each destination for out-going commands 
 
 Bearing in mind the above, compliance with the PUS rules for the management of the APIDs and sequence counters requires that the following rules be adopted for the assignment of the groups: 
 
-\begin{fw_itemize}
+\begin{itemize}
 \item If an application sends commands or reports to the same destination with different APIDs, then for each such APID, a group must be defined
 \item If an application receives commands or reports from the same source  with different APIDs, then for each such APID, a group must be defined
-\end{fw_itemize}
+\end{itemize}
 
 
 %----------------------------------------------------------------------------------
@@ -530,8 +490,8 @@ Bearing in mind the above, compliance with the PUS rules for the management of t
 \subsection{Requirements}
 The table in this section lists the requirements for the command and report attributes.
 
-\begin{cr_req}{CRA}{Requirements for Command and Report Attributes}
-\end{cr_req}
+\begin{crReq}{CRA}{Requirements for Command and Report Attributes}
+\end{crReq}
  
 
 %=============================================================================================
@@ -542,19 +502,19 @@ The Data Pool Component is a pre-defined component offered by the PUS Extension 
 \subsection{Data Pool Concepts}\label{sec:dpConcepts}
 The Data Pool Component provides read-write access to a set of \textit{Data Items}. A Data Item is characterized by the following attributes: 
 
-\begin{fw_itemize}
+\begin{itemize}
 \item \textit{Default Value}: the value of the data item when the data pool is reset
 \item \textit{Current Value}: the value of the data item at a particular point in time
 \item \textit{Identifier}: a positive integer which uniquely identifies the Data Item within the Data Pool
 \item \textit{Type}: an enumerated value which determines the range of possible values of the Data Item and its representation in the Data Pool
-\end{fw_itemize}
+\end{itemize}
 
 With reference to the last bullet, it is noted that the set of supported types is defined at implementation level. The data items can be of two kinds:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item \textit{Parameters}: data items whose value is under the control of an entity external to the host application 
 \item \textit{Variables}: data items whose value is autonomously updated by the host application as part of its normal operation
-\end{fw_itemize}
+\end{itemize}
 
 In practice, the data pool is the means through which a component can access data belonging to other components. Note that this specification is silent about the physical location of the data items in the data pool, which can be either the components which own the data item (in which case the data pool only offers a link to the data items), or the data pool itself, or a mixed solution where some data items reside in the data pool and others in peripheral components. 
 
@@ -570,17 +530,17 @@ When the Data Pool is reset, the current values of its data items are initialize
 
 This specification does not say where the default values of the data items are stored in relation to their current values. At implementation level, two basic options are possible:
 
-\begin{fw_enumerate}
+\begin{enumerate}
 \item The default values are stored alongside the current values (i.e. in RAM)
 \item The default values are stored in some other memory area (e.g. in an EEPROM or in a remote location)
-\end{fw_enumerate}
+\end{enumerate}
 
 In the first case, the initialization of the data items simply involves a copy across two locations in RAM. in the second case, the initialization may be a potentially lengthy process involving the retrieval of the data item values from an external memory bank or from a remote location. The Data Pool Component covers both options and its Configuration Procedure is therefore defined as follows:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item The Configuration Action starts the process whereby the default values of the data items are acquired and copied to their current values
 \item The Configuration Check returns "success" if the initialization of the data item values can be done in zero logical execution time\footnote{The concept of \textit{logical execution time} is introduced in [FW-SP] as part of the FW Profile Definition. The logical execution time of a behaviour is the execution time of that behaviour on a processor with infinite speed and in the absence of pre-emption by higher-priority activities or blocking by lower-priority activities. Essentially, a behaviour has zero logical execution time if it includes neither "wait" operations nor synchronization operations with external devices or threads.} or else when the initialization has completed 
-\end{fw_itemize}
+\end{itemize}
 
 In the case where the initialization of the data item values is not an operation with zero logical execution time, then the Data Pool Component must be sent at least two \texttt{Reset} commands before it can enter the CONFIGURED state: the first \texttt{Reset} command starts the acquisition of the default values of the data items and the second \texttt{Reset} command verifies that the acquisition has terminated. Obviously, there is nothing to stop an application from using a "polling" approach and sending a sequence of \texttt{Reset} commands until the Data Pool Component has entered its CONFIGURED state. Note that, in line with requirements AST-5 and AST-7 in [CR-SP], it is the responsibility of the application to send as many \texttt{Reset} commands as needed to the Data Pool Component during the application start-up and application reset process.
 
@@ -603,15 +563,15 @@ Each service defines a number of \textit{service parameters}. These are data ite
 \subsection{Adaptation Points}
 The table in this section lists the adaptation points for the Data Pool Component.
 
-\begin{cr_ap}{DP}{Adaptation Points for Data Pool Component}
-\end{cr_ap}
+\begin{crAp}{DP}{Adaptation Points for Data Pool Component}
+\end{crAp}
 
 %---------------------------------------------------------------------------------
 \subsection{Requirements}
 The table in this section lists the requirements for the Data Pool Component.
 
-\begin{cr_req}{DP}{Requirements for Data Pool Component}
-\end{cr_req}
+\begin{crReq}{DP}{Requirements for Data Pool Component}
+\end{crReq}
 
 %=============================================================================================
 \section{Report and Command Factories}\label{sec:repCmdFactories}
@@ -625,8 +585,7 @@ The process through which the command and report components are created by the f
 \subsection{Observables}
 The table in this section lists the variables which are maintained and made accessible through the data pool by the two factory components.
 
-\begin{cr_obs}{FAC}{Data Items for Factory Components}
-\end{cr_obs}
+\pnpcsvtable[filter equal={\Domain}{Fct}]{|p{4cm}|>{\raggedright\arraybackslash}p{9cm}|}{Observables for Verification Service}{tab:FAC}{Name & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \ShortDesc}
 
 %---------------------------------------------------------------------------------
 \subsection{Adaptation Points}
@@ -638,8 +597,8 @@ Similarly, the factory components are defined in [CR-SP] as extension of the Bas
 \subsection{Requirements}
 The table in this section lists the requirements for the factory components.
 
-\begin{cr_req}{FAC}{Requirements for Factory Components}
-\end{cr_req}
+\begin{crReq}{FAC}{Requirements for Factory Components}
+\end{crReq}
 
 
 %=============================================================================================
@@ -677,7 +636,7 @@ Tables \ref{tab:AP-OCM} and \ref{tab:AP-ICM} list the adaptation points of, resp
 
 The following considerations apply to the data in table \ref{tab:AP-OCM} concerning OutComponents:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item The OutComponent components are created by the OutFactory and it can be assumed that they are created such that they can be successfully initialized and configured. Their initialization and configuration procedures (adaptation points OCM-1 to 4) can therefore be just dummies that do not perform any action. The same applies to the shutdown procedure (adaptation point OCM-5).
 \item The adaptation point OCM-6 related to the execution procedure is already closed at CORDET Framework level because OutComponents have no execution procedure.
 \item The adaptation points OCM-7 and 8 related to the setting of the report type and sub-type are closed in accordance with the discussion in section \ref{sec:repCmdAttr} by setting the CORDET types and sub-types equal to the PUS type and sub-type.
@@ -686,11 +645,11 @@ The following considerations apply to the data in table \ref{tab:AP-OCM} concern
 \item The adaptation points OCM-13 to 16 related to the report checks and actions are closed for each specific report type in the following sections of this document.
 \item The adaptation point OCM-17 related to the serialize operation is closed to create a packet layout which complies with the layout defined by the PUS in [PS-SP].
 \item The adaptation point OCM-18 covers the response to a report having an invalid destination. By design, this situation should never arise and the adaptation point is closed with the generation of an error report.
-\end{fw_itemize}
+\end{itemize}
 
 The following considerations apply to the data in table \ref{tab:AP-ICM} concerning InCommands:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item The InCommand components are created by the InFactory but are then initialized and configured by the InLoader. Their initialization and configuration procedures (adaptation points ICM-1 to 4) are therefore implementation-specific. The same applies to the shutdown procedure (adaptation point ICM-5).
 \item The adaptation point ICM-3 implements the acceptance check for the command. This verifies the correctness of the command length and CRC.
 \item The adaptation point related to the execution procedure (ICM-6) is already closed at CORDET Framework level because InCommand do not have any execution procedure.
@@ -698,14 +657,14 @@ The following considerations apply to the data in table \ref{tab:AP-ICM} concern
 \item The adaptation points ICM-12 to 17 related to the generation of success and failure reports for the command are closed as part of the service 1 definition in section \ref{sec:serv1AP}.
 \item The adaptation points ICM-18 and 19 related to the setting of the command type and sub-type are closed in accordance with the discussion in section \ref{sec:repCmdAttr} by setting the CORDET types and sub-types equal to the PUS type and sub-type.
 \item The adaptation points ICM-20 and 21 related to the command discriminant and parameters are closed for each individual command type in the following sections of this document.
-\end{fw_itemize}
+\end{itemize}
 
-\begin{cr_ap}{OCM}{Adaptation Points for PUS Reports}
-\end{cr_ap}
+\begin{crAp}{OCM}{Adaptation Points for PUS Reports}
+\end{crAp}
 
 \newpage
-\begin{cr_ap}{ICM}{Adaptation Points for PUS Commands}
-\end{cr_ap}
+\begin{crAp}{ICM}{Adaptation Points for PUS Commands}
+\end{crAp}
 
 %--------------------------------------------------------------------------------------
 \subsection{Dependencies Between Services}\label{sec:dependencies}
@@ -741,8 +700,8 @@ Note that, although dependencies between services are minimized, all services de
 \subsection{Requirements}\label{sec:repCmdReq}
 The requirements in table \ref{tab:Req-PCR} make the adaptation points defined in the previous two sections applicable to all command and report components provided by the framework extension.
 
-\begin{cr_req}{PCR}{Requirements for Framework Extension Commands and Reports}
-\end{cr_req}
+\begin{crReq}{PCR}{Requirements for Framework Extension Commands and Reports}
+\end{crReq}
 
 \newpage
 \begin{longtable}{|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{7.7cm}|c|}
@@ -771,11 +730,11 @@ The service type of the Request Verification Service is 1. The PUS Extension of 
 
 The Request Verification Service is implemented by nine reports which are issued  in response to notifications generated by a service provider application. The notifications cover different stages of the processing of an incoming command. More precisely:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item The report (1,10) is triggered in response to notifications of a routing failure for an incoming command (Routing and Reporting Sub-Service)
 \item The reports (1,1) and (1,2) are triggered in response to notifications of the failure or success of the acceptance of an incoming command (Acceptance and Reporting Sub-Service)
 \item The reports (1,3) to (1,8) are triggered in response to notifications of the failure or success of execution of an incoming command (Execution and Reporting Sub-Service)
-\end{fw_itemize}
+\end{itemize}
 
 The notifications listed above are generated by the CORDET Framework infrastructure. The operations which generate them are defined as adaptation points. The PUS Extension closes these adaptation points to generate the service 1 reports. 
 
@@ -824,10 +783,10 @@ The close-out behaviour for the adaptation points is defined in table \ref{tab:A
 
 The reports (1,5) and (1,6) report, respectively, the success and failure of a progress step. The CORDET Framework has the concept of 'Progress Step' which is a counter which counts the number of times an InCommand has been executed since it was 'in progress' (i.e. since it entered state PROGRESS). It is recognized that this mechanism may result in a step granularity which is too fine for some applications. The default logic for the generation of the (1,5) and (1,6) reports is then as follows:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item A return value of 'failed' for the Progress Action of the InCommand is interpreted as a progress step failure which triggers a (1,6) report. 
 \item A return value of 'continue' for the Progress Action of the InCommand may be interpreted as a progress step success which triggers a (1,5) report according to an application-specific logic to be inserted in adaptation point ICM-15 (Operation to Report Progress Success for InCommand). 
-\end{fw_itemize}
+\end{itemize}
 
 Note that the second bullet implies that the adaptation point ICM-15 cannot be closed at framework level but must instead remain open so that applications may decide the conditions under which a progress action has completed a step.
 
@@ -842,12 +801,12 @@ The ReqVerRep component is implemented as an extension of the OutComponent compo
 
 The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The 'success' reports carry the packet identifier of the command being verified. The 'failure' reports carry, in addition to the packet identifier, a failure code and an undefined set of failure-related data. The framework extension restricts this flexibility by stipulating that the failure-related data consist of: 
 
-\begin{fw_itemize}
+\begin{itemize}
 \item For all failure reports: the triplet [type,sub-type,discriminant] for the command being verified
 \item For all failure reports but (1,10) reports: the \textit{Verification Failure Data} as a single data item which contains command-specific information about the failure 
 \item For (1,10) reports only: the destination of the command which failed its routing check
 \item For (1,5) reports only: the identifier of the step which failed its progress check
-\end{fw_itemize}
+\end{itemize}
 
 The Verification Failure Data is stored in data pool item \texttt{verFailData}. Its purpose is to provide additional information about the nature of the failure being reported by the failure report. This data item has a fixed size but its syntactical type is command-specific. Its value is set by the entity which performs the verification check. If no failure data are defined for a given verification check, then the value of \texttt{verFailData} is "don't care". 
 
@@ -857,39 +816,39 @@ The Verification Failure Codes which are supported by the PUS Extension are list
 
 Table \ref{tab:CR-S1-A} formally specifies the ReqVerRep component by specifying how the actions, checks and attributes of a generic out-going report are specialized for service 1 (see section \ref{sec:defPusRepCmd}). The following remarks apply: 
 
-\begin{fw_itemize}
+\begin{itemize}
 \item Service 1 reports retrieve their enable status from the OutRegistry.
 \item Service 1 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
 \item Service 1 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
-\end{fw_itemize}
+\end{itemize}
 
 With reference to the first bullet, it is recalled that the OutRegistry component of the CORDET Framework stores the enable status of out-going reports as a function of the report's type, sub-type and discriminant. By default, all out-going reports are enabled. Users who wish to disable a specific verification failure code or who wish to disable a certain service 1 sub-type can do so by setting its status to 'disabled' in the OutRegistry. Note that this is a run-time operation which would typically be done as part of an application's initialization.
 
 \newpage
-\begin{cr_rep}{S1-A}{Specification of ReqVerRep Component}
-\end{cr_rep}
+\begin{crRep}{S1-A}{Specification of ReqVerRep Component}
+\end{crRep}
 
 %---------------------------------------------------------------------------------
 \subsection{Service 1 Observables}\label{sec:serv1Obs}
 Service 1 maintains and makes available in the data pool various information related to the generation of the failure reports. No information related to the generation of the success reports is maintained because these reports are optional and the conditions under which they are generated depend on the setting of the verification acknowledge flags which are under external control (they are set by the user of a service). Table \ref{tab:Obs-S1} lists the data pool data items which are maintained by service 1.
 
-\begin{cr_obs}{S1}{Observables for Service 1 (Request Verification)}
-\end{cr_obs}
+\pnpcsvtable[filter equal={\Domain}{Ver}]{|p{4cm}|>{\raggedright\arraybackslash}p{9cm}|}{Observables for Verification Service}{tab:Obs-S1}{Name & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \ShortDesc}
+
 
 %---------------------------------------------------------------------------------
 \subsection{Service 1 Adaptation Points}\label{sec:serv1AP}
 Table \ref{tab:AP-S1} lists the CORDET Framework adaptation points which are closed or overridden by the request verification service. 
 
-\begin{cr_ap}{S1}{Adaptation Points for Service 1 (Request Verification)}
-\end{cr_ap}
+\begin{crAp}{S1}{Adaptation Points for Service 1 (Request Verification)}
+\end{crAp}
 
 
 %---------------------------------------------------------------------------------
 \subsection{Service 1 Requirements}
 The table in this section lists requirements for the request verification service.
 
-\begin{cr_req}{S1}{Requirements for Service 1 (Request Verification)}
-\end{cr_req}
+\begin{crReq}{S1}{Requirements for Service 1 (Request Verification)}
+\end{crReq}
 
 
 \newpage
@@ -1010,11 +969,11 @@ The periodic collection of the values of the simply-commutated data items is don
 
 The framework offers the following functions to manipulate a sampling buffer:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item \textit{Sampling Buffer Configuration Function} to configure a sampling buffer as a function of the number of groups, the number of data items in each group and the repetition number for each group.
 \item Sampling Buffer Setter Function to load the i-th value of the j-th data item in the k-th group in the sampling buffer.
 \item Sampling Buffer Getter Function to retrieve the i-th value of the j-th data item in the k-th group in the sampling buffer.
-\end{fw_itemize}
+\end{itemize}
 
 The Configuration Function is used when a housekeeping/diagnostic report which contains super-commutated data items is created (either at application initialization time for a pre-defined report or in response to a (3,1)/(3,2) command for a dynamically defined report). The Setter Function is used by the application to load the super-commutated values in the sampling buffer. The Getter Function is used in the Update Action of the (3,25) and (3,26) reports to update the content of a housekeeping/diagnostic report. 
 
@@ -1024,94 +983,89 @@ Service 3 offers visibility over the internal state of the IFSW by allowing peri
 
 In order to illustrate the use of the debug variables, consider a situation where the user wishes to have read access to two memory locations holding two integers: 
 
-\begin{fw_enumerate}
+\begin{enumerate}
 \item The user loads the addresses of the desired locations into the first two elements of \texttt{debugVarAddr}
 \item The user uses command (3,1) or (3,2) to define a new housekeeping report packet holding \texttt{debugVar\_1} and \texttt{debugVar\_2} 
 \item The users uses command (3,6) or (3,7) to enable the newly defined housekeeping packet and receives the values of \texttt{debugVar\_1} and \texttt{debugVar\_2} .
-\end{fw_enumerate}
+\end{enumerate}
 
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 3 Report and Command Definition}\label{sec:serv3RepCmdDef}
 Tables \ref{tab:CR-S3-1} to \ref{tab:CR-S3-27} formally specify the service 3 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 3 (see section \ref{sec:defPusRepCmd}). The following remarks apply:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item In the PUS, service 3 commands and reports appear twice: once for housekeeping reports and once for diagnostic reports. The PUS Extension of the CORDET Framework does not distinguish between housekeeping and diagnostic reports/commands and therefore each CORDET report/command component implements two PUS reports/commands.
 \item Several commands in this service (e.g. the commands to delete a housekeeping/diagnostic report definition) carry multiple instructions which are executed independently of each other. In keeping with the general strategy outlined in section \ref{sec:ComplianceToPus}, their start action evaluates the instructions one by one and, in case of invalidity, it generates a (1,4) report for each individual instruction.
 \item The (3,9) and (3,27) commands carry a sequence of SIDs. The command's Start Action removes invalid SIDs. The valid SIDs are then processed by the command's Progress Action. Each SID is processed in a progress step. In keeping with the strategy of section \ref{sec:ComplianceToPus}, only step failures are reported through service 1 reports. The command is deemed to have completed successfully if at least one SID has been successfully processed. 
 \item For the housekeeping/diagnostic reports (3,25) and (3,26), two components are provided of which one is used when the reports are generated on a periodic basis and the other is used when the reports are generated in óne-shot' mode in response to a (3,27) or (3,28) command.
-\end{fw_itemize}
+\end{itemize}
 
 
-\begin{cr_cmd}{S3-1}{Specification of HkCreateCmd Component}
-\end{cr_cmd}
+\begin{crCmd}{S3-1}{Specification of HkCreateCmd Component}
+\end{crCmd}
 
-\begin{cr_cmd}{S3-3}{Specification of HkDeleteCmd Component}
-\end{cr_cmd}
-
-\newpage
-\begin{cr_cmd}{S3-5}{Specification of HkEnableCmd Component}
-\end{cr_cmd}
-
-\begin{cr_cmd}{S3-6}{Specification of HkDisableCmd Component}
-\end{cr_cmd}
+\begin{crCmd}{S3-3}{Specification of HkDeleteCmd Component}
+\end{crCmd}
 
 \newpage
-\begin{cr_cmd}{S3-9}{Specification of HkRepStructCmd Component}
-\end{cr_cmd}
+\begin{crCmd}{S3-5}{Specification of HkEnableCmd Component}
+\end{crCmd}
 
-\begin{cr_rep}{S3-10}{Specification of HkRepStructRep Component}
-\end{cr_rep}
+\begin{crCmd}{S3-6}{Specification of HkDisableCmd Component}
+\end{crCmd}
 
 \newpage
-\begin{cr_rep}{S3-25}{Specification of HkRep Component}
-\end{cr_rep}
+\begin{crCmd}{S3-9}{Specification of HkRepStructCmd Component}
+\end{crCmd}
 
-\begin{cr_cmd}{S3-27}{Specification of HkOneShotCmd Component}
-\end{cr_cmd}
+\begin{crRep}{S3-10}{Specification of HkRepStructRep Component}
+\end{crRep}
+
+\newpage
+\begin{crRep}{S3-25}{Specification of HkRep Component}
+\end{crRep}
+
+\begin{crCmd}{S3-27}{Specification of HkOneShotCmd Component}
+\end{crCmd}
 
 \newpage 
 %---------------------------------------------------------------------------------
 \subsection{Service 3 Constants}\label{sec:serv3Const}
 The service 3 constants are listed in table \ref{tab:Const-S3}.
 
-\begin{cr_const}{S3}{Constants for Service 3 (Housekeeping Service)}
-\end{cr_const}
+\begin{crConst}{S3}{Constants for Service 3 (Housekeeping Service)}
+\end{crConst}
 
 
 %---------------------------------------------------------------------------------
-\subsection{Service 3 Observables}\label{sec:serv3Obs}
-The service 3 internal state is defined by the content of the Report Definition List (RDL). Most of its content is visible through reports (3,10) and (3,11). The observables defined by the framework only cover the non-visible part of the RDL state. They are listed in table \ref{tab:Obs-S3}.
+\subsection{Service 3 Observables and Parameters}\label{sec:serv3Obs}
+The service 3 internal state is defined by the content of the Report Definition List (RDL). Most of its content is visible through reports (3,10) and (3,11). The observables defined by the framework only cover the non-visible part of the RDL state. 
 
-\begin{cr_obs}{S3}{Observables for Service 3 (Housekeeping Service)}
-\end{cr_obs}
+Similarly, the service 3 configuration is defined by the content of the Report Definition List (RDL). This configuration is mostly controlled through commands (3,1)/(3,2) and (3,5)/(3,7) and is partially observable through reports (3,10) and (3,11). The service 3 configuration parameters which are either not controllable through service 3 commands and/or not observable through service 3 reports are defined as data pool parameters. 
 
-%---------------------------------------------------------------------------------
-\newpage
-\subsection{Service 3 Parameters}\label{sec:serv3Par}
-The service 3 configuration is defined by the content of the Report Definition List (RDL). This configuration is mostly controlled through commands (3,1)/(3,2) and (3,5)/(3,7) and is partially observable through reports (3,10) and (3,11). The service 3 configuration parameters which are either not controllable through service 3 commands and/or not observable through service 3 reports are defined as data pool parameters. They are listed in table \ref{tab:Par-S3}.
+The observables and the parameters for service 3 are listed in table \ref{tab:Obs-S3}.
 
-\begin{cr_par}{S3}{Parameters for Service 3 (Housekeeping Service)}
-\end{cr_par}
+\pnpcsvtable[filter equal={\Domain}{Hk}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{8.5cm}|}{Observables and Parameters for Housekeeping Service}{tab:Obs-S3}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
 
 %---------------------------------------------------------------------------------
 \subsection{Service 3 Requirements}
 The table in this section lists requirements for the test service.
 
-\begin{cr_req}{S3}{Requirements for Service 3 (Housekeeping Service)}
-\end{cr_req}
+\begin{crReq}{S3}{Requirements for Service 3 (Housekeeping Service)}
+\end{crReq}
 
 \begin{figure}[H]
  \centering
  \includegraphics[scale=0.55,keepaspectratio=true]{CrPsCmd3s1Start.png}
- \caption{Start Action of Command HkCreateCmd}
+ \caption{Start Action of Command to Create a Service 3 Packet}
  \label{fig:Cmd3s1Start}
 \end{figure}
 
 \begin{figure}[H]
  \centering
  \includegraphics[scale=0.55,keepaspectratio=true]{CrPsCmd3s3Start.png}
- \caption{Start Action of Command HkDeleteCmd}
+ \caption{Start Action of Command to Delete a Service 3 Packet}
  \label{fig:Cmd3s3Start}
 \end{figure}
 
@@ -1125,7 +1079,7 @@ The table in this section lists requirements for the test service.
 \begin{figure}[H]
  \centering
  \includegraphics[scale=0.55,keepaspectratio=true]{CrPsCmd3s9Prgr.png}
- \caption{Progress Action of Command HkRepStructCmd}
+ \caption{Progress Action of Command to Report the Structure of a Service 3 Packet}
  \label{fig:Cmd3s9Prgr}
 \end{figure}
 
@@ -1151,15 +1105,15 @@ Event reports may carry data. The Event Identifier (EID) determines the format o
 
 Applications use event reports as follows:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item When an application encounters a situation which should trigger the generation of an event report, it retrieves an EvtHk component from the OutFactory. This component will encapsulate the event report. The event level and the event identifier are specified when the EvtHk component is retrieved from the factory because the 'make' function of the OutFactory takes as an argument the type, sub-type and the discriminant of the event report.
 \item The application configures the component with the destination and with any data which 
 \item The application loads the EvtHk component in the OutLoader. From this point onward, the event report is processed by the CORDET Framework infrastructure:
-	\begin{fw_itemize}
+	\begin{itemize}
 	\item If the identifier of the event is enabled, then the event report will eventually be sent to its destination;
 	\item If the identifier of the event is not enabled, them the event report will be discarded.
-	\end{fw_itemize}
-\end{fw_itemize}
+	\end{itemize}
+\end{itemize}
 
 Note that the configuration of the event reports must be done by the application (as opposed to being delegated to the Update Action of the component which implements the event report). This ensures that the event report configuration reflects the state of the system at the time the event report is created (as opposed to the time when the event report is sent out).  
 
@@ -1169,57 +1123,56 @@ Event identifiers can be enabled and disabled. The PUS Extension uses the report
 \subsection{Pre-Defined Event Reports}\label{sec:serv5PreDefEvtRep}
 The event reports listed in section \ref{sec:preDefEvtRep} are pre-defined in the sense that they are generated in response to situations defined at framework level. For each of these events, the framework provides a Generate Pre-Defined Event Function which takes as parameters the type, subtype and discriminant value of the event report and all its parameters and then performs the following actions:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item Retrieve an instance of an OutComponent for the event report from the OutFactory
 \item If the retrieval is successful, it configures the event report with the event parameter data and loads it in the OutLoader
 \item If the retrieval is not successful, it generates an error report OUTFACTORY\_FAIL
-\end{fw_itemize}
+\end{itemize}
 
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 5 Report and Command Definition}\label{sec:serv5RepCmdDef}
 Tables \ref{tab:CR-S5-1} to \ref{tab:CR-S5-5} formally specify the service 5 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 5 (see section \ref{sec:defPusRepCmd}). The following remarks apply:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item The same component EvtRep implements all four event reports (5,1) to (5,4). This is legitimate because all event reports - irrespective of their severity level - have the same behaviour. 
 \item The update of observables which are related to the occurrence of an event is done by the Enable Check of component EvtRep. This is appropriate because this action is executed every time an application creates an event report. The update of observables which are related to the generation of report is done by the Update Action of component EvtRep. This is appropriate because this action is only executed when an event report is actually issued by an application.
 \item Service 5 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
 \item Service 5 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
-\end{fw_itemize}
+\end{itemize}
 
 
-\begin{cr_rep}{S5-1}{Specification of EvtRep Component}
-\end{cr_rep}
-
-\newpage
-\begin{cr_cmd}{S5-5}{Specification of EvtEnableCmd Component}
-\end{cr_cmd}
-
-\begin{cr_cmd}{S5-6}{Specification of EvtDisableCmd Component}
-\end{cr_cmd}
+\begin{crRep}{S5-1}{Specification of EvtRep Component}
+\end{crRep}
 
 \newpage
-\begin{cr_cmd}{S5-7}{Specification of EvtRepDisabledCmd Component}
-\end{cr_cmd}
+\begin{crCmd}{S5-5}{Specification of EvtEnableCmd Component}
+\end{crCmd}
 
-\begin{cr_rep}{S5-8}{Specification of EvtRepDisableRep Component}
-\end{cr_rep}
+\begin{crCmd}{S5-6}{Specification of EvtDisableCmd Component}
+\end{crCmd}
+
+\newpage
+\begin{crCmd}{S5-7}{Specification of EvtRepDisabledCmd Component}
+\end{crCmd}
+
+\begin{crRep}{S5-8}{Specification of EvtRepDisableRep Component}
+\end{crRep}
 
 %---------------------------------------------------------------------------------
 \newpage
 \subsection{Service 5 Constants}\label{sec:serv5Const}
 The service 5 constants are listed in table \ref{tab:Const-S5}. Note that the event identifiers must be defined in ascending order. This constraint is introduced to allow implementation to optimize the search for event identifiers.
 
-\begin{cr_const}{S5}{Constants for Service 5 (Event Reporting Service)}
-\end{cr_const}
+\begin{crConst}{S5}{Constants for Service 5 (Event Reporting Service)}
+\end{crConst}
 
 
 %---------------------------------------------------------------------------------
 \subsection{Service 5 Observables}\label{sec:serv5Obs}
 The service 5 observables consist of counters and flags which are updated by the service commands. They are listed in table \ref{tab:Obs-S5}.
 
-\begin{cr_obs}{S5}{Observables for Service 5 (Event Reporting Service)}
-\end{cr_obs}
+\pnpcsvtable[filter equal={\Domain}{Evt}]{|p{4cm}|>{\raggedright\arraybackslash}p{9cm}|}{Observables for Event Reporting Service}{tab:Obs-S5}{Name & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \ShortDesc}
 
 
 \newpage
@@ -1227,8 +1180,8 @@ The service 5 observables consist of counters and flags which are updated by the
 \subsection{Service 5 Requirements}
 The table in this section lists requirements for the test service.
 
-\begin{cr_req}{S5}{Requirements for Service 5 (Event Reporting Service)}
-\end{cr_req}
+\begin{crReq}{S5}{Requirements for Service 5 (Event Reporting Service)}
+\end{crReq}
 
 \begin{figure}[H]
  \centering
@@ -1480,114 +1433,68 @@ If a functional monitor declares a failure, the pre-defined event EVT\_FMON\_FAI
 \subsection{Service 12 Report and Command Definition}\label{sec:serv12RepCmdDef}
 Tables \ref{tab:MonEnbParMonDefCmdSpec} to \ref{tab:MonRepFuncMonStatRepSpec} formally specify the service 12 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 5 (see section \ref{sec:defPusRepCmd}). 
 
-\input{GeneratedTables/CrPs_MonEnbParMonDefCmd_Spec.tex}
 \printMonEnbParMonDefCmdSpec{|c|p{10cm}|}
-
-\input{GeneratedTables/CrPs_MonDisParMonDefCmd_Spec.tex}
 \printMonDisParMonDefCmdSpec{|c|p{10cm}|}
 
 \newpage
-\input{GeneratedTables/CrPs_MonChgTransDelCmd_Spec.tex}
 \printMonChgTransDelCmdSpec{|c|p{10cm}|}
-
-\input{GeneratedTables/CrPs_MonDelAllParMonCmd_Spec.tex}
 \printMonDelAllParMonCmdSpec{|c|p{10cm}|}
 
 \newpage
-\input{GeneratedTables/CrPs_MonAddParMonDefCmd_Spec.tex}
 \printMonAddParMonDefCmdSpec{|c|p{10cm}|}
-
-\input{GeneratedTables/CrPs_MonDelParMonDefCmd_Spec.tex}
 \printMonDelParMonDefCmdSpec{|c|p{10cm}|}
 
 \newpage
-\input{GeneratedTables/CrPs_MonModParMonDefCmd_Spec.tex}
 \printMonModParMonDefCmdSpec{|c|p{10cm}|}
-
-\input{GeneratedTables/CrPs_MonRepParMonDefCmd_Spec.tex}
 \printMonRepParMonDefCmdSpec{|c|p{10cm}|}
 
-
 \newpage
-\input{GeneratedTables/CrPs_MonRepParMonDefRep_Spec.tex}
 \printMonRepParMonDefRepSpec{|c|p{10cm}|}
-
-\input{GeneratedTables/CrPs_MonRepOutOfLimitsCmd_Spec.tex}
 \printMonRepOutOfLimitsCmdSpec{|c|p{10cm}|}
  
 \newpage
-\input{GeneratedTables/CrPs_MonRepOutOfLimitsRep_Spec.tex}
 \printMonRepOutOfLimitsRepSpec{|c|p{10cm}|}
-
-
-\input{GeneratedTables/CrPs_MonCheckTransRep_Spec.tex}
 \printMonCheckTransRepSpec{|c|p{10cm}|}
 
 \newpage
-\input{GeneratedTables/CrPs_MonRepParMonStatCmd_Spec.tex}
 \printMonRepParMonStatCmdSpec{|c|p{10cm}|}
 
-\input{GeneratedTables/CrPs_MonRepParMonStatRep_Spec.tex}
 \printMonRepParMonStatRepSpec{|c|p{10cm}|}
 
 \newpage
-\input{GeneratedTables/CrPs_MonEnbParMonFuncCmd_Spec.tex}
 \printMonEnbParMonFuncCmdSpec{|c|p{10cm}|}
-
-\input{GeneratedTables/CrPs_MonDisParMonFuncCmd_Spec.tex}
 \printMonDisParMonFuncCmdSpec{|c|p{10cm}|}
 
 \newpage
-\input{GeneratedTables/CrPs_MonEnbFuncMonCmd_Spec.tex}
 \printMonEnbFuncMonCmdSpec{|c|p{10cm}|}
-
-\input{GeneratedTables/CrPs_MonDisFuncMonCmd_Spec.tex}
 \printMonDisFuncMonCmdSpec{|c|p{10cm}|}
 
 \newpage
-\input{GeneratedTables/CrPs_MonEnbFuncMonDefCmd_Spec.tex}
 \printMonEnbFuncMonDefCmdSpec{|c|p{10cm}|}
-
-\input{GeneratedTables/CrPs_MonDisFuncMonDefCmd_Spec.tex}
 \printMonDisFuncMonDefCmdSpec{|c|p{10cm}|}
 
 \newpage
-\input{GeneratedTables/CrPs_MonProtFuncMonDefCmd_Spec.tex}
 \printMonProtFuncMonDefCmdSpec{|c|p{10cm}|}
-
-\input{GeneratedTables/CrPs_MonUnprotFuncMonDefCmd_Spec.tex}
 \printMonUnprotFuncMonDefCmdSpec{|c|p{10cm}|}
 
 \newpage
-\input{GeneratedTables/CrPs_MonAddFuncMonDefCmd_Spec.tex}
 \printMonAddFuncMonDefCmdSpec{|c|p{10cm}|}
-
-\input{GeneratedTables/CrPs_MonDelFuncMonDefCmd_Spec.tex}
 \printMonDelFuncMonDefCmdSpec{|c|p{10cm}|}
 
 \newpage
-\input{GeneratedTables/CrPs_MonRepFuncMonDefCmd_Spec.tex}
 \printMonRepFuncMonDefCmdSpec{|c|p{10cm}|}
-
-\input{GeneratedTables/CrPs_MonRepFuncMonDefRep_Spec.tex}
 \printMonRepFuncMonDefRepSpec{|c|p{10cm}|}
 
 \newpage
-\input{GeneratedTables/CrPs_MonRepFuncMonStatCmd_Spec.tex}
 \printMonRepFuncMonStatCmdSpec{|c|p{10cm}|}
-
-\input{GeneratedTables/CrPs_MonRepFuncMonStatRep_Spec.tex}
 \printMonRepFuncMonStatRepSpec{|c|p{10cm}|}
-
-
-
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 12 Constants}\label{sec:serv12Const}
 The service 12 constants are listed in table \ref{tab:Const-S12} formally specify the service 12 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 12 (see section \ref{sec:defPusRepCmd}).    
 
-\begin{cr_const}{S12}{Constants for Service 12 (On-Board Monitoring Service)}
-\end{cr_const}
+\begin{crConst}{S12}{Constants for Service 12 (On-Board Monitoring Service)}
+\end{crConst}
 
 
 %----------------------------------------------------------------------------------------
@@ -1601,23 +1508,22 @@ The service 12 configuration is defined by the parameter holding the identifier 
 \pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{8.5cm}|}{Observables and Parameters for On-Board Monitoring Service}{tab:Obs-S12}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
 
 
-
 %----------------------------------------------------------------------------------------
 \subsection{Service 12 Adaptation Points}
 The table in this section lists the adaptation points for the On-Board Monitoring Service. The first adaptation point covers the range of monitor procedures. Those supported by default by the PUS Extension of the CORDET Framework are those defined by the PUS. 
 
 The second and third adaptation points cover the initialization of the PMDL and FMDL. Both lists are empty by default but applications are free to pre-define both parameter monitors and functional monitors. In this case, it becomes their responsibility to populate the PMDL and FMDL with the predefined items. This should normally be done as part of the application initialization. 
 
-\begin{cr_ap}{S12}{Adaptation Points for Service 12 (On-Board Monitoring Service)}
-\end{cr_ap}
+\begin{crAp}{S12}{Adaptation Points for Service 12 (On-Board Monitoring Service)}
+\end{crAp}
 
 
 %---------------------------------------------------------------------------------
 \subsection{Service 12 Requirements}
 The table in this section lists the requirements for the On-Board Monitoring Service
 
-\begin{cr_req}{S12}{Requirements for Service 12 (On-Board Monitoring Service)}
-\end{cr_req}
+\begin{crReq}{S12}{Requirements for Service 12 (On-Board Monitoring Service)}
+\end{crReq}
 
 %-------------------------------------------------------------------------------------
 \pnpfigure[scale=0.55]{Parameter Monitoring Procedure}{fig:MonFncPr}{CrPsMonFncPr.png}
@@ -1670,7 +1576,7 @@ Similarly, in the case of up-transfers, the LPT Buffer is the memory area to whi
 
 The  number of LPT Buffers in an application is statically defined and is equalt to LPT\_N\_BUF. Each LPT Buffer has an identifier which is an integer in the range 0 to (LPT\_N\_BUF-1). To each LPT Buffer, the following attributes are associated:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item \texttt{lptDest}: the destination of the down-transfer originating from the LPT Buffer (only meaningful for LPT Buffers which act as sources of a down-transfer)
 \item \texttt{lptSrc}: the source of the up-transfer in the LPT Buffer (only meaningful for LPT Buffers which act as destinations of an up-transfer)
 \item \texttt{lptSize}: the size of the large packet in the LPT Buffer, namely the amount of data to be down-transferred (for LPT Buffers which act as sources of a down-transfer) or the amount of up-transferred data (for LPT Buffers which act as destinations of an up-transfer)
@@ -1681,19 +1587,19 @@ The  number of LPT Buffers in an application is statically defined and is equalt
 \item \texttt{largeMsgTransId}: the identifier of the large packet transfer which has the LPT Buffer as source (down-transfer) or as destination (up-transfer)
 \item \texttt{partSeqNmb}: the part sequence number for the currently on-going down-transfer from the LPT Buffer or up-transfer to the LPT Buffer
 \item \texttt{lptFailCode}: the failure code for an up-transfer to the LPT Buffer which was aborted (only meaningful for LPT Buffers which act as destinations of an up-transfer). 
-\end{fw_itemize}
+\end{itemize}
 
 Different LPT Buffers may have different values of \texttt{lptDest} or \texttt{partSize}. This allows the application designers to allocate LPT Buffers to different destinations (e.g. one LPT Buffer is used for large transfers to/from the ground and another LPT Buffer is used for large transfers to/from other destinations). Or, it allows them to use different LPT Buffers for different large packet sizes. Also, \texttt{lptDest} and \texttt{partSize} are data pool parameters (see section \ref{sec:serv13Par}). Their values can therefore be adjusted by the service 13 user. It is the user responsibility to avoid changing the value of \texttt{lptDest} or \texttt{partSize} for a given LPT Buffer while a transfer to or from that buffer is under way.
 
 In accordance with [PS-SP], each large packet transfer has a unique \textit{Large Message Transaction Identifier}. This identifier is stored in  variable \texttt{largeMsgTransId}. Its value is set as follows:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item At application initialization time, the value of \texttt{largeMsgTransId} for the i-th LPT Buffer is initialized to: i.
 \item When a down-transfer from an LPT Buffer is started, then the value of its Large Message Transaction Identifier is set to the value of the \texttt{largeMsgTransId} variable for the LPT Buffer
 \item When a down-transfer from an LPT Buffer is terminated, then the value of the buffer's \texttt{largeMsgTransId} variable is incremented by LPT\_N\_BUF.
 \item When an up-transfer to an LPT Buffer is started, then the value of the buffer's \texttt{largeMsgTransId} variable is set equal to the value of the transfer's Large Message Transaction Identifier
 \item When an up-transfer to an LPT Buffer is terminated, then the value of the buffer's \texttt{largeMsgTransId} variable is incremented by LPT\_N\_BUF.
-\end{fw_itemize}
+\end{itemize}
 
 To illustrate, suppose that the second LPT Buffer is used exclusively as a source for down-transfers and that there are 10 LPT Buffers (i.e. LPT\_N\_BUF is equal to 10). In this case, the first down-transfer from the LPT Buffer has a Large Message Transaction Identifier equal to 1; the second one has a Large Message Transfer Identifier equal to 11; the third one has a Large Message Transaction Identifier equal to 21; etc. The general idea is that, as long as an LPT Buffer is only used for down-transfers, then its Large Message Transaction Identifier can be used to identify the LPT Buffer from which the down-transfer originates because the LPT Buffer identifier is equal to: (\texttt{largeMsgTransId} MOD LPT\_N\_BUF).
 
@@ -1701,11 +1607,11 @@ A similar rule holds for up-transfers. Service 13 uses the Large Message Transac
 
 Variable \texttt{lptFailCode} holds the reason for an abortion of an up-transfer. Three values are possible:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item NO\_FAIL: default value in the absence of any failures
 \item PART\_NMB\_ERR: the first up-transfer command had a part sequence number different from 1 or a subsequent up-transfer command had a part sequence number which was out-of-order.
 \item TIME\_OUT: an up-transfer command has been received later than \texttt{lptTimeOut} since the previous up-transfer command
-\end{fw_itemize}
+\end{itemize}
 
 
 %----------------------------------------------------------------------
@@ -1729,34 +1635,34 @@ The do-action of the state DOWN\_TRANSFER is responsible for allocating and load
 
 The collection of the data from the LPT Buffer is done by the Update Action of the service 13 reports. The Update Action is also responsible for updating the \texttt{partSeqNmb} and the \texttt{lptRemSize} variables: every time a service 13 report is executed, \texttt{partSeqNmb} is incremented by 1 and \texttt{lptRemSize} is decremented by \texttt{partSize}. Hence, the normal flow of actions at the starts of a down-transfer (i.e. when the LPT State Machine enters state DOWN\_TRANSFER) is as follows:
 
-\begin{fw_enumerate}
+\begin{enumerate}
 \item The LPT State Machine is executed and the do-action of state DOWN\_TRANSFER creates the OutComponent encapsulating the (13,1) report and loads it in the OutLoader which in turn loads it in the OutManager
 \item The OutManager is executed and this causes the OutComponent encapsulating the (13,1) report to be executed.
 \item The Update Action of the OutComponent encapsulating the (13,1) report is executed and this causes the first part of down-transfer data to be collected from the LPT Buffer, \texttt{partSeqNmb} to be incremented by 1, and \texttt{lptRemSize} to be decremented by \texttt{partSize}.
 \item The (13,1) report is handed over to the middleware for eventual transfer to its destination.
 \item The (13,1) report is a one-shot report and it is therefore released after being executed once.
-\end{fw_enumerate}
+\end{enumerate}
 
 After the first part of the service 13 down-transfer has been processed, the intermediate parts are processed according to the following logic:
 
-\begin{fw_enumerate}
+\begin{enumerate}
 \item The LPT State Machine is executed and the do-action of state DOWN\_TRANSFER creates the OutComponent encapsulating the (13,2) report and loads it in the OutLoader which in turn loads it in the OutManager
 \item The OutManager is executed and this causes the OutComponent encapsulating the (13,2) report to be executed.
 \item The Update Action of the OutComponent encapsulating the (13,2) report is executed and this causes the next part of down-transfer data to be collected from the LPT Buffer, \texttt{partSeqNmb} to be incremented by 1, and \texttt{lptRemSize} to be decremented by \texttt{partSize}.
 \item The (13,2) report is handed over to the middleware for eventual transfer to its destination.
 \item The (13,2) report is a repeat report which remains pending for as long as \texttt{lptRemSize} is greater than \texttt{partSize}. Hence, steps 2 to 5 are repeated multiple times until the last intermediate part of the down-transfer is processed.
-\end{fw_enumerate}
+\end{enumerate}
 
 When \texttt{lptRemSize} has become smaller than \texttt{partSize}, the last part of the down-transfer is processed according to the following logic:
 
-\begin{fw_enumerate}
+\begin{enumerate}
 \item The LPT State Machine is executed and the do-action of state DOWN\_TRANSFER creates the OutComponent encapsulating the (13,3) report and loads it in the OutLoader which in turn loads it in the OutManager
 \item The OutManager is executed and this causes the OutComponent encapsulating the (13,3) report to be executed.
 \item The Update Action of the OutComponent encapsulating the (13,3) report is executed and this causes the last part of data to be collected from the LPT Buffer and \texttt{lptRemSize} to be decremented by \texttt{partSize}.
 \item The (13,3) report is handed over to the middleware for eventual transfer to its destination.
 \item The (13,3) report is a one-shot report and it is therefore released after it is executed once.
 \item The value of \texttt{lptRemSize} is now zero or negative and this causes the LPT State Machine to make a transition back to state INACTIVE. This marks the end of the down-transfer.
-\end{fw_enumerate}
+\end{enumerate}
 
 Command \textit{StartDownTransfer} may either originate from the host application (if the host application autonomously decides to start a down-transfer) or it may originate from the private command (13,129). The latter command is provided by the framework to let the user trigger a down-transfer. It takes as an argument the identifier of the LPT Buffer (an integer in the range 1 to LPT\_N\_BUF) from which the down-transfer is to be started.
 
@@ -1774,10 +1680,10 @@ Command \texttt{StartUpTransfer} originates from the (13,9) command which marks 
 
 An up-transfer is aborted if variable \texttt{failCode} holding the failure code becomes set. At entry into state UP\_TRANSFER, this variable is set to NO\_FAIL (nominal value in the absence of failures). This value may change in two ways:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item If there is a time-out, namely if the time elapsed since the last up-transfer command exceeds \texttt{lptTimeOut}, or
 \item If the an up-transfer command is received with a part sequence number which is out-of-sequence.
-\end{fw_itemize}
+\end{itemize}
 
 The first condition is evaluated by the do-action of state UP\_TRANSFER. This implies that the resolution of the time-out check is given by the period with which the LPT State Machine is executed. The second condition is evaluated by the start action of the (13,10) and (13,11) commands.
 
@@ -1791,76 +1697,69 @@ Finally, the LPT State Machine is responsible for managing the nOfUplinks variab
 Tables \ref{tab:CR-S13-1} to \ref{tab:CR-S13-130} formally specify the service 13 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 13 (see section \ref{sec:defPusRepCmd}). 
 
 
-\begin{cr_rep}{S13-1}{Specification of LptDownFirstRep Component}
-\end{cr_rep}
+\begin{crRep}{S13-1}{Specification of LptDownFirstRep Component}
+\end{crRep}
 
 \newpage
-\begin{cr_rep}{S13-2}{Specification of LptDownInterRep Component}
-\end{cr_rep}
+\begin{crRep}{S13-2}{Specification of LptDownInterRep Component}
+\end{crRep}
 
-\begin{cr_rep}{S13-3}{Specification of LptDownLastRep Component}
-\end{cr_rep}
-
-\newpage
-\begin{cr_cmd}{S13-9}{Specification of LptUpFirstCmd Component}
-\end{cr_cmd}
-
-\begin{cr_cmd}{S13-10}{Specification of LptUpInterCmd Component}
-\end{cr_cmd}
+\begin{crRep}{S13-3}{Specification of LptDownLastRep Component}
+\end{crRep}
 
 \newpage
-\begin{cr_cmd}{S13-11}{Specification of LptUpLastCmd Component}
-\end{cr_cmd}
+\begin{crCmd}{S13-9}{Specification of LptUpFirstCmd Component}
+\end{crCmd}
 
-\begin{cr_rep}{S13-16}{Specification of LptUpAbortRep Component}
-\end{cr_rep}
+\begin{crCmd}{S13-10}{Specification of LptUpInterCmd Component}
+\end{crCmd}
 
 \newpage
-\begin{cr_cmd}{S13-129}{Specification of LptStartDownCmd Component}
-\end{cr_cmd}
+\begin{crCmd}{S13-11}{Specification of LptUpLastCmd Component}
+\end{crCmd}
 
-\begin{cr_cmd}{S13-130}{Specification of LptAbortDownCmd Component}
-\end{cr_cmd}
+\begin{crRep}{S13-16}{Specification of LptUpAbortRep Component}
+\end{crRep}
+
+\newpage
+\begin{crCmd}{S13-129}{Specification of LptStartDownCmd Component}
+\end{crCmd}
+
+\begin{crCmd}{S13-130}{Specification of LptAbortDownCmd Component}
+\end{crCmd}
 
 %---------------------------------------------------------------------------------
 \newpage
 \subsection{Service 13 Constants}\label{sec:serv13Const}
 The service 13 constants are listed in table \ref{tab:Const-S13}. 
 
-\begin{cr_const}{S13}{Constants for Service 13 (Large Packet Transfer Service)}
-\end{cr_const}
+\begin{crConst}{S13}{Constants for Service 13 (Large Packet Transfer Service)}
+\end{crConst}
 
 
 %---------------------------------------------------------------------------------
-\subsection{Service 13 Observables}\label{sec:serv13Obs}
-The service 13 observables are listed in table \ref{tab:Obs-S13}.
+\subsection{Service 13 Observables and Parameters}\label{sec:serv13Obs}
+The service 13 observables and parameters are listed in table \ref{tab:Obs-S13}.
 
-\begin{cr_obs}{S13}{Observables for Service 13 (Large Packet Transfer Service)}
-\end{cr_obs}
+\pnpcsvtable[filter equal={\Domain}{Lpt}]{|p{2.5cm}|c|>{\raggedright\arraybackslash}p{9cm}|}{Observables and Parameters for LPT Service}{tab:Obs-S13}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
+
 
 %----------------------------------------------------------------------------------------
 \newpage
 \subsection{Service 13 Adaptation Points}
 The PUS Extension of the CORDET Framework defines service 13 in full with the exception of the mechanism to access the LPT Buffers. The location of these buffers and the means to access them are application-specific and the framework accordingly defines an Adaptation Point to access these buffers. In a simple case, the adaptation point might take the form of a function which takes the identifier of an LPT Buffer as an argument and whcih returns the start address and size of the buffer itself.
 
-\begin{cr_ap}{S13}{Adaptation Points for Service 13 (Large Packet Transfer Service)}
-\end{cr_ap}
+\begin{crAp}{S13}{Adaptation Points for Service 13 (Large Packet Transfer Service)}
+\end{crAp}
 
-
-%---------------------------------------------------------------------------------
-\subsection{Service 13 Parameters}\label{sec:serv13Par}
-The service 13 parameters are listed in table \ref{tab:Par-S13}.
-
-\begin{cr_par}{S13}{Parameters for Service 3 (Large Packet Transfer Service)}
-\end{cr_par}
 
 \newpage
 %---------------------------------------------------------------------------------
 \subsection{Service 13 Requirements}
 The table in this section lists requirements for the test service.
 
-\begin{cr_req}{S13}{Requirements for Service 13 (Large Packet Transfer Service)}
-\end{cr_req}
+\begin{crReq}{S13}{Requirements for Service 13 (Large Packet Transfer Service)}
+\end{crReq}
 
 \begin{figure}[H]
  \centering
@@ -1888,12 +1787,12 @@ The way the connection test is performed is not specified by the PUS. The PUS Ex
 \subsection{Service 17 Command and Report Definition}
 In the CORDET Framework an out-going report is encapsulated in an OutComponent component and an incoming command is encapsulated in an InCommand component. The framework extension accordingly offers the following components to implement the two commands and the two reports of service 17:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item Component AreYouAliveCmd implements command (17,1) 
 \item Component AreYouAliveRep implements report (17,2) 
 \item Component OnBoardConnectCmd implements command (17,3)  
 \item Component OnBoardConnectRep implements report (17,4) 
-\end{fw_itemize}
+\end{itemize}
 
 These components are defined by the way they close the adaptation points of the OutComponent and InCommand. This is defined formally in tables \ref{tab:CR-S17-1} to \ref{tab:CR-S17-4} but the main points are as follows.
 
@@ -1905,12 +1804,12 @@ If, instead, the legality of the target application identifier is confirmed, the
 
 The mechanism through which the AreYouAliveRep report notifies the OnBoardConnectCmd command of its arrival is as follows:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item The service 17 maintains integer variable \texttt{areYouAliveSrc}
 \item The Start Action of the OnBoardConnectCmd command resets \texttt{areYouAliveSrc} to zero
 \item The Update Action of the incoming report AreYouAliveRep loads its source in variable \texttt{areYouAliveSrc}
 \item The Progress Action of the OnBoardConnectCmd command only declares the command to have successfully terminated if, within time-out \texttt{areYouAliveTimeOut}, it finds \texttt{areYouAliveSrc} equal to the identifier of the application with which the connection test is done
-\end{fw_itemize}
+\end{itemize}
 
 One implication of this mechanism is that only one On-Board-Connection Test may be active at a given time (i.e. the user should only send a new OnBoardConnectCmd command to an application after execution of the previous OnBoardConnectCmd command has completed). This constraint is not enforced by the framework and is under the responsibility of the user of the service.
 
@@ -1918,51 +1817,42 @@ The time-out parameter \texttt{areYouAliveTimeOut} is the same for all target ap
 
 Tables \ref{tab:CR-S17-1} to \ref{tab:CR-S17-4} formally specify the service 17 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 17 (see section \ref{sec:defPusRepCmd}). The following considerations apply to the service 17 commands and reports:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item The service 17 commands execute in 'one-shot' mode and therefore do not generate progress reports.
 \item Service 17 reports are generated unconditionally and hence their enable check always returns 'report enabled'.
 \item Service 17 reports are generated as soon as the condition which triggered them occur and hence their ready check always returns 'ready'
 \item Service 17 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
-\end{fw_itemize}
+\end{itemize}
 
 \newpage
-\begin{cr_cmd}{S17-1}{Specification of AreYouAliveCmd Component}
-\end{cr_cmd}
+\begin{crCmd}{S17-1}{Specification of AreYouAliveCmd Component}
+\end{crCmd}
 
-\begin{cr_rep}{S17-2}{Specification of AreYouAliveRep Component}
-\end{cr_rep}
+\begin{crRep}{S17-2}{Specification of AreYouAliveRep Component}
+\end{crRep}
 
 \newpage
-\begin{cr_cmd}{S17-3}{Specification of OnBoardConnectCmd Component}
-\end{cr_cmd}
+\begin{crCmd}{S17-3}{Specification of OnBoardConnectCmd Component}
+\end{crCmd}
 
-\begin{cr_rep}{S17-4}{Specification of OnBoardConnectRep Component}
-\end{cr_rep}
+\begin{crRep}{S17-4}{Specification of OnBoardConnectRep Component}
+\end{crRep}
 
 
 %---------------------------------------------------------------------------------
 
-\subsection{Service 17 Observables}\label{sec:serv17Obs}
-Service 17 maintains and makes available in the data pool one single observable listed in table \ref{tab:Obs-S17}.
+\subsection{Service 17 Observables and Parameters}\label{sec:serv17Obs}
+The service 17 observables and parameters are listed in table \ref{tab:Obs-S13}.
 
-\begin{cr_obs}{S17}{Observables for Service 17 (Test Service)}
-\end{cr_obs}
-
-%---------------------------------------------------------------------------------
-\newpage
-\subsection{Service 17 Parameters}\label{sec:serv17Par}
-Service 17 maintains and makes available in the data pool the parameters listed in table \ref{tab:Par-S17}.
-
-\begin{cr_par}{S17}{Parameters for Service 17 (Test Service)}
-\end{cr_par}
+\pnpcsvtable[filter equal={\Domain}{Tst}]{|p{4cm}|c|>{\raggedright\arraybackslash}p{7.5cm}|}{Observables and Parameters for Test Service}{tab:Obs-S17}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
 
 
 %---------------------------------------------------------------------------------
 \subsection{Service 17 Requirements}
 The table in this section lists requirements for the test service.
 
-\begin{cr_req}{S17}{Requirements for Service 17 (Test Service)}
-\end{cr_req}
+\begin{crReq}{S17}{Requirements for Service 17 (Test Service)}
+\end{crReq}
 
 \newpage
 \begin{figure}[H]
@@ -1992,29 +1882,37 @@ The specification of this service is still TBD.
 \section{Pre-Defined Event Reports}\label{sec:preDefEvtRep}
 The table in this section lists all the service 5 event reports which are generated by components of the PUS Extension of the CORDET Framework. For each event report, the following information is provided:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item The name of the event report
-\item The severity level of the event 
 \item The description of the event report
 \item The parameters carried by the event report
-\end{fw_itemize}
+\end{itemize}
 
 \begin{landscape} 
 
-\begin{longtable}{|l|c|>{\raggedright\arraybackslash}p{6.0cm}|>{\raggedright\arraybackslash}p{7cm}|c|>{\raggedright\arraybackslash}p{7cm}|}
-\caption{Error Reports}\label{tab:evtRep}\\
-\hline
-\rowcolor{light-gray}
-\textbf{Name} & \textbf{Sev.} & \textbf{Description} & \textbf{Parameters}\\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{Name} & \textbf{Sev.} & \textbf{Description} & \textbf{Parameters}\\
-\hline\hline
-\endhead
-\DTLforeach*{dbEvt}{\name=Name,\severity=Severity,\description=Description,\parameters=Parameters}
-{\DTLiffirstrow{}{\\\hline}\name & \severity & \description & \parameters}\\\hline
-\end{longtable}
+%\printEvtIdt{|c|>{\raggedright\arraybackslash}p{5.5cm}|>{\raggedright\arraybackslash}
+
+\pnpcsvtable{|c|>{\raggedright\arraybackslash}p{5.5cm}|>{\raggedright\arraybackslash}p{3.5cm}|}{Event Reports}{tab:evtRep}{Name & Description & Parameters}{./GeneratedTables/PUSExtensionEvtIdt.csv}{\texttt{\Name} & \Description & \Parameters}
+
+
+
+
+
+
+%\begin{longtable}{|l|c|>{\raggedright\arraybackslash}p{6.0cm}|>{\raggedright\arraybackslash}p{7cm}|c|>{\raggedright\arraybackslash}p{7cm}|}
+%\caption{Error Reports}\label{tab:evtRep}\\
+%\hline
+%\rowcolor{light-gray}
+%\textbf{Name} & \textbf{Sev.} & \textbf{Description} & \textbf{Parameters}\\
+%\hline\hline
+%\endfirsthead
+%\rowcolor{light-gray}
+%\textbf{Name} & \textbf{Sev.} & \textbf{Description} & \textbf{Parameters}\\
+%\hline\hline
+%\endhead
+%\DTLforeach*{dbEvt}{\name=Name,\severity=Severity,\description=Description,\parameters=Parameters}
+%{\DTLiffirstrow{}{\\\hline}\name & \severity & \description & \parameters}\\\hline
+%\end{longtable}
 
 \end{landscape}
 
@@ -2023,12 +1921,12 @@ The table in this section lists all the service 5 event reports which are genera
 \section{Error Reports}\label{sec:errRep}
 The table in this section lists all the error reports which are generated by the PUS Extension of the CORDET Framework. For each error report, the following information is provided:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item The name of the error report
 \item The severity of the error using the same severity levels defined for service 5 reports
 \item The description of the error report
 \item The parameters carried by the error report
-\end{fw_itemize}
+\end{itemize}
 
 \begin{landscape} 
 
@@ -2053,6 +1951,11 @@ The table in this section lists all the error reports which are generated by the
 \section{Request Verification Failure Codes}\label{sec:reqVerFailCodes}
 Request verification failure reports of service 1 carry a failure code. The table in this section lists all the failure codes supported by the PUS Extension of the CORDET Framework. Failure reports carry parameters. Some of these parameters are common to all failure reports but the Failure Verification Data is code-specific (see section \ref{sec:serv1RepDef}). This is defined in the rightmost column of the table.
 
+\pnpcsvtable{|l|p{5.5cm}|>{\raggedright\arraybackslash}p{3.5cm}|}{Request Verification Failure Codes}{tab:reqVerFailCodes}{Name & Description & Ver. Failure Data}{./GeneratedTables/PUSExtensionFailCodet.csv}{\texttt{\Name} & \Description & \Data}
+
+
+
+
 \begin{longtable}{|l|p{5.5cm}|>{\raggedright\arraybackslash}p{3.5cm}|}
 \caption{Request Verification Failure Codes}\label{tab:reqVerFailCodes}\\
 \hline
@@ -2075,23 +1978,23 @@ Request verification failure reports of service 1 carry a failure code. The tabl
 \section{PUS Requirements Compliance Matrix}\label{sec:PusReqSOC}
 The table in this section presents the level of compliance achieved by the PUS Extension of the CORDET Framework to the PUS requirements of AD-1. The first three columns give the identifier, the title and the text of the PUS requirement. The fourth column gives the compliance status which can be one of the following:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item [C1] The requirement is directly implemented by the PUS Extension of the CORDET Framework or by the CORDET Framework itself (i.e. applications instantiated from the framework are guaranteed to be compliant with the requirement)
 \item [C2] The requirement may be implemented by applications instantiated from the PUS Extension of the CORDET Framework (i.e. applications instantiated from the framework may be made be compliant with the requirement)
 \item [NC] The requirement is not compatible with the PUS Extension of the CORDET Framework (i.e. applications instantiated from the framework cannot be compliant with the requirement)
 \item [NA] The requirement is not covered by the PUS Extension of the CORDET Framework
-\end{fw_itemize}
+\end{itemize}
 
 In several cases, the compliance level is declared to be 'C1/C2' when part of the requirement is implemented by the PUS Extension of the CORDET Framework and part is left to the application developers.
 
 The fourth column in the table provides a discussion of the level of compliance and, wherever possible, the following additional information is provided:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item [C1] Traceability to the framework requirements implementing the PUS requirement 
 \item [C2] Traceability to the adaptation point(s) where application developers can insert their own requirements to achieve compliance
 \item [NC] Justification for non-compliance
 \item [NA] Explanation of the reason for the non-applicability of the requirement
-\end{fw_itemize}
+\end{itemize}
 
 Only requirements in sections 5 to 7 of the PUS are covered. Requirements in section 8 merely state the layout of the standard commands and reports. Compliance to these requirements is uncontroversial and is guaranteed in all cases. Requirements in section 9 are not relevant to the PUS Extension of the CORDET Framework and are therefore ignored.
 

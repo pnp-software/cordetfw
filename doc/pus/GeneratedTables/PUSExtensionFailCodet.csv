@@ -1,0 +1,25 @@
+Value|Name|Description|Data
+1|VER_CMD_INV_DEST|Failure code for all (1,10) reports
+|None
+2|VER_REP_CR_FD|Failure code for start actions when they unsuccessfully attempt to create a new report from the OutFactory|None
+3|VER_OUTLOADER_FD|Failure code for start actions when the Load operation in the OutLoader has failed|None
+4|VER_SID_IN_USE|Failure code for start action of commands (3,1) and (3,2) when attempt to create a new report with a SID which is already in use|The SID in use
+5|VER_FULL_RDL|Failure code for start action of commands (3,1) and (3,2) when they attempt to create a new report at a time when the RDL is already full|None
+6|VER_RDL_CONSTR|Failure code for start action of commands (3,1) and (3,2) when their report configuration data violate an RDL constraint of table \ref{tab:repDefDataStruct}|The identifier of the violated constraint
+7|VER_DUPL_DI|Failure code for start action of commands (3,1) and (3,2) when they carry the same data item identifier twice|The duplicated data item identifier
+8|VER_ILL_SID|Failure code for start action of a service 3 command when an invalid SID is encountered|The invalid SID
+9|VER_ENABLED_SID|Failure code for start action of commands (3,3) and (3,4) when a SID which is enabled is encountered|The enabled SID
+10|VER_SID_START_FD|Failure code for start action of multi-instruction service 3 commands when all the instructions in the command have been rejected|None
+11| VER_FACT_PRGR_FD|Failure code for progress action of multi-instruction service 3 command when the attempt to retrieve a report from the OutFactory fails|The SID for which the retrieval from the OutFactory was attempted
+12|VER_ILL_EID|Failure code for start action of a service 5 command when an illegal EID is encountered|The illegal EID
+13|VER_EID_START_FD|Failure code for start action of multi-instruction service 5 commands when all the instructions in the command have been rejected|None
+14|VER_ILL_MON|Failure code for start action of a service 12 command when a Parameter or Functional Monitor Identifier is out-of-range or not defined|The rejected Parameter or Functional Monitor Identifier
+15|VER_MON_START_FD|Failure code for start action of multi-instruction service 12 commands when all the instructions in the command have been rejected|None
+16|VER_PMDL_FULL|Failure code for start action of service 12 command which finds the Parameter Monitor Definition List (PMDL) full|The parameter monitor identifier for which the violation was found
+17|VER_MOD_ILL_DI|Failure code for start action of service 12 command which finds the data item identifier of the parameter to be monitored illegal|The parameter monitor identifier for which the violation was found
+18|VER_MON_PROT|Failure code for start action of service 12 command which finds a parameter monitor which belongs to a protected functional monitor|The parameter monitor identifier for which the violation was found
+19|VER_MON_ENB|Failure code for start action of service 12 command which finds a parameter or functional monitor which is enabled|The parameter or functional monitor identifier for which the violation was found
+20|VER_MON_USE|Failure code for start action of service 12 command which finds a parameter monitor which is used by a functional monitor|The parameter monitor identifier for which the violation was found
+21|VER_FMDL_FULL|Failure code for start action of service 12 command which finds the Functional Monitor Definition List (FMDL) full|The functional monitor identifier for which the violation was found
+22|VER_MON_TMP|Failure code for start action of service 12 command which finds too many parameter monitors in a functional monitor|The functional monitor identifier for which the violation was found
+23|VER_MON_MFN|Failure code for start action of service 12 command which finds a value of minimum failing number equal to zero|The functional monitor identifier for which the violation was found
