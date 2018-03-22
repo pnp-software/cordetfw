@@ -797,7 +797,7 @@ The failure code of failure reports in service 1 is treated as a discriminant. T
 \subsection{Service 1 Report and Command Definition}\label{sec:serv1RepDef}
 There are no commands in service 1. The service is only implemented by reports. In the CORDET Framework an out-going report is encapsulated in an OutComponent component. The framework extension offers one single OutComponent, ReqVerRep, to encapsulate any of the nine service reports. Use of a single component is legitimate because all service 1 reports share the same behaviour (i.e. they only differ in the data they carry but have the same checks and definitions).
 
-The ReqVerRep component is implemented as an extension of the OutComponent component. It is therefore defined by the way it closes the adaptation points of the OutComponent. Table \ref{tab:AP-S1} lists the OutComponent adaptation points and shows how they are closed for the service 1 components.
+The ReqVerRep component is implemented as an extension of the OutComponent component. It is therefore defined by the way it closes the adaptation points of the OutComponent. The tables in this section list the OutComponent adaptation points and show how they are closed for the service 1 components.
 
 The PUS defines the content of the service 1 reports in section 8.1 of AD-3. The 'success' reports carry the packet identifier of the command being verified. The 'failure' reports carry, in addition to the packet identifier, a failure code and an undefined set of failure-related data. The framework extension restricts this flexibility by stipulating that the failure-related data consist of: 
 
@@ -814,7 +814,7 @@ To illustrate, consider the case of a command (3,5) which enables a housekeeping
 
 The Verification Failure Codes which are supported by the PUS Extension are listed in appendix \ref{sec:reqVerFailCodes}. These failure codes cover the failure conditions for the commands defined by the PUS Extension. For each failure code, the associated verification failure data is also defined. Applications should extend the table in appendix \ref{sec:reqVerFailCodes} with the failure codes for their own commands. 
 
-Table \ref{tab:CR-S1-A} formally specifies the ReqVerRep component by specifying how the actions, checks and attributes of a generic out-going report are specialized for service 1 (see section \ref{sec:defPusRepCmd}). The following remarks apply: 
+The tables in this section formally specify the service 1 components by specifying how the actions, checks and attributes of a generic out-going report are specialized for service 1 (see section \ref{sec:defPusRepCmd}). The following remarks apply: 
 
 \begin{itemize}
 \item Service 1 reports retrieve their enable status from the OutRegistry.
@@ -824,9 +824,19 @@ Table \ref{tab:CR-S1-A} formally specifies the ReqVerRep component by specifying
 
 With reference to the first bullet, it is recalled that the OutRegistry component of the CORDET Framework stores the enable status of out-going reports as a function of the report's type, sub-type and discriminant. By default, all out-going reports are enabled. Users who wish to disable a specific verification failure code or who wish to disable a certain service 1 sub-type can do so by setting its status to 'disabled' in the OutRegistry. Note that this is a run-time operation which would typically be done as part of an application's initialization.
 
+\printVerSuccAccRepSpec{|c|p{10cm}|}
+\printVerFailedAccRepSpec{|c|p{10cm}|}
+\printVerSuccStartRepSpec{|c|p{10cm}|}
 \newpage
-\begin{crRep}{S1-A}{Specification of ReqVerRep Component}
-\end{crRep}
+\printVerFailedStartRepSpec{|c|p{10cm}|}
+\printVerSuccPrgrRepSpec{|c|p{10cm}|}
+\newpage
+\printVerFailedPrgrRepSpec{|c|p{10cm}|}
+\printVerSuccTermRepSpec{|c|p{10cm}|}
+\printVerFailedTermRepSpec{|c|p{10cm}|}
+\newpage
+\printVerFailedRoutingRepSpec{|c|p{10cm}|}
+
 
 %---------------------------------------------------------------------------------
 \subsection{Service 1 Observables}\label{sec:serv1Obs}
