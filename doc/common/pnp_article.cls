@@ -42,6 +42,7 @@
 \usepackage{calc}
 \usepackage{ifthen}
 
+
 \usepackage{underscore}  % Allows underscores to be used in non-math text (use of
                          % of this package apparently is not compatible with use of
                          % underscores in labels and other 'special' text
@@ -104,7 +105,8 @@
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
-\lhead{\includegraphics[scale=0.25,keepaspectratio=true]{logoPnP_1.jpg}}
+%\lhead{\includegraphics[scale=0.25,keepaspectratio=true]{logoPnP_1.jpg}}
+\lhead{ \includegraphics[scale=0.25,keepaspectratio=true]{logoPnP_2.png}}
 \chead{\url{www.pnp-software.com} \\}
 \rhead{\GetDocRefNumber \\ Revision \GetDocIssue \\ Date \today}
 \lfoot{\textcopyright2017 P\&P Software GmbH. All Rights Reserved.}
