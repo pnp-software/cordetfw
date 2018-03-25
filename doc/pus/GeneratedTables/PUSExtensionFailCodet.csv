@@ -1,6 +1,5 @@
-Value|Name|Description|Data
-1|VER_CMD_INV_DEST|Failure code for all (1,10) reports
-|None
+Value|Name|Description|verFailData
+1|VER_CMD_INV_DEST|Failure code for all (1,10) reports|None
 2|VER_REP_CR_FD|Failure code for start actions when they unsuccessfully attempt to create a new report from the OutFactory|None
 3|VER_OUTLOADER_FD|Failure code for start actions when the Load operation in the OutLoader has failed|None
 4|VER_SID_IN_USE|Failure code for start action of commands (3,1) and (3,2) when attempt to create a new report with a SID which is already in use|The SID in use

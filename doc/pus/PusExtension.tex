@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\SetDocIssue{0.2 (OnGoing)}
+\SetDocIssue{0.2 (In Progress)}
 \SetDocRefNumber{PP-DF-COR-0003}
 \SetDocTitle{The CORDET Framework}
 \SetDocSubtitle{PUS Extension}
@@ -91,29 +91,6 @@
 {\end{longtable}}
 
 
-%---------------------------------------------
-% Define Environment for Constant Tables 
-% Par #1: The string identifying the category to which the constant belongs
-% Par #2: The table caption
-%---------------------------------------------
-\newenvironment{crConst}[2]
-{
-\begin{longtable}{|l|p{9.5cm}|}
-\caption{#2}\label{tab:Const-#1} \\
-\hline
-\rowcolor{light-gray}
-\textbf{Name} & \textbf{Description}\\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{Name} & \textbf{Description}\\
-\hline\hline
-\endhead
-\DTLforeach*[\DTLiseq{\cat}{#1}]{dbConst}{\cat=Category,\name=Name,\desc=Desc}
-{\DTLiffirstrow{}{\\\hline}\texttt{\name} & \desc}\\\hline
-}
-{\end{longtable}}
-
 
 %---------------------------------------------
 % Import tables with requirements and adaptation points
@@ -125,10 +102,10 @@
 \DTLloaddb{dbReq}{PusExtensionReq.csv}
 %\DTLloaddb{dbObs}{PusExtensionObs.csv}
 %\DTLloaddb{dbPar}{PusExtensionPar.csv}
-\DTLloaddb{dbConst}{PusExtensionConst.csv}
+%\DTLloaddb{dbConst}{PusExtensionConst.csv}
 \DTLloaddb{dbErr}{PusExtensionErr.csv}
-\DTLloaddb{dbEvt}{PusExtensionEvt.csv}
-\DTLloaddb{dbReqVerFailCodes}{PusExtensionReqVerFailCodes.csv}
+%\DTLloaddb{dbEvt}{PusExtensionEvt.csv}
+%\DTLloaddb{dbReqVerFailCodes}{PusExtensionReqVerFailCodes.csv}
 \DTLloaddb{dbServ}{PusExtensionServices.csv}
 
 %---------------------------------------------
@@ -1002,7 +979,7 @@ In order to illustrate the use of the debug variables, consider a situation wher
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 3 Report and Command Definition}\label{sec:serv3RepCmdDef}
-Tables \ref{tab:CR-S3-1} to \ref{tab:CR-S3-27} formally specify the service 3 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 3 (see section \ref{sec:defPusRepCmd}). The following remarks apply:
+The tables in this section formally specify the service 3 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 3 (see section \ref{sec:defPusRepCmd}). The following remarks apply:
 
 \begin{itemize}
 \item In the PUS, service 3 commands and reports appear twice: once for housekeeping reports and once for diagnostic reports. The PUS Extension of the CORDET Framework does not distinguish between housekeeping and diagnostic reports/commands and therefore each CORDET report/command component implements two PUS reports/commands.
@@ -1011,41 +988,34 @@ Tables \ref{tab:CR-S3-1} to \ref{tab:CR-S3-27} formally specify the service 3 co
 \item For the housekeeping/diagnostic reports (3,25) and (3,26), two components are provided of which one is used when the reports are generated on a periodic basis and the other is used when the reports are generated in óne-shot' mode in response to a (3,27) or (3,28) command.
 \end{itemize}
 
-
-\begin{crCmd}{S3-1}{Specification of HkCreateCmd Component}
-\end{crCmd}
-
-\begin{crCmd}{S3-3}{Specification of HkDeleteCmd Component}
-\end{crCmd}
-
+\printHkCreateHkCmdSpec{|c|p{10cm}|}
+\printHkCreateDiagCmdSpec{|c|p{10cm}|}
 \newpage
-\begin{crCmd}{S3-5}{Specification of HkEnableCmd Component}
-\end{crCmd}
-
-\begin{crCmd}{S3-6}{Specification of HkDisableCmd Component}
-\end{crCmd}
-
+\printHkDelHkCmdSpec{|c|p{10cm}|}
+\printHkDelDiagCmdSpec{|c|p{10cm}|}
 \newpage
-\begin{crCmd}{S3-9}{Specification of HkRepStructCmd Component}
-\end{crCmd}
-
-\begin{crRep}{S3-10}{Specification of HkRepStructRep Component}
-\end{crRep}
-
+\printHkEnableHkCmdSpec{|c|p{10cm}|}
+\printHkDisableHkCmdSpec{|c|p{10cm}|}
 \newpage
-\begin{crRep}{S3-25}{Specification of HkRep Component}
-\end{crRep}
+\printHkEnableDiagCmdSpec{|c|p{10cm}|}
+\printHkDisableDiagCmdSpec{|c|p{10cm}|}
+\newpage
+\printHkRepStructHkCmdSpec{|c|p{10cm}|}
+\printHkRepStructHkRepSpec{|c|p{10cm}|}
+\newpage
+\printHkRepStructDiagCmdSpec{|c|p{10cm}|}
+\printHkRepStructDiagRepSpec{|c|p{10cm}|}
+\newpage
+\printHkRepSpec{|c|p{10cm}|}
+\printHkDiagRepSpec{|c|p{10cm}|}
+\newpage
+\printHkOneShotHkCmdSpec{|c|p{10cm}|}
 
-\begin{crCmd}{S3-27}{Specification of HkOneShotCmd Component}
-\end{crCmd}
-
-\newpage 
 %---------------------------------------------------------------------------------
 \subsection{Service 3 Constants}\label{sec:serv3Const}
 The service 3 constants are listed in table \ref{tab:Const-S3}.
 
-\begin{crConst}{S3}{Constants for Service 3 (Housekeeping Service)}
-\end{crConst}
+\pnpcsvtable[filter equal={\Domain}{Hk}]{|p{3cm}|>{\raggedright\arraybackslash}p{9.5cm}|}{Constants for Housekeeping Service}{tab:Const-S3}{Name & Description}{./GeneratedTables/Constants.csv}{\texttt{\Name} & \Desc}
 
 
 %---------------------------------------------------------------------------------
@@ -1142,7 +1112,7 @@ The event reports listed in section \ref{sec:preDefEvtRep} are pre-defined in th
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 5 Report and Command Definition}\label{sec:serv5RepCmdDef}
-Tables \ref{tab:CR-S5-1} to \ref{tab:CR-S5-5} formally specify the service 5 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 5 (see section \ref{sec:defPusRepCmd}). The following remarks apply:
+The tables in this section formally specify the service 5 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 5 (see section \ref{sec:defPusRepCmd}). The following remarks apply:
 
 \begin{itemize}
 \item The same component EvtRep implements all four event reports (5,1) to (5,4). This is legitimate because all event reports - irrespective of their severity level - have the same behaviour. 
@@ -1151,31 +1121,26 @@ Tables \ref{tab:CR-S5-1} to \ref{tab:CR-S5-5} formally specify the service 5 com
 \item Service 5 reports are 'one-off' reports and hence their repeat check always returns 'no repeat'
 \end{itemize}
 
-
-\begin{crRep}{S5-1}{Specification of EvtRep Component}
-\end{crRep}
-
 \newpage
-\begin{crCmd}{S5-5}{Specification of EvtEnableCmd Component}
-\end{crCmd}
-
-\begin{crCmd}{S5-6}{Specification of EvtDisableCmd Component}
-\end{crCmd}
-
+\printEvtRepaSpec{|c|p{10cm}|}
+\printEvtRepbSpec{|c|p{10cm}|}
 \newpage
-\begin{crCmd}{S5-7}{Specification of EvtRepDisabledCmd Component}
-\end{crCmd}
+\printEvtRepcSpec{|c|p{10cm}|}
+\printEvtRepdSpec{|c|p{10cm}|}
+\newpage
+\printEvtEnableCmdSpec{|c|p{10cm}|}
+\printEvtDisableCmdSpec{|c|p{10cm}|}
+\newpage
+\printEvtRepDisabledCmdSpec{|c|p{10cm}|}
+\printEvtRepDisabledRepSpec{|c|p{10cm}|}
 
-\begin{crRep}{S5-8}{Specification of EvtRepDisableRep Component}
-\end{crRep}
 
 %---------------------------------------------------------------------------------
 \newpage
 \subsection{Service 5 Constants}\label{sec:serv5Const}
-The service 5 constants are listed in table \ref{tab:Const-S5}. Note that the event identifiers must be defined in ascending order. This constraint is introduced to allow implementation to optimize the search for event identifiers.
+The service 5 constants are listed in table \ref{tab:Const-S5}. 
 
-\begin{crConst}{S5}{Constants for Service 5 (Event Reporting Service)}
-\end{crConst}
+\pnpcsvtable[filter equal={\Domain}{Evt}]{|p{3cm}|>{\raggedright\arraybackslash}p{9.5cm}|}{Constants for Event Reporting Service}{tab:Const-S5}{Name & Description}{./GeneratedTables/Constants.csv}{\texttt{\Name} & \Desc}
 
 
 %---------------------------------------------------------------------------------
@@ -1503,8 +1468,7 @@ Tables \ref{tab:MonEnbParMonDefCmdSpec} to \ref{tab:MonRepFuncMonStatRepSpec} fo
 \subsection{Service 12 Constants}\label{sec:serv12Const}
 The service 12 constants are listed in table \ref{tab:Const-S12} formally specify the service 12 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 12 (see section \ref{sec:defPusRepCmd}).    
 
-\begin{crConst}{S12}{Constants for Service 12 (On-Board Monitoring Service)}
-\end{crConst}
+\pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|>{\raggedright\arraybackslash}p{9.5cm}|}{Constants for Monitoring Service}{tab:Const-S12}{Name & Description}{./GeneratedTables/Constants.csv}{\texttt{\Name} & \Desc}
 
 
 %----------------------------------------------------------------------------------------
@@ -1743,8 +1707,7 @@ Tables \ref{tab:CR-S13-1} to \ref{tab:CR-S13-130} formally specify the service 1
 \subsection{Service 13 Constants}\label{sec:serv13Const}
 The service 13 constants are listed in table \ref{tab:Const-S13}. 
 
-\begin{crConst}{S13}{Constants for Service 13 (Large Packet Transfer Service)}
-\end{crConst}
+\pnpcsvtable[filter equal={\Domain}{Lpt}]{|p{3cm}|>{\raggedright\arraybackslash}p{9.5cm}|}{Constants for Large Packet Transfer Service}{tab:Const-S13}{Name & Description}{./GeneratedTables/Constants.csv}{\texttt{\Name} & \Desc}
 
 
 %---------------------------------------------------------------------------------
@@ -1848,6 +1811,12 @@ Tables \ref{tab:CR-S17-1} to \ref{tab:CR-S17-4} formally specify the service 17 
 \begin{crRep}{S17-4}{Specification of OnBoardConnectRep Component}
 \end{crRep}
 
+%---------------------------------------------------------------------------------
+\newpage
+\subsection{Service 17 Constants}\label{sec:serv17Const}
+The service 17 constants are listed in table \ref{tab:Const-S17}. 
+
+\pnpcsvtable[filter equal={\Domain}{Lpt}]{|p{3cm}|>{\raggedright\arraybackslash}p{9.5cm}|}{Constants for Test Service}{tab:Const-S17}{Name & Description}{./GeneratedTables/Constants.csv}{\texttt{\Name} & \Desc}
 
 %---------------------------------------------------------------------------------
 
@@ -1900,29 +1869,7 @@ The table in this section lists all the service 5 event reports which are genera
 
 \begin{landscape} 
 
-%\printEvtIdt{|c|>{\raggedright\arraybackslash}p{5.5cm}|>{\raggedright\arraybackslash}
-
-\pnpcsvtable{|c|>{\raggedright\arraybackslash}p{5.5cm}|>{\raggedright\arraybackslash}p{3.5cm}|}{Event Reports}{tab:evtRep}{Name & Description & Parameters}{./GeneratedTables/PUSExtensionEvtIdt.csv}{\texttt{\Name} & \Description & \Parameters}
-
-
-
-
-
-
-%\begin{longtable}{|l|c|>{\raggedright\arraybackslash}p{6.0cm}|>{\raggedright\arraybackslash}p{7cm}|c|>{\raggedright\arraybackslash}p{7cm}|}
-%\caption{Error Reports}\label{tab:evtRep}\\
-%\hline
-%\rowcolor{light-gray}
-%\textbf{Name} & \textbf{Sev.} & \textbf{Description} & \textbf{Parameters}\\
-%\hline\hline
-%\endfirsthead
-%\rowcolor{light-gray}
-%\textbf{Name} & \textbf{Sev.} & \textbf{Description} & \textbf{Parameters}\\
-%\hline\hline
-%\endhead
-%\DTLforeach*{dbEvt}{\name=Name,\severity=Severity,\description=Description,\parameters=Parameters}
-%{\DTLiffirstrow{}{\\\hline}\name & \severity & \description & \parameters}\\\hline
-%\end{longtable}
+\pnpcsvtable{|c|>{\raggedright\arraybackslash}p{9cm}|>{\raggedright\arraybackslash}p{9cm}|}{Event Reports}{tab:evtRep}{Name & Description & Parameters}{./GeneratedTables/PUSExtensionEvtIdt.csv}{\texttt{\Name} & \Description & \Parameters}
 
 \end{landscape}
 
@@ -1961,26 +1908,11 @@ The table in this section lists all the error reports which are generated by the
 \section{Request Verification Failure Codes}\label{sec:reqVerFailCodes}
 Request verification failure reports of service 1 carry a failure code. The table in this section lists all the failure codes supported by the PUS Extension of the CORDET Framework. Failure reports carry parameters. Some of these parameters are common to all failure reports but the Failure Verification Data is code-specific (see section \ref{sec:serv1RepDef}). This is defined in the rightmost column of the table.
 
-\pnpcsvtable{|l|p{5.5cm}|>{\raggedright\arraybackslash}p{3.5cm}|}{Request Verification Failure Codes}{tab:reqVerFailCodes}{Name & Description & Ver. Failure Data}{./GeneratedTables/PUSExtensionFailCodet.csv}{\texttt{\Name} & \Description & \Data}
+\begin{landscape}
 
+\pnpcsvtable{|l|p{11cm}|>{\raggedright\arraybackslash}p{6cm}|}{Request Verification Failure Codes}{tab:reqVerFailCodes}{Name & Description & Ver. Failure Data}{./GeneratedTables/PUSExtensionFailCodet.csv}{\texttt{\Name} & \Description & \verFailData}
 
-
-
-\begin{longtable}{|l|p{5.5cm}|>{\raggedright\arraybackslash}p{3.5cm}|}
-\caption{Request Verification Failure Codes}\label{tab:reqVerFailCodes}\\
-\hline
-\rowcolor{light-gray}
-\textbf{Name} & \textbf{Description} & \textbf{Ver. Failure Data} \\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{Name} & \textbf{Description} & \textbf{Ver. Failure Data} \\
-\hline\hline
-\endhead
-\DTLforeach*{dbReqVerFailCodes}{\name=Name,\description=Description, \verFailData=VerFailData}
-{\DTLiffirstrow{}{\\\hline}\name & \description & \verFailData }\\\hline
-\end{longtable}
-
+\end{landscape}
 
 
 

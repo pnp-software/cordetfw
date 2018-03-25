@@ -1,0 +1,25 @@
+Domain|Name|Desc|Value
+Hk|HK_N_REP_DEF|Number of Report Definitions in the Report Definition List (maximum number of housekeeping/diagnostic reports)|1
+Hk|HK_MAX_SID|Maximum value of a service 3 Structure Identifier (SID)|1
+Hk|HK_MAX_N_ITEMS|Maximum number of data items in a housekeeping/diagnostic report|1
+Hk|HK_COLLECT_PER|Minimum collection period for service 3 reports|1
+Hk|HK_MAX_N_SIMPLE|Maximum number of simply-commutated parameters in a housekeeping/diagnostic report|1
+Hk|HK_MAX_N_GR|Maximum number of super-commutated groups in a housekeeping/diagnostic report|1
+Hk|HK_MAX_REP|Maximum value of the repetition number of a super-commutated group in a housekeeping/diagnostic report|1
+Hk|HK_MAX_N_REP|Maximum number of data items in a super-commutated groups in a housekeeping/diagnostic report|1
+Hk|HK_MAX_ID|Maximum value of a data pool item identifier|1
+Hk|HK_N_SAMP_BUF|Number of service 3 Sampling Buffers|
+Hk|HK_N_DEBUG_VAR|Number of debug variables|1
+Evt|EVT_N_ID|Number of event identifiers supported by the application|1
+Tst|TST_N_DEST|Number of destinations managed by test service|1
+Lpt|LPT_N_BUF|Number of Large Packet Transfer Buffers available for down-or up-transfer of large packets|1
+Mon|MON_N_PMON|Maximum number of entries in the Parameter Monitoring Definition List PMDL (maximum number of parameter monitors in the application)|1
+Mon|MON_N_LIM|Maximum number of parameter monitors with a limit check|1
+Mon|MON_N_EXP|Maximum number of parameter monitors with an expected value check|1
+Mon|MON_N_DEL|Maximum number of parameter monitors with a delta value check|1
+Mon|MON_PER|Minimum monitoring period|1
+Mon|MON_N_CLST|Maximum number of entries in the Check Transition List|1
+Mon|MON_N_FMON|Maximum number of entries in the Functional Monitoring Definition List FMDL (maximum number of functional monitors in the application)|1
+Mon|MON_N_PFMON|Maximum number of parameter monitors in a functional monitor|1
+Mon|MON_NFPMON|Maximum number of functional monitors to which the same parameter monitor may belong|1
+Mon|MON_FPER|Period of execution of the Functional Monitoring Procedure expressed as a multiple of MON_PER|1

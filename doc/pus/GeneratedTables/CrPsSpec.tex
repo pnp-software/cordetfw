@@ -1,9 +1,9 @@
 \def \printVerSuccAccRepSpec#1 {
 \begin{pnptable}{#1}{Specification of VerSuccAccRep Component}{tab:VerSuccAccRepSpec}{Name & VerSuccAccRep(1,1)}
-Description & Service 1 Successful Acceptance Verification Report \\\hline
+Description & Report generated to mark the successful acceptance of an incoming command \\\hline
 Parameters & Packet identifier and packet sequence control of telecommand being acknowledged \\\hline
 Discriminant & None \\\hline
-Destination & The destination of service 1 reports is set equal to the source\newline of the command being verified \\\hline
+Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
 Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
 Ready Check & Service 1 reports are always ready \\\hline
 Repeat Check & Service 1 reports are never repeated \\\hline
@@ -12,10 +12,10 @@ Update Action & No action \\\hline
 
 \def \printVerFailedAccRepSpec#1 {
 \begin{pnptable}{#1}{Specification of VerFailedAccRep Component}{tab:VerFailedAccRepSpec}{Name & VerFailedAccRep(1,2)}
-Description & Service 1 Failed Acceptance Verification Report \\\hline
+Description & Report generated to mark the acceptance failure of an incoming command \\\hline
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code).   \\\hline
-Discriminant & None \\\hline
-Destination & The destination of service 1 reports is set equal to the source\newline of the command being verified \\\hline
+Discriminant & Failure Identification Code \\\hline
+Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
 Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
 Ready Check & Service 1 reports are always ready \\\hline
 Repeat Check & Service 1 reports are never repeated \\\hline
@@ -24,10 +24,10 @@ Update Action & No action \\\hline
 
 \def \printVerSuccStartRepSpec#1 {
 \begin{pnptable}{#1}{Specification of VerSuccStartRep Component}{tab:VerSuccStartRepSpec}{Name & VerSuccStartRep(1,3)}
-Description & Service 1 verification reports \\\hline
-Parameters & Parameter values are as defined by the service 1 procedures called in adaptation points S1-1 to S1-9 \\\hline
+Description & Report generated to mark the successful start of execution of an incoming command \\\hline
+Parameters & Packet identifier and packet sequence control of telecommand being acknowledged \\\hline
 Discriminant & None \\\hline
-Destination & The destination of service 1 reports is set equal to the source of\newline the command being verified \\\hline
+Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
 Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
 Ready Check & Service 1 reports are always ready \\\hline
 Repeat Check & Service 1 reports are never repeated \\\hline
@@ -36,10 +36,10 @@ Update Action & No action \\\hline
 
 \def \printVerFailedStartRepSpec#1 {
 \begin{pnptable}{#1}{Specification of VerFailedStartRep Component}{tab:VerFailedStartRepSpec}{Name & VerFailedStartRep(1,4)}
-Description & Verification report for failure of start of execution \\\hline
+Description & Report generated to mark the start of execution failure of an incoming command \\\hline
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code).   \\\hline
-Discriminant & None \\\hline
-Destination & The destination of service 1 reports is set equal to the source of\newline the command being verified \\\hline
+Discriminant & Failure Identification Code \\\hline
+Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
 Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
 Ready Check & Service 1 reports are always ready \\\hline
 Repeat Check & Service 1 reports are never repeated \\\hline
@@ -48,10 +48,10 @@ Update Action & No action \\\hline
 
 \def \printVerSuccPrgrRepSpec#1 {
 \begin{pnptable}{#1}{Specification of VerSuccPrgrRep Component}{tab:VerSuccPrgrRepSpec}{Name & VerSuccPrgrRep(1,5)}
-Description & Service 1 verification reports \\\hline
-Parameters & Parameter values are as defined by the service 1 procedures called in adaptation points S1-1 to S1-9 \\\hline
+Description & Report generated to mark the successful completion of an execution step of an incoming command \\\hline
+Parameters & Packet identifier and packet sequence control of telecommand being acknowledged \\\hline
 Discriminant & None \\\hline
-Destination & The destination of service 1 reports is set equal to the source of\newline the command being verified \\\hline
+Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
 Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
 Ready Check & Service 1 reports are always ready \\\hline
 Repeat Check & Service 1 reports are never repeated \\\hline
@@ -60,10 +60,10 @@ Update Action & No action \\\hline
 
 \def \printVerFailedPrgrRepSpec#1 {
 \begin{pnptable}{#1}{Specification of VerFailedPrgrRep Component}{tab:VerFailedPrgrRepSpec}{Name & VerFailedPrgrRep(1,6)}
-Description & Verification report for failure of progress execution \\\hline
+Description & Report generated to mark the failure of an execution step of an incoming command \\\hline
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code); identifier of progress step which failed \\\hline
-Discriminant & None \\\hline
-Destination & The destination of service 1 reports is set equal to the source of\newline the command being verified \\\hline
+Discriminant & Failure Identification Code \\\hline
+Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
 Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
 Ready Check & Service 1 reports are always ready \\\hline
 Repeat Check & Service 1 reports are never repeated \\\hline
@@ -72,10 +72,10 @@ Update Action & No action \\\hline
 
 \def \printVerSuccTermRepSpec#1 {
 \begin{pnptable}{#1}{Specification of VerSuccTermRep Component}{tab:VerSuccTermRepSpec}{Name & VerSuccTermRep(1,7)}
-Description & Service 1 verification reports \\\hline
-Parameters & Parameter values are as defined by the service 1 procedures called in adaptation points S1-1 to S1-9 \\\hline
+Description & Report generated to mark the successful completion of execution of an incoming command \\\hline
+Parameters & Packet identifier and packet sequence control of telecommand being acknowledged \\\hline
 Discriminant & None \\\hline
-Destination & The destination of service 1 reports is set equal to the source of\newline the command being verified \\\hline
+Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
 Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
 Ready Check & Service 1 reports are always ready \\\hline
 Repeat Check & Service 1 reports are never repeated \\\hline
@@ -84,10 +84,10 @@ Update Action & No action \\\hline
 
 \def \printVerFailedTermRepSpec#1 {
 \begin{pnptable}{#1}{Specification of VerFailedTermRep Component}{tab:VerFailedTermRepSpec}{Name & VerFailedTermRep(1,8)}
-Description & Verification report for a failure of termination of command execution \\\hline
+Description & Report generated to mark the failure to complete execution of an incoming command \\\hline
 Parameters & Packet version number followed by information on the command being acknowledged: packet identifier, packet sequence counter, type, sub-type and discriminant, failure code and one single item of failure data (specific to each failure code).   \\\hline
-Discriminant & None \\\hline
-Destination & The destination of service 1 reports is set equal to the source of\newline the command being verified \\\hline
+Discriminant & Failure Identification Code \\\hline
+Destination & The destination of service 1 reports is set equal to the source of the command being verified \\\hline
 Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
 Ready Check & Service 1 reports are always ready \\\hline
 Repeat Check & Service 1 reports are never repeated \\\hline
@@ -96,9 +96,9 @@ Update Action & No action \\\hline
 
 \def \printVerFailedRoutingRepSpec#1 {
 \begin{pnptable}{#1}{Specification of VerFailedRoutingRep Component}{tab:VerFailedRoutingRepSpec}{Name & VerFailedRoutingRep(1,10)}
-Description & Service 1 verification reports \\\hline
+Description & Report generated to mark the failure to route an incoming command to its final destination \\\hline
 Parameters & Packet version number followed by information on the command whose routing failed: packet identifier, packet sequence counter, type, sub-type and discriminant, and invalid destination \\\hline
-Discriminant & None \\\hline
+Discriminant & Failure Identification Code \\\hline
 Destination & The destination of service 1 reports is set equal to the source of\newline the command being verified \\\hline
 Enable Check & Service 1 reports retrieve their enable status from the OurRegistry as a function of their type, sub-type and discriminant \\\hline
 Ready Check & Service 1 reports are always ready \\\hline
@@ -108,9 +108,9 @@ Update Action & No action \\\hline
 
 \def \printHkCreateHkCmdSpec#1 {
 \begin{pnptable}{#1}{Specification of HkCreateHkCmd Component}{tab:HkCreateHkCmdSpec}{Name & HkCreateHkCmd(3,1)}
-Description & Command (3,1) to create a diagnostic report structure \\\hline
+Description & Create a housekeeping report structure \\\hline
 Parameters & SID, collection interval and identifiers of parameters of the report to be created \\\hline
-Discriminant & None \\\hline
+Discriminant & The structure identifier (SID) of the packet to be created \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Run the procedure Start Action of HkCreate Command of figure \ref{fig:Cmd3s1Start} \\\hline
 Progress Action & Add the definition of the new report to the RDL, set its enabled status to 'disabled', and set the action outcome to 'completed' \\\hline
@@ -120,9 +120,9 @@ Abort Action & Default implementation (set action outcome to 'success') \\\hline
 
 \def \printHkCreateDiagCmdSpec#1 {
 \begin{pnptable}{#1}{Specification of HkCreateDiagCmd Component}{tab:HkCreateDiagCmdSpec}{Name & HkCreateDiagCmd(3,2)}
-Description & Command (3,2) to create a diagnostic report structure \\\hline
+Description & Create a diagnostic report structure \\\hline
 Parameters & SID, collection interval and identifiers of parameters of the\newline diagnostic report to be created \\\hline
-Discriminant & None \\\hline
+Discriminant & The structure identifier (SID) of the packet to be created \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Run the procedure Start Action of HkCreate Command of figure \ref{fig:Cmd3s1Start} \\\hline
 Progress Action & Add the definition of the new report to the RDL, set its enabled status to 'disabled', and set the action outcome to 'completed' \\\hline
@@ -132,7 +132,7 @@ Abort Action & Default implementation (set action outcome to 'success') \\\hline
 
 \def \printHkDelHkCmdSpec#1 {
 \begin{pnptable}{#1}{Specification of HkDelHkCmd Component}{tab:HkDelHkCmdSpec}{Name & HkDelHkCmd(3,3)}
-Description & Command (3,3) to delete a housekeeping report definition \\\hline
+Description & Delete one or more housekeeping report definitions \\\hline
 Parameters & List of SIDs of reports whose definition is to be deleted \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
@@ -144,7 +144,7 @@ Abort Action & Default implementation (set action outcome to 'success') \\\hline
 
 \def \printHkDelDiagCmdSpec#1 {
 \begin{pnptable}{#1}{Specification of HkDelDiagCmd Component}{tab:HkDelDiagCmdSpec}{Name & HkDelDiagCmd(3,4)}
-Description & Command (3,4) to delete a diagnostic report definition \\\hline
+Description & Delete one or more diagnostic report definitions \\\hline
 Parameters & List of SIDs of reports whose definition is to be deleted \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
@@ -156,7 +156,7 @@ Abort Action & Default implementation (set action outcome to 'success') \\\hline
 
 \def \printHkEnableHkCmdSpec#1 {
 \begin{pnptable}{#1}{Specification of HkEnableHkCmd Component}{tab:HkEnableHkCmdSpec}{Name & HkEnableHkCmd(3,5)}
-Description & Command (3,5) to Enable Periodic Generation of a Housekeeping Report Structure \\\hline
+Description & Enable the periodic generation of one or more housekeeping report structures \\\hline
 Parameters & List of SIDs to be enabled  \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
@@ -168,7 +168,7 @@ Abort Action & Default implementation (set action outcome to 'success') \\\hline
 
 \def \printHkDisableHkCmdSpec#1 {
 \begin{pnptable}{#1}{Specification of HkDisableHkCmd Component}{tab:HkDisableHkCmdSpec}{Name & HkDisableHkCmd(3,6)}
-Description & Command (3,6) to Disable Periodic Generation of a\newline Housekeeping Report Structure \\\hline
+Description & Disable the periodic generation of one or more housekeeping report structures \\\hline
 Parameters & List of SIDs to be disabled \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
@@ -180,7 +180,7 @@ Abort Action & Default implementation (set action outcome to 'success') \\\hline
 
 \def \printHkEnableDiagCmdSpec#1 {
 \begin{pnptable}{#1}{Specification of HkEnableDiagCmd Component}{tab:HkEnableDiagCmdSpec}{Name & HkEnableDiagCmd(3,7)}
-Description & Command (3,7) to Enable Periodic Generation of a Diagnostic Report Structure \\\hline
+Description & Enable the periodic generation of one or more diagnostic report structures \\\hline
 Parameters & List of SIDs to be enabled  \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
@@ -192,7 +192,7 @@ Abort Action & Default implementation (set action outcome to 'success') \\\hline
 
 \def \printHkDisableDiagCmdSpec#1 {
 \begin{pnptable}{#1}{Specification of HkDisableDiagCmd Component}{tab:HkDisableDiagCmdSpec}{Name & HkDisableDiagCmd(3,8)}
-Description & Command (3,8) to Disable Periodic Generation of a Diagnostic Report Structure \\\hline
+Description & Disable the periodic generation of one or more diagnostic report structures \\\hline
 Parameters & List of SIDs to be disabled  \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
@@ -204,7 +204,7 @@ Abort Action & Default implementation (set action outcome to 'success') \\\hline
 
 \def \printHkRepStructHkCmdSpec#1 {
 \begin{pnptable}{#1}{Specification of HkRepStructHkCmd Component}{tab:HkRepStructHkCmdSpec}{Name & HkRepStructHkCmd(3,9)}
-Description & Command (3,9) to Report Structure of a Housekeeping Report \\\hline
+Description & This command carries a list of SIDs. For each SID, it triggers the generation of a (3,10) report with the definition of the housekeeping report structure for that SID. \\\hline
 Parameters & List of SIDs whose structure is to be reported \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
@@ -216,10 +216,10 @@ Abort Action & Default implementation (set action outcome to 'success') \\\hline
 
 \def \printHkRepStructHkRepSpec#1 {
 \begin{pnptable}{#1}{Specification of HkRepStructHkRep Component}{tab:HkRepStructHkRepSpec}{Name & HkRepStructHkRep(3,10)}
-Description & Report (3,10) to report the structure of a housekeeping report \\\hline
+Description & Report carrying the definition of a housekeeping report structure generated in response to a (3,9) command. \\\hline
 Parameters & SID of the housekeeping report, flag indicating whether periodic generation of the report is enabled, number of simply commutated parameters in the report and their identifiers, number of super-commutated groups and, for each group, number of parameters in the group and their identifiers \\\hline
-Discriminant & None \\\hline
-Destination &  \\\hline
+Discriminant & Structure Identifier \\\hline
+Destination & The destination is set equal to the source of the (3,9) command which triggers the report. \\\hline
 Enable Check & The enable status is read from the isEnabled field of the Report Definition corresponding to the report's SID \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
@@ -228,7 +228,7 @@ Update Action & Load the SID definition from the RDL \\\hline
 
 \def \printHkRepStructDiagCmdSpec#1 {
 \begin{pnptable}{#1}{Specification of HkRepStructDiagCmd Component}{tab:HkRepStructDiagCmdSpec}{Name & HkRepStructDiagCmd(3,11)}
-Description & Command (3,11) to Report Structure of a Diagnostic Report \\\hline
+Description & This command carries a list of SIDs. For each SID, it triggers the generation of a (3,12) report with the definition of the diagnostic report structure for that SID. \\\hline
 Parameters & List of SIDs whose structure is to be reported \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
@@ -240,10 +240,10 @@ Abort Action & Default implementation (set action outcome to 'success') \\\hline
 
 \def \printHkRepStructDiagRepSpec#1 {
 \begin{pnptable}{#1}{Specification of HkRepStructDiagRep Component}{tab:HkRepStructDiagRepSpec}{Name & HkRepStructDiagRep(3,12)}
-Description & Report (3,12) to report the structure of a diagnostic report \\\hline
+Description & Report carrying the definition of a diagnostic report structure generated in response to a (3,11) command. \\\hline
 Parameters & SID of the diagnostic report, flag indicating whether periodic generation of the report is enabled, number of simply commutated parameters in the report and their identifiers, number of super-commutated groups and, for each group, number of parameters in the group and their identifiers \\\hline
-Discriminant & None \\\hline
-Destination &  \\\hline
+Discriminant & Structure Identifier \\\hline
+Destination & The destination is set equal to the source of the (3,11) command which triggers the report. \\\hline
 Enable Check & The enable status is read from the isEnabled field of the Report Definition corresponding to the report's SID \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
@@ -252,10 +252,10 @@ Update Action & Load the SID definition from the RDL \\\hline
 
 \def \printHkRepSpec#1 {
 \begin{pnptable}{#1}{Specification of HkRep Component}{tab:HkRepSpec}{Name & HkRep(3,25)}
-Description & Periodic Housekeeping Report (3,25) \\\hline
+Description & Periodic housekeeping report \\\hline
 Parameters & The values of the data items associated to the report's SID in the RDL  \\\hline
-Discriminant & None \\\hline
-Destination & The destination is read from the dest field of the Report Definition corresponding to the report's SID \\\hline
+Discriminant & Structure Identifier \\\hline
+Destination & For pre-defined housekeeping reports, the initial destination is pre-defined. For all housekeeping reports, the destination is the source of the last (3,5) or (3,7) report enable command. \\\hline
 Enable Check & The enable status is read from the isEnabled field of the Report Definition corresponding to the report's SID \\\hline
 Ready Check & Run the procedure of figure \ref{fig:Rep3s25Ready} \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
@@ -266,8 +266,8 @@ Update Action & Load the value of the simply-commutated data items from the data
 \begin{pnptable}{#1}{Specification of HkDiagRep Component}{tab:HkDiagRepSpec}{Name & HkDiagRep(3,26)}
 Description & Periodic Diagnostic Report (3,26) \\\hline
 Parameters & The values of the data items associated to the report's SID in the RDL \\\hline
-Discriminant & None \\\hline
-Destination & The destination is read from the dest field of the Report Definition corresponding to the report's SID \\\hline
+Discriminant & Structure Identifier \\\hline
+Destination & For pre-defined diagnostic reports, the initial destination is pre-defined. For all diagnostic reports, the destination is the source of the last (3,5) or (3,7) report enable command. \\\hline
 Enable Check & The enable status is read from the isEnabled field of the Report Definition corresponding to the report's SID \\\hline
 Ready Check & Run the procedure of figure \ref{fig:Rep3s25Ready} \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
@@ -278,7 +278,7 @@ Update Action & Load the value of the simply-commutated data items from the data
 \begin{pnptable}{#1}{Specification of HkOneShotHkCmd Component}{tab:HkOneShotHkCmdSpec}{Name & HkOneShotHkCmd(3,27)}
 Description & Command (3,27) to generate a one-shot housekeeping report \\\hline
 Parameters & The list of SIDs for which the one-shot report is to be generated \\\hline
-Discriminant & None \\\hline
+Discriminant & SID to be generated in one-shot mode \\\hline
 Ready Check & Return 'command is ready' \\\hline
 Start Action & Run the procedure Start Action of Multi-SID Command of figure 9.3 \\\hline
 Progress Action & Run the procedure Progress Action of Generate One-Shot Housekeeping Report of figure 9.6 \\\hline
@@ -288,10 +288,10 @@ Abort Action & Do nothing \\\hline
 
 \def \printEvtRepaSpec#1 {
 \begin{pnptable}{#1}{Specification of EvtRep1 Component}{tab:EvtRepaSpec}{Name & EvtRep1(5,1)}
-Description & Event Report of Type (5,1) \\\hline
+Description & Informative event report \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
-Discriminant & None \\\hline
-Destination & The destination is application-specific \\\hline
+Discriminant & Event Identifier \\\hline
+Destination & An initial destination is pre-defined. At run-time, the destination is the same as the source of the most recent command which enabled the event report. \\\hline
 Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Our-Registry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
@@ -300,10 +300,10 @@ Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, last
 
 \def \printEvtRepbSpec#1 {
 \begin{pnptable}{#1}{Specification of EvtRep2 Component}{tab:EvtRepbSpec}{Name & EvtRep2(5,2)}
-Description & Event Report of Type (5,2) \\\hline
+Description & Low severity event report \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
-Discriminant & None \\\hline
-Destination & The destination is application-specific \\\hline
+Discriminant & Event Identifier \\\hline
+Destination & An initial destination is pre-defined. At run-time, the destination is the same as the source of the most recent command which enabled the event report. \\\hline
 Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Our-Registry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
@@ -312,10 +312,10 @@ Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, last
 
 \def \printEvtRepcSpec#1 {
 \begin{pnptable}{#1}{Specification of EvtRep3 Component}{tab:EvtRepcSpec}{Name & EvtRep3(5,3)}
-Description & Event Report of Type (5,3) \\\hline
+Description & Medium severity event report \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
-Discriminant & None \\\hline
-Destination & The destination is application-specific \\\hline
+Discriminant & Event Identifier \\\hline
+Destination & An initial destination is pre-defined. At run-time, the destination is the same as the source of the most recent command which enabled the event report. \\\hline
 Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Our-Registry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
@@ -324,10 +324,10 @@ Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, last
 
 \def \printEvtRepdSpec#1 {
 \begin{pnptable}{#1}{Specification of EvtRep4 Component}{tab:EvtRepdSpec}{Name & EvtRep4(5,4)}
-Description & Event Report of Type (5,4) \\\hline
+Description & High severity event report  \\\hline
 Parameters & Event Identifier (EID) acting as discriminant followed by event-specific parameters \\\hline
-Discriminant & None \\\hline
-Destination & The destination is application-specific \\\hline
+Discriminant & Event Identifier \\\hline
+Destination & An initial destination is pre-defined. At run-time, the destination is the same as the source of the most recent command which enabled the event report. \\\hline
 Enable Check & Update service 5 observable nOfDetectedEvt x ('x' is the event severity level) and then retrieve the enable status from the Our-Registry as a function of the report type, sub-type and discriminant \\\hline
 Ready Check & Default implementation (report is always ready) \\\hline
 Repeat Check & Default implementation (report is not repeated) \\\hline
@@ -336,8 +336,8 @@ Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, last
 
 \def \printEvtEnableCmdSpec#1 {
 \begin{pnptable}{#1}{Specification of EvtEnableCmd Component}{tab:EvtEnableCmdSpec}{Name & EvtEnableCmd(5,5)}
-Description & Command (5,5) to Enable Generation of a List of Event Identifiers \\\hline
-Parameters & List of Event Identifiers to be enabled  \\\hline
+Description & Command to enable generation of a list of event identifiers \\\hline
+Parameters & List of event identifiers to be enabled  \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Run the procedure Start Action of Multi-EID Command of figure \ref{fig:Cmd5EidStart} \\\hline
@@ -348,8 +348,8 @@ Abort Action & Default implementation (set action outcome to 'success') \\\hline
 
 \def \printEvtDisableCmdSpec#1 {
 \begin{pnptable}{#1}{Specification of EvtDisableCmd Component}{tab:EvtDisableCmdSpec}{Name & EvtDisableCmd(5,6)}
-Description & Command (5,6) to Disable Generation of a List of Event Identifiers \\\hline
-Parameters & List of Event Identifiers to be disabled  \\\hline
+Description & Command to disable generation of a list of event identifiers \\\hline
+Parameters & List of event identifiers to be disabled  \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
 Start Action & Run the procedure Start Action of Multi-EID Command of figure \ref{fig:Cmd5EidStart} \\\hline
@@ -360,7 +360,7 @@ Abort Action & Default implementation (set action outcome to 'success') \\\hline
 
 \def \printEvtRepDisabledCmdSpec#1 {
 \begin{pnptable}{#1}{Specification of EvtRepDisabledCmd Component}{tab:EvtRepDisabledCmdSpec}{Name & EvtRepDisabledCmd(5,7)}
-Description & Command (5,7) to Generate Report (5,8) with a List of Disabled Event Identifiers \\\hline
+Description & This command triggers the generation of a (5,8) report holding the list of disabled event identifiers \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
@@ -372,7 +372,7 @@ Abort Action & Default implementation (set action outcome to 'success') \\\hline
 
 \def \printEvtRepDisabledRepSpec#1 {
 \begin{pnptable}{#1}{Specification of EvtRepDisabledRep Component}{tab:EvtRepDisabledRepSpec}{Name & EvtRepDisabledRep(5,8)}
-Description & Report (5,8) to report the list of disabled Event Identifiers \\\hline
+Description & Report generated in response to a (5,7) command carrying the list of disabled Event Identifiers \\\hline
 Parameters & The list of disabled event identifiers  \\\hline
 Discriminant & None \\\hline
 Destination & The destination is set equal to the source of the (5,7) command which triggers the report \\\hline
@@ -734,7 +734,7 @@ Update Action & Load the first part of the large packet from the LPT Buffer; set
 \begin{pnptable}{#1}{Specification of LptDownInterRep Component}{tab:LptDownInterRepSpec}{Name & LptDownInterRep(13,2)}
 Description & Report (13,2) carrying an intermediate part of a down-transfer \\\hline
 Parameters & Large message transaction identifier, part sequence number and\newline transfer data \\\hline
-Discriminant & None \\\hline
+Discriminant & Large Message Trans. Identifier \\\hline
 Destination & The destination is loaded from parameter lptDest of the LPT Buffer holding the Large Packet to be transferred \\\hline
 Enable Check & Report is enabled if the LPT State Machine is in state DOWN\_\-TRANSFER \\\hline
 Ready Check & Report is always ready \\\hline
@@ -746,7 +746,7 @@ Update Action & Load the next part of the large packet from the LPT Buffer; set 
 \begin{pnptable}{#1}{Specification of LptDownLastRep Component}{tab:LptDownLastRepSpec}{Name & LptDownLastRep(13,3)}
 Description & Report (13,3) carrying the last part of a down-transfer \\\hline
 Parameters & Large message transaction identifier, part sequence number and transfer data \\\hline
-Discriminant & None \\\hline
+Discriminant & Large Message Trans. Identifier \\\hline
 Destination & The destination is loaded from parameter lptDest of the LPT Buffer holding the Large Packet to be transferred \\\hline
 Enable Check & Report is enabled if the LPT State Machine is in state DOWN\_\-TRANSFER \\\hline
 Ready Check & Report is always ready \\\hline
@@ -758,7 +758,7 @@ Update Action & Load the last part of the large packet from the LPT Buffer, set 
 \begin{pnptable}{#1}{Specification of LptUpFirstCmd Component}{tab:LptUpFirstCmdSpec}{Name & LptUpFirstCmd(13,9)}
 Description & Command (13,9) to carry the first part of an up-transfer \\\hline
 Parameters & Large message transaction identifier, part sequence number and part data for up-transfer \\\hline
-Discriminant & None \\\hline
+Discriminant & Large Message Trans. Identifier \\\hline
 Ready Check & Return 'command is ready' \\\hline
 Start Action & Determine the identifier of the LPT Buffer for the up-transfer by computing: (x MOD LPT\_\-N\_\-BUF) where `x' is the Large Message Transaction Identifier. Set action outcome to 'success' if the Part Sequence Number is equal to 1 and the LPT State Machine is in state INACTIVE; otherwise set the  action outcome to `failure' \\\hline
 Progress Action & Send command StartUpTransfer to LPT State Machine; copy the up-transfer data to LPT Buffer and set lptSize to be equal to the amout of copied data; set lptTime to the current time; set partSeqNmb to 1; set lptSrc to the source of the command \\\hline
@@ -770,7 +770,7 @@ Abort Action & Do nothing \\\hline
 \begin{pnptable}{#1}{Specification of LptUpInterCmd Component}{tab:LptUpInterCmdSpec}{Name & LptUpInterCmd(13,10)}
 Description & Command (13,10) to carry an intermediate part of an uptransfer \\\hline
 Parameters & Large message transaction identifier, part sequence number and part data for up-transfer \\\hline
-Discriminant & None \\\hline
+Discriminant & Large Message Trans. Identifier \\\hline
 Ready Check & Return 'command is ready' \\\hline
 Start Action & Run the Procedure Up-Transfer Start Action of Figure ?? \\\hline
 Progress Action & Copy the up-transfer data to LPT Buffer and increment lptSize by the amount of copied data; set  lptTime to the current time; set patSeqNmb to the part sequence number carried by the command \\\hline
@@ -782,7 +782,7 @@ Abort Action & Do nothing \\\hline
 \begin{pnptable}{#1}{Specification of LptUpLastCmd Component}{tab:LptUpLastCmdSpec}{Name & LptUpLastCmd(13,11)}
 Description & Command (13,11) to carry an intermediate part of an uptransfer \\\hline
 Parameters & Large message transaction identifier, part sequence number and\newline part data for up-transfer \\\hline
-Discriminant & None \\\hline
+Discriminant & Large Message Trans. Identifier \\\hline
 Ready Check & Return 'command is ready' \\\hline
 Start Action & Run the Procedure Up-Transfer Start Action of figure ?? \\\hline
 Progress Action & Copy the lptSize up-transfer data to LPT Buffer and increment lptSize by the amount of copied data; set current time; set patSeqNmb to the part sequence number carried by the command; send EndUpTransfer command to LPT State Machine \\\hline
@@ -794,7 +794,7 @@ Abort Action & Do nothing \\\hline
 \begin{pnptable}{#1}{Specification of LptUpAbortRep Component}{tab:LptUpAbortRepSpec}{Name & LptUpAbortRep(13,16)}
 Description & Report (13,16) to notify the abortion of an up-transfer \\\hline
 Parameters & Large message transaction identifier and failure reason \\\hline
-Discriminant & None \\\hline
+Discriminant & Large Message Trans. Identifier \\\hline
 Destination & The destination is the same as the source of the up-transfer being interrupted \\\hline
 Enable Check & Report is always enabled \\\hline
 Ready Check & Report is always ready \\\hline
@@ -806,7 +806,7 @@ Update Action & The large message transaction identifier is taken from parameter
 \begin{pnptable}{#1}{Specification of LptStartDownCmd Component}{tab:LptStartDownCmdSpec}{Name & LptStartDownCmd(13,129)}
 Description & Command (13,129) to start a down-transfer \\\hline
 Parameters & Large message transaction identifier \\\hline
-Discriminant & None \\\hline
+Discriminant & Large Message Trans. Identifier \\\hline
 Ready Check & Return 'command is ready' \\\hline
 Start Action & Determine the identifier of the LPT Buffer for the up-transfer by computing: (x MOD LPT\_\-N\_\-BUF) where `x' is the Large Message Transaction Identifier. Set action outcome to 'success' if the LPT State Machine is in state INACTIVE; otherwise set the action outcome to `failure' \\\hline
 Progress Action & Send command StartDownTransfer to the LPT State Machine \\\hline
@@ -818,7 +818,7 @@ Abort Action & Do nothing \\\hline
 \begin{pnptable}{#1}{Specification of LptAbortDownCmd Component}{tab:LptAbortDownCmdSpec}{Name & LptAbortDownCmd(13,130)}
 Description & Command (13,130) to abort a down-transfer \\\hline
 Parameters & Large message transaction identifier \\\hline
-Discriminant & None \\\hline
+Discriminant & Large Message Trans. Identifier \\\hline
 Ready Check & Return 'command is ready' \\\hline
 Start Action & Determine the identifier of the LPT Buffer for the up-transfer by computing: (x MOD LPT\_\-N\_\-BUF) where `x' is the Large Message Transaction Identifier. Set action outcome to 'success' if the LPT State Machine is in state DOWN\_\-TRANSFER; otherwise set the action outcome to `failure' \\\hline
 Progress Action & Send command Abort to the LPT State Machine \\\hline
