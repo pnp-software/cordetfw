@@ -261,7 +261,21 @@ d||For each valid request to report the list of disabled event definitions, the 
 6.6|Memory Management|Definition of service 6|n.a.|This service is not yet supported by the PUS Extension of the CORDET Framework||||
 6.8|Function Management|Definition of service 8|n.a.|This service is not yet supported by the PUS Extension of the CORDET Framework||||
 6.9|Time Management|Definition of service 9|n.a.|This service is not yet supported by the PUS Extension of the CORDET Framework||||
-6.11|Time-Base Scheduling|Definition of service 11|n.a.|This service is not yet supported by the PUS Extension of the CORDET Framework||||
+6.11|Time-Base Scheduling|Definition of service 11||||||
+6.11.2.1.1a|Time-based scheduling subservice|Each time-based scheduling service shall contain at least one time-based scheduling subservice.|C1|The PUS Extension of the CORDET Framework supports the time-based scheduling sub-service and it allows one instance of the service to be deployed in an application. The service only contains one instance of its sub-service.||||
+6.11.2.2a|Application process|Each application process shall host at most one time-based scheduling subservice provider.|C1|See statement of compliance to previous clause||||
+6.11.3.1a|Application process|The list of application processes that can be addressed by the time-based scheduling subservice when releasing requests shall be declared when specifying that subservice.|C1|TBD||||
+6.11.4.1a|Capability|Whether the time-based scheduling subservice supports the capability for managing sub-schedules shall be declared when specifying that subservice.|C1|The PUS Extension of the CORDET Framework supports the sub-schedule concept||||
+b||Whether the time-based scheduling subservice supports the capability for managing groups specified shall be declared when specifying that subservice.|C1|The PUS Extension of the CORDET Framework supports the group concept||||
+||||||||
+||||||||
+||||||||
+||||||||
+||||||||
+||||||||
+||||||||
+||||||||
+||||||||
 6.12|On-Board Monitoring|Definition of service 12||||||
 6.12.2.1.1a|Parameter Monitoring Subservice|Each on-board monitoring service shall contain exactly one parameter monitoring subservice.|C1|The PUS Extension of the CORDET Framework supports both sub-services of the On-Board Monitoring service and it allows one instance of the service to be deployed in an application. The service only contains one instance of each of its two sub-services.||||
 6.12.2.1.2a|Functional Monitoring Subservice|Each on-board monitoring service shall contain at most one functional monitoring subservice.|C1|See statement of compliance to previous clause||||
