@@ -1170,59 +1170,85 @@ The table in this section lists requirements for the test service.
 \section{Time-Based Scheduling Service}\label{sec:serv11}
 The service type of the Time-Based Scheduling Service is 11. The PUS Extension of the CORDET Framework supports this service only in part.
 
-The Time-Based Scheduling Service controls the Time-Based Scheduling Function. This function allows time-tagged requests to be pre-loaded in an application and to be released when their time of execution comes due. The pre-loaded requests are held in the \textit{Time-Based Schedule} or TBS. The consists of a list of up to SCD\_N\_TBA Time-Based Activities or TBAs. Within the TBS, each TBA is identified by an integer in the range 1 to SCD\_N\_TBA. Each TBA is defined by the attributes listed in table \ref{tab:tbaAtt}. 
+\subsection{Time-Based Schedule (TBS)}}
+The Time-Based Scheduling Service controls the Time-Based Schedule Execution Function. This function allows time-tagged requests to be pre-loaded in an application and to be released when their time of execution comes due. The pre-loaded requests are held in the \textit{Time-Based Schedule} or TBS. The TBS consists of a list of up to SCD\_N\_TBA \textit{Time-Based Activities} or TBAs. Within the TBS, each TBA is identified by an integer in the range 1 to SCD\_N\_TBA. Each TBA is defined by the attributes listed in table \ref{tab:tbaAtt}. 
+
+The entries in the TBS are arranged in a random order which is determined by the order in which the TBAs are loaded in the application. Each TBA has a pointer to the "next TBA" (attribute \texttt{nextTba}). If B is the next TBA of A, then this means that the release time of B is later than the release time of A and that there is no other entry in the TBS with a release time between A and B. This attribute allows the TBAs to be navigated in the order in which they are due for release. Additionally, and also in order to facilitate the scanning of the TBAs according to the their order of release time, variable \texttt{firstTba} is maintained. This variable points to the TBA with the earliest release time (i.e. to the first TBA which is due for execution). 
+
+Initially, the TBS is empty. A slot in the TBS is empty if its release time is equal to zero. The TBS is filled up through (11,4) commands. Each such command loads a TBA in the TBS. The TBS can be reset (all its entries are deleted) with command (11,3). Individual TBAs can be deleted using command (11,4) and deletion by filtering criterium can be done with command (11,5).
+
+The (11,4) command to load a new TBA in the TBS carries one or more instructions and each instruction carries one activity request. An activity request consists of a command which is embedded in its usual packet format within the (11,4) instruction. When the (11,4) command is processed, the commands embedded within its instructions are extracted from it and are then processed as follows:
+
+\begin{itemize}
+\item If the destination of the embedded command is not the host application, then the instruction containing the embedded command is rejected and a (1,4) report will be generated for it.
+\item If the destination of the embedded command is the host application, then an attempt is made to create an InCommand component encapsulating it (the InCommand is requested from the InFactory).
+\item If the attempt to create the InCommand fails (either because its type or sub-type or discriminant are illegal), then the instruction containing the embedded command is rejected and a (1,4) report will be generated for it.
+\item If the attempt to create the InCommand succeeds, then the InCommand is attached to the TBA and the TBA is stored in the TBS.
+\item When the release time of the TBA becomes due (the release time is one of the parameters of the (11,4) instruction), it is checked whether the InCommand is in state CONFIGURED. If this is not the case, then the command is deemed to have failed its acceptance check and it is rejected with a (1,2) report.
+\item If the InCommand is in state CONFIGURED, it is loaded in an InManager which will then process it like an ordinary (non-scheduled) command. The selection of the InManager is an adaptation point of the PUS Extension of the CORDET Framework.
+\end{itemize}
+
+Note that the processing logic outlined above is the same as is applied by the InLoader to non-scheduled incoming commands. In other words: non-scheduled incoming commands and scheduled commands are processed according to the same logic but, for non-scheduled commands, this logic is implemented in the InLoader component; for scheduled commands, it is instead implemented time-based schedule execution function. 
 
 
 
-TBD: can the release time be earlier than the current time?
 
-The entries in the TBS are arranged in a random order which is determined by the order in which the TBAs are loaded in the application. Each TBA has a pointer to the "next TBA" (attribute \texttt{nextTba}) which is defined as the TBA which is due for release next. This attribute allows the TBAs to be navigated in the order in which they are due for release. Additionally, and also in order to facilitate the scanning of the TBAs according to the their order of release time, variable \texttt{firstTba} is maintained. This variable points to the TBA with the next release time (i.e. to the first TBA which is due for execution).  
+The time-based schedule execution function can be enabled and disabled through commands (11,1) and (11,2). Initially, by default, the function is disabled. When the function is disabled, none of the TBAs in the TBS are processed. 
 
-Within the TBS, up to SCD\_N\_SUB\_TBS sub-schedules may be defined. Each sub-schedule is identified by an integer in the range 1 to SCD\_N\_SUB\_TBS. The sub-schedule 1 is the default sub-schedule. Thus, an application which does not need sub-schedule should set SCD\_N\_SUB\_TBS to 1. To each TBA, the attribute \texttt{subSchedId} is associated which identifies the sub-schedule to which the TBA belongs.
+
+
+
+\subsection{Sub-Schedules}
+Within the TBS, up to SCD\_N\_SUB\_TBS \textit{sub-schedules} may be defined. Each sub-schedule is identified by an integer in the range 1 to SCD\_N\_SUB\_TBS. The sub-schedule 1 is the default sub-schedule. Thus, an application which does not need sub-schedules should set SCD\_N\_SUB\_TBS to 1. To each TBA, the attribute \texttt{subSchedId} is associated which identifies the sub-schedule to which the TBA belongs.
+
+
+\subsection{Groups}
+The TBAs in the TBS may be assigned to groups. Up to SCD\_N\_GROUP groups may be defined. Each group is identified by an integer in the range 1 to SCD\_N\_GROUP. The group 1 is the default group. Thus, an application which does not need groups should set SCD\_N\_GROUPS to 1. To each TBA, the attribute \texttt{groupId} is associated which identifies the group to which the TBA belongs.
 
 
 
 
 
 \begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of Time-Based Activity}{tab:tbaAtt}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
-\texttt{relTime} & The release time of the time-based activity & A valid on-board time value \\
+\texttt{relTime} & The release time of the time-based activity or zero if this slot in the TBS is empty & A valid on-board time value \\
 \hline
-\texttt{nextTba} & The identifier within the TBS of the time-based activity with the next release time & Integer in range 1..SCD\_N\_TBA \\
+\texttt{nextTba} & The identifier within the TBS of the time-based activity with the next release time or zero if this is the last (fartherst in the future) entry in the TBS & Integer in range 1..SCD\_N\_TBA \\
 \hline
 \texttt{subSchedId} & The identifier of the sub-schedule to which the TBA belongs & Integer in range 1..SCD\_N\_SUB\_TBS \\
 \hline
-
-
-\texttt{monPrType} & Identifier of the Monitor Procedure type which checks the parameter value & See section \ref{sec:MonProc} \\
+\texttt{groupId} & The identifier of the group to which the TBA belongs & Integer in range 1..SCD\_N\_GROUP \\
 \hline
-\texttt{monPrRetVal} & Most recent return value of the Monitor Procedure & See table \ref{tab:retValMonPr} \\
-\hline
-\texttt{monPrPrevRetVal} & Previous return value of the Monitor Procedure (or INVALID after the monitoring procedure or the monitoring function has been enabled) & See table \ref{tab:retValMonPr} \\
-\hline
-\texttt{checkStatus} & Checking status of monitored parameter & See table \ref{tab:retValMonPr} \\
-\hline
-\texttt{per} & The monitoring period for the parameter monitor expressed as an integer multiple of the minimum monitoring period MON\_PER & Positive integer \\
-\hline
-\texttt{perCnt} & The phase counter & Integer in range: 0..(\texttt{per}-1) \\
-\hline
-\texttt{repNmb} & The repetition number for the monitoring check  & Positive integer \\
-\hline
-\texttt{repCnt} & The repetition counter for the monitoring check  & Integer in range: 0..(\texttt{repNmb}-1) \\
-\hline
-\texttt{evtId} & The identifier of the event to be generated if the parameter monitor detects a limit violation or zero if no event is to be generated & Zero or valid event identifier \\
-\hline
-\texttt{fMonList} & The list of MON\_N\_FPMON identifiers of the functional monitor to which the parameter monitor belongs (or zero if the parameter monitor does not belong to a functional monitor) & Integer in range: 0..MON\_N\_FMON \\
-\hline
-\texttt{valDataItemId} & Identifier of data item used for validity check & Integer in range: 1..HK\_MAX\_ID \\
-\hline
-\texttt{valMask} & Mask used for validity check & Unsigned integer  \\
-\hline
-\texttt{valExpVal} & Expected value for validity check & Unsigned integer  \\
+\texttt{cmd} & The InCommand holding the command associated to the TBA & A valid InCommand pointer \\
 \hline
 \end{pnptable}  
 
 
+%-------------------------------------------------------------------------------------
+\subsection{Service 11 Report and Command Definition}\label{sec:serv11RepCmdDef}
+Tables \ref{tab:TBD} to \ref{tab:TBD} formally specify the service 11 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for this service (see section \ref{sec:defPusRepCmd}). 
 
+\newpage
+\printScdEnbTbsSpec{|c|p{10cm}|}
+\printScdDisTbsSpec{|c|p{10cm}|}
+
+\newpage
+\printScdResTbsSpec{|c|p{10cm}|}
+
+
+%-------------------------------------------------------------------------------------
+\subsection{Service 11 Constants}\label{sec:serv11Const}
+The service 11 constants are listed in table \ref{tab:Const-S11}.    
+
+\pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|>{\raggedright\arraybackslash}p{9.5cm}|}{Constants for Time-Based Service}{tab:Const-S11}{Name & Description}{./GeneratedTables/Constants.csv}{\texttt{\Name} & \Desc}
+
+
+%----------------------------------------------------------------------------------------
+\subsection{Service 11 Observables and Parameters}\label{sec:serv11ObsPar}
+The service 11 observables and parameters are listed in table \ref{tab:Obs-S11}.
+
+The attributes of the Time-Based Activities (TBAs) in the Time-Based Schedule (TBS) are visible through service 11 reports and are therefore not defined as "observables" in the data pool.
+
+\pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{8.5cm}|}{Observables and Parameters for Time-Based Scheduling Service}{tab:Obs-S11}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
 
 
 %=============================================================================================
@@ -1464,7 +1490,7 @@ If a functional monitor declares a failure, the pre-defined event EVT\_FMON\_FAI
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 12 Report and Command Definition}\label{sec:serv12RepCmdDef}
-Tables \ref{tab:MonEnbParMonDefCmdSpec} to \ref{tab:MonRepFuncMonStatRepSpec} formally specify the service 12 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 5 (see section \ref{sec:defPusRepCmd}). 
+Tables \ref{tab:MonEnbParMonDefCmdSpec} to \ref{tab:MonRepFuncMonStatRepSpec} formally specify the service 12 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for this service (see section \ref{sec:defPusRepCmd}). 
 
 \printMonEnbParMonDefCmdSpec{|c|p{10cm}|}
 \printMonDisParMonDefCmdSpec{|c|p{10cm}|}
@@ -1524,14 +1550,14 @@ Tables \ref{tab:MonEnbParMonDefCmdSpec} to \ref{tab:MonRepFuncMonStatRepSpec} fo
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 12 Constants}\label{sec:serv12Const}
-The service 12 constants are listed in table \ref{tab:Const-S12} formally specify the service 12 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 12 (see section \ref{sec:defPusRepCmd}).    
+The service 12 constants are listed in table \ref{tab:Const-S12}.    
 
 \pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|>{\raggedright\arraybackslash}p{9.5cm}|}{Constants for Monitoring Service}{tab:Const-S12}{Name & Description}{./GeneratedTables/Constants.csv}{\texttt{\Name} & \Desc}
 
 
 %----------------------------------------------------------------------------------------
 \subsection{Service 12 Observables and Parameters}\label{sec:serv12ObsPar}
-The service 12 observables and parameters are listed in table \ref{tab:Obs-S12}. The initial values of the variables carrying the number of available and enabled monitors depends on the number parameter and functional monitors which are pre-defined at initialization time (which is an adaptation point) and must therefore be done by the application as part of its initialization.
+The service 12 observables and parameters are listed in table \ref{tab:Obs-S12}. The initial values of the variables carrying the number of available and enabled monitors depends on the number parameter and functional monitors which are pre-defined at initialization time (which is an adaptation point) and must therefore be set by the application as part of its initialization.
 
 The attributes of the parameter and functional monitors in the PMDL and FMDL are visible through service 12 reports and are therefore not defined as "observables" in the data pool.
 

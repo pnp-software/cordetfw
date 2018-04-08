@@ -267,12 +267,24 @@ d||For each valid request to report the list of disabled event definitions, the 
 6.11.3.1a|Application process|The list of application processes that can be addressed by the time-based scheduling subservice when releasing requests shall be declared when specifying that subservice.|C1|TBD||||
 6.11.4.1a|Capability|Whether the time-based scheduling subservice supports the capability for managing sub-schedules shall be declared when specifying that subservice.|C1|The PUS Extension of the CORDET Framework supports the sub-schedule concept||||
 b||Whether the time-based scheduling subservice supports the capability for managing groups specified shall be declared when specifying that subservice.|C1|The PUS Extension of the CORDET Framework supports the group concept||||
-||||||||
-||||||||
-||||||||
-||||||||
-||||||||
-||||||||
+6.11.4.2a|General|Each scheduled activity definition shall consist of: 1. the request; 2. the release time of that request; 3. if sub-schedules are supported, the identifier of the sub-schedule to which that scheduled activity is associated; 4. if groups are supported, the identifier of the group to which that scheduled activity is associated.|C1|See definition of attributes of a time-based activity or TBA||||
+b||Each scheduled activity definition shall be identified by a scheduled activity identifier that corresponds to the identifier of the request contained in that definition.|C1|A scheduled activity is identified by an integer in the range from 1 to SCD\_N\_TBA. The identifier of the request in the TBA (source, destination and source sequence counter of the request) can be reconstructed from the information in the TBA which includes a pointer to the InCommand encapsulating the request.||||
+c||The maximum number of scheduled activity definitions that the time-based scheduling subservice can insert within the time-based schedule and contemporaneously process at any time shall be declared when specifying that subservice.|C2|This is given by SCD\_N\_TBA||||
+d||The time margin that the time-based scheduling subservice uses when inserting activities in the time-based schedule or time-shifting activities shall be declared when specifying that subservice.|C1|The time-margin is one of the parameters associated to the time-based scheduling service||||
+e||The maximum delta time between the release time specified in a scheduled activity definition and the real release time of the related request shall be declared when specifying that subservice.|C2|This delta-time depends on how frequently the TBS is processed by the host application and on how frequently commands and processed by the host application. Both items are defined by the application designer as part of the instantiation process of the PUS Extension of the CORDET Framework||||
+6.11.4.3.1a|Status|The time-based scheduling subservice shall maintain a status indicating whether the overall time-based schedule execution function is enabled or disabled.|C1|The PUS Extension of the CORDET Framework supports the (11,1) and (11,2) commands and defines the enable status of the TBS as a service 11 observable||||
+b||When starting the time-based scheduling subservice, the time-based schedule execution function status shall be set to disabled.|C1|The default enable status of the TBS is: disabled||||
+6.11.4.3.2a|Enable the time-based schedule execution function|The time-based scheduling subservice shall provide the capability to enable the time-based schedule execution function.|C1|The PUS Extension of the CORDET Framework supports command (11,1)||||
+b||Each request to enable the time-based schedule execution function shall contain exactly one instruction to enable the time-based schedule execution function.|C1|See definition of component ScdEnbTbs||||
+c||"For each valid instruction to enable the time-based schedule execution
+function, the time-based scheduling subservice shall: 1. set the time-based schedule execution function status to enabled."|C1|See definition of progress action of component ScdEnbTbs||||
+6.11.4.3.3a|Disable the time-based schedule execution function|The time-based scheduling subservice shall provide the capability to disable the time-based schedule execution function.|C1|The PUS Extension of the CORDET Framework supports command (11,2)||||
+b||Each request to disable the time-based schedule execution function shall contain exactly one instruction to disable the time-based schedule execution function.|C1|See definition of component ScdDisTbs||||
+c||"For each valid instruction to disable the time-based schedule execution
+function, the time-based scheduling subservice shall: 1. set the time-based schedule execution function status to disabled."|C1|See definition of progress action of component ScdDisTbs||||
+6.1.4.4a|Reset the time-based schedule|The time-based scheduling subservice shall provide the capability to reset the time-based schedule.|C1|The PUS Extension of the CORDET Framework supports command (11,3)||||
+b||Each request to reset the time-based schedule shall contain exactly one instruction to reset the time-based schedule.|C1|See definition of component ScdResTbs||||
+c||"For each valid instruction to reset the time-based schedule, the time-based scheduling subservice shall: 1. set the time-based schedule execution function status to ""disabled""; 2. delete all scheduled activities from the schedule; 3. if sub-schedules are supported, delete all sub-schedules; 4. if groups are supported, enable all groups."|C1|See definition of progress action of component ScdResTbs||||
 ||||||||
 ||||||||
 ||||||||
