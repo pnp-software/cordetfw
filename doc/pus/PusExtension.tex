@@ -1168,7 +1168,7 @@ The table in this section lists requirements for the test service.
 
 %=============================================================================================
 \section{Time-Based Scheduling Service}\label{sec:serv11}
-The service type of the Time-Based Scheduling Service is 11. The PUS Extension of the CORDET Framework supports this service only in part.
+The service type of the Time-Based Scheduling Service is 11. The PUS Extension of the CORDET Framework supports this service only in part: the management of sub-schedules and groups and the associated commands and reports are not yet specified. 
 
 \subsection{Time-Based Schedule (TBS)}}
 The Time-Based Scheduling Service controls the Time-Based Schedule Execution Function. This function allows time-tagged requests to be pre-loaded in an application and to be released when their time of execution comes due. The pre-loaded requests are held in the \textit{Time-Based Schedule} or TBS. The TBS consists of a list of up to SCD\_N\_TBA \textit{Time-Based Activities} or TBAs. Within the TBS, each TBA is identified by an integer in the range 1 to SCD\_N\_TBA. Each TBA is defined by the attributes listed in table \ref{tab:tbaAtt}. 
@@ -1201,10 +1201,13 @@ The time-based schedule execution function can be enabled and disabled through c
 \subsection{Sub-Schedules}
 Within the TBS, up to SCD\_N\_SUB\_TBS \textit{sub-schedules} may be defined. Each sub-schedule is identified by an integer in the range 1 to SCD\_N\_SUB\_TBS. The sub-schedule 1 is the default sub-schedule. Thus, an application which does not need sub-schedules should set SCD\_N\_SUB\_TBS to 1. To each TBA, the attribute \texttt{subSchedId} is associated which identifies the sub-schedule to which the TBA belongs.
 
+In the current version of the PUS Extension of the CORDET Framework, only the default sub-schedule is supported and SCD\_N\_SUB\_TBS must be kept equal to 1.
+
 
 \subsection{Groups}
 The TBAs in the TBS may be assigned to groups. Up to SCD\_N\_GROUP groups may be defined. Each group is identified by an integer in the range 1 to SCD\_N\_GROUP. The group 1 is the default group. Thus, an application which does not need groups should set SCD\_N\_GROUPS to 1. To each TBA, the attribute \texttt{groupId} is associated which identifies the group to which the TBA belongs.
 
+In the current version of the PUS Extension of the CORDET Framework, only the default sub-schedule is supported and SCD\_N\_GROUP must be kept equal to 1.
 
 
 
@@ -1233,6 +1236,7 @@ Tables \ref{tab:TBD} to \ref{tab:TBD} formally specify the service 11 commands a
 
 \newpage
 \printScdResTbsSpec{|c|p{10cm}|}
+\printScdInsTbaSpec{|c|p{10cm}|}
 
 
 %-------------------------------------------------------------------------------------
@@ -1249,6 +1253,12 @@ The service 11 observables and parameters are listed in table \ref{tab:Obs-S11}.
 The attributes of the Time-Based Activities (TBAs) in the Time-Based Schedule (TBS) are visible through service 11 reports and are therefore not defined as "observables" in the data pool.
 
 \pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{8.5cm}|}{Observables and Parameters for Time-Based Scheduling Service}{tab:Obs-S11}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
+
+
+\pnpfigure[scale=0.5]{Start Action of (11,4) Command Procedure}{fig:Cmd11s4Start}{CrPsCmd11s4Start.png}
+
+
+
 
 
 %=============================================================================================
