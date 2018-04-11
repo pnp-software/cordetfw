@@ -1180,7 +1180,7 @@ Initially, the TBS is empty. A slot in the TBS is empty if its release time is e
 The (11,4) command to load a new TBA in the TBS carries one or more instructions and each instruction carries one activity request. An activity request consists of a command which is embedded in its usual packet format within the (11,4) instruction. When the (11,4) command is processed, the commands embedded within its instructions are extracted from it and are then processed as follows:
 
 \begin{itemize}
-\item If the destination of the embedded command is not the host application, then the instruction containing the embedded command is rejected and a (1,4) report will be generated for it.
+\item If the destination of the embedded command is not the host application, or if the group to which the command is assigned does not exist or is full, or if its release time is smaller than the current time (plus the time margin), then the instruction containing the embedded command is rejected and a (1,4) report will be generated for it.
 \item If the destination of the embedded command is the host application, then an attempt is made to create an InCommand component encapsulating it (the InCommand is requested from the InFactory).
 \item If the attempt to create the InCommand fails (either because its type or sub-type or discriminant are illegal), then the instruction containing the embedded command is rejected and a (1,4) report will be generated for it.
 \item If the attempt to create the InCommand succeeds, then the InCommand is attached to the TBA and the TBA is stored in the TBS.
@@ -1188,7 +1188,14 @@ The (11,4) command to load a new TBA in the TBS carries one or more instructions
 \item If the InCommand is in state CONFIGURED, it is loaded in an InManager which will then process it like an ordinary (non-scheduled) command. The selection of the InManager is an adaptation point of the PUS Extension of the CORDET Framework.
 \end{itemize}
 
-Note that the processing logic outlined above is the same as is applied by the InLoader to non-scheduled incoming commands. In other words: non-scheduled incoming commands and scheduled commands are processed according to the same logic but, for non-scheduled commands, this logic is implemented in the InLoader component; for scheduled commands, it is instead implemented time-based schedule execution function. 
+Note that the processing logic outlined above is the same as is applied by the InLoader to non-scheduled incoming commands. In other words: non-scheduled incoming commands and scheduled commands are processed according to the same logic but, for non-scheduled commands, this logic is implemented in the InLoader component; for scheduled commands, it is instead implemented in the time-based schedule execution function. More specifically, this is implemented in the following components:
+
+\begin{fw_itemize}
+\item The checks on the legality of the time-scheduled command are done in the Start Action of the (11,4) command (see table \ref{tab:ScdInsTba} and in particular figure \ref{fig:Cmd11s4Start})
+\item The insertion of the TBA in the TBS is done by the Progress Action of the (11,4) command (see table \ref{tab:ScdInsTba})
+\item The extraction of the TBA from the TBS and the loading of its embedded command in an InManager is done by the Time-Based Schedule Execution Procedure of figure \ref{fig:TbsExec}
+\end{fw_itemize}
+
 
 
 
@@ -1256,6 +1263,8 @@ The attributes of the Time-Based Activities (TBAs) in the Time-Based Schedule (T
 
 
 \pnpfigure[scale=0.5]{Start Action of (11,4) Command Procedure}{fig:Cmd11s4Start}{CrPsCmd11s4Start.png}
+
+\pnpfigure[scale=0.5]{Time-Based Schedule Execution Procedure}{fig:TbsExec}{CrPsTbsExec.png}
 
 
 
