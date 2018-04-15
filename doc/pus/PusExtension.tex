@@ -913,7 +913,7 @@ The parameters HK\_MAX\_* are application constants. Applications which do not n
 
 The sampling buffer mentioned in the last row in table \ref{tab:repDefDataStruct} is discussed in the next section.
 
-Several service 3 commands operate on a set of RDL entries (e.g. command (3,3) requestes that a list of SIDs be deleted from the RDL). In such cases, it is useful to "mark" an entry in the RDL. For this purpose, flag \texttt{isMarked} has been introduced in table \ref{tab:repDefDataStruct}.
+Several service 3 commands operate on a set of RDL entries (e.g. command (3,3) requests that a list of SIDs be deleted from the RDL). In such cases, it is useful to "mark" an entry in the RDL. For this purpose, flag \texttt{isMarked} has been introduced in table \ref{tab:repDefDataStruct}.
 
 
 \begin{pnptable}{|l|p{5cm}|>{\raggedright\arraybackslash}p{6cm}|}{Fields in Report Definition Data Structure}{tab:repDefDataStruct}{\textbf{Field Name} & \textbf{Description} & \textbf{Constraint}}
@@ -1196,31 +1196,31 @@ Note that the processing logic outlined above is the same as is applied by the I
 \item The extraction of the TBA from the TBS and the loading of its embedded command in an InManager is done by the Time-Based Schedule Execution Procedure of figure \ref{fig:TbsExec}
 \end{fw_itemize}
 
-
+Command (11,5) is the antagonist of command (11,4): it can be used to delete one or more TBAs from the TBS. A TBA to be deleted are identified by the "request identifier", namely a triplet holding the source identifier, the APID and the source sequence count of the command embedded in the TBA, 
 
 The time-based schedule execution function can be enabled and disabled through commands (11,1) and (11,2). Initially, by default, the function is disabled. When the function is disabled, none of the TBAs in the TBS are processed. 
 
-
-
-
 \subsection{Sub-Schedules}
-Within the TBS, up to SCD\_N\_SUB\_TBS \textit{sub-schedules} may be defined. Each sub-schedule is identified by an integer in the range 1 to SCD\_N\_SUB\_TBS. The sub-schedule 1 is the default sub-schedule. Thus, an application which does not need sub-schedules should set SCD\_N\_SUB\_TBS to 1. To each TBA, the attribute \texttt{subSchedId} is associated which identifies the sub-schedule to which the TBA belongs.
+Within the TBS, up to SCD\_N\_SUB\_TBS \textit{sub-schedules} may be defined. Each sub-schedule is identified by an integer in the range 1 to SCD\_N\_SUB\_TBS and, to each TBA, the attribute \texttt{subSchedId} is associated which identifies the sub-schedule to which the TBA belongs (i.e. all TBAs belong to one and exactly one sub-schedule). 
 
 A sub-schedule has two attributes: flag \texttt{isSubSchedEnabled} which determines whether the sub-schedule is enabled and integer \texttt{nOfTbaInSubSched} which holds the number of TBAs in the sub-schedule. In [PS-SP], sub-schedules are created and deleted dynamically. Sub-schedule S is created when a command (11,4) asks for one or more TBAs to be inserted in the sub-schedule S. The sub-schedule is deleted when the last of its TBAs is deleted from the TBS (because its release time has been reached). In the PUS Extension, the data structures for the sub-schedules are all statically defined and therefore the creation status of a sub-schedule is determined by the value of \texttt{nOfTbaInSubSched}: the sub-schedule is deemed to be created when the attribute is greater than zero (the sub-schedule is not empty).
 
+The sub-schedule 1 is the default sub-schedule. An application which does not need sub-schedules should set SCD\_N\_SUB\_TBS to 1. Since sub-schedules are disabled by default, an application which does not support sub-schedules should also enable the default sub-schedule as part of its initialization.
 
 \subsection{Groups}
-The TBAs in the TBS may be assigned to groups. Up to SCD\_N\_GROUP groups may be defined. Each group is identified by an integer in the range 1 to SCD\_N\_GROUP. The group 1 is the default group. Thus, an application which does not need groups should set SCD\_N\_GROUPS to 1. To each TBA, the attribute \texttt{groupId} is associated which identifies the group to which the TBA belongs.
+The TBAs in the TBS may be assigned to groups. Up to SCD\_N\_GROUP groups may be defined. Each group is identified by an integer in the range 1 to SCD\_N\_GROUP and, to each TBA, the attribute \texttt{groupId} is associated which identifies the group to which the TBA belongs (i.e. all TBAs belong to one and exactly one group). 
 
-In the current version of the PUS Extension of the CORDET Framework, only the default sub-schedule is supported and SCD\_N\_GROUP must be kept equal to 1.
+A group has three attributes: flag \texttt{isGroupEnabled} which determines whether the group is enabled, flag \texttt{isGroupInUse} which determines whether the group is in use, and integer \texttt{nOfTbaInGroup} which holds the number of TBAs in the group. In [PS-SP], groups are created and deleted dynamically. Group G is created through command (11,22) and deleted through command (11,23). In the PUS Extension, the data structures for the sub-schedules are all statically defined and therefore the creation status of a sub-schedule is determined by the value of the \texttt{isGroupInUse} flag which is set/unset in response to the (11,22) and (11,23) commands.
 
-
+The group 1 is the default group. An application which does not need groups should set SCD\_N\_GROUPS to 1. Since the PUS Extension of the CORDET Framework does not yet support the commands to control groups, users should set SCD\_N\_GROUPS and should set its InUse flag to true as part of their application's initialization.
 
 
 \begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of Time-Based Activity}{tab:tbaAtt}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
 \texttt{relTime} & The release time of the time-based activity or zero if this slot in the TBS is empty & A valid on-board time value \\
 \hline
-\texttt{nextTba} & The identifier within the TBS of the time-based activity with the next release time or zero if this is the last (fartherst in the future) entry in the TBS & Integer in range 1..SCD\_N\_TBA \\
+\texttt{nextTba} & The identifier within the TBS of the time-based activity with the next release time or zero if this is the last (fartherst in the future) entry in the TBS & Integer in range 0..SCD\_N\_TBA \\
+\hline
+\texttt{prevTba} & The identifier within the TBS of the time-based activity with the previous release time or zero if this is the first (earliest) entry in the TBS & Integer in range 0..SCD\_N\_TBA \\
 \hline
 \texttt{subSchedId} & The identifier of the sub-schedule to which the TBA belongs & Integer in range 1..SCD\_N\_SUB\_TBS \\
 \hline
@@ -1243,6 +1243,10 @@ Tables \ref{tab:TBD} to \ref{tab:TBD} formally specify the service 11 commands a
 \printScdResTbsSpec{|c|p{10cm}|}
 \printScdInsTbaSpec{|c|p{10cm}|}
 
+\newpage
+\printScdDelTbaSpec{|c|p{10cm}|}
+
+
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 11 Constants}\label{sec:serv11Const}
@@ -1261,6 +1265,10 @@ The attributes of the Time-Based Activities (TBAs) in the Time-Based Schedule (T
 
 
 \pnpfigure[scale=0.5]{Start Action of (11,4) Command Procedure}{fig:Cmd11s4Start}{CrPsCmd11s4Start.png}
+
+
+\pnpfigure[scale=0.5]{Start Action of (11,5) Command Procedure}{fig:Cmd11s5Start}{CrPsCmd11s4Start.png}
+
 
 \pnpfigure[scale=0.5]{Time-Based Schedule Execution Procedure}{fig:TbsExec}{CrPsTbsExec.png}
 
