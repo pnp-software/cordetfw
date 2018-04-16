@@ -1,81 +1,91 @@
-Kind| Domain| Name| ShortDesc| Desc| Value| Size| Unit| Multiplicity| Type
-par| Hk| debugVarAddr| Address of Debug Variables| | 0| NULL| | HK_N_DEBUG_VAR| Gen/ThirtytwoBit_t
-par| Hk| dest| Destination of report definitions in the RDL| | | NULL| | HK_N_REP_DEF| Gen/DestSrc_t
-par| Hk| isEnabled| Enable status of report definitions in the RDL| | | NULL| | HK_N_REP_DEF| Gen/EnDis_t
-par| Hk| period| Periods of report definitions in the RDL| | | NULL| | HK_N_REP_DEF| Hk/CycleCnt_t
-par| Hk| sid| SIDs of report definitions in the RDL| | | NULL| | HK_N_REP_DEF| Hk/SID_t
-par| Lpt| lptDest| Destination of transfer from LPT Buffer| | 0| NULL| | LPT_N_BUF| Gen/DestSrc_t
-par| Lpt| lptTimeOut| Time-out for up-tramsfer to LPT Buffer| | 0| NULL| | LPT_N_BUF| Gen/TimeSec_t
-par| Lpt| partSize| Part size for transfers to/from LPT Buffer| | | NULL| | LPT_N_BUF| Lpt/Size_t
-par| Mon| maxRepDelay| Maximum reporting delay| | | NULL| | NULL| Mon/RepDelay_t
-par| Mon| servUser| Identifier of the application acting as user of the on-board monitoring service| The default user of the service is the ground.| 0| NULL| | NULL| Gen/DestSrc_t
-par| Tst| AreYouAliveTimeOut| Time-out for the Are-You-Alive Test initiated in response to an Is-Application-Process-Alive Test| | 10| NULL| | NULL| Gen/TimeSec_t
-par| Tst| OnBoardConnectDestLst| Identifiers of target applications for an On-Board-Connection Test| | 0| NULL| | TST_N_DEST| Gen/DestSrc_t
-var| Evt| isEidEnabled| ArraEnable status of the event identifiers| | 0| NULL| | EVT_N_ID| Gen/EnDis_t
-var| Evt| lastEvtEid_1| Event identifier of the last generated level 1 event report| | 0| NULL| | NULL| Evt/EvtId_t
-var| Evt| lastEvtEid_2| Event identifier of the last generated level 2 event report| | 0| NULL| | NULL| Evt/EvtId_t
-var| Evt| lastEvtEid_3| Event identifier of the last generated level 3 event report| | 0| NULL| | NULL| Evt/EvtId_t
-var| Evt| lastEvtEid_4| Event identifier of the last generated level 4event report| | 0| NULL| | NULL| Evt/EvtId_t
-var| Evt| lastEvtTime_1| Time when the last level 1 event report was generated| | 0| NULL| | NULL| Gen/TimeStamp_t
-var| Evt| lastEvtTime_2| Time when the last level 2 event report was generated| | 0| NULL| | NULL| Gen/TimeStamp_t
-var| Evt| lastEvtTime_3| Time when the last level 3 event report was generated| | 0| NULL| | NULL| Gen/TimeStamp_t
-var| Evt| lastEvtTime_4| Time when the last level 4 event report was generated| | 0| NULL| | NULL| Gen/TimeStamp_t
-var| Evt| nOfDetectedEvts_1| Number of detected occurrences of level 1 events| | 0| NULL| | NULL| Evt/NEvtRep_t
-var| Evt| nOfDetectedEvts_2| Number of detected occurrences of level 2 events| | 0| NULL| | NULL| Evt/NEvtRep_t
-var| Evt| nOfDetectedEvts_3| Number of detected occurrences of level 3 events| | 0| NULL| | NULL| Evt/NEvtRep_t
-var| Evt| nOfDetectedEvts_4| Number of detected occurrences of level 4 events| | 0| NULL| | NULL| Evt/NEvtRep_t
-var| Evt| nOfDisabledEid_1| Number of event identifiers of level 1 which are disabled| | 0| NULL| | NULL| Evt/NEvtId_t
-var| Evt| nOfDisabledEid_2| Number of event identifiers of level 2 which are disabled| | 0| NULL| | NULL| Evt/EvtId_t
-var| Evt| nOfDisabledEid_3| Number of event identifiers of level 3 which are disabled| | 0| NULL| | NULL| Evt/NEvtId_t
-var| Evt| nOfDisabledEid_4| Number of event identifiers of level 4 which are disabled| | 0| NULL| | NULL| Evt/EvtId_t
-var| Evt| nOfGenEvtRep_1| Number of generated level 1 event reports| | 0| NULL| | NULL| Evt/NEvtRep_t
-var| Evt| nOfGenEvtRep_2| Number of generated level 2 event reports| | 0| NULL| | NULL| Evt/NEvtRep_t
-var| Evt| nOfGenEvtRep_3| Number of generated level 3 event reports| | 0| NULL| | NULL| Evt/NEvtRep_t
-var| Evt| nOfGenEvtRep_4| Number of generated level 4 event reports| | 0| NULL| | NULL| Evt/NEvtRep_t
-var| Hk| cycleCnt| Cycle Counter for Reports in RDL| | 0| NULL| | HK_N_REP_DEF| Hk/CycleCnt_t
-var| Hk| debugVar| Value of Debug Variables| | 0| NULL| | HK_N_DEBUG_VAR| Gen/ThirtytwoBit_t
-var| Hk| sampleBufId| Identifiers of Sampling Buffers| The i-th element of this array is the identifier of the Sampling Buffer for the i-th Report Definition in the RDL| 0| NULL| | HK_N_REP_DEF| Hk/SampleBufId_t
-var| Lpt| lptRemSize| Remaining size of a large packet in the LPT Buffer (part of the large packet not yet down-transferred)| | 0| NULL| | LPT_N_BUF| Lpt/Size_t
-var| Lpt| lptSize| Size of large packet in the LPT Buffer| | 0| NULL| | LPT_N_BUF| Lpt/Size_t
-var| Lpt| lptSrc| Source of the large packet up-transfer to the LPT Buffer| | 0| NULL| | LPT_N_BUF| Gen/DestSrc_t
-var| Lpt| lptTime| Time when last up-transfer command to the LPT Buffer was received| | 0| NULL| | LPT_N_BUF| Gen/TimeSec_t
-var| Lpt| nOfDownlinks| Number of on-going down-transfers| | 0| NULL| | NULL| Lpt/NOfLinks_t
-var| Lpt| nOfUplinks| Number of on-going up-transfers| | 0| NULL| | NULL| Lpt/NOfLinks_t
-var| Lpt| partSeqNmb| Part sequence number for the up/down/transfer to/from the LPT Buffer| | 0| NULL| | LPT_N_BUF| Lpt/PartSeqNmb_t
-var| Mon| ctlRepDelay| Maximum reporting delay for the CTL in multiples of MON_PER| | | NULL| | NULL| Mon/RepDelay_t
-var| Mon| ctlTimeFirstEntry| Time when first entry has been added to the CTL| | | NULL| | NULL| Gen/TimeStamp_t
-var| Mon| funcMonEnbStatus| Functional monitoring enable status| | 0| NULL| | NULL| Mon/EnableStatus_t
-var| Mon| nmbAvailFuncMon| Number of available functional monitors in the FMDL| | | NULL| | NULL| Mon/FuncMonId_t
-var| Mon| nmbAvailParMon| Number of available parameter monitors in the PMDL| | | NULL| | NULL| Mon/ParMonId_t
-var| Mon| nmbEnbFuncMon| Number of enabled functional monitors in the FMDL| | | NULL| | NULL| Mon/FuncMonId_t
-var| Mon| nmbEnbParMon| Number of enabled parameter monitors in the PMDL| | | NULL| | NULL| Mon/ParMonId_t
-var| Mon| parMonEnbStatus| Enable state of parameter monitoring function| | | NULL| | NULL| Mon/EnableStatus_t
-var| Tst| AreYouAliveSrc| Source of the latest (17,2) report received in response to a (17,1) command triggered by a (17,3) command| | 0| NULL| | NULL| Gen/DestSrc_t
-var| Tst| OnBoardConnectDest| Destination of the (17,1) triggered by a (17,3) command| | 0| NULL| | NULL| Gen/DestSrc_t
-var| Ver| failCodeAccFailed| Failure code of last command which failed its Acceptance| | 0| NULL| | NULL| Ver/FailCode_t
-var| Ver| failCodePrgrFailed| Failure code of last command which failed its Progress Check| | 0| NULL| | NULL| Ver/FailCode_t
-var| Ver| failCodeStartFailed| Failure code of last command which failed its Start Check| | 0| NULL| | NULL| Ver/FailCode_t
-var| Ver| failCodeTermFailed| Failure code of last command which failed its Termination| | 0| NULL| | NULL| Ver/FailCode_t
-var| Ver| invDestRerouting| Destination of last command for which re-routing failed| | 0| NULL| | NULL| Gen/DestSrc_t
-var| Ver| nOfAccFailed| Number of commands which have failed their acceptance check| | 0| NULL| | NULL| Ver/NOfCmd_t
-var| Ver| nOfPrgrFailed| Number of commands which have failed their Progress Check| | 0| NULL| | NULL| Ver/NOfCmd_t
-var| Ver| nOfReroutingFailed| Number of commands for which re-routing failed| | 0| NULL| | NULL| Ver/NOfCmd_t
-var| Ver| nOfStartFailed| Number of commands which have failed their Start Check since| | 0| NULL| | NULL| Ver/NOfCmd_t
-var| Ver| nOfTermFailed| Number of commands which have failed their Termination| | 0| NULL| | NULL| Ver/NOfCmd_t
-var| Ver| pcktIdAccFailed| Packet identifier of last command which failed its Acceptance| | 0| NULL| | NULL| Gen/ThirteenBit_t
-var| Ver| pcktIdPrgrFailed| Packet identifier of last command which failed its Progress| | 0| NULL| | NULL| Gen/ThirteenBit_t
-var| Ver| pcktIdReroutingFailed| Packet identifier of last command for which re-routing failed| | 0| NULL| | NULL| Gen/ThirteenBit_t
-var| Ver| pcktIdStartFailed| Packet identifier of last command which failed its Start Check| | 0| NULL| | NULL| Gen/ThirteenBit_t
-var| Ver| pcktIdTermFailed| Packet identifier of last command which failed its Termination| | 0| NULL| | NULL| Gen/ThirteenBit_t
-var| Ver| stepPrgrFailed| Step identifier of last command which failed its Progress Check| | 0| NULL| | NULL| Ver/PrgStep_t
-var| Ver| verFailData| Verification Failure Data (data item of fixed size but variable| | 0| NULL| | NULL| Ver/FailData_t
-var| Fct| nOfAllocatedInCmd| Number of currently allocated InCommands (i.e. successfully created by the InFactory and not yet released)| | | NULL| | NULL| Fct/NCmdRep_t
-var| Fct| nOfAllocatedInRep| Number of currently allocated InReports (i.e. successfully created by the InFactory and not yet released)| | | NULL| | NULL| Fct/NCmdRep_t
-var| Fct| nOfAllocatedOutCmp| Number of currently allocated OutComponents (i.e. successfully created by the OutFactory and not yet released)| | | NULL| | NULL| Fct/NCmdRep_t
-var| Fct| nOfFailedInCmd| Number of InCommands whose creation by the InFactory failed| | | NULL| | NULL| Fct/NCmdRep_t
-var| Fct| nOfFailedInRep| Number of InReports whose creation by the InFactory failed| | | NULL| | NULL| Fct/NCmdRep_t
-var| Fct| nOfFailedOutCmp| Number of OutComponents whose creation by the OutFactory failed| | | NULL| | NULL| Fct/NCmdRep_t
-var| Fct| nOfTotAllocatedInCmd| Number of InCommands successfully created by the InFactory since application start| | | NULL| | NULL| Fct/NCmdRep_t
-var| Fct| nOfTotAllocatedInRep| Number of InReports successfully created by the InFactory since application start| | | NULL| | NULL| Fct/NCmdRep_t
-var| Fct| nOfTotAllocatedOutCmp| Number of OutComponents successfully created by the InFac- tory since application start| | | NULL| | NULL, Fct/NCmdRep_t
-
+Kind|Domain|Name|ShortDesc|Desc|Value|Size|Unit|Multiplicity|Type
+par|Hk|debugVarAddr|Address of Debug Variables||0|NULL||HK_N_DEBUG_VAR|Gen/ThirtytwoBit_t
+par|Hk|dest|Destination of report definitions in the RDL|||NULL||HK_N_REP_DEF|Gen/DestSrc_t
+par|Hk|isEnabled|Enable status of report definitions in the RDL|||NULL||HK_N_REP_DEF|Gen/Bool_t
+par|Hk|period|Periods of report definitions in the RDL|||NULL||HK_N_REP_DEF|Hk/CycleCnt_t
+par|Hk|sid|SIDs of report definitions in the RDL|||NULL||HK_N_REP_DEF|Hk/SID_t
+par|Lpt|lptDest|Destination of transfer from LPT Buffer||0|NULL||LPT_N_BUF|Gen/DestSrc_t
+par|Lpt|lptTimeOut|Time-out for up-tramsfer to LPT Buffer||0|NULL||LPT_N_BUF|Gen/TimeSec_t
+par|Lpt|partSize|Part size for transfers to/from LPT Buffer|||NULL||LPT_N_BUF|Lpt/Size_t
+par|Mon|maxRepDelay|Maximum reporting delay|||NULL||NULL|Mon/RepDelay_t
+par|Mon|servUser|Identifier of the application acting as user of the on-board monitoring service|The default user of the service is the ground.|0|NULL||NULL|Gen/DestSrc_t
+par|Scd|isSubSchedEnabled|Enable status of a sub-schedule||0|NULL||SCD_N_SUB_TBS|Gen/Bool_t
+par|Scd|isTbsEnabled|Enable status of time-based schedule||0|NULL||NULL|Gen/Bool_t
+par|Scd|nOfTbaInGroup|Number of TBAs in group||0|NULL||SCD_N_GROUP|Scd/NTba_t
+par|Scd|nOfTbaInSubSched|Number of TBAs in sub-schedule||0|NULL||SCD_N_SUB_TBS|Scd/NTba_t
+par|Scd|timeMargin|Time margin for time-based scheduling service||0|NULL||NULL|Gen/TimeStamp_t
+par|Tst|AreYouAliveTimeOut|Time-out for the Are-You-Alive Test initiated in response to an Is-Application-Process-Alive Test||10|NULL||NULL|Gen/TimeSec_t
+par|Tst|OnBoardConnectDestLst|Identifiers of target applications for an On-Board-Connection Test||0|NULL||TST_N_DEST|Gen/DestSrc_t
+var|Evt|isEidEnabled|Enable status of the event identifiers||1|NULL||EVT_N_ID|Gen/Bool_t
+var|Evt|lastEvtEid_1|Event identifier of the last generated level 1 event report||0|NULL||NULL|Evt/EvtId_t
+var|Evt|lastEvtEid_2|Event identifier of the last generated level 2 event report||0|NULL||NULL|Evt/EvtId_t
+var|Evt|lastEvtEid_3|Event identifier of the last generated level 3 event report||0|NULL||NULL|Evt/EvtId_t
+var|Evt|lastEvtEid_4|Event identifier of the last generated level 4event report||0|NULL||NULL|Evt/EvtId_t
+var|Evt|lastEvtTime_1|Time when the last level 1 event report was generated||0|NULL||NULL|Gen/TimeStamp_t
+var|Evt|lastEvtTime_2|Time when the last level 2 event report was generated||0|NULL||NULL|Gen/TimeStamp_t
+var|Evt|lastEvtTime_3|Time when the last level 3 event report was generated||0|NULL||NULL|Gen/TimeStamp_t
+var|Evt|lastEvtTime_4|Time when the last level 4 event report was generated||0|NULL||NULL|Gen/TimeStamp_t
+var|Evt|nOfDetectedEvts_1|Number of detected occurrences of level 1 events||0|NULL||NULL|Evt/NEvtRep_t
+var|Evt|nOfDetectedEvts_2|Number of detected occurrences of level 2 events||0|NULL||NULL|Evt/NEvtRep_t
+var|Evt|nOfDetectedEvts_3|Number of detected occurrences of level 3 events||0|NULL||NULL|Evt/NEvtRep_t
+var|Evt|nOfDetectedEvts_4|Number of detected occurrences of level 4 events||0|NULL||NULL|Evt/NEvtRep_t
+var|Evt|nOfDisabledEid_1|Number of event identifiers of level 1 which are disabled||0|NULL||NULL|Evt/NEvtId_t
+var|Evt|nOfDisabledEid_2|Number of event identifiers of level 2 which are disabled||0|NULL||NULL|Evt/EvtId_t
+var|Evt|nOfDisabledEid_3|Number of event identifiers of level 3 which are disabled||0|NULL||NULL|Evt/NEvtId_t
+var|Evt|nOfDisabledEid_4|Number of event identifiers of level 4 which are disabled||0|NULL||NULL|Evt/EvtId_t
+var|Evt|nOfGenEvtRep_1|Number of generated level 1 event reports||0|NULL||NULL|Evt/NEvtRep_t
+var|Evt|nOfGenEvtRep_2|Number of generated level 2 event reports||0|NULL||NULL|Evt/NEvtRep_t
+var|Evt|nOfGenEvtRep_3|Number of generated level 3 event reports||0|NULL||NULL|Evt/NEvtRep_t
+var|Evt|nOfGenEvtRep_4|Number of generated level 4 event reports||0|NULL||NULL|Evt/NEvtRep_t
+var|Fct|nOfAllocatedInCmd|Number of currently allocated InCommands (i.e. successfully created by the InFactory and not yet released)|||NULL||NULL|Fct/NCmdRep_t
+var|Fct|nOfAllocatedInRep|Number of currently allocated InReports (i.e. successfully created by the InFactory and not yet released)|||NULL||NULL|Fct/NCmdRep_t
+var|Fct|nOfAllocatedOutCmp|Number of currently allocated OutComponents (i.e. successfully created by the OutFactory and not yet released)|||NULL||NULL|Fct/NCmdRep_t
+var|Fct|nOfFailedInCmd|Number of InCommands whose creation by the InFactory failed|||NULL||NULL|Fct/NCmdRep_t
+var|Fct|nOfFailedInRep|Number of InReports whose creation by the InFactory failed|||NULL||NULL|Fct/NCmdRep_t
+var|Fct|nOfFailedOutCmp|Number of OutComponents whose creation by the OutFactory failed|||NULL||NULL|Fct/NCmdRep_t
+var|Fct|nOfTotAllocatedInCmd|Number of InCommands successfully created by the InFactory since application start|||NULL||NULL|Fct/NCmdRep_t
+var|Fct|nOfTotAllocatedInRep|Number of InReports successfully created by the InFactory since application start|||NULL||NULL|Fct/NCmdRep_t
+var|Fct|nOfTotAllocatedOutCmp|Number of OutComponents successfully created by the InFac- tory since application start|||NULL||NULL|Fct/NCmdRep_t
+var|Hk|cycleCnt|Cycle Counter for Reports in RDL||0|NULL||HK_N_REP_DEF|Hk/CycleCnt_t
+var|Hk|debugVar|Value of Debug Variables||0|NULL||HK_N_DEBUG_VAR|Gen/ThirtytwoBit_t
+var|Hk|sampleBufId|Identifiers of Sampling Buffers|The i-th element of this array is the identifier of the Sampling Buffer for the i-th Report Definition in the RDL|0|NULL||HK_N_REP_DEF|Hk/SampleBufId_t
+var|Lpt|lptRemSize|Remaining size of a large packet in the LPT Buffer (part of the large packet not yet down-transferred)||0|NULL||LPT_N_BUF|Lpt/Size_t
+var|Lpt|lptSize|Size of large packet in the LPT Buffer||0|NULL||LPT_N_BUF|Lpt/Size_t
+var|Lpt|lptSrc|Source of the large packet up-transfer to the LPT Buffer||0|NULL||LPT_N_BUF|Gen/DestSrc_t
+var|Lpt|lptTime|Time when last up-transfer command to the LPT Buffer was received||0|NULL||LPT_N_BUF|Gen/TimeSec_t
+var|Lpt|nOfDownlinks|Number of on-going down-transfers||0|NULL||NULL|Lpt/NOfLinks_t
+var|Lpt|nOfUplinks|Number of on-going up-transfers||0|NULL||NULL|Lpt/NOfLinks_t
+var|Lpt|partSeqNmb|Part sequence number for the up/down/transfer to/from the LPT Buffer||0|NULL||LPT_N_BUF|Lpt/PartSeqNmb_t
+var|Mon|ctlRepDelay|Maximum reporting delay for the CTL in multiples of MON_PER|||NULL||NULL|Mon/RepDelay_t
+var|Mon|ctlTimeFirstEntry|Time when first entry has been added to the CTL|||NULL||NULL|Gen/TimeStamp_t
+var|Mon|funcMonEnbStatus|Functional monitoring enable status||0|NULL||NULL|Mon/EnableStatus_t
+var|Mon|nmbAvailFuncMon|Number of available functional monitors in the FMDL|||NULL||NULL|Mon/FuncMonId_t
+var|Mon|nmbAvailParMon|Number of available parameter monitors in the PMDL|||NULL||NULL|Mon/ParMonId_t
+var|Mon|nmbEnbFuncMon|Number of enabled functional monitors in the FMDL|||NULL||NULL|Mon/FuncMonId_t
+var|Mon|nmbEnbParMon|Number of enabled parameter monitors in the PMDL|||NULL||NULL|Mon/ParMonId_t
+var|Mon|parMonEnbStatus|Enable state of parameter monitoring function|||NULL||NULL|Mon/EnableStatus_t
+var|Scd|firstTba|Identifier of next time-based activity due for release||0|NULL||NULL|Scd/NTba_t
+var|Scd|isGroupEnabled|Enabled flag for time-based schedule group||1|NULL||SCD_N_GROUP|Gen/Bool_t
+var|Scd|isGroupInUse|InUse flag for time-based schedule group||0|NULL||SCD_N_GROUP|Gen/Bool_t
+var|Scd|nOfGroup|Number of non-empty groups|||NULL||NULL|Scd/NSubSchedGroup
+var|Scd|nOfSubSched|Number of non-empty sub-schedules||0|NULL||NULL|Scd/NSubSchedGroup
+var|Scd|nOfTba|Number of currently defined time-based activities (TBAs)||0|NULL||NULL|Scd/NTba_t
+var|Tst|AreYouAliveSrc|Source of the latest (17,2) report received in response to a (17,1) command triggered by a (17,3) command||0|NULL||NULL|Gen/DestSrc_t
+var|Tst|OnBoardConnectDest|Destination of the (17,1) triggered by a (17,3) command||0|NULL||NULL|Gen/DestSrc_t
+var|Ver|failCodeAccFailed|Failure code of last command which failed its Acceptance||0|NULL||NULL|Ver/FailCode_t
+var|Ver|failCodePrgrFailed|Failure code of last command which failed its Progress Check||0|NULL||NULL|Ver/FailCode_t
+var|Ver|failCodeStartFailed|Failure code of last command which failed its Start Check||0|NULL||NULL|Ver/FailCode_t
+var|Ver|failCodeTermFailed|Failure code of last command which failed its Termination||0|NULL||NULL|Ver/FailCode_t
+var|Ver|invDestRerouting|Destination of last command for which re-routing failed||0|NULL||NULL|Gen/DestSrc_t
+var|Ver|nOfAccFailed|Number of commands which have failed their acceptance check||0|NULL||NULL|Ver/NOfCmd_t
+var|Ver|nOfPrgrFailed|Number of commands which have failed their Progress Check||0|NULL||NULL|Ver/NOfCmd_t
+var|Ver|nOfReroutingFailed|Number of commands for which re-routing failed||0|NULL||NULL|Ver/NOfCmd_t
+var|Ver|nOfStartFailed|Number of commands which have failed their Start Check since||0|NULL||NULL|Ver/NOfCmd_t
+var|Ver|nOfTermFailed|Number of commands which have failed their Termination||0|NULL||NULL|Ver/NOfCmd_t
+var|Ver|pcktIdAccFailed|Packet identifier of last command which failed its Acceptance||0|NULL||NULL|Gen/ThirteenBit_t
+var|Ver|pcktIdPrgrFailed|Packet identifier of last command which failed its Progress||0|NULL||NULL|Gen/ThirteenBit_t
+var|Ver|pcktIdReroutingFailed|Packet identifier of last command for which re-routing failed||0|NULL||NULL|Gen/ThirteenBit_t
+var|Ver|pcktIdStartFailed|Packet identifier of last command which failed its Start Check||0|NULL||NULL|Gen/ThirteenBit_t
+var|Ver|pcktIdTermFailed|Packet identifier of last command which failed its Termination||0|NULL||NULL|Gen/ThirteenBit_t
+var|Ver|stepPrgrFailed|Step identifier of last command which failed its Progress Check||0|NULL||NULL|Ver/PrgStep_t
+var|Ver|verFailData|Verification Failure Data (data item of fixed size but variable||0|NULL||NULL|Ver/FailData_t
