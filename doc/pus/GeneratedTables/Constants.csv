@@ -3,7 +3,7 @@ Hk|HK_N_REP_DEF|Number of Report Definitions in the Report Definition List (maxi
 Hk|HK_MAX_SID|Maximum value of a service 3 Structure Identifier (SID)|1
 Hk|HK_MAX_N_ITEMS|Maximum number of data items in a housekeeping/diagnostic report|1
 Hk|HK_COLLECT_PER|Minimum collection period for service 3 reports|1
-Hk|HK_MAX_N_SIMPLE|Maximum number of simply-commutated parameters in a housekeeping/diagnostic report|1
+Hk|HK_MAX_N_SIMPLE|Maximum number of simply-commutated parameters in a housekeeping or diagnostic report|1
 Hk|HK_MAX_N_GR|Maximum number of super-commutated groups in a housekeeping/diagnostic report|1
 Hk|HK_MAX_REP|Maximum value of the repetition number of a super-commutated group in a housekeeping/diagnostic report|1
 Hk|HK_MAX_N_REP|Maximum number of data items in a super-commutated groups in a housekeeping/diagnostic report|1
@@ -23,3 +23,6 @@ Mon|MON_N_FMON|Maximum number of entries in the Functional Monitoring Definition
 Mon|MON_N_PFMON|Maximum number of parameter monitors in a functional monitor|1
 Mon|MON_NFPMON|Maximum number of functional monitors to which the same parameter monitor may belong|1
 Mon|MON_FPER|Period of execution of the Functional Monitoring Procedure expressed as a multiple of MON_PER|1
+Scd|SCD_N_TBA|Number of time-based scheduled activities|1
+Scd|SCD_N_SUB_TBS|Number of time-based sub-schedules|1
+Scd|SCD_N_GROUP|Number of time-based schedule groups|1

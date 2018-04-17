@@ -58,37 +58,7 @@
 {\end{longtable}}
 
 
-%---------------------------------------------
-% Define Environment for Command Tables 
-% Par #1: The string identifying the cmd name
-% Par #2: The table caption
-%---------------------------------------------
-\newenvironment{crCmd}[2]
-{
-\begin{longtable}{|p{3cm}|p{9.6cm}|}
-\caption{#2} \label{tab:CR-#1} \\
-\hline
-\rowcolor{light-gray}
-\DTLforeach*{dbCmd}{\att=Attribute,\attValue=#1}
-{\DTLiffirstrow{}{\\\hline}\att & \attValue}\\\hline
-}
-{\end{longtable}}
 
-%---------------------------------------------
-% Define Environment for Report Tables 
-% Par #1: The string identifying the rep name
-% Par #2: The table caption
-%---------------------------------------------
-\newenvironment{crRep}[2]
-{
-\begin{longtable}{|c|p{10cm}|}
-\caption{#2} \label{tab:CR-#1}\\
-\hline
-\rowcolor{light-gray}
-\DTLforeach*{dbRep}{\att=Attribute,\attValue=#1}
-{\DTLiffirstrow{}{\\\hline}\att & \attValue}\\\hline
-}
-{\end{longtable}}
 
 
 
@@ -97,16 +67,16 @@
 %---------------------------------------------
 %\DTLloaddb{dbPus}{PusCompliance.csv}
 \DTLloaddb{dbAP}{PusExtensionAP.csv}
-\DTLloaddb{dbCmd}{PusExtensionCmds.csv}
-\DTLloaddb{dbRep}{PusExtensionReps.csv}
+%\DTLloaddb{dbCmd}{PusExtensionCmds.csv}
+%\DTLloaddb{dbRep}{PusExtensionReps.csv}
 \DTLloaddb{dbReq}{PusExtensionReq.csv}
 %\DTLloaddb{dbObs}{PusExtensionObs.csv}
 %\DTLloaddb{dbPar}{PusExtensionPar.csv}
 %\DTLloaddb{dbConst}{PusExtensionConst.csv}
-\DTLloaddb{dbErr}{PusExtensionErr.csv}
+%\DTLloaddb{dbErr}{PusExtensionErr.csv}
 %\DTLloaddb{dbEvt}{PusExtensionEvt.csv}
 %\DTLloaddb{dbReqVerFailCodes}{PusExtensionReqVerFailCodes.csv}
-\DTLloaddb{dbServ}{PusExtensionServices.csv}
+%\DTLloaddb{dbServ}{PusExtensionServices.csv}
 
 %---------------------------------------------
 % Import file with definition of commands and reports
@@ -597,7 +567,7 @@ The components of the CORDET Framework are defined as models which comply with t
 
 Thus, for each supported PUS command, the framework extension defines an extension of the InCommand component which closes all the InCommand adaptation points. Similarly, for each supported PUS report, it defines an extension of the OutComponent component which closes all the OutComponent adaptation points.
 
-Table \ref{tab:supportedPus} lists the command and report components provided by the PUS Extension of the CORDET Framework to support the PUS services. The first column in the table gives the name of the CORDET component which implements the command or report; the second column gives its PUS names as it is given in section 8 of [PS-SP]; and the third column gives the [type,sub-type] pair which identifies the command or report. Note that, in some cases, the same CORDET components implements two PUS commands or reports. This is the case where the two commands or reports share the same behaviour and only differ for the value of some of their attributes (e.g. the (3,25) and (3,26) reports).
+Table \ref{tab:listOfServices} and \ref{tab:listOfCmdRep} list the PUS services supoorted (either in full or in part) and the command and report components provided by the PUS Extension of the CORDET Framework to implement them. The first column in table \ref{tab:listOfCmdRep} gives the [type,sub-type] pair which identifies the command or report; the second column gives the name of the CORDET component which implements the command or report; the last column gives its PUS names as it is given in section 8 of [PS-SP]. 
 
 \begin{figure}[H]
  \centering
@@ -680,21 +650,13 @@ The requirements in table \ref{tab:Req-PCR} make the adaptation points defined i
 \begin{crReq}{PCR}{Requirements for Framework Extension Commands and Reports}
 \end{crReq}
 
+\pnpcsvtable{|c|c|p{6cm}|}{List of Supported Services}{tab:listOfServices}{Type & Acron. & Name}{./GeneratedTables/PUSExtensionServices.csv}{\Type & \Name & \Description}
+
 \newpage
-\begin{longtable}{|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{7.7cm}|c|}
-\caption{Supported PUS Commands and Reports}\label{tab:supportedPus} \\
-\hline
-\rowcolor{light-gray}
-\textbf{CORDET Name} & \textbf{PUS Name} & \textbf{Type} \\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{CORDET Name} & \textbf{PUS Name} & \textbf{Type} \\
-\hline\hline
-\endhead
-\DTLforeach*{dbServ}{\serv=Service,\type=Type,\subtype=Subtype,\name=Name,\comp=Component}
-{\DTLiffirstrow{}{\\\hline}\comp & \name & (\type,\subtype)}\\\hline
-\end{longtable} 
+\pnpcsvtable{|c|l|p{7cm}|}{List of Supported Commands/Reports}{tab:listOfCmdRep}{Type & CORDET Name & PUS Name}{./GeneratedTables/PUSExtensionServiceOverview.csv}{\Type & \Name & \Description}
+
+
+
 
 
 
@@ -803,12 +765,13 @@ With reference to the first bullet, it is recalled that the OutRegistry componen
 
 \printVerSuccAccRepSpec{|c|p{10cm}|}
 \printVerFailedAccRepSpec{|c|p{10cm}|}
+\newpage
 \printVerSuccStartRepSpec{|c|p{10cm}|}
-\newpage
 \printVerFailedStartRepSpec{|c|p{10cm}|}
-\printVerSuccPrgrRepSpec{|c|p{10cm}|}
 \newpage
+\printVerSuccPrgrRepSpec{|c|p{10cm}|}
 \printVerFailedPrgrRepSpec{|c|p{10cm}|}
+\newpage
 \printVerSuccTermRepSpec{|c|p{10cm}|}
 \printVerFailedTermRepSpec{|c|p{10cm}|}
 \newpage
@@ -1170,7 +1133,7 @@ The table in this section lists requirements for the test service.
 \section{Time-Based Scheduling Service}\label{sec:serv11}
 The service type of the Time-Based Scheduling Service is 11. The PUS Extension of the CORDET Framework supports this service only in part: the management of sub-schedules and groups and the associated commands and reports are not yet specified. 
 
-\subsection{Time-Based Schedule (TBS)}}
+\subsection{Time-Based Schedule (TBS)}
 The Time-Based Scheduling Service controls the Time-Based Schedule Execution Function. This function allows time-tagged requests to be pre-loaded in an application and to be released when their time of execution comes due. The pre-loaded requests are held in the \textit{Time-Based Schedule} or TBS. The TBS consists of a list of up to SCD\_N\_TBA \textit{Time-Based Activities} or TBAs. Within the TBS, each TBA is identified by an integer in the range 1 to SCD\_N\_TBA. Each TBA is defined by the attributes listed in table \ref{tab:tbaAtt}. 
 
 The entries in the TBS are arranged in a random order which is determined by the order in which the TBAs are loaded in the application. The TBS is implemented as a linked list where each item knows its "successor" (attribute \texttt{nextTba}) and its "predecessor" (attribute \texttt{prevTba}). If B is the successor TBA of A, then this means that the release time of B is later than the release time of A and that there is no other entry in the TBS with a release time between A and B. A similarl definition applies to the predecessor TBA. These attributes allow the TBAs to be navigated in the order in which they are due for release. Additionally, and also in order to facilitate the scanning of the TBAs according to the their order of release time, variable \texttt{firstTba} is maintained. This variable points to the TBA with the earliest release time (i.e. to the first TBA which is due for execution). 
@@ -1190,11 +1153,11 @@ The (11,4) command to load a new TBA in the TBS carries one or more instructions
 
 Note that the processing logic outlined above is the same as is applied by the InLoader to non-scheduled incoming commands. In other words: non-scheduled incoming commands and scheduled commands are processed according to the same logic but, for non-scheduled commands, this logic is implemented in the InLoader component; for scheduled commands, it is instead implemented in the time-based schedule execution function. More specifically, this is implemented in the following components:
 
-\begin{fw_itemize}
-\item The checks on the legality of the time-scheduled command are done in the Start Action of the (11,4) command (see table \ref{tab:ScdInsTba} and in particular figure \ref{fig:Cmd11s4Start})
-\item The insertion of the TBA in the TBS is done by the Progress Action of the (11,4) command (see table \ref{tab:ScdInsTba})
+\begin{itemize}
+\item The checks on the legality of the time-scheduled command are done in the Start Action of the (11,4) command (see table \ref{tab:ScdInsTbaSpec} and in particular figure \ref{fig:Cmd11s4Start})
+\item The insertion of the TBA in the TBS is done by the Progress Action of the (11,4) command (see table \ref{tab:ScdInsTbaSpec})
 \item The extraction of the TBA from the TBS and the loading of its embedded command in an InManager is done by the Time-Based Schedule Execution Procedure of figure \ref{fig:TbsExec}
-\end{fw_itemize}
+\end{itemize}
 
 Command (11,5) is the antagonist of command (11,4): it can be used to delete one or more TBAs from the TBS. A TBA to be deleted are identified by the "request identifier", namely a triplet holding the source identifier, the APID and the source sequence count of the command embedded in the TBA, 
 
@@ -1235,7 +1198,7 @@ The group 1 is the default group. An application which does not need groups shou
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 11 Report and Command Definition}\label{sec:serv11RepCmdDef}
-Tables \ref{tab:TBD} to \ref{tab:TBD} formally specify the service 11 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for this service (see section \ref{sec:defPusRepCmd}). 
+Tables \ref{tab:ScdEnbTbsSpec} to \ref{tab:TBD} formally specify the service 11 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for this service (see section \ref{sec:defPusRepCmd}). 
 
 \newpage
 \printScdEnbTbsSpec{|c|p{10cm}|}
@@ -1243,6 +1206,7 @@ Tables \ref{tab:TBD} to \ref{tab:TBD} formally specify the service 11 commands a
 
 \newpage
 \printScdResTbsSpec{|c|p{10cm}|}
+\newpage
 \printScdInsTbaSpec{|c|p{10cm}|}
 
 \newpage
@@ -1257,7 +1221,7 @@ Tables \ref{tab:TBD} to \ref{tab:TBD} formally specify the service 11 commands a
 \subsection{Service 11 Constants}\label{sec:serv11Const}
 The service 11 constants are listed in table \ref{tab:Const-S11}.    
 
-\pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|>{\raggedright\arraybackslash}p{9.5cm}|}{Constants for Time-Based Service}{tab:Const-S11}{Name & Description}{./GeneratedTables/Constants.csv}{\texttt{\Name} & \Desc}
+\pnpcsvtable[filter equal={\Domain}{Scd}]{|p{3cm}|>{\raggedright\arraybackslash}p{9.5cm}|}{Constants for Time-Based Service}{tab:Const-S11}{Name & Description}{./GeneratedTables/Constants.csv}{\texttt{\Name} & \Desc}
 
 
 %----------------------------------------------------------------------------------------
@@ -1266,7 +1230,7 @@ The service 11 observables and parameters are listed in table \ref{tab:Obs-S11}.
 
 The attributes of the Time-Based Activities (TBAs) in the Time-Based Schedule (TBS) are visible through service 11 reports and are therefore not defined as "observables" in the data pool.
 
-\pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{8.5cm}|}{Observables and Parameters for Time-Based Scheduling Service}{tab:Obs-S11}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
+\pnpcsvtable[filter equal={\Domain}{Scd}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{8.5cm}|}{Observables and Parameters for Time-Based Scheduling Service}{tab:Obs-S11}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
 
 
 \pnpfigure[scale=0.5]{Start Action of (11,4) Command Procedure}{fig:Cmd11s4Start}{CrPsCmd11s4Start.png}
@@ -1782,39 +1746,28 @@ Finally, the LPT State Machine is responsible for managing the nOfUplinks variab
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 13 Report and Command Definition}\label{sec:serv13RepCmdDef}
-Tables \ref{tab:CR-S13-1} to \ref{tab:CR-S13-130} formally specify the service 13 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 13 (see section \ref{sec:defPusRepCmd}). 
+Tables \ref{tab:LptDownFirstRepSpec} to \ref{tab:LptAbortDownCmdSpec} formally specify the service 13 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for service 13 (see section \ref{sec:defPusRepCmd}). 
 
-
-\begin{crRep}{S13-1}{Specification of LptDownFirstRep Component}
-\end{crRep}
+\printLptDownFirstRepSpec{|c|p{10cm}|}
 
 \newpage
-\begin{crRep}{S13-2}{Specification of LptDownInterRep Component}
-\end{crRep}
-
-\begin{crRep}{S13-3}{Specification of LptDownLastRep Component}
-\end{crRep}
+\printLptDownInterRepSpec{|c|p{10cm}|}
+\printLptDownLastRepSpec{|c|p{10cm}|}
 
 \newpage
-\begin{crCmd}{S13-9}{Specification of LptUpFirstCmd Component}
-\end{crCmd}
-
-\begin{crCmd}{S13-10}{Specification of LptUpInterCmd Component}
-\end{crCmd}
+\printLptUpFirstCmdSpec{|c|p{10cm}|}
+\printLptUpInterCmdSpec{|c|p{10cm}|}
 
 \newpage
-\begin{crCmd}{S13-11}{Specification of LptUpLastCmd Component}
-\end{crCmd}
-
-\begin{crRep}{S13-16}{Specification of LptUpAbortRep Component}
-\end{crRep}
+\printLptUpLastCmdSpec{|c|p{10cm}|}
+\printLptUpAbortRepSpec{|c|p{10cm}|}
 
 \newpage
-\begin{crCmd}{S13-129}{Specification of LptStartDownCmd Component}
-\end{crCmd}
+\printLptStartDownCmdSpec{|c|p{10cm}|}
+\printLptAbortDownCmdSpec{|c|p{10cm}|}
 
-\begin{crCmd}{S13-130}{Specification of LptAbortDownCmd Component}
-\end{crCmd}
+
+
 
 %---------------------------------------------------------------------------------
 \newpage
@@ -1912,18 +1865,15 @@ Tables \ref{tab:CR-S17-1} to \ref{tab:CR-S17-4} formally specify the service 17 
 \end{itemize}
 
 \newpage
-\begin{crCmd}{S17-1}{Specification of AreYouAliveCmd Component}
-\end{crCmd}
 
-\begin{crRep}{S17-2}{Specification of AreYouAliveRep Component}
-\end{crRep}
+\printAreYouAliveCmdSpec{|c|p{10cm}|}
+\printAreYouAliveRepSpec{|c|p{10cm}|}
 
 \newpage
-\begin{crCmd}{S17-3}{Specification of OnBoardConnectCmd Component}
-\end{crCmd}
+\printOnBoardConnectCmdSpec{|c|p{10cm}|}
+\printOnBoardConnectRepSpec{|c|p{10cm}|}
 
-\begin{crRep}{S17-4}{Specification of OnBoardConnectRep Component}
-\end{crRep}
+
 
 %---------------------------------------------------------------------------------
 \newpage
@@ -1951,14 +1901,14 @@ The table in this section lists requirements for the test service.
 \begin{figure}[H]
  \centering
  \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmd17s3Start.png}
- \caption{Start Action of OnBoardConnectCmd Command (17,3)}
+ \caption{Start Action of OnBoardConnectCmd (17,3) Command}
  \label{fig:Cmd17s3Start}
 \end{figure}
 
 \begin{figure}[H]
  \centering
  \includegraphics[scale=0.415,keepaspectratio=true]{CrPsCmd17s3Prgr.png}
- \caption{Progress Action of OnBoardConnectCmd Command (17,3)}
+ \caption{Progress Action of OnBoardConnectCmd (17,3) Command}
  \label{fig:Cmd17s3Prgr}
 \end{figure}
 
@@ -1994,27 +1944,15 @@ The table in this section lists all the error reports which are generated by the
 
 \begin{itemize}
 \item The name of the error report
-\item The severity of the error using the same severity levels defined for service 5 reports
 \item The description of the error report
 \item The parameters carried by the error report
 \end{itemize}
 
 \begin{landscape} 
 
-\begin{longtable}{|l|c|>{\raggedright\arraybackslash}p{6.0cm}|>{\raggedright\arraybackslash}p{7cm}|c|>{\raggedright\arraybackslash}p{7cm}|}
-\caption{Error Reports}\label{tab:errRep}\\
-\hline
-\rowcolor{light-gray}
-\textbf{Name} & \textbf{Sev.} & \textbf{Description} & \textbf{Parameters}\\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{Name} & \textbf{Sev.} & \textbf{Description} & \textbf{Parameters}\\
-\hline\hline
-\endhead
-\DTLforeach*{dbErr}{\name=Name,\severity=Severity,\description=Description,\parameters=Parameters}
-{\DTLiffirstrow{}{\\\hline}\name & \severity & \description & \parameters}\\\hline
-\end{longtable}
+
+\pnpcsvtable{|c|>{\raggedright\arraybackslash}p{9cm}|>{\raggedright\arraybackslash}p{8cm}|}{Event Reports}{tab:evtRep}{Name & Description & Parameters}{./GeneratedTables/PUSExtensionErrRepCodet.csv}{\texttt{\Name} & \Description & \ErrRepData}
+
 
 \end{landscape}
 

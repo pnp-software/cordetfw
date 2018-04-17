@@ -1,0 +1,8 @@
+Type|Name|Description
+1|Ver|Request Verification Service
+3|Hk|Housekeeping Service
+5|Evt|Event Reporting Service
+11|Scd|Time Based Scheduling Service
+12|Mon|On Board Monitoring Service
+13|Lpt|Large Packet Transfer Service
+17|Tst|Test Service
