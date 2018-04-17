@@ -1205,6 +1205,8 @@ Within the TBS, up to SCD\_N\_SUB\_TBS \textit{sub-schedules} may be defined. Ea
 
 A sub-schedule has two attributes: flag \texttt{isSubSchedEnabled} which determines whether the sub-schedule is enabled and integer \texttt{nOfTbaInSubSched} which holds the number of TBAs in the sub-schedule. In [PS-SP], sub-schedules are created and deleted dynamically. Sub-schedule S is created when a command (11,4) asks for one or more TBAs to be inserted in the sub-schedule S. The sub-schedule is deleted when the last of its TBAs is deleted from the TBS (because its release time has been reached). In the PUS Extension, the data structures for the sub-schedules are all statically defined and therefore the creation status of a sub-schedule is determined by the value of \texttt{nOfTbaInSubSched}: the sub-schedule is deemed to be created when the attribute is greater than zero (the sub-schedule is not empty).
 
+Commands (11,20) and (11,21) can be used to, respectively, enable and disable one or more time-based sub-schedules.
+
 The sub-schedule 1 is the default sub-schedule. An application which does not need sub-schedules should set SCD\_N\_SUB\_TBS to 1. Since sub-schedules are disabled by default, an application which does not support sub-schedules should also enable the default sub-schedule as part of its initialization.
 
 \subsection{Groups}
@@ -1245,7 +1247,10 @@ Tables \ref{tab:TBD} to \ref{tab:TBD} formally specify the service 11 commands a
 
 \newpage
 \printScdDelTbaSpec{|c|p{10cm}|}
+\printScdEnbSubSchedSpec{|c|p{10cm}|}
 
+\newpage
+\printScdDisSubSchedSpec{|c|p{10cm}|}
 
 
 %-------------------------------------------------------------------------------------
