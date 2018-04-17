@@ -1116,7 +1116,7 @@ The service 5 observables consist of counters and flags which are updated by the
 \newpage
 %---------------------------------------------------------------------------------
 \subsection{Service 5 Requirements}
-The table in this section lists requirements for the test service.
+The table in this section lists requirements for the event reporting service.
 
 \begin{crReq}{S5}{Requirements for Service 5 (Event Reporting Service)}
 \end{crReq}
@@ -1198,9 +1198,8 @@ The group 1 is the default group. An application which does not need groups shou
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 11 Report and Command Definition}\label{sec:serv11RepCmdDef}
-Tables \ref{tab:ScdEnbTbsSpec} to \ref{tab:TBD} formally specify the service 11 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for this service (see section \ref{sec:defPusRepCmd}). 
+Tables \ref{tab:ScdEnbTbsSpec} to \ref{tab:ScdDisSubSchedSpec} formally specify the service 11 commands and reports by specifying how the actions, checks and attributes of generic out-going commands and reports are specialized for this service (see section \ref{sec:defPusRepCmd}). 
 
-\newpage
 \printScdEnbTbsSpec{|c|p{10cm}|}
 \printScdDisTbsSpec{|c|p{10cm}|}
 
@@ -1211,9 +1210,9 @@ Tables \ref{tab:ScdEnbTbsSpec} to \ref{tab:TBD} formally specify the service 11 
 
 \newpage
 \printScdDelTbaSpec{|c|p{10cm}|}
-\printScdEnbSubSchedSpec{|c|p{10cm}|}
 
 \newpage
+\printScdEnbSubSchedSpec{|c|p{10cm}|}
 \printScdDisSubSchedSpec{|c|p{10cm}|}
 
 
@@ -1233,10 +1232,20 @@ The attributes of the Time-Based Activities (TBAs) in the Time-Based Schedule (T
 \pnpcsvtable[filter equal={\Domain}{Scd}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{8.5cm}|}{Observables and Parameters for Time-Based Scheduling Service}{tab:Obs-S11}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
 
 
+%---------------------------------------------------------------------------------
+\subsection{Service 11 Requirements}
+The table in this section lists requirements for the time-based scheduling service.
+
+\begin{crReq}{S11}{Requirements for Service 11 (Time-Based Scheduling Service)}
+\end{crReq}
+
+
 \pnpfigure[scale=0.5]{Start Action of (11,4) Command Procedure}{fig:Cmd11s4Start}{CrPsCmd11s4Start.png}
 
 
 \pnpfigure[scale=0.5]{Start Action of (11,5) Command Procedure}{fig:Cmd11s5Start}{CrPsCmd11s4Start.png}
+
+\pnpfigure[scale=0.5]{Start Action of (11,20) and (11,21) Commands Procedure}{fig:Cmd11s20And21Start}{CrPsCmd11s20And21Start.png}
 
 
 \pnpfigure[scale=0.5]{Time-Based Schedule Execution Procedure}{fig:TbsExec}{CrPsTbsExec.png}

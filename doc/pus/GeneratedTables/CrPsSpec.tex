@@ -454,6 +454,30 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
+\def \printScdEnbSubSchedSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdEnbSubSched Component}{tab:ScdEnbSubSchedSpec}{Name & ScdEnbSubSched(11,20)}
+Description & Command to enable one or more time-based sub-schedules \\\hline
+Parameters & The number of sub-schedules to be enabled followed by the list of identifiers of the sub-schedules to be enabled \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Run the procedure of figure \ref{fig:Cmd11s20And21Start}. This procedure checks all the sub-schedule identifiers in the command and rejects those which are invalid (i.e. either outside the range: 1..SCD\_\-N\_\-SUB\_\-TBS or pointing at an empty sub-schuedule). \\\hline
+Progress Action & For all the sub-schedule identifiers which have passed the Start Check,set their isSubSchedEnabled attribute to false. \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}
+
+\def \printScdDisSubSchedSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdDisSubSched Component}{tab:ScdDisSubSchedSpec}{Name & ScdDisSubSched(11,21)}
+Description & Command to disable one or more time-based sub-schedules \\\hline
+Parameters & The number of sub-schedules to be disabled followed by the list of identifiers of the sub-schedules to be disabled \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Run the procedure of figure \ref{fig:Cmd11s20And21Start}. This procedure checks all the sub-schedule identifiers in the command and rejects those which are invalid (i.e. either outside the range: 1..SCD\_\-N\_\-SUB\_\-TBS or pointing at an empty sub-schuedule). \\\hline
+Progress Action & For all the sub-schedule identifiers which have passed the Start Check,set their isSubSchedEnabled attribute to false. \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}
+
 \def \printMonEnbParMonDefCmdSpec#1 {
 \begin{pnptable}{#1}{Specification of MonEnbParMonDefCmd Component}{tab:MonEnbParMonDefCmdSpec}{Name & MonEnbParMonDefCmd(12,1)}
 Description & Command to enable one or more monitoring definitions \\\hline
