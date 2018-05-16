@@ -1,11 +1,12 @@
-/doc/pus/PusExtension.aux
-/doc/pus/PusExtension.lof
+*.aux
+*.lof
+*.synctex.gz
+**/bin
+**/doxygen/html
 /doc/pus/PusExtension.log
 /doc/pus/PusExtension.lot
 /doc/pus/PusExtension.out
-/doc/pus/PusExtension.synctex.gz
 /doc/pus/PusExtension.toc
-/doc/cordetfw/cordetfw.aux
 /doc/cordetfw/cordetfw.lof
 /doc/cordetfw/cordetfw.log
 /doc/cordetfw/cordetfw.lot
