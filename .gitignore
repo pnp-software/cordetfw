@@ -1,0 +1,14 @@
+**/bin
+**/doc/doxygen
+*.aux
+*.lof
+*.synctex.gz
+*.toc
+*.log
+*.lot
+/ChangeLicence.sh
+/RemoveTripleBlankCommentLines.py
+/doc/cordetfw/cordetfw.out
+/doc/pus/PusExtension.out
+/doc/req/UserRequirements.out
+/doc/um/UserManual.out
