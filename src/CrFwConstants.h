@@ -264,8 +264,6 @@ typedef struct {
 	CrFwInRepUpdateAction_t updateAction;
 	/** The pointer to the function implementing the Validity Check Operation */
 	CrFwInRepValidityCheck_t isValid;
-	/** Component kind key (the product of: service type, service sub-type, and discriminant) */
-	CrFwCmdRepKindKey_t kindKey;
 } CrFwInRepKindDesc_t;
 
 /**

@@ -161,10 +161,10 @@
  * <code>CrFwInReportSample1.h</code>.
  */
 #define CR_FW_INREP_INIT_KIND_DESC \
-	{ {5, 1, 1, &CrFwPrEmptyAction, &CrFwPrCheckAlwaysTrue, 0}, \
-	  {5, 1, 2, &CrFwPrEmptyAction, &CrFwPrCheckAlwaysTrue, 0}, \
-	  {5, 1, 3, &CrFwPrEmptyAction, &CrFwPrCheckAlwaysTrue, 0}, \
-	  {40, 1, 0, &CrFwInRepSample1UpdateAction, &CrFwInRepSample1ValidityCheck, 0} \
+	{ {5, 1, 1, &CrFwPrEmptyAction, &CrFwPrCheckAlwaysTrue}, \
+	  {5, 1, 2, &CrFwPrEmptyAction, &CrFwPrCheckAlwaysTrue}, \
+	  {5, 1, 3, &CrFwPrEmptyAction, &CrFwPrCheckAlwaysTrue}, \
+	  {40, 1, 0, &CrFwInRepSample1UpdateAction, &CrFwInRepSample1ValidityCheck} \
 	}
 
 #endif /* CRFW_INFACTORY_USERPAR_H_ */
