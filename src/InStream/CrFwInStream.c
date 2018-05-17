@@ -344,7 +344,7 @@ static void DoActionB(FwSmDesc_t smDesc) {
 				if (cmpSpecificData->seqCnt[group] != 0)
 					if ((cmpSpecificData->seqCnt[group]+1) != seqCnt)
 						CrFwRepErrSeqCnt(crInStreamSCErr, inStreamData->typeId, inStreamData->instanceId,
-						                 (cmpSpecificData->seqCnt[group]+1), seqCnt);
+						                 (cmpSpecificData->seqCnt[group]+1), seqCnt, pckt);
 
 				cmpSpecificData->seqCnt[group] = seqCnt;
 			} else

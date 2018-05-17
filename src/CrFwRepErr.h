@@ -88,9 +88,11 @@ void CrFwRepErrGroup(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstance
  * @param typeId the type identifier of the component which raises the error report
  * @param expSeqCnt the expected sequence counter
  * @param actSeqCnt the actual sequence counter
+ * @param pckt a packet holding a command or report (this is a pointer which is only guaranteed valid
+ * during the function execution)
  */
 void CrFwRepErrSeqCnt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstanceId_t instanceId,
-                      CrFwSeqCnt_t expSeqCnt, CrFwSeqCnt_t actSeqCnt);
+                      CrFwSeqCnt_t expSeqCnt, CrFwSeqCnt_t actSeqCnt, CrFwPckt_t pckt);
 
 /**
  * Report an error which has two parameters attached to it representing the instance identifier
@@ -118,7 +120,8 @@ void CrFwRepErrInstanceIdAndOutcome(CrFwRepErrCode_t errCode, CrFwTypeId_t typeI
  * @param secondaryInstanceId instance identifier of a component other than the originator of the error
  * report
  * @param dest a command or report destination
- * @param pckt a packet holding a command or report
+ * @param pckt a packet holding a command or report (this is a pointer which is only guaranteed valid
+ * during the function execution)
  */
 void CrFwRepErrInstanceIdAndDest(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
                                  CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId,
@@ -130,7 +133,8 @@ void CrFwRepErrInstanceIdAndDest(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
  * @param errCode the error code
  * @param instanceId the instance identifier of the component which raises the error report
  * @param typeId the type identifier of the component which raises the error report
- * @param pckt a packet holding a command or report
+ * @param pckt a packet holding a command or report (this is a pointer which is only guaranteed valid
+ * during the function execution)
  */
 void CrFwRepErrPckt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
                                     CrFwInstanceId_t instanceId, CrFwPckt_t pckt);

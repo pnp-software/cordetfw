@@ -141,7 +141,7 @@ void CrFwRepErrGroup(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstance
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwRepErrSeqCnt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstanceId_t instanceId,
-                      CrFwSeqCnt_t expSeqCnt, CrFwSeqCnt_t actSeqCnt) {
+                      CrFwSeqCnt_t expSeqCnt, CrFwSeqCnt_t actSeqCnt, CrFwPckt_t pckt) {
 	CrFwCounterU1_t i;
 	CrFwSeqCnt_t temp;
 
@@ -166,7 +166,7 @@ void CrFwRepErrSeqCnt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstanc
 	errRepArray[errRepPos].par[7] = temp % 256;
 
 	for (i=8; i<CR_FW_ERR_REP_PAR_SIZE; i++)
-		errRepArray[errRepPos].par[i] = 255;
+		errRepArray[errRepPos].par[i] = pckt[i];
 
 	errRepPos = (CrFwCounterU2_t)((errRepPos + 1) % CR_FW_ERR_REP_ARRAY_SIZE);
 }
