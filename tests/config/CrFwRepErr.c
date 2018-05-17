@@ -107,7 +107,8 @@ void CrFwRepErrDestSrc(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstan
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwRepErrInstanceIdAndDest(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
-                                 CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId, CrFwDestSrc_t dest) {
+                                 CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId,
+								 CrFwDestSrc_t dest, CrFwPckt_t pckt) {
 	CrFwCounterU1_t i;
 
 	errRepArray[errRepPos].errCode = errCode;
@@ -117,7 +118,8 @@ void CrFwRepErrInstanceIdAndDest(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
 	errRepArray[errRepPos].par[1] = (CrFwCounterU1_t)(secondaryInstanceId % 256);
 	errRepArray[errRepPos].par[2] = (CrFwCounterU1_t)(secondaryInstanceId >> 8);
 	for (i=3; i<CR_FW_ERR_REP_PAR_SIZE; i++)
-		errRepArray[errRepPos].par[i] = 255;
+		errRepArray[errRepPos].par[i] = pckt[i];
+
 
 	errRepPos = (CrFwCounterU2_t)((errRepPos + 1) % CR_FW_ERR_REP_ARRAY_SIZE);
 }
@@ -171,7 +173,8 @@ void CrFwRepErrSeqCnt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstanc
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwRepErrInstanceIdAndOutcome(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
-                                    CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId, CrFwOutcome_t outcome) {
+                                    CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId,
+									CrFwOutcome_t outcome) {
 	CrFwCounterU1_t i;
 
 	errRepArray[errRepPos].errCode = errCode;

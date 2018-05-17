@@ -108,9 +108,9 @@ void CrFwRepErrInstanceIdAndOutcome(CrFwRepErrCode_t errCode, CrFwTypeId_t typeI
                                     CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId, CrFwOutcome_t outcome);
 
 /**
- * Report an error which has two parameters attached to it representing the instance identifier
+ * Report an error which has three parameters attached to it representing the instance identifier
  * of a component other than the originator of the error report (the secondary instance
- * identifier) and a command or report destination.
+ * identifier), a command or report destination and a command or report packet.
  * This function generate an error report with two parameters.
  * @param errCode the error code
  * @param instanceId the instance identifier of the component which raises the error report
@@ -118,9 +118,11 @@ void CrFwRepErrInstanceIdAndOutcome(CrFwRepErrCode_t errCode, CrFwTypeId_t typeI
  * @param secondaryInstanceId instance identifier of a component other than the originator of the error
  * report
  * @param dest a command or report destination
+ * @param pckt a packet holding a command or report
  */
 void CrFwRepErrInstanceIdAndDest(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
-                                 CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId, CrFwDestSrc_t dest);
+                                 CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId,
+								 CrFwDestSrc_t dest, CrFwPckt_t pckt);
 
 /**
  * Report an error which has one parameter attached to it representing a command or report packet.

@@ -152,7 +152,7 @@ static void InLoaderExecAction(FwPrDesc_t prDesc) {
 	reroutingDest = getReroutingDest(pcktDest);
 	if (reroutingDest == 0) {	/* destination is invalid */
 		CrFwRepErrInstanceIdAndDest(crInLoaderInvDest, inLoaderData.typeId, inLoaderData.instanceId,
-		                            CrFwPcktGetCmdRepId(pckt), pcktDest);
+		                            CrFwPcktGetCmdRepId(pckt), pcktDest, pckt);
 		CrFwPcktRelease(pckt);
 		return;
 	}
