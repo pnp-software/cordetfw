@@ -8,12 +8,19 @@
 /** @defgroup baseCmpGroup Base Component
  *  Implementation of the Base Component.
  * A Base Component implements the behaviour of the Base Component State Machine
- * (see figures below).
+ * (see figure below).
  * All components used in the framework are derived from the Base Component
  * (i.e. all framework components are implemented by state machines which are
  * derived from the Base Component State Machine).
  * Hence, all framework components inherit the behaviour of the Base Component
  * State Machine.
+ * The behaviour of the base state machine is parameterized by three procedures: 
+ * the Component Initialization Procedure (CIP), the Component Reset Procedure (CRP)
+ * and the Component Execution Procedure (CEP).
+ * The CIP and CRP are defined at framework level (see <code>CrFwInitProc.h</code>
+ * and <code>CrFwResetProc.h</code>). The CEP must instead be defined by the 
+ * user and the framework only offers a dummy default which does nothing
+ * (see <code>CrFwDummyExecProc.h</code>). 
  * @image html BaseSM.png
  */
 

@@ -49,7 +49,8 @@
 #include <errno.h>
 #include <strings.h>
 
-#define h_addr h_addr_list[0] /* for backward compatibility */
+/** Required for backward compatibility */
+#define h_addr h_addr_list[0]
 
 /** The port number */
 static unsigned short portno = 0;
