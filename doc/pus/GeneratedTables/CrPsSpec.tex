@@ -346,8 +346,8 @@ Repeat Check & Default implementation (report is not repeated) \\\hline
 Update Action & Update service 5 observables: nOfGenEvtRep x, lastEvtEid i, lastEvtTime x ('x' is the event severity level). Note that the parameter values are set by the application which creates the event report at the time it creates the event report. \\\hline
 \end{pnptable}}
 
-\def \printEvtEnableCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtEnableCmd Component}{tab:EvtEnableCmdSpec}{Name & EvtEnableCmd(5,5)}
+\def \printEvtEnbIdSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtEnbId Component}{tab:EvtEnbIdSpec}{Name & EvtEnbId(5,5)}
 Description & Command to enable generation of a list of event identifiers \\\hline
 Parameters & List of event identifiers to be enabled  \\\hline
 Discriminant & None \\\hline
@@ -358,8 +358,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printEvtDisableCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtDisableCmd Component}{tab:EvtDisableCmdSpec}{Name & EvtDisableCmd(5,6)}
+\def \printEvtDisIdSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtDisId Component}{tab:EvtDisIdSpec}{Name & EvtDisId(5,6)}
 Description & Command to disable generation of a list of event identifiers \\\hline
 Parameters & List of event identifiers to be disabled  \\\hline
 Discriminant & None \\\hline
@@ -370,8 +370,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printEvtRepDisabledCmdSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtRepDisabledCmd Component}{tab:EvtRepDisabledCmdSpec}{Name & EvtRepDisabledCmd(5,7)}
+\def \printEvtRepDisIdSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtRepDisId Component}{tab:EvtRepDisIdSpec}{Name & EvtRepDisId(5,7)}
 Description & This command triggers the generation of a (5,8) report holding the list of disabled event identifiers \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
@@ -382,8 +382,8 @@ Termination Action & Default implementation (set action outcome to 'success') \\
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
 
-\def \printEvtRepDisabledRepSpec#1 {
-\begin{pnptable}{#1}{Specification of EvtRepDisabledRep Component}{tab:EvtRepDisabledRepSpec}{Name & EvtRepDisabledRep(5,8)}
+\def \printEvtDisIdRepSpec#1 {
+\begin{pnptable}{#1}{Specification of EvtDisIdRep Component}{tab:EvtDisIdRepSpec}{Name & EvtDisIdRep(5,8)}
 Description & Report generated in response to a (5,7) command carrying the list of disabled Event Identifiers \\\hline
 Parameters & The list of disabled event identifiers  \\\hline
 Discriminant & None \\\hline
@@ -396,7 +396,7 @@ Update Action & Load the list of disabled event identifiers from arrays isEidEna
 
 \def \printScdEnbTbsSpec#1 {
 \begin{pnptable}{#1}{Specification of ScdEnbTbs Component}{tab:ScdEnbTbsSpec}{Name & ScdEnbTbs(11,1)}
-Description & Command to enable time-based schedule execution function \\\hline
+Description & Command to enable the time-based schedule execution function \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
@@ -408,7 +408,7 @@ Abort Action & Default implementation (set action outcome to 'success') \\\hline
 
 \def \printScdDisTbsSpec#1 {
 \begin{pnptable}{#1}{Specification of ScdDisTbs Component}{tab:ScdDisTbsSpec}{Name & ScdDisTbs(11,2)}
-Description & Command to disable time-based schedule execution function \\\hline
+Description & Command to disable the time-based schedule execution function \\\hline
 Parameters & None \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
@@ -448,8 +448,8 @@ Description & Command to delete one or more time-based activities (TBAs) from th
 Parameters & The number of activities to be deleted and the list of identifiers of the activities to be deleted. Each such identifier is made up of: the identifier of the source, the APID and the sequence count of the request embedded in the activity to be deleted. \\\hline
 Discriminant & None \\\hline
 Ready Check & Default implementation (command is always ready) \\\hline
-Start Action & Run the procedure Start Action of (11,5) Command of figure \ref{fig:Cmd11s5Start}. This procedure iterates over the list of activity identifiers in the command and rejects those which do not exist.  \\\hline
-Progress Action & For each activity identifier which has been accepted by the Start Action, the following is done:\newline \newline (a) The slot in the TBS where the activity is stored is cleared (its release time is set to zero)\newline (b) The number of TBAs in the TBS (nOfTba) is decremented by 1\newline (c) The number of TBAs in the sub-schedule (nOfTbaInSubSched) to which the deleted activity belongs is decremented by 1\newline (d) If the deleted activity was the last one in the sub-schedule, then the number of non-empty sub-schedules (nOfSubSched) is decremented by one\newline (e) The number of TBAs in the groupd (nOfTbaInGroup)  to which the deleted activity belongs is decremented by 1\newline \newline After all identifiers have been processed, the action outcome is set to: 'completed'. \\\hline
+Start Action & Run the procedure Start Action of (11,22) Command of figure \ref{fig:Cmd11s22Start}. This procedure iterates over the list of group identifiers in the command and rejects those which are out-of-limit or which are already in use.  \\\hline
+Progress Action & For each group identifier which has been accepted by the Start Action, the following is done:\newline \newline (a) The group identifier is marked as in use (its InUse flag is set to true)\newline (b) The enable status of the group identifier is set in accordance with the enable status parameter in the command\newline \newline After all identifiers have been processed, the action outcome is set to: 'completed'. \\\hline
 Termination Action & Default implementation (set action outcome to 'success') \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
 \end{pnptable}}
@@ -476,6 +476,78 @@ Start Action & Run the procedure of figure \ref{fig:Cmd11s20And21Start}. This pr
 Progress Action & For all the sub-schedule identifiers which have passed the Start Check,set their isSubSchedEnabled attribute to false. \\\hline
 Termination Action & Default implementation (set action outcome to 'success') \\\hline
 Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}
+
+\def \printScdCreGrpSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdCreGrp Component}{tab:ScdCreGrpSpec}{Name & ScdCreGrp(11,22)}
+Description & Command to create one or more scheduling groups \\\hline
+Parameters & The number of groups to be created and, for each group to be created, its identifier and its initial enable status \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Run the procedure Start Action of (11,22) Command of figure \ref{fig:Cmd11s22Start}. This procedure iterates over the list of group identifiers in the command and rejects those which are out-of-limit or which are already in use.  \\\hline
+Progress Action & For each group identifier which has been accepted by the Start Action, the following is done:\newline \newline (a) The group identifier is marked as in use (its InUse flag is set to true)\newline (b) The enable status of the group identifier is set in accordance with the enable status parameter in the command\newline \newline After all identifiers have been processed, the action outcome is set to: 'completed'. \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}
+
+\def \printScdDelGrpSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdDelGrp Component}{tab:ScdDelGrpSpec}{Name & ScdDelGrp(11,23)}
+Description & Command to delete one or more scheduling groups \\\hline
+Parameters & The number of groups to be delete and the list of their identifiers \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Run the procedure Start Action of (11,23) Command of figure \ref{fig:Cmd11s23Start}. This procedure iterates over the list of group identifiers (or, if the number of groups to be deleted is equal to zero, over all groups currently in use) and rejects those whose identifiers is out-of-limits or which have activities associated to them. \\\hline
+Progress Action & For all group identifiers accepted by the Start Action, the following is done: the group is deleted by setting its InUse flag to false. After all identifiers have been processed, the action outcome is set to: 'completed'.  \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}
+
+\def \printScdEnbGrpSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdEnbGrp Component}{tab:ScdEnbGrpSpec}{Name & ScdEnbGrp(11,24)}
+Description & Command to enable one or more scheduling groups \\\hline
+Parameters & The number of groups to be enabled and the list of their identifiers \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Run the procedure Start Action of (11,24) and (11,25) Command of figure \ref{fig:Cmd11s24And25Start}. This procedure iterates over the list of group identifiers in the command and rejects those which are not in use. \\\hline
+Progress Action & For all group identifiers accepted by the Start Action, the following is done: the isGroupEnabled flag of the group is set to 'Enabled'. After all identifiers have been processed, the action outcome is set to 'completed'. \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}
+
+\def \printScdDisGrpSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdDisGrp Component}{tab:ScdDisGrpSpec}{Name & ScdDisGrp(11,25)}
+Description & Command to disable one or more scheduling groups \\\hline
+Parameters & The number of groups to be disabled and the list of their identifiers \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Run the procedure Start Action of (11,24) and (11,25) Command of figure \ref{fig:Cmd11s24And25Start}. This procedure iterates over the list of group identifiers in the command and rejects those which are not in use. \\\hline
+Progress Action & For all group identifiers accepted by the Start Action, the following is done: the isGroupEnabled flag of the group is set to 'Disabled'. After all identifiers have been processed, the action outcome is set to 'completed'. \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}
+
+\def \printScdRepGrpSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdRepGrp Component}{tab:ScdRepGrpSpec}{Name & ScdRepGrp(11,26)}
+Description & Command to trigger the generation of a (11,27) report carrying the status of the scheduling groups \\\hline
+Parameters & None \\\hline
+Discriminant & None \\\hline
+Ready Check & Default implementation (command is always ready) \\\hline
+Start Action & Retrieve a (11,27) report from the OutFactory. If the retrieval fails, generate error report OUTFACTORY\_\-FAIL and set action outcome to 'failure'. Otherwise, set action outcome to 'success'. \\\hline
+Progress Action & Configure the (11,27) report created by the Start Action and load it in the OutLoader. Set the action outcome to 'success' if the load operation is successful and to 'failed' otherwise. \\\hline
+Termination Action & Default implementation (set action outcome to 'success') \\\hline
+Abort Action & Default implementation (set action outcome to 'success') \\\hline
+\end{pnptable}}
+
+\def \printScdGrpRepSpec#1 {
+\begin{pnptable}{#1}{Specification of ScdGrpRep Component}{tab:ScdGrpRepSpec}{Name & ScdGrpRep(11,27)}
+Description & Report generated in response to a (11,26) command to report the status of the scheduling groups \\\hline
+Parameters & The number of currently used scheduling groups and, for each, the identifier and the enable status \\\hline
+Discriminant & None \\\hline
+Destination & TThe source of the (11,26) command which triggered the generation of the report \\\hline
+Enable Check & Default implementation (report is always enabled) \\\hline
+Ready Check & Default implementation (report is always ready) \\\hline
+Repeat Check & Default implementation (report is not repeated) \\\hline
+Update Action & Collect the information about the currently used scheduling groups \\\hline
 \end{pnptable}}
 
 \def \printMonEnbParMonDefCmdSpec#1 {

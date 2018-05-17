@@ -989,7 +989,7 @@ Similarly, the service 3 configuration is defined by the content of the Report D
 
 The observables and the parameters for service 3 are listed in table \ref{tab:Obs-S3}.
 
-\pnpcsvtable[filter equal={\Domain}{Hk}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{8.5cm}|}{Observables and Parameters for Housekeeping Service}{tab:Obs-S3}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
+\pnpcsvtable[filter equal={\Domain}{Hk}]{|p{3cm}|l|>{\raggedright\arraybackslash}p{6.0cm}|c|}{Observables and Parameters for Housekeeping Service}{tab:Obs-S3}{Name & Kind & Description & Multiplicity}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc & \Multiplicity}
 
 %---------------------------------------------------------------------------------
 \subsection{Service 3 Requirements}
@@ -1091,11 +1091,11 @@ The tables in this section formally specify the service 5 commands and reports b
 \printEvtRepcSpec{|c|p{10cm}|}
 \printEvtRepdSpec{|c|p{10cm}|}
 \newpage
-\printEvtEnableCmdSpec{|c|p{10cm}|}
-\printEvtDisableCmdSpec{|c|p{10cm}|}
+\printEvtEnbIdSpec{|c|p{10cm}|}
+\printEvtDisIdSpec{|c|p{10cm}|}
 \newpage
-\printEvtRepDisabledCmdSpec{|c|p{10cm}|}
-\printEvtRepDisabledRepSpec{|c|p{10cm}|}
+\printEvtRepDisIdSpec{|c|p{10cm}|}
+\printEvtDisIdRepSpec{|c|p{10cm}|}
 
 
 %---------------------------------------------------------------------------------
@@ -1175,9 +1175,11 @@ The sub-schedule 1 is the default sub-schedule. An application which does not ne
 \subsection{Groups}
 The TBAs in the TBS may be assigned to groups. Up to SCD\_N\_GROUP groups may be defined. Each group is identified by an integer in the range 1 to SCD\_N\_GROUP and, to each TBA, the attribute \texttt{groupId} is associated which identifies the group to which the TBA belongs (i.e. all TBAs belong to one and exactly one group). 
 
-A group has three attributes: flag \texttt{isGroupEnabled} which determines whether the group is enabled, flag \texttt{isGroupInUse} which determines whether the group is in use, and integer \texttt{nOfTbaInGroup} which holds the number of TBAs in the group. In [PS-SP], groups are created and deleted dynamically. Group G is created through command (11,22) and deleted through command (11,23). In the PUS Extension, the data structures for the sub-schedules are all statically defined and therefore the creation status of a sub-schedule is determined by the value of the \texttt{isGroupInUse} flag which is set/unset in response to the (11,22) and (11,23) commands.
+A group has three attributes: flag \texttt{isGroupEnabled} which determines whether the group is enabled, flag \texttt{isGroupInUse} which determines whether the group is in use, and integer \texttt{nOfTbaInGroup} which holds the number of TBAs in the group. In [PS-SP], groups are created and deleted dynamically. Group G is created through command (11,22) and deleted through command (11,23). In the PUS Extension, the data structures for the sub-schedules are all statically defined and therefore the creation status of a sub-schedule is determined by the value of the \texttt{isGroupInUse} flag which is set/unset in response to the (11,22) and (11,23) commands. Similarly, commands (11,24) and (11,25) toggle the enabled status of a group which is currently in use.
 
-The group 1 is the default group. An application which does not need groups should set SCD\_N\_GROUPS to 1. Since the PUS Extension of the CORDET Framework does not yet support the commands to control groups, users should set SCD\_N\_GROUPS and should set its InUse flag to true as part of their application's initialization.
+The status of the groups which are currently in use is reported by report (11,27) which is triggered by command (11,26). The configuration of service 11 must be such that the status of all groups can fit within one single (11,27) report.
+
+The group 1 is the default group. An application which does not need groups should set SCD\_N\_GROUPS to 1 and should set its InUse and Enabled flags to true as part of the application initialization.
 
 
 \begin{pnptable}{|l|p{6.5cm}|>{\raggedright\arraybackslash}p{3.3cm}|}{Attributes of Time-Based Activity}{tab:tbaAtt}{\textbf{Name} & \textbf{Description} & \textbf{Constraint}}
@@ -1215,6 +1217,19 @@ Tables \ref{tab:ScdEnbTbsSpec} to \ref{tab:ScdDisSubSchedSpec} formally specify 
 \printScdEnbSubSchedSpec{|c|p{10cm}|}
 \printScdDisSubSchedSpec{|c|p{10cm}|}
 
+\newpage
+\printScdCreGrpSpec{|c|p{10cm}|}
+\printScdDelGrpSpec{|c|p{10cm}|}
+
+\newpage
+\printScdEnbGrpSpec{|c|p{10cm}|}
+\printScdDisGrpSpec{|c|p{10cm}|}
+
+\newpage
+\printScdRepGrpSpec{|c|p{10cm}|}
+\printScdGrpRepSpec{|c|p{10cm}|}
+
+
 
 %-------------------------------------------------------------------------------------
 \subsection{Service 11 Constants}\label{sec:serv11Const}
@@ -1229,7 +1244,7 @@ The service 11 observables and parameters are listed in table \ref{tab:Obs-S11}.
 
 The attributes of the Time-Based Activities (TBAs) in the Time-Based Schedule (TBS) are visible through service 11 reports and are therefore not defined as "observables" in the data pool.
 
-\pnpcsvtable[filter equal={\Domain}{Scd}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{8.5cm}|}{Observables and Parameters for Time-Based Scheduling Service}{tab:Obs-S11}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
+\pnpcsvtable[filter equal={\Domain}{Scd}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{6.5cm}|l|}{Observables and Parameters for Time-Based Scheduling Service}{tab:Obs-S11}{Name & Kind & Description & Multiplicity}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc & \Multiplicity}
 
 
 %---------------------------------------------------------------------------------
@@ -1243,9 +1258,15 @@ The table in this section lists requirements for the time-based scheduling servi
 \pnpfigure[scale=0.5]{Start Action of (11,4) Command Procedure}{fig:Cmd11s4Start}{CrPsCmd11s4Start.png}
 
 
-\pnpfigure[scale=0.5]{Start Action of (11,5) Command Procedure}{fig:Cmd11s5Start}{CrPsCmd11s4Start.png}
+\pnpfigure[scale=0.5]{Start Action of (11,5) Command Procedure}{fig:Cmd11s5Start}{CrPsCmd11s5Start.png}
 
 \pnpfigure[scale=0.5]{Start Action of (11,20) and (11,21) Commands Procedure}{fig:Cmd11s20And21Start}{CrPsCmd11s20And21Start.png}
+
+\pnpfigure[scale=0.5]{Start Action of (11,22) Command Procedure}{fig:Cmd11s22Start}{CrPsCmd11s22Start.png}
+
+\pnpfigure[scale=0.5]{Start Action of (11,23) Command Procedure}{fig:Cmd11s23Start}{CrPsCmd11s23Start.png}
+
+\pnpfigure[scale=0.5]{Start Action of (11,24) and (11,25) Command Procedure}{fig:Cmd11s24And25Start}{CrPsCmd11s24And25Start.png}
 
 
 \pnpfigure[scale=0.5]{Time-Based Schedule Execution Procedure}{fig:TbsExec}{CrPsTbsExec.png}
@@ -1566,7 +1587,7 @@ The attributes of the parameter and functional monitors in the PMDL and FMDL are
 
 The service 12 configuration is defined by the parameter holding the identifier of the service 12 user. This is either a pre-defined value or it is the source of the most recent (12,15) command to enable the Parameter Monitoring Function.
 
-\pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{8.5cm}|}{Observables and Parameters for On-Board Monitoring Service}{tab:Obs-S12}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
+\pnpcsvtable[filter equal={\Domain}{Mon}]{|p{3cm}|c|>{\raggedright\arraybackslash}p{6.0cm}|}{Observables and Parameters for On-Board Monitoring Service}{tab:Obs-S12}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
 
 
 %----------------------------------------------------------------------------------------
@@ -1790,7 +1811,7 @@ The service 13 constants are listed in table \ref{tab:Const-S13}.
 \subsection{Service 13 Observables and Parameters}\label{sec:serv13Obs}
 The service 13 observables and parameters are listed in table \ref{tab:Obs-S13}.
 
-\pnpcsvtable[filter equal={\Domain}{Lpt}]{|p{2.5cm}|c|>{\raggedright\arraybackslash}p{9cm}|}{Observables and Parameters for LPT Service}{tab:Obs-S13}{Name & Kind & Description}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc}
+\pnpcsvtable[filter equal={\Domain}{Lpt}]{|p{2.5cm}|c|>{\raggedright\arraybackslash}p{6.5cm}|l|}{Observables and Parameters for LPT Service}{tab:Obs-S13}{Name & Kind & Description & Multiplicity}{./GeneratedTables/Datapool.csv}{\texttt{\Name} & \Kind & \ShortDesc & \Multiplicity}
 
 
 %----------------------------------------------------------------------------------------
