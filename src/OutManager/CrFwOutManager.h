@@ -102,6 +102,8 @@ FwSmDesc_t CrFwOutManagerMake(CrFwInstanceId_t outManagerId);
  * The behaviour implemented by this function is shown in the activity diagram below.
  * If the POCL is not full, the function identifies a free position in the POCL where
  * to store the OutComponent.
+ * If the POCL is full, the function releases the OutCompoment and then returns.
+ *
  * This function adds OutComponents to the POCL. The POCL is flushed when the OutManager
  * is executed (i.e. it is flushed by function <code>::OutManagerExecAction</code>).
  * The algorithms to identify a free position in the POCL and to process the POCL
@@ -127,8 +129,12 @@ FwSmDesc_t CrFwOutManagerMake(CrFwInstanceId_t outManagerId);
  * @image html OutManagerLoad.png
  * @param smDesc the descriptor of the OutManager State Machine.
  * @param outCmp the descriptor of the OutComponent to be loaded in the OutManager
+ * @return 1 if the load operation was successful (the POCL was not full and the
+ * OutComponent was successfully loaded in the OutManager) or 0 if
+ * the load operation has failed (the POCL was full and the OutComponent
+ * could not be loaded in the OutManager).
  */
-void CrFwOutManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t outCmp);
+CrFwBool_t CrFwOutManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t outCmp);
 
 /**
  * Return the number of OutComponents currently in the POCL of an OutManager.

@@ -128,22 +128,26 @@ CrFwBool_t CrFwOutManagerTestCase2() {
 
 	/* Create and load four OutComponents (this should fill the OutManager */
 	outCmp1 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
-	CrFwOutManagerLoad(outManager2, outCmp1);
+	if (CrFwOutManagerLoad(outManager2, outCmp1) != 1)
+		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager2) != 1)
 		return 0;
 
 	outCmp2 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
-	CrFwOutManagerLoad(outManager2, outCmp2);
+	if (CrFwOutManagerLoad(outManager2, outCmp2) != 1)
+		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager2) != 2)
 		return 0;
 
 	outCmp3 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
-	CrFwOutManagerLoad(outManager2, outCmp3);
+	if (CrFwOutManagerLoad(outManager2, outCmp3) != 1)
+		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager2) != 3)
 		return 0;
 
 	outCmp4 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
-	CrFwOutManagerLoad(outManager2, outCmp4);
+	if (CrFwOutManagerLoad(outManager2, outCmp4) != 1)
+		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager2) != 4)
 		return 0;
 
@@ -152,7 +156,8 @@ CrFwBool_t CrFwOutManagerTestCase2() {
 
 	/* Create and load the fifth OutComponent (this overflows the POCL) */
 	outCmp5 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
-	CrFwOutManagerLoad(outManager2, outCmp5);
+	if (CrFwOutManagerLoad(outManager2, outCmp5) != 0)
+		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager2) != 4)
 		return 0;
 
@@ -229,7 +234,8 @@ CrFwBool_t CrFwOutManagerTestCase3() {
 	CrFwOutCmpSample1SetReadyFlag(0);
 
 	/* Load Sample OutComponent in OutManager */
-	CrFwOutManagerLoad(outManager1, sampleOutCmp);
+	if (CrFwOutManagerLoad(outManager1, sampleOutCmp) != 1)
+		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager1) != 1)
 		return 0;
 
@@ -261,7 +267,8 @@ CrFwBool_t CrFwOutManagerTestCase3() {
 	CrFwCmpReset(sampleOutCmp);
 	if (!CrFwOutCmpIsInLoaded(sampleOutCmp))
 		return 0;
-	CrFwOutManagerLoad(outManager1, sampleOutCmp);
+	if (CrFwOutManagerLoad(outManager1, sampleOutCmp) != 1)
+		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager1) != 1)
 		return 0;
 

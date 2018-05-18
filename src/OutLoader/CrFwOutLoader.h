@@ -110,10 +110,15 @@ FwSmDesc_t CrFwOutLoaderMake();
  * The procedure has two adaptation points which are defined by specifying two functions
  * in <code>CrFwOutLoaderUserPar.h</code>.
  *
+ * After execution of this function, the OutComponent must not be used by the caller
+ * because it has either been released (if the load operation in the OutManager was
+ * not successful) or will be released by the OutManager after it is executed.
+ *
  * @image html OutLoaderLoad.png
  * @param outCmp the descriptor of the OutComponent to be loaded in the OutManager
+ * @return 1 if the OutComponent was successfully loaded in the OutManager; 0 otherwise
  */
-void CrFwOutLoaderLoad(FwSmDesc_t outCmp);
+CrFwBool_t CrFwOutLoaderLoad(FwSmDesc_t outCmp);
 
 /**
  * Default implementation of the OutManager Selection Operation.

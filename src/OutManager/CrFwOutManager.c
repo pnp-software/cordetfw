@@ -176,7 +176,7 @@ static void OutManagerExecAction(FwPrDesc_t prDesc) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwOutManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t outCmp) {
+CrFwBool_t CrFwOutManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t outCmp) {
 	CrFwCmpData_t* outManagerDataLocal = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwOutManagerData_t* outManagerCSData = (CrFwOutManagerData_t*)outManagerDataLocal->cmpSpecificData;
 	CrFwInstanceId_t id = outManagerDataLocal->instanceId;
@@ -189,7 +189,7 @@ void CrFwOutManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t outCmp) {
 	if (outManagerCSData->nOfOutCmpInPocl == size) {
 		CrFwRepErr(crOutManagerPoclFull, outManagerDataLocal->typeId, outManagerDataLocal->instanceId);
 		CrFwOutFactoryReleaseOutCmp(outCmp);
-		return;
+		return 0;
 	}
 
 	/* Check if this is the first load request after the OutManager was reset or after it was executed.
@@ -216,10 +216,11 @@ void CrFwOutManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t outCmp) {
 	for (i=freePos+1; i<size; i++)
 		if (outManagerCSData->pocl[i] == NULL) {
 			outManagerCSData->nextFreePoclPos = (CrFwCounterU1_t)i;
-			return; /* a free position has been found */
+			return 1; /* a free position has been found */
 		}
 
 	outManagerCSData->nextFreePoclPos = (CrFwCounterU1_t)size;	/* no free position was found */
+	return 1;
 }
 
 /*-----------------------------------------------------------------------------------------*/

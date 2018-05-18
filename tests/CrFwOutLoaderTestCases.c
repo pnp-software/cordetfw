@@ -45,7 +45,9 @@
 
 /* ---------------------------------------------------------------------------------------------*/
 CrFwBool_t CrFwOutLoaderTestCase1() {
-	FwSmDesc_t outManager1, outLoader, outCmp, outFactory, outLoader2;
+	FwSmDesc_t outManager1, outLoader, outFactory, outLoader2;
+	FwSmDesc_t outCmp, outCmp1, outCmp2, outCmp3, outCmp4;
+	CrFwOutFactoryPoolIndex_t n;
 
 	/* Instantiate the OutLoader */
 	outLoader = CrFwOutLoaderMake();
@@ -98,11 +100,30 @@ CrFwBool_t CrFwOutLoaderTestCase1() {
 		return 0;
 
 	/* Load OutComponent in OutLoader and check success */
-	CrFwOutLoaderLoad(outCmp);
+	if (CrFwOutLoaderLoad(outCmp) != 1)
+		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager1) != 1)
 		return 0;
 
 	if (CrFwGetAppErrCode() != crNoAppErr)
+		return 0;
+
+	/* Fill up the OutManager so that its POCL becomes full
+	 * (we assume the POCL to have a size of 4, see: CR_FW_NOF_OUTMANAGER) */
+	outCmp1 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
+	outCmp2 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
+	outCmp3 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
+	CrFwOutManagerLoad(outManager1, outCmp1);
+	CrFwOutManagerLoad(outManager1, outCmp2);
+	CrFwOutManagerLoad(outManager1, outCmp3);
+
+	/* Create one more OutComponent and attempt to load it and then verify
+	 * that the attempt fails and the OutComponent is released */
+	outCmp4 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
+	n = CrFwOutFactoryGetNOfAllocatedOutCmp();
+	if (CrFwOutLoaderLoad(outCmp4) != 0)
+		return 0;
+	if (CrFwOutFactoryGetNOfAllocatedOutCmp() != (n-1))
 		return 0;
 
 	/* Reset OutManager */

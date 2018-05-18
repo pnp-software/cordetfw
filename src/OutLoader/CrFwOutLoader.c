@@ -118,12 +118,15 @@ FwSmDesc_t CrFwOutLoaderMake() {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwOutLoaderLoad(FwSmDesc_t outCmp) {
+CrFwBool_t CrFwOutLoaderLoad(FwSmDesc_t outCmp) {
 	FwSmDesc_t selectedOutManager;
 
 	selectedOutManager = outManagerSelect(outCmp);
-	CrFwOutManagerLoad(selectedOutManager, outCmp);
-	outManagerActivate(selectedOutManager);
+	if (CrFwOutManagerLoad(selectedOutManager, outCmp) == 1) {
+		outManagerActivate(selectedOutManager);
+		return 1;
+	} else
+		return 0;
 }
 
 /*-----------------------------------------------------------------------------------------*/

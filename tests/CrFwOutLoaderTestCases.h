@@ -34,11 +34,15 @@
  * - An OutComponent is created and configured.
  * - An OutComponent is loaded into the OutLoader and it is checked that the OutLoader
  *   loads it into the first OutManager.
+ * - The OutManager is filled so that its POCL becomes full
+ * - An OutComponent is loaded into the OutLoader and it is checked that operation fails
+ *   and that the OutComponent is released
  * .
  * @verify Base Component SM Transition: IPS->CREATED
  * @verify Base Component SM Transition: CREATED->INITIALIZED
  * @verify Base Component SM Transition: INITIALIZED->CONFIGURED
- * @verify OutLoader Load Procedure
+ * @verify OutLoader Load Procedure: success branch
+ * @verify OutLoader Load Procedure: failure branch
  *
  * @return true if the test was successful, false otherwise.
  */
