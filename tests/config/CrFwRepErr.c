@@ -221,6 +221,41 @@ void CrFwRepErrRep(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
 }
 
 /*-----------------------------------------------------------------------------------------*/
+void CrFwRepErrCmd(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
+                                    CrFwInstanceId_t instanceId, FwSmDesc_t cmd) {
+	CrFwCounterU1_t i;
+	FwSmDesc_t* temp = NULL;
+
+	errRepArray[errRepPos].errCode = errCode;
+	errRepArray[errRepPos].instanceId = instanceId;
+	errRepArray[errRepPos].typeId = typeId;
+	temp = (FwSmDesc_t*)&errRepArray[errRepPos].par[0];	/* Load address of cmd in first 4 elements of par[] */
+	*temp = cmd;
+	for (i=4; i<CR_FW_ERR_REP_PAR_SIZE; i++)
+		errRepArray[errRepPos].par[i] = 255;
+
+	errRepPos = (CrFwCounterU2_t)((errRepPos + 1) % CR_FW_ERR_REP_ARRAY_SIZE);
+}
+
+/*-----------------------------------------------------------------------------------------*/
+void CrFwRepErrKind(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
+                                    CrFwInstanceId_t instanceId, CrFwServType_t  servType,
+									CrFwServSubType_t servSubType, CrFwDiscriminant_t disc) {
+	CrFwCounterU1_t i;
+
+	errRepArray[errRepPos].errCode = errCode;
+	errRepArray[errRepPos].instanceId = instanceId;
+	errRepArray[errRepPos].typeId = typeId;
+	errRepArray[errRepPos].par[0] = (CrFwCounterU1_t)(servType % 256);;
+	errRepArray[errRepPos].par[1] = (CrFwCounterU1_t)(servSubType % 256);
+	errRepArray[errRepPos].par[2] = (CrFwCounterU1_t)(disc % 256);
+	for (i=3; i<CR_FW_ERR_REP_PAR_SIZE; i++)
+		errRepArray[errRepPos].par[i] = 255;
+
+	errRepPos = (CrFwCounterU2_t)((errRepPos + 1) % CR_FW_ERR_REP_ARRAY_SIZE);
+}
+
+/*-----------------------------------------------------------------------------------------*/
 CrFwRepErrCode_t CrFwRepErrStubGetErrCode(CrFwCounterU2_t errRepPos) {
 	return errRepArray[errRepPos].errCode;
 }

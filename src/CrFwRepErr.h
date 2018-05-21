@@ -19,6 +19,12 @@
  * reported.
  * This interface defines several error reporting functions, one for each set of
  * error parameter types.
+ * Not all functions defined in this interface are used by the CORDET Framework.
+ * Some are intended for use by application components.
+ *
+ * The range of error codes is defined in type <code>::CrFwRepErrCode_t</code>.
+ * Note that this is a configurable type that users are expected to extend with
+ * their own error codes.
  *
  * In general, the implementation of this interface is entirely application-specific
  * but a simple default implementation is provided in <code>CrFwRepErr.c</code>.
@@ -145,10 +151,35 @@ void CrFwRepErrPckt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
  * @param errCode the error code
  * @param instanceId the instance identifier of the component which raises the error report
  * @param typeId the type identifier of the component which raises the error report
- * @param rep the component holding the report which triggered the error
+ * @param rep a component holding a report
  */
 void CrFwRepErrRep(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
                                     CrFwInstanceId_t instanceId, FwSmDesc_t rep);
+
+/**
+ * Report an error which has one parameter attached to it representing a command component.
+ * This function generate an error report with one parameter.
+ * @param errCode the error code
+ * @param instanceId the instance identifier of the component which raises the error report
+ * @param typeId the type identifier of the component which raises the error report
+ * @param cmd a component holding a command
+ */
+void CrFwRepErrCmd(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
+                                    CrFwInstanceId_t instanceId, FwSmDesc_t cmd);
+
+
+/**
+ * Report an error which has three parameters attached to it representing the kind of a report
+ * or command as given by the triplet [type, sub-type, discriminant].
+ * This function generate an error report with three parameters.
+ * @param errCode the error code
+ * @param instanceId the instance identifier of the component which raises the error report
+ * @param typeId the type identifier of the component which raises the error report
+ * @param type a report or command service
+ */
+void CrFwRepErrKind(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
+                                    CrFwInstanceId_t instanceId, CrFwServType_t  servType,
+									CrFwServSubType_t servSubType, CrFwDiscriminant_t disc);
 
 
 #endif /* CRFW_REPERR_H_ */
