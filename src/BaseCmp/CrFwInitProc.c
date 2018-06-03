@@ -34,15 +34,13 @@ static FwPrDesc_t initPrDesc = NULL;
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwBaseCmpDefInitCheck(FwPrDesc_t prDesc) {
-	CrFwCmpData_t* prData = (CrFwCmpData_t*)FwPrGetData(prDesc);
-	prData->outcome = 1;
+	CrFwSetPrOutcome(prDesc, 1);
 	return;
 }
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwBaseCmpDefInitAction(FwPrDesc_t prDesc) {
-	CrFwCmpData_t* prData = (CrFwCmpData_t*)FwPrGetData(prDesc);
-	prData->outcome = 1;
+	CrFwSetPrOutcome(prDesc, 1);
 	return;
 }
 

@@ -89,8 +89,7 @@ void CrFwInCmdSample1SetReadyFlag(CrFwBool_t flag) {
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwInCmdSample1StartAction(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	cmpData->outcome = startOutcome;
+	CrFwSetSmOutcome(smDesc, startOutcome);
 	startCounter++;
 }
 
@@ -106,8 +105,7 @@ CrFwCounterU1_t CrFwInCmdSample1GetStartActionCounter() {
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwInCmdSample1ProgressAction(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	cmpData->outcome = progressOutcome;
+	CrFwSetSmOutcome(smDesc, progressOutcome);
 	progressCounter++;
 }
 
@@ -123,8 +121,7 @@ CrFwCounterU1_t CrFwInCmdSample1GetProgressActionCounter() {
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwInCmdSample1AbortAction(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	cmpData->outcome = abortOutcome;
+	CrFwSetSmOutcome(smDesc, abortOutcome);
 	abortCounter++;
 }
 
@@ -140,8 +137,7 @@ CrFwCounterU1_t CrFwInCmdSample1GetAbortActionCounter() {
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwInCmdSample1TerminationAction(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	cmpData->outcome = terminationOutcome;
+	CrFwSetSmOutcome(smDesc, terminationOutcome);
 	terminationCounter++;
 }
 

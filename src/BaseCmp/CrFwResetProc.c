@@ -31,15 +31,13 @@ static FwPrDesc_t resetPrDesc = NULL;
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwBaseCmpDefConfigCheck(FwPrDesc_t prDesc) {
-	CrFwCmpData_t* prData = (CrFwCmpData_t*)FwPrGetData(prDesc);
-	prData->outcome = 1;
+	CrFwSetPrOutcome(prDesc, 1);
 	return;
 }
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwBaseCmpDefConfigAction(FwPrDesc_t prDesc) {
-	CrFwCmpData_t* prData = (CrFwCmpData_t*)FwPrGetData(prDesc);
-	prData->outcome = 1;
+	CrFwSetPrOutcome(prDesc, 1);
 	return;
 }
 

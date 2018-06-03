@@ -47,9 +47,21 @@ void CrFwSetAppErrCode(CrFwAppErrCode_t errCode) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
+void CrFwSetPrOutcome(FwPrDesc_t prDesc, CrFwOutcome_t outcome) {
+	CrFwCmpData_t* prData = (CrFwCmpData_t*)FwPrGetData(prDesc);
+	prData->outcome = outcome;
+}
+
+/*-----------------------------------------------------------------------------------------*/
 FwPrBool_t CrFwIsPrOutcomeOne(FwPrDesc_t prDesc) {
 	CrFwCmpData_t* prData = (CrFwCmpData_t*)FwPrGetData(prDesc);
 	return (prData->outcome);
+}
+
+/*-----------------------------------------------------------------------------------------*/
+void CrFwSetSmOutcome(FwSmDesc_t smDesc, CrFwOutcome_t outcome) {
+	CrFwCmpData_t* smData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	smData->outcome = outcome;
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -57,6 +69,7 @@ FwSmBool_t CrFwIsSmOutcomeZero(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* smData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	return (smData->outcome == 0);
 }
+
 
 /*-----------------------------------------------------------------------------------------*/
 FwSmBool_t CrFwIsSmOutcomeOne(FwSmDesc_t smDesc) {

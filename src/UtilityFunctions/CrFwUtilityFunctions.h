@@ -52,8 +52,22 @@ CrFwAppErrCode_t CrFwGetAppErrCode();
 void CrFwSetAppErrCode(CrFwAppErrCode_t errCode);
 
 /**
+ * Convenience function to set the outcome field of the component data of a procedure.
+ * This function assumes that the data attached to the procedure descriptor is a pointer to
+ * type <code>::CrFwCmpData</code>).
+ * This type is a data structure which includes an 'outcome' field and this function sets this
+ * field to the value of the argument <code>outcome</code>.
+ * Each procedure is free to set its own convention for the interpretation of the outcome
+ * but, for procedures defined at CORDET Framework level, a value of 0 means "failure" and a value of
+ * 1 means "success".
+ * @param prDesc the procedure descriptor
+ * @param outcome the value of the procedure outcome
+ */
+void CrFwSetPrOutcome(FwPrDesc_t prDesc, CrFwOutcome_t outcome);
+
+/**
  * Convenience function to check whether the outcome of the last check or action
- * is equal to 1 ("true").
+ * is equal to 1 ("true" or "success").
  * This function returns "true" if and only if the outcome field of the component data (see
  * <code>::CrFwCmpData</code>) is equal to 1.
  * This function is intended to be used as a guard in a procedure.
@@ -61,6 +75,20 @@ void CrFwSetAppErrCode(CrFwAppErrCode_t errCode);
  * @return return 1 if the outcome is 1 and return 0 otherwise
  */
 FwPrBool_t CrFwIsPrOutcomeOne(FwPrDesc_t prDesc);
+
+/**
+ * Convenience function to set the outcome of the last check or action of a state machine.
+ * This function assumes that the data attached to the state machine descriptor is a pointer to
+ * type <code>::CrFwCmpData</code>).
+ * This type is a data structure which includes an 'outcome' field and this function sets this
+ * field to the value of the argument <code>outcome</code>.
+ * Each state machine is free to set its own convention for the interpretation of the outcome
+ * but, for state machines defined at CORDET Framework level, a value of 0 means "failure", a value of
+ * 1 means "success", and a value of 2 means "continue".
+ * @param smDesc the state machine descriptor
+ * @param outcome the value of the state machine outcome
+ */
+void CrFwSetSmOutcome(FwSmDesc_t smDesc, CrFwOutcome_t outcome);
 
 /**
  * Convenience function to check whether the outcome of the last check or action
@@ -72,6 +100,7 @@ FwPrBool_t CrFwIsPrOutcomeOne(FwPrDesc_t prDesc);
  * @return return 1 if the outcome is 0 and return 0 otherwise
  */
 FwSmBool_t CrFwIsSmOutcomeZero(FwSmDesc_t smDesc);
+
 
 /**
  * Convenience function to check whether the outcome of the last check or action
