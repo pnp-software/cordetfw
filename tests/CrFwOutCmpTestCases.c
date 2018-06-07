@@ -322,7 +322,9 @@ CrFwBool_t CrFwOutCmpTestCase4() {
 	CrFwPckt_t pckt;
 	CrFwBool_t acceptAck, startAck, progressAck, termAck;
 	unsigned char counter = 99;
-	CrFwTimeStamp_t curTime;
+	CrFwTimeStamp_t curTimeStamp;
+	CrFwTime_t curTime;
+	CrFwTimeCyc_t cycTime;
 
 	/* Reset error reporting interface */
 	CrFwRepErrStubReset();
@@ -376,8 +378,15 @@ CrFwBool_t CrFwOutCmpTestCase4() {
 	/* Set Sample1 Counter */
 	CrFwOutCmpSample1SetCounter(counter);
 
-	/* Retrieve the current time in time-stamp format */
-	curTime = CrFwGetCurrentTimeStamp();
+	/* Retrieve the current time in all its 3 formats and verify that they are equivalent */
+	curTimeStamp = CrFwGetCurrentTimeStamp();
+	curTime = CrFwGetCurrentTime();
+	cycTime = CrFwGetCurrentCycTime();
+	if (curTime != CrFwTimeStampToStdTime(curTimeStamp))
+		return 0;
+
+	if (curTimeStamp != CrFwStdTimeToTimeStamp(curTime))
+		return 0;
 
 	/* Execute and terminate the sample OutComponent and check it is terminated */
 	CrFwCmpExecute(outCmp);
