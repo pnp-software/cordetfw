@@ -324,7 +324,7 @@ void PendingEntryAction(FwSmDesc_t smDesc) {
 			CrFwRepErrDestSrc(crOutCmpSendPcktInvDest, cmpData->typeId, cmpData->instanceId, dest);
 			isRepeat = 0;
 		} else {
-			CrFwOutCmpSetTimeStamp(smDesc,CrFwGetCurrentTime());
+			CrFwOutCmpSetTimeStamp(smDesc,CrFwGetCurrentTimeStamp());
 			cmpSpecificData->serialize(smDesc);
 			CrFwOutStreamSend(outStream, cmpSpecificData->pckt);
 			isRepeat = cmpSpecificData->isRepeat(smDesc);
@@ -358,7 +358,7 @@ void PendingDoAction(FwSmDesc_t smDesc) {
 				CrFwRepErrDestSrc(crOutCmpSendPcktInvDest, cmpData->typeId, cmpData->instanceId, dest);
 				isRepeat = 0;
 			} else {
-				CrFwOutCmpSetTimeStamp(smDesc,CrFwGetCurrentTime());
+				CrFwOutCmpSetTimeStamp(smDesc,CrFwGetCurrentTimeStamp());
 				cmpSpecificData->serialize(smDesc);
 				CrFwOutStreamSend(outStream, cmpSpecificData->pckt);
 				isRepeat = cmpSpecificData->isRepeat(smDesc);

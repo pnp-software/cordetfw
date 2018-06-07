@@ -35,8 +35,16 @@ typedef unsigned char CrFwOutcome_t;
 /** Type used for the sequence counter of commands or reports. */
 typedef unsigned int CrFwSeqCnt_t;
 
+/** Type used for the application time. */
+typedef float CrFwTime_t;
+
 /** Type used for the time stamp of a command or report. */
 typedef unsigned int CrFwTimeStamp_t;
+
+/** Type used for the number of elapsed cycles.
+ * Many applications operate on a cyclical basis and this
+ * type is used for the number of elapsed execution cycles. */
+typedef unsigned int CrFwTimeCyc_t;
 
 /** Type used for the service type of a command or report. */
 typedef unsigned char CrFwServType_t;

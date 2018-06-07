@@ -12,8 +12,9 @@
  * providing their application-specific implementation.
  *
  * This implementation maintains an integer which is incremented by 1 every
- * time function <code>::CrFwGetCurrentTime</code> is called.
- * The function returns the value of this integer.
+ * time function <code>::CrFwGetCurrentTimeStamp</code> is called.
+ * This function represents the "current time" and its value is returned
+ * by the various time getter functions defined by this interface.
  *
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
@@ -36,9 +37,30 @@
 static CrFwTimeStamp_t dummyTime = 0;
 
 /*-----------------------------------------------------------------------------------------*/
-CrFwTimeStamp_t CrFwGetCurrentTime() {
+CrFwTimeStamp_t CrFwGetCurrentTimeStamp() {
 	dummyTime++;
 	return dummyTime;
 }
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwTime_t CrFwGetCurrentTime() {
+	return dummyTime;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwTimeCyc_t CrFwGetCurrentCycTime() {
+	return dummyTime;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwTimeStamp_t CrFwStdTimeToTimeStamp(CrFwTime_t stdTime) {
+	return (CrFwTimeStamp_t) stdTime;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwTime_t CrFwTimeStampToStdTime(CrFwTimeStamp_t timeStamp) {
+	return (CrFwTime_t) timeStamp;
+}
+
 
 

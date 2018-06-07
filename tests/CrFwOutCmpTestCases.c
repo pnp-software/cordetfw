@@ -376,8 +376,8 @@ CrFwBool_t CrFwOutCmpTestCase4() {
 	/* Set Sample1 Counter */
 	CrFwOutCmpSample1SetCounter(counter);
 
-	/* Retrieve the current time */
-	curTime = CrFwGetCurrentTime();
+	/* Retrieve the current time in time-stamp format */
+	curTime = CrFwGetCurrentTimeStamp();
 
 	/* Execute and terminate the sample OutComponent and check it is terminated */
 	CrFwCmpExecute(outCmp);
