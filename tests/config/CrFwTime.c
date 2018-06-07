@@ -33,7 +33,7 @@
 #include "CrFwConstants.h"
 #include "CrFwTime.h"
 
-/** The <code>::CrFwGetCurrentTime</code> increments this counter and then returns its value */
+/** The <code>::CrFwGetCurrentTimeStamp</code> function increments this counter and then returns its value */
 static CrFwTimeStamp_t dummyTime = 0;
 
 /*-----------------------------------------------------------------------------------------*/
