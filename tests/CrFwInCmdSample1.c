@@ -28,6 +28,7 @@
 #include "BaseCmp/CrFwDummyExecProc.h"
 #include "OutFactory/CrFwOutFactory.h"
 #include "Pckt/CrFwPckt.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
 /* Include FW Profile files */
 #include "FwPrConfig.h"
 #include "FwPrDCreate.h"
