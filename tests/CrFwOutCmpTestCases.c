@@ -388,6 +388,9 @@ CrFwBool_t CrFwOutCmpTestCase4() {
 	if (curTimeStamp != CrFwStdTimeToTimeStamp(curTime))
 		return 0;
 
+	if (cycTime != curTimeStamp)
+		return 0;
+
 	/* Execute and terminate the sample OutComponent and check it is terminated */
 	CrFwCmpExecute(outCmp);
 	CrFwOutCmpTerminate(outCmp);
