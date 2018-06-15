@@ -183,6 +183,9 @@ void CrFwPcktSetTimeStamp(CrFwPckt_t pckt, CrFwTimeStamp_t timeStamp);
 
 /**
  * Return the discriminant of the command or report encapsulated in a packet.
+ * Not all commands and reports have a discriminant field.
+ * If the argument packet holds a command or report which does not have a discriminant
+ * field, the behaviour of this function is undefined.
  * @param pckt the packet.
  * @return the discriminant.
  */
@@ -190,6 +193,9 @@ CrFwDiscriminant_t CrFwPcktGetDiscriminant(CrFwPckt_t pckt);
 
 /**
  * Set the discriminant of the command or report encapsulated in a packet.
+ * Not all commands and reports have a discriminant field.
+ * If the argument packet holds a command or report which does not have a discriminant
+ * field, the behaviour of this function is undefined.
  * @param pckt the packet.
  * @param discriminant the discriminant.
  */
