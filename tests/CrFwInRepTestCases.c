@@ -139,6 +139,12 @@ CrFwBool_t CrFwInRepTestCase1() {
 	if (CrFwInRepGetGroup(inRep2) != 89)
 		return 0;
 
+	/* Retrieve and check the packet holding the InReports */
+	if (CrFwInRepGetPckt(inRep1)!=pckt1)
+		return 0;
+	if (CrFwInRepGetPckt(inRep2)!=pckt2)
+		return 0;
+
 	/* Release the InReports */
 	CrFwInFactoryReleaseInRep(inRep1);
 	CrFwInFactoryReleaseInRep(inRep2);

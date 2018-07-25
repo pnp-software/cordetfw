@@ -397,3 +397,10 @@ CrFwPcktLength_t CrFwOutCmpGetLength(FwSmDesc_t smDesc) {
 	CrFwOutCmpData_t* cmpSpecificData = (CrFwOutCmpData_t*)(cmpData->cmpSpecificData);
 	return CrFwPcktGetLength(cmpSpecificData->pckt);
 }
+
+/* --------------------------------------------------------------------------------- */
+CrFwPckt_t CrFwOutCmpGetPckt(FwSmDesc_t smDesc) {
+	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwOutCmpData_t* cmpSpecificData = (CrFwOutCmpData_t*)(cmpData->cmpSpecificData);
+	return cmpSpecificData->pckt;
+}

@@ -33,6 +33,7 @@
  * - It is checked that the InReport source, group and sequence counter are correctly set.
  * - It is checked that the acknowledge levels of the InReports are correct.
  * - It is checked that the progress step is equal to zero.
+ * - The function to retrieve the packet holding an InReport is checked
  * .
  * @return true if the test was successful, false otherwise.
  */

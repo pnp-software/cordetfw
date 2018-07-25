@@ -55,6 +55,7 @@ CrFwBool_t CrFwInCmdTestCase1();
  *   Start Actions is configured to have an outcome of "success".
  * - The sample InCommand is executed and it is checked that it enters state PROGRESS and that the
  *   progress and the start action are performed.
+ * - The packet holding the InCommand is retrieved from the InCommand and its correctness is checked.
  * .
  * @verify InCommand SM Transition: IPS->ACCEPTED
  * @verify InCommand SM Transition: ACCEPTED->CPS1

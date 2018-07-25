@@ -47,6 +47,7 @@ CrFwBool_t CrFwOutCmpTestCase1() {
 	FwSmDesc_t outFactory, outCmp1, outCmp2;
 	CrFwCmpData_t* outCmpData;
 	CrFwOutCmpData_t* cmpSpecificData;
+	CrFwPckt_t pckt;
 	CrFwInstanceId_t apidInstanceId = CR_FW_HOST_APP_ID << (sizeof(CrFwInstanceId_t)*8-CR_FW_NBITS_APP_ID);
 
 	/* Instantiate the OutFactory */
@@ -169,6 +170,19 @@ CrFwBool_t CrFwOutCmpTestCase1() {
 	if (CrFwOutCmpGetParStart(outCmp1) != CrFwPcktGetParStart(cmpSpecificData->pckt))
 		return 0;
 	if (CrFwOutCmpGetParLength(outCmp1) != CrFwPcktGetParLength(cmpSpecificData->pckt))
+		return 0;
+
+	/* Check the function to get the OutComponent packets */
+	pckt = CrFwOutCmpGetPckt(outCmp1);
+	if (CrFwPcktGetServType(pckt)!=1)
+		return 0;
+	if (CrFwPcktGetServSubType(pckt)!=1)
+		return 0;
+
+	pckt = CrFwOutCmpGetPckt(outCmp2);
+	if (CrFwPcktGetServType(pckt)!=5)
+		return 0;
+	if (CrFwPcktGetServSubType(pckt)!=4)
 		return 0;
 
 	/* Release the OutComponents */

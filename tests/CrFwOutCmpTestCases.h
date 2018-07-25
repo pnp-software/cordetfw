@@ -37,6 +37,7 @@
  * - The group of the OutComponent is set and then read back.
  * - The time stamp of the OutComponent is set and then read back.
  * - The acknowledge levels are set and then read back.
+ * - The function to retrieve the packet holding the OutComponent is verified.
  * .
  * @return true if the test was successful, false otherwise.
  */

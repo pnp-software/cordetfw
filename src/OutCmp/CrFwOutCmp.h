@@ -336,4 +336,17 @@ CrFwPcktLength_t CrFwOutCmpGetParLength(FwSmDesc_t smDesc);
  */
 CrFwPcktLength_t CrFwOutCmpGetLength(FwSmDesc_t smDesc);
 
+/**
+ * Return the pointer to the packet which holds the OutComponent.
+ * The OutComponent is encapsulated in a packet.
+ * This function returns this packet.
+ * The packet is only initialized if the OutComponent has been correctly configured.
+ * This is normally the case if the OutComponent has been successfully returned by the OutFactory.
+ * The length of the packet is stored in the packet itself and can be retrieved
+ * with function <code>::CrFwPcktGetLength</code>.
+ * @param smDesc the descriptor of the Base State Machine of the OutComponent
+ * @return the pointer to the packet holding the OutComponent.
+ */
+CrFwPckt_t CrFwOutCmpGetPckt(FwSmDesc_t smDesc);
+
 #endif /* CRFW_OUTCMP_H_ */

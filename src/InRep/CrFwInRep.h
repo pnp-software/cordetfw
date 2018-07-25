@@ -136,4 +136,17 @@ CrFwPcktLength_t CrFwInRepGetParLength(FwSmDesc_t smDesc);
  */
 void CrFwInRepConfigCheck(FwPrDesc_t prDesc);
 
+/**
+ * Return the pointer to the packet which holds the InReport.
+ * The InReport is encapsulated in a packet.
+ * This function returns this packet.
+ * The packet is only initialized if the InReport has been correctly de-serialized.
+ * This is normally the case if the InReport has been successfully returned by the InFactory.
+ * The length of the packet is stored in the packet itself and can be retrieved
+ * with function <code>::CrFwPcktGetLength</code>.
+ * @param smDesc the descriptor of the Base State Machine of the InReport
+ * @return the pointer to the packet holding the InReport.
+ */
+CrFwPckt_t CrFwInRepGetPckt(FwSmDesc_t smDesc);
+
 #endif /* CRFW_INREP_H_ */

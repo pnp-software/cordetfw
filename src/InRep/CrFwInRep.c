@@ -110,3 +110,10 @@ void CrFwInRepConfigCheck(FwPrDesc_t prDesc) {
 		cmpData->outcome = 0;
 }
 
+/* --------------------------------------------------------------------------------- */
+CrFwPckt_t CrFwInRepGetPckt(FwSmDesc_t smDesc) {
+	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwInRepData_t* cmpSpecificData = (CrFwInRepData_t*)(cmpData->cmpSpecificData);
+	return cmpSpecificData->pckt;
+}
+

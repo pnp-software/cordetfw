@@ -166,6 +166,12 @@ CrFwBool_t CrFwInCmdTestCase1() {
 	if (CrFwInCmdGetProgressStep(inCmd2) != 0)
 		return 0;
 
+	/* Retrieve and check the packet holding the InCommand */
+	if (CrFwInCmdGetPckt(inCmd1)!=pckt1)
+		return 0;
+	if (CrFwInCmdGetPckt(inCmd2)!=pckt2)
+		return 0;
+
 	/* Release the InCommands */
 	CrFwInFactoryReleaseInCmd(inCmd1);
 	CrFwInFactoryReleaseInCmd(inCmd2);

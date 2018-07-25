@@ -221,6 +221,19 @@ CrFwSeqCnt_t CrFwInCmdGetSeqCnt(FwSmDesc_t smDesc);
 char* CrFwInCmdGetParStart(FwSmDesc_t smDesc);
 
 /**
+ * Return the pointer to the packet which holds the InCommand.
+ * The InCommand is encapsulated in a packet.
+ * This function returns this packet.
+ * The packet is only initialized if the InCommand has been correctly de-serialized.
+ * This is normally the case if the InCommand has been successfully returned by the InFactory.
+ * The length of the packet is stored in the packet itself and can be retrieved
+ * with function <code>::CrFwPcktGetLength</code>.
+ * @param smDesc the descriptor of the Base State Machine of the InCommand
+ * @return the pointer to the packet holding the InCommand.
+ */
+CrFwPckt_t CrFwInCmdGetPckt(FwSmDesc_t smDesc);
+
+/**
  * Return the length in bytes of the parameter area of the InCommand.
  * The InCommand is encapsulated in a packet.
  * The parameter area of the InCommand is the part of the packet which is reserved to the
