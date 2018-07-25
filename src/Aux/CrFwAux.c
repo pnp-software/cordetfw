@@ -142,10 +142,7 @@ CrFwBool_t CrFwAuxOutFactoryConfigCheck() {
 	CrFwDiscriminant_t disc;
 	CrFwBool_t found;
 
-	if (CR_FW_OUTFACTORY_MAX_NOF_OUTCMP < 1)
-		return 0;
-
-	if (CR_FW_OUTCMP_NKINDS < 1)
+	if ((CR_FW_OUTFACTORY_MAX_NOF_OUTCMP < 1) && (CR_FW_OUTCMP_NKINDS > 0))
 		return 0;
 
 	for (i=0; i<(CR_FW_OUTCMP_NKINDS-1); i++) {
@@ -191,10 +188,7 @@ CrFwBool_t CrFwAuxOutFactoryConfigCheck() {
 CrFwBool_t CrFwAuxInFactoryInCmdConfigCheck() {
 	CrFwCmdRepKindIndex_t i;
 
-	if (CR_FW_INFACTORY_MAX_NOF_INCMD < 1)
-		return 0;
-
-	if (CR_FW_OUTCMP_NKINDS < 1)
+	if ((CR_FW_INFACTORY_MAX_NOF_INCMD < 1) && (CR_FW_OUTCMP_NKINDS > 0))
 		return 0;
 
 	for (i=0; i<(CR_FW_INCMD_NKINDS-1); i++) {
@@ -229,10 +223,7 @@ CrFwBool_t CrFwAuxInFactoryInCmdConfigCheck() {
 CrFwBool_t CrFwAuxInFactoryInRepConfigCheck() {
 	CrFwCmdRepKindIndex_t i;
 
-	if (CR_FW_INFACTORY_MAX_NOF_INREP < 1)
-		return 0;
-
-	if (CR_FW_INREP_NKINDS < 1)
+	if ((CR_FW_INFACTORY_MAX_NOF_INREP < 1) && (CR_FW_INREP_NKINDS > 0))
 		return 0;
 
 	for (i=0; i<(CR_FW_INREP_NKINDS-1); i++) {

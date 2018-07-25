@@ -90,8 +90,7 @@ CrFwBool_t CrFwAuxOutRegistryConfigCheck();
  * Check the configuration of the OutFactory component.
  * The following checks are performed on the configuration data in
  * <code>CrFwOutFactoryUserPar.h</code>:
- * - CR_FW_OUTFACTORY_MAX_NOF_OUTCMP is greater than zero
- * - CR_FW_OUTCMP_NKINDS is greater than zero
+ * - CR_FW_OUTFACTORY_MAX_NOF_OUTCMP is greater than zero if CR_FW_OUTCMP_NKINDS is greater than zero
  * - The service types are listed in increasing order in the service descriptor
  *   initializer (<code>CR_FW_OUTCMP_INIT_KIND_DESC</code>)
  * - The service sub-types within a type are listed in increasing order in the service
@@ -114,8 +113,7 @@ CrFwBool_t CrFwAuxOutFactoryConfigCheck();
  * Check the configuration of the InCommand part of the InFactory component.
  * The following checks are performed on the configuration data in
  * <code>CrFwInFactoryUserPar.h</code>:
- * - CR_FW_INFACTORY_MAX_NOF_INCMD is greater than zero
- * - CR_FW_INCMD_NKINDS is greater than zero
+ * - CR_FW_INFACTORY_MAX_NOF_INCMD is greater than zero if CR_FW_INCMD_NKINDS is greater than zero
  * - The service types are listed in increasing order in the service descriptor
  *   initializer (<code>CR_FW_INCMD_INIT_KIND_DESC</code>)
  * - The service sub-types within a type are listed in increasing order in the service
@@ -135,8 +133,7 @@ CrFwBool_t CrFwAuxInFactoryInCmdConfigCheck();
  * Check the configuration of the InReport part of the InFactory component.
  * The following checks are performed on the configuration data in
  * <code>CrFwInFactoryUserPar.h</code>:
- * - CR_FW_INFACTORY_MAX_NOF_INREP is greater than zero
- * - CR_FW_INREP_NKINDS is greater than zero
+ * - CR_FW_INFACTORY_MAX_NOF_INREP is greater than zero if CR_FW_INREP_NKINDS is greater than zero
  * - The service types are listed in increasing order in the service descriptor
  *   initializer (<code>CR_FW_INREP_INIT_KIND_DESC</code>)
  * - The service sub-types within a type are listed in increasing order in the service
