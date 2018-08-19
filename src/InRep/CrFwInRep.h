@@ -26,11 +26,8 @@
  * - Validity Check Operation
  * - Update Action Operation
  * .
- * This operation is statically defined for each kind of InReport in
+ * These operations are statically defined for each kind of InReport in
  * <code>CrFwInFactoryUserPar.h</code>.
- * This header file defines default values for the Update Action Operation.
- * The default for the Configuration Check Operation is the function
- * <code>::CrFwBaseCmpDefConfigCheck</code>.
  *
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
@@ -59,42 +56,42 @@
 
 /**
  * Return the source of the InReport.
- * @param smDesc the descriptor of the InRep State MachineStream
+ * @param smDesc the descriptor of the InRep State Machine
  * @return the source of the InReport
  */
 CrFwDestSrc_t CrFwInRepGetSrc(FwSmDesc_t smDesc);
 
 /**
  * Return the group of the InReport.
- * @param smDesc the descriptor of the InRep State MachineStream
+ * @param smDesc the descriptor of the InRep State Machine
  * @return the group of the InReport
  */
 CrFwGroup_t CrFwInRepGetGroup(FwSmDesc_t smDesc);
 
 /**
  * Return the type of the InReport.
- * @param smDesc the descriptor of the InRep State MachineStream
+ * @param smDesc the descriptor of the InRep State Machine
  * @return the type of the InReport
  */
 CrFwServType_t CrFwInRepGetServType(FwSmDesc_t smDesc);
 
 /**
  * Return the sub-type of the InReport.
- * @param smDesc the descriptor of the InRep State MachineStream
+ * @param smDesc the descriptor of the InRep State Machine
  * @return the sub-type of the InReport
  */
 CrFwServType_t CrFwInRepGetServSubType(FwSmDesc_t smDesc);
 
 /**
  * Return the discriminant of the InReport.
- * @param smDesc the descriptor of the InRep State MachineStream
+ * @param smDesc the descriptor of the InRep State Machine
  * @return the discriminant of the InReport
  */
 CrFwDiscriminant_t CrFwInRepGetDiscriminant(FwSmDesc_t smDesc);
 
 /**
  * Return the sequence counter of the InReport.
- * @param smDesc the descriptor of the InRep State MachineStream
+ * @param smDesc the descriptor of the InRep State Machine
  * @return the sequence counter of the InReport
  */
 CrFwSeqCnt_t CrFwInRepGetSeqCnt(FwSmDesc_t smDesc);
@@ -128,6 +125,8 @@ CrFwPcktLength_t CrFwInRepGetParLength(FwSmDesc_t smDesc);
  * This function executes the Validity Check of the InReport and sets the
  * action outcome to 1 if the Validity Check returns true and sets it to
  * zero if it returns false.
+ * The Validity Check is implemented in a function of type <code>::CrFwInRepValidityCheck_t</code>.
+ * The function is defined by the applicaiton developer in <code>::CR_FW_INREP_INIT_KIND_DESC</code>
  *
  * This function is not intended to be called by applications.
  * It is declared as a public function because it is needed by the

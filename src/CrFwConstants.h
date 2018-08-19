@@ -49,8 +49,16 @@ typedef enum {
  * Type for a pointer to a function implementing the Update Action Operation for
  * an InReport.
  * The Update Action Operation is one of the adaptation points of the framework.
- * A function which implements this operation takes the InReport descriptor
- * as an argument and returns <code>void</code>.
+ * A function which implements this operation takes the descriptor of the
+ * Execution Procedure of the InReport as an argument and returns <code>void</code>.
+ *
+ * The packet holding the InReport can be retrieved as follows from the Execution
+ * Procedure description prDesc:
+ * <pre>
+ *     CrFwCmpData_t* cmpData = FwPrGetData(prDesc);
+ *     CrFwInRepData_t* inRepData = (CrFwInRepData_t*)(cmpData->cmpSpecificData);
+ *     CrFwPckt_t pckt = inRepData->pckt;
+ * </pre>
  */
 typedef void (*CrFwInRepUpdateAction_t)(FwPrDesc_t);
 
@@ -58,9 +66,17 @@ typedef void (*CrFwInRepUpdateAction_t)(FwPrDesc_t);
  * Type for a pointer to a function implementing the Validity Check Operation for
  * an InReport.
  * The Validity Check Operation is one of the adaptation points of the framework.
- * A function which implements this operation takes the InReport descriptor
- * as an argument and returns true if the data in the InReport packet are valid
- * and returns false otherwise.
+ * A function which implements this operation takes the  descriptor of the
+ * Reset Procedure of the InReport as an argument and returns true if the data in
+ * the InReport packet are valid and returns false otherwise.
+ *
+ * The packet holding the InReport can be retrieved as follows from the Execution
+ * Procedure description prDesc:
+ * <pre>
+ *     CrFwCmpData_t* cmpData = FwPrGetData(prDesc);
+ *     CrFwInRepData_t* inRepData = (CrFwInRepData_t*)(cmpData->cmpSpecificData);
+ *     CrFwPckt_t pckt = inRepData->pckt;
+ * </pre>
  */
 typedef CrFwBool_t (*CrFwInRepValidityCheck_t)(FwPrDesc_t);
 
@@ -68,7 +84,7 @@ typedef CrFwBool_t (*CrFwInRepValidityCheck_t)(FwPrDesc_t);
  * Type for a pointer to a function implementing the Validity Check Operation for
  * an InReport.
  * The Validity Check Operation is one of the adaptation points of the framework.
- * A function which implements this operation takes the InReport procedure descriptor
+ * A function which implements this operation takes the InCommand descriptor
  * as an argument and returns true if the data in the InReport packet are valid
  * and returns false otherwise.
  */

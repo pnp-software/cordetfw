@@ -2,7 +2,7 @@
  * @file
  * @ingroup inMngGroup
  * Execution Procedure for the InReport Component.
- * This procedure has single node which executes the Update Action of the
+ * This procedure has a single node which executes the Update Action of the
  * InReport (see figure below).
  * This header file gives access to a make function which creates a new
  * instance of the procedure.
