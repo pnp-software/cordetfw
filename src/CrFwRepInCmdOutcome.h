@@ -6,6 +6,8 @@
  * Its processing can have one of the following outcomes:
  * - Creation Failure: the InCommand cannot be created because there aren't
  *   enough memory resources
+ * - Load Failure: the InCommand cannot be loaded in its InManager because
+ *   the InManager's queue is full
  * - Acceptance Failure: the command has failed its Acceptance Check
  * - Acceptance Success: the command has been accepted
  * - Start Failure: the Start Action of the command has failed
