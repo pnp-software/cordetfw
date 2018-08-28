@@ -192,11 +192,8 @@ void CrFwInCmdConfigCheck(FwPrDesc_t prDesc) {
 }
 
 /* --------------------------------------------------------------------------------- */
-FwSmCounterU3_t CrFwInCmdGetProgressStep(FwSmDesc_t smDesc) {
-	if (FwSmGetCurStateEmb(smDesc) == CR_FW_INCMD_STATE_PROGRESS)
-		return FwSmGetStateExecCnt(smDesc);
-	else
-		return 0;
+CrFwProgressStepId_t CrFwInCmdGetProgressStepId(FwSmDesc_t smDesc) {
+	TBD;
 }
 
 

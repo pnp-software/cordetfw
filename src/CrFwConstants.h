@@ -34,6 +34,9 @@ typedef int CrFwBool_t;
 /** Type for the index of a command or report in the InRegistry or OutRegistry. */
 typedef unsigned short CrFwCmdRepIndex_t;
 
+/** Type for the Progress Step Identifier of an InCommand */
+typedef unsigned short CrFwProgressStepId_t;
+
 /** Type for packets (see <code>CrFwPckt.h</code>). Packets are treated as arrays of bytes. */
 typedef char* CrFwPckt_t;
 

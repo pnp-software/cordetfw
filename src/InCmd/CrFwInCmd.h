@@ -125,14 +125,19 @@ CrFwBool_t CrFwInCmdIsInAborted(FwSmDesc_t smDesc);
 void CrFwInCmdConfigCheck(FwPrDesc_t prDesc);
 
 /**
- * Return the progress step of the InCommand.
- * The progress step is equal to zero if the InCommand is in a state other than PROGRESS
- * and is equal to the number of progress steps executed so far if the InCommand
- * is in state PROGRESS.
+ * Return the progress step identifier of the InCommand.
+ * The progress step identifier is a positive integer which identifies the
+ * current progress step of the InCommand.
+ * A Progress Step is a set of logically related execution steps of the InCommand
+ * which are executed in seeuence.
+ * At framework level, the Progress Step Identifier is initialized to 1 and
+ * is never updated afterwards.
+ * Applications would normally set its initial value in the Start Action and
+ * would increment its value in the Progress Action.
  * @param smDesc the descriptor of the Base State Machine of the InCommand
  * @return the progress step
  */
-FwSmCounterU3_t CrFwInCmdGetProgressStep(FwSmDesc_t smDesc);
+CrFwProgressStepId_t CrFwInCmdGetProgressStepId(FwSmDesc_t smDesc);
 
 /**
  * Return the source of the InCommand.
