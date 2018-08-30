@@ -74,7 +74,7 @@ typedef void (*CrFwInRepUpdateAction_t)(FwPrDesc_t);
  * the InReport packet are valid and returns false otherwise.
  *
  * The packet holding the InReport can be retrieved as follows from the Execution
- * Procedure description prDesc:
+ * Procedure descriptor prDesc:
  * <pre>
  *     CrFwCmpData_t* cmpData = FwPrGetData(prDesc);
  *     CrFwInRepData_t* inRepData = (CrFwInRepData_t*)(cmpData->cmpSpecificData);
@@ -85,11 +85,24 @@ typedef CrFwBool_t (*CrFwInRepValidityCheck_t)(FwPrDesc_t);
 
 /**
  * Type for a pointer to a function implementing the Validity Check Operation for
- * an InReport.
+ * an InCommand.
  * The Validity Check Operation is one of the adaptation points of the framework.
- * A function which implements this operation takes the InCommand descriptor
- * as an argument and returns true if the data in the InReport packet are valid
- * and returns false otherwise.
+ * This operation is executed when the InCommand is reset.
+ * It determines whether the InCommand reset was successful or not
+ * (see <code>::CrFwInCmdConfigCheck</code>).
+ *
+ * A function which implements this operation takes as argument the descriptor
+ * of the InCommand's reset procedure and returns true if
+ * the data in the InCommand packet are valid and returns false otherwise.
+ * The packet holding the InCommand can be retrieved as follows from the descriptor
+ * of the InCommand's Reset Procedure prDesc:
+ * <pre>
+ *     CrFwCmpData_t* cmpData = FwPrGetData(prDesc);
+ *     CrFwInRepData_t* inCmdData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
+ *     CrFwPckt_t pckt = inCmdpData->pckt;
+ * </pre>
+ * Alternatively, the packet can also be retrieved using
+ * function <code>::CrFwInCmdGetInCmdPCktFromPrDesc</code>.
  */
 typedef CrFwBool_t (*CrFwInCmdValidityCheck_t)(FwPrDesc_t);
 
@@ -462,6 +475,8 @@ typedef struct InCmdData {
 	CrFwInCmdTerminationAction_t terminationAction;
 	/** Function which implements the Abort Action for the InCommand */
 	CrFwInCmdAbortAction_t abortAction;
+	/** The progress step identifier **/
+	CrFwProgressStepId_t progressStepId;
 	/** Packet holding the InCommand */
 	CrFwPckt_t pckt;
 } CrFwInCmdData_t;

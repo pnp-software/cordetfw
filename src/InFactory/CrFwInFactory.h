@@ -136,6 +136,8 @@ FwSmDesc_t CrFwInFactoryMakeInRep(CrFwPckt_t pckt);
  * If instead the command is legal, this function uses it to configure the InCommand.
  * The configuration information is retrieved from <code>CrFwInFactoryUserPar</code>.
  *
+ * The Progress Step of the InCommands returned by this function is initialized to 1.
+ *
  * If the allocation of the memory for the new InCommand fails, the function
  * returns NULL.
  * Allocation memory failure results in the application error code being set

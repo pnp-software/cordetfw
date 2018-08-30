@@ -193,9 +193,24 @@ void CrFwInCmdConfigCheck(FwPrDesc_t prDesc) {
 
 /* --------------------------------------------------------------------------------- */
 CrFwProgressStepId_t CrFwInCmdGetProgressStepId(FwSmDesc_t smDesc) {
-	TBD;
+    CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+    CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
+    return cmpSpecificData->progressStepId;
 }
 
+/* --------------------------------------------------------------------------------- */
+void CrFwInCmdSetProgressStepId(FwSmDesc_t smDesc, CrFwProgressStepId_t stepId) {
+    CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+    CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
+    cmpSpecificData->progressStepId = stepId;
+}
+
+/* --------------------------------------------------------------------------------- */
+CrFwPckt_t CrFwInCmdGetInCmdPCktFromPrDesc(FwPrDesc_t prDesc) {
+    CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwPrGetData(prDesc);
+    CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
+    return cmpSpecificData->pckt;
+}
 
 /* --------------------------------------------------------------------------------- */
 FwSmBool_t IsReady(FwSmDesc_t smDesc) {
@@ -277,11 +292,17 @@ static void DoAbortAction(FwSmDesc_t smDesc) {
 static void DoProgressAction(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
+	CrFwProgressStepId_t prevStep;
 
+	prevStep = cmpSpecificData->progressStepId;
 	cmpSpecificData->progressAction(smDesc);
 	if (cmpData->outcome != 1)
 		if (cmpData->outcome != 2)
 			return;		/* The Progress Action has failed */
+
+	/* Check if a progress step has been completed */
+	if (cmpSpecificData->progressStepId == prevStep)
+	    return;
 
 	if (CrFwPcktIsProgressAck(cmpSpecificData->pckt) == 1)
 		CrFwRepInCmdOutcome(crCmdAckPrgSucc, cmpData->instanceId,

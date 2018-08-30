@@ -225,6 +225,7 @@ FwSmDesc_t CrFwInFactoryMakeInCmd(CrFwPckt_t pckt) {
 	inCmdCmpSpecificData[freePos].isReady = inCmdKindDesc[kindIndex].isReady;
 	inCmdCmpSpecificData[freePos].isValid = inCmdKindDesc[kindIndex].isValid;
 	inCmdCmpSpecificData[freePos].factoryPoolIndex = freePos;
+	inCmdCmpSpecificData[freePos].progressStepId = 1;
 	inCmdCmpSpecificData[freePos].pckt = pckt;
 
 	/* Reset the InCommand */

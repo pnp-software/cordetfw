@@ -129,7 +129,8 @@ void CrFwInCmdConfigCheck(FwPrDesc_t prDesc);
  * The progress step identifier is a positive integer which identifies the
  * current progress step of the InCommand.
  * A Progress Step is a set of logically related execution steps of the InCommand
- * which are executed in seeuence.
+ * which are executed in sequence.
+ *
  * At framework level, the Progress Step Identifier is initialized to 1 and
  * is never updated afterwards.
  * Applications would normally set its initial value in the Start Action and
@@ -138,6 +139,16 @@ void CrFwInCmdConfigCheck(FwPrDesc_t prDesc);
  * @return the progress step
  */
 CrFwProgressStepId_t CrFwInCmdGetProgressStepId(FwSmDesc_t smDesc);
+
+/**
+ * Set the progress step idntifier of the InCommand.
+ * This function would typically be used by the InCommand's Start Action to initialize
+ * the progress step identifier and by the Progress Action to update its value.
+ *
+ * @param smDesc the descriptor of the Base State Machine of the InCommand
+ * @param stepId the step identifier
+ */
+void CrFwInCmdSetProgressStepId(FwSmDesc_t smDesc, CrFwProgressStepId_t stepId);
 
 /**
  * Return the source of the InCommand.
@@ -249,5 +260,24 @@ CrFwPckt_t CrFwInCmdGetPckt(FwSmDesc_t smDesc);
  * @return the length in bytes of the InCommand parameter area
  */
 CrFwPcktLength_t CrFwInCmdGetParLength(FwSmDesc_t smDesc);
+
+/**
+ * Convenience function to extract the InCommand's packet from the descriptor
+ * of the InCommand's reset procedure.
+ *
+ * One situation where this function is useful is as follows.
+ * One of the adaptation points of an InCommand is its Validity Check Operation.
+ * The Validity Check Operation is implemented by a function of type
+ * <code>::CrFwInRepValidityCheck_t</code>).
+ * This function takes as an argument the descriptor of the InCommand's Reset Procedure.
+ * Applications will often have to provide an implementation of this function
+ * and, to do so, they will often need to access the packet holding the InCommand so
+ * as to access the InCommand's parameters,
+ * The present function offers an easy way to retrieve this packet.
+ *
+ * @param prDesc the description of the InCommand's Reset Procedure
+ * @return the description of the InCommand
+ */
+CrFwPckt_t CrFwInCmdGetInCmdPCktFromPrDesc(FwPrDesc_t prDesc);
 
 #endif /* CRFW_INCMD_H_ */
