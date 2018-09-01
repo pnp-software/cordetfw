@@ -56,7 +56,7 @@ typedef enum {
  * Execution Procedure of the InReport as an argument and returns <code>void</code>.
  *
  * The packet holding the InReport can be retrieved as follows from the Execution
- * Procedure description prDesc:
+ * Procedure descriptor prDesc:
  * <pre>
  *     CrFwCmpData_t* cmpData = FwPrGetData(prDesc);
  *     CrFwInRepData_t* inRepData = (CrFwInRepData_t*)(cmpData->cmpSpecificData);
@@ -69,6 +69,10 @@ typedef void (*CrFwInRepUpdateAction_t)(FwPrDesc_t);
  * Type for a pointer to a function implementing the Validity Check Operation for
  * an InReport.
  * The Validity Check Operation is one of the adaptation points of the framework.
+ * The Validity Check Operation is called when an InReport is reset (i.e. it is
+ * called from the Reset Procedure of the InReport).
+ * It returns true if the data in the InReport are valid and false otherwise.
+ *
  * A function which implements this operation takes the  descriptor of the
  * Reset Procedure of the InReport as an argument and returns true if the data in
  * the InReport packet are valid and returns false otherwise.
@@ -102,7 +106,7 @@ typedef CrFwBool_t (*CrFwInRepValidityCheck_t)(FwPrDesc_t);
  *     CrFwPckt_t pckt = inCmdpData->pckt;
  * </pre>
  * Alternatively, the packet can also be retrieved using
- * function <code>::CrFwInCmdGetInCmdPCktFromPrDesc</code>.
+ * function <code>::CrFwInCmdGetPcktFromPrDesc</code>.
  */
 typedef CrFwBool_t (*CrFwInCmdValidityCheck_t)(FwPrDesc_t);
 

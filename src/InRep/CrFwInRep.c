@@ -117,3 +117,10 @@ CrFwPckt_t CrFwInRepGetPckt(FwSmDesc_t smDesc) {
 	return cmpSpecificData->pckt;
 }
 
+/* --------------------------------------------------------------------------------- */
+CrFwPckt_t CrFwInRepGetPcktFromPrDesc(FwPrDesc_t prDesc) {
+    CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwPrGetData(prDesc);
+    CrFwInRepData_t* cmpSpecificData = (CrFwInRepData_t*)(cmpData->cmpSpecificData);
+    return cmpSpecificData->pckt;
+
+}

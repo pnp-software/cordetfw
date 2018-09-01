@@ -39,6 +39,9 @@
 /** The Validity Flag. */
 static CrFwBool_t validityFlag;
 
+/** The InCommand type as computed in the Validity Check */
+static CrFwServType_t servType = 0;
+
 /** The Ready Flag. */
 static CrFwBool_t readyFlag;
 
@@ -48,8 +51,11 @@ static CrFwOutcome_t startOutcome;
 /** The Progress Action Outcome. */
 static CrFwOutcome_t progressOutcome;
 
+/** The Progress Step Flag. */
+static CrFwBool_t progressStepFlag ;
+
 /** The Abort Action Outcome. */
-static CrFwOutcome_t abortOutcome;
+static CrFwOutcome_t abortOutcome = 0;
 
 /** The Termination Action Outcome. */
 static CrFwOutcome_t terminationOutcome;
@@ -68,8 +74,20 @@ static CrFwCounterU1_t abortCounter = 0;
 
 /*-----------------------------------------------------------------------------------------*/
 CrFwBool_t CrFwInCmdSample1ValidityCheck(FwPrDesc_t prDesc) {
-	(void)(prDesc);
+	CrFwPckt_t pckt;
+	pckt = CrFwInCmdGetPcktFromPrDesc(prDesc);
+	servType = CrFwPcktGetServType(pckt);
 	return validityFlag;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwServType_t CrFwInCmdSample1GetType() {
+    return servType;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+void CrFwInCmdSample1SetProgressStepFlag(CrFwBool_t flag) {
+    progressStepFlag = flag;
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -106,7 +124,12 @@ CrFwCounterU1_t CrFwInCmdSample1GetStartActionCounter() {
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwInCmdSample1ProgressAction(FwSmDesc_t smDesc) {
+    CrFwProgressStepId_t progressStepId;
 	CrFwSetSmOutcome(smDesc, progressOutcome);
+	progressStepId = CrFwInCmdGetProgressStepId(smDesc);
+	if (progressStepFlag)
+	    CrFwInCmdSetProgressStepId(smDesc,progressStepId+1);
+
 	progressCounter++;
 }
 

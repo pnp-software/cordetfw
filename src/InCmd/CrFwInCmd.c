@@ -206,7 +206,7 @@ void CrFwInCmdSetProgressStepId(FwSmDesc_t smDesc, CrFwProgressStepId_t stepId) 
 }
 
 /* --------------------------------------------------------------------------------- */
-CrFwPckt_t CrFwInCmdGetInCmdPCktFromPrDesc(FwPrDesc_t prDesc) {
+CrFwPckt_t CrFwInCmdGetPcktFromPrDesc(FwPrDesc_t prDesc) {
     CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwPrGetData(prDesc);
     CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
     return cmpSpecificData->pckt;

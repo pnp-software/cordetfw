@@ -186,6 +186,10 @@ CrFwBool_t CrFwInRepTestCase2() {
 	if (!CrFwCmpIsInInitialized(inRep))
 		return 0;
 
+    /* Check correct type retrieved by Validity Check */
+    if (CrFwInRepSample1GetType() != 40)
+        return 0;
+
 	/* Release the InReports */
 	CrFwInFactoryReleaseInRep(inRep);
 

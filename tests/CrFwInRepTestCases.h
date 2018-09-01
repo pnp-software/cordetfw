@@ -31,8 +31,6 @@
  * - It is checked that the service type and sub-type and the discriminant value of the
  *   InReport are correct.
  * - It is checked that the InReport source, group and sequence counter are correctly set.
- * - It is checked that the acknowledge levels of the InReports are correct.
- * - It is checked that the progress step is equal to zero.
  * - The function to retrieve the packet holding an InReport is checked
  * .
  * @return true if the test was successful, false otherwise.
@@ -46,6 +44,8 @@ CrFwBool_t CrFwInRepTestCase1();
  *   retrieved from the InFactory.
  * - The validity check of the InReport is configured to return: "not valid" and it is checked that
  *   that the InReport is returned by the InFactory in state INITIALIZED.
+ * - It is checked that the InReport's type as computed by the Validity Check of the Sample1 InReport
+ *   is correct.
  * .
  * @return true if the test was successful, false otherwise.
  */

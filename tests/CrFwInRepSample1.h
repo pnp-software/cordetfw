@@ -36,7 +36,9 @@
 
 /**
  * Implementation of the Validity Check Operation for the Sample 1 InReport.
- * This function returns the value of an internal flag (the Validity Flag)
+ * This function: (a) stores the value of the InReport's type in an internal
+ * variable which can be accessed through function <code>::CrFwInRepSample1GetType</code>,
+ * and (b) returns the value of an internal flag (the Validity Flag)
  * whose value is set through function <code>::CrFwInRepSample1SetValidityFlag</code>.
  * @param prDesc the descriptor of the InReport reset procedure
  * @return the value of Validity Flag
@@ -72,5 +74,11 @@ void CrFwInRepSample1SetUpdateActionOutcome(CrFwOutcome_t outcome);
  */
 CrFwCounterU1_t CrFwInRepSample1GetUpdateActionCounter();
 
+/**
+ * Get the value of the InReport's type as it is computed by the Validity Check
+ * (see <code>::CrFwInRepSample1ValidityCheck</code>).
+ * @return the value of the InReport's type compouted by the Validity Check
+ */
+CrFwCounterU1_t CrFwInRepSample1GetType();
 
 #endif /* CRFW_INREP_SAMPLE1_H_ */

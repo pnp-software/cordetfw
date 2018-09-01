@@ -34,7 +34,7 @@
  *   InCommand are correct.
  * - It is checked that the InCommand source, group and sequence counter are correctly set.
  * - It is checked that the acknowledge levels of the InCommands are correct.
- * - It is checked that the progress step is equal to zero.
+ * - It is checked that the progress step is equal to 1.
  * .
  * @verify InCommand SM Transition: IPS->ACCEPTED
  *
@@ -142,7 +142,7 @@ CrFwBool_t CrFwInCmdTestCase5();
  * - The Progress Action of the Sample InCommand is configured to have an outcome of "completed".
  * - Command Terminate is sent to the InCommand and it is checked that state TERMINATED is entered and
  *   that the Termination Action is executed.
- * - It is checked that the progress step is equal to zero.
+ * - It is checked that the progress step remains equal to 1.
  * .
  * @verify InCommand SM Transition: IPS->ACCEPTED
  * @verify InCommand SM Transition: ACCEPTED->CPS1
@@ -240,9 +240,16 @@ CrFwBool_t CrFwInCmdTestCase9();
  *   to return: "ready"; the Start Action is configured to have an outcome of "success"; the
  *   acknowledgement level is configured to acknowledge progress but none of the other outcomes;
  *   the progress action is configured to set the outcome to "continue"; the Termination Action is
- *   configured to set the outcome to "success".
+ *   configured to set the outcome to "success"; the progress step flag is configured not to change
+ *   the progress step identifier.
  * - The InCommand is executed and it is checked that state PROGRESS is entered, that the Progress
- *   Action is executed, and that the progress acknowledge report is generated.
+ *   Action is executed, and that no progress acknowledge report is generated.
+ * - The InCommand is executed again and it is checked that state PROGRESS is maintained, that the Progress
+ *   Action is executed again, and that no progress acknowledge report is generated.
+ * - The progress step flag is configured such that the next execution of the progress action will
+ *   result in the current progress step being completed.
+ * - The InCommand is executed and it is checked that state PROGRESS is entered, that the Progress
+ *   Action is executed, and that no progress acknowledge report is generated.
  * - The InCommand is executed again and it is checked that state PROGRESS is maintained, that the Progress
  *   Action is executed again, and that the progress acknowledge report is generated again.
  * - The Progress Step is retrieve and it is checked that it is equal to 2.

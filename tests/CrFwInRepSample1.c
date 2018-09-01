@@ -44,9 +44,14 @@ static CrFwOutcome_t updateOutcome;
 /** The Update Action Counter. */
 static CrFwCounterU1_t updateCounter = 0;
 
+/** The InReport's type computed by the Validity Check. */
+static CrFwServType_t servType = 0;
+
 /*-----------------------------------------------------------------------------------------*/
 CrFwBool_t CrFwInRepSample1ValidityCheck(FwPrDesc_t prDesc) {
-	(void)(prDesc);
+    CrFwPckt_t inRepPckt;
+    inRepPckt = CrFwInRepGetPcktFromPrDesc(prDesc);
+    servType = CrFwPcktGetServType(inRepPckt);
 	return validityFlag;
 }
 
@@ -70,4 +75,9 @@ void CrFwInRepSample1SetUpdateActionOutcome(CrFwOutcome_t outcome) {
 /*-----------------------------------------------------------------------------------------*/
 CrFwCounterU1_t CrFwInRepSample1GetUpdateActionCounter() {
 	return updateCounter;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwServType_t CrFwInRepSample1GetType() {
+    return servType;
 }

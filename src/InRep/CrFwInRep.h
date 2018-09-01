@@ -29,6 +29,21 @@
  * These operations are statically defined for each kind of InReport in
  * <code>CrFwInFactoryUserPar.h</code>.
  *
+ * The Validity Check Operation is called
+ * when the InReport is reset (this is, for instance, done when the
+ * InReport component is created by the InFactory).
+ * The operation typically returns true when the data in the InReport are valid
+ * and it should return false otherwise.
+ * The default implementation for this operation is provided by function
+ * <code>::CrFwPrCheckAlwaysTrue</code>.
+ *
+ * The Update Operation is called when the InReport is executed by its
+ * InManager.
+ * It typically transfers the content of the InReport to the application's
+ * internal data structures.
+ * The default implementation for this operation is provided by
+ * <code>::CrFwPrEmptyAction</code>
+ *
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
@@ -147,5 +162,26 @@ void CrFwInRepConfigCheck(FwPrDesc_t prDesc);
  * @return the pointer to the packet holding the InReport.
  */
 CrFwPckt_t CrFwInRepGetPckt(FwSmDesc_t smDesc);
+
+/**
+ * Convenience function to extract the InReport's packet from the descriptor
+ * of the InReport's execution procedure.
+ *
+ * One situation where this function is useful is as follows.
+ * The Update Action Operation and the Validity Check Operation are adaptation
+ * points of an InReport.
+ * These operations are implemented by functions of type, respectively,
+ * <code>::CrFwInRepUpdateAction_t</code> and
+ * <code>::CrFwInRepValidityCheck_t</code>.
+ * These functions take as an argument the descriptor of the InReport's Execution Procedure.
+ * Applications will often have to provide an implementation of these functions
+ * and, to do so, they will often need to access the packet holding the InReport so
+ * as to access the InReport's parameters,
+ * The present function offers an easy way to retrieve this packet.
+ *
+ * @param prDesc the descriptor of the InReport's Execution Procedure
+ * @return the packet holding the InReport
+ */
+CrFwPckt_t CrFwInRepGetPcktFromPrDesc(FwPrDesc_t prDesc);
 
 #endif /* CRFW_INREP_H_ */

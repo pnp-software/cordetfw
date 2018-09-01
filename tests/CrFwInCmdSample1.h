@@ -40,8 +40,13 @@
 
 /**
  * Implementation of the Validity Check Operation for the Sample 1 InCommand.
- * This function returns the value of an internal flag (the Validity Flag)
- * whose value is set through function <code>::CrFwInCmdSample1SetValidityFlag</code>.
+ * This function:
+ * - uses function <code>::CrFwInCmdGetPcktFromPrDesc</code> to access the
+ *   InCommand type and loads it in an internal variable which can be accessed
+ *   with function <code>::CrFwInCmdSample1GetType</code>.
+ * - returns the value of an internal flag (the Validity Flag)
+ *   whose value is set through function <code>::CrFwInCmdSample1SetValidityFlag</code>.
+ * .
  * @param prDesc the descriptor of the InCommand reset procedure
  * @return the value of Validity Flag
  */
@@ -52,6 +57,13 @@ CrFwBool_t CrFwInCmdSample1ValidityCheck(FwPrDesc_t prDesc);
  * @param flag the value of the validity flag
  */
 void CrFwInCmdSample1SetValidityFlag(CrFwBool_t flag);
+
+/**
+ * Set the value of the Validity Flag (see <code>::CrFwInCmdSample1ValidityCheck</code>).
+ * @return the value of the InCommand type computed by the validity check function
+ *         <code>::CrFwInCmdSample1ValidityCheck</code>
+ */
+CrFwServType_t CrFwInCmdSample1GetType();
 
 /**
  * Implementation of the Ready Check Operation for the Sample 1 InCommand.
@@ -94,14 +106,25 @@ CrFwCounterU1_t CrFwInCmdSample1GetStartActionCounter();
 
 /**
  * Implementation of the Progress Action Operation for the Sample 1 InCommand.
- * This function sets the outcome to the value of an internal counter (the
- * Progress Action Outcome Counter) whose value is set through function
- * <code>::CrFwInCmdSample1SetProgressActionOutcome</code> and it increments
- * the value of a counter (the Progress Action Counter) whose value
- * is read through function <code>::CrFwInCmdSample1GetProgressActionCounter</code>.
+ * This function:
+ * - sets the outcome to the value of an internal counter (the
+ *   Progress Action Outcome Counter) whose value is set through function
+ *   <code>::CrFwInCmdSample1SetProgressActionOutcome</code>, and
+ * - it increments the progress step identifier if the progress step flag is set
+ *   (its value is controlled through function
+ *   <code>::CrFwInCmdSample1SetProgressActionFlag</code>.
+ * .
  * @param smDesc the descriptor of the InCommand state machine
  */
 void CrFwInCmdSample1ProgressAction(FwSmDesc_t smDesc);
+
+/**
+ * Sets the progress step flag used by the progress action of the sample InCommand (if the flag
+ * is set, the progress action increments the progress step identifier).
+ *
+ * @param flag the value of the progress step flag
+ */
+void CrFwInCmdSample1SetProgressStepFlag(CrFwBool_t flag);
 
 /**
  * Set the value of the Progress Action Outcome Counter

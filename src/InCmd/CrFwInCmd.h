@@ -141,7 +141,7 @@ void CrFwInCmdConfigCheck(FwPrDesc_t prDesc);
 CrFwProgressStepId_t CrFwInCmdGetProgressStepId(FwSmDesc_t smDesc);
 
 /**
- * Set the progress step idntifier of the InCommand.
+ * Set the progress step identifier of the InCommand.
  * This function would typically be used by the InCommand's Start Action to initialize
  * the progress step identifier and by the Progress Action to update its value.
  *
@@ -268,16 +268,16 @@ CrFwPcktLength_t CrFwInCmdGetParLength(FwSmDesc_t smDesc);
  * One situation where this function is useful is as follows.
  * One of the adaptation points of an InCommand is its Validity Check Operation.
  * The Validity Check Operation is implemented by a function of type
- * <code>::CrFwInRepValidityCheck_t</code>).
+ * <code>::CrFwInRepValidityCheck_t</code>.
  * This function takes as an argument the descriptor of the InCommand's Reset Procedure.
  * Applications will often have to provide an implementation of this function
  * and, to do so, they will often need to access the packet holding the InCommand so
  * as to access the InCommand's parameters,
  * The present function offers an easy way to retrieve this packet.
  *
- * @param prDesc the description of the InCommand's Reset Procedure
- * @return the description of the InCommand
+ * @param prDesc the descriptor of the InCommand's Reset Procedure
+ * @return the packet holding the InCommand
  */
-CrFwPckt_t CrFwInCmdGetInCmdPCktFromPrDesc(FwPrDesc_t prDesc);
+CrFwPckt_t CrFwInCmdGetPcktFromPrDesc(FwPrDesc_t prDesc);
 
 #endif /* CRFW_INCMD_H_ */

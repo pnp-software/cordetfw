@@ -161,9 +161,9 @@ CrFwBool_t CrFwInCmdTestCase1() {
 		return 0;
 
 	/* Check progress step */
-	if (CrFwInCmdGetProgressStep(inCmd1) != 0)
+	if (CrFwInCmdGetProgressStepId(inCmd1) != 1)
 		return 0;
-	if (CrFwInCmdGetProgressStep(inCmd2) != 0)
+	if (CrFwInCmdGetProgressStepId(inCmd2) != 1)
 		return 0;
 
 	/* Retrieve and check the packet holding the InCommand */
@@ -226,6 +226,10 @@ CrFwBool_t CrFwInCmdTestCase2() {
 		return 0;
 	if (CrFwInCmdSample1GetStartActionCounter() != strCnt)
 		return 0;
+
+	/* Check that the command type set in the validity check is correct */
+	if (CrFwInCmdSample1GetType() != 50)
+	    return 0;
 
 	/* Configure Ready Check to return "ready" */
 	CrFwInCmdSample1SetReadyFlag(1);
@@ -353,7 +357,7 @@ CrFwBool_t CrFwInCmdTestCase4() {
 	CrFwInCmdSample1SetValidityFlag(0);	/* Validity Check will fail */
 	inCmd = CrFwInFactoryMakeInCmd(pckt);
 
-	/* Check InCommand state */
+  	/* Check InCommand state */
 	if (!CrFwCmpIsInInitialized(inCmd))
 		return 0;
 
@@ -535,7 +539,7 @@ CrFwBool_t CrFwInCmdTestCase6() {
 		return 0;
 
 	/* Check progress step */
-	if (CrFwInCmdGetProgressStep(inCmd) != 0)
+	if (CrFwInCmdGetProgressStepId(inCmd) != 1)
 		return 0;
 
 	/* Release the InCommands */
@@ -808,6 +812,7 @@ CrFwBool_t CrFwInCmdTestCase10() {
 	CrFwPckt_t pckt;
 	CrFwCounterU1_t prgCnt, strCnt;
 	CrFwCounterU2_t cmdRepPos;
+	CrFwProgressStepId_t progressStepId;
 
 	/* Instantiate the InFactory */
 	inFactory = CrFwInFactoryMake();
@@ -832,6 +837,8 @@ CrFwBool_t CrFwInCmdTestCase10() {
 	inCmd = CrFwInFactoryMakeInCmd(pckt);
 	cmdRepPos = CrFwRepInCmdOutcomeStubGetPos();
 	prgCnt = CrFwInCmdSample1GetProgressActionCounter();
+	progressStepId = CrFwInCmdGetProgressStepId(inCmd);
+	CrFwInCmdSample1SetProgressStepFlag(0);
 
 	/* Check InCommand state */
 	if (!CrFwCmpIsInConfigured(inCmd))
@@ -847,10 +854,10 @@ CrFwBool_t CrFwInCmdTestCase10() {
 		return 0;
 	if (CrFwInCmdSample1GetStartActionCounter() != strCnt+1)
 		return 0;
-	if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos+1)
+	if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos)
 		return 0;
-	if (CrFwRepInCmdOutcomeStubGetOutcome(cmdRepPos) != crCmdAckPrgSucc)
-		return 0;
+    if (CrFwInCmdGetProgressStepId(inCmd) != progressStepId)
+        return 0;
 
 	/* Execute InCommand again and check that it remains in PROGRESS */
 	CrFwCmpExecute(inCmd);
@@ -860,14 +867,39 @@ CrFwBool_t CrFwInCmdTestCase10() {
 		return 0;
 	if (CrFwInCmdSample1GetStartActionCounter() != strCnt+1)
 		return 0;
-	if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos+2)
+	if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos)
 		return 0;
-	if (CrFwRepInCmdOutcomeStubGetOutcome(cmdRepPos) != crCmdAckPrgSucc)
-		return 0;
+    if (CrFwInCmdGetProgressStepId(inCmd) != progressStepId)
+        return 0;
 
-	/* Check progress step */
-	if (CrFwInCmdGetProgressStep(inCmd) != 2)
-		return 0;
+	/* Reconfigure InCommand to complete a progress step and execute it again */
+    CrFwInCmdSample1SetProgressStepFlag(1);
+    CrFwCmpExecute(inCmd);
+    if (!CrFwInCmdIsInProgress(inCmd))
+        return 0;
+    if (CrFwInCmdSample1GetProgressActionCounter() != prgCnt+3)
+        return 0;
+    if (CrFwInCmdSample1GetStartActionCounter() != strCnt+1)
+        return 0;
+    if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos+1)
+        return 0;
+    if (CrFwRepInCmdOutcomeStubGetOutcome(cmdRepPos) != crCmdAckPrgSucc)
+        return 0;
+    if (CrFwInCmdGetProgressStepId(inCmd) != progressStepId+1)
+        return 0;
+
+    /* Execute InCommand again and check that it remains in PROGRESS */
+    CrFwCmpExecute(inCmd);
+    if (!CrFwInCmdIsInProgress(inCmd))
+        return 0;
+    if (CrFwInCmdSample1GetProgressActionCounter() != prgCnt+4)
+        return 0;
+    if (CrFwInCmdSample1GetStartActionCounter() != strCnt+1)
+        return 0;
+    if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos+2)
+        return 0;
+    if (CrFwInCmdGetProgressStepId(inCmd) != progressStepId+2)
+        return 0;
 
 	/* Release the InCommands */
 	CrFwInFactoryReleaseInCmd(inCmd);
@@ -1001,7 +1033,7 @@ CrFwBool_t CrFwInCmdTestCase12() {
 	CrFwPcktSetServType(pckt,50);
 	CrFwPcktSetServSubType(pckt,1);
 	CrFwPcktSetDiscriminant(pckt,0);
-	CrFwPcktSetAckLevel(pckt, 0, 1, 1, 1);			/* Acknowledge only termination */
+	CrFwPcktSetAckLevel(pckt, 0, 1, 1, 1);			/* Acknowledge start, progress and termination */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
 	CrFwInCmdSample1SetProgressActionOutcome(1);	/* Outcome of Progress Action is "completed" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
@@ -1011,6 +1043,7 @@ CrFwBool_t CrFwInCmdTestCase12() {
 	inCmd = CrFwInFactoryMakeInCmd(pckt);
 	prgCnt = CrFwInCmdSample1GetProgressActionCounter();
 	terCnt = CrFwInCmdSample1GetTerminationActionCounter();
+	CrFwInCmdSample1SetProgressStepFlag(1);
 
 	/* Check InCommand state */
 	if (!CrFwCmpIsInConfigured(inCmd))
