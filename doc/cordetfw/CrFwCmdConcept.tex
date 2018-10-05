@@ -54,7 +54,7 @@ Every time a user application issues a command belonging to a certain destinatio
 Command execution goes through four stages: acceptance, start, progress, and termination (see section 5.1.4). This attribute determines whether successful completion of each of these stages should be reported to the sender of the command. Note that failure to complete a stage is reported unconditionally.
 
 \item[Progress Step Identifier]\hfill\\
-On the service provider side, a command is executed in a sequence of progress steps. Each progress step is identified by a positive integer (but note that step identifiers are not necessarily in sequence). This attributes holds the identifier of the current step. A command must have at least one step. This attribute is only meaningful on the service provider side.
+On the service provider side, a command is executed in a sequence of progress steps. Each progress step is identified by a positive integer (but note that step identifiers are not necessarily in sequence). This attribute holds the identifier of the current step. A command must have at least one step. This attribute is only meaningful on the service provider side.
 
 \item[Command Parameters]\hfill\\
 Some commands may require parameters to fully specify the actions and checks that they encapsulate. The “Command Parameters” attribute holds the value of these parameters. This attribute consists of an ordered sequence of items of primitive type. 
@@ -115,9 +115,11 @@ The following actions are defined for a command on the service provider side:
 The start action is executed after the start check has been passed. The start action encapsulates one-off initialization actions that must be performed at the beginning of a command's execution. 
 The start action has an outcome which is either “success” or “failed”. If the outcome of the start action is “failed”, the command is aborted. 
 \item[Progress Action]\hfill\\
-Commands execute in one or more execution steps. The progress action encapsulates the actions performed in one execution step. The progress action is executed the first time after the start action has terminated and it is then executed again until either it fails or it completes. 
-The progress action has an outcome which is either “continue”, or “completed”, or “failed”. If the outcome of the progress action is “continue”, another execution step will be executed. If the outcome of the progress action is “completed”, all execution steps have been completed and the termination action is executed. If the outcome of the progress action is “failed”, the command is aborted. 
-The progress action updates the progress step identifier. A "progress step" is a set of logically related execution steps which are executed in sequence.
+Commands execute in one or more execution steps. The progress action encapsulates the actions performed in one execution step. The progress action is executed the first time after the start action has terminated and it is then executed again until either it fails or it completes.
+ 
+The progress action has two outcomes: a completion outcome which can be either "completed" or "not completed" and a success outcome which can be either "success" or "failed". If the completion outcome is "completed", then all execution steps have been completed and the termination action is executed. If, instead, it is "not completed", then another execution step will be executed. The success outcome determines the kind of acknowledge reports which are generated for the progress action. 
+
+Finally, the progress action updates the progress step identifier. A "progress step" is a set of logically related execution steps which are executed in sequence.
 \item[Termination Action]\hfill\\
 The termination action is executed after all the progress steps have been successfully executed. The termination action encapsulates one-off finalization actions that must be performed before the command is terminated.
 The termination action has an outcome which is either “success” or “failed”. If the outcome of the termination action is “failed”, the command is aborted. 

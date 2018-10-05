@@ -151,6 +151,54 @@ CrFwProgressStepId_t CrFwInCmdGetProgressStepId(FwSmDesc_t smDesc);
 void CrFwInCmdSetProgressStepId(FwSmDesc_t smDesc, CrFwProgressStepId_t stepId);
 
 /**
+ * Return the Completion Outcome of the progress action.
+ * The progress action is executed in steps.
+ * If the completion outcome is set to 0, then at least one more execution
+ * step must be run before the progress action can be deemed to be completed.
+ * If, instead, the completion outcome is set to 1 or other non-zero value,
+ * then the most recently executed step was
+ * the last step and the progress action is completed.
+ *
+ * At framework level, the Completion Outcome is initialized to 1 and
+ * is never updated afterwards.
+ * This means that, by default, the progress action of an incoming command is completed
+ * in one single execution step.
+ * Applications would normally set the Completiong Outcome in the Progress Action.
+ * @param smDesc the descriptor of the Base State Machine of the InCommand
+ * @return the completion outcome
+ */
+CrFwBool_t CrFwInCmdIsProgressActionCompleted(FwSmDesc_t smDesc);
+
+/**
+ * Set the Completion Outcome of the progress action.
+ * This function would typically be used by the InCommand's Progress Action.
+ * @param smDesc the descriptor of the Base State Machine of the InCommand
+ * @param progressActionCompleted the completion outcome
+ */
+void CrFwInCmdSetProgressActionCompleted(FwSmDesc_t smDesc, CrFwBool_t progressActionCompleted);
+
+/**
+ * Set the Completion Outcome of the progress action.
+ * This function would typically be used by the InCommand's Progress Action.
+ * @param smDesc the descriptor of the Base State Machine of the InCommand
+ * @param progressActionCompleted the completion outcome
+ */
+void CrFwInCmdSetProgressActionCompleted(FwSmDesc_t smDesc, CrFwBool_t progressActionCompleted);
+
+/**
+ * Return the number of progress steps which have failed.
+ * The progress action is executed in steps.
+ * The execution of a progress step can either succeed or fail.
+ * This function returns the number of progress steps which failed.
+ *
+ * The number of progress steps which failed is initialized to zero when the InCommand is
+ * instantiated and is incremented by 1 every time a progress step has a "failed" outcome.
+ * @param smDesc the descriptor of the Base State Machine of the InCommand
+ * @return the number of progress steps which have failed.
+ */
+CrFwProgressStepId_t CrFwInCmdGetNOfFailedProgressSteps(FwSmDesc_t smDesc);
+
+/**
  * Return the source of the InCommand.
  * @param smDesc the descriptor of the Base State Machine of the InCommand
  * @return the source of the InCommand

@@ -51,6 +51,9 @@ static CrFwOutcome_t startOutcome;
 /** The Progress Action Outcome. */
 static CrFwOutcome_t progressOutcome;
 
+/** The Progress Action Completion Outcome. */
+static CrFwOutcome_t progressCompletionOutcome;
+
 /** The Progress Step Flag. */
 static CrFwBool_t progressStepFlag ;
 
@@ -131,11 +134,17 @@ void CrFwInCmdSample1ProgressAction(FwSmDesc_t smDesc) {
 	    CrFwInCmdSetProgressStepId(smDesc,progressStepId+1);
 
 	progressCounter++;
+	CrFwInCmdSetProgressActionCompleted(smDesc, progressCompletionOutcome);
 }
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwInCmdSample1SetProgressActionOutcome(CrFwOutcome_t outcome) {
 	progressOutcome = outcome;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+void CrFwInCmdSample1SetProgressActionCompletionOutcome(CrFwOutcome_t outcome) {
+    progressCompletionOutcome = outcome;
 }
 
 /*-----------------------------------------------------------------------------------------*/

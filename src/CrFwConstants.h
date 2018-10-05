@@ -34,6 +34,9 @@ typedef int CrFwBool_t;
 /** Type for the index of a command or report in the InRegistry or OutRegistry. */
 typedef unsigned short CrFwCmdRepIndex_t;
 
+/** Type for the Progress Step Identifier of an InCommand */
+typedef unsigned short CrFwProgressStepId_t;
+
 /** Type for packets (see <code>CrFwPckt.h</code>). Packets are treated as arrays of bytes. */
 typedef char* CrFwPckt_t;
 
@@ -478,6 +481,15 @@ typedef struct InCmdData {
 	CrFwInCmdAbortAction_t abortAction;
 	/** The progress step identifier **/
 	CrFwProgressStepId_t progressStepId;
+	/**
+	 * Flag indicating whether the progress action has been completed.
+	 * An InCommand sets the flag to false at entry in the PROGRESS state.
+	 * The progress action must set it to true when all progress steps have
+	 * been completed.
+	 */
+	CrFwBool_t isProgressActionCompleted;
+    /** Number of progress steps which failed **/
+    CrFwProgressStepId_t nOfFailedProgressSteps;
 	/** Packet holding the InCommand */
 	CrFwPckt_t pckt;
 } CrFwInCmdData_t;

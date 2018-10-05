@@ -107,17 +107,18 @@ static void ReportTerminationSuccess(FwSmDesc_t smDesc);
 static FwSmBool_t IsReady(FwSmDesc_t smDesc);
 
 /**
- * Guard on transition from PROGRESS to ABORTED.
+ * Guard on the transition from CPS2 to TERMINATED.
  * @param smDesc the descriptor of the InCommand state machine
- * @return 1 if the <code>outcome</code> field is different from 1 and 2; false otherwise.
+ * @return 1 if the outcome of the termination action was "success" and
+ *           no progress steps have failed
  */
-static FwSmBool_t IsSmOutcomeNotTwo(FwSmDesc_t smDesc);
+static FwSmBool_t IsTerminationSuccess(FwSmDesc_t smDesc);
 
 /* --------------------------------------------------------------------------------- */
 FwSmDesc_t CrFwInCmdMakeBase() {
 	FwSmCounterS1_t nOfStates = 4;				/* Number of states */
 	FwSmCounterS1_t nOfChoicePseudoStates = 2;	/* Number of choice pseudo-states */
-	FwSmCounterS1_t nOfTrans = 8;				/* Number of transitions */
+	FwSmCounterS1_t nOfTrans = 7;				/* Number of transitions */
 	FwSmCounterS1_t nOfActions = 9;				/* Number of actions */
 	FwSmCounterS1_t nOfGuards = 4;				/* Number of guards */
 	FwSmCounterS1_t CPS_1 = 1;					/* Identifier of first choice pseudo-state */
@@ -145,10 +146,8 @@ FwSmDesc_t CrFwInCmdMakeBase() {
 	FwSmAddTransCpsToSta(esm, CPS_1, CR_FW_INCMD_STATE_PROGRESS, &ReportStartSuccess, &CrFwIsSmOutcomeOne);
 	FwSmAddTransCpsToSta(esm, CPS_1, CR_FW_INCMD_STATE_ABORTED, &ReportStartFailed, NULL);	/* Else Guard */
 	FwSmAddTransStaToCps(esm, CR_FW_INCMD_TR_TERMINATE, CR_FW_INCMD_STATE_PROGRESS, CPS_2,
-	                     &DoTerminationAction, &CrFwIsSmOutcomeOne);
-	FwSmAddTransStaToSta(esm, CR_FW_INCMD_TR_TERMINATE, CR_FW_INCMD_STATE_PROGRESS, CR_FW_INCMD_STATE_ABORTED,
-	                     &ReportProgressFailed, &IsSmOutcomeNotTwo);
-	FwSmAddTransCpsToSta(esm, CPS_2, CR_FW_INCMD_STATE_TERMINATED, &ReportTerminationSuccess, &CrFwIsSmOutcomeOne);
+	                     &DoTerminationAction, &CrFwInCmdIsProgressActionCompleted);
+	FwSmAddTransCpsToSta(esm, CPS_2, CR_FW_INCMD_STATE_TERMINATED, &ReportTerminationSuccess, &IsTerminationSuccess);
 	FwSmAddTransCpsToSta(esm, CPS_2, CR_FW_INCMD_STATE_ABORTED, &ReportTerminationFailed, NULL);	/* Else Guard */
 
 	FwSmEmbed(baseInCmdSmDesc, CR_FW_BASE_STATE_CONFIGURED, esm);
@@ -210,6 +209,16 @@ CrFwPckt_t CrFwInCmdGetPcktFromPrDesc(FwPrDesc_t prDesc) {
     CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwPrGetData(prDesc);
     CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
     return cmpSpecificData->pckt;
+}
+
+/* --------------------------------------------------------------------------------- */
+FwSmBool_t IsTerminationSuccess(FwSmDesc_t smDesc) {
+    CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+    CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
+    if (cmpData->outcome == 1)
+        if (cmpSpecificData->nOfFailedProgressSteps == 0)
+            return 1;
+    return 0;
 }
 
 /* --------------------------------------------------------------------------------- */
@@ -297,19 +306,26 @@ static void DoProgressAction(FwSmDesc_t smDesc) {
 	prevStep = cmpSpecificData->progressStepId;
 	cmpSpecificData->progressAction(smDesc);
 	if (cmpData->outcome != 1)
-		if (cmpData->outcome != 2)
-			return;		/* The Progress Action has failed */
+		if (cmpSpecificData->progressStepId != prevStep) {
+		    CrFwRepInCmdOutcome(crCmdAckPrgFail, cmpData->instanceId,
+		                        CrFwPcktGetServType(cmpSpecificData->pckt),
+		                        CrFwPcktGetServSubType(cmpSpecificData->pckt),
+		                        CrFwPcktGetDiscriminant(cmpSpecificData->pckt),
+		                        cmpData->outcome, smDesc);
+		    cmpSpecificData->nOfFailedProgressSteps++;  /* Increment counter of failed progress steps */
+		    return;     /* Progress step has failed */
+		}
 
-	/* Check if a progress step has been completed */
-	if (cmpSpecificData->progressStepId == prevStep)
-	    return;
-
-	if (CrFwPcktIsProgressAck(cmpSpecificData->pckt) == 1)
-		CrFwRepInCmdOutcome(crCmdAckPrgSucc, cmpData->instanceId,
-		                    CrFwPcktGetServType(cmpSpecificData->pckt),
-		                    CrFwPcktGetServSubType(cmpSpecificData->pckt),
-		                    CrFwPcktGetDiscriminant(cmpSpecificData->pckt),
-		                    cmpData->outcome, smDesc);
+    if (cmpData->outcome == 1)
+        if (cmpSpecificData->progressStepId != prevStep)
+            if (CrFwPcktIsProgressAck(cmpSpecificData->pckt) == 1) {
+                CrFwRepInCmdOutcome(crCmdAckPrgSucc, cmpData->instanceId,
+                                    CrFwPcktGetServType(cmpSpecificData->pckt),
+                                    CrFwPcktGetServSubType(cmpSpecificData->pckt),
+                                    CrFwPcktGetDiscriminant(cmpSpecificData->pckt),
+                                    cmpData->outcome, smDesc);
+                return; /* Progress step has succeeded */
+            }
 }
 
 /* --------------------------------------------------------------------------------- */
@@ -326,15 +342,6 @@ static void DoTerminationAction(FwSmDesc_t smDesc) {
 	CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
 
 	cmpSpecificData->terminationAction(smDesc);
-}
-
-/* --------------------------------------------------------------------------------- */
-static FwSmBool_t IsSmOutcomeNotTwo(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	if (cmpData->outcome != 2)
-		return 1;
-
-	return 0;
 }
 
 /* --------------------------------------------------------------------------------- */
@@ -426,4 +433,25 @@ CrFwPckt_t CrFwInCmdGetPckt(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
 	return cmpSpecificData->pckt;
+}
+
+/* --------------------------------------------------------------------------------- */
+CrFwBool_t CrFwInCmdIsProgressActionCompleted(FwSmDesc_t smDesc) {
+    CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+    CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
+    return cmpSpecificData->isProgressActionCompleted;
+}
+
+/* --------------------------------------------------------------------------------- */
+void CrFwInCmdSetProgressActionCompleted(FwSmDesc_t smDesc, CrFwBool_t progressActionCompleted) {
+    CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+    CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
+    cmpSpecificData->isProgressActionCompleted = progressActionCompleted;
+}
+
+/* --------------------------------------------------------------------------------- */
+CrFwProgressStepId_t CrFwInCmdGetNOfFailedProgressSteps(FwSmDesc_t smDesc) {
+    CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+    CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
+    return cmpSpecificData->nOfFailedProgressSteps;
 }

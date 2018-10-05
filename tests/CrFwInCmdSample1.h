@@ -113,6 +113,8 @@ CrFwCounterU1_t CrFwInCmdSample1GetStartActionCounter();
  * - it increments the progress step identifier if the progress step flag is set
  *   (its value is controlled through function
  *   <code>::CrFwInCmdSample1SetProgressActionFlag</code>.
+ * - it sets the progress action completion outcome to the value of the flag
+ *   set with <code>::CrFwInCmdSample1SetProgressActionCompletionOutcome</code>.
  * .
  * @param smDesc the descriptor of the InCommand state machine
  */
@@ -127,11 +129,18 @@ void CrFwInCmdSample1ProgressAction(FwSmDesc_t smDesc);
 void CrFwInCmdSample1SetProgressStepFlag(CrFwBool_t flag);
 
 /**
- * Set the value of the Progress Action Outcome Counter
+ * Set the value of the Progress Action Outcome
  * (see <code>::CrFwInCmdSample1ProgressAction</code>).
  * @param outcome the value of the Progress Action Outcome
  */
 void CrFwInCmdSample1SetProgressActionOutcome(CrFwOutcome_t outcome);
+
+/**
+ * Set the value of the Progress Action Completion Outcome
+ * (see <code>::CrFwInCmdSample1ProgressAction</code>).
+ * @param outcome the value of the Progress Action Completion Outcome
+ */
+void CrFwInCmdSample1SetProgressActionCompletionOutcome(CrFwOutcome_t outcome);
 
 /**
  * Get the value of the Progress Action Counter (see <code>::CrFwInCmdSample1ProgressAction</code>).
