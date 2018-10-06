@@ -342,7 +342,8 @@ CrFwBool_t CrFwInManagerTestCase4() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 0, 0, 0);			/* No acknowledgement of success */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(2);	/* Outcome of Progress Action is "continue" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(0);  /* Completion Outcome is "not completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(1);   /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
 	CrFwInCmdSample1SetTerminationActionOutcome(1);	/* Outcome of Termination Action is "success" */
@@ -371,7 +372,7 @@ CrFwBool_t CrFwInManagerTestCase4() {
 		return 0;
 
 	/* Configure InCommand to terminate */
-	CrFwInCmdSample1SetProgressActionOutcome(1);	/* Outcome of Progress Action is "terminate" */
+	CrFwInCmdSample1SetProgressActionCompletionOutcome(1);	/* Outcome of Progress Action is "completed" */
 
 	/* Execute the InManager */
 	CrFwCmpExecute(inManager1);	/* this causes the Sample InCommand to enter TERMINATE */
@@ -443,7 +444,8 @@ CrFwBool_t CrFwInManagerTestCase5() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 0, 0, 0);			/* No acknowledgement of success */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(2);	/* Outcome of Progress Action is "continue" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(0);  /* Completion Outcome is "not completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(1);   /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(0);		/* Outcome of Start Action is "failed" */
 	CrFwInCmdSample1SetTerminationActionOutcome(1);	/* Outcome of Termination Action is "success" */
@@ -522,7 +524,8 @@ CrFwBool_t CrFwInManagerTestCase6() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 0, 0, 0);			/* No acknowledgement of success */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(2);	/* Outcome of Progress Action is "continue" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(0);  /* Completion Outcome is "not completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(1);   /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
 	CrFwInCmdSample1SetTerminationActionOutcome(1);	/* Outcome of Termination Action is "success" */
@@ -534,7 +537,8 @@ CrFwBool_t CrFwInManagerTestCase6() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 0, 0, 0);			/* No acknowledgement of success */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(2);	/* Outcome of Progress Action is "continue" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(0);  /* Completion Outcome is "not completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(1);   /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
 	CrFwInCmdSample1SetTerminationActionOutcome(1);	/* Outcome of Termination Action is "success" */
@@ -622,7 +626,7 @@ CrFwBool_t CrFwInManagerTestCase6() {
 		return 0;
 
 	/* Configure InCommands to be terminated */
-	CrFwInCmdSample1SetProgressActionOutcome(1);	/* Outcome of Progress Action is "terminated" */
+	CrFwInCmdSample1SetProgressActionCompletionOutcome(1);	/* Outcome of Progress Action is "completed" */
 
 	/* Execute the InManager */
 	CrFwCmpExecute(inManager2);	/* this causes the InCommands to be unloaded */
@@ -690,7 +694,8 @@ CrFwBool_t CrFwInManagerTestCase7() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 0, 0, 0);			/* No acknowledgement of success */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(2);	/* Outcome of Progress Action is "continue" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(0);  /* Completion Outcome is "not completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(1);   /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
 	CrFwInCmdSample1SetTerminationActionOutcome(1);	/* Outcome of Termination Action is "success" */
@@ -702,7 +707,8 @@ CrFwBool_t CrFwInManagerTestCase7() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 0, 0, 0);			/* No acknowledgement of success */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(2);	/* Outcome of Progress Action is "continue" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(0);  /* Completion Outcome is "not completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(1);   /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
 	CrFwInCmdSample1SetTerminationActionOutcome(1);	/* Outcome of Termination Action is "success" */
@@ -787,7 +793,8 @@ CrFwBool_t CrFwInManagerTestCase8() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 0, 0, 0);			/* No acknowledgement of success */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(2);	/* Outcome of Progress Action is "continue" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(0);  /* Completion Outcome is "not completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(1);   /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
 	CrFwInCmdSample1SetTerminationActionOutcome(1);	/* Outcome of Termination Action is "success" */
@@ -799,7 +806,8 @@ CrFwBool_t CrFwInManagerTestCase8() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 0, 0, 0);			/* No acknowledgement of success */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(2);	/* Outcome of Progress Action is "continue" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(0);  /* Completion Outcome is "not completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(1);   /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
 	CrFwInCmdSample1SetTerminationActionOutcome(1);	/* Outcome of Termination Action is "success" */

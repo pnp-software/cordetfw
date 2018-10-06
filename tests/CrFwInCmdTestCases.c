@@ -166,6 +166,12 @@ CrFwBool_t CrFwInCmdTestCase1() {
 	if (CrFwInCmdGetProgressStepId(inCmd2) != 1)
 		return 0;
 
+	/* Check default completion status */
+	if (CrFwInCmdIsProgressActionCompleted(inCmd1) != 1)
+	    return 0;
+    if (CrFwInCmdIsProgressActionCompleted(inCmd2) != 1)
+        return 0;
+
 	/* Retrieve and check the packet holding the InCommand */
 	if (CrFwInCmdGetPckt(inCmd1)!=pckt1)
 		return 0;
@@ -398,13 +404,18 @@ CrFwBool_t CrFwInCmdTestCase5() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 0, 0, 0);			/* No acknowledgement of success */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(2);	/* Outcome of Progress Action is "continue" */
+	CrFwInCmdSample1SetProgressActionCompletionOutcome(0);	/* Completion Outcome is "not completed" */
+	CrFwInCmdSample1SetProgressActionOutcome(1);    /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
 	strCnt = CrFwInCmdSample1GetStartActionCounter();
 	inCmd = CrFwInFactoryMakeInCmd(pckt);
 	cmdRepPos = CrFwRepInCmdOutcomeStubGetPos();
 	prgCnt = CrFwInCmdSample1GetProgressActionCounter();
+
+	/* Check that InCommand is correctly configured */
+	if (FwSmCheck(inCmd) != smSuccess)
+	    return 0;
 
 	/* Check InCommand state */
 	if (!CrFwCmpIsInConfigured(inCmd))
@@ -482,7 +493,8 @@ CrFwBool_t CrFwInCmdTestCase6() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 0, 0, 0);			/* No acknowledgement of success */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(2);	/* Outcome of Progress Action is "continue" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(0);  /* Completion Outcome is "not completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(1);    /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
 	CrFwInCmdSample1SetTerminationActionOutcome(1);	/* Outcome of Termination Action is "success" */
@@ -512,7 +524,7 @@ CrFwBool_t CrFwInCmdTestCase6() {
 	/* Configure Progress Action to return "completed" */
 	if (CrFwInCmdSample1GetTerminationActionCounter() != terCnt)
 		return 0;
-	CrFwInCmdSample1SetProgressActionOutcome(1);	/* Outcome of Progress Action is "completed" */
+	CrFwInCmdSample1SetProgressActionCompletionOutcome(1);	/* Completion outcome of Progress Action is "completed" */
 
 	/* Execute InCommand again and check that it stays in PROGRESS */
 	CrFwCmpExecute(inCmd);
@@ -535,6 +547,8 @@ CrFwBool_t CrFwInCmdTestCase6() {
 		return 0;
 	if (CrFwInCmdSample1GetTerminationActionCounter() != terCnt+1)
 		return 0;
+	if (CrFwInCmdGetNOfProgressFailure(inCmd) != 0)
+	    return 0;
 	if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos)
 		return 0;
 
@@ -579,10 +593,11 @@ CrFwBool_t CrFwInCmdTestCase7() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 0, 0, 0);			/* No acknowledgement of success */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(2);	/* Outcome of Progress Action is "continue" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(0);  /* Completion Outcome is "not completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(22);   /* Progress action outcome is "failed" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
-	CrFwInCmdSample1SetTerminationActionOutcome(1);	/* Outcome of Termination Action is "success" */
+	CrFwInCmdSample1SetTerminationActionOutcome(10);/* Outcome of Termination Action is "failed" */
 	strCnt = CrFwInCmdSample1GetStartActionCounter();
 	inCmd = CrFwInFactoryMakeInCmd(pckt);
 	cmdRepPos = CrFwRepInCmdOutcomeStubGetPos();
@@ -604,13 +619,19 @@ CrFwBool_t CrFwInCmdTestCase7() {
 		return 0;
 	if (CrFwInCmdSample1GetStartActionCounter() != strCnt+1)
 		return 0;
-	if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos)
+	if (CrFwInCmdGetNOfProgressFailure(inCmd) != 1)
+	    return 0;
+	if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos+1)
 		return 0;
+    if (CrFwRepInCmdOutcomeStubGetOutcome(cmdRepPos) != crCmdAckPrgFail)
+        return 0;
+    if (CrFwRepInCmdOutcomeStubGetFailCode(cmdRepPos) != 22)
+        return 0;
+    if (CrFwInCmdSample1GetTerminationActionCounter() != terCnt)
+        return 0;
 
-	/* Configure Progress Action to return "failed" */
-	if (CrFwInCmdSample1GetTerminationActionCounter() != terCnt)
-		return 0;
-	CrFwInCmdSample1SetProgressActionOutcome(22);	/* Outcome of Progress Action is "failed" */
+	/* Configure Progress Action to return "success" */
+	CrFwInCmdSample1SetProgressActionOutcome(1);
 
 	/* Execute InCommand again and check that it stays in PROGRESS */
 	CrFwCmpExecute(inCmd);
@@ -622,26 +643,46 @@ CrFwBool_t CrFwInCmdTestCase7() {
 		return 0;
 	if (CrFwInCmdSample1GetAbortActionCounter() != abrCnt)
 		return 0;
-	if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos)
+	if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos+1)
 		return 0;
+    if (CrFwInCmdGetNOfProgressFailure(inCmd) != 1)
+        return 0;
+
+    /* Configure Progress Action to return "completed" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(1);
+
+    /* Execute InCommand again and check that it stays in PROGRESS */
+    CrFwCmpExecute(inCmd);
+    if (!CrFwInCmdIsInProgress(inCmd))
+        return 0;
+    if (CrFwInCmdSample1GetProgressActionCounter() != prgCnt+3)
+        return 0;
+    if (CrFwInCmdSample1GetStartActionCounter() != strCnt+1)
+        return 0;
+    if (CrFwInCmdSample1GetAbortActionCounter() != abrCnt)
+        return 0;
+    if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos+1)
+        return 0;
+    if (CrFwInCmdGetNOfProgressFailure(inCmd) != 1)
+        return 0;
 
 	/* Send command Terminate to InCommand and check that ABORTED is entered */
 	CrFwInCmdTerminate(inCmd);
 	if (!CrFwInCmdIsInAborted(inCmd))
 		return 0;
-	if (CrFwInCmdSample1GetProgressActionCounter() != prgCnt+2)
+	if (CrFwInCmdSample1GetProgressActionCounter() != prgCnt+3)
 		return 0;
 	if (CrFwInCmdSample1GetStartActionCounter() != strCnt+1)
 		return 0;
-	if (CrFwInCmdSample1GetTerminationActionCounter() != terCnt)
+	if (CrFwInCmdSample1GetTerminationActionCounter() != terCnt+1)
 		return 0;
 	if (CrFwInCmdSample1GetAbortActionCounter() != abrCnt+1)
 		return 0;
-	if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos+1)
+	if (CrFwRepInCmdOutcomeStubGetPos() != cmdRepPos+2)
 		return 0;
-	if (CrFwRepInCmdOutcomeStubGetOutcome(cmdRepPos) != crCmdAckPrgFail)
+	if (CrFwRepInCmdOutcomeStubGetOutcome(cmdRepPos+1) != crCmdAckTrmFail)
 		return 0;
-	if (CrFwRepInCmdOutcomeStubGetFailCode(cmdRepPos) != 22)
+	if (CrFwRepInCmdOutcomeStubGetFailCode(cmdRepPos+1) != 10)
 		return 0;
 
 	/* Release the InCommands */
@@ -681,7 +722,8 @@ CrFwBool_t CrFwInCmdTestCase8() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 0, 0, 0);			/* No acknowledgement of success */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(1);	/* Outcome of Progress Action is "completed" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(1);  /* Completion Outcome is "completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(1);   /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
 	CrFwInCmdSample1SetTerminationActionOutcome(33);	/* Outcome of Termination Action is "failed" */
@@ -727,6 +769,8 @@ CrFwBool_t CrFwInCmdTestCase8() {
 		return 0;
 	if (CrFwRepInCmdOutcomeStubGetFailCode(cmdRepPos) != 33)
 		return 0;
+    if (CrFwInCmdGetNOfProgressFailure(inCmd) != 0)
+        return 0;
 
 	/* Release the InCommands */
 	CrFwInFactoryReleaseInCmd(inCmd);
@@ -765,7 +809,8 @@ CrFwBool_t CrFwInCmdTestCase9() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 1, 0, 0);			/* Only acknowledge Start */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(2);	/* Outcome of Progress Action is "continue" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(0);  /* Completion Outcome is "not completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(1);   /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
 	strCnt = CrFwInCmdSample1GetStartActionCounter();
@@ -830,7 +875,8 @@ CrFwBool_t CrFwInCmdTestCase10() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 0, 1, 0);			/* Only acknowledge Progress */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(2);	/* Outcome of Progress Action is "continue" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(0);  /* Completion Outcome is "not completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(1);   /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
 	strCnt = CrFwInCmdSample1GetStartActionCounter();
@@ -938,7 +984,8 @@ CrFwBool_t CrFwInCmdTestCase11() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 0, 0, 1);			/* Acknowledge only termination */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(2);	/* Outcome of Progress Action is "continue" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(1);  /* Completion Outcome is "completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(1);   /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
 	CrFwInCmdSample1SetTerminationActionOutcome(1);	/* Outcome of Termination Action is "success" */
@@ -968,7 +1015,7 @@ CrFwBool_t CrFwInCmdTestCase11() {
 	/* Configure Progress Action to return "completed" */
 	if (CrFwInCmdSample1GetTerminationActionCounter() != terCnt)
 		return 0;
-	CrFwInCmdSample1SetProgressActionOutcome(1);	/* Outcome of Progress Action is "completed" */
+	CrFwInCmdSample1SetProgressActionCompletionOutcome(1);	/* Completion Outcome of Progress Action is "completed" */
 
 	/* Execute InCommand again and check that it stays in PROGRESS */
 	CrFwCmpExecute(inCmd);
@@ -1035,7 +1082,8 @@ CrFwBool_t CrFwInCmdTestCase12() {
 	CrFwPcktSetDiscriminant(pckt,0);
 	CrFwPcktSetAckLevel(pckt, 0, 1, 1, 1);			/* Acknowledge start, progress and termination */
 	CrFwInCmdSample1SetValidityFlag(1);				/* Validity Check returns "valid" */
-	CrFwInCmdSample1SetProgressActionOutcome(1);	/* Outcome of Progress Action is "completed" */
+    CrFwInCmdSample1SetProgressActionCompletionOutcome(1);  /* Completion Outcome is "completed" */
+    CrFwInCmdSample1SetProgressActionOutcome(1);   /* Progress action outcome is "success" */
 	CrFwInCmdSample1SetReadyFlag(1);				/* Outcome of Ready Check is "ready" */
 	CrFwInCmdSample1SetStartActionOutcome(1);		/* Outcome of Start Action is "success" */
 	CrFwInCmdSample1SetTerminationActionOutcome(1);	/* Outcome of Termination Action is "success" */

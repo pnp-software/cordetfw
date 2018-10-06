@@ -35,6 +35,7 @@
  * - It is checked that the InCommand source, group and sequence counter are correctly set.
  * - It is checked that the acknowledge levels of the InCommands are correct.
  * - It is checked that the progress step is equal to 1.
+ * - It is checked that the default completion status is: "completed".
  * .
  * @verify InCommand SM Transition: IPS->ACCEPTED
  *
@@ -108,7 +109,7 @@ CrFwBool_t CrFwInCmdTestCase4();
  *   to return: "ready"; the Start Action is configured to have an outcome of "success"; the
  *   acknowledgement level is configured to acknowledge neither acceptance, nor start, nor progress
  *   nor termination;
- *   the progress action is configured to set the outcome to "continue".
+ *   the progress action is configured to set the outcome to "not completed".
  * - The InCommand is executed and it is checked that state PROGRESS is entered, that the Progress
  *   Action is executed, and that no acknowledge report is generated.
  * - The InCommand is executed again and it is checked that state PROGRESS is maintained, that the Progress
@@ -133,7 +134,7 @@ CrFwBool_t CrFwInCmdTestCase5();
  *   to return: "ready"; the Start Action is configured to have an outcome of "success"; the
  *   acknowledgement level is configured to acknowledge neither acceptance, nor start, nor progress
  *   nor termination;
- *   the progress action is configured to set the outcome to "continue"; the Termination Action is
+ * - The progress action is configured to set the outcome to "continue"; the Termination Action is
  *   configured to set the outcome to "success".
  * - The InCommand is executed and it is checked that state PROGRESS is entered, that the Progress
  *   Action is executed, and that no acknowledge report is generated.
@@ -142,7 +143,8 @@ CrFwBool_t CrFwInCmdTestCase5();
  * - The Progress Action of the Sample InCommand is configured to have an outcome of "completed".
  * - Command Terminate is sent to the InCommand and it is checked that state TERMINATED is entered and
  *   that the Termination Action is executed.
- * - It is checked that the progress step remains equal to 1.
+ * - It is checked that the progress step remains equal to 1 and that the number of failed progress steps
+ *   remains equal to zero.
  * .
  * @verify InCommand SM Transition: IPS->ACCEPTED
  * @verify InCommand SM Transition: ACCEPTED->CPS1
@@ -155,7 +157,8 @@ CrFwBool_t CrFwInCmdTestCase5();
 CrFwBool_t CrFwInCmdTestCase6();
 
 /**
- * Check the direct transition from state PROGRESS to state ABORTED for an InCommand.
+ * Check the transition from state PROGRESS to state ABORTED for an InCommand which has failed one
+ * progress step.
  * The following actions are performed in this test:
  * - The InFactory is reset and then one Sample1 InCommand (see <code>CrFwInCmdSample1.h</code>) is
  *   retrieved from the InFactory.
@@ -163,19 +166,27 @@ CrFwBool_t CrFwInCmdTestCase6();
  *   to return: "ready"; the Start Action is configured to have an outcome of "success"; the
  *   acknowledgement level is configured to acknowledge neither acceptance, nor start, nor progress
  *   nor termination;
- *   the progress action is configured to set the outcome to "continue"; the Termination Action is
- *   configured to set the outcome to "success".
- * - The InCommand is executed and it is checked that state PROGRESS is entered, that the Progress
- *   Action is executed, and that no acknowledge report is generated.
- * - The Progress Action is configured to set the outcome to "failure" and then the InCommand is executed
- *   again.
+ * - The progress action is configured to set the completion outcome to "not completed" and the success
+ *   outcome to "failed"; the Termination Action is configured to set the outcome to "failed".
+ * - The InCommand is executed and it is checked that state PROGRESS is maintained, that the Progress
+ *   Action is executed, that the number of progress failures is equal to 1, and that a progress failure
+ *   report is generated.
+ * - The InCommand is configured to have a successful progress action and then the InCommand is executed
+ *   again and it is verified that: state PROGRESS is maintained, the Progress
+ *   Action is executed, the number of progress failure remains unchanged, and no acknowledge
+ *   report is generated.
+ * - The InCommand is configured to have a successful progress action and a completion status of: "completed"
+ *   and it is then executed again and it is verified that: state PROGRESS is maintained, the Progress
+ *   Action is executed, the number of progress failures remains unchanged, and no acknowledge
+ *   report is generated.
  * - Command Terminate is sent to the InCommand and it is checked that state ABORTED is entered;
  *   that the Abort Action is executed; and that a progress failure report is generated.
  * .
  * @verify InCommand SM Transition: IPS->ACCEPTED
  * @verify InCommand SM Transition: ACCEPTED->CPS1
  * @verify InCommand SM Transition: CPS1->PROGRESS
- * @verify InCommand SM Transition: PROGRESS->ABORTED
+ * @verify InCommand SM Transition: PROGRESS->CPS2
+ * @verify InCommand SM Transition: CPS2->ABORTED
  * @verify InCommand Outcome Report: crCmdAckPrgFail
  *
  * @return true if the test was successful, false otherwise.
@@ -183,7 +194,8 @@ CrFwBool_t CrFwInCmdTestCase6();
 CrFwBool_t CrFwInCmdTestCase7();
 
 /**
- * Check the indirect transition from state PROGRESS to state ABORTED for an InCommand.
+ * Check the indirect transition from state PROGRESS to state TERMINATED for an InCommand after one
+ * progress execution step.
  * The following actions are performed in this test:
  * - The InFactory is reset and then one Sample1 InCommand (see <code>CrFwInCmdSample1.h</code>) is
  *   retrieved from the InFactory.
@@ -191,8 +203,8 @@ CrFwBool_t CrFwInCmdTestCase7();
  *   to return: "ready"; the Start Action is configured to have an outcome of "success"; the
  *   acknowledgement level is configured to acknowledge neither acceptance, nor start, nor progress,
  *   nor termination;
- *   the progress action is configured to set the outcome to "completed"; the Termination Action is
- *   configured to set the outcome to "failed".
+ * - The progress action is configured to set the completion outcome to "completed" and the success
+ *   outcome to "success"; the Termination Action is configured to set the outcome to "failed".
  * - The InCommand is executed and it is checked that state PROGRESS is entered, that the Progress
  *   Action is executed, and that no acknowledge report is generated.
  * - Command Terminate is sent to the InCommand and it is checked that state ABORTED is entered;

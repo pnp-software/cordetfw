@@ -37,6 +37,9 @@ typedef unsigned short CrFwCmdRepIndex_t;
 /** Type for the Progress Step Identifier of an InCommand */
 typedef unsigned short CrFwProgressStepId_t;
 
+/** Type for the counter of execution progress steps */
+typedef unsigned short CrFwExecStepId_t;
+
 /** Type for packets (see <code>CrFwPckt.h</code>). Packets are treated as arrays of bytes. */
 typedef char* CrFwPckt_t;
 
@@ -489,7 +492,7 @@ typedef struct InCmdData {
 	 */
 	CrFwBool_t isProgressActionCompleted;
     /** Number of progress steps which failed **/
-    CrFwProgressStepId_t nOfFailedProgressSteps;
+	CrFwExecStepId_t nOfProgressFailure;
 	/** Packet holding the InCommand */
 	CrFwPckt_t pckt;
 } CrFwInCmdData_t;
