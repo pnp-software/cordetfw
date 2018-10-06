@@ -65,11 +65,16 @@ void CrFwSetSmOutcome(FwSmDesc_t smDesc, CrFwOutcome_t outcome) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
+CrFwOutcome_t CrFwGetSmOutcome(FwSmDesc_t smDesc) {
+    CrFwCmpData_t* smData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+    return smData->outcome;
+}
+
+/*-----------------------------------------------------------------------------------------*/
 FwSmBool_t CrFwIsSmOutcomeZero(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* smData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	return (smData->outcome == 0);
 }
-
 
 /*-----------------------------------------------------------------------------------------*/
 FwSmBool_t CrFwIsSmOutcomeOne(FwSmDesc_t smDesc) {

@@ -134,6 +134,8 @@ typedef CrFwBool_t (*CrFwInCmdReadyCheck_t)(FwSmDesc_t);
  * The outcome is either '1' (to signify that the action was successful) or
  * an integer different from '1' (to signify that the action failed --
  * in this case the outcome is a code which identifies the reason for the failure).
+ * The success outcome of an InCommand is accessed with functions
+ * <code>::CrFwSetSmOutcome</code> and <code>::CrFwGetSmOutcome</code>.
  */
 typedef void (*CrFwInCmdStartAction_t)(FwSmDesc_t);
 
@@ -143,12 +145,22 @@ typedef void (*CrFwInCmdStartAction_t)(FwSmDesc_t);
  * The Progress Action Operation is one of the adaptation points of the framework.
  * A function which implements this operation takes the InCommand descriptor
  * as an argument and returns <code>void</code>.
- * The Progress Action has an outcome which it records in field <code>outcome</code>
- * of <code>::CrFwCmpData_t</code>.
- * The outcome is either '2' (to signify that command execution can continue), or
- * '1' (to signify that command execution has been completed), or an integer different from
- * '1' and '2' (to signify that the action failed -- in this case the outcome is
- * a code which identifies the reason for the failure).
+ *
+ * The Progress Action has two outcomes: the <i>Completion Outcome</i> and the
+ * <i>Success Outcome</i>.
+ * The Completion Outcome is a boolean which indicates whether the progress action
+ * is "completed" (to signify that no more executions of the Progress Action are
+ * needed) or "not completed" (to signify that the Progress Action must be executed
+ * again).
+ * The Completion Outcome of an InCommand is accessed with functions
+ * <code>::CrFwInCmdSetProgressActionCompleted</code> and
+ * <code>::CrFwInCmdIsProgressActionCompleted</code>.
+ *
+ * The success outcome is either '1' (to signify that command execution has been
+ * completed), or an integer different from '1' (to signify that the action failed
+ *  -- in this case the outcome is a code which identifies the reason for the failure).
+ * The success outcome of an InCommand is accessed with functions
+ * <code>::CrFwSetSmOutcome</code> and <code>::CrFwGetSmOutcome</code>.
  */
 typedef void (*CrFwInCmdProgressAction_t)(FwSmDesc_t);
 
@@ -163,6 +175,8 @@ typedef void (*CrFwInCmdProgressAction_t)(FwSmDesc_t);
  * The outcome is either '1' (to signify that the action was successful) or
  * an integer different from '1' (to signify that the action failed --
  * in this case the outcome is a code which identifies the reason for the failure).
+ * The success outcome of an InCommand is accessed with functions
+ * <code>::CrFwSetSmOutcome</code> and <code>::CrFwGetSmOutcome</code>.
  */
 typedef void (*CrFwInCmdTerminationAction_t)(FwSmDesc_t);
 

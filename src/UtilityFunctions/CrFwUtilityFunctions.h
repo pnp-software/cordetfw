@@ -82,13 +82,31 @@ FwPrBool_t CrFwIsPrOutcomeOne(FwPrDesc_t prDesc);
  * type <code>::CrFwCmpData</code>).
  * This type is a data structure which includes an 'outcome' field and this function sets this
  * field to the value of the argument <code>outcome</code>.
- * Each state machine is free to set its own convention for the interpretation of the outcome
- * but, for state machines defined at CORDET Framework level, a value of 0 means "failure", a value of
- * 1 means "success", and a value of 2 means "continue".
+ * Each state machine is free to set its own convention for the interpretation of the outcome.
+ * For state machines representing commands and reports, a value of 1 means "success", and a value
+ * different from 1 means "failure".
+ * In the latter case, the value of the outcome is the failure code describing the reason for the
+ * failure.
  * @param smDesc the state machine descriptor
  * @param outcome the value of the state machine outcome
  */
 void CrFwSetSmOutcome(FwSmDesc_t smDesc, CrFwOutcome_t outcome);
+
+/**
+ * Convenience function to get the outcome of the last check or action of a state machine.
+ * This function assumes that the data attached to the state machine descriptor is a pointer to
+ * type <code>::CrFwCmpData</code>).
+ * This type is a data structure which includes an 'outcome' field and this function sets this
+ * field to the value of the argument <code>outcome</code>.
+ * Each state machine is free to set its own convention for the interpretation of the outcome.
+ * For state machines representing commands and reports, a value of 1 means "success", and a value
+ * different from 1 means "failure".
+ * In the latter case, the value of the outcome is the failure code describing the reason for the
+ * failure.
+ * @param smDesc the state machine descriptor
+ * @return outcome the value of the state machine outcome
+ */
+CrFwOutcome_t CrFwGetSmOutcome(FwSmDesc_t smDesc);
 
 /**
  * Convenience function to check whether the outcome of the last check or action

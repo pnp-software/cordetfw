@@ -615,6 +615,8 @@ CrFwBool_t CrFwInCmdTestCase7() {
 	CrFwCmpExecute(inCmd);
 	if (!CrFwInCmdIsInProgress(inCmd))
 		return 0;
+	if (CrFwGetSmOutcome(inCmd) != 22)
+	    return 0;
 	if (CrFwInCmdSample1GetProgressActionCounter() != prgCnt+1)
 		return 0;
 	if (CrFwInCmdSample1GetStartActionCounter() != strCnt+1)
