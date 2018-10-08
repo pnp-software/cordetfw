@@ -81,13 +81,6 @@ static void ReportStartFailed(FwSmDesc_t smDesc);
 static void ReportTerminationFailed(FwSmDesc_t smDesc);
 
 /**
- * Transition action on the transition from CPS3 to ABORTED which
- * reports the failure of the Progress Action.
- * @param smDesc the descriptor of the InCommand state machine
- */
-static void ReportProgressFailed(FwSmDesc_t smDesc);
-
-/**
  * Transition action on the transition from CPS1 to PROGRESS.
  * @param smDesc the descriptor of the InCommand state machine
  */
@@ -214,7 +207,6 @@ CrFwPckt_t CrFwInCmdGetPcktFromPrDesc(FwPrDesc_t prDesc) {
 /* --------------------------------------------------------------------------------- */
 FwSmBool_t IsTerminationSuccess(FwSmDesc_t smDesc) {
     CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-    CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
     if (cmpData->outcome == 1)
         return 1;
     return 0;
@@ -245,18 +237,6 @@ void ReportStartFailed(FwSmDesc_t smDesc) {
 	CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
 
 	CrFwRepInCmdOutcome(crCmdAckStrFail, cmpData->instanceId,
-	                    CrFwPcktGetServType(cmpSpecificData->pckt),
-	                    CrFwPcktGetServSubType(cmpSpecificData->pckt),
-	                    CrFwPcktGetDiscriminant(cmpSpecificData->pckt),
-	                    cmpData->outcome, smDesc);
-}
-
-/* --------------------------------------------------------------------------------- */
-void ReportProgressFailed(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
-
-	CrFwRepInCmdOutcome(crCmdAckPrgFail, cmpData->instanceId,
 	                    CrFwPcktGetServType(cmpSpecificData->pckt),
 	                    CrFwPcktGetServSubType(cmpSpecificData->pckt),
 	                    CrFwPcktGetDiscriminant(cmpSpecificData->pckt),
