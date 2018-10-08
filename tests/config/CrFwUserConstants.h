@@ -44,6 +44,9 @@ typedef unsigned int CrFwTimeStamp_t;
 /** Type for the Progress Step Identifier of an InCommand */
 typedef unsigned short CrFwProgressStepId_t;
 
+/** Type for the counter of execution progress steps */
+typedef unsigned short CrFwExecStepId_t;
+
 /** Type used for the number of elapsed cycles.
  * Many applications operate on a cyclical basis and this
  * type is used for the number of elapsed execution cycles. */
