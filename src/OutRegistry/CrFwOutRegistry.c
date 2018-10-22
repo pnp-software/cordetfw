@@ -177,7 +177,7 @@ CrFwCmdRepIndex_t CrFwOutRegistryGetCmdRepIndex(CrFwServType_t servType, CrFwSer
 void CrFwOutRegistrySetEnable(CrFwServType_t servType, CrFwServSubType_t servSubType,
                               CrFwDiscriminant_t discriminant, CrFwBool_t isEnabled) {
 	CrFwCmdRepIndex_t i = 0;
-	CrFwDiscriminant_t byteIndex, bitPos;
+	CrFwDiscriminant_t byteIndex, bitPos, discOffset;
 	unsigned char temp;
 
 	while (servDesc[i].nextServType != 0)
@@ -224,17 +224,24 @@ void CrFwOutRegistrySetEnable(CrFwServType_t servType, CrFwServSubType_t servSub
 		return;
 	}
 
-	if (discriminant > servDesc[i].maxDiscriminant)
+	if (discriminant > servDesc[i].upperBoundDisc) {
 		CrFwSetAppErrCode(crIllDiscriminant);
+	    return;
+    }
+
+	if (discriminant < servDesc[i].lowerBoundDisc) {
+        CrFwSetAppErrCode(crIllDiscriminant);
+        return;
+    }
+
+	discOffset = discriminant - servDesc[i].lowerBoundDisc + 1;
+	byteIndex = discOffset/(8*sizeof(char));
+	bitPos = (CrFwDiscriminant_t)(discOffset - byteIndex*8*(CrFwDiscriminant_t)sizeof(char));
+	if (isEnabled == 1)
+		servDesc[i].isDiscriminantEnabled[byteIndex] = servDesc[i].isDiscriminantEnabled[byteIndex] | (unsigned char)(1 << (bitPos-1));
 	else {
-		byteIndex = discriminant/(8*sizeof(char));
-		bitPos = (CrFwDiscriminant_t)(discriminant - byteIndex*8*(CrFwDiscriminant_t)sizeof(char));
-		if (isEnabled == 1)
-			servDesc[i].isDiscriminantEnabled[byteIndex] = servDesc[i].isDiscriminantEnabled[byteIndex] | (unsigned char)(1 << (bitPos-1));
-		else {
-			temp = (unsigned char)(~(1 << (bitPos-1)));
-			servDesc[i].isDiscriminantEnabled[byteIndex] = servDesc[i].isDiscriminantEnabled[byteIndex] & temp;
-		}
+		temp = (unsigned char)(~(1 << (bitPos-1)));
+		servDesc[i].isDiscriminantEnabled[byteIndex] = servDesc[i].isDiscriminantEnabled[byteIndex] & temp;
 	}
 }
 
@@ -243,7 +250,7 @@ CrFwBool_t CrFwOutRegistryIsEnabled(FwSmDesc_t outCmp) {
 	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(outCmp);
 	CrFwOutCmpData_t* cmpSpecificData = (CrFwOutCmpData_t*)cmpData->cmpSpecificData;
 	CrFwCmdRepIndex_t cmdRepIndex;
-	CrFwDiscriminant_t byteIndex, bitPos, discriminant;
+	CrFwDiscriminant_t byteIndex, bitPos, discriminant, discOffset;
 	unsigned char enableByte;
 	/*CrFwOutCmpData_t* outCmpData = &(((CrFwCmpData_t*)FwSmGetData(outCmp))->cmpSpecificData.outCmpData);*/
 
@@ -257,8 +264,9 @@ CrFwBool_t CrFwOutRegistryIsEnabled(FwSmDesc_t outCmp) {
 	discriminant = CrFwOutCmpGetDiscriminant(outCmp);
 	if (discriminant == 0)
 		return 1;
-	byteIndex = discriminant/(8*sizeof(char));
-	bitPos = (CrFwDiscriminant_t)(discriminant - byteIndex*8*(CrFwDiscriminant_t)sizeof(char));
+	discOffset = (discriminant - servDesc[cmdRepIndex].lowerBoundDisc + 1);
+	byteIndex = discOffset/(8*sizeof(char));
+	bitPos = (CrFwDiscriminant_t)(discOffset - byteIndex*8*(CrFwDiscriminant_t)sizeof(char));
 	enableByte = servDesc[cmdRepIndex].isDiscriminantEnabled[byteIndex];
 	if ((enableByte & (1 << (bitPos-1))) == 0)
 		return 0;
@@ -321,16 +329,18 @@ CrFwOutRegistryCmdRepState_t CrFwOutRegistryGetState(CrFwInstanceId_t cmdRepId) 
 
 /*------------------------------------------------------------------------------------*/
 static void OutRegistryInitAction(FwPrDesc_t initPr) {
-	CrFwCmdRepIndex_t i, nextServType;
+    CrFwCmdRepIndex_t i, nextServType;
 	CrFwDiscriminant_t nOfBytes;
 	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwPrGetData(initPr);
+    CrFwDiscriminant_t nOfDiscValues;
 
 	for (i=0; i<CR_FW_OUTREGISTRY_NSERV; i++) {
-		if (servDesc[i].maxDiscriminant == 0)
-			servDesc[i].isDiscriminantEnabled = NULL;
+		if (servDesc[i].upperBoundDisc == 0)
+		    servDesc[i].isDiscriminantEnabled = NULL;
 		else {
-			nOfBytes = (CrFwDiscriminant_t)(servDesc[i].maxDiscriminant/sizeof(char)+1);
-			servDesc[i].isDiscriminantEnabled = malloc(sizeof(unsigned char)*nOfBytes);
+		    nOfDiscValues = servDesc[i].upperBoundDisc - servDesc[i].lowerBoundDisc;
+		    nOfBytes = (CrFwDiscriminant_t)(nOfDiscValues/sizeof(char)+1);
+		    servDesc[i].isDiscriminantEnabled = malloc(sizeof(unsigned char)*nOfBytes);
 		}
 	}
 
@@ -351,12 +361,14 @@ static void OutRegistryConfigAction(FwPrDesc_t initPr) {
 	CrFwDiscriminant_t j;
 	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwPrGetData(initPr);
 	CrFwCounterU2_t k;
+	CrFwDiscriminant_t nOfDiscValues;
 
 	for (i=0; i<CR_FW_OUTREGISTRY_NSERV; i++) {
 		servDesc[i].isServTypeEnabled = 1;
 		servDesc[i].isServSubTypeEnabled = 1;
-		if (servDesc[i].maxDiscriminant != 0)
-			for (j=0; j<(servDesc[i].maxDiscriminant/(8*sizeof(char))+1); j++)
+		nOfDiscValues = servDesc[i].upperBoundDisc - servDesc[i].lowerBoundDisc;
+		if (servDesc[i].upperBoundDisc != 0)
+			for (j=0; j<(nOfDiscValues/(8*sizeof(char))+1); j++)
 				servDesc[i].isDiscriminantEnabled[j] = (unsigned char)(~0);
 	}
 
@@ -373,11 +385,12 @@ static void OutRegistryShutdownAction(FwSmDesc_t smDesc) {
 	CrFwCmdRepIndex_t i;
 	CrFwCounterU2_t k;
 	CRFW_UNUSED(smDesc);
+    CrFwDiscriminant_t nOfDiscValues;
 
 	for (i=0; i<CR_FW_OUTREGISTRY_NSERV; i++) {
 		servDesc[i].isServTypeEnabled = 1;
 		servDesc[i].isServSubTypeEnabled = 1;
-		if (servDesc[i].maxDiscriminant != 0)
+		if (servDesc[i].upperBoundDisc != 0)
 			free(servDesc[i].isDiscriminantEnabled);
 	}
 

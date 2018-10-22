@@ -43,7 +43,7 @@
 /** Array holding the keys of the OutComponents kinds */
 static CrFwCmdRepKindKey_t outCmpKindKey[CR_FW_OUTCMP_NKINDS];
 
-/** Array of service descriptors (see <code>CrFwServDesc_t</code>). */
+/** Array of service descriptors */
 static CrFwOutCmpKindDesc_t outCmpKindDesc[CR_FW_OUTCMP_NKINDS] = CR_FW_OUTCMP_INIT_KIND_DESC;
 
 /** The pre-allocated OutComponent instances */

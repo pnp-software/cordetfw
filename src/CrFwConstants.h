@@ -372,25 +372,27 @@ typedef struct {
  * An application supports a number of service types and, for each service type, it supports
  * a number of sub-types.
  * An instance of this type describes one of the [service type, service sub-type] pairs supported
- * by an application.
+ * by an application together with a range of discriminant associated to them.
  */
 typedef struct {
 	/** The service type */
 	CrFwServType_t servType;
 	/** The service sub-type */
 	CrFwServSubType_t servSubType;
-	/** The maximum value of the discriminant (or zero if no discriminant for this type/sub-type) */
-	CrFwDiscriminant_t maxDiscriminant;
+	/** The lower bound of a range of discriminant values (or zero if no discriminant for this type/sub-type) */
+	CrFwDiscriminant_t lowerBoundDisc;
+    /** The upper bound of a range of discriminant values (or zero if no discriminant for this type/sub-type) */
+    CrFwDiscriminant_t upperBoundDisc;
 	/** Index of the next service type or zero when this is the last service type */
 	CrFwCmdRepIndex_t nextServType;
-	/** The enable state for the service type (see <code>CrFwOutRegistry.h</code>) */
+	/** Number of discriminant values for this [type, sub-type] pair in the next row */
 	CrFwBool_t isServTypeEnabled;
 	/** The enable state for the service sub-type (see <code>CrFwOutRegistry.h</code>) */
 	CrFwBool_t isServSubTypeEnabled;
 	/**
-	 * The enable state for the discriminant values (see <code>CrFwOutRegistry.h</code>).
+	 * The enable state for the discriminants in the range [lowerBoundDisc,lowerBoundDisc].
 	 * This is intended to be an array of bits such that each bit represents a discriminant
-	 * value for the type/sub-type.
+	 * value within the range [lowerBoundDisc,lowerBoundDisc].
 	 * If the bit is equal to 1, the discriminant value is enabled; otherwise it is disabled.
 	 */
 	unsigned char* isDiscriminantEnabled;

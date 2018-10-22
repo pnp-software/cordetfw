@@ -46,36 +46,40 @@
  * An application supports a number of service types and, for each service type, it supports
  * a number of sub-types.
  * Each sub-type may support a range of discriminant values.
- * Each line in this initializer describes one [service type, service sub-type] pair which is
- * supported by the application.
+ * Each line in this initializer describes one [service type, service sub-type] pair together
+ * with a range of discriminant.
  * The elements in each line are as follows:
- * - The service type
- * - The service sub-type
- * - The maximum value of the discriminant for commands or reports of that type and
- *   sub-type. A value of zero indicates that no discriminant is associated to commands
- *   or report of that type and sub-type.
+ * - The service type s
+ * - The service sub-type b
+ * - The lower bound l of the range of discriminant values
+ * - The upper bound u of the range of discriminant values
+ * - Four values used internally by the software which must be set to zero
  * .
+ * If a [type,sub-type] pair does not support a discriminant, then l and u must be set to zero.
+ *
  * The list of service descriptors must satisfy the following constraints:
  * - The number of lines must be the same as <code>#CR_FW_OUTREGISTRY_NSERV</code>.
  * - The service types must be listed in increasing order.
  * - The service sub-types within a service type must be listed in increasing order.
  * - The set of service type and sub-types must be consistent with the service types and
  *   sub-types declared in the <code>#CR_FW_OUTCMP_INIT_KIND_DESC</code> initializer.
+ * - The lower bound l of a range of discriminant values must be smaller than or equal to the
+ *   upper bound u
  * .
- * Compliance with the last three constraints is checked by
+ * Compliance with the last four constraints is checked by
  * <code>::CrFwAuxOutRegistryConfigCheck</code>.
  */
 #define CR_FW_OUTREGISTRY_INIT_SERV_DESC \
-	{ {1, 1, 0, 0, 0, 0, 0},  \
-	  {1, 2, 10, 0, 0, 0, 0},  \
-	  {1, 7, 0, 0, 0, 0, 0},  \
-	  {1, 8, 10, 0, 0, 0, 0},  \
-	  {5, 1, 10, 0, 0, 0, 0},  \
-	  {5, 2, 20, 0, 0, 0, 0},  \
-	  {5, 3, 31, 0, 0, 0, 0},  \
-	  {5, 4, 40, 0, 0, 0, 0},  \
-	  {25, 3, 50, 0, 0, 0, 0},  \
-	  {50, 1, 0, 0, 0, 0, 0},  \
+	{ {1, 1, 0, 0, 0, 0, 0, 0},  \
+	  {1, 2, 1, 10, 0, 0, 0, 0},  \
+	  {1, 7, 0, 0, 0, 0, 0, 0},  \
+	  {1, 8, 1, 10, 0, 0, 0, 0},  \
+	  {5, 1, 1, 10, 0, 0, 0, 0},  \
+	  {5, 2, 10, 20, 0, 0, 0, 0},  \
+	  {5, 3, 20, 31, 0, 0, 0, 0},  \
+	  {5, 4, 0, 40, 0, 0, 0, 0},  \
+	  {25, 3, 0, 0,0, 0, 0, 0},  \
+	  {50, 1, 0, 0, 0, 0, 0, 0},  \
 	}
 
 #endif /* CRFW_OUTREGISTRY_USERPAR_H_ */

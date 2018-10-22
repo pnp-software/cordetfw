@@ -48,10 +48,10 @@ static CrFwCmdRepKindKey_t inCmdKindKey[CR_FW_INCMD_NKINDS];
 /** Array holding the keys of the InReport kinds */
 static CrFwCmdRepKindKey_t inRepKindKey[CR_FW_INREP_NKINDS];
 
-/** Array of InCommand service descriptors (see <code>CrFwServDesc_t</code>). */
+/** Array of InCommand service descriptors */
 static CrFwInCmdKindDesc_t inCmdKindDesc[CR_FW_INCMD_NKINDS] = CR_FW_INCMD_INIT_KIND_DESC;
 
-/** Array of InReport service descriptors (see <code>CrFwServDesc_t</code>). */
+/** Array of InReport service descriptors */
 static CrFwInRepKindDesc_t inRepKindDesc[CR_FW_INREP_NKINDS] = CR_FW_INREP_INIT_KIND_DESC;
 
 /** The pre-allocated InCommand instances */
