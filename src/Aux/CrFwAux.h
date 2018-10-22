@@ -77,6 +77,8 @@ CrFwConfigCheckOutcome_t CrFwAuxConfigCheck();
  *   <code>#CR_FW_OUTREGISTRY_INIT_SERV_DESC</code> initializer are consistent with
  *   service type, sub-types and discriminant values defined in the
  *   <code>#CR_FW_OUTCMP_INIT_KIND_DESC</code>.
+ * - The lower bound of a range of discriminant values in <code>#CR_FW_OUTREGISTRY_INIT_SERV_DESC</code>
+ *   is smaller than or equal to the upper bound.
  * - The size of the InStream packet queue is greater than zero.
  * - The size of the OutStream packet queue is greater than zero.
  * - The size of the Pending OutComponent List (POCL) is greater than zero.

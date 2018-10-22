@@ -112,6 +112,11 @@ CrFwBool_t CrFwAuxOutRegistryConfigCheck() {
 			return 0;
 	}
 
+    for (i=0; i<CR_FW_OUTREGISTRY_NSERV; i++) {
+        if (servDesc[i].lowerBoundDisc > servDesc[i].upperBoundDisc)
+            return 0;
+    }
+
 	for (k=0; k<CR_FW_NOF_INSTREAM; k++)
 		/* The following can be dead code, depending on the specific
 		 * instantiation of the FW Profile.*/
@@ -170,10 +175,11 @@ CrFwBool_t CrFwAuxOutFactoryConfigCheck() {
 		for (j=0; j<CR_FW_OUTREGISTRY_NSERV; j++) {
 			if (servDesc[j].servType == servType)
 				if (servDesc[j].servSubType == servSubType)
-					if (servDesc[j].maxDiscriminant >= disc) {
-						found = 1;
-						break;
-					}
+					if (disc <= servDesc[j].upperBoundDisc)
+					    if (disc >= servDesc[j].lowerBoundDisc) {
+					        found = 1;
+					        break;
+					    }
 			if (servDesc[j].servType > servType)
 				break;
 		}
