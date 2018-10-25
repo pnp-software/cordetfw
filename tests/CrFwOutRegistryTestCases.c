@@ -401,11 +401,17 @@ CrFwBool_t CrFwOutRegistryTestCase6() {
 		return 0;
 	CrFwSetAppErrCode(crNoAppErr);
 
-	/* Disable non-existent discriminant value */
+	/* Disable non-existent discriminant value (higher than upper bound) */
 	CrFwOutRegistrySetEnable(5,4,41,0);
 	if (CrFwGetAppErrCode() != crIllDiscriminant)
 		return 0;
 	CrFwSetAppErrCode(crNoAppErr);
+
+    /* Disable non-existent discriminant value (lower than lower bound) */
+    CrFwOutRegistrySetEnable(5,3,19,0);
+    if (CrFwGetAppErrCode() != crIllDiscriminant)
+        return 0;
+    CrFwSetAppErrCode(crNoAppErr);
 
 	return 1;
 }
