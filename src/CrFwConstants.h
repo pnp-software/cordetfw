@@ -150,8 +150,8 @@ typedef void (*CrFwInCmdStartAction_t)(FwSmDesc_t);
  * <code>::CrFwInCmdSetProgressActionCompleted</code> and
  * <code>::CrFwInCmdIsProgressActionCompleted</code>.
  *
- * The success outcome is either '1' (to signify that command execution has been
- * completed), or an integer different from '1' (to signify that the action failed
+ * The success outcome is either '1' (to signify that the execution of the progress step has
+ * been successful), or an integer different from '1' (to signify that the progress step failed
  *  -- in this case the outcome is a code which identifies the reason for the failure).
  * The success outcome of an InCommand is accessed with functions
  * <code>::CrFwSetSmOutcome</code> and <code>::CrFwGetSmOutcome</code>.
