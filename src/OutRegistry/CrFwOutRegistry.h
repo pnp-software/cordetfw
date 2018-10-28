@@ -195,7 +195,7 @@ CrFwCmdRepIndex_t CrFwOutRegistryGetCmdRepIndex(CrFwServType_t servType, CrFwSer
  * @param servType the service type
  * @param servSubType the service type
  * @param discriminant the discriminant
- * @param isEnabled the enable state
+ * @param isEnabled the enable state (1 means enabled and 0 means disabled)
  */
 void CrFwOutRegistrySetEnable(CrFwServType_t servType, CrFwServSubType_t servSubType,
                               CrFwDiscriminant_t discriminant, CrFwBool_t isEnabled);
@@ -208,7 +208,8 @@ void CrFwOutRegistrySetEnable(CrFwServType_t servType, CrFwServSubType_t servSub
  * Enable State Determination Procedure shown in the figure.
  * @image html EnableStateDetermination.png
  * @param outCmp the out-going command or report as an OutComponent
- * @return the enable state of the specified command or report
+ * @return the enable state of the specified command or report (1 means enabled and 0
+ * means disabled)
  */
 CrFwBool_t CrFwOutRegistryIsEnabled(FwSmDesc_t outCmp);
 
