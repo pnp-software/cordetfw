@@ -175,7 +175,11 @@ CrFwBool_t CrFwAuxOutFactoryConfigCheck() {
 		for (j=0; j<CR_FW_OUTREGISTRY_NSERV; j++) {
 			if (servDesc[j].servType == servType)
 				if (servDesc[j].servSubType == servSubType)
-					if (disc <= servDesc[j].upperBoundDisc)
+                    if (disc == 0) {
+                        found = 1;
+                        break;
+                    }
+				    if (disc <= servDesc[j].upperBoundDisc)
 					    if (disc >= servDesc[j].lowerBoundDisc) {
 					        found = 1;
 					        break;
