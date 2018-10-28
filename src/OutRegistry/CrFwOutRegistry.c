@@ -340,7 +340,7 @@ static void OutRegistryInitAction(FwPrDesc_t initPr) {
 		else {
 		    nOfDiscValues = servDesc[i].upperBoundDisc - servDesc[i].lowerBoundDisc;
 		    nOfBytes = (CrFwDiscriminant_t)(nOfDiscValues/sizeof(char)+1);
-		    servDesc[i].isDiscriminantEnabled = malloc(sizeof(unsigned char)*nOfBytes);
+		    servDesc[i].isDiscriminantEnabled = malloc(nOfBytes);
 		}
 	}
 
