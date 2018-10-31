@@ -40,11 +40,12 @@
 CrFwBool_t CrFwOutRegistryTestCase1();
 
 /**
- * Test the functions to manipulate the type, sub-type and index of an out-going command
- * or report.
+ * Test the functions to manipulate the type, sub-type, discriminant and index of an
+ * out-going command or report.
  * The following actions are performed in this test:
  * - Get the type and sub-type corresponding to a set of index values
- * - Get the index value corresponding to several sets of [type, sub-type] pairs.
+ * - Get the index value corresponding to several sets of [type, sub-type] pairs
+ * - Get the lower and upper discriminantn values corresponding to a set of index values
  * .
  * @return true if the test was successful, false otherwise.
  */

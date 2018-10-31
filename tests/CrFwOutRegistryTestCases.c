@@ -126,6 +126,18 @@ CrFwBool_t CrFwOutRegistryTestCase2() {
 	if (CrFwOutRegistryGetCmdRepIndex(25,3) != 8)
 		return 0;
 
+	if (CrFwOutRegistryGetLowerDiscriminant(1) != 1)
+	    return 0;
+
+    if (CrFwOutRegistryGetUpperDiscriminant(1) != 10)
+        return 0;
+
+    if (CrFwOutRegistryGetLowerDiscriminant(2) != 0)
+        return 0;
+
+    if (CrFwOutRegistryGetUpperDiscriminant(2) != 0)
+        return 0;
+
 	return 1;
 }
 

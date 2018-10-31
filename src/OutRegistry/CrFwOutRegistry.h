@@ -156,6 +156,32 @@ CrFwServType_t CrFwOutRegistryGetServType(CrFwCmdRepIndex_t cmdRepIndex);
 CrFwServSubType_t CrFwOutRegistryGetServSubType(CrFwCmdRepIndex_t cmdRepIndex);
 
 /**
+ * Get the lower bound of the argument command or report index.
+ * For out-going commands or reports the index uniquely identifies a pair:
+ * [service type, service sub-type].
+ * This function returns the lower discriminant value corresponding to a certain index value.
+ * If the index value is out of range (i.e. if it is greater than
+ * <code>::CR_FW_OUTREGISTRY_NSERV</code>-1), the behaviour of this function is
+ * undefined.
+ * @param cmdRepIndex the command or report index
+ * @return the lower discriminant bound corresponding to the command or report index
+ */
+CrFwDiscriminant_t CrFwOutRegistryGetLowerDiscriminant(CrFwCmdRepIndex_t cmdRepIndex);
+
+/**
+ * Get the upper bound of the argument command or report index.
+ * For out-going commands or reports the index uniquely identifies a pair:
+ * [service type, service sub-type].
+ * This function returns the upper discriminant value corresponding to a certain index value.
+ * If the index value is out of range (i.e. if it is greater than
+ * <code>::CR_FW_OUTREGISTRY_NSERV</code>-1), the behaviour of this function is
+ * undefined.
+ * @param cmdRepIndex the command or report index
+ * @return the upper discriminant bound corresponding to the command or report index
+ */
+CrFwDiscriminant_t CrFwOutRegistryGetUpperDiscriminant(CrFwCmdRepIndex_t cmdRepIndex);
+
+/**
  * Get the index corresponding to the argument [service type, service sub-type] of an out-going
  * command or report.
  * For out-going commands or reports the index uniquely identifies a pair:

@@ -148,6 +148,16 @@ CrFwServSubType_t CrFwOutRegistryGetServSubType(CrFwCmdRepIndex_t cmdRepIndex) {
 }
 
 /*------------------------------------------------------------------------------------*/
+CrFwDiscriminant_t CrFwOutRegistryGetUpperDiscriminant(CrFwCmdRepIndex_t cmdRepIndex) {
+    return servDesc[cmdRepIndex].upperBoundDisc;
+}
+
+/*------------------------------------------------------------------------------------*/
+CrFwDiscriminant_t CrFwOutRegistryGetLowerDiscriminant(CrFwCmdRepIndex_t cmdRepIndex) {
+    return servDesc[cmdRepIndex].lowerBoundDisc;
+}
+
+/*------------------------------------------------------------------------------------*/
 CrFwCmdRepIndex_t CrFwOutRegistryGetCmdRepIndex(CrFwServType_t servType, CrFwServSubType_t servSubType) {
 	CrFwCmdRepIndex_t i = 0;
 
@@ -379,4 +389,30 @@ static void OutRegistryShutdownAction(FwSmDesc_t smDesc) {
 		cmdRepState[k].state = crOutRegistryNoEntry;
 
 	cmdRepStateIndex = 0;
+}
+
+/*------------------------------------------------------------------------------------*/
+CrFwDiscriminant_t CrFwOutRegistryGetMinDiscriminant(CrFwServType_t servType,
+                                                     CrFwServSubType_t servSubType) {
+    CrFwCmdRepIndex_t cmdRepIndex;
+
+    cmdRepIndex = CrFwOutRegistryGetCmdRepIndex(servType, servSubType);
+
+    if (cmdRepIndex == CR_FW_OUTREGISTRY_NSERV)     /* pair [servType, servSubType] is illegal */
+        return 0;
+    else
+        return servDesc[cmdRepIndex].lowerBoundDisc;
+}
+
+/*------------------------------------------------------------------------------------*/
+CrFwDiscriminant_t CrFwOutRegistryGetMaxDiscriminant(CrFwServType_t servType,
+                                                     CrFwServSubType_t servSubType) {
+    CrFwCmdRepIndex_t cmdRepIndex;
+
+    cmdRepIndex = CrFwOutRegistryGetCmdRepIndex(servType, servSubType);
+
+    if (cmdRepIndex == CR_FW_OUTREGISTRY_NSERV)     /* pair [servType, servSubType] is illegal */
+        return 0;
+    else
+        return servDesc[cmdRepIndex].upperBoundDisc;
 }
