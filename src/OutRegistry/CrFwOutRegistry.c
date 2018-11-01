@@ -158,6 +158,12 @@ CrFwDiscriminant_t CrFwOutRegistryGetLowerDiscriminant(CrFwCmdRepIndex_t cmdRepI
 }
 
 /*------------------------------------------------------------------------------------*/
+CrFwBool_t CrFwOutRegistryIsDiscriminantEnabled(CrFwCmdRepIndex_t cmdRepIndex, CrFwDiscriminant_t disc) {
+    CrFwDiscriminant_t lowerBound = servDesc[cmdRepIndex].lowerBoundDisc;
+    return servDesc[cmdRepIndex].isDiscriminantEnabled[disc - lowerBound];
+}
+
+/*------------------------------------------------------------------------------------*/
 CrFwCmdRepIndex_t CrFwOutRegistryGetCmdRepIndex(CrFwServType_t servType, CrFwServSubType_t servSubType) {
 	CrFwCmdRepIndex_t i = 0;
 
@@ -329,7 +335,7 @@ static void OutRegistryInitAction(FwPrDesc_t initPr) {
 
 	for (i=0; i<CR_FW_OUTREGISTRY_NSERV; i++) {
 		if (servDesc[i].upperBoundDisc == 0)
-		    servDesc[i].isDiscriminantEnabled = NULL;
+		    servDesc[i].isDiscriminantEnabled = malloc(1);  /* To avoid dangling pointers */
 		else {
 		    nOfDiscValues = servDesc[i].upperBoundDisc - servDesc[i].lowerBoundDisc + 1;
 		    servDesc[i].isDiscriminantEnabled = malloc(nOfDiscValues);
@@ -391,28 +397,3 @@ static void OutRegistryShutdownAction(FwSmDesc_t smDesc) {
 	cmdRepStateIndex = 0;
 }
 
-/*------------------------------------------------------------------------------------*/
-CrFwDiscriminant_t CrFwOutRegistryGetMinDiscriminant(CrFwServType_t servType,
-                                                     CrFwServSubType_t servSubType) {
-    CrFwCmdRepIndex_t cmdRepIndex;
-
-    cmdRepIndex = CrFwOutRegistryGetCmdRepIndex(servType, servSubType);
-
-    if (cmdRepIndex == CR_FW_OUTREGISTRY_NSERV)     /* pair [servType, servSubType] is illegal */
-        return 0;
-    else
-        return servDesc[cmdRepIndex].lowerBoundDisc;
-}
-
-/*------------------------------------------------------------------------------------*/
-CrFwDiscriminant_t CrFwOutRegistryGetMaxDiscriminant(CrFwServType_t servType,
-                                                     CrFwServSubType_t servSubType) {
-    CrFwCmdRepIndex_t cmdRepIndex;
-
-    cmdRepIndex = CrFwOutRegistryGetCmdRepIndex(servType, servSubType);
-
-    if (cmdRepIndex == CR_FW_OUTREGISTRY_NSERV)     /* pair [servType, servSubType] is illegal */
-        return 0;
-    else
-        return servDesc[cmdRepIndex].upperBoundDisc;
-}

@@ -299,6 +299,7 @@ CrFwBool_t CrFwOutRegistryTestCase4() {
 /*--------------------------------------------------------------------------------*/
 CrFwBool_t CrFwOutRegistryTestCase5() {
 	FwSmDesc_t outRegistry, outFactory, outCmp1, outCmp2;
+    CrFwCmdRepIndex_t outCmpCmdRepIndex;
 
 	/* Instantiate the OutRegistry */
 	outRegistry = CrFwOutRegistryMake();
@@ -325,12 +326,17 @@ CrFwBool_t CrFwOutRegistryTestCase5() {
 	/* Retrieve two OutComponents from the OutFactory (see CrFwOutRegistryUserPar.h and CrFwOutFactoryUserPar.h) */
 	outCmp1 = CrFwOutFactoryMakeOutCmp(5,3,30,0);
 	outCmp2 = CrFwOutFactoryMakeOutCmp(5,3,31,0);
+    outCmpCmdRepIndex = CrFwOutRegistryGetCmdRepIndex(5,3);
 
 	/* Check that OutComponents are enabled */
 	if (CrFwOutRegistryIsEnabled(outCmp1) != 1)
 		return 0;
 	if (CrFwOutRegistryIsEnabled(outCmp2) != 1)
 		return 0;
+	if (CrFwOutRegistryIsDiscriminantEnabled(outCmpCmdRepIndex, 30) != 1)
+	    return 0;
+    if (CrFwOutRegistryIsDiscriminantEnabled(outCmpCmdRepIndex, 31) != 1)
+        return 0;
 
 	/* Disable the first OutComponent */
 	CrFwOutRegistrySetEnable(5,3,30,0);
@@ -338,6 +344,10 @@ CrFwBool_t CrFwOutRegistryTestCase5() {
 		return 0;
 	if (CrFwOutRegistryIsEnabled(outCmp2) != 1)
 		return 0;
+    if (CrFwOutRegistryIsDiscriminantEnabled(outCmpCmdRepIndex, 31) != 1)
+        return 0;
+    if (CrFwOutRegistryIsDiscriminantEnabled(outCmpCmdRepIndex, 30) != 0)
+        return 0;
 
 	/* Disable the second OutComponent */
 	CrFwOutRegistrySetEnable(5,3,30,1);
@@ -346,6 +356,10 @@ CrFwBool_t CrFwOutRegistryTestCase5() {
 		return 0;
 	if (CrFwOutRegistryIsEnabled(outCmp2) != 0)
 		return 0;
+    if (CrFwOutRegistryIsDiscriminantEnabled(outCmpCmdRepIndex, 30) != 1)
+        return 0;
+    if (CrFwOutRegistryIsDiscriminantEnabled(outCmpCmdRepIndex, 31) != 0)
+        return 0;
 
 	/* Disable both OutComponents */
 	CrFwOutRegistrySetEnable(5,3,30,0);
@@ -354,6 +368,10 @@ CrFwBool_t CrFwOutRegistryTestCase5() {
 		return 0;
 	if (CrFwOutRegistryIsEnabled(outCmp2) != 0)
 		return 0;
+    if (CrFwOutRegistryIsDiscriminantEnabled(outCmpCmdRepIndex, 30) != 0)
+        return 0;
+    if (CrFwOutRegistryIsDiscriminantEnabled(outCmpCmdRepIndex, 31) != 0)
+        return 0;
 
 	/* Enable both OutComponents */
 	CrFwOutRegistrySetEnable(5,3,30,1);

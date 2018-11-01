@@ -182,6 +182,32 @@ CrFwDiscriminant_t CrFwOutRegistryGetLowerDiscriminant(CrFwCmdRepIndex_t cmdRepI
 CrFwDiscriminant_t CrFwOutRegistryGetUpperDiscriminant(CrFwCmdRepIndex_t cmdRepIndex);
 
 /**
+ * Get the enable status of a discriminant in the argument command or report index.
+ * For out-going commands or reports the index uniquely identifies a pair:
+ * [service type, service sub-type].
+ * For each [service type, service sub-type], the OutRegistry stores the range of
+ * discriminant values and stores the current enable type of each discriminant value
+ * (the boudanries of the range are returned by functions
+ * <code>::CrFwOutRegistryGetUpperDiscriminant</code> and
+ * <code>::CrFwOutRegistryGetLowerDiscriminant</code>).
+ * This function returns the enable status of a discriminant in that range.
+ *
+ * If the index value is out of range (i.e. if it is greater than
+ * <code>::CR_FW_OUTREGISTRY_NSERV</code>-1) or if the argument discriminant is out
+ * of range (i.e. if it is lower outside the interval [l,u] where l and u are the
+ * return values of <code>::CrFwOutRegistryGetUpperDiscriminant</code> and
+ * <code>::CrFwOutRegistryGetLowerDiscriminant</code>), or if there are no
+ * discriminants associated to the argument command or report index, the behaviour
+ * of this function is undefined.
+ *
+ * @param cmdRepIndex the command or report index
+ * @param disc the value of the discriminant
+ * @return the enable status of the i-th discriminant in the discriminant range of
+ * the command or report index
+ */
+CrFwBool_t CrFwOutRegistryIsDiscriminantEnabled(CrFwCmdRepIndex_t cmdRepIndex, CrFwDiscriminant_t disc);
+
+/**
  * Get the index corresponding to the argument [service type, service sub-type] of an out-going
  * command or report.
  * For out-going commands or reports the index uniquely identifies a pair:
