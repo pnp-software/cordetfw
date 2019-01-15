@@ -35,7 +35,7 @@ typedef int CrFwBool_t;
 typedef unsigned short CrFwCmdRepIndex_t;
 
 /** Type for packets (see <code>CrFwPckt.h</code>). Packets are treated as arrays of bytes. */
-typedef char* CrFwPckt_t;
+typedef unsigned char* CrFwPckt_t;
 
 /** Enumerated type for command and reports */
 typedef enum {
