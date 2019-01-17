@@ -126,12 +126,12 @@ void CrFwInCmdConfigCheck(FwPrDesc_t prDesc);
 
 /**
  * Return the progress step identifier of the InCommand.
- * The progress step identifier is a positive integer which identifies the
+ * The progress step identifier is a non-negative integer which identifies the
  * current progress step of the InCommand.
  * A Progress Step is a set of logically related execution steps of the InCommand
  * which are executed in sequence.
  *
- * At framework level, the Progress Step Identifier is initialized to 1 and
+ * At framework level, the Progress Step Identifier is initialized to 0 and
  * is never updated afterwards.
  * Applications would normally set its initial value in the Start Action and
  * would increment its value in the Progress Action.
@@ -178,11 +178,13 @@ CrFwBool_t CrFwInCmdIsProgressActionCompleted(FwSmDesc_t smDesc);
 void CrFwInCmdSetProgressActionCompleted(FwSmDesc_t smDesc, CrFwBool_t progressActionCompleted);
 
 /**
- * Return the number of progress failures.
- * A progress failure occurs when the progress action is executed and it returns
+ * Return the number of progress step failures.
+ * A progress step failure occurs when the progress action is executed and it returns
  * with the outcome of "failed" (see <code>::CrFwInCmdProgressAction_t<.code>).
- * Normally, a progress failure should only be reported at the end of a progress step
+ * Normally, a progress step failure should only be reported at the end of a progress step.
  * but this constraint is not enforced by the framework.
+ * It is the responsibility of the application to update the progress step identifier when
+ * a progress step has failed.
  *
  * The number of progress steps which failed is initialized to zero when the InCommand is
  * instantiated and is incremented by 1 every time a progress step has a "failed" outcome.

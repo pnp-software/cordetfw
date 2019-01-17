@@ -161,9 +161,9 @@ CrFwBool_t CrFwInCmdTestCase1() {
 		return 0;
 
 	/* Check progress step */
-	if (CrFwInCmdGetProgressStepId(inCmd1) != 1)
+	if (CrFwInCmdGetProgressStepId(inCmd1) != 0)
 		return 0;
-	if (CrFwInCmdGetProgressStepId(inCmd2) != 1)
+	if (CrFwInCmdGetProgressStepId(inCmd2) != 0)
 		return 0;
 
 	/* Check default completion status */
@@ -553,7 +553,7 @@ CrFwBool_t CrFwInCmdTestCase6() {
 		return 0;
 
 	/* Check progress step */
-	if (CrFwInCmdGetProgressStepId(inCmd) != 1)
+	if (CrFwInCmdGetProgressStepId(inCmd) != 0)
 		return 0;
 
 	/* Release the InCommands */
