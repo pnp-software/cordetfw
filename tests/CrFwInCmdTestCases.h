@@ -34,7 +34,7 @@
  *   InCommand are correct.
  * - It is checked that the InCommand source, group and sequence counter are correctly set.
  * - It is checked that the acknowledge levels of the InCommands are correct.
- * - It is checked that the progress step is equal to 1.
+ * - It is checked that the progress step is equal to 0.
  * - It is checked that the default completion status is: "completed".
  * .
  * @verify InCommand SM Transition: IPS->ACCEPTED
@@ -143,7 +143,7 @@ CrFwBool_t CrFwInCmdTestCase5();
  * - The Progress Action of the Sample InCommand is configured to have an outcome of "completed".
  * - Command Terminate is sent to the InCommand and it is checked that state TERMINATED is entered and
  *   that the Termination Action is executed.
- * - It is checked that the progress step remains equal to 1 and that the number of failed progress steps
+ * - It is checked that the progress step remains equal to 0 and that the number of failed progress steps
  *   remains equal to zero.
  * .
  * @verify InCommand SM Transition: IPS->ACCEPTED

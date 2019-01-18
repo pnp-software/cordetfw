@@ -136,7 +136,7 @@ FwSmDesc_t CrFwInFactoryMakeInRep(CrFwPckt_t pckt);
  * If instead the command is legal, this function uses it to configure the InCommand.
  * The configuration information is retrieved from <code>CrFwInFactoryUserPar</code>.
  *
- * The Progress Step of the InCommands returned by this function is initialized to 1.
+ * The Progress Step of the InCommands returned by this function is initialized to 0.
  * Likewise, the completion status of the progress action of the InCommand is initialized
  * to 1 indicating "completed" (this results in an InCommand whose progress action is
  * only executed once).
