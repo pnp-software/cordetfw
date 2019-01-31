@@ -127,6 +127,12 @@ void CrFwSmEmptyAction(FwSmDesc_t smDesc) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
+void CrFwSmSuccessAction(FwSmDesc_t smDesc) {
+    CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+    cmpData->outcome = 1;
+}
+
+/*-----------------------------------------------------------------------------------------*/
 CrFwCmdRepKindIndex_t CrFwFindCmdRepKindIndex(CrFwCmdRepKindKey_t* cmdRepKindArray,
         CrFwCmdRepKindIndex_t length, CrFwCmdRepKindKey_t targetKey) {
 

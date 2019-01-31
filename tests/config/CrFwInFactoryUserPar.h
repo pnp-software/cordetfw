@@ -91,7 +91,7 @@
  *   function <code>::CrFwSmEmptyAction</code> can be used as a default).
  * - The function implementing the Termination Action Operation for this kind of incoming command
  *   (this must be a function pointer of type <code>::CrFwInCmdTerminationAction_t</code>;
- *   function <code>::CrFwSmEmptyAction</code> can be used as a default).
+ *   function <code>::CrFwSmSuccessAction</code> can be used as a default).
  * - The function implementing the Abort Action Operation for this kind of incoming command
  *   (this must be a function pointer of type <code>::CrFwInCmdAbortAction_t</code>;
  *   function <code>::CrFwSmEmptyAction</code> can be used as a default).
@@ -114,9 +114,9 @@
  */
 #define CR_FW_INCMD_INIT_KIND_DESC \
 	{ {8, 1, 1, &CrFwPrCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, &CrFwSmEmptyAction, \
-						&CrFwSmEmptyAction, &CrFwSmEmptyAction, &CrFwSmEmptyAction}, \
+						&CrFwSmEmptyAction, &CrFwSmSuccessAction, &CrFwSmEmptyAction}, \
 	  {8, 1, 2, &CrFwPrCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, &CrFwSmEmptyAction, \
-						&CrFwSmEmptyAction, &CrFwSmEmptyAction, &CrFwSmEmptyAction}, \
+						&CrFwSmEmptyAction, &CrFwSmSuccessAction, &CrFwSmEmptyAction}, \
 	  {50, 1, 0, &CrFwInCmdSample1ValidityCheck, &CrFwInCmdSample1ReadyCheck, &CrFwInCmdSample1StartAction, \
 						&CrFwInCmdSample1ProgressAction, &CrFwInCmdSample1TerminationAction, &CrFwInCmdSample1AbortAction} \
 	}

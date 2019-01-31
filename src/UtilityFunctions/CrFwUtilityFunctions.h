@@ -194,6 +194,13 @@ void CrFwPrEmptyAction(FwPrDesc_t prDesc);
 void CrFwSmEmptyAction(FwSmDesc_t smDesc);
 
 /**
+ * Convenience function to be used in a state machine as default implementation for an action
+ * which sets the action outcome to 1 (corresponding to 'success') and then returns.
+ * @param smDesc the state machine descriptor
+ */
+void CrFwSmSuccessAction(FwSmDesc_t smDesc);
+
+/**
  * Convenience function to retrieve the index of an array where a certain target value is
  * located.
  * This function is used by the InFactory (see <code>CrFwInFactory.h</code>) and OutFactory
