@@ -102,8 +102,7 @@ static FwSmBool_t IsReady(FwSmDesc_t smDesc);
 /**
  * Guard on the transition from CPS2 to TERMINATED.
  * @param smDesc the descriptor of the InCommand state machine
- * @return 1 if the outcome of the termination action was "success" and
- *           no progress steps have failed
+ * @return 1 if the outcome of the termination action was "success"
  */
 static FwSmBool_t IsTerminationSuccess(FwSmDesc_t smDesc);
 

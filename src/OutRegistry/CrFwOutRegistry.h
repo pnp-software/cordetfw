@@ -194,7 +194,7 @@ CrFwDiscriminant_t CrFwOutRegistryGetUpperDiscriminant(CrFwCmdRepIndex_t cmdRepI
  *
  * If the index value is out of range (i.e. if it is greater than
  * <code>::CR_FW_OUTREGISTRY_NSERV</code>-1) or if the argument discriminant is out
- * of range (i.e. if it is lower outside the interval [l,u] where l and u are the
+ * of range (i.e. if it is outside the interval [l,u] where l and u are the
  * return values of <code>::CrFwOutRegistryGetUpperDiscriminant</code> and
  * <code>::CrFwOutRegistryGetLowerDiscriminant</code>), or if there are no
  * discriminants associated to the argument command or report index, the behaviour
