@@ -63,7 +63,7 @@
  * The array holding the packets.
  * Packets are stored in this array in blocks of size CR_FW_MAX_PCKT_LENGTH.
  */
-static char pcktArray[CR_FW_MAX_NOF_PCKTS*CR_FW_MAX_PCKT_LENGTH];
+static unsigned char pcktArray[CR_FW_MAX_NOF_PCKTS*CR_FW_MAX_PCKT_LENGTH];
 
 /**
  * The array holding the "in use" status of the packets.
