@@ -65,6 +65,9 @@ The number and type of command parameters in a command instance is not necessari
 Thus, the layout of a command instance is fully determined by the triplet: [x,y,z] where 'x' is the identifier of the service to which the command belongs (the service type), 'y' is the identifier of the command within the service (the command sub-type), and 'z' is the discriminant. 
 
 The discriminant is an optional attribute. Command types which have no parameters, or which have a fixed set of parameters, have no discriminant.
+
+\item[CRC]\hfill\\
+A command carries a checksum which is set by the command's sender and which the recipient of the command can use to verify the integrity of the command's transmission. 
 \end{fw_description}
 
 %---------------------------------------------------------------------------------
