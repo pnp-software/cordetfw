@@ -31,4 +31,5 @@ The out-going packets which are handled by an OutStream may have two origins: (a
 
 In case (a), the sequence counter is incremented according to the group to which an out-going command or report belongs. Thus, an OutStream maintains an array of sequence counters, one for each group to which its out-going commands or reports may belong. The i-th element of this array holds the value of sequence counter which will be assigned by the OutStream to the next out-going command or report belonging to the i-th group managed by the OutStream. The sequence counters are initialized to 1 when the OutStream is reset (i.e. the first value of sequence counter assigned to an out-going command or report after the OutStream is reset is 1). If a command or report has an illegal group attribute, this is reported as an error.
 
+The OutStream is responsible for computing and setting the CRC of an out-going packet. This can only be done after the sequence counter has been set (because the sequence counter itself contributes to the value of the CRC).
  

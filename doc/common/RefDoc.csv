@@ -1,0 +1,7 @@
+Id|Title|Nr|A|B|C|D|E|F|Issue|Remark|PxSp
+|||||||||||
+[CR-PS]|The CORDET Framework – Specification (available from \url{www.pnp-software.com/cordetfw})|PP-DF-COR-002|||||||1.6||RD
+[FW-SP]|The Framework Profile (available from \url{www.pnp-software.com/fwprofile})|PP-DF-COR-001|||||||1.3||RD
+[PS-SP]|Ground Systems and Operations, Telemetry and Telecommand Packet Utilization Standard |ECSS-E-70-41C|||||||C||RD
+[PX-SP]|The PUS Extension of the CORDET Framework – Specification|PP-DF-COR-003|||||||0.2||
+[PX-IC]|The PUS Extension of the CORDET Framework – ICD |PP-IC-COR-001|||||||0.2||RD

@@ -42,6 +42,11 @@
 \usepackage{calc}
 \usepackage{ifthen}
 
+
+\usepackage{underscore}  % Allows underscores to be used in non-math text (use of
+                         % of this package apparently is not compatible with use of
+                         % underscores in labels and other 'special' text
+
 \newcolumntype{x}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
 
 %---------------------------------------------
@@ -100,10 +105,11 @@
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
-\lhead{\includegraphics[scale=0.25,keepaspectratio=true]{logoPnP_1.jpg}}
+%\lhead{\includegraphics[scale=0.25,keepaspectratio=true]{logoPnP_1.jpg}}
+\lhead{ \includegraphics[scale=0.25,keepaspectratio=true]{logoPnP_2.png}}
 \chead{\url{www.pnp-software.com} \\}
 \rhead{\GetDocRefNumber \\ Revision \GetDocIssue \\ Date \today}
-\lfoot{\textcopyright2017 P\&P Software GmbH. All Rights Reserved.}
+\lfoot{\textcopyright2019 P\&P Software GmbH. All Rights Reserved.}
 \cfoot{\vspace{5mm}
 %{\color{red}\verbatiminput{../commercial/LicensedTo.txt}}
 }
@@ -288,7 +294,8 @@ E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-
   }
 
 % pnpcsvtable
-% arg[1] - optional argument in square brackets: either a filter argument or the comma/semicolon separator (default is comma)
+% arg[1] - optional argument in square brackets: a filter argument, or the comma/semicolon separator (default is the pipe), or
+%          "respect underscore=true". The latter will cause unwanted separators to be appended at the bottom of the table
 % arg[2] - Table spec
 % arg[3] - Caption
 % arg[4] - Label
@@ -305,7 +312,7 @@ E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-
 %
 \newcommand{\pnpcsvtable}[7][head to column names]{
   \begin{pnptable}{#2}{#3}{#4}{#5}
-  \csvreader[head to column names, late after line=\\\hline, #1]{#6}{}
+  \csvreader[head to column names, separator=pipe, late after line=\\\hline, #1]{#6}{}
   {#7}
   \end{pnptable}}
 
@@ -339,7 +346,7 @@ E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-
 %------------------------------------------------------------------------------------------
 % Directories holding image files:
 % \graphicspath{ {../images/} {another directory} {yet another directory} }	
-\graphicspath{ {../images/} }	
+\graphicspath{ {../images/} {../../lib/cordetfw/doc/images/} }	
 
 
 %------------------------------------------------------------------------------------------
@@ -396,7 +403,7 @@ The following documents of the exact issue and/or revision shown form a part of 
 
 \newcommand{\listofreferencedocs}[2][../common/RefDoc.csv]{
 The following documents are for reference and/or guideline only.
-\pnpcsvtable[filter equal={#2}{RD}]{|c|p{6cm}|p{4.3cm}|c|}{Reference documents}{tab:refdoc}{Ref & Description & Doc. Number & Iss.}{#1}
+\pnpcsvtable[filter equal={#2}{RD}]{|c|p{7.5cm}|c|c|}{Referenced documents}{tab:refdoc}{Ref & Description & Doc. Number & Iss.}{#1}
 {\Id & \Title & \Nr & \Issue}
 }
 

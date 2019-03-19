@@ -3,11 +3,11 @@ This component acts as a registry for incoming commands and reports (namely for 
 The function of the InRegistry is to keep track of an incoming command state or of an incoming report state.
 
 The InRegistry maintains a list of the last N commands or report to have been loaded in one of the InManagers in an application. For each such command or report, the InRegistry maintains a record of its state. The command or report state in the InRegistry can have one of the following values:
-\begin{fw_itemize}
+\begin{itemize}
 \item PENDING: the command or report is executing
 \item ABORTED: the command was aborted during its execution by the InManager
 \item TERMINATED: the command or report has successfully completed its execution
-\end{fw_itemize}
+\end{itemize}
 Note that state ABORTED only applies to incoming commands.
 
 The value of N (the maximum number of commands or reports which are tracked by the InRegistry) is fixed and is an initialization parameter.

@@ -34,12 +34,12 @@ The \texttt{Load} operation in the InManager may either succeed or fail (see sec
 If the \texttt{Load} operation in the InManager fails, the InCommand or InReport is deemed to have failed its Acceptance Check. This results in the InCommand or InReport component being returned to the InFactory.
 
 Thus, in summary, an InCommand or InReport is deemed to have failed its Acceptance Check if any of the following conditions is satisfied:
-\begin{fw_itemize}
+\begin{itemize}
 \item The incoming packet holding the InCommand or InReport has an invalid type;
 \item The InFactory fails to return a component to hold the InCommand or InReport encapsulated in the incoming packet;
 \item The InCommand or InReport fails to enter state CONFIGURED;
 \item The InCommand or InReport fails to be loaded into the InManager.
-\end{fw_itemize}
+\end{itemize}
 In all other cases, the InCommand or InReport is regarded as having passed its Acceptance Check. 
 
 Failure of the Acceptance Check is reported. The reporting of the failure is an adaptation point. The passing of the Acceptance Check has no consequences for an InReport whereas in the case of InCommands it may result in an Acceptance Successful Report being generated to the command's sender if this is required by the setting of the Acknowledge Level attribute of the InCommand (i.e. each InCommand carries information that determines whether its passing its Acceptance Check ought to be reported to the command sender, see section \ref{sec:CmdAttributes}). 

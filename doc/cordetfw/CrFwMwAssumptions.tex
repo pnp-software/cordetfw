@@ -5,14 +5,14 @@ Although, the CORDET Framework does not specify the middleware through which app
 
 An out-going interface is an interface through which an application sends packets to another application over a physical connection provided by a middleware. The following assumptions are made by the CORDET Framework about out-going connections:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item[A1]{A connection may be in one of two states: AVAIL or NOT\_AVAIL.}
 \item[A2]{If a connection is in state AVAIL, then it is capable of accepting at least one entire packet for eventual transfer to its destination.}
 \item[A3]{A connection offers a non-blocking \texttt{Send} operation through which an application can make a request for a packet to be sent to its destination.}
 \item[A4]{The \texttt{Send} operation either forwards a packet to its destination (if the middleware is in state AVAIL when the \texttt{Send} request is made) or else it does nothing but notify the caller that the packet cannot be forwarded (if the middleware is in state NOT\_AVAIL when the \texttt{Send} request is made).}
 \item[A5]{A connection may make a transition between the AVAIL and NOT\_AVAIL states at any time.}
 \item[A6]{A connection may be queried for its current state.}
-\end{fw_itemize}
+\end{itemize}
 
 These assumptions correspond to a middleware which accepts packets one at a time and which implements a potentially complex protocol to deliver them to their destination. This protocol may include buffering of packets (to bridge periods of non-availability of the physical link), splitting of packets into smaller messages (to accommodate restrictions on the maximum length of a transmission message), and re-sending of packets which have not been successfully delivered (to ensure continuity of service). 
 
@@ -25,14 +25,14 @@ Note also that there is no assumption that the middleware be able to signal a ch
 
 An incoming interface is an interface through which an application receives packets from another application over a physical connection provided by a middleware. The following assumptions are made by the CORDET Framework about incoming connections:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item[B1]{A connection may be in one of two states: WAITING or PCKT\_AVAIL.}
 \item[B2]{If a connection is in state PCKT\_AVAIL, then there is at least one packet that is ready to be collected by the application.}
 \item[B3]{A connection offers an operation through which a packet that is waiting to be collected can be collected.}
 \item[B4]{A connection may make a transition from state PCKT\_AVAIL to WAITING exclusively as a result of the call to the operation to collect a packet.}
 \item[B5]{A connection may make a transition from state WAITING to PCKT\_AVAIL at any time.}
 \item[B6]{A connection may be queried for its current state.}
-\end{fw_itemize}
+\end{itemize}
 
 These assumptions correspond to a middleware which implements a potentially complex protocol for processing incoming packets. This protocol may include: the defragmentation of packets which are transferred in several messages; the multiplexing of channels from several packet sources; the generation of low-level acknowledgements for incoming packets; the buffering of incoming packets. 
 

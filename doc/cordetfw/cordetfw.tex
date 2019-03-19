@@ -1,321 +1,52 @@
-\documentclass[a4paper,10pt]{article}
-\usepackage[utf8x]{inputenc}
-\usepackage{array}
-\usepackage[pdftex]{graphicx}
-\usepackage{hyperref}
-\usepackage{listings}
-\usepackage{enumitem}
-\usepackage{color, colortbl}
-\usepackage{longtable}
-\usepackage{float}
-\usepackage[compact]{titlesec}		% The 'compact' argument reduces spacing before and after headings
+\documentclass{pnp_article}
 
-% Start ---- Fix for bug in issue 2.10.1 of titlesec package
-\usepackage{etoolbox}
+\begin{document}
 
-\makeatletter
-\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
-\patchcmd{\ttlh@hang}{\noindent}{}{}{}
-\makeatother
-% End ---- Fix for bug in issue 2.10.1 of titlesec package
-
-\usepackage{verbatim}
-\usepackage{fancyhdr}
-\usepackage{datatool}	% Management of external databases
-\usepackage{chngcntr}	% Management of figure and table numberings
-\usepackage{pdflscape}	% Provides 'landscape mode' for selected pages
-\usepackage[ddmmyyyy]{datetime}
-
-%---------------------------------------------
-% Management of Figure and Table Numbering
-%---------------------------------------------
-\counterwithin{figure}{section}
-\counterwithin{table}{section}
-
-%---------------------------------------------
-% Management of Captions (options interact with each other in unpredictable ways)
-%---------------------------------------------
-\usepackage[labelfont=bf]{caption}	% The caption label for tables and figures is bolded
-\setlength{\abovecaptionskip}{2pt}	% Bring caption close to figure or table
-\setlength{\belowcaptionskip}{-8pt}	% Bring caption close to text after it
-\renewcommand{\figurename}{Fig.}	% The caption label for figures is: "Fig."
-%\captionsetup[table]{singlelinecheck=off,justification=raggedright}	% Justify the table captions to the left
-\captionsetup[table]{position=bottom,skip=-1pt}	% controls spacing between caption and table
-%\captionsetup[figure]{position=bottom,skip=40pt}	
-
-\pagestyle{fancy}
-
-%------------------------------------------------------------------------------------------
-% Directories holding image files:
-% Figures from CORDET FW Project
-%------------------------------------------------------------------------------------------
-\graphicspath{ {../images/} }	
-
-%---------------------------------------------
-% Paragraph Layout
-%---------------------------------------------
-\setlength{\parindent}{0in}			% No indentation on first line of a new paragraph
-
-%---------------------------------------------
-% Definition of custom properties
-%---------------------------------------------
-\newcommand{\docIssue}{2.0}						% issue number
-\newcommand{\docRefNumber}{PP-DF-COR-00002}		% document reference number
-
-%---------------------------------------------
-% Table Layout
-%---------------------------------------------
-\setlength{\extrarowheight}{1.5pt}	% Add vertical space at a table row
- 
-%------------------------------------------------------------------------------------------
-% Management of Headings
-%------------------------------------------------------------------------------------------
-% Define spacing to the left, before and after a subsection heading
-%\titlespacing\subsubsection{8pt}{12pt plus 4pt minus 2pt}{-10pt plus 0pt minus 0pt}
-\titlespacing\subsubsection{0pt}{5pt}{0pt}
-\titlespacing\subsection{0pt}{5pt}{0pt}
-
-% Introduce a page break before each section
-\let\stdsection\section
-\renewcommand\section{\newpage\stdsection}
-
-%---------------------------------------------
-% Headers and Footers
-%---------------------------------------------
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}
-
-\lhead{\docRefNumber{}}
-\chead{}
-\rhead{Revision \docIssue{}}
-\lfoot{\textcopyright2013 P\&P Software GmbH. All Rights Reserved.}
-\cfoot{\vspace{5mm}
-{\color{red}\verbatiminput{../commercial/LicensedTo.txt}}}
-\rfoot{\thepage}
-\renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}
-
-%---------------------------------------------
-% Management of lists
-%---------------------------------------------
-\setlist{nolistsep}								% No extra vertical space around a list		
-\newenvironment{fw_itemize}						% Control spacing between items in a list
-{\begin{itemize}
-  \setlength{\itemsep}{1mm}
-  \setlength{\parskip}{0pt}
-  \setlength{\parsep}{0pt}}
-{\end{itemize}}
-
-\newenvironment{fw_enumerate}					% Control spacing between items in an enumeration
-{\begin{enumerate}
-  \setlength{\itemsep}{1mm}
-  \setlength{\parskip}{0pt}
-  \setlength{\parsep}{0pt}}
-{\end{enumerate}}
-
-\newenvironment{fw_description}					% Control spacing between items in a description
-{\begin{description}
-  \setlength{\itemsep}{1mm}
-  \setlength{\parskip}{5pt}			% Line spacing between paragraphs in an item
-  \setlength{\parsep}{0pt}}
-{\end{description}}
-
-%---------------------------------------------
-% Definition of colours
-%---------------------------------------------
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{light-gray}{gray}{0.85}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
-\definecolor{lightblue}{RGB}{128,179,255}
-\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\SetDocIssue{2.0}
+\SetDocRefNumber{PP-DF-COR-0002}
+\SetDocTitle{The CORDET Framework}
+\SetDocSubtitle{Definition}
+\SetDocAuthor{Alessandro Pasetti}
+\SetCheckedBy{n.a.}
+\maketitle
 
 %---------------------------------------------
 % Define Environment for Requirement Tables 
 % Par #1: The string identifying the requirement category
 % Par #2: The table caption
 %---------------------------------------------
-\newenvironment{cr_req}[2]
-{%\hspace{0.0cm}\textbf{#2}\vspace{-10pt}
-\begin{longtable}{|l|p{9.8cm}|}
-\caption{#2} \\
-\hline
-\rowcolor{light-gray}
-\textbf{Req. ID} & \textbf{Requirement Text}\\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{Req. ID} & \textbf{Requirement Text}\\
-\hline\hline
-\endhead
-\DTLforeach*[\DTLiseq{\cat}{#1}]{dbReq}{\cat=Category,\type=Type,\id=Id,\reqText=Text}
-{\DTLiffirstrow{}{\\\hline}\cat-\id/\type & \textit{\reqText}}\\\hline
+\newenvironment{crReq}[2]
+{
+\pnpcsvtable[filter equal={\Category}{#1}]{|l|p{11.8cm}|}{#2}{tab:Req-#1}{\textbf{Req. ID} & \textbf{Requirement Text}}{CordetFwReq.csv}{P-\Category-\Id/\Type & \textit{\Text}}
 }
-{\end{longtable}}
 
 %---------------------------------------------
 % Define Environment for Adaptation Point Tables 
 % Par #1: The string identifying the category to which the AP applies
 % Par #2: The table caption
 %---------------------------------------------
-\newenvironment{cr_ap}[2]
-{%\hspace{0.0cm}\textbf{#2}\vspace{-10pt}
-\begin{longtable}{|l|p{4.7cm}|p{4.9cm}|}
-\caption{#2} \\
-\hline
-\rowcolor{light-gray}
-\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}\\
-\hline\hline
-\endfirsthead
-\rowcolor{light-gray}
-\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}\\
-\hline\hline
-\endhead
-\DTLforeach*[\DTLiseq{\cat}{#1}]{dbAP}{\cat=Category,\id=Id,\ap=AP,\defValue=DefValue}
-{\DTLiffirstrow{}{\\\hline}\cat-\id & \ap & \defValue}\\\hline
-}
-{\end{longtable}}
-
-%---------------------------------------------
-% Options for the code listing boxes
-%---------------------------------------------
-\lstset{ 
-  language=C,                % the language of the code
-  aboveskip=\bigskipamount,			% vertical space above listing box
-  belowskip=0pt,					% vertical space below listing box
-  basicstyle=\scriptsize\ttfamily,    % use small size and mono-space font
-  numbers=left,                   % where to put the line-numbers
-  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
-  stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
-                                  % will be numbered
-  numbersep=5pt,                  % how far the line-numbers are from the code
-  backgroundcolor=\color{lbcolor},      % choose the background color. You must add \usepackage{color}
-  showspaces=false,               % show spaces adding particular underscores
-  showstringspaces=false,         % underline spaces within strings
-  showtabs=false,                 % show tabs within strings adding particular underscores
-  frame=single,                   % adds a frame around the code
-  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
-  tabsize=2,                      % sets default tabsize to 2 spaces
-  captionpos=b,                   % sets the caption-position to bottom
-  breaklines=true,                % sets automatic line breaking
-  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
-  title=\lstname,                   % show the filename of files included with \lstinputlisting;
-                                  % also try caption instead of title
-  keywordstyle=\color{blue},          % keyword style
-  commentstyle=\color{dkgreen},       % comment style
-  stringstyle=\color{mauve},         % string literal style
-  escapeinside={\%*}{*)},            % if you want to add a comment within your code
-  morekeywords={*,...}               % if you want to add more keywords to the set
-}
-%---------------------------------------------
-% Import tables with requirements and adaptation points
-%---------------------------------------------
-\DTLloaddb{dbAP}{CordetFwAP.csv}
-\DTLloaddb{dbReq}{CordetFwReq.csv}
-
-%---------------------------------------------
-% Pdf Properties
-%---------------------------------------------
-\hypersetup
+\newenvironment{crAp}[2]
 {
-    pdfauthor={Alessandro Pasetti, Vaclav Cechticky},
-    pdfsubject={This document defines the CORDET Framework},
-    pdftitle={The CORDET Framework},
-    pdfkeywords={Framework, UML, C-language, State Machine, Activity Diagrams, Embedded, Realtime}
+\pnpcsvtable[filter equal={\Category}{#1}]{|l|p{4.7cm}|p{6.9cm}|}{#2}{tab:AP-#1}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}}{CordetFwAP.csv}{\Category-\Id & \AP  & \DefValue}
 }
 
-%---------------------------------------------
-% Title Page
-%---------------------------------------------
-\title{\textsc{The CORDET Framework} \\ \textsc{- Definition -}}
-\author{Alessandro Pasetti \& Vaclav Cechticky}
-\date{Created on: \today{}, at: \currenttime{}}
-
-\begin{document}
-\maketitle
-
-\begin{center}
-Revision \docIssue{}\\
-\docRefNumber{}
-\end{center}
-
-\vspace{1cm}
-
-\begin{center}
-P\&P Software GmbH \\
-High Tech Center 1 \\
-8274 T\"{a}gerwilen \\
-Switzerland \\
-\vspace{2mm}
-Web site: \url{www.pnp-software.com}\\
-E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-software.com}} 
-\end{center}
-
-\vspace{1.2cm}
-
-\begin{table}[ht]
-\begin{center}
-\begin{tabular}{p{11.7cm}}
-\\
-\hline
-\end{tabular}
-\end{center}
-\end{table}
-\begin{abstract}
-This document specifies the CORDET Framework. The CORDET Framework is a software framework for service-oriented embedded applications. This document defines the service concept upon which the CORDET Framework is based and it specifies the components which implement this generic service concept. The components are specified by providing their behavioural models. The behavioural models are defined using the FW Profile.
-\par
-The service concept of the CORDET Framework is the same as the service concept of the “Packet Utilization Standard” or PUS. The PUS is an application-level interface standard for space-based distributed systems but is also suitable for generic embedded control systems and was therefore chosen as a basis for the CORDET Framework.
-\end{abstract}
-\begin{table}[ht]
-\begin{center}
-\begin{tabular}{p{11.7cm}}
-\\
-\hline
-\end{tabular}
-\end{center}
-\end{table}
 
 
-\newpage
-\vspace*{\fill}
-\begin{center}
-No part of this publication may be reproduced, transmitted, transcribed, stored in any retrieval system, or translated into any language by any means without express prior written permission of P\&P Software GmbH.
-\end{center}
 
-\begin{center}
-Copyright \textcopyright 2013 P\&P Software GmbH. All Rights Reserved. 
-\end{center}
-\vspace*{\fill}
 
-%---------------------------------------------
-% Table of Contents
-%---------------------------------------------
-\newpage
-\tableofcontents
-
-\newpage
-\listoffigures
-\listoftables
-
-\newpage
-
-%---------------------------------------------
-% Adjust distance between paragraphs (this cannot be done earlier or it also affects the TOC)
-%---------------------------------------------
-\setlength{\parskip}{3mm}						% Set distance between paragraphs
 
 %==========================================================================================
 \section{Change History}
 
 This section lists the changes made in the current revision. Changes are classified according to their type. The change type is identified in the second column in the table according to the following convention:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item "\textbf{E}": Editorial or stylistic change
 \item "\textbf{L}": Clarification of existing text
 \item "\textbf{D}": A feature present in the previous revision has been deleted
 \item "\textbf{C}": A feature present in the previous revision has been changed
 \item "\textbf{N}": A new feature has been introduced
-\end{fw_itemize}
+\end{itemize}
 
 
 \begin{longtable}{|p{1.5cm}|p{1cm}|p{8cm}|}
@@ -334,6 +65,8 @@ This section lists the changes made in the current revision. Changes are classif
 4.1.1 & N & Added CRC attribute to commands \\
 \hline
 4.2.1 & N & Added CRC attribute to reports \\
+\hline
+5.2.1 & Added logic to compute and set the CRC in OutComponents \\
 \hline
 6.2.3 & C & Added management of Progress Step Identifier and modified management logic of progress action to be compatible with 2016 release of PUS Standard \\
 \hline
@@ -407,11 +140,11 @@ With a service-oriented concept, an application is specified in terms of the ser
 
 In this perspective, the CORDET Framework supports reusability in the following ways:
 
-\begin{fw_enumerate}
+\begin{enumerate}
 \item{} It provides a formal definition of the abstract (implementation-independent) concept of commands and reports,
 \item{} It specifies the components (the CORDET Components) which implement the abstract command and report concepts and the CORDET Standard Services, and
 \item{} It allows services of general applicability for a specific domain to be pre-defined and to be available as building blocks for the development of applications in that domain.
-\end{fw_enumerate}
+\end{enumerate}
 
 Each of the above points is discussed in greater detail in a dedicated sub-section below. 
 
@@ -421,10 +154,10 @@ The first objective of the CORDET Framework is to provide a formal definition of
 
 This is done by building behavioural models of commands and of reports which:
 
-\begin{fw_enumerate}
+\begin{enumerate}
 \item{} capture the aspects of the behaviour of commands and reports which is common to all commands and reports independently of the definition and implementation of a concrete command or report, and
 \item{} identify the adaptation points where service- and implementation-specific behaviour can be added.
-\end{fw_enumerate}
+\end{enumerate}
 
 An example may clarify the definition given above. 
 In section \ref{sec:CmdCondChecks}, the concept of Acceptance Check for commands is introduced. 
@@ -496,12 +229,12 @@ Note that the CORDET components are framework-level components. Hence, applicati
 
 The CORDET Framework supports the development of a service-oriented application in the following ways:
 
-\begin{fw_enumerate}
+\begin{enumerate}
 \item{} The framework standardizes the command and report concepts. 
 This allows a target application to be specified in terms of standardized features.  
 \item{} The framework specifies pre-defined components to implement the generic service concept. 
 This allows a target application to reuse these components.  
-\end{fw_enumerate}
+\end{enumerate}
 
 Note that the support described above is a specification-level reuse: the target application imports the specification of the standard services. 
 Thus, the CORDET Framework simplifies the specification of a target application because it allows that application to be specified in terms of standardized features and components.
@@ -523,14 +256,14 @@ This document specifies the CORDET Framework.
 The framework is specified by defining its requirements. 
 The requirements of the framework are of four types:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item{} \textit{Standard Requirements} which define a desired feature of the framework. 
 They are analogous in scope and format to the user requirements of an ordinary (non-framework) software application.
 \item{} \textit{Adaptation Requirement} which define the points where the framework behaviour can be extended by the application developers. 
 In some cases, the definition of an adaptation point is accompanied by the definition of the default options offered by the framework for that adaptation point.  
 \item{} \textit{Usage Constraint Requirements} which define the constraints on how the components offered by the framework may be used by application developers.
 \item{} \textit{Property Requirements} which define behavioural properties which are guaranteed to hold on all applications which: (a) are instantiated from the framework by closing its adaptation points, and (b) comply with the framework's usage constraints.
-\end{fw_itemize}
+\end{itemize}
 
 To each framework requirement an \textit{identifier} is attached.
 The requirement identifier takes the following form: x-y/t where 'x' is an acronym identifying the function to which the requirement applies; 'y' is a unique identifier within that function; and 't' identifies the requirement type. 
@@ -630,11 +363,13 @@ InFactory & Instantiation of InReports and InCommands (components encapsulating 
 \hline
 \end{longtable}
  
-\begin{cr_ap}{FAC}{Adaptation Points for Factory Components}
-\end{cr_ap}
-\newpage
-\begin{cr_req}{FAC}{Requirements Applicable to Factory Components}
-\end{cr_req}
+\begin{crAp}{FAC}{Adaptation Points for Factory Components}
+\end{crAp}
+
+\begin{crReq}{FAC}{Requirements Applicable to Factory Components}
+\end{crReq}
+
+
 
 %----------------------------------------------------------------------------
 \subsection{Component-Level Start-Up and Shutdown}\label{sec:BaseCmp}
@@ -713,22 +448,22 @@ The CORDET Framework is designed on the assumptions that these components, too, 
 
 The tables at the end of this section list the adaptation points and the requirements applicable to the component start-up function.
 
-\begin{cr_ap}{BAS}{Adaptation Points for Component Start-Up}
-\end{cr_ap}
+\begin{crAp}{BAS}{Adaptation Points for Component Start-Up}
+\end{crAp}
 
-\begin{cr_req}{BAS}{Requirements Applicable to Component Start-Up}
-\end{cr_req}
- 
+\begin{crReq}{BAS}{Requirements Applicable to Component Start-Up}
+\end{crReq}
+
 %---------------------------------------------------------------------------------
 \subsection{Application-Level Start-Up and shutdown}\label{sec:AppStartUp}
 \input{CrFwAppStartUp.tex}
 
 
-\begin{cr_ap}{AST}{Adaptation Points for Application Start-Up}
-\end{cr_ap}
+\begin{crAp}{AST}{Adaptation Points for Application Start-Up}
+\end{crAp}
 
-\begin{cr_req}{AST}{Requirements Applicable to Application Start-Up}
-\end{cr_req}
+\begin{crReq}{AST}{Requirements Applicable to Application Start-Up}
+\end{crReq}
 
 %===========================================================================
 \section{Command and Report Concept}\label{sec:CmdAndRepConcept}
@@ -740,9 +475,12 @@ The commanding and reporting models described here are therefore applicable to a
 Concrete commands and reports are defined by applications according to their needs. 
 These concrete commands and reports are defined as specializations of the generic command and report concepts described in the present section. 
 
-%---------------------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------------------
 \subsection{Command Concept }\label{sec:CmdConcept}
 \input{CrFwCmdConcept.tex}
+ 
 
 %---------------------------------------------------------------------------------
 \subsection{Report Concept }\label{sec:RepConcept}
@@ -761,11 +499,11 @@ The CORDET Framework assumes that a middleware is present which offers \textit{p
 
 A CORDET system (namely a set of CORDET applications connected to each other by a middleware) builds a set of \textit{logical connections} on top of the physical connections offered by the middleware. A logical connection allows two applications A1 and A2 to exchange packets either directly through a physical connection linking A1 to A2 (in which case the logical connection coincides with a physical connection) or through a chain of other applications which are linked to each other and to A1 and A2 by physical connections. This is illustrated in figure \ref{fig:PhysicalAndLogicalConnections}. The figure shows a CORDET system consisting of four applications (yellow boxes in the figure). The applications are linked to each other by three physical connections (black lines in the figure). In this system, the following kinds of logical connections might, for instance, be defined:
 
-\begin{fw_enumerate}
+\begin{enumerate}
 \item A logical connection between applications A and B which is built upon physical connection C1;
 \item A logical connection between applications B and D which is built upon physical connection C3;
 \item A logical connection between applications A and C which is built upon physical connections C1 and C2 and application B acting as re-routing node.
-\end{fw_enumerate}
+\end{enumerate}
 
 When a packet travels through an application en route to another application, it is said to be \textit{re-routed}. Packet re-routing is a function which is defined by the CORDET Framework and is therefore supported by default by CORDET Systems. In figure \ref{fig:PhysicalAndLogicalConnections} a packet travelling along a logical connection from application A to application C is re-routed by application B.
 
@@ -810,43 +548,44 @@ Consider next the case of a packet which is sent by application A to application
 
 The logic of the \textit{OutStream State Machine} together with the assumptions made in section \ref{sec:OutGoingConnections} about out-going middleware connections guarantee the following properties:
 
-\begin{fw_itemize}
+\begin{itemize}
 \item[P1]{Packets are sent out in the order in which they are received.}
 \item[P2]{No packet is ever lost by an OutStream.}
 \item[P3]{There cannot be a permanent backlog of unsent packets.}
 \item[P4]{An OutStream never deadlocks.}
-\end{fw_itemize}
+\end{itemize}
 
 Properties P1 and P2 are implicit to the OutStream logic. Property P1 is guaranteed because only the oldest packet from the Packet Queue is ever handed over to the middleware. Property P2 is guaranteed because a packet can only be lost if it is handed over to the middleware and the middleware fails to deliver. However, in this case, the packet remains enqueued and will be sent again.
 
 Properties P3 and P4 are verified on the Promela model of the OutStream presented in appendix \ref{sec:VerModels}. 
 
-\begin{cr_ap}{OST}{Adaptation Points for OutStream Component}
-\end{cr_ap}
+\begin{crAp}{OST}{Adaptation Points for OutStream Component}
+\end{crAp}
 
-\begin{cr_req}{OST}{Requirements Applicable to OutStream Component}
-\end{cr_req}
+\begin{crReq}{OST}{Requirements Applicable to OutStream Component}
+\end{crReq}
 
 %---------------------------------------------------------------------------------
 \subsubsection{The InStream Component}\label{sec:InStream}
 \input{CrFwInStream.tex}
 
-\begin{cr_ap}{IST}{Adaptation Points for InStream Component}
-\end{cr_ap}
+\begin{crAp}{IST}{Adaptation Points for InStream Component}
+\end{crAp}
 
 \pagebreak[4]
-\begin{cr_req}{IST}{Requirements Applicable to InStream Component}
-\end{cr_req}
+\begin{crReq}{IST}{Requirements Applicable to InStream Component}
+\end{crReq}
 
 %---------------------------------------------------------------------------------
 \subsubsection{The OutStreamRegistry Component}\label{sec:OutStreamRegistry}
 \input{CrFwOutStreamRegistry.tex}
 
-\begin{cr_ap}{OSR}{Adaptation Points for OutStreamRegistry Component}
-\end{cr_ap}
+\begin{crAp}{OSR}{Adaptation Points for OutStreamRegistry Component}
+\end{crAp}
 
-\begin{cr_req}{OSR}{Requirements Applicable to OutStreamRegistry Component}
-\end{cr_req}
+\begin{crReq}{OSR}{Requirements Applicable to OutStreamRegistry Component}
+\end{crReq}
+
 
 
 %===========================================================================
@@ -870,11 +609,11 @@ The following sub-sections specify each component type involved in the managemen
 
 The tables at the end of this section lists the adaptation points and requirements of the OutComponent component. The “Acknowledge Level Attribute” adaptation point is only meaningful for out-going commands. In the case of OutComponents representing out-going reports, this adaptation point is therefore ignored.
 
-\begin{cr_ap}{OCM}{Adaptation Points for OutComponent Component}
-\end{cr_ap}
+\begin{crAp}{OCM}{Adaptation Points for OutComponent Component}
+\end{crAp}
 
-\begin{cr_req}{OCM}{Requirements Applicable to OutComponent Component}
-\end{cr_req}
+\begin{crReq}{OCM}{Requirements Applicable to OutComponent Component}
+\end{crReq}
 
 %---------------------------------------------------------------------------------
 \subsubsection{The OutFactory Component}\label{sec:OutFactory}
@@ -888,49 +627,49 @@ Like all factory components, the OutFactory component offers a \texttt{Make} ope
 Depending on the allocation policy used internally in the OutFactory, the OutComponent component may be either in state CREATED, or in state INITIALIZED, or in state CONFIGURED. It is then the responsibility of the user application to initialize and/or configure the OutComponent.
 
 The \texttt{Make} operation of the OutFactory sets the values of the following attributes of the newly created command or report:
-\begin{fw_itemize}
+\begin{itemize}
 \item The service type, command or report sub-type, and discriminant are set according to the arguments of the Make operation.
 \item The identifier attribute is set to a value representing the number of command or report instances which the factory has created since it was initialized.
 \item The source attribute is set to the identifier of the host application.
-\end{fw_itemize}
+\end{itemize}
 
 Thus, a command or report component which is returned by the OutFactory has valid and correct values for the following attributes: service type, command or report sub-type,  discriminant,  identifier, and source. Other attributes must be set as part of the command or report configuration by the host application. Note, however, that the time stamp is set by the OutLoader at the time the OutComponent is loaded in the OutManager (see next section) and the sequence counter is set by the OutStream directly on the out-going packet at the time the packet is handed over to the middleware (see section \ref{sec:OutStream}).
 
 The OutFactory component does not define any adaptation points in addition to those applicable to generic factory components (see section \ref{sec:CmpInst}). 
 
-\begin{cr_req}{OFT}{Requirements Applicable to OutFactory Component}
-\end{cr_req}
+\begin{crReq}{OFT}{Requirements Applicable to OutFactory Component}
+\end{crReq}
 
 %---------------------------------------------------------------------------------
 \subsubsection{The OutLoader Component}\label{sec:OutLoader}
 \input{CrFwOutLoader.tex}
 
-\begin{cr_ap}{OLD}{Adaptation Points for OutLoader Component}
-\end{cr_ap}
+\begin{crAp}{OLD}{Adaptation Points for OutLoader Component}
+\end{crAp}
 
-\begin{cr_req}{OLD}{Requirements Applicable to OutLoader Component}
-\end{cr_req}
+\begin{crReq}{OLD}{Requirements Applicable to OutLoader Component}
+\end{crReq}
 
 \newpage
 %---------------------------------------------------------------------------------
 \subsubsection{The OutManager Component}\label{sec:OutManager}
 \input{CrFwOutManager.tex}
 
-\begin{cr_ap}{OMG}{Adaptation Points for OutManager Component}
-\end{cr_ap}
+\begin{crAp}{OMG}{Adaptation Points for OutManager Component}
+\end{crAp}
 
-\begin{cr_req}{OMG}{Requirements Applicable to OutManager Component}
-\end{cr_req}
+\begin{crReq}{OMG}{Requirements Applicable to OutManager Component}
+\end{crReq}
 
 %---------------------------------------------------------------------------------
 \subsubsection{The OutRegistry Component}\label{sec:OutRegistry}
 \input{CrFwOutRegistry.tex}
 
-\begin{cr_ap}{ORG}{Adaptation Points for OutRegistry Component}
-\end{cr_ap}
+\begin{crAp}{ORG}{Adaptation Points for OutRegistry Component}
+\end{crAp}
 
-\begin{cr_req}{ORG}{Requirements Applicable to OutRegistry Component}
-\end{cr_req}
+\begin{crReq}{ORG}{Requirements Applicable to OutRegistry Component}
+\end{crReq}
 
 %---------------------------------------------------------------------------------
 \subsection{Management of Incoming Commands and Reports}\label{sec:ManagementOfIncomingCmdAndRep}
@@ -953,59 +692,59 @@ A command or report component which is returned by the InFactory has valid value
 
 The InFactory component does not define any adaptation points in addition to those applicable to generic factory components (see section \ref{sec:CmpInst}). 
 
-\begin{cr_req}{IFT}{Requirements Applicable to InFactory Component}
-\end{cr_req}
+\begin{crReq}{IFT}{Requirements Applicable to InFactory Component}
+\end{crReq}
 
 
 %---------------------------------------------------------------------------------
 \subsubsection{The InLoader Component}\label{sec:InLoader}
 \input{CrFwInLoader.tex}
 
-\begin{cr_ap}{ILD}{Adaptation Points for InLoader Component}
-\end{cr_ap}
+\begin{crAp}{ILD}{Adaptation Points for InLoader Component}
+\end{crAp}
 
-\begin{cr_req}{ILD}{Requirements Applicable to InLoader Component}
-\end{cr_req}
+\begin{crReq}{ILD}{Requirements Applicable to InLoader Component}
+\end{crReq}
 
 %---------------------------------------------------------------------------------
 \subsubsection{The InCommand Component}\label{sec:InCommand}
 \input{CrFwInCommand.tex}
 
-\begin{cr_ap}{ICM}{Adaptation Points for InCommand Component}
-\end{cr_ap}
+\begin{crAp}{ICM}{Adaptation Points for InCommand Component}
+\end{crAp}
 
-\begin{cr_req}{ICM}{Requirements Applicable to InCommand Component}
-\end{cr_req}
+\begin{crReq}{ICM}{Requirements Applicable to InCommand Component}
+\end{crReq}
 
 %---------------------------------------------------------------------------------
 \subsubsection{The InReport Component}\label{sec:InReport}
 \input{CrFwInReport.tex}
 
-\begin{cr_ap}{IRP}{Adaptation Points for InReport Component}
-\end{cr_ap}
+\begin{crAp}{IRP}{Adaptation Points for InReport Component}
+\end{crAp}
 
-\begin{cr_req}{IRP}{Requirements Applicable to InReport Component}
-\end{cr_req}
+\begin{crReq}{IRP}{Requirements Applicable to InReport Component}
+\end{crReq}
 
 %---------------------------------------------------------------------------------
 \subsubsection{The InManager Component}\label{sec:InManager}
 \input{CrFwInManager.tex}
 
-\begin{cr_ap}{IMG}{Adaptation Points for InManager Component}
-\end{cr_ap}
+\begin{crAp}{IMG}{Adaptation Points for InManager Component}
+\end{crAp}
 
-\begin{cr_req}{IMG}{Requirements Applicable to InManager Component}
-\end{cr_req}
+\begin{crReq}{IMG}{Requirements Applicable to InManager Component}
+\end{crReq}
 
 %---------------------------------------------------------------------------------
 \subsubsection{The InRegistry Component}\label{sec:InRegistry}
 \input{CrFwInRegistry.tex}
 
-\begin{cr_ap}{IRG}{Adaptation Points for InRegistry Component}
-\end{cr_ap}
+\begin{crAp}{IRG}{Adaptation Points for InRegistry Component}
+\end{crAp}
 
-\begin{cr_req}{IRG}{Requirements Applicable to InRegistry Component}
-\end{cr_req}
+\begin{crReq}{IRG}{Requirements Applicable to InRegistry Component}
+\end{crReq}
 
 
 \appendix
@@ -1017,10 +756,10 @@ This section presents the models which have been used to formally verify some of
 \subsection{The OutStream Model}\label{sec:OutStreamModel}
 
 In section \ref{sec:OutStream}, four properties are defined on the OutStream. Two of these properties – properties P3 and P4 – are verified on the Promela model listed below. Note that the model is based on blocking middleware which is periodically polled for its availability. From a verification point of view, this is the most general case for the following reasons:
-\begin{fw_itemize}
+\begin{itemize}
 \item The case of a non-blocking middleware obviously represents a special case of a blocking middleware.
 \item The polling approach is more general than a call-back approach because a call-back approach implies that, when the middleware makes a transition from NOT\_AVAIL to AVAIL, then, eventually, operation \texttt{ConnectionAvailable} is called upon the OutCmdStream. A polling approach implies the same thing but, in addition, it also implies that operation \texttt{ConnectionAvailable} may be called when no transition from NOT\_AVAIL to AVAIL has taken place.
-\end{fw_itemize}
+\end{itemize}
 Property P3 states that there never builds up a backlog of unsent packets in an OutStream. The verification of this property is based on a never claim. The never claim checks that the following LTL formula is always satisfied:
 
 \lstset{belowskip=-14pt} % Vertical space after listing
