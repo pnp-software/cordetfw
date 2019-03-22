@@ -102,7 +102,7 @@ CrFwBool_t CrFwSocketTestCase1() {
 
 	/* Send a packet through the OutStream */
 	pcktSend = CrFwPcktMake(100);
-	pcktSend[99] = 99;	/* marker */
+	pcktSend[90] = 99;	/* marker */
 	CrFwPcktSetSrc(pcktSend, CR_FW_HOST_APP_ID);
 	CrFwOutStreamSend(outStream5, pcktSend);
 	CrFwPcktRelease(pcktSend);
@@ -113,7 +113,7 @@ CrFwBool_t CrFwSocketTestCase1() {
 	/* Poll the InStream and check that packet was received */
 	CrFwInStreamSocketPoll(inStream5);
 	pcktRec = CrFwInStreamGetPckt(inStream5);
-	if (pcktRec[99] != 99) {
+	if (pcktRec[90] != 99) {
 		CrFwCmpShutdown(inStream5);
 		CrFwCmpShutdown(outStream5);
 		return 0;
@@ -122,13 +122,13 @@ CrFwBool_t CrFwSocketTestCase1() {
 
 	/* Send two packets through the OutStream */
 	pcktSend1 = CrFwPcktMake(100);
-	pcktSend1[99] = 11;	/* marker */
+	pcktSend1[90] = 11;	/* marker */
 	CrFwPcktSetSrc(pcktSend1, CR_FW_HOST_APP_ID);
 	CrFwOutStreamSend(outStream5, pcktSend1);
 	CrFwPcktRelease(pcktSend1);
 
 	pcktSend2 = CrFwPcktMake(100);
-	pcktSend2[99] = 22;	/* marker */
+	pcktSend2[90] = 22;	/* marker */
 	CrFwPcktSetSrc(pcktSend2, CR_FW_HOST_APP_ID);
 	CrFwOutStreamSend(outStream5, pcktSend2);
 	CrFwPcktRelease(pcktSend2);
@@ -139,13 +139,13 @@ CrFwBool_t CrFwSocketTestCase1() {
 	/* Poll the InStream and check that both packets are received */
 	CrFwInStreamSocketPoll(inStream5);
 	pcktRec1 = CrFwInStreamGetPckt(inStream5);
-	if (pcktRec1[99] != 11) {
+	if (pcktRec1[90] != 11) {
 		CrFwCmpShutdown(inStream5);
 		CrFwCmpShutdown(outStream5);
 		return 0;
 	}
 	pcktRec2 = CrFwInStreamGetPckt(inStream5);
-	if (pcktRec2[99] != 22) {
+	if (pcktRec2[90] != 22) {
 		CrFwCmpShutdown(inStream5);
 		CrFwCmpShutdown(outStream5);
 		return 0;
@@ -260,7 +260,7 @@ CrFwBool_t CrFwSocketTestCase2() {
 	/* Send a packet from the server socket to the client socket */
 	pcktSend = CrFwPcktMake(100);
 	CrFwPcktSetSrc(pcktSend,CrFwInStreamGetSrc(inStream6));
-	pcktSend[99] = 99;	/* marker */
+	pcktSend[90] = 99;	/* marker */
 	CrFwOutStreamSend(outStream7, pcktSend);
 	CrFwPcktRelease(pcktSend);
 
@@ -270,14 +270,14 @@ CrFwBool_t CrFwSocketTestCase2() {
 	/* Poll the client socket and check that packet was received */
 	CrFwClientSocketPoll();
 	pcktRec = CrFwInStreamGetPckt(inStream6);
-	if (pcktRec[99] != 99)
+	if (pcktRec[90] != 99)
 		return 0;
 	CrFwPcktRelease(pcktRec);
 
 	/* Send a packet from the client socket to the server socket */
 	pcktSend = CrFwPcktMake(100);
 	CrFwPcktSetSrc(pcktSend,CrFwInStreamGetSrc(inStream7));
-	pcktSend[99] = 11;	/* marker */
+	pcktSend[90] = 11;	/* marker */
 	CrFwOutStreamSend(outStream6, pcktSend);
 	CrFwPcktRelease(pcktSend);
 
@@ -287,7 +287,7 @@ CrFwBool_t CrFwSocketTestCase2() {
 	/* Poll the server socket and check that packet was received */
 	CrFwServerSocketPoll();
 	pcktRec = CrFwInStreamGetPckt(inStream7);
-	if (pcktRec[99] != 11)
+	if (pcktRec[90] != 11)
 		return 0;
 	CrFwPcktRelease(pcktRec);
 
@@ -388,9 +388,9 @@ CrFwBool_t CrFwSocketTestCase3() {
 	pckt1 = CrFwPcktMake(100);
 	pckt2 = CrFwPcktMake(100);
 	pckt3 = CrFwPcktMake(100);
-	pckt1[99] = 99;	/* marker */
-	pckt2[99] = 98;	/* marker */
-	pckt3[99] = 97;	/* marker */
+	pckt1[90] = 99;	/* marker */
+	pckt2[90] = 98;	/* marker */
+	pckt3[90] = 97;	/* marker */
 	CrFwPcktSetSrc(pckt1,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(pckt2,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(pckt3,CR_FW_HOST_APP_ID);
@@ -407,15 +407,15 @@ CrFwBool_t CrFwSocketTestCase3() {
 	/* Poll the client socket and check that packets were received */
 	CrFwClientSocketPoll();
 	pcktRec = CrFwInStreamGetPckt(inStream6);
-	if (pcktRec[99] != 99)
+	if (pcktRec[90] != 99)
 		return 0;
 	CrFwPcktRelease(pcktRec);
 	pcktRec = CrFwInStreamGetPckt(inStream6);
-	if (pcktRec[99] != 98)
+	if (pcktRec[90] != 98)
 		return 0;
 	CrFwPcktRelease(pcktRec);
 	pcktRec = CrFwInStreamGetPckt(inStream6);
-	if (pcktRec[99] != 97)
+	if (pcktRec[90] != 97)
 		return 0;
 	CrFwPcktRelease(pcktRec);
 
@@ -423,9 +423,9 @@ CrFwBool_t CrFwSocketTestCase3() {
 	pckt1 = CrFwPcktMake(100);
 	pckt2 = CrFwPcktMake(100);
 	pckt3 = CrFwPcktMake(100);
-	pckt1[99] = 10;	/* marker */
-	pckt2[99] = 11;	/* marker */
-	pckt3[99] = 12;	/* marker */
+	pckt1[90] = 10;	/* marker */
+	pckt2[90] = 11;	/* marker */
+	pckt3[90] = 12;	/* marker */
 	CrFwPcktSetSrc(pckt1,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(pckt2,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(pckt3,CR_FW_HOST_APP_ID);
@@ -442,15 +442,15 @@ CrFwBool_t CrFwSocketTestCase3() {
 	/* Poll the server socket and check that packets were received */
 	CrFwServerSocketPoll();
 	pcktRec = CrFwInStreamGetPckt(inStream7);
-	if (pcktRec[99] != 10)
+	if (pcktRec[90] != 10)
 		return 0;
 	CrFwPcktRelease(pcktRec);
 	pcktRec = CrFwInStreamGetPckt(inStream7);
-	if (pcktRec[99] != 11)
+	if (pcktRec[90] != 11)
 		return 0;
 	CrFwPcktRelease(pcktRec);
 	pcktRec = CrFwInStreamGetPckt(inStream7);
-	if (pcktRec[99] != 12)
+	if (pcktRec[90] != 12)
 		return 0;
 	CrFwPcktRelease(pcktRec);
 
@@ -555,18 +555,18 @@ CrFwBool_t CrFwSocketTestCase4() {
 	sPckt1 = CrFwPcktMake(100);
 	sPckt2 = CrFwPcktMake(100);
 	sPckt3 = CrFwPcktMake(100);
-	sPckt1[99] = 99;	/* marker */
-	sPckt2[99] = 98;	/* marker */
-	sPckt3[99] = 97;	/* marker */
+	sPckt1[90] = 99;	/* marker */
+	sPckt2[90] = 98;	/* marker */
+	sPckt3[90] = 97;	/* marker */
 	CrFwPcktSetSrc(sPckt1,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(sPckt2,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(sPckt3,CR_FW_HOST_APP_ID);
 	cPckt1 = CrFwPcktMake(100);
 	cPckt2 = CrFwPcktMake(100);
 	cPckt3 = CrFwPcktMake(100);
-	cPckt1[99] = 10;	/* marker */
-	cPckt2[99] = 11;	/* marker */
-	cPckt3[99] = 12;	/* marker */
+	cPckt1[90] = 10;	/* marker */
+	cPckt2[90] = 11;	/* marker */
+	cPckt3[90] = 12;	/* marker */
 	CrFwPcktSetSrc(cPckt1,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(cPckt2,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(cPckt3,CR_FW_HOST_APP_ID);
@@ -590,30 +590,30 @@ CrFwBool_t CrFwSocketTestCase4() {
 	/* Poll the client socket and check that packets were received */
 	CrFwClientSocketPoll();
 	pcktRec = CrFwInStreamGetPckt(inStream6);
-	if (pcktRec[99] != 99)
+	if (pcktRec[90] != 99)
 		return 0;
 	CrFwPcktRelease(pcktRec);
 	pcktRec = CrFwInStreamGetPckt(inStream6);
-	if (pcktRec[99] != 98)
+	if (pcktRec[90] != 98)
 		return 0;
 	CrFwPcktRelease(pcktRec);
 	pcktRec = CrFwInStreamGetPckt(inStream6);
-	if (pcktRec[99] != 97)
+	if (pcktRec[90] != 97)
 		return 0;
 	CrFwPcktRelease(pcktRec);
 
 	/* Poll the server socket and check that packets were received */
 	CrFwServerSocketPoll();
 	pcktRec = CrFwInStreamGetPckt(inStream7);
-	if (pcktRec[99] != 10)
+	if (pcktRec[90] != 10)
 		return 0;
 	CrFwPcktRelease(pcktRec);
 	pcktRec = CrFwInStreamGetPckt(inStream7);
-	if (pcktRec[99] != 11)
+	if (pcktRec[90] != 11)
 		return 0;
 	CrFwPcktRelease(pcktRec);
 	pcktRec = CrFwInStreamGetPckt(inStream7);
-	if (pcktRec[99] != 12)
+	if (pcktRec[90] != 12)
 		return 0;
 	CrFwPcktRelease(pcktRec);
 

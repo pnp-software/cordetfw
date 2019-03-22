@@ -335,7 +335,7 @@ CrFwBool_t CrFwOutCmpTestCase4() {
 	CrFwDestSrc_t dest;
 	CrFwPckt_t pckt;
 	CrFwBool_t acceptAck, startAck, progressAck, termAck;
-	unsigned char counter = 99;
+	unsigned char counter = 90;
 	CrFwTimeStamp_t curTimeStamp;
 	CrFwTime_t curTime;
 	CrFwTimeCyc_t cycTime;
@@ -444,7 +444,9 @@ CrFwBool_t CrFwOutCmpTestCase4() {
 		return 0;
 	if (CrFwPcktIsTermAck(pckt) != 1)
 		return 0;
-	if (pckt[CrFwPcktGetMaxLength()-1] != counter+1)
+	if (CrFwPcktGetCrc(pckt) != 0xFFFF)
+	    return 0;
+	if (pckt[CrFwPcktGetMaxLength()-3] != counter+1)
 		return 0;
 
 	/* Reset the OutStream (this will also release the OutComponent packet) */
@@ -577,7 +579,9 @@ CrFwBool_t CrFwOutCmpTestCase5() {
 		return 0;
 	if (CrFwPcktIsTermAck(pckt) != 0)
 		return 0;
-	if (pckt[CrFwPcktGetMaxLength()-1] != counter + 1)
+    if (CrFwPcktGetCrc(pckt) != 0xFFFF)
+        return 0;
+	if (pckt[CrFwPcktGetMaxLength()-3] != counter + 1)
 		return 0;
 
 	/* Reset the OutStream */
@@ -778,7 +782,7 @@ CrFwBool_t CrFwOutCmpTestCase7() {
 		return 0;
 
 	/* Check that the OutComponent was updated */
-	if (pckt[CrFwPcktGetMaxLength()-1] != counter+1)
+	if (pckt[CrFwPcktGetMaxLength()-3] != counter+1)
 		return 0;
 
 	/* Execute/terminate the sample OutComponent and check it is still in PENDING */
@@ -788,7 +792,7 @@ CrFwBool_t CrFwOutCmpTestCase7() {
 		return 0;
 
 	/* Check that the OutComponent was updated */
-	if (pckt[CrFwPcktGetMaxLength()-1] != counter+2)
+	if (pckt[CrFwPcktGetMaxLength()-3] != counter+2)
 		return 0;
 
 	/* Set up repeat check of sample OutComponent to return "no repeat" */
@@ -801,7 +805,7 @@ CrFwBool_t CrFwOutCmpTestCase7() {
 		return 0;
 
 	/* Check that the OutComponent was updated */
-	if (pckt[CrFwPcktGetMaxLength()-1] != counter+3)
+	if (pckt[CrFwPcktGetMaxLength()-3] != counter+3)
 		return 0;
 
 	/* Reset the OutStream (this will also release the OutComponent packet) */

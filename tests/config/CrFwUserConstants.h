@@ -64,6 +64,9 @@ typedef unsigned char CrFwGroup_t;
 /** Type used for the command or report destination and source. */
 typedef unsigned char CrFwDestSrc_t;
 
+/** Type used for the CRC field in a packet */
+typedef unsigned short CrFwCrc_t;
+
 /** Type used for the discriminant of a command or report. */
 typedef unsigned short CrFwDiscriminant_t;
 

@@ -75,7 +75,7 @@ void CrFwOutCmpSample1Serialize(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwOutCmpData_t* cmpSpecificData = (CrFwOutCmpData_t*)cmpData->cmpSpecificData;
 	CrFwOutCmpDefSerialize(smDesc);
-	cmpSpecificData->pckt[CrFwPcktGetMaxLength()-1] = (char)counter;
+	cmpSpecificData->pckt[CrFwPcktGetMaxLength()-3] = (char)counter;
 }
 
 /*-----------------------------------------------------------------------------------------*/

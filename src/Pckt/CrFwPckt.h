@@ -286,6 +286,20 @@ void CrFwPcktSetCmdRepId(CrFwPckt_t pckt, CrFwInstanceId_t id);
 CrFwInstanceId_t CrFwPcktGetCmdRepId(CrFwPckt_t pckt);
 
 /**
+ * Compute and set the CRC in the command or report encapsulated in a packet.
+ * @param pckt the packet.
+ * @param crc the command or report CRC.
+ */
+void CrFwPcktComputeAndSetCrc(CrFwPckt_t pckt);
+
+/**
+ * Return the CRC of the command or report encapsulated in a packet.
+ * @param pckt the packet.
+ * @return the command or report CRC.
+ */
+CrFwCrc_t CrFwPcktGetCrc(CrFwPckt_t pckt);
+
+/**
  * Set the acknowledge level for the command encapsulated in a packet.
  * If the packet on which this function is called does not encapsulate a command, nothing
  * is done.

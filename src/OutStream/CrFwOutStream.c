@@ -354,9 +354,10 @@ static void FlushPcktQueue(FwSmDesc_t smDesc) {
 		oldestPckt = CrFwPcktQueueGetOldest(pcktQueue);
 		if (CrFwPcktGetSrc(oldestPckt) == CR_FW_HOST_APP_ID) { /* pckt originates from host application */
 			oldestPcktGroup = CrFwPcktGetGroup(oldestPckt);
-			if (oldestPcktGroup < outStreamNOfGroups[outStreamBaseData->instanceId])
+			if (oldestPcktGroup < outStreamNOfGroups[outStreamBaseData->instanceId]) {
 				CrFwPcktSetSeqCnt(oldestPckt, cmpSpecificData->seqCnt[oldestPcktGroup]);
-			else	/* pckt belongs to a non-existent group */
+				CrFwPcktComputeAndSetCrc(oldestPckt);
+			} else	/* pckt belongs to a non-existent group */
 				CrFwRepErrGroup(crOutStreamIllGroup, outStreamBaseData->typeId,
 				                outStreamBaseData->instanceId, oldestPcktGroup);
 		}
@@ -392,9 +393,10 @@ static void SendOrEnqueue(FwSmDesc_t smDesc) {
 
 	if (CrFwPcktGetSrc(pckt) == CR_FW_HOST_APP_ID) { /* pckt originates from host application */
 		pcktGroup = CrFwPcktGetGroup(pckt);
-		if (pcktGroup < outStreamNOfGroups[outStreamBaseData->instanceId])
+		if (pcktGroup < outStreamNOfGroups[outStreamBaseData->instanceId]) {
 			CrFwPcktSetSeqCnt(pckt, cmpSpecificData->seqCnt[pcktGroup]);
-		else	/* pckt belongs to a non-existent group */
+			CrFwPcktComputeAndSetCrc(pckt);
+		} else	/* pckt belongs to a non-existent group */
 			CrFwRepErrGroup(crOutStreamIllGroup, outStreamBaseData->typeId,
 			                outStreamBaseData->instanceId, pcktGroup);
 	}

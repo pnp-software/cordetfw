@@ -24,6 +24,8 @@
  * command or report.
  * The layout of a packet is defined by the value of the <code>offsetYyy</code> constants
  * which defines the offset within a packet at which attribute "Yyy" is stored.
+ * The exception is the CRC attribute which is placed at the end of the packet.
+ * The CRC is arbitrarily set equal to 0xFFFF.
  *
  * The setter functions for the packet attributes assume that the packet length is
  * adequate to hold the attributes.
@@ -54,9 +56,6 @@
  * The value of this constant must be smaller than the range of the <code>::CrFwPcktLength_t</code>
  * integer type.
  */
-#define CR_FW_MAX_PACKET_LENGTH 100
-
-/** The maximum size in number of bytes of a packet */
 #define CR_FW_MAX_PCKT_LENGTH 100
 
 /**
@@ -239,6 +238,20 @@ CrFwTimeStamp_t CrFwPcktGetTimeStamp(CrFwPckt_t pckt) {
 void CrFwPcktSetTimeStamp(CrFwPckt_t pckt, CrFwTimeStamp_t timeStamp) {
 	CrFwTimeStamp_t* loc = (CrFwTimeStamp_t*)(pckt+offsetTimeStamp);
 	(*loc) = timeStamp;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+void CrFwPcktComputeAndSetCrc(CrFwPckt_t pckt) {
+    CrFwPcktLength_t len = CrFwPcktGetLength(pckt);
+    CrFwCrc_t* loc = (CrFwCrc_t*)(pckt+len-sizeof(CrFwCrc_t));
+    (*loc) = 0xFFFF;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwCrc_t CrFwPcktGetCrc(CrFwPckt_t pckt) {
+  CrFwPcktLength_t len = CrFwPcktGetLength(pckt);
+  CrFwCrc_t* loc = (CrFwCrc_t*)(pckt+len-sizeof(CrFwCrc_t));
+  return (*loc);
 }
 
 /*-----------------------------------------------------------------------------------------*/
