@@ -1,4 +1,4 @@
-Category|Id|AP|DefValue|C2Cat|C2Id|C2Impl
+Category|Id|AP|DefValue|CTwoCat|CTwoId|CTwoImpl
 BAS|1|Initialization Check in Initialization Procedure of Base Component|Always returns: 'check successful'|0|0|The Base Component is not available for direct use by application developers. This Adaptation Point is therefore not directly supported by the C2 Implementation but, where required, is supported by components which are derived from the Base Component.
 BAS|2|Initialization Action in Initialization Procedure of Base Component|Do nothing and return: 'action successful'|0|0|The Base Component is not available for direct use by application developers. This Adaptation Point is therefore not directly supported by the C2 Implementation but, where required, is supported by components which are derived from the Base Component.
 BAS|3|Configuration Check in Reset Procedure of Base Component|Always returns: 'check successful'|0|0|The Base Component is not available for direct use by application developers. This Adaptation Point is therefore not directly supported by the C2 Implementation but, where required, is supported by components which are derived from the Base Component.
@@ -36,7 +36,7 @@ OST|7|Execution Procedure of OutStream (closes BAS-6)|Same value as in Base Comp
 OST|8|Packet Hand-Over Operation of OutStream|No value defined at framework level|C2-OST|8|Function pointers (one for each OutStream in the application) in \texttt{CrFwOutStreamUserPar.h}. Only a test stub is provided as default at framework level.
 OST|9|Operation to set Sequence Counter in Outgoing Packets|No value defined at framework level|0|0|Implemented by Adaptation Point C2-PCK-1.
 OST|12|Operation to Report Packet Queue Full|Generate OUTSTREAM\_PQ\_FULL Error Report|0|0|Implemented by Adaptation Point C2-ERR-1.
-OST|13|Operation to Compute and Set a Packet’s CRC|Set CRC to 0xFFFF|C2-OST|9|Function pointer in \texttt{CrFwOutStreamUserPar.h}. Default implementation is provided in \texttt{CrFwOutStream.h}..
+OST|13|Operation to Compute and Set a Packet’s CRC|Set CRC to 0xFFFF|C2-OST|9|Implementation of function \texttt{CrFwComputeAndSetCrc} in interface \texttt{CrFwPckt.h}. Only a test stub is provided by default at framework level.
 0|0|Number of InStreams in the Application|0|C2-IST|1|\texttt{\#DEFINE} constant in \texttt{CrFwInStreamUserPar.h}
 IST|1|Size of the Packet Queue in InStream|Default size is 1|C2-IST|2|\texttt{\#DEFINE} constant (one for each InStream in the application) in \texttt{CrFwInStreamUserPar.h}
 0|0|Source associated to InStream|0|C2-IST|3|\texttt{\#DEFINE} constant (one for each InStream in the application) in \texttt{CrFwInStreamUserPar.h}
