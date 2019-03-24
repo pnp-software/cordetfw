@@ -1,4 +1,18 @@
+/** @defgroup crFw CORDET Framework
+ * @brief A software framework for service-oriented applications
+ *
+ * The CORDET Framework is built around the <i>CORDET Service Concept</i>.
+ * A service consists of a set of logically related commands and reports.
+ * The service concept defines the life-cycle of a generic command and of
+ * generic report.
+ * This life-cycle is independent of the specific content and actions of 
+ * a command or report.
+ * The CORDET Framework provides components which enforce this life-cycle.
+ */
+
+
 /** @defgroup appSmgroup Application Start-Up
+ * @ingroup crFw
  * Implementation of the Application State Machine.
  * The Application State Machine implements the application start-up behaviour
  * (see figures below).
@@ -6,6 +20,7 @@
  */
 
 /** @defgroup baseCmpGroup Base Component
+ * @ingroup crFw
  *  Implementation of the Base Component.
  * A Base Component implements the behaviour of the Base Component State Machine
  * (see figure below).
@@ -25,6 +40,7 @@
  */
 
 /** @defgroup inMngGroup Management of Incoming Commands and Reports
+ * @ingroup crFw
  * Management of incoming commands and reports.
  * Incoming commands are commands in a provider application (namely in an application 
  * which receives commands from a service user) and incoming reports are reports in 
@@ -77,6 +93,7 @@
  */
 
 /** @defgroup outMngGroup Management of Outgoing Commands and Reports
+ * @ingroup crFw
  * Management of outgoing commands and reports.
  * Out-going commands are commands in a user application (namely in an application which sends commands 
  * to a service provider) and out-going reports are reports in a provider application 
@@ -105,6 +122,7 @@
  */
  
 /** @defgroup crConfigGroup Configurable Header Files
+ * @ingroup crFw
  * The files in this module must be modified by application developers to
  * adapt them to the needs of their target application.
  * These files customize the behaviour of the
@@ -115,6 +133,7 @@
  */
 
 /** @defgroup crOpenIfGroup Unimplemented Interfaces
+ * @ingroup crFw
  * Declaration of Interfaces not implemented at Framework Level.
  * These interfaces represent Adaptation Points which must be closed by the application developer when he 
  * instantiates the framework.
@@ -124,13 +143,16 @@
  */
 
 /** @defgroup auxGroup Auxiliary Functions
+ * @ingroup crFw
  *  Implementation of Functions to check Component Configuration.
  */
 
 /** @defgroup utilityFunctionsGroup Utility Functions
+ * @ingroup crFw
  *  Implementation of Utility Functions.
  */
 
 /** @defgroup CrTestSuiteGroup Test Suite
+ * @ingroup crFw
  *  Test Suite for the CORDET Framework.
  */
