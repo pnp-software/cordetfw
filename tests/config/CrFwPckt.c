@@ -252,16 +252,22 @@ CrFwCrc_t CrFwPcktComputeCrc(CrFwPckt_t pckt) {
 /*-----------------------------------------------------------------------------------------*/
 void CrFwPcktSetCrc(CrFwPckt_t pckt, CrFwCrc_t crc) {
     (void)crc;
-    CrFwPcktLength_t len = CrFwPcktGetLength(pckt);
-    CrFwCrc_t* loc = (CrFwCrc_t*)(pckt+len-sizeof(CrFwCrc_t));
+    CrFwPcktLength_t len;
+    CrFwCrc_t* loc;
+
+    len = CrFwPcktGetLength(pckt);
+    loc = (CrFwCrc_t*)(pckt+len-sizeof(CrFwCrc_t));
     (*loc) = crc;
 }
 
 /*-----------------------------------------------------------------------------------------*/
 CrFwCrc_t CrFwPcktGetCrc(CrFwPckt_t pckt) {
-  CrFwPcktLength_t len = CrFwPcktGetLength(pckt);
-  CrFwCrc_t* loc = (CrFwCrc_t*)(pckt+len-sizeof(CrFwCrc_t));
-  return (*loc);
+    CrFwPcktLength_t len;
+    CrFwCrc_t* loc;
+
+    len = CrFwPcktGetLength(pckt);
+    loc = (CrFwCrc_t*)(pckt+len-sizeof(CrFwCrc_t));
+    return (*loc);
 }
 
 /*-----------------------------------------------------------------------------------------*/
