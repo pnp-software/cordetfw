@@ -32,6 +32,9 @@
  * Compliance with this constraint is not checked by the setter functions.
  * Its violation may result in memory corruption.
  *
+ * The CRC-related functions assume the CRC to be at the end of the packet and
+ * always compute a dummy value of 0xFFFF for the CRC of a packet.
+ *
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
@@ -241,7 +244,14 @@ void CrFwPcktSetTimeStamp(CrFwPckt_t pckt, CrFwTimeStamp_t timeStamp) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwPcktComputeAndSetCrc(CrFwPckt_t pckt) {
+CrFwCrc_t CrFwPcktComputeCrc(CrFwPckt_t pckt) {
+    (void)pckt;
+    return 0xFFFF;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+void CrFwPcktSetCrc(CrFwPckt_t pckt, CrFwCrc_t crc) {
+    (void)crc;
     CrFwPcktLength_t len = CrFwPcktGetLength(pckt);
     CrFwCrc_t* loc = (CrFwCrc_t*)(pckt+len-sizeof(CrFwCrc_t));
     (*loc) = 0xFFFF;

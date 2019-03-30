@@ -286,11 +286,18 @@ void CrFwPcktSetCmdRepId(CrFwPckt_t pckt, CrFwInstanceId_t id);
 CrFwInstanceId_t CrFwPcktGetCmdRepId(CrFwPckt_t pckt);
 
 /**
- * Compute and set the CRC in the command or report encapsulated in a packet.
+ * Compute the CRC in the command or report encapsulated in a packet.
+ * @param pckt the packet.
+ * @return the command or report CRC.
+ */
+CrFwCrc_t CrFwPcktComputeCrc(CrFwPckt_t pckt);
+
+/**
+ * Set the CRC in the command or report encapsulated in a packet.
  * @param pckt the packet.
  * @param crc the command or report CRC.
  */
-void CrFwPcktComputeAndSetCrc(CrFwPckt_t pckt);
+void CrFwPcktSetCrc(CrFwPckt_t pckt, CrFwCrc_t crc);
 
 /**
  * Return the CRC of the command or report encapsulated in a packet.
