@@ -364,7 +364,7 @@ CrFwBool_t CrFwPcktIsTermAck(CrFwPckt_t pckt);
  * @param pckt a packet encapsulating a command or a report.
  * @return the start address of the packet's parameter area.
  */
-char* CrFwPcktGetParStart(CrFwPckt_t pckt);
+CrFwPckt_t CrFwPcktGetParStart(CrFwPckt_t pckt);
 
 /**
  * Return the length in bytes of the packet's parameter area.

@@ -374,7 +374,7 @@ CrFwBool_t CrFwPcktIsTermAck(CrFwPckt_t pckt) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-char* CrFwPcktGetParStart(CrFwPckt_t pckt) {
+CrFwPckt_t CrFwPcktGetParStart(CrFwPckt_t pckt) {
 	return (char*)(pckt+offsetPar);
 }
 
