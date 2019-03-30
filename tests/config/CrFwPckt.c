@@ -251,7 +251,6 @@ CrFwCrc_t CrFwPcktComputeCrc(CrFwPckt_t pckt) {
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwPcktSetCrc(CrFwPckt_t pckt, CrFwCrc_t crc) {
-    (void)crc;
     CrFwPcktLength_t len;
     CrFwCrc_t* loc;
 
