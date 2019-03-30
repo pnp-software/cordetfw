@@ -378,7 +378,7 @@ void PendingDoAction(FwSmDesc_t smDesc) {
 }
 
 /* --------------------------------------------------------------------------------- */
-char* CrFwOutCmpGetParStart(FwSmDesc_t smDesc) {
+CrFwPckt_t CrFwOutCmpGetParStart(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwOutCmpData_t* cmpSpecificData = (CrFwOutCmpData_t*)(cmpData->cmpSpecificData);
 	return CrFwPcktGetParStart(cmpSpecificData->pckt);

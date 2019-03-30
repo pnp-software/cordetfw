@@ -26,7 +26,8 @@
  * The following actions are performed in this test:
  * - The InFactory is reset and then two InReports are retrieved from the InFactory
  *   and it is checked that their instance identifier and type identifier are correct.
- * - It is checked that the InReports are initially in state CONFIGURED.
+ * - It is checked that the InReports are initially in state CONFIGURED if their
+ *   CRC is correct.
  * - It is checked that the InReport is correctly configured.
  * - It is checked that the service type and sub-type and the discriminant value of the
  *   InReport are correct.

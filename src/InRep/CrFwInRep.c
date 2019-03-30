@@ -86,7 +86,7 @@ CrFwSeqCnt_t CrFwInRepGetSeqCnt(FwSmDesc_t smDesc) {
 }
 
 /* --------------------------------------------------------------------------------- */
-char* CrFwInRepGetParStart(FwSmDesc_t smDesc) {
+CrFwPckt_t CrFwInRepGetParStart(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwInRepData_t* cmpSpecificData = (CrFwInRepData_t*)(cmpData->cmpSpecificData);
 	return CrFwPcktGetParStart(cmpSpecificData->pckt);
@@ -123,4 +123,12 @@ CrFwPckt_t CrFwInRepGetPcktFromPrDesc(FwPrDesc_t prDesc) {
     CrFwInRepData_t* cmpSpecificData = (CrFwInRepData_t*)(cmpData->cmpSpecificData);
     return cmpSpecificData->pckt;
 
+}
+
+/* --------------------------------------------------------------------------------- */
+CrFwBool_t CrFwInRepDefValidityCheck(FwPrDesc_t prDesc) {
+    CrFwCmpData_t* cmpData = FwPrGetData(prDesc);
+    CrFwInRepData_t* inRepData = (CrFwInRepData_t*)(cmpData->cmpSpecificData);
+    CrFwPckt_t pckt = inRepData->pckt;
+    return (CrFwPcktGetCrc(pckt) == CrFwPcktComputeCrc(pckt));
 }

@@ -70,6 +70,11 @@ typedef void (*CrFwInRepUpdateAction_t)(FwPrDesc_t);
  * called from the Reset Procedure of the InReport).
  * It returns true if the data in the InReport are valid and false otherwise.
  *
+ * Function <code>::CrFwInRepDefValidityCheck</code> provides a default implementation
+ * for the InReport validity check.
+ * Another default is provided by function <code>::CrFwPrCheckAlwaysTrue</code>
+ * which implements a validity check which always returns true.
+ *
  * A function which implements this operation takes the  descriptor of the
  * Reset Procedure of the InReport as an argument and returns true if the data in
  * the InReport packet are valid and returns false otherwise.
@@ -91,6 +96,10 @@ typedef CrFwBool_t (*CrFwInRepValidityCheck_t)(FwPrDesc_t);
  * This operation is executed when the InCommand is reset.
  * It determines whether the InCommand reset was successful or not
  * (see <code>::CrFwInCmdConfigCheck</code>).
+ * A default implementation for the validity check of an InCommand is provided by
+ * function <code>::CrFwInCmdDefValidityCheck</code>.
+ * Another default implementation which is guaranteed to always return 'InCommand
+ * Valid' is provided by function <code>::CrFwPrCheckAlwaysTrue</code>.
  *
  * A function which implements this operation takes as argument the descriptor
  * of the InCommand's reset procedure and returns true if
@@ -99,8 +108,8 @@ typedef CrFwBool_t (*CrFwInRepValidityCheck_t)(FwPrDesc_t);
  * of the InCommand's Reset Procedure prDesc:
  * <pre>
  *     CrFwCmpData_t* cmpData = FwPrGetData(prDesc);
- *     CrFwInRepData_t* inCmdData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
- *     CrFwPckt_t pckt = inCmdpData->pckt;
+ *     CrFwInCmdData_t* inCmdData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
+ *     CrFwPckt_t pckt = inCmdData->pckt;
  * </pre>
  * Alternatively, the packet can also be retrieved using
  * function <code>::CrFwInCmdGetPcktFromPrDesc</code>.

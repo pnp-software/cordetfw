@@ -121,7 +121,7 @@ CrFwSeqCnt_t CrFwInRepGetSeqCnt(FwSmDesc_t smDesc);
  * @param smDesc the descriptor of the Base State Machine of the InReport
  * @return the start address of the InReport parameter area.
  */
-char* CrFwInRepGetParStart(FwSmDesc_t smDesc);
+CrFwPckt_t CrFwInRepGetParStart(FwSmDesc_t smDesc);
 
 /**
  * Return the length in bytes of the parameter area of the InReport.
@@ -183,5 +183,19 @@ CrFwPckt_t CrFwInRepGetPckt(FwSmDesc_t smDesc);
  * @return the packet holding the InReport
  */
 CrFwPckt_t CrFwInRepGetPcktFromPrDesc(FwPrDesc_t prDesc);
+
+/**
+ * Default implementation of the validity check of an InReport.
+ * The validity check of an InReport must conform to the <code>::CrFwInRepValidityCheck_t</code>
+ * function prototype.
+ * This default implementation verifies the correctness of the CRC of the packet
+ * which carries the report.
+ * The CRC is processed using the CRC functions defined by interface
+ * <code>::CrFwInPckt.h</code>.
+ *
+ * @param prDesc the descriptor of the InReport's Reset Procedure
+ * @return true if the CRC of the InReport packet is correct
+ */
+CrFwBool_t CrFwInRepDefValidityCheck(FwPrDesc_t prDesc);
 
 #endif /* CRFW_INREP_H_ */

@@ -21,6 +21,8 @@
 
 #include "CrFwInCmdSample1.h"
 #include "CrFwInRepSample1.h"
+#include "InCmd/CrFwInCmd.h"
+#include "InRep/CrFwInRep.h"
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 /**
  * The maximum number of components representing an incoming command which may be allocated
@@ -113,9 +115,9 @@
  * <code>CrFwInCommandSample1.h</code>.
  */
 #define CR_FW_INCMD_INIT_KIND_DESC \
-	{ {8, 1, 1, &CrFwPrCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, &CrFwSmEmptyAction, \
+	{ {8, 1, 1, &CrFwInCmdDefValidityCheck, &CrFwSmCheckAlwaysTrue, &CrFwSmEmptyAction, \
 						&CrFwSmEmptyAction, &CrFwSmSuccessAction, &CrFwSmEmptyAction}, \
-	  {8, 1, 2, &CrFwPrCheckAlwaysTrue, &CrFwSmCheckAlwaysTrue, &CrFwSmEmptyAction, \
+	  {8, 1, 2, &CrFwInCmdDefValidityCheck, &CrFwSmCheckAlwaysTrue, &CrFwSmEmptyAction, \
 						&CrFwSmEmptyAction, &CrFwSmSuccessAction, &CrFwSmEmptyAction}, \
 	  {50, 1, 0, &CrFwInCmdSample1ValidityCheck, &CrFwInCmdSample1ReadyCheck, &CrFwInCmdSample1StartAction, \
 						&CrFwInCmdSample1ProgressAction, &CrFwInCmdSample1TerminationAction, &CrFwInCmdSample1AbortAction} \
@@ -161,8 +163,8 @@
  * <code>CrFwInReportSample1.h</code>.
  */
 #define CR_FW_INREP_INIT_KIND_DESC \
-	{ {5, 1, 1, &CrFwPrEmptyAction, &CrFwPrCheckAlwaysTrue}, \
-	  {5, 1, 2, &CrFwPrEmptyAction, &CrFwPrCheckAlwaysTrue}, \
+	{ {5, 1, 1, &CrFwPrEmptyAction, &CrFwInRepDefValidityCheck}, \
+	  {5, 1, 2, &CrFwPrEmptyAction, &CrFwInRepDefValidityCheck}, \
 	  {5, 1, 3, &CrFwPrEmptyAction, &CrFwPrCheckAlwaysTrue}, \
 	  {40, 1, 0, &CrFwInRepSample1UpdateAction, &CrFwInRepSample1ValidityCheck} \
 	}

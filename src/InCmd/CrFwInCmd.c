@@ -392,7 +392,7 @@ CrFwSeqCnt_t CrFwInCmdGetSeqCnt(FwSmDesc_t smDesc) {
 }
 
 /* --------------------------------------------------------------------------------- */
-char* CrFwInCmdGetParStart(FwSmDesc_t smDesc) {
+CrFwPckt_t CrFwInCmdGetParStart(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* cmpData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
 	return CrFwPcktGetParStart(cmpSpecificData->pckt);
@@ -432,3 +432,12 @@ CrFwProgressStepId_t CrFwInCmdGetNOfProgressFailure(FwSmDesc_t smDesc) {
     CrFwInCmdData_t* cmpSpecificData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
     return cmpSpecificData->nOfProgressFailure;
 }
+
+/* --------------------------------------------------------------------------------- */
+CrFwBool_t CrFwInCmdDefValidityCheck(FwPrDesc_t prDesc) {
+    CrFwCmpData_t* cmpData = FwPrGetData(prDesc);
+    CrFwInCmdData_t* inCmdData = (CrFwInCmdData_t*)(cmpData->cmpSpecificData);
+    CrFwPckt_t pckt = inCmdData->pckt;
+    return (CrFwPcktGetCrc(pckt) == CrFwPcktComputeCrc(pckt));
+}
+

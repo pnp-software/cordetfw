@@ -26,7 +26,8 @@
  * The following actions are performed in this test:
  * - The InFactory is reset and then two InCommands are retrieved from the InFactory
  *   and it is checked that their instance identifier and type identifier are correct.
- * - It is checked that the InCommands are initially in state CONFIGURED.
+ * - It is checked that if the InCommands have a correct CRC, they are initially in
+ *   state CONFIGURED; otherwise, they remain in state INITIALIZED
  * - It is checked that the InCommand is correctly configured.
  * - It is checked that the length and start address of the InCommand's parameter area
  *   are correct.

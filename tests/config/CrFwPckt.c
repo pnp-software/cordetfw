@@ -254,7 +254,7 @@ void CrFwPcktSetCrc(CrFwPckt_t pckt, CrFwCrc_t crc) {
     (void)crc;
     CrFwPcktLength_t len = CrFwPcktGetLength(pckt);
     CrFwCrc_t* loc = (CrFwCrc_t*)(pckt+len-sizeof(CrFwCrc_t));
-    (*loc) = 0xFFFF;
+    (*loc) = crc;
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -375,7 +375,7 @@ CrFwBool_t CrFwPcktIsTermAck(CrFwPckt_t pckt) {
 
 /*-----------------------------------------------------------------------------------------*/
 CrFwPckt_t CrFwPcktGetParStart(CrFwPckt_t pckt) {
-	return (char*)(pckt+offsetPar);
+	return (CrFwPckt_t)(pckt+offsetPar);
 }
 
 /*-----------------------------------------------------------------------------------------*/

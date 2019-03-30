@@ -313,7 +313,7 @@ CrFwBool_t CrFwOutCmpIsTermAck(FwSmDesc_t smDesc);
  * @param smDesc the descriptor of the Base State Machine of the OutComponent
  * @return the start address of the OutComponent parameter area.
  */
-char* CrFwOutCmpGetParStart(FwSmDesc_t smDesc);
+CrFwPckt_t CrFwOutCmpGetParStart(FwSmDesc_t smDesc);
 
 /**
  * Return the length in bytes of the parameter area of the OutComponent.

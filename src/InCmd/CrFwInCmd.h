@@ -277,7 +277,7 @@ CrFwSeqCnt_t CrFwInCmdGetSeqCnt(FwSmDesc_t smDesc);
  * @param smDesc the descriptor of the Base State Machine of the InCommand
  * @return the start address of the InCommand parameter area.
  */
-char* CrFwInCmdGetParStart(FwSmDesc_t smDesc);
+CrFwPckt_t CrFwInCmdGetParStart(FwSmDesc_t smDesc);
 
 /**
  * Return the pointer to the packet which holds the InCommand.
@@ -322,5 +322,19 @@ CrFwPcktLength_t CrFwInCmdGetParLength(FwSmDesc_t smDesc);
  * @return the packet holding the InCommand
  */
 CrFwPckt_t CrFwInCmdGetPcktFromPrDesc(FwPrDesc_t prDesc);
+
+/**
+ * Default implementation of the validity check of an InCommand.
+ * The validity check of an InCommand must conform to the <code>::CrFwInCmdValidityCheck_t</code>
+ * function prototype.
+ * This default implementation verifies the correctness of the CRC of the packet
+ * which carries the command.
+ * The CRC is processed using the CRC functions defined by interface
+ * <code>::CrFwInPckt.h</code>.
+ *
+ * @param prDesc the descriptor of the InCommand's Reset Procedure
+ * @return true if the CRC of the InCommand packet is correct
+ */
+CrFwBool_t CrFwInCmdDefValidityCheck(FwPrDesc_t prDesc);
 
 #endif /* CRFW_INCMD_H_ */

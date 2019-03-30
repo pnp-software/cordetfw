@@ -48,6 +48,7 @@ CrFwBool_t CrFwInCmdTestCase1() {
 	CrFwPckt_t pckt1, pckt2;
 	CrFwInCmdData_t* inCmdSpecificData;
 	CrFwCmpData_t* inCmdData;
+	CrFwCrc_t crc;
 
 	/* Instantiate the InFactory */
 	inFactory = CrFwInFactoryMake();
@@ -58,7 +59,7 @@ CrFwBool_t CrFwInCmdTestCase1() {
 	if (!CrFwCmpIsInConfigured(inFactory))
 		return 0;
 
-	/* Allocate two InCommands */
+	/* Allocate two InCommands of which one has the correct CRC and one the incorrect CRC */
 	pckt1 = CrFwPcktMake(100);
 	CrFwPcktSetServType(pckt1,8);
 	CrFwPcktSetServSubType(pckt1,1);
@@ -68,6 +69,8 @@ CrFwBool_t CrFwInCmdTestCase1() {
 	CrFwPcktSetGroup(pckt1,88);
 	CrFwPcktSetAckLevel(pckt1,1,0,1,0);
 	CrFwPcktSetSeqCnt(pckt1,1111);
+	crc = CrFwPcktComputeCrc(pckt1);
+	CrFwPcktSetCrc(pckt1, crc);
 	inCmd1 = CrFwInFactoryMakeInCmd(pckt1);
 
 	pckt2 = CrFwPcktMake(100);
@@ -79,6 +82,8 @@ CrFwBool_t CrFwInCmdTestCase1() {
 	CrFwPcktSetGroup(pckt2,89);
 	CrFwPcktSetAckLevel(pckt2,0,1,0,1);
 	CrFwPcktSetSeqCnt(pckt2,2222);
+    crc = CrFwPcktComputeCrc(pckt2);
+    CrFwPcktSetCrc(pckt2, crc-1);               /* pckt2 has an incorrect CRC */
 	inCmd2 = CrFwInFactoryMakeInCmd(pckt2);
 
 	/* Check the instance identifiers and the type identifier */
@@ -102,6 +107,8 @@ CrFwBool_t CrFwInCmdTestCase1() {
 		return 0;
 	if (!CrFwInCmdIsInAccepted(inCmd1))
 		return 0;
+    if (CrFwCmpIsInConfigured(inCmd2))      /* Cmd2 has an incorrect CRC */
+        return 0;
 
 	/* Check the parameter area */
 	inCmdData = (CrFwCmpData_t*)FwSmGetData(inCmd1);

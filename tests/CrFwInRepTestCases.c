@@ -47,7 +47,7 @@ CrFwBool_t CrFwInRepTestCase1() {
 	CrFwPckt_t pckt1, pckt2;
 	CrFwInRepData_t* inRepSpecificData;
 	CrFwCmpData_t* inRepData;
-
+	CrFwCrc_t crc;
 
 	/* Instantiate the InFactory */
 	InFactory = CrFwInFactoryMake();
@@ -68,6 +68,8 @@ CrFwBool_t CrFwInRepTestCase1() {
 	CrFwPcktSetGroup(pckt1,88);
 	CrFwPcktSetAckLevel(pckt1,1,0,1,0);
 	CrFwPcktSetSeqCnt(pckt1,1111);
+    crc = CrFwPcktComputeCrc(pckt1);
+    CrFwPcktSetCrc(pckt1, crc);
 	inRep1 = CrFwInFactoryMakeInRep(pckt1);
 
 	pckt2 = CrFwPcktMake(100);
@@ -79,6 +81,8 @@ CrFwBool_t CrFwInRepTestCase1() {
 	CrFwPcktSetGroup(pckt2,89);
 	CrFwPcktSetAckLevel(pckt2,0,1,0,1);
 	CrFwPcktSetSeqCnt(pckt2,2222);
+    crc = CrFwPcktComputeCrc(pckt1);
+    CrFwPcktSetCrc(pckt1, crc-1);
 	inRep2 = CrFwInFactoryMakeInRep(pckt2);
 
 	/* Check the instance identifiers and the type identifier */
@@ -100,6 +104,8 @@ CrFwBool_t CrFwInRepTestCase1() {
 	/* Check InReport state */
 	if (!CrFwCmpIsInConfigured(inRep1))
 		return 0;
+    if (CrFwCmpIsInConfigured(inRep2))
+        return 0;
 
 	/* Check the parameter area */
 	inRepData = (CrFwCmpData_t*)FwSmGetData(inRep1);
