@@ -175,7 +175,9 @@ void CrFwRepErrCmd(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
  * @param errCode the error code
  * @param instanceId the instance identifier of the component which raises the error report
  * @param typeId the type identifier of the component which raises the error report
- * @param type a report or command service
+ * @param servType the report or command type
+ * @param servSubType the report or command sub-type
+ * @param disc the report or command discriminant
  */
 void CrFwRepErrKind(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
                                     CrFwInstanceId_t instanceId, CrFwServType_t  servType,
