@@ -180,7 +180,7 @@ void CrFwInCmdSetProgressActionCompleted(FwSmDesc_t smDesc, CrFwBool_t progressA
 /**
  * Return the number of progress step failures.
  * A progress step failure occurs when the progress action is executed and it returns
- * with the outcome of "failed" (see <code>::CrFwInCmdProgressAction_t<.code>).
+ * with the outcome of "failed" (see <code>::CrFwInCmdProgressAction_t</code>).
  * Normally, a progress step failure should only be reported at the end of a progress step.
  * but this constraint is not enforced by the framework.
  * It is the responsibility of the application to update the progress step identifier when
@@ -330,7 +330,7 @@ CrFwPckt_t CrFwInCmdGetPcktFromPrDesc(FwPrDesc_t prDesc);
  * This default implementation verifies the correctness of the CRC of the packet
  * which carries the command.
  * The CRC is processed using the CRC functions defined by interface
- * <code>::CrFwInPckt.h</code>.
+ * <code>::CrFwPckt.h</code>.
  *
  * @param prDesc the descriptor of the InCommand's Reset Procedure
  * @return true if the CRC of the InCommand packet is correct
