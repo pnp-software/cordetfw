@@ -1,0 +1,1 @@
+../common/pnp_article.cls
