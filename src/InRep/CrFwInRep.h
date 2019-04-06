@@ -191,7 +191,7 @@ CrFwPckt_t CrFwInRepGetPcktFromPrDesc(FwPrDesc_t prDesc);
  * This default implementation verifies the correctness of the CRC of the packet
  * which carries the report.
  * The CRC is processed using the CRC functions defined by interface
- * <code>::CrFwPckt.h</code>.
+ * <code>CrFwPckt.h</code>.
  *
  * @param prDesc the descriptor of the InReport's Reset Procedure
  * @return true if the CRC of the InReport packet is correct
