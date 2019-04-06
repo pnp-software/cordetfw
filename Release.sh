@@ -7,7 +7,6 @@
 # from their repositories:
 # - The FW Profile Project
 # - The CORDET Framework Project
-# - The CORDET Framework Example Project
 #
 # This script performs the following actions:
 # 1. Deleted 
@@ -23,7 +22,6 @@
 showHelp() {
     echo "Options: "
     echo "-v=, --version=        release version number"
-    echo "-e=, --examples=       path to the cordetfw-examples repository"
     echo "-f=, --fwprofile=      path to the fwprofile repository"
     echo "-c=, --cordet=         path to the cordetfw repository, defaults to current directory"
     echo "-h, --help             this help text"
@@ -36,9 +34,6 @@ do
 case $i in
     -v=*|--version=*)
     VERSION=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
-    ;;
-    -e=*|--examples=*)
-    EXAMPLE_PATH=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
     ;;
     -c=*|--cordet=*)
     CF_PATH=`echo $i | sed 's/[-a-zA-Z0-9]*=//'`
@@ -54,10 +49,6 @@ done
 
 if [ "$VERSION" == "" ]
   then
-    showHelp
-fi
-if [ "$EXAMPLE_PATH" == "" ]
-then
     showHelp
 fi
 if [ "$FW_PATH" == "" ]
@@ -80,8 +71,6 @@ OUT_LIB="${OUT}/lib/fwprofile/src/"
 make clean
 rm -fr $OUT
 mkdir -p $OUT
-mkdir -p $OUT/examples
-mkdir -p $OUT/examples/src
 mkdir -p $OUT/tests
 mkdir -p $OUT_DOCS
 mkdir -p $OUT_LOG
@@ -164,12 +153,6 @@ cp -a ${CF_PATH}/Makefile ${OUT}
 cp -ar ${CF_PATH}/src ${OUT}
 cp -ar ${CF_PATH}/tests ${OUT}
 cp -ar ${FW_PATH}/src ${OUT}/lib/fwprofile
-cp -a ${EXAMPLE_PATH}/CompileAndLinkFw.sh ${OUT}/examples/
-cp -a ${EXAMPLE_PATH}/CompileAndLinkMa.sh ${OUT}/examples/
-cp -a ${EXAMPLE_PATH}/CompileAndLinkS1.sh ${OUT}/examples/
-cp -a ${EXAMPLE_PATH}/CompileAndLinkS2.sh ${OUT}/examples/
-cp -a ${EXAMPLE_PATH}/RunDemoApp.sh ${OUT}/examples/
-cp -ar ${EXAMPLE_PATH}/src/ ${OUT}/examples/
 
 ( cd ${OUT};
   zip -r ./CordetFw_C2_Impl_MPLv2_${VERSION}.zip .)

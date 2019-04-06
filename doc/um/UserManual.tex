@@ -41,7 +41,7 @@ This directory becomes the \emph{host directory} for the C2 Implementation.
 Table \ref{tab:HostDir} gives an overview of the structure of the host directory.
 More details are found in subsequent subsections.
 
-The C2 Implementation software is delivered as source code and therefore no further installation operations are needed. A Test Suite and a Demo Application are provided as illustrations of how the framework can be instantiated by users. Unix script files are also provided to compile and link the Test Suite and the Demo Application.
+The C2 Implementation software is delivered as source code and therefore no further installation operations are needed. A Test Suite is provided together with Unix script files to compile and link it.
 
 \begin{longtable}{|l|p{7cm}|}
 \caption{Structure of Host Directory}\label{tab:HostDir} \\
@@ -50,8 +50,6 @@ The C2 Implementation software is delivered as source code and therefore no furt
 \textbf{Sub-Directory} & \textbf{Sub-Directory Description}\\
 \hline\hline
 \texttt{/docs} & Holds the support documentation for the C2 Implementation. See section \ref{sec:SupportDoc}.\\
-\hline
-\texttt{/examples} & Holds the source code for the Demo Applications. See section \ref{sec:fwSrcCode}.\\
 \hline
 \texttt{/lib} & Holds the Framework Profile source code. See section \ref{sec:depC1}.\\
 \hline
@@ -73,12 +71,12 @@ Note that the C1 Implementation consists of three modules covering the implement
 \subsection{Dependency on External Libraries}
 The C2 Implementation (namely the CORDET Components in directory \texttt{/src}) only needs the \texttt{stdlib} and the \texttt{string} libraries of the C language and the State Machine and Procedure Modules of the C1 Implementation of the FW Profile. The C1 Implementation modules are delivered together with the C2 Implementation (see previous section). 
 
-The Test Suite and the Demo Application (namely the components in directories \texttt{/tests}, \texttt{/examples/src/CrDemoMaster}, \texttt{/examples/src/CrDemoSlave1} and \texttt{/examples/src/CrDemoSlave2}) use additional libraries and POSIX services. In particular, the shell scripts which are delivered with the C2 Implementation (see section \ref{sec:script}) to generate the executables for the Test Suite and the Demo Applications need an implementation of the POSIX library. The scripts link the POSIX library with option \texttt{-lpthread}. Users with different implementations of the POSIX library will have to modify the scripts accordingly. Users without a POSIX library implementation will not be able to build the Test Suite and the Demo Application (but will, of course, still be able to use the CORDET Components in their own applications).
+The Test Suite (namely the modules in directory \texttt{/tests}) use additional libraries and POSIX services. In particular, the shell scripts which are delivered with the C2 Implementation (see section \ref{sec:script}) to generate the executable for the Test Suite need an implementation of the POSIX library. The scripts link the POSIX library with option \texttt{-lpthread}. Users with different implementations of the POSIX library will have to modify the scripts accordingly. Users without a POSIX library implementation will not be able to build the Test Suite (but will, of course, still be able to use the CORDET Components in their own applications).
 
 %--------------------------------------------------------------------------------------------
 \subsection{Source Code}\label{sec:fwSrcCode}
 
-The source code in the CORDET delivery file covers four distinct instantiations of the CORDET Framework. The first instantation is the \textit{Test Suite} (see section \ref{sec:TestSuite}). The other three instantiations constitute the Demo Application for the CORDET Framework and are called the \textit{Master Application}, the \textit{Slave 1 Application} and the \textit{Slave 2 Application} (see section \ref{sec:DemoApp}).
+The source code in the CORDET delivery file covers one instantiation of the CORDET Framework for the \textit{Test Suite} (see section \ref{sec:TestSuite}). 
 
 At source code level, an instantiation of the CORDET Framework to implement an application within the framework's domain can be split into four parts:
 
@@ -110,18 +108,6 @@ The souce code in the CORDET delivery file is accordingly split into several dir
 \hline
 \texttt{/tests/config} & Configurable Framework Software for the Test Suite application. \\
 \hline
-\texttt{/examples/src/CrDemoMaster} & Application-Specific Software for the Master Application of the Demo Application. \\
-\hline
-\texttt{/examples/src/CrConfigDemoMaster} & Configurable Framework Software for the Master Application of the Demo Application. \\
-\hline
-\texttt{/examples/src/CrDemoSlave1} & Application-Specific Software for the Slave 1 Application of the Demo Application. \\
-\hline
-\texttt{/examples/src/CrConfigDemoSlave1} & Configurable Framework Software for the Slave 1 Application of the Demo Application. \\
-\hline
-\texttt{/examples/src/CrDemoSlave2} & Application-Specific Software for the Slave 2 Application of the Demo Application. \\
-\hline
-\texttt{/examples/src/CrConfigDemoSlave2} & Configurable Framework Software for the Slave 2 Application of the Demo Application. \\
-\hline
 \end{longtable}
 
 
@@ -140,7 +126,7 @@ These documents, together with the Test Suite and the detailed software document
 
 %------------------------------------------------------------------------------------
 \subsection{Doxygen Documentation}\label{sec:DoxygenDoc}
-All the source code in the C2 Implementation (including the test suite and the demo application code) is documented in accordance with doxygen rules. The entry point to the Doxygen documentation is the \texttt{index.html} file in the \texttt{/docs/doxygen} directory.
+All the source code in the C2 Implementation (including the test suite) is documented in accordance with doxygen rules. The entry point to the Doxygen documentation is the \texttt{index.html} file in the \texttt{/docs/doxygen} directory.
 
 %------------------------------------------------------------------------------------
 \subsection{Test Suite}\label{sec:TestSuite}
@@ -149,16 +135,6 @@ The Test Suite is a complete application which demonstrates all aspects of the b
 The main program of the Test Suite application is in file \texttt{CrTestSuite.c}. This program consists of a set of test cases. For each CORDET Component, one or more test cases are defined. Each test case exercises a specific aspect of the behaviour of a CORDET Component. The Test Suite offers 100\% code, branch, and condition coverage of the CORDET Components.
 
 On a Unix platform, the Test Suite application can be built by running one of the support scripts delivered with the C2 Implementation (see section \ref{sec:script}). 
-
-%------------------------------------------------------------------------------------
-\subsection{Demo Application}\label{sec:DemoAppFull}
-The Demo Application is a set of three complete applications which demonstrate the use of the C2 Implementation. The three applications are called: Master Application, Slave 1 Application and Slave 2 Application.
-
-The three Demo Applications are connected to each other through TCP sockets and they interact by exchanging commands and reports. One of the three applications acts as master and the other two act as slaves. The master application is responsible for monitoring the state of the two slave applications. The three applications execute 100 cycles in each of which the Master Application may send commands to the Slave Applications and the two Slave Application perform a temperature monitoring action and raise an alarm if they detect a temperature limit violation.
-
-The Demo Application thus constitutes a simple example of a distributed monitoring function of the kind often used in embedded control systems. The Demo Applications are described in section \ref{sec:DemoAppFull}.
-
-On a Unix platform, the Demo Applications can be built by running one of the support scripts delivered with the C2 Implementation (see section \ref{sec:script}). 
 
 %----------------------------------------------------------------------------------------------
 \subsection{Acceptance Test Procedure and Test Reports}\label{sec:atp}
@@ -196,12 +172,6 @@ For each C2 Implementation File to which coverage requirements apply, a \texttt{
 file is created and the file shows full statement and branch coverage with exception of
 branches entered as a result of a failure of \texttt{malloc} \\
 \hline
-7 & Compile the Demo Application Files with "all warnings" enabled &
-Neither errors nor warnings are reported by the compiler \\
-\hline
-8 & Build the executable to run the Demo Application for the C2 Implementation &
-Neither errors nor warnings are reported by The linker \\
-\hline
 \end{longtable}
 
 With reference to point 5, it is noted that, on many platforms, Valgrind will report 3 possible memory leaks originating in function \texttt{pthread\_create}. This is a known issue in many POSIX libraries and is not related to the CORDET Framework code.
@@ -210,7 +180,6 @@ The \texttt{RunAcceptanceTest.sh} shell script (not included in the delivery for
 
 %------------------------------------------------------------------------------------
 \subsection{Support Scripts}\label{sec:script}
-Several scripts are provided to build and run the executables of the C2 Implementation (Test Suite and Demo Applications). 
 To build the Test Suite a Makefile is provided in the root directory. This Makefile can be used with the generally available \texttt{make} tool to generate different targets. The following targets are supported:
 
 \begin{itemize}
@@ -221,26 +190,6 @@ To build the Test Suite a Makefile is provided in the root directory. This Makef
 
 The test suite is created in the \texttt{/bin} sub-directory.
 
-Scripts to build the examples are located in the \texttt{/examples} sub-directory. Their content and function is described in their headers. One simple way of using them is as follows:
-
-\begin{itemize}
-\item Open a terminal and go the \texttt{/examples} directory
-\item Compile and link the State Machine and Procedure implementation with the \texttt{CompileAndLinkFw.sh} script by entering at the prompt:\\ \texttt{./CompileAndLinkFw.sh ../lib/fwprofile/src/ ./bin}
-\item Compile and link the Master Application with the \texttt{CompileAndLinkMa.sh} script by entering at the prompt:\\ \texttt{./CompileAndLinkMa.sh ../lib/fwprofile/src/ ../src/ ./src/ ./bin/}
-\item Compile and link the Slave 1 Application with the \texttt{CompileAndLinkS1.sh} script by entering at the prompt:\\ \texttt{./CompileAndLinkS1.sh ../lib/fwprofile/src/ ../src/ ./src/ ./bin/}
-\item Compile and link the Slave 2 Application with the \texttt{CompileAndLinkS2.sh} script by entering at the prompt:\\ \texttt{./CompileAndLinkS2.sh ../lib/fwprofile/src/ ../src/ ./src/ ./bin/}
-\end{itemize}
-
-The above steps result in the compilation and linking of the following applications:
-
-\begin{itemize}
-\item \texttt{cr\_demo\_master} for the Master Demo Application 
-\item \texttt{cr\_demo\_slave1} and \texttt{scr\_demo\_slave2} for the two Slave Demo Applications 
-\end{itemize}
-
-Both the object files and the executables are created in the \texttt{/example/bin} directory but this can be changed by changing the parameters with which the script is called (see instructions in the header of the script). 
-
-The three Demo Applications must be run together in three separate processes and must be started in a specific order. For this purpose, the script \texttt{RunDemoApp.sh} is provided which can be run by entering at the prompt in the \texttt{/examples} directory: "\texttt{./RunDemoApp.sh ./bin} .". Execution of this script takes about 2 minutes and results in the generation of three files (\texttt{/examples/bin/DemoAppOut\_Master.txt}, \texttt{/examples/bin/DemoAppOut\_Slave1.txt} and \texttt{/examples/bin/DemoAppOut\_Slave2.txt}) which hold the outputs of the three Demo Applications. The Demo Application output consists of a statement which is output at each cycle by ech application indicating what the application has done in that cycle (send a command; send a report; start execution of a command; detected a temperature violation etc). Each application executes 100 cycles. Socket errors in the last few cycles are nominal and are due to the system shutdown.
 
 %------------------------------------------------------------------------------------
 \subsection{Naming Conventions}
@@ -264,7 +213,6 @@ to which the name belongs. The following values are possible for this string:
 
 \begin{itemize}
 \item "\texttt{Fw}" identifies a name related to the implementation of the CORDET Framework and of its Test Suite, 
-\item "\texttt{Da}" identifies a name related to the Demo Application for the CORDET Framework.
 \end{itemize}
 
 The string "\texttt{Name}" is the proper name of the function or file and it is made up of a concatenation of other strings. The following abbreviations are used in forming this name:
@@ -283,9 +231,7 @@ The string "\texttt{Name}" is the proper name of the function or file and it is 
 \item "\texttt{Cre}": "\texttt{creation}" 
 \item "\texttt{Cur}": "\texttt{current}" (as in "current state of a state machine")
 \item "\texttt{D}": "\texttt{decision}" (as in "decision node")
-\item "\texttt{Da}": "\texttt{demo application}" 
 \item "\texttt{Dec}": "\texttt{decision}" (as in "decision node in a procedure")
-\item "\texttt{Demo}": "\texttt{demo}" (as in "demo application")
 \item "\texttt{Der}": "\texttt{derived}" (as in "the derived state machine")
 \item "\texttt{Desc}": "\texttt{descriptor}" (as in "the descriptor of a state machine")
 \item "\texttt{Fin}": "\texttt{final}" (as in "final node")
@@ -296,13 +242,10 @@ The string "\texttt{Name}" is the proper name of the function or file and it is 
 \item "\texttt{Ini}": "\texttt{initial}" (as in "initial mode")
 \item "\texttt{Init}": "\texttt{initialization}" (as in "initialization of a component")
 \item "\texttt{Ips}": "\texttt{initial pseudo-state}"
-\item "\texttt{Ma}": "\texttt{master}" (as in "master application")
 \item "\texttt{Pckt}": "\texttt{packet}" (as in "the command is encapsulated in a packet")
 \item "\texttt{Pr}": "\texttt{procedure}"
 \item "\texttt{Rec}": "\texttt{recursive}" (as in "recursive function")
 \item "\texttt{Rep}": "\texttt{report}"
-\item "\texttt{S1}": "\texttt{slave 1}" (as in "slave 1 application")
-\item "\texttt{S2}": "\texttt{slave 2}" (as in "slave 2 application")
 \item "\texttt{Sm}": "\texttt{state machine}"
 \item "\texttt{Sta}": "\texttt{state}" (as in "the state of a state machine")
 \item "\texttt{Temp}": "\texttt{temperature}"
@@ -1283,7 +1226,7 @@ If the guidelines of section \ref{sec:fwSrcCode} are followed, the software of t
 \begin{enumerate}
 \item One directory (normally called \texttt{CrFramework}) holding the invariant part of the framework software. This directory can be a copy of the \texttt{CrFramework} in the Delivery File (see section \ref{sec:fwSrcCode}).
 \item One directory (normally called \texttt{FwProfile}) holding the code implementing the state machine and procedure behaviour. This directory can be a copy of the \texttt{FwProfile} in the Delivery File (see section \ref{sec:fwSrcCode}).
-\item One directory (normally called \texttt{CrConfig$\langle Name \rangle$} where "\texttt{Name}" is the name of the target application) holding the adaptable part of the framework software customized for the target application. This directory may be obtained by taking one of the \texttt{Config} directories in the Delivery File (\texttt{CrConfigTestSuite}, \texttt{CrConfigDemoMaster}, \texttt{CrConfigDemoSlave1} or \texttt{CrConfigDemoSlave2}) and then modifying its content as specified in the implementation steps.
+\item One directory (normally called \texttt{CrConfig$\langle Name \rangle$} where "\texttt{Name}" is the name of the target application) holding the adaptable part of the framework software customized for the target application. This directory may be obtained by taking the \texttt{Config} directory in the Delivery File (\texttt{CrConfigTestSuite}) and then modifying its content as specified in the implementation steps.
 \item One directory holding the application-specific software.
 \end{enumerate}
 
@@ -1299,55 +1242,7 @@ In general, it is the responsibility of the user to ensure that the configuratio
 
 %===========================================================================
 \section{Demo Application}\label{sec:DemoApp}
-
-The Demo Application is intended to demonstrate the capability of the CORDET Framework to support the development of a distributed system of control applications. It consists of a system of three inter-connected applications of which one acts as master (the \textit{Master Application}) and the other two act as slaves (\textit{Slave 1 Application} and \textit{Slave 2 Application}). Each slave applications is responsible for monitoring a temperature measurement and for raising an alarm if the temperature exceeds a pre-defined threshod. The Master Application can enable and disable temperature monitoring and can set the temperature thresholds.
-
-\begin{figure}[H]
- \centering
- \includegraphics[scale=0.40,keepaspectratio=true]{DALogicalLinks.png}
- \caption{Logical Architecture of Demo Applications}
- \label{fig:DALogicalLinks}
-\end{figure}
-
-The logical architecture of the Demo Applications is shown in figure \ref{fig:DALogicalLinks}. The Slave Applications are implemented as \textit{service providers} (in the sense of section \ref{sec:ServConcept}) and the Master Application is implemented as a \textit{service user}. The service which is used by the Master Application and provided by the Slave Applications is called \textit{Temperature Monitoring Service}. It is implemented by three commands and one report as follows:
-
-\begin{enumerate}
-\item Enable Monitoring: this command is sent by the Master Application to a Slave Application to enable temperature monitoring in the slave application.
-\item Disable Monitoring: this command is sent by the Master Application to a Slave Application to disable temperature monitoring in the slave application.
-\item Set Temperature Limit: this command is sent by the Master Application to a Slave Application to set the temperature monitoring threshold in the slave application.
-\item Report Temperature Violation: this report is sent by a Slave Application to the Master Application to report a temperature measurement which exceeds the temperature limit at a time when temperature monitoring is enabled.
-\end{enumerate}
-
-The connections linking together the Demo Applications are implemented as local TCL sockets. The physical connections among the three applications are shown in figure \ref{fig:DAPhysicalLinks}. The Slave 1 Application implements a server socket and the Master and Slave 2 Applications connect to it as client sockets. Note that this physical architecture implies that the Slave 1 Application acts as a re-routing application (in the sense of section \ref{sec:PcktInterface}) for packets exchanged between the Master Application and the Slave 2 Application. 
-
-\begin{figure}[H]
- \centering
- \includegraphics[scale=0.40,keepaspectratio=true]{DAPhysicalLinks.png}
- \caption{Physical Connections of Demo Applications}
- \label{fig:DAPhysicalLinks}
-\end{figure}
-
-In their default configuration, the three Demo Applications execute 100 monitoring cycles. In each cycle, the Master application may send a command to either of the two Slave Applications and the Slave Applications perform a monitoring action and send an alarm report to the Master Application if they detect a temperature limit violation. At each cycle, the The Demo Applications write a message to \texttt{stdout} where they state which actions they have performed in that cycle (send a command; send a report; start execution of a command; detected a temperature violation; etc).
-
-The code implementing the three Demo Applications is included in the Delivery File of the C2 Implementation (see section \ref{sec:InstAndContentOverview}). The delivery file also include three Unix shell scripts which compile and link the three Demo Applications (see section \ref{sec:script}) and one shell script which spawns three processes to run the three Demo Applications. The output generated by the Demo Application is sent to three log files.
-
-Tables \ref{tab:FwInstStepsMaster} to \ref{tab:FwInstStepsSlave2} show how the instantiation process of section \ref{sec:FwInstantiation} was applied to the three Demo Applications. These tables serve as specifications for the Demo Applications as instantiations of the CORDET Framework.
-
-
-\begin{landscape}
-
-\pnpcsvtable{|>{\centering\arraybackslash}m{0.4cm}|>{\raggedright}p{2.0cm}|p{5.0cm}|p{6.0cm}|p{6.0cm}|}{Framework Instantiation Specification and Implementation Steps for Master Application}{tab:FwInstStepsMaster}{\textbf{N} & \textbf{Step Name} & \textbf{Specification Sub-Step} & \textbf{Implementation Sub-Step} & \textbf{Master Application}}{InstantiationProcess.csv}{\ID & \Title & \SpecificationStep & \ImplementationStep & \MasterAP}
-
-
-\newpage
-
-\pnpcsvtable{|>{\centering\arraybackslash}m{0.4cm}|>{\raggedright}p{2.0cm}|p{5.0cm}|p{6.0cm}|p{6.0cm}|}{Framework Instantiation Specification and Implementation Steps for Slave 1 Application}{tab:FwInstStepsSlave1}{\textbf{N} & \textbf{Step Name} & \textbf{Specification Sub-Step} & \textbf{Implementation Sub-Step} & \textbf{Slave 1 Application}}{InstantiationProcess.csv}{\ID & \Title & \SpecificationStep & \ImplementationStep & \SlaveOneAP}
-
-
-\newpage
-\pnpcsvtable{|>{\centering\arraybackslash}m{0.4cm}|>{\raggedright}p{2.0cm}|p{5.0cm}|p{6.0cm}|p{6.0cm}|}{Framework Instantiation Specification and Implementation Steps for Slave 2 Application}{tab:FwInstStepsSlave2}{\textbf{N} & \textbf{Step Name} & \textbf{Specification Sub-Step} & \textbf{Implementation Sub-Step} & \textbf{Slave 2 Application}}{InstantiationProcess.csv}{\ID & \Title & \SpecificationStep & \ImplementationStep & \SlaveTwoAP}
-
-\end{landscape}
+This section has been deleted.
 
 
 

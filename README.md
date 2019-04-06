@@ -13,9 +13,10 @@ The specification of the CORDET Framework is language-independent. This project 
 - **Formal Specification**: user requirements formally specify the implementation.
 - **Requirement Traceability**: requirements individually traced to implementation and verification evidence.
 - **Documented Code**: doxygen documentation for all the source code.
-- **Demo Application**: complete application demonstrating capabilities and mode of use. 
 
 These characteristics make the C2 Implementation especially well-suited for use in embedded and mission-critical applications. 
+
+The C2 Implementation of the CORDET Framework has been used for the development of the payload software of the CHEOPS satellite; it is being used for the development of a payload application on the SMILE satellite; and it is baselined for use in the development of a payload application on the ARIEL satellite.
 
 # PUS Extension
 The Packet Utilization Standard (PUS) has been introduced by the European Space Agency (ESA) to define the protocol through which on-board applications make their services available to each other and to the ground. The CORDET Framework uses the service concept of the PUS. Its [PUS Extension](doc/pus/PusExtension.pdf) provides implementations for the most commonly used PUS services. The PUS Extension of the CORDET Framework is available is currently under development and will be published in a dedicated repository in the near future. Access to the development version of the PUS Extension of the CORDET Framework is available [on request](mailto:pnp-software@pnp-software.com).
