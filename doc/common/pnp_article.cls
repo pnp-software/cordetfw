@@ -402,7 +402,6 @@ The following documents of the exact issue and/or revision shown form a part of 
 }                                   
 
 \newcommand{\listofreferencedocs}[2][../common/RefDoc.csv]{
-The following documents are for reference and/or guideline only.
 \pnpcsvtable[filter equal={#2}{RD}]{|c|p{7.5cm}|c|c|}{Referenced documents}{tab:refdoc}{Ref & Description & Doc. Number & Iss.}{#1}
 {\Id & \Title & \Nr & \Issue}
 }

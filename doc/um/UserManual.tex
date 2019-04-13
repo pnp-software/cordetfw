@@ -19,6 +19,16 @@
 %---------------------------------------------
 % Start of document text
 %---------------------------------------------
+\section{Referenced Documents}
+
+The documents referenced in the present document are listed in the table below.
+
+\listofreferencedocs{\CrUm}
+
+
+
+
+%==========================================================================================
 \newpage
 \section{Introduction}
 This document is the User Manual for the \textit{C2 Implementation}. 
@@ -32,12 +42,12 @@ A service is implemented by a set of commands through which an application is as
 
 The CORDET service concepts supports the implementation of distributed systems of applications where individual applications residing on different distribution nodes interact through the exchange of commands and reports.
 
-The CORDET Framework is specified in \cite{ref:cordetfw}. This specification is implementation-independent. The C2 Implementation is an implementation of the CORDET Components in the ANSI C language.
+The CORDET Framework is specified in reference [CR-SP]. This specification is implementation-independent. The C2 Implementation is an implementation of the CORDET Components in the ANSI C language.
 
 The main features of the C2 Implementation are:
 \input{CrFwMainFeatures.tex}
 
-The behaviour of the CORDET components is modelled by means of state machines and procedures (activitiy diagrams). The semantics of the state machines and procedure is the one defined by the FW Profile of \cite{ref:fwprofile}. The C2 Implementation of the CORDET Framework implements these state machines and procedures using a C-language implementation of the FW Profile \footnote{The implementation of the FW Profile state machines and procedure is also available as a separate and self-contained delivery under the name of C1 Implementation, see \cite{ref:C1Implementation}}. 
+The behaviour of the CORDET components is modelled by means of state machines and procedures (activitiy diagrams). The semantics of the state machines and procedure is the one defined by the FW Profile of reference [FW-SP]. The C2 Implementation of the CORDET Framework implements these state machines and procedures using a C-language implementation of the FW Profile \footnote{The implementation of the FW Profile state machines and procedure is also available as a separate and self-contained delivery under the name of C1 Implementation, see reference [FW-SP]}. 
 
 %------------------------------------------------------------------------------------------
 \section{Installation \& Content Overview}\label{sec:InstAndContentOverview}
@@ -69,7 +79,7 @@ The C2 Implementation software is delivered as source code and therefore no furt
 
 %--------------------------------------------------------------------------------------------
 \subsection{Dependency on C1 Implementation}\label{sec:depC1}
-The behaviour of the CORDET Framework is specified by means of state machines and procedures (activity diagrams). The implementation of the framework therefore requires an implementation of state machines and procedures. The C2 Implementation does not include an own implementation of state machines and procedures. Instead, it uses the state machine and procedure modules of the C1 Implementation of the FW Profile (see references \cite{ref:fwprofile} and \cite{ref:C1Implementation}). These modules can be downloaded from: \texttt{http://pnp-software.com/fwprofile} but, for convenience, they are also included in the C2 Implementation Delivery File.
+The behaviour of the CORDET Framework is specified by means of state machines and procedures (activity diagrams). The implementation of the framework therefore requires an implementation of state machines and procedures. The C2 Implementation does not include an own implementation of state machines and procedures. Instead, it uses the state machine and procedure modules of the C1 Implementation of the FW Profile (see reference [FW-SP]). These modules can be downloaded from: \texttt{http://pnp-software.com/fwprofile} but, for convenience, they are also included in the C2 Implementation Delivery File.
 
 Note that the C1 Implementation consists of three modules covering the implementation of, respectively, state machines, procedures and RT Containers (encapsulations of threads). The third module is not used by the CORDET Framework.
 
@@ -268,7 +278,7 @@ up of strings concatenated with underscores.
 \section{Framework and Service Concepts}
 The CORDET Framework is a software framework to support the instantiation of service-oriented applications. 
 This section gives an overview of the software framework concept and of the service concept assumed in the CORDET project.
-A fuller version of the material presented in this section can be found in \cite{ref:cordetfw}.
+A fuller version of the material presented in this section can be found in reference [CR-SP].
 
 %----------------------------------------------------------------------------------------
 \subsection{Software Framework Concept}\label{sec:SwFwConcept} 
@@ -366,7 +376,7 @@ The application-level services may be either taken over from the standard servic
 %-----------------------------------------------------------------------------------
 \subsection{Objectives of C2 Implementation}\label{sec:ObjectivesC2Impl} 
 
-The CORDET Framework is specified in \cite{ref:cordetfw} as an implementation-independent framework.
+The CORDET Framework is specified in reference [CR-SP] as an implementation-independent framework.
 The C2 Implementation is a C-language implementation of the framework in the sense that it provides C implementations of the CORDET Components.
 
 The CORDET Framework supports the development of service-oriented applications \textit{at specification level} by providing concepts which facilitate the specification of such applications.
@@ -382,9 +392,9 @@ The C2 Implementation supports the development of the same applications \textit{
 
 %=============================================================================================
 \section{State Machine and Procedure Model}\label{sec:SmAndPrModel}
-The C2 Implementation implements the specification of the CORDET Framework given in reference \cite{ref:cordetfw}. The behaviour of the CORDET Framework is specified through \textit{state machines} and \textit{procedures}. The semantics of the state machines and procedures in reference \cite{ref:cordetfw} is that of the \textit{FW Profile} of reference \cite{ref:fwprofile}. The FW Profile is a restriction of UML. It retains a simple but unambiguous subset of the UML features. Its state machines match the functional part of UML's state machines and its procedures match the functional part of UML's activity diagrams. 
+The C2 Implementation implements the specification of the CORDET Framework given in reference [CR-SP]. The behaviour of the CORDET Framework is specified through \textit{state machines} and \textit{procedures}. The semantics of the state machines and procedures in reference [CR-SP] is that of the \textit{FW Profile} of reference [FW-SP]. The FW Profile is a restriction of UML. It retains a simple but unambiguous subset of the UML features. Its state machines match the functional part of UML's state machines and its procedures match the functional part of UML's activity diagrams. 
 
-The C2 Implementation uses the C1 Implementation of \cite{ref:C1Implementation}. This is a library of C-language functions which implement the state machine and procedure concepts of the FW Profile. The C2 Implementation wraps all calls to functions of the C1 Implementation. Hence, in most cases, users will not need to interact with C1 Implementation functions.
+The C2 Implementation uses the C1 Implementation of reference [FW-SP]. This is a library of C-language functions which implement the state machine and procedure concepts of the FW Profile. The C2 Implementation wraps all calls to functions of the C1 Implementation. Hence, in most cases, users will not need to interact with C1 Implementation functions.
 
 Syntactically, a state machine in the C2 Implementation is represented by a variable of type \texttt{FwSmDesc\_t}. This type is a pointer to a structure (the \textit{state machine descriptor}) which holds all the information required to describe the state machine (its states and pseudo-states, its actions, its guards, and its transitions) and its current state. 
 
@@ -396,7 +406,7 @@ Users do not need to understand the internal structure of either the state machi
 \subsection{State Machine Extension}\label{sec:SmExtension} 
 The C1 Implementation supports an extension mechanism for state machines which is similar to the inheritance-based extension mechanism of object-oriented languages. The C2 Implementation relies on this extension mechanism.
 
-This section presents a brief overview of the state machine extension mechanism. More details can be found in \cite{ref:C1Implementation}. 
+This section presents a brief overview of the state machine extension mechanism. More details can be found in reference [FW-SP]. 
 
 A state machine (the \emph{base state machine}) can be \emph{extended} to create a new state machine (the \emph{derived state machine}). Initially, after being created, a derived state machine is a clone of its base (it has the same states with the same actions linked by the same transitions with the same actions and guards as the base state machines). The derived state machine can then be configured by performing one or more of the following operations: 
 
@@ -588,7 +598,7 @@ Although type checking is not possible statically owing to the limitations of th
 %-----------------------------------------------------------------------------------------
 \subsection{Component Data}\label{sec:CmpData}
  
-A component instance is a variable of type \texttt{FwSmDesc\_t}. This type is defined by the C1 Implementation (see reference \cite{ref:C1Implementation}). It represents a pointer to the \textit{state machine descriptor}.
+A component instance is a variable of type \texttt{FwSmDesc\_t}. This type is defined by the C1 Implementation (see reference [FW-SP]). It represents a pointer to the \textit{state machine descriptor}.
 
 The state machine descriptor consists of two parts (see figure \ref{fig:CmpData}). The first part (in yellow in the figure) is defined by the C1 Implementation and is the same for all state machines. This part holds the information about the state machine topology (its states, pseudo-states and transitions), its actions and guards, and its current state. The last field of this first part of the state machine descriptor is a pointer to the \textit{component data} (shown in light blue in the figure). 
 
@@ -682,7 +692,7 @@ Note that, if a failure of the \texttt{Make} operation represents an error, this
 
 The C2 Implementation implements the \textit{Application State Machine} in module \texttt{CrFwAppSm}. The three procedures controlled by the \textit{Application State Machine} are not provided by the C2 Implementation because they are application-specific. The C2 Implementation provides three header files \texttt{CrFwAppStartUpProc.h}, \texttt{CrFwAppResetProc.h}, and \texttt{CrFwAppShutdownProc.h} which defines the point of access to the three procedures. Application developers should provide implementations for these three header files as part of the framework instantiation process.
 
-Also as part of the framework instantiation process, application developers may want to add behaviour to the four states of the \textit{Application State Machine} by embedding state machines within these states. Embedding of state machines is done using function \texttt{FwSmEmbed} defined by the C1 Implementation (see reference \cite{ref:C1Implementation}).
+Also as part of the framework instantiation process, application developers may want to add behaviour to the four states of the \textit{Application State Machine} by embedding state machines within these states. Embedding of state machines is done using function \texttt{FwSmEmbed} defined by the C1 Implementation (see reference [FW-SP]).
 
 %===========================================================================
 \section{Command and Report Concepts}\label{sec:CmdAndRepModel}
@@ -1144,7 +1154,7 @@ The C2 Implementation does not define any "active components": none of its compo
 
 Often a cyclical scheduling approach will be used for the entry points listed in the table (with the possible exceptions of the first and the last entries which might be attached to signals or interrupts from the middleware). Multiple cycles with different periods might also be used where the high frequency cycles are used to process high-priority commands/reports and the low frequency cycles are used to process low-priority commands/reports.
 
-One option for implementing the link between the components listed in the table and a scheduler is to use the "Real-Time Containers" of reference \cite{ref:fwprofile} (a C-language implementation is available from reference \cite{ref:C1Implementation}).
+One option for implementing the link between the components listed in the table and a scheduler is to use the "Real-Time Containers" of reference [FW-SP] (a C-language implementation is available from reference [FW-SP]).
 
 \begin{longtable}{|>{\centering\arraybackslash}m{0.3cm}|>{\raggedright}p{4.0cm}|p{8.5cm}|}
 \caption{Entry Points for Scheduler} \label{tab:EntryPoints}\\
@@ -1191,9 +1201,9 @@ None of the functions defined by the C2 Implementation are recursive. Recursion 
 
 In general, the C2 Implementation is intended for applications whose design is validated and whose implementation is verified. They therefore only handle errors which arise as a result of the application receiving at run-time inputs from outside which are illegal (i.e. inputs which are outside the boundaries specified for the application). 
 
-The inputs for the C2 Implementation are the incoming commands and reports. These may be "illegal" either because their content is illegal or because the time pattern with which they are sent is illegal. The resulting error situations are specified by the CORDET Framework in reference \cite{ref:cordetfw}. The CORDET Components handle these errors by reporting them through the \textit{CrFwRepErr.h} interface. This interface is one of the adaptation points of the framework and must be implemented by applications according to their needs. 
+The inputs for the C2 Implementation are the incoming commands and reports. These may be "illegal" either because their content is illegal or because the time pattern with which they are sent is illegal. The resulting error situations are specified by the CORDET Framework in reference [CR-SP]. The CORDET Components handle these errors by reporting them through the \textit{CrFwRepErr.h} interface. This interface is one of the adaptation points of the framework and must be implemented by applications according to their needs. 
 
-A typical implementation of the error reporting interface could be as follows. The user defines a service to report errors and implements the \textit{CrFwRepErr.h} interface to generate reports belonging to that service and carrying a description of the error. Different report sub-types can be defined to represent different levels of severity. An example of this approach is the so-called "Event Reporting Service" of the PUS (see reference \cite{ref:pus}). The range of errors handled through this mechanism is defined by the enumerated type \texttt{CrFwRepErrCode\_t}.
+A typical implementation of the error reporting interface could be as follows. The user defines a service to report errors and implements the \textit{CrFwRepErr.h} interface to generate reports belonging to that service and carrying a description of the error. Different report sub-types can be defined to represent different levels of severity. An example of this approach is the so-called "Event Reporting Service" of the PUS (see reference [PS-SP]). The range of errors handled through this mechanism is defined by the enumerated type \texttt{CrFwRepErrCode\_t}.
 
 In addition to handling these exogenous error situations, the C2 Implementation also handles a limited number of "Applicaton Errors". Application errors arise as a result of a design or implementation error in the application itself. The situations which are handled by the C2 Implementation are those which satisfy the following constraints:
 
@@ -1274,31 +1284,6 @@ Table \ref{tab:AP} only provides a summary view of the adaptation points. Their 
 
 
 
-\newpage
-
-\begin{thebibliography}{6}
- 
-\bibitem{ref:fwprofile} Alessandro Pasetti, Vaclav Cechticky:
-           {\sl The FW Profile}. PP-DF-COR-00001, Revision 1.3,
-           P\&P Software GmbH, Switzerland, 2013 
-
-\bibitem{ref:C1Implementation} Alessandro Pasetti, Vaclav Cechticky:
-           {\sl The Framework Profile - C1 Implementation User Manual}. 
-           PP-UM-COR-00001, Revision 1.3.0,
-           P\&P Software GmbH, Switzerland, 2013
-		   Available from: \url{www.pnp-software.com/fwprofile}            
-           
-\bibitem{ref:cordetfw} Alessandro Pasetti, Vaclav Cechticky:
-           {\sl The CORDET Framework}. 
-           PP-DF-COR-00002, Revision 2.0,
-           P\&P Software GmbH, Switzerland, 2014          
-           
-\bibitem{ref:pus} European Cooperation for Space Standardization (ECSS):
-           {\sl ECSS, Ground Systems and Operations – Telemetry and Telecommand Packet Utilization Standard}. 
-           ECSS-E-70-41A, 30 January 2003,
-           ECSS Secretaria, ESA-Estec              
-
-\end{thebibliography}
 
 \end{document}          
 

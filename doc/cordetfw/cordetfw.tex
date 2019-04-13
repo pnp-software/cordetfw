@@ -56,7 +56,7 @@ This section lists the changes made in the current revision. Changes are classif
 
 
 \begin{longtable}{|p{1.5cm}|p{1cm}|p{8cm}|}
-\caption{Changes introduced in Revision 2}  \\
+\caption{Changes introduced in Revision 2.0}  \\
 \hline
 \rowcolor{light-gray}
 \textbf{Section} & \textbf{Type} & \textbf{Description} \\
@@ -72,11 +72,13 @@ This section lists the changes made in the current revision. Changes are classif
 \hline
 4.2.1 & N & Added CRC attribute to reports \\
 \hline
-5.2.1 & Added logic to compute and set the CRC in OutComponents \\
+5.2.1 & N & Added logic to compute and set the CRC in OutComponents \\
 \hline
-6.2.2 & Added discussion of CRC check in the acceptance check of an InCommand or InReport \\
+6.2.2 & N & Added discussion of CRC check in the acceptance check of an InCommand or InReport \\
 \hline
 6.2.3 & C & Added management of Progress Step Identifier and modified management logic of progress action to be compatible with 2016 release of PUS Standard \\
+\hline
+A.2 & D & Removed empty section on the formal verification of the InStream component \\
 \hline
 \end{longtable}
 
@@ -120,7 +122,12 @@ All & E & Fixed missing heading changes \\
 \hline
 \end{longtable}
 
-\newpage
+%==========================================================================================
+\section{Referenced Documents}
+
+The documents referenced in the present document are listed in the table below.
+
+\listofreferencedocs{\CrSp}
 
 %==========================================================================================
 \section{Introduction}
@@ -279,7 +286,7 @@ The type is designated by one single letter as follows: 'S' for the Standard Req
 
 The specification of the framework includes a \textit{behavioural model} of the framework which describes its behaviour and identifies the adaptation points where application developers can extend this behaviour to match their requirements.  
 
-The behavioural model of the framework is defined using the FW Profile of \cite{ref:fwprofile}. 
+The behavioural model of the framework is defined using the FW Profile of reference [FW-SP]. 
 It therefore consists of a set of \textit{state machines} (represented as state charts) and \textit{procedures} (represented as  activity diagrams). 
 Familiarity with the FW Profile is essential for a full understanding of the framework requirements.
 
@@ -309,10 +316,10 @@ A derived component closes an adaptation point of its base component when it def
 %---------------------------------------------------------------------------------------
 \subsection{Heritage}\label{sec:Heritage}
 The service concept on which the CORDET Framework is based is the same as the service concept of the “Packet Utilization Standard” or PUS. 
-The PUS is specified in reference \cite{ref:pus} as an application-level interface standard for space-based applications. 
+The PUS is specified in reference [PS-SP] as an application-level interface standard for space-based applications. 
 In spite of its origin in the space industry, the PUS is suitable for a wider range of embedded control applications and was for this reason selected as a basis for the CORDET Framework. 
 
-The models of the CORDET Components are based on models defined in past research projects (see references \cite{ref:assert} and \cite{ref:cordet}) and on the OBS Framework Design Patterns (see reference \cite{ref:obs}). 
+The models of the CORDET Components are based on models defined in past research projects (see references [CR-AS] and [CR-CR) and on the OBS Framework Design Patterns (see reference [CR-OB]). 
 
 An earlier version of the CORDET Framework was used as the basis for the definition and design of an industrial-quality framework for the diagnostic instruments of a major pharmaceutical company. The viability of the design patterns and concepts behind the CORDET Framework is therefore demonstrated at industrial level. 
 
@@ -385,7 +392,7 @@ The start-up and shutdown process of a CORDET component is defined by the \texti
 
 \begin{figure}[ht]
  \centering
- \includegraphics[scale=0.3,keepaspectratio=true]{BaseSM.png}
+ \includegraphics[scale=0.4,keepaspectratio=true]{BaseSM.png}
  \caption{Base State Machine}
  \label{fig:BaseSM}
 \end{figure}
@@ -423,7 +430,7 @@ Only the “Success” outcome is nominal and leads to the component making a tr
 
 \begin{figure}[ht]
  \centering
- \includegraphics[scale=0.3,keepaspectratio=true]{InitializationAndReset.png}
+ \includegraphics[scale=0.4,keepaspectratio=true]{InitializationAndReset.png}
  \caption{Initialization and Reset Procedures}
  \label{fig:InitializationAndReset}
 \end{figure}
@@ -545,7 +552,7 @@ Consider next the case of a packet which is sent by application A to application
 
 \begin{figure}[ht]
  \centering
- \includegraphics[scale=0.40,keepaspectratio=true]{PcktInterfaceConcept.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{PcktInterfaceConcept.png}
  \caption{Packet Interface Concept}
  \label{fig:PcktInterfaceConcept}
 \end{figure}
@@ -787,30 +794,6 @@ The model verifies an additional property P5 which states that, at entry in stat
 \lstset{belowskip=-1pt}	% Vertical space after listing
 \lstinputlisting{./VerificationModel/PollingOutCmdStream.pml}
 
-%---------------------------------------------------------------------------------
-\subsection{The InStream Model}\label{sec:InStreamModel}
-This section is still to be written (TBW).
 
-\newpage
-
-\begin{thebibliography}{6}
-
-\bibitem{ref:fwprofile} Alessandro Pasetti, Vaclav Cechticky:
-           {\sl The Framework Profile}. PP-DF-COR-00001, Revision 1.3,
-           P\&P Software GmbH, Switzerland, 2013, 
-           Available from: \url{www.pnp-software.com/fwprofile}
-
-\bibitem{ref:pus} European Cooperation for Space Standardization (ECSS):
-           {\sl ECSS, Ground Systems and Operations – Telemetry and Telecommand Packet Utilization Standard}. 
-           ECSS-E-70-41A, 30 January 2003,
-           ECSS Secretaria, ESA-Estec 
-
-\bibitem{ref:obs} OBS Framework Design Patterns, \url{www.pnp-software.com/ObsFramework/doc/indexDesignPatterns.html}
-
-\bibitem{ref:assert} Assert Project Web Site, \url{www.assert-project.net}
-
-\bibitem{ref:cordet} CORDET Project Web Site, \url{www.pnp-software.com/cordet}
-
-\end{thebibliography}
 
 \end{document}  

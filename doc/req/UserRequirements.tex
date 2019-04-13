@@ -3,9 +3,9 @@
 \begin{document}
 
 \SetDocIssue{1.0}
-\SetDocRefNumber{PP-UM-COR-0002}
+\SetDocRefNumber{PP-SP-COR-0002}
 \SetDocTitle{The CORDET Framework}
-\SetDocSubtitle{User Manual}
+\SetDocSubtitle{User Requirements}
 \SetDocAuthor{Alessandro Pasetti}
 \SetCheckedBy{n.a.}
 \maketitle
@@ -75,14 +75,18 @@
 %---------------------------------------------
 % Start of Document Text
 %---------------------------------------------
+\section{Referenced Documents}
 
+The documents referenced in the present document are listed in the table below.
+
+\listofreferencedocs{\CrRq}
+
+%==========================================================================================
 \newpage
-
-
 \section{Introduction}
 This document defines, justifies and verifies the user requirements for the \textit{C2 Implementation}. The C2 Implementation is a C-language implementation of the CORDET Framework. The CORDET Framework is a software framework for service-oriented distributed embedded applications. The CORDET Framework defines an application in terms of the services it provides to other applications and in terms of the services it uses from other applications.
 
-A service is implemented by a set of commands through which an application is asked to perform certain activities and by a set of reports through which an application gives visibility over its internal state. The CORDET Framework defines the components to receive, send, distribute, and process commands and reports. The CORDET Framework is defined in \cite{ref:cordetfw}. 
+A service is implemented by a set of commands through which an application is asked to perform certain activities and by a set of reports through which an application gives visibility over its internal state. The CORDET Framework defines the components to receive, send, distribute, and process commands and reports. The CORDET Framework is defined in reference [CR-SP]. 
 
 \subsection{Intended Use of C1 Implementation}\label{sec:intendedUse}
 Although the C2 Implementation can be used wherever there is a need to implement a system of distributed applications which exchange CORDET service requests, the high reliability of the implementation, the emphasis placed on formally specifying and verifying its expected behaviour, and the small demands on memory and processing resources mean that the C2 Implementation is especially well-suited for implementing mission-critical embedded applications within a service-oriented distributed architecture. 
@@ -134,7 +138,7 @@ Verification information is provided for each requirement to demonstrate the cor
 One single verification method is defined for each requirement. 
 This is identified as part of the requirement definition (see the description of the requirement format in section \ref{sec:reqDef}).
 
-The Test Suite which is used for the verification by test is a complete application which demonstrates all aspects of the behaviour of the CORDET components. It consists of a sequence of Test Cases which are independent of each other. Each Test Case focuses on one particular functional aspect of the C2 Implementation. The Test Suite is distributed with the C2 Implementation. It is documented as part of the Doxygen documentation for the C2 Implementation and is described in the C2 Implementation User Manual (see reference \cite{ref:C2Implementation}).
+The Test Suite which is used for the verification by test is a complete application which demonstrates all aspects of the behaviour of the CORDET components. It consists of a sequence of Test Cases which are independent of each other. Each Test Case focuses on one particular functional aspect of the C2 Implementation. The Test Suite is distributed with the C2 Implementation. It is documented as part of the Doxygen documentation for the C2 Implementation and is described in the C2 Implementation User Manual (see reference [CR-UM]).
 
 
 %=============================================================================
@@ -151,7 +155,7 @@ This section defines the functional requirements for the C2 Implementation. The 
 %=============================================================================
 \stdsubsection{CORDET Framework Requirements}\label{req:ImplCrReq}
 
-The CORDET Framework is specified through a set of formal requirements defined in reference \cite{ref:cordetfw}. Four types of requirements are recognized in reference \cite{ref:cordetfw}: 
+The CORDET Framework is specified through a set of formal requirements defined in reference [CR-SP]. Four types of requirements are recognized in this reference: 
 
 \begin{itemize}
 \item{} \textit{Standard Requirements} which define a desired feature of the framework. They are analogous in scope and format to the user requirements of an ordinary (non-framework) software application.
@@ -164,24 +168,24 @@ An implementation of the CORDET Framework should cover the first two types of re
 
 %=============================================================================
 \begin{fwReq}{CORDET Standard Requirements}{T}
-{The C2 Implementation shall implement the standard requirements of the CORDET Framework of \cite{ref:cordetfw}.}
+{The C2 Implementation shall implement the standard requirements of the CORDET Framework of [CR-SP].}
 %-----------------------------------------------------------------------------
 {The intended use of the C2 Implementation is to implement the CORDET Framework.}
 %-----------------------------------------------------------------------------
-{Appendix \ref{sec:implCrFwReq} shows how each standard requirement defined in reference \cite{ref:cordetfw} is implemented in the C2 Implementation.} 
+{Appendix \ref{sec:implCrFwReq} shows how each standard requirement defined in reference [CR-SP] is implemented in the C2 Implementation.} 
 %-----------------------------------------------------------------------------
-{Appendix \ref{sec:implCrFwReq} shows how each standard requirement defined in reference \cite{ref:cordetfw} is verified in the C2 Implementation.} 
+{Appendix \ref{sec:implCrFwReq} shows how each standard requirement defined in reference [CR-SP] is verified in the C2 Implementation.} 
 \end{fwReq}
 
 
 %=============================================================================
 \newpage
 \begin{fwReq}{CORDET Adaptation Requirements}{R}
-{The C2 Implementation shall implement the adaptation requirements of the CORDET Framework of reference \cite{ref:cordetfw}.}
+{The C2 Implementation shall implement the adaptation requirements of the CORDET Framework of reference [CR-SP].}
 %-----------------------------------------------------------------------------
 {The intended use of the C2 Implementation is to implement the CORDET Framework.}
 %-----------------------------------------------------------------------------
-{The adaptation requirements of reference \cite{ref:cordetfw} define a number of adaptation points. Appendix \ref{sec:implCrFwAp} shows how each adaptation point of reference \cite{ref:cordetfw} is implemented in the C2 Implementation. } 
+{The adaptation requirements of reference [CR-SP] define a number of adaptation points. Appendix \ref{sec:implCrFwAp} shows how each adaptation point of reference [CR-SP] is implemented in the C2 Implementation. } 
 %-----------------------------------------------------------------------------
 {See explanatory text at the beginning of appendix \ref{sec:implCrFwAp}. Note also that the Adaptation Requirements are verified by showing that a running application can be built by closing each Adaptation Point (or using the default value of an Adaptation Point). This is done in the Test Suite. The Test Suite exercises all framework functionalities (it has 100\% statement coverage) and therefore needs all Adaptation Points to be closed.}
 \end{fwReq}
@@ -209,7 +213,7 @@ An implementation of the CORDET Framework should cover the first two types of re
 %-----------------------------------------------------------------------------
 {The default values for the  column in table \ref{tab:implC2Ap} describes how each adaptation points is implemented and what its default value is. } 
 %-----------------------------------------------------------------------------
-{The default values for the C2 Implementation are those used for the Test Suite which constitutes a complete instantiation of the CORDET Framework and defined in appendix A of the reference \cite{ref:C2Implementation}.}
+{The default values for the C2 Implementation are those used for the Test Suite which constitutes a complete instantiation of the CORDET Framework and defined in appendix A of the reference [CR-UM].}
 \end{fwReq}
 
 
@@ -220,7 +224,7 @@ An implementation of the CORDET Framework should cover the first two types of re
 \begin{fwReq}{Component Instantiation}{T}
 {The C2 Implementation shall provide \textit{Factory Functions} to instantiate the following types of components: OutStream, OutFactory, OutManager, OutLoader, OutRegistry, InStream, InFactory, InManager, InLoader, and InRegistry.}
 %-----------------------------------------------------------------------------
-{The CORDET Framework distinguishes between components which are subject to \textit{early instantiation} and those which are subject to \textit{late instantiation} (see section 3.1 of reference \cite{ref:cordetfw}). The component types listed in this requirements are those which are subject to early instantiation. These are the components which must be instatiated during the application start-up.}
+{The CORDET Framework distinguishes between components which are subject to \textit{early instantiation} and those which are subject to \textit{late instantiation} (see section 3.1 of reference [CR-SP]). The component types listed in this requirements are those which are subject to early instantiation. These are the components which must be instatiated during the application start-up.}
 %-----------------------------------------------------------------------------
 {The factory functions are the functions with names like: \texttt{CrFwXxxMake} where \texttt{Xxx} is the name of the component type. } 
 %-----------------------------------------------------------------------------
@@ -277,7 +281,7 @@ An implementation of the CORDET Framework should cover the first two types of re
 \begin{fwReq}{Dynamic Memory Allocation}{R}
 {Dynamic memory allocation through calls to \texttt{malloc} shall be done exclusively as part of component initialization.}
 %-----------------------------------------------------------------------------
-{The component instantiation model of the CORDET Framework dictates that resource allocation be done as part of a component's Initialization Procedure (see section 3.2 of \cite{ref:cordetfw}.}
+{The component instantiation model of the CORDET Framework dictates that resource allocation be done as part of a component's Initialization Procedure (see section 3.2 of [CR-SP].}
 %-----------------------------------------------------------------------------
 {Calls to \texttt{malloc} are used in the following functions: \texttt{CrFwInManagerInitAction}, \texttt{CrFwOutManagerInitAction} and \texttt{CrFwOutRegistryInitAction}. } 
 %-----------------------------------------------------------------------------
@@ -336,7 +340,7 @@ design, or implementation of the C2 Implementation.
 %-----------------------------------------------------------------------------
 {See verification.} 
 %-----------------------------------------------------------------------------
-{The C2 Implementation Acceptance Test Procedure (see reference \cite{ref:C2Implementation}) compiles all source files of the implementation using \texttt{gcc} with the option \texttt{-Wall}.}
+{The C2 Implementation Acceptance Test Procedure (see reference [CR-UM]) compiles all source files of the implementation using \texttt{gcc} with the option \texttt{-Wall}.}
 %-----------------------------------------------------------------------------
 \end{fwReq}
 
@@ -353,7 +357,7 @@ design, or implementation of the C2 Implementation.
 %-----------------------------------------------------------------------------
 {Restriction to static adaptation mechanisms enhances static predictability of behaviour which is important for mission-critical applications.}
 %-----------------------------------------------------------------------------
-{The adaptation mechanisms supported by the C2 Implementation are (see section 6 of reference \cite{ref:C2Implementation}):
+{The adaptation mechanisms supported by the C2 Implementation are (see section 6 of reference [CR-UM]):
 
 \begin{itemize}
 \item Define Constant: a framework component uses a \texttt{\#DEFINE} constant whose value may be overridden by application developers.
@@ -399,7 +403,7 @@ of the C2 Implementation. This is not possible because memory occupation depends
 %-----------------------------------------------------------------------------
 {The Test Suite is implemented in a set of Test Cases defined in \texttt{CrFwXxxTestCases.h} where \texttt{Xxx} is the name of a component type. The \texttt{main} program for the Test Suite is in \texttt{CrFwTestSuite.h}.} 
 %-----------------------------------------------------------------------------
-{The Acceptance Test Procedure of the C2 Implementation (see \cite{ref:C2Implementation}) uses the \texttt{gcov} tool to measure the statement and branch coverage of the Test Suite. Note that the C2 Implementation does not use any boolean expressions in the decision 
+{The Acceptance Test Procedure of the C2 Implementation (see [CR-UM]) uses the \texttt{gcov} tool to measure the statement and branch coverage of the Test Suite. Note that the C2 Implementation does not use any boolean expressions in the decision 
 points of the code (e.g. in the \texttt{if} clauses). Decisions are always taken on the basis of the outcome of the evaluation of a single primitive Boolean condition. Hence, branch coverage implies condition coverage. In a few cases, the design may make full coverage impossible to achieve. The reason for the partial coverage is explained in comments in the code which are extracted and printed in the test report.}
 %-----------------------------------------------------------------------------
 \end{fwReq}
@@ -430,7 +434,7 @@ points of the code (e.g. in the \texttt{if} clauses). Decisions are always taken
 \appendix
 \section{CORDET Framework Standard Requirements}\label{sec:implCrFwReq}
 The C2 Implementation implements the standard requirements of the CORDET Framework. 
-Table \ref{tab:implCrFwReq} lists the standard requirements of the CORDET Framework as they are defined in reference \cite{ref:cordetfw} and, for each requirement, it describes how the requirement is implemented in the C2 Implementation and how the implementation is verified. The requirement identifier (first column in the table) is the same as used in reference \cite{ref:cordetfw}.
+Table \ref{tab:implCrFwReq} lists the standard requirements of the CORDET Framework as they are defined in reference [CR-SP] and, for each requirement, it describes how the requirement is implemented in the C2 Implementation and how the implementation is verified. The requirement identifier (first column in the table) is the same as used in reference [CR-SP].
 
 The requirements often refer to state machine or procedure diagrams. A complete list of the diagrams of the state machines and procedures which define the behaviour of the CORDET components can be found in section \ref{sec:smAndProcDiagrams}.
 
@@ -447,7 +451,7 @@ The requirements often refer to state machine or procedure diagrams. A complete 
 %======================================================================================
 \section{CORDET Framework Adaptation Points}\label{sec:implCrFwAp}
 The C2 Implementation implements the adaptation points of the CORDET Framework.
-Table \ref{tab:implCrFwAp} lists the adaptation points of the CORDET Framework as they are defined in reference \cite{ref:cordetfw}. The requirement identifier (first column in the table) is the same as used in reference \cite{ref:cordetfw}. 
+Table \ref{tab:implCrFwAp} lists the adaptation points of the CORDET Framework as they are defined in reference [CR-SP]. The requirement identifier (first column in the table) is the same as used in reference [CR-SP]. 
 
 For each adaptation point, the last column in the table either describes how the adaptation point is implemented in the C2 Implementation or it explains why it is not directly implemented. The latter is the case for the following kinds of adaptation points:
 
@@ -471,7 +475,7 @@ The definitions of the CORDET adaptation points often refer to state machine or 
 %======================================================================================
 \section{C2 Adaptation Points}\label{sec:implC2Ap}
 The C2 Implementation implements the adaptation points of the CORDET Framework.
-Table \ref{tab:implCrFwAp} lists the adaptation points of the CORDET Framework as they are defined in reference \cite{ref:cordetfw} and, for each adaptation point, it describes how the adaptation point is implemented in the C2 Implementation. 
+Table \ref{tab:implCrFwAp} lists the adaptation points of the CORDET Framework as they are defined in reference [CR-SP] and, for each adaptation point, it describes how the adaptation point is implemented in the C2 Implementation. 
 
 Besides the adaptation points defined by the CORDET Framework, the C2 Implementation also provides a number of additional adaptation points which arise as a result of the design choices made for the C2 Implementation. These adaptaton points are called \textit{C2 Adaptation Points} and are listed in table \ref{tab:implC2Ap}. The last column in the table shows how each adaptation point is implemented and which default value (if any) is offered for it by the C2 Implementation.
 
@@ -493,7 +497,7 @@ The C2 Implementation implements the behaviour of the CORDET Framework. The beha
 
 %--------------------------------------------------------------------------------------
 \stdsubsection{Verification of State Machine Behaviour}
-Correct implementation of the state machine behaviour is verified at the level of the C1 Implementation in reference \cite{ref:C1UserReq}. At the level of the C2 Implementation it is therefore only necessary to verify that the state machines are correctly configured. This is done by performing tests which:
+Correct implementation of the state machine behaviour is verified at the level of the C1 Implementation in reference [FW-SP]. At the level of the C2 Implementation it is therefore only necessary to verify that the state machines are correctly configured. This is done by performing tests which:
 
 \begin{enumerate}
 \item For every transition in the state machine, execute the state transition 
@@ -501,7 +505,7 @@ Correct implementation of the state machine behaviour is verified at the level o
 \item For every do action in the state machine, execute the state machine
 \end{enumerate}
 
-Note that the first two bullets also verify execution of all entry, exit and transition actions in the state machine. Tables \ref{tab:verBaseSM} to \ref{tab:verInCmdSM} provide this verification evidence for each state machine defined in reference \cite{ref:cordetfw}. For each element in the previous list to be verified, the tables give the name of the test case in the Test Suite where that element is verified. Note that no attempt is made to list all test cases which verify a given element; rather the ojective is to identify one test case for each element to be verified. 
+Note that the first two bullets also verify execution of all entry, exit and transition actions in the state machine. Tables \ref{tab:verBaseSM} to \ref{tab:verInCmdSM} provide this verification evidence for each state machine defined in reference [CR-SP]. For each element in the previous list to be verified, the tables give the name of the test case in the Test Suite where that element is verified. Note that no attempt is made to list all test cases which verify a given element; rather the ojective is to identify one test case for each element to be verified. 
 
 \begin{longtable}{|>{\raggedright}p{8.0cm}|P{5.0cm}|}
 \caption{Verification of Base State Machine}
@@ -714,9 +718,9 @@ Transition from PROGRESS to ABORTED via Choice Pseudo-State & \texttt{CrFwOutCmp
 
 %--------------------------------------------------------------------------------------
 \subsection{Verification of Procedure Behaviour}
-Correct implementation of the procedure behaviour is verified at the level of the C1 Implementation in reference \cite{ref:C1UserReq}. At the level of the C2 Implementation it is therefore only necessary to verify that the procedures are correctly configured. This is done by performing tests which execute every control flow in the procedure and, for every control flow with a guard, execute the control flow both when the guard is true and when it is false.
+Correct implementation of the procedure behaviour is verified at the level of the C1 Implementation in reference [FW-SP]. At the level of the C2 Implementation it is therefore only necessary to verify that the procedures are correctly configured. This is done by performing tests which execute every control flow in the procedure and, for every control flow with a guard, execute the control flow both when the guard is true and when it is false.
 
-Tables \ref{tab:verBaseSM} to \ref{tab:verInLoaderLoadCmdRepProc} provide this verification evidence for each state machine defined in reference \cite{ref:cordetfw}. For each element in the previous list to be verified, the tables give the name of the test case in the Test Suite where that element is verified. Note that no attempt is made to list all test cases which verify a given element; rather the ojective is to identify one test case for each element to be verified. For convenience, the diagram representing a procedure is shown next to the table which verifies it.
+Tables \ref{tab:verBaseSM} to \ref{tab:verInLoaderLoadCmdRepProc} provide this verification evidence for each state machine defined in reference [CR-SP]. For each element in the previous list to be verified, the tables give the name of the test case in the Test Suite where that element is verified. Note that no attempt is made to list all test cases which verify a given element; rather the ojective is to identify one test case for each element to be verified. For convenience, the diagram representing a procedure is shown next to the table which verifies it.
 
 \begin{longtable}{|>{\raggedright}p{9.0cm}|P{4.0cm}|}
 \caption{Verification of Initialization Procedure}
@@ -872,130 +876,130 @@ Execution of procedure when Component Being Loaded is an InCommand and Acknowled
 
 %======================================================================================
 \section{State Machine and Procedure Diagrams}\label{sec:smAndProcDiagrams}
-For convenience, this appendix shows all the state machine and procedure diagrams referred to  in the test. The description of the state machine diagrams can be found in references \cite{ref:cordetfw} and \cite{ref:C2Implementation}.
+For convenience, this appendix shows all the state machine and procedure diagrams referred to  in the test. The description of the state machine diagrams can be found in references [CR-SP] and [CR-UM].
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.3,keepaspectratio=true]{BaseSM.png}
+ \includegraphics[scale=0.4,keepaspectratio=true]{BaseSM.png}
  \caption{Base State Machine}
  \label{fig:BaseSM}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.3,keepaspectratio=true]{InitializationAndReset.png}
+ \includegraphics[scale=0.4,keepaspectratio=true]{InitializationAndReset.png}
  \caption{Initialization and Reset Procedures}
  \label{fig:InitializationAndReset}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.38,keepaspectratio=true]{ApplicationSM.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{ApplicationSM.png}
  \caption{Application State Machine}
  \label{fig:ApplicationSM}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.35,keepaspectratio=true]{OutStream.png}
+ \includegraphics[scale=0.4,keepaspectratio=true]{OutStream.png}
  \caption{The OutStream State Machine}
  \label{fig:OutStream}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.35,keepaspectratio=true]{InStream.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{InStream.png}
  \caption{The InStream State Machine}
  \label{fig:InStream}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.35,keepaspectratio=true]{PacketCollect.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{PacketCollect.png}
  \caption{The Packet Collect Procedure}
  \label{fig:PacketCollect}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.35,keepaspectratio=true]{OutComponent.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{OutComponent.png}
  \caption{The OutComponent State Machine}
  \label{fig:OutComponent}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.40,keepaspectratio=true]{OutLoaderLoad.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{OutLoaderLoad.png}
  \caption{The OutLoader Load Procedure}
  \label{fig:OutLoaderLoad}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.40,keepaspectratio=true]{OutManagerLoad.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{OutManagerLoad.png}
  \caption{The OutManager Load Procedure}
  \label{fig:OutManagerLoad}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.40,keepaspectratio=true]{OutManagerExecution.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{OutManagerExecution.png}
  \caption{The OutManager Execution Procedure}
  \label{fig:OutManagerExecution}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.40,keepaspectratio=true]{RegistryStartTrackingAndUpdate.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{RegistryStartTrackingAndUpdate.png}
  \caption{The Registry Start Tracking and Registry Update Procedures}
  \label{fig:RegistryStartTrackingAndUpdate}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.40,keepaspectratio=true]{EnableStateDetermination.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{EnableStateDetermination.png}
  \caption{The Enable State Determination Procedure}
  \label{fig:EnableStateDetermination}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.35,keepaspectratio=true]{InLoaderExecution.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{InLoaderExecution.png}
  \caption{The InLoader Execution Procedure}
  \label{fig:InLoaderExecution}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.35,keepaspectratio=true]{InLoaderLoadCommandReport.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{InLoaderLoadCommandReport.png}
  \caption{The InLoader Load Command/Report Procedure}
  \label{fig:InLoaderLoadCommandReport}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.35,keepaspectratio=true]{InCommand.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{InCommand.png}
  \caption{The InCommand State Machine}
  \label{fig:InCommand}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.35,keepaspectratio=true]{InReportExecution.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{InReportExecution.png}
  \caption{The InReport Execution Procedure}
  \label{fig:InReportExecution}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.35,keepaspectratio=true]{InManagerLoad.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{InManagerLoad.png}
  \caption{The InManager Load Procedure}
  \label{fig:InManagerLoad}
 \end{figure}
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.35,keepaspectratio=true]{InManagerExecution.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{InManagerExecution.png}
  \caption{The InManager Execution Procedure}
  \label{fig:InManagerExecution}
 \end{figure}
@@ -1005,35 +1009,6 @@ For convenience, this appendix shows all the state machine and procedure diagram
 %======================================================================================
 \clearpage
 
-\begin{thebibliography}{6}
- 
-\bibitem{ref:fwprofile} Alessandro Pasetti, Vaclav Cechticky:
-           {\sl The FW Profile}. PP-DF-COR-00001, Revision 1.3.1,
-           P\&P Software GmbH, Switzerland, 2013 
-
-\bibitem{ref:C1Implementation} Alessandro Pasetti, Vaclav Cechticky:
-           {\sl The Framework Profile - C1 Implementation User Manual}. 
-           PP-UM-COR-00001, Revision 1.2.0,
-           P\&P Software GmbH, Switzerland, 2013
-		   Available from: \url{www.pnp-software.com/fwprofile}          
-		   
-\bibitem{ref:C1UserReq} Alessandro Pasetti, Vaclav Cechticky:
-           {\sl The Framework Profile - C1 Implementation User Requirements}. 
-           PP-SP-COR-00001, Revision 1.2.0,
-           P\&P Software GmbH, Switzerland, 2013
-		   Available from: \url{www.pnp-software.com/fwprofile}          		     
-           
-\bibitem{ref:cordetfw} Alessandro Pasetti, Vaclav Cechticky:
-           {\sl The CORDET Framework}. 
-           PP-DF-COR-00002, Revision 2.0,
-           P\&P Software GmbH, Switzerland, 2014   
-           
-\bibitem{ref:C2Implementation} Alessandro Pasetti, Vaclav Cechticky:
-           {\sl The CORDET Framework - User Manual}. 
-           PP-UM-COR-00002, Revision 1.0,
-           P\&P Software GmbH, Switzerland, 2014                  
-           
-\end{thebibliography}
 
 \end{document}          
 
