@@ -13,7 +13,7 @@ There is no mechanism to “unload” a pending command or report. The InManager
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.45,keepaspectratio=true]{InManagerLoad.png}
+ \includegraphics[scale=0.5,keepaspectratio=true]{InManagerLoad.png}
  \caption{The InManager Load Procedure}
  \label{fig:InManagerLoad}
 \end{figure}
@@ -22,11 +22,11 @@ The InManager component is defined as an extension of the Base Component of sect
 
 After the \texttt{Terminate} command, the state of the InCommand or InReport is reported to the InRegistry using the latter \texttt{Update} operation (see section \ref{sec:InRegistry}). InCommands which have terminated execution are removed from the PCRL and are returned to the InFactory. InReports are returned to the InFactory after their first execution. The \textit{Execution Procedure} of the InManager is shown in figure \ref{fig:InManagerExecution}.
 
-Normally, the InManager is embedded within a Real Time Container (see \cite{ref:fwprofile}) which is responsible for executing it. Thus, an application that is required to process commands and reports at different levels of priority should use several InManagers (one for each level of priority) and should allocate them to Real Time Containers with a matching priority.
+Normally, the InManager is embedded within a Real Time Container (see reference [FW-SP]) which is responsible for executing it. Thus, an application that is required to process commands and reports at different levels of priority should use several InManagers (one for each level of priority) and should allocate them to Real Time Containers with a matching priority.
 
 \begin{figure}[H]
  \centering
- \includegraphics[scale=0.35,keepaspectratio=true]{InManagerExecution.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{InManagerExecution.png}
  \caption{The InManager Execution Procedure}
  \label{fig:InManagerExecution}
 \end{figure}
