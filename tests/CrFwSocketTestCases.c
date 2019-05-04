@@ -386,7 +386,7 @@ CrFwBool_t CrFwSocketTestCase3() {
 
 	/* Send three packets from the server socket to the client socket */
 	pckt1 = CrFwPcktMake(100);
-	pckt2 = CrFwPcktMake(100);
+    pckt2 = CrFwPcktMake(100);
 	pckt3 = CrFwPcktMake(100);
 	pckt1[90] = 99;	/* marker */
 	pckt2[90] = 98;	/* marker */
@@ -394,6 +394,9 @@ CrFwBool_t CrFwSocketTestCase3() {
 	CrFwPcktSetSrc(pckt1,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(pckt2,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(pckt3,CR_FW_HOST_APP_ID);
+    CrFwPcktSetGroup(pckt1,0);
+    CrFwPcktSetGroup(pckt2,0);
+    CrFwPcktSetGroup(pckt3,0);
 	CrFwOutStreamSend(outStream7, pckt1);
 	CrFwOutStreamSend(outStream7, pckt2);
 	CrFwOutStreamSend(outStream7, pckt3);
@@ -429,6 +432,9 @@ CrFwBool_t CrFwSocketTestCase3() {
 	CrFwPcktSetSrc(pckt1,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(pckt2,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(pckt3,CR_FW_HOST_APP_ID);
+    CrFwPcktSetGroup(pckt1,0);
+    CrFwPcktSetGroup(pckt2,0);
+    CrFwPcktSetGroup(pckt3,0);
 	CrFwOutStreamSend(outStream6, pckt1);
 	CrFwOutStreamSend(outStream6, pckt2);
 	CrFwOutStreamSend(outStream6, pckt3);
@@ -561,6 +567,9 @@ CrFwBool_t CrFwSocketTestCase4() {
 	CrFwPcktSetSrc(sPckt1,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(sPckt2,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(sPckt3,CR_FW_HOST_APP_ID);
+    CrFwPcktSetGroup(sPckt1,0);
+    CrFwPcktSetGroup(sPckt2,0);
+    CrFwPcktSetGroup(sPckt3,0);
 	cPckt1 = CrFwPcktMake(100);
 	cPckt2 = CrFwPcktMake(100);
 	cPckt3 = CrFwPcktMake(100);
@@ -570,6 +579,9 @@ CrFwBool_t CrFwSocketTestCase4() {
 	CrFwPcktSetSrc(cPckt1,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(cPckt2,CR_FW_HOST_APP_ID);
 	CrFwPcktSetSrc(cPckt3,CR_FW_HOST_APP_ID);
+    CrFwPcktSetGroup(cPckt1,0);
+    CrFwPcktSetGroup(cPckt2,0);
+    CrFwPcktSetGroup(cPckt3,0);
 
 	CrFwOutStreamSend(outStream7, sPckt1);
 	CrFwOutStreamSend(outStream7, sPckt2);
