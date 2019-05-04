@@ -387,8 +387,7 @@ static void OutRegistryShutdownAction(FwSmDesc_t smDesc) {
 	for (i=0; i<CR_FW_OUTREGISTRY_NSERV; i++) {
 		servDesc[i].isServTypeEnabled = 1;
 		servDesc[i].isServSubTypeEnabled = 1;
-		if (servDesc[i].upperBoundDisc != 0)
-			free(servDesc[i].isDiscriminantEnabled);
+		free(servDesc[i].isDiscriminantEnabled);
 	}
 
 	for (k=0; k<CR_FW_OUTREGISTRY_N; k++)
