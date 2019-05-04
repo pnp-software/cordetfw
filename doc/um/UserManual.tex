@@ -192,7 +192,7 @@ branches entered as a result of a failure of \texttt{malloc} \\
 \hline
 \end{longtable}
 
-With reference to point 5, it is noted that, on many platforms, Valgrind will report 3 possible memory leaks originating in function \texttt{pthread\_create}. This is a known issue in many POSIX libraries and is not related to the CORDET Framework code.
+With reference to point 5, it is noted that, depending on the test timing, Valgrind may report 3 possible memory leaks originating in function \texttt{pthread\_create}. This is due to the fact that the test cases in module \texttt{CrFwSocketTestCase} create threads but do not join them before terminating. This potential leak does not affect the framework code and is therefore accepted.
 
 The \texttt{RunAcceptanceTest.sh} shell script (not included in the delivery for end customers) automatically executes all the procedure steps described in the table and it generates a test report which is included in directory \texttt{\\reports} of the delivery file.
 
