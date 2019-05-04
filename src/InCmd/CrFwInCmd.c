@@ -293,16 +293,15 @@ static void DoProgressAction(FwSmDesc_t smDesc) {
 		return;     /* Execution step has failed */
 	}
 
-    if (cmpData->outcome == 1)
-        if (cmpSpecificData->progressStepId != prevStep)
-            if (CrFwPcktIsProgressAck(cmpSpecificData->pckt) == 1) {
-                CrFwRepInCmdOutcome(crCmdAckPrgSucc, cmpData->instanceId,
-                                    CrFwPcktGetServType(cmpSpecificData->pckt),
-                                    CrFwPcktGetServSubType(cmpSpecificData->pckt),
-                                    CrFwPcktGetDiscriminant(cmpSpecificData->pckt),
-                                    cmpData->outcome, smDesc);
-                return; /* Progress step has succeeded */
-            }
+    if (cmpSpecificData->progressStepId != prevStep)
+        if (CrFwPcktIsProgressAck(cmpSpecificData->pckt) == 1) {
+             CrFwRepInCmdOutcome(crCmdAckPrgSucc, cmpData->instanceId,
+                                CrFwPcktGetServType(cmpSpecificData->pckt),
+                                CrFwPcktGetServSubType(cmpSpecificData->pckt),
+                                CrFwPcktGetDiscriminant(cmpSpecificData->pckt),
+                                cmpData->outcome, smDesc);
+             return; /* Progress step has succeeded */
+        }
 }
 
 /* --------------------------------------------------------------------------------- */
