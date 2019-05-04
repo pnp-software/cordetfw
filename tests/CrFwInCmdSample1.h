@@ -112,7 +112,7 @@ CrFwCounterU1_t CrFwInCmdSample1GetStartActionCounter();
  *   <code>::CrFwInCmdSample1SetProgressActionOutcome</code>, and
  * - it increments the progress step identifier if the progress step flag is set
  *   (its value is controlled through function
- *   <code>::CrFwInCmdSample1SetProgressActionFlag</code>.
+ *   <code>::CrFwInCmdSample1SetProgressStepFlag</code>.
  * - it sets the progress action completion outcome to the value of the flag
  *   set with <code>::CrFwInCmdSample1SetProgressActionCompletionOutcome</code>.
  * .
