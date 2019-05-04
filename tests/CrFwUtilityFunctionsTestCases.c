@@ -20,6 +20,15 @@
 #include "CrFwUtilityFunctionsTestCases.h"
 /* Include framework files */
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
+#include "CrFwOutRegistryUserPar.h"
+#include "OutRegistry/CrFwOutRegistry.h"
+#include "BaseCmp/CrFwBaseCmp.h"
+#include "Pckt/CrFwPckt.h"
+#include "InCmd/CrFwInCmd.h"
+#include "InFactory/CrFwInFactory.h"
+#include "CrFwTime.h"
+#include "CrFwRepErr.h"
+#include "UtilityFunctions/CrFwUtilityFunctions.h"
 
 /** The even size of the test array */
 #define CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE 20
@@ -100,11 +109,46 @@ CrFwBool_t CrFwUtilityFunctionsTestCase1() {
 
 /* ---------------------------------------------------------------------------------------------*/
 CrFwBool_t CrFwUtilityFunctionsTestCase2() {
+    FwSmDesc_t inFactory, inCmd1;
+    CrFwPckt_t pckt1;
+    CrFwCrc_t crc;
 
+    /* Instantiate the InFactory */
+    inFactory = CrFwInFactoryMake();
+
+    /* Initialize and Configure InFactory and check success */
+    CrFwCmpInit(inFactory);
+    CrFwCmpReset(inFactory);
+    if (!CrFwCmpIsInConfigured(inFactory))
+        return 0;
+
+    /* Allocate two InCommands of which one has the correct CRC and one the incorrect CRC */
+    pckt1 = CrFwPcktMake(100);
+    CrFwPcktSetServType(pckt1,8);
+    CrFwPcktSetServSubType(pckt1,1);
+    CrFwPcktSetDiscriminant(pckt1,2);
+    CrFwPcktSetCmdRepId(pckt1,111);
+    CrFwPcktSetSrc(pckt1,11);
+    CrFwPcktSetGroup(pckt1,88);
+    CrFwPcktSetAckLevel(pckt1,1,0,1,0);
+    CrFwPcktSetSeqCnt(pckt1,1111);
+    crc = CrFwPcktComputeCrc(pckt1);
+    CrFwPcktSetCrc(pckt1, crc);
+    inCmd1 = CrFwInFactoryMakeInCmd(pckt1);
 	if (CrFwSmCheckAlwaysTrue(NULL) != 1)
 		return 0;
 
+	/* Execute the Empty Action */
 	CrFwSmEmptyAction(NULL);
+
+	/* Execute the Success Action and verify that it sets the command's outcome to 1 */
+	CrFwSetSmOutcome(inCmd1, 0);
+	CrFwSmSuccessAction(inCmd1);
+	if (CrFwGetSmOutcome(inCmd1) != 1)
+	    return 0;
+
+	/* Release the InCommand */
+    CrFwInFactoryReleaseInCmd(inCmd1);
 
 	/* Check application errors */
 	if (CrFwGetAppErrCode() != crNoAppErr)

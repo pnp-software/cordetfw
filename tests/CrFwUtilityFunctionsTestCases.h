@@ -56,6 +56,8 @@ CrFwBool_t CrFwUtilityFunctionsTestCase1();
  *   verified that it returns 1.
  * - Function <code>::CrFwSmEmptyAction</code> is called with a dummy argument and it is
  *   verified that it returns without doing anything.
+ * - Function <code>::CrFwSmSuccessAction</code> is called with a command as dummy argument and it is
+ *   verified that it returns after setting its success outcome to 1.
  * .
  * @return true if the test was successful, false otherwise.
  */
