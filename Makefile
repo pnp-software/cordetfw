@@ -37,11 +37,15 @@ run-test:
 coverage-info: coverage-cp $(GCOV)
 coverage-cp:
 	@cp -r src/. bin/src/
+	
+gen-lcov: 
+	@lcov --capture --directory --rc lcov_branch_coverage=1 $(ODIR)/src -o coverage.info
+	@lcov --rc lcov_branch_coverage=1 --remove coverage.info '/usr/*' -o filtered_coverage.info
+	@genhtml --branch-coverage filtered_coverage.info --output-directory lcov	
 
 $(GCOV): $(ODIR)/%.gcov: %.c
-ifeq ($(CC), gcc)
-	@gcov -b -o $(shell dirname $@) $<
-endif	
+	@gcov -b -r -o $(shell dirname $@) $<
+
 
 clean:
 	@$(RM) *.gcov
