@@ -22,7 +22,7 @@ The C2 Implementation of the CORDET Framework has been used by the Dept. of Astr
 The Packet Utilization Standard (PUS) has been introduced by the European Space Agency (ESA) to define the protocol through which on-board applications make their services available to each other and to the ground. The CORDET Framework uses the service concept of the PUS. Its **PUS Extension** provides implementations for the most commonly used PUS services. The PUS Extension of the CORDET Framework is currently under development and will be published in a dedicated repository in the near future. Access to the development version of the PUS Extension of the CORDET Framework is available [on request](mailto:pnp-software@pnp-software.com).
 
 # Releases
-* Version [0.9.4](http://pnp-software.com/cordetfw/CordetFw_C2_Impl_MPLv2_0.9.4.zip). 
+* Version [1.0.0](http://pnp-software.com/cordetfw/CordetFw_C2_Impl_MPLv2_1.0.0_MPLv2.zip). 
 
 # Ownership
 
