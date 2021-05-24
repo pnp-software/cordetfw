@@ -16,12 +16,20 @@ The OutRegistry uses the identifier attribute (see sections \ref{sec:CmdAttribut
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.5,keepaspectratio=true]{RegistryStartTrackingAndUpdate.png}
- \caption{The Registry Start Tracking and Registry Update Procedures}
- \label{fig:RegistryStartTrackingAndUpdate}
+ \includegraphics[scale=0.5,keepaspectratio=true]{RegistryStartTracking.png}
+ \caption{The Registry Start Tracking Procedures}
+ \label{fig:RegistryStartTracking}
 \end{figure}
 
-In order to perform the tasks described above, the OutRegistry offers two operations: \texttt{StartTracking} and \texttt{Update}. These operations run the procedures Registry Start Tracking and Registry Update shown in figure \ref{fig:RegistryStartTrackingAndUpdate}. Operation \texttt{StartTracking} is performed by the \texttt{Load} operation of an OutManager to register an OutComponent with the OutRegistry. Operation \texttt{Update} is performed by the \textit{Execution Procedure} of an OutManager to ask the OutRegistry to update its information about an OutComponent's state.
+\begin{figure}[h]
+ \centering
+ \includegraphics[scale=0.5,keepaspectratio=true]{RegistryUpdate.png}
+ \caption{The Registry Update Procedures}
+ \label{fig:RegistryUpdate}
+\end{figure}
+
+
+In order to perform the tasks described above, the OutRegistry offers two operations: \texttt{StartTracking} and \texttt{Update}. These operations run the procedures Registry Start Tracking and Registry Update shown in figures \ref{fig:RegistryStartTracking} and \ref{fig:RegistryUpdate}. Operation \texttt{StartTracking} is performed by the \texttt{Load} operation of an OutManager to register an OutComponent with the OutRegistry. Operation \texttt{Update} is performed by the \textit{Execution Procedure} of an OutManager to ask the OutRegistry to update its information about an OutComponent's state.
 
 The OutRegistry stores the enable state of out-going commands and reports. The enable state of out-going command and reports can be controlled at three levels: 
 \begin{itemize}

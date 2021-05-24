@@ -1,0 +1,697 @@
+{
+     "editorVersion": "5.27",
+     "states": [
+          {
+               "id": 1493,
+               "attrs": {
+                    "x": 349,
+                    "y": 288,
+                    "width": 156,
+                    "height": 58,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "READY",
+                    "entryFunc": "",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "call function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": "0"
+               },
+               "selected": false
+          },
+          {
+               "id": 1496,
+               "attrs": {
+                    "x": 351,
+                    "y": 157,
+                    "width": 152,
+                    "height": 58,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "BUFFERING",
+                    "entryFunc": "",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "call function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": "0"
+               },
+               "selected": false
+          },
+          {
+               "id": 1499,
+               "attrs": {
+                    "x": 155,
+                    "y": 302,
+                    "width": 30,
+                    "height": 30,
+                    "r": 15,
+                    "rx": 15,
+                    "ry": 15,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "init",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 1500,
+               "attrs": {
+                    "x": 145,
+                    "y": 221,
+                    "width": 202,
+                    "height": 68,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "note",
+                    "note": "Enqueue Pckt:\n   if (PQ is not full) then push Pckt on PQ;\n   else <<AP>>Report PQ Full;\n      "
+               },
+               "selected": false
+          },
+          {
+               "id": 1502,
+               "attrs": {
+                    "x": 275,
+                    "y": 137,
+                    "width": 6,
+                    "height": 6,
+                    "r": 6,
+                    "rx": 6,
+                    "ry": 6,
+                    "fill": "#000",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "notedot",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 1503,
+               "attrs": {
+                    "x": 62,
+                    "y": 357,
+                    "width": 346,
+                    "height": 200,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "note",
+                    "note": "SendOrEnqueue Pckt:\nif (Pckt originated in this application) then {\n     g = <<AP>>Get element of SeqCounter corresponding to Pckt's group;\n     if (g identifies one of OutStream's groups) then {\n        <<AP>>Set Pckt's seq. counter attribute equal to seqCounter[g];\n        <<AP>>Compute and set Pckt's CRC;\n     } else \n        <<AP>>Report illegal group error;\n}\n<<AP>>Hand-over Pckt to middleware;\nif (middleware accepted Pckt) && (Pckt originated in this application) && \n        (g identifies one of OutStream's group) then\n    increment seqCounter[g];\nelse\n    push Pckt on PQ; // PQ is guaranteed to be empty in READY"
+               },
+               "selected": false
+          },
+          {
+               "id": 1505,
+               "attrs": {
+                    "x": 164,
+                    "y": 34,
+                    "width": 500,
+                    "height": 68,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 3,
+                    "type": "note",
+                    "note": "- PQ is the packet queue where packets which are waiting to be sent are buffered\n- To each OutStream, N_GROUP groups are associated\n- The OutStream maintains N_GROUP sequence counters in array seqCounter[0...N_GROUP-1]\n- The i-th array element holds the sequene counter for the next out-going packet belonging to the i-th group"
+               },
+               "selected": false
+          },
+          {
+               "id": 1507,
+               "attrs": {
+                    "x": 653,
+                    "y": 233,
+                    "width": 30,
+                    "height": 30,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "transform": "r45"
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "choice",
+                    "note": "",
+                    "identifier": "CHOICE1"
+               },
+               "selected": false
+          },
+          {
+               "id": 1508,
+               "attrs": {
+                    "x": 417,
+                    "y": 359,
+                    "width": 414,
+                    "height": 248,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 4,
+                    "type": "note",
+                    "note": "FlushPacketQueue\nwhile (PQ is not empty) {\n  Pckt = oldest packet on PQ;\n  if (Pckt originated in this application) then {\n     g=<<AP>>Get element of seqCounter corresponding to Pckt's group;\n     if (g identifies one of OutStream's groups) then {\n        <<AP>>Set seq. counter attribute of Pckt equal to seqCounter[g];\n        <<AP>>Compute and set Pckt's CRC;\n     } else\n        <<AP>>Report illegal group error;\n   }\n   <<AP>>Hand-over Pckt to middleware;\n   if (middleware accepted Pckt) then {\n       if (Pckt originated in this application) &&  (g identifies one of OutStream's group) then\n          increment seqCounter[g];\n       remove oldest packet from PQ;\n    } else\n       break;\n}"
+               },
+               "selected": false
+          }
+     ],
+     "connections": [
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              190,
+                              317
+                         ],
+                         [
+                              "L",
+                              341,
+                              317
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "Action1",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "",
+                    "guardAp": false,
+                    "actionDesc": "SeqCounter[i] = 1 for all i ",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 1499,
+               "stateToID": 1493,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              346,
+                              186
+                         ],
+                         [
+                              "L",
+                              228,
+                              186
+                         ],
+                         [
+                              "L",
+                              228,
+                              137
+                         ],
+                         [
+                              "L",
+                              333,
+                              137
+                         ],
+                         [
+                              "L",
+                              394,
+                              137
+                         ],
+                         [
+                              "L",
+                              402.08163265306126,
+                              149
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "Send",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "",
+                    "guardAp": false,
+                    "actionDesc": "Enqueue_Pckt",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": 69,
+               "shifty": -1,
+               "vertexes": [
+                    {
+                         "x": 228,
+                         "y": 186,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 228,
+                         "y": 137,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 333,
+                         "y": 137,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 394,
+                         "y": 137,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 1496,
+               "stateToID": 1496,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              256.8521739130435,
+                              216
+                         ],
+                         [
+                              "L",
+                              274.9391304347826,
+                              151
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": "-"
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 1500,
+               "stateToID": 1502,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              654.4291834631445,
+                              231.8194110522107
+                         ],
+                         [
+                              "L",
+                              616,
+                              186
+                         ],
+                         [
+                              "L",
+                              511,
+                              186
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "",
+                    "guardFunc": "Guard1",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "PQ is not empty ",
+                    "guardAp": false,
+                    "actionDesc": "",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": -34,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 616,
+                         "y": 186,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 1507,
+               "stateToID": 1496,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              440.87755102040813,
+                              152
+                         ],
+                         [
+                              "L",
+                              447,
+                              137
+                         ],
+                         [
+                              "L",
+                              668,
+                              137
+                         ],
+                         [
+                              "L",
+                              668,
+                              215
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "2",
+                    "identifier": "ConnectionAvailable",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "",
+                    "guardAp": false,
+                    "actionDesc": "FlushPacketQueue",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": -39,
+               "shifty": -1,
+               "vertexes": [
+                    {
+                         "x": 447,
+                         "y": 137,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 668,
+                         "y": 137,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 1496,
+               "stateToID": 1507,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              668,
+                              278
+                         ],
+                         [
+                              "L",
+                              668,
+                              317
+                         ],
+                         [
+                              "L",
+                              513,
+                              317
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "2",
+                    "identifier": "",
+                    "guardFunc": "Guard2",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "PQ is empty ",
+                    "guardAp": false,
+                    "actionDesc": "",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 668,
+                         "y": 317,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 1507,
+               "stateToID": 1493,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              427,
+                              283
+                         ],
+                         [
+                              "L",
+                              427,
+                              248
+                         ],
+                         [
+                              "L",
+                              635,
+                              248
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "Send",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "",
+                    "guardAp": false,
+                    "actionDesc": "SendOrEnqueu Pckt",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 427,
+                         "y": 248,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 1493,
+               "stateToID": 1507,
+               "selected": false
+          }
+     ],
+     "globals": {
+          "paperPanX": 0,
+          "paperPanY": 60,
+          "attrs": {
+               "x": 0,
+               "y": 60,
+               "width": 1341,
+               "height": 644,
+               "r": 0,
+               "rx": 0,
+               "ry": 0,
+               "fill": "#eee",
+               "stroke": "#000",
+               "stroke-width": 0
+          },
+          "fwprop": {
+               "smName": "OutStream",
+               "editorType": "Sm",
+               "globalvar": [
+                    {
+                         "type": "int",
+                         "name": "",
+                         "value": ""
+                    }
+               ],
+               "smIncludes": "",
+               "smNotes": "",
+               "memalloc": "dynamic",
+               "displayInfo": 0,
+               "displayOrder": 0,
+               "smTags": "CORDET"
+          }
+     }
+}

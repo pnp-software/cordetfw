@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\SetDocIssue{2.0}
+\SetDocIssue{2.1}
 \SetDocRefNumber{PP-DF-COR-0002}
 \SetDocTitle{The CORDET Framework}
 \SetDocSubtitle{Definition}
@@ -23,7 +23,7 @@
 %---------------------------------------------
 \newenvironment{crReq}[2]
 {
-\pnpcsvtable[filter equal={\Category}{#1}]{|l|p{11.8cm}|}{#2}{tab:Req-#1}{\textbf{Req. ID} & \textbf{Requirement Text}}{CordetFwReq.csv}{P-\Category-\Id/\Type & \textit{\Text}}
+\pnpcsvtable[filter equal={\Domain}{#1}]{|l|p{11.8cm}|}{#2}{tab:Req-#1}{\textbf{Req. ID} & \textbf{Requirement Text}}{CrFwRequirement.csv}{\Domain-\Name/\Kind & \textit{\Text}}
 }
 
 %---------------------------------------------
@@ -33,7 +33,7 @@
 %---------------------------------------------
 \newenvironment{crAp}[2]
 {
-\pnpcsvtable[filter equal={\Category}{#1}]{|l|p{4.7cm}|p{6.9cm}|}{#2}{tab:AP-#1}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}}{CordetFwAP.csv}{\Category-\Id & \AP  & \DefValue}
+\pnpcsvtable[filter equal={\Domain}{Ap#1}]{|l|p{4.7cm}|p{6.9cm}|}{#2}{tab:AP-#1}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}}{CrFwAdaptPoint.csv}{\Domain-\Name & \Title  & \DefaultValue}
 }
 
 
@@ -53,6 +53,24 @@ This section lists the changes made in the current revision. Changes are classif
 \item "\textbf{C}": A feature present in the previous revision has been changed
 \item "\textbf{N}": A new feature has been introduced
 \end{itemize}
+
+
+\begin{longtable}{|p{1.5cm}|p{1cm}|p{8cm}|}
+\caption{Changes introduced in Revision 2.1}  \\
+\hline
+\rowcolor{light-gray}
+\textbf{Section} & \textbf{Type} & \textbf{Description} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Section} & \textbf{Type} & \textbf{Description} \\
+\hline\hline
+\endhead
+n.a. & E & Replaced state machine and procedure diagrams to use FW Profile Models \\
+\hline
+n.a. & E & Requirements and adaptation points are now exported from the Cordet FW Editor \\
+\hline
+\end{longtable}
 
 
 \begin{longtable}{|p{1.5cm}|p{1cm}|p{8cm}|}
@@ -98,7 +116,7 @@ All & E & Fixed missing heading changes \\
 \hline
 \end{longtable}
 
-
+\newpage
 \begin{longtable}{|p{1.5cm}|p{1cm}|p{8cm}|}
 \caption{Changes introduced in Revision 1.6}  \\
 \hline
@@ -282,7 +300,7 @@ In some cases, the definition of an adaptation point is accompanied by the defin
 
 To each framework requirement an \textit{identifier} is attached.
 The requirement identifier takes the following form: x-y/t where 'x' is an acronym identifying the function to which the requirement applies; 'y' is a unique identifier within that function; and 't' identifies the requirement type. 
-The type is designated by one single letter as follows: 'S' for the Standard Requirements, 'A' for the Adaptation Requirements, 'C' for the Usage Constraint Requirements and 'P' for the Property Requirements.
+The type is designated by one single letter as follows: 'STD' for the Standard Requirements, 'AP' for the Adaptation Requirements, 'CNS' for the Usage Constraint Requirements and 'PRP' for the Property Requirements.
 
 The specification of the framework includes a \textit{behavioural model} of the framework which describes its behaviour and identifies the adaptation points where application developers can extend this behaviour to match their requirements.  
 
@@ -402,7 +420,7 @@ The hosting application is then expected to provide to each component the inform
 The type of this information is component-specific. 
 After the necessary information has been provided, the application sends an \texttt{Init} command to the component. 
 The component responds by running its \textit{Initialization Procedure}. 
-This procedure is responsible for initializing the component and is defined in figure  \ref{fig:InitializationAndReset}. 
+This procedure is responsible for initializing the component and is defined in figure  \ref{fig:InitializationPr}. 
 
 The \textit{Initialization Procedure} is based on an \textit{Initialization Check} and an \textit{Initialization Action}. 
 Both the check and the action are adaptation points which must be defined for each individual component. 
@@ -416,7 +434,7 @@ Only the “Success” outcome is nominal and leads to the component making a tr
 
 After successful initialization, the application provides to the component the information required to configure it and then sends a \texttt{Reset} command to it. 
 The component responds by running its \textit{Reset Procedure}. 
-This procedure is responsible for configuring the component and is defined in figure  \ref{fig:InitializationAndReset}.
+This procedure is responsible for configuring the component and is defined in figure  \ref{fig:ResetPr}.
  
 The \textit{Reset Procedure} is based on a \textit{Configuration Check} and a \textit{Configuration Action}. 
 Both the check and the action are adaptation points which must be defined for each individual componet. 
@@ -430,10 +448,18 @@ Only the “Success” outcome is nominal and leads to the component making a tr
 
 \begin{figure}[ht]
  \centering
- \includegraphics[scale=0.4,keepaspectratio=true]{InitializationAndReset.png}
- \caption{Initialization and Reset Procedures}
- \label{fig:InitializationAndReset}
+ \includegraphics[scale=0.44,keepaspectratio=true]{InitializationPr.png}
+ \caption{Initialization Procedure}
+ \label{fig:InitializationPr}
 \end{figure}
+
+\begin{figure}[ht]
+ \centering
+ \includegraphics[scale=0.44,keepaspectratio=true]{ResetPr.png}
+ \caption{Reset Procedure}
+ \label{fig:ResetPr}
+\end{figure}
+
 
 State CONFIGURED is the normal operational state of a component. 
 In this state, the component executes its \textit{Execution Procedure}. 

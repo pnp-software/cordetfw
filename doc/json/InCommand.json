@@ -1,0 +1,702 @@
+{
+     "editorVersion": "5.01",
+     "states": [
+          {
+               "id": 1,
+               "attrs": {
+                    "x": 136,
+                    "y": 12,
+                    "width": 88,
+                    "height": 42,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "ACCEPTED",
+                    "entryFunc": "",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "call function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "embedSmId": "0"
+               },
+               "selected": false
+          },
+          {
+               "id": 4,
+               "attrs": {
+                    "x": 129,
+                    "y": 240,
+                    "width": 160,
+                    "height": 66,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "ABORTED",
+                    "entryFunc": "",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "call function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "<<AP>>Abort Action",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "embedSmId": "0"
+               },
+               "selected": false
+          },
+          {
+               "id": 7,
+               "attrs": {
+                    "x": 425,
+                    "y": 246,
+                    "width": 96,
+                    "height": 54,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 3,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "TERMINATED",
+                    "entryFunc": "",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "call function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "embedSmId": "0"
+               },
+               "selected": false
+          },
+          {
+               "id": 10,
+               "attrs": {
+                    "x": 616,
+                    "y": 186,
+                    "width": 276,
+                    "height": 174,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 4,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "PROGRESS",
+                    "entryFunc": "",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "call function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "<<AP>>Progress Action\nif (PA Outcome == Failed)\n <<AP>>Report Progress Failure\nif ((PA Outcome != Failed) && Flag_2 && Flag_3)\n <<AP>>Report Progress Success",
+                    "doDesc": "<<AP>>Progress Action\nif (PA Outcome == Failed)\n <<AP>>Report Progress Failure\nif ((PA Outcome != Failed) && Flag_2 && Flag_3)\n <<AP>>Report Progress Success",
+                    "exitDesc": "",
+                    "embedSmId": "0",
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false
+               },
+               "selected": false
+          },
+          {
+               "id": 13,
+               "attrs": {
+                    "x": 458,
+                    "y": 92,
+                    "width": 30,
+                    "height": 30,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "transform": "r45"
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "choice",
+                    "note": "",
+                    "identifier": "CHOICE1"
+               },
+               "selected": false
+          },
+          {
+               "id": 14,
+               "attrs": {
+                    "x": 165,
+                    "y": 92,
+                    "width": 30,
+                    "height": 30,
+                    "r": 15,
+                    "rx": 15,
+                    "ry": 15,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "init",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 15,
+               "attrs": {
+                    "x": 458,
+                    "y": 408,
+                    "width": 30,
+                    "height": 30,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "transform": "r45"
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "choice",
+                    "note": "",
+                    "identifier": "CHOICE2"
+               },
+               "selected": false
+          },
+          {
+               "id": 17,
+               "attrs": {
+                    "x": 231,
+                    "y": 124,
+                    "width": 126,
+                    "height": 66,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 1,
+                    "type": "note",
+                    "note": "Abbreviations:\nSA = Start Action\nPA = Progress Action\nTA = Termination Action"
+               },
+               "selected": false
+          },
+          {
+               "id": 19,
+               "attrs": {
+                    "x": 618,
+                    "y": 8,
+                    "width": 272,
+                    "height": 54,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "note",
+                    "note": "Flag_3 is true if a progress step has been completed\n(i.e. if the last execution of the Proress Action resulted\nin a change of the value of the Progress Step Identifier) "
+               },
+               "selected": false
+          },
+          {
+               "id": 21,
+               "attrs": {
+                    "x": 535,
+                    "y": 120,
+                    "width": 186,
+                    "height": 42,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 3,
+                    "type": "note",
+                    "note": "Flag_2 is true if acknwoeldgement\nof successful progress is required"
+               },
+               "selected": false
+          }
+     ],
+     "connections": [
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              443,
+                              107
+                         ],
+                         [
+                              "L",
+                              210,
+                              107
+                         ],
+                         [
+                              "L",
+                              209.24698795180728,
+                              232
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "",
+                    "guardFunc": "Guard1",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": " SA Outcome == Failed ",
+                    "actionDesc": "\n<<AP>>Report Start Failed",
+                    "note": ""
+               },
+               "shiftx": 87,
+               "shifty": -10,
+               "vertexes": [
+                    {
+                         "x": 210,
+                         "y": 107,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 13,
+               "stateToID": 4,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              229,
+                              33.33447098976113
+                         ],
+                         [
+                              "L",
+                              473,
+                              35
+                         ],
+                         [
+                              "L",
+                              473,
+                              74
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "Execute",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "<<AP>>Ready Check ",
+                    "actionDesc": "<<AP>>Start Action",
+                    "note": ""
+               },
+               "shiftx": -11,
+               "shifty": -2,
+               "vertexes": [
+                    {
+                         "x": 473,
+                         "y": 35,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 1,
+               "stateToID": 13,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              503,
+                              107
+                         ],
+                         [
+                              "L",
+                              752,
+                              107
+                         ],
+                         [
+                              "L",
+                              752.855421686747,
+                              178
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "2",
+                    "identifier": "",
+                    "guardFunc": "Guard2",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": " SA Outcome == Success ",
+                    "actionDesc": "if (Start Ack Required) \n<<AP>>Report Start Success ",
+                    "note": ""
+               },
+               "shiftx": -26,
+               "shifty": -7,
+               "vertexes": [
+                    {
+                         "x": 752,
+                         "y": 107,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 13,
+               "stateToID": 10,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              180,
+                              87
+                         ],
+                         [
+                              "L",
+                              180,
+                              62
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "",
+                    "actionDesc": "",
+                    "note": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 14,
+               "stateToID": 1,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              752.7733333333332,
+                              365
+                         ],
+                         [
+                              "L",
+                              752,
+                              423
+                         ],
+                         [
+                              "L",
+                              506,
+                              423
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "Terminate",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": " PA Completion Outcome == Completed ",
+                    "actionDesc": "\n<<AP>>Termination Action",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": -36,
+               "shifty": -9,
+               "vertexes": [
+                    {
+                         "x": 752,
+                         "y": 423,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 10,
+               "stateToID": 15,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              473,
+                              393
+                         ],
+                         [
+                              "L",
+                              473,
+                              308
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "2",
+                    "identifier": "",
+                    "guardFunc": "Guard3",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "return 1;",
+                    "actionCode": "",
+                    "guardDesc": "TA Outcome == Success ",
+                    "actionDesc": "\nif (Term. Ack Required ) \n<<AP>>Report Term. Success",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": -81,
+               "shifty": 9,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 15,
+               "stateToID": 7,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              443,
+                              423
+                         ],
+                         [
+                              "L",
+                              210,
+                              423
+                         ],
+                         [
+                              "L",
+                              209.2733333333333,
+                              314
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "",
+                    "guardFunc": "Guard4",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "TA Outcome == Failed ",
+                    "actionDesc": "\n<<AP>>Report Term. Failed",
+                    "note": "",
+                    "guardAp": false,
+                    "actionAp": false
+               },
+               "shiftx": 98,
+               "shifty": -9,
+               "vertexes": [
+                    {
+                         "x": 210,
+                         "y": 423,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 15,
+               "stateToID": 4,
+               "selected": false
+          }
+     ],
+     "globals": {
+          "paperPanX": 0,
+          "paperPanY": -60,
+          "attrs": {
+               "x": 0,
+               "y": -60,
+               "width": 1517,
+               "height": 795,
+               "r": 0,
+               "rx": 0,
+               "ry": 0,
+               "fill": "#eee",
+               "stroke": "#000",
+               "stroke-width": 0
+          },
+          "fwprop": {
+               "smName": "InCommand",
+               "editorType": "Sm",
+               "globalvar": [
+                    {
+                         "type": "int",
+                         "name": "",
+                         "value": ""
+                    }
+               ],
+               "smIncludes": "",
+               "smNotes": "",
+               "memalloc": "dynamic",
+               "displayInfo": 0,
+               "displayOrder": 0,
+               "smTags": "CORDET"
+          }
+     }
+}
