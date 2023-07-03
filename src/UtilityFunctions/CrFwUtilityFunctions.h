@@ -218,4 +218,4 @@ void CrFwSmSuccessAction(FwSmDesc_t smDesc);
 CrFwCmdRepKindIndex_t CrFwFindCmdRepKindIndex(CrFwCmdRepKindKey_t* cmdRepKindArray,
         CrFwCmdRepKindIndex_t length, CrFwCmdRepKindKey_t targetKey);
 
-#endif /* CRFW_BASE_CMP_H_ */
+#endif /* CRFW_UTILITY_FUNCTIONS_H_ */

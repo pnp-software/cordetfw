@@ -445,7 +445,7 @@ CrFwBool_t CrFwOutCmpTestCase4() {
 	if (CrFwPcktIsTermAck(pckt) != 1)
 		return 0;
 	if (CrFwPcktGetCrc(pckt) != 0xFFFF)
-	    return 0;
+		return 0;
 	if (pckt[CrFwPcktGetMaxLength()-3] != counter+1)
 		return 0;
 
@@ -579,8 +579,8 @@ CrFwBool_t CrFwOutCmpTestCase5() {
 		return 0;
 	if (CrFwPcktIsTermAck(pckt) != 0)
 		return 0;
-    if (CrFwPcktGetCrc(pckt) != 0xFFFF)
-        return 0;
+	if (CrFwPcktGetCrc(pckt) != 0xFFFF)
+		return 0;
 	if (pckt[CrFwPcktGetMaxLength()-3] != counter + 1)
 		return 0;
 
