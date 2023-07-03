@@ -100,6 +100,9 @@ typedef signed char CrFwCounterS1_t;
 /** Type used for unsigned integers with a "medium" range. */
 typedef unsigned short CrFwCounterU2_t;
 
+/** Type used for unsigned integers with a "long" range. */
+typedef unsigned int CrFwCounterU3_t;
+
 /** Type for the packet length. */
 typedef unsigned short int CrFwPcktLength_t;
 

@@ -51,53 +51,53 @@ CrFwBool_t CrFwUtilityFunctionsTestCase1() {
 
 	testArray3[0] = 5;
 
-	if (CrFwFindCmdRepKindIndex(testArray1,CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE,8) != 2)
+	if (CrFwFindKeyIndex(testArray1,CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE,8) != 2)
 		return 0;
-	if (CrFwFindCmdRepKindIndex(testArray2,CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE,8) != 2)
-		return 0;
-
-	if (CrFwFindCmdRepKindIndex(testArray1,CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE,10) != 3)
-		return 0;
-	if (CrFwFindCmdRepKindIndex(testArray2,CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE,10) != 3)
+	if (CrFwFindKeyIndex(testArray2,CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE,8) != 2)
 		return 0;
 
-	if (CrFwFindCmdRepKindIndex(testArray1,CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE,4) != 0)
+	if (CrFwFindKeyIndex(testArray1,CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE,10) != 3)
 		return 0;
-	if (CrFwFindCmdRepKindIndex(testArray2,CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE,4) != 0)
+	if (CrFwFindKeyIndex(testArray2,CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE,10) != 3)
 		return 0;
 
-	if (CrFwFindCmdRepKindIndex(testArray1,CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE,
+	if (CrFwFindKeyIndex(testArray1,CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE,4) != 0)
+		return 0;
+	if (CrFwFindKeyIndex(testArray2,CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE,4) != 0)
+		return 0;
+
+	if (CrFwFindKeyIndex(testArray1,CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE,
 	                            2*CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE+4) != CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE)
 		return 0;
-	if (CrFwFindCmdRepKindIndex(testArray2,CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE,
+	if (CrFwFindKeyIndex(testArray2,CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE,
 	                            2*CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE+4) != CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE)
 		return 0;
 
-	if (CrFwFindCmdRepKindIndex(testArray1,CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE,2) !=
+	if (CrFwFindKeyIndex(testArray1,CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE,2) !=
 	        CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE)
 		return 0;
-	if (CrFwFindCmdRepKindIndex(testArray2,CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE,2) !=
+	if (CrFwFindKeyIndex(testArray2,CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE,2) !=
 	        CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE)
 		return 0;
 
-	if (CrFwFindCmdRepKindIndex(testArray1,CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE,60) !=
+	if (CrFwFindKeyIndex(testArray1,CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE,60) !=
 	        CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE)
 		return 0;
-	if (CrFwFindCmdRepKindIndex(testArray2,CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE,60) !=
+	if (CrFwFindKeyIndex(testArray2,CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE,60) !=
 	        CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE)
 		return 0;
 
-	if (CrFwFindCmdRepKindIndex(testArray1,CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE,11) !=
+	if (CrFwFindKeyIndex(testArray1,CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE,11) !=
 	        CR_FW_UTILITYFUNCTIONS_TESTCASES_EVEN_SIZE)
 		return 0;
-	if (CrFwFindCmdRepKindIndex(testArray2,CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE,11) !=
+	if (CrFwFindKeyIndex(testArray2,CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE,11) !=
 	        CR_FW_UTILITYFUNCTIONS_TESTCASES_ODD_SIZE)
 		return 0;
 
-	if (CrFwFindCmdRepKindIndex(testArray3,1,5) != 0)
+	if (CrFwFindKeyIndex(testArray3,1,5) != 0)
 		return 0;
 
-	if (CrFwFindCmdRepKindIndex(testArray3,1,6) != 1)
+	if (CrFwFindKeyIndex(testArray3,1,6) != 1)
 		return 0;
 
 	/* Check application errors */

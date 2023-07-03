@@ -25,22 +25,22 @@
 #include "FwSmCore.h"
 
 /**
- * Test the <code>::CrFwFindCmdRepKindIndex</code> function.
+ * Test the <code>::CrFwFindKeyIndex</code> function.
  * The following actions are performed in this test:
  * - A test array of type <code>::CrFwCmdRepKindKey_t</code> is set up and filled with key values
  *   in increasing order to simulate an array of report or command kinds. The size of this test array
  *   is an even integer.
- * - The test array is searched through function <code>:.CrFwFindCmdRepKindIndex</code> for a key
+ * - The test array is searched through function <code>:.CrFwFindKeyIndex</code> for a key
  *   which is present in the array in an odd-numbered intermediate position.
- * - The test array is searched through function <code>:.CrFwFindCmdRepKindIndex</code> for a key
+ * - The test array is searched through function <code>:.CrFwFindKeyIndex</code> for a key
  *   which is present in the array in an even-numbered intermediate position.
- * - The test array is searched through function <code>:.CrFwFindCmdRepKindIndex</code> for the first
+ * - The test array is searched through function <code>:.CrFwFindKeyIndex</code> for the first
  *   key in the array.
- * - The test array is searched through function <code>:.CrFwFindCmdRepKindIndex</code> for a key
+ * - The test array is searched through function <code>:.CrFwFindKeyIndex</code> for a key
  *   which is smaller than all the key in the test array.
- * - The test array is searched through function <code>:.CrFwFindCmdRepKindIndex</code> for a key
+ * - The test array is searched through function <code>:.CrFwFindKeyIndex</code> for a key
  *   which is larger than all the key in the test array.
- * - The test array is searched through function <code>:.CrFwFindCmdRepKindIndex</code> for a key
+ * - The test array is searched through function <code>:.CrFwFindKeyIndex</code> for a key
  *   which is within the range of keys stored in the test array but is not present in the array.
  * - The same steps as above are repeated for a test array with a size equal to an odd number.
  * - A test array of size 1 is defined and both a successful and a failed search are verified.

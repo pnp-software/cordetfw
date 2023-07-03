@@ -133,30 +133,30 @@ void CrFwSmSuccessAction(FwSmDesc_t smDesc) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-CrFwCmdRepKindIndex_t CrFwFindCmdRepKindIndex(CrFwCmdRepKindKey_t* cmdRepKindArray,
-        CrFwCmdRepKindIndex_t length, CrFwCmdRepKindKey_t targetKey) {
+CrFwCounterU2_t CrFwFindKeyIndex(CrFwCounterU3_t* keyValArray, CrFwCounterU2_t length, 
+    CrFwCounterU3_t targetKey) {
 
-	CrFwCmdRepKindIndex_t pos_lower, pos_upper, pos_half;
+	CrFwCounterU2_t pos_lower, pos_upper, pos_half;
 
 	pos_lower = 0;
-	pos_upper = (CrFwCmdRepKindIndex_t)(length-1);
+	pos_upper = (length-1);
 
 	while (pos_lower < pos_upper) {
-		pos_half = (CrFwCmdRepKindIndex_t)(pos_lower+(pos_upper-pos_lower)/2);
+		pos_half = (pos_lower+(pos_upper-pos_lower)/2);
 		if (pos_half == pos_lower)
 			break;
-		if (targetKey > cmdRepKindArray[pos_half]) {
+		if (targetKey > keyValArray[pos_half]) {
 			pos_lower = pos_half;
-		} else if (targetKey < cmdRepKindArray[pos_half]) {
+		} else if (targetKey < keyValArray[pos_half]) {
 			pos_upper = pos_half;
 		} else
 			return pos_half;
 	}
 
-	if (targetKey == cmdRepKindArray[pos_lower])
+	if (targetKey == keyValArray[pos_lower])
 		return pos_lower;
 
-	if (targetKey == cmdRepKindArray[pos_upper])
+	if (targetKey == keyValArray[pos_upper])
 		return pos_upper;
 
 	return length;

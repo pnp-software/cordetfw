@@ -177,7 +177,7 @@ FwSmDesc_t CrFwOutFactoryMakeOutCmp(CrFwServType_t type, CrFwServSubType_t subTy
 	}
 
 	targetKey = (CrFwCmdRepKindKey_t)(type*CR_FW_MAX_DISCRIMINANT*CR_FW_MAX_SERV_SUBTYPE+subType*CR_FW_MAX_DISCRIMINANT+discriminant);
-	kindIndex = CrFwFindCmdRepKindIndex(outCmpKindKey, CR_FW_OUTCMP_NKINDS, targetKey);
+	kindIndex = CrFwFindKeyIndex(outCmpKindKey, CR_FW_OUTCMP_NKINDS, targetKey);
 	if (kindIndex == CR_FW_OUTCMP_NKINDS) {
 		CrFwSetAppErrCode(crIllOutCmpKind);
 		return NULL;

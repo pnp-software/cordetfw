@@ -203,19 +203,17 @@ void CrFwSmSuccessAction(FwSmDesc_t smDesc);
 /**
  * Convenience function to retrieve the index of an array where a certain target value is
  * located.
- * This function is used by the InFactory (see <code>CrFwInFactory.h</code>) and OutFactory
- * (see <code>CrFwOutFactory.h</code>).
- * The InFactory and OutFactory maintain arrays which store sets of command and report kinds
- * in increasing order.
- * A command or report kind is encoded through a key.
- * This function finds the index corresponding to a given target key value.
- * @param cmdRepKindArray array of key values (the key values must be stored in increasing order)
+ * This function assumes that the entries in the array are arranged in increasing order.
+ * The function finds the index corresponding to a given target key value.
+ * If the target key value is not in the array, the function returns the length of the
+ * array.
+ * @param keyValArray array of key values (key values must be stored in increasing order)
  * @param length length of the array of key values
  * @param targetKey the key value that is searched
  * @return the index in the array where the target key value is located or the length of the
  * array if the target key value is not in the array
  */
-CrFwCmdRepKindIndex_t CrFwFindCmdRepKindIndex(CrFwCmdRepKindKey_t* cmdRepKindArray,
-        CrFwCmdRepKindIndex_t length, CrFwCmdRepKindKey_t targetKey);
+CrFwCounterU2_t CrFwFindKeyIndex(CrFwCounterU3_t* keyValArray,
+        CrFwCounterU2_t length, CrFwCounterU3_t targetKey);
 
 #endif /* CRFW_UTILITY_FUNCTIONS_H_ */
