@@ -32,6 +32,16 @@ Internal Representation and Handling of Commands and Reports & The PUS does not 
 \hline
 \end{longtable}
 
-In addition to the service concept, the PUS also defines the concept of \textit{application process} which is matched in the CORDET Framework by the concept of \textit{application}. The two concepts, though overlapping, have slightly different meanings. In the PUS, an application process is a source of reports and a sink for commands (see section 4.2.1 of reference [PS-SP]). In the CORDET Framework, an application is a node within a CORDET service-based distributed system. A CORDET application may therefore be both a source and a destination for both commands and reports. 
+In the CORDET Framework, a provider or user of services is called an \textit{application}. A CORDET application is identified by a single identifier. This identifier is used to designate the application in all its roles (source and/or receiver of commands and/or reports). 
 
-In principle, a CORDET application may only contain one PUS Application Process. 
+In the PUS, the concept of \textit{application process} serves a similar purpose in the sense that commands and reports are sent and received by application processes (see section 5.4.2.1 of reference [PS-SP]). However, when an application process acts as source of reports and sink for commands (i.e. when it acts as a service provider application), it is identified by an 11-bit integer called the \textit{Application Process Idengifier} or APID. When, instead, an application process acts as source of commands and sink for reports (i.e. when it acts as a service user application), it is identified by a 16-bit integere called the \textit{Application Process User Identifier}. Thus, in the PUS world, the same physical application may be represented by different identifiers depending on its role. This means that mapping the identifier of a CORDET application to the corresponding identifiers of the PUS application processes is not straightforward.  
+
+In order to allow such a mapping to be built, the CORDET Framework has introduced the concept of \textit{group}. In the CORDET world, the group is an attribute of commands and reports. The group identifier of a command/report is a function of that command/report's attributes. This function is, however, an adaptation point of the framework. This means that each application decides how to define the groups within an application.
+
+The mapping from the identifier of a CORDET application to the corresponding identifiers of the PUS application processes can then be done as follows:
+
+\begin{itemize}
+\item Each application process usser identifier is mapped to a CORDET application identifier
+\item Each application process identifier is mapped to a group identifier within a CORDET application 
+\end{itemize}
+
