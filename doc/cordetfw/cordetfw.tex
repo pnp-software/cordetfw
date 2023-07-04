@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\SetDocIssue{2.1}
+\SetDocIssue{3}
 \SetDocRefNumber{PP-DF-COR-0002}
 \SetDocTitle{The CORDET Framework}
 \SetDocSubtitle{Definition}
@@ -54,6 +54,31 @@ This section lists the changes made in the current revision. Changes are classif
 \item "\textbf{N}": A new feature has been introduced
 \end{itemize}
 
+
+\begin{longtable}{|p{1.5cm}|p{1cm}|p{8cm}|}
+\caption{Changes introduced in Revision 3}  \\
+\hline
+\rowcolor{light-gray}
+\textbf{Section} & \textbf{Type} & \textbf{Description} \\
+\hline\hline
+\endfirsthead
+\rowcolor{light-gray}
+\textbf{Section} & \textbf{Type} & \textbf{Description} \\
+\hline\hline
+\endhead
+3.5 & Clarified that a Cordet Application can only contain one PUS Application Process \\
+\hline
+3.8 & L & Added mention of use of Cordet FW on Cheops Payload \\
+\hline
+5.1.1 & NC & Modified command attributes: semantics of Sequence Counter has been changed; Group attribute has been dropped; Type Counter attribute has been added (change driven by need to remain compliant with new PUS Standardof reference [PS-SP]) \\
+\hline
+5.2.1 & NC & Modified report attributes: semantics of Sequence Counter has been changed; Group attribute has been dropped; Type Counter attribute has been added (change driven by need to remain compliant with new PUS Standardof reference [PS-SP]) \\
+\hline
+6.2 & C & Modified concept of OutStream to correspond to a Destination Group (rather than to a single destination) \\
+\hline
+6.2.1 & C & Updated OutStream definition to take account of new sequence counter and type attribute logic \\
+\hline
+\end{longtable}
 
 \begin{longtable}{|p{1.5cm}|p{1cm}|p{8cm}|}
 \caption{Changes introduced in Revision 2.1}  \\
@@ -339,7 +364,7 @@ In spite of its origin in the space industry, the PUS is suitable for a wider ra
 
 The models of the CORDET Components are based on models defined in past research projects (see references [CR-AS] and [CR-CR) and on the OBS Framework Design Patterns (see reference [CR-OB]). 
 
-An earlier version of the CORDET Framework was used as the basis for the definition and design of an industrial-quality framework for the diagnostic instruments of a major pharmaceutical company. The viability of the design patterns and concepts behind the CORDET Framework is therefore demonstrated at industrial level. 
+An earlier version of the CORDET Framework was used as the basis for the definition and design of an industrial-quality framework for the diagnostic instruments of a major pharmaceutical company. Version 1.0.0 was used for the implementation of the on-board software of the Cheops Satellite. The viability of the design patterns and concepts behind the CORDET Framework is therefore demonstrated at industrial level. 
 
 %=======================================================================================
 \section{Application Start-Up and Shut-Down}\label{sec:AppStartUpAndShutdown}
@@ -566,9 +591,9 @@ This section specifies the interfaces through which applications send packets to
 
 The packet interface concept for CORDET applications is illustrated in figure \ref{fig:PcktInterfaceConcept} using an information notation.
 
-The management of the out-going packet interface is performed by one or more OutStream components. An OutStream component encapsulates an out-going interface through which packets are sent to a certain destination. An application has one OutStream component for each destination to which it may send packets.
+The management of the out-going packet interface is performed by one or more OutStream components. An OutStream component encapsulates an out-going interface through which packets are sent to a set of related destinations. An application has one OutStream component for each destination group (see sections \ref{sec:CmdAttributes} and \ref{sec:RepAttributes}) to which it may send packets.
 
-The management of the incoming packet interface is performed by an InStream component. An InStream component encapsulates the incoming interface through which an application receives packets from a certain packet source. An application has one InStream component for each source from which it may receive packets.
+The management of the incoming packet interface is performed by an InStream component. An InStream component encapsulates the incoming interface through which an application receives packets from a certain set of packet sources. An application has one InStream component for each source from which it may receive packets.
 
 Packets which are received by an InStream in application A and which have application A as their destination are made available to the internal components of application A. Packets which are received by an InStream in application A and which have an application other than A as their destination are instead re-routed. This means that they are handed over to an OutStream for forwarding to another application (either their final destination or another intermediate application on the way to their final destination).
 
