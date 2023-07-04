@@ -119,11 +119,14 @@ static const CrFwPcktLength_t offsetProgressAckLev = 48;
 /** Offset of the termination acknowledge level field in a packet */
 static const CrFwPcktLength_t offsetTermAckLev = 52;
 
+/** Offset of the type counter in a packet */
+static const CrFwPcktLength_t offsetTypeCnt = 56;
+
 /** Offset of the group in a packet */
-static const CrFwPcktLength_t offsetGroup = 56;
+static const CrFwPcktLength_t offsetGroup = 60;
 
 /** Offset of the parameter area in a packet */
-static const CrFwPcktLength_t offsetPar = 60;
+static const CrFwPcktLength_t offsetPar = 64;
 
 /*-----------------------------------------------------------------------------------------*/
 CrFwPckt_t CrFwPcktMake(CrFwPcktLength_t pcktLength) {
@@ -229,6 +232,18 @@ CrFwSeqCnt_t CrFwPcktGetSeqCnt(CrFwPckt_t pckt) {
 void CrFwPcktSetSeqCnt(CrFwPckt_t pckt, CrFwSeqCnt_t seqCnt) {
 	CrFwSeqCnt_t* loc = (CrFwSeqCnt_t*)(pckt+offsetSeqCnt);
 	(*loc) = seqCnt;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwTypeCnt_t CrFwPcktGetTypeCnt(CrFwPckt_t pckt) {
+	CrFwTypeCnt_t* loc = (CrFwTypeCnt_t*)(pckt+offsetTypeCnt);
+	return (*loc);
+}
+
+/*-----------------------------------------------------------------------------------------*/
+void CrFwPcktSetTypeCnt(CrFwPckt_t pckt, CrFwTypeCnt_t typeCnt) {
+	CrFwTypeCnt_t* loc = (CrFwTypeCnt_t*)(pckt+offsetTypeCnt);
+	(*loc) = typeCnt;
 }
 
 /*-----------------------------------------------------------------------------------------*/

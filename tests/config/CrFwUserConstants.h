@@ -35,6 +35,9 @@ typedef unsigned char CrFwOutcome_t;
 /** Type used for the sequence counter of commands or reports. */
 typedef unsigned int CrFwSeqCnt_t;
 
+/** Type used for the type counter of commands or reports. */
+typedef unsigned int CrFwTypeCnt_t;
+
 /** Type used for the application time. */
 typedef float CrFwTime_t;
 

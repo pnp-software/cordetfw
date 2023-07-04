@@ -168,6 +168,20 @@ CrFwSeqCnt_t CrFwPcktGetSeqCnt(CrFwPckt_t pckt);
 void CrFwPcktSetSeqCnt(CrFwPckt_t pckt, CrFwSeqCnt_t seqCnt);
 
 /**
+ * Set the type counter of the command or report encapsulated in a packet.
+ * @param pckt the packet.
+ * @param typeCnt the type counter.
+ */
+void CrFwPcktSetTypeCnt(CrFwPckt_t pckt, CrFwTypeCnt_t seqCnt);
+
+/**
+ * Return the type counter of the command or report encapsulated in a packet.
+ * @param pckt the packet.
+ * @return the type counter.
+ */
+CrFwTypeCnt_t CrFwPcktGetTypeCnt(CrFwPckt_t pckt);
+
+/**
  * Return the time stamp of the command or report encapsulated in a packet.
  * @param pckt the packet.
  * @return the time stamp.

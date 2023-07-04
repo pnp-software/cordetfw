@@ -152,7 +152,8 @@ CrFwBool_t CrFwInStreamIsInPcktAvail(FwSmDesc_t smDesc);
 
 /**
  * Default configuration action for an InStream.
- * This function resets the packet queue of the InStream.
+ * This function resets the packet queue of the InStream and resets the
+ * expected sequence counter associated to the InStream to 
  * Configuration actions have an outcome (see <code>CrFwResetProc.h</code>).
  * The outcome of this configuration action is always: "success".
  *
