@@ -32,16 +32,17 @@ Internal Representation and Handling of Commands and Reports & The PUS does not 
 \hline
 \end{longtable}
 
-In the CORDET Framework, a provider or user of services is called an \textit{application}. A CORDET application is identified by a single identifier. This identifier is used to designate the application in all its roles (source and/or receiver of commands and/or reports). 
+In the CORDET Framework, a provider or user of services is called a \textit{CORDET application}. A CORDET application is identified by a single identifier. This identifier is used to designate the application in all its roles (source and/or receiver of commands and/or reports). 
 
-In the PUS, the concept of \textit{application process} serves a similar purpose in the sense that commands and reports are sent and received by application processes (see section 5.4.2.1 of reference [PS-SP]). However, when an application process acts as source of reports and sink for commands (i.e. when it acts as a service provider application), it is identified by an 11-bit integer called the \textit{Application Process Idengifier} or APID. When, instead, an application process acts as source of commands and sink for reports (i.e. when it acts as a service user application), it is identified by a 16-bit integere called the \textit{Application Process User Identifier}. Thus, in the PUS world, the same physical application may be represented by different identifiers depending on its role. This means that mapping the identifier of a CORDET application to the corresponding identifiers of the PUS application processes is not straightforward.  
+In the PUS, the concept of \textit{application process} serves a similar purpose in the sense that commands and reports are sent and received by application processes (see section 5.4.2.1 of reference [PS-SP]). However, when an application process acts as source of reports and sink for commands (i.e. when it acts as a service provider), it is identified by an 11-bit integer called the \textit{Application Process Idengifier} or APID. When, instead, an application process acts as source of commands and sink for reports (i.e. when it acts as a service user), it is identified by a 16-bit integer called the \textit{Application Process User Identifier}. Thus, in the PUS world, the same physical application may be represented by different identifiers depending on its role. This means that mapping the identifier of a CORDET application to the identifiers of the corresponding PUS application processes is not straightforward.  
 
-In order to allow such a mapping to be built, the CORDET Framework has introduced the concept of \textit{group}. In the CORDET world, the group is an attribute of commands and reports. The group identifier of a command/report is a function of that command/report's attributes. This function is, however, an adaptation point of the framework. This means that each application decides how to define the groups within an application.
+In order to allow such a mapping to be built, the CORDET Framework has introduced the concept of \textit{group}. In the CORDET world, the group is an attribute of commands and reports, which is implemented as a non-negative integer. The group identifier of a command/report is a function of that command/report's source, destination, type and sub-type. This function is, however, an adaptation point of the framework. This means that each application decides how to define the groups within an application. 
 
 The mapping from the identifier of a CORDET application to the corresponding identifiers of the PUS application processes can then be done as follows:
 
 \begin{itemize}
-\item Each application process usser identifier is mapped to a CORDET application identifier
-\item Each application process identifier is mapped to a group identifier within a CORDET application 
+\item Each application process user identifier is mapped to a CORDET application identifier
+\item Each application process identifier (APID) is mapped to a group identifier within a CORDET application 
 \end{itemize}
 
+Applications which do not need to achieve PUS compliance, can disregard the group concept and simply define one single group for all their commands and reports.

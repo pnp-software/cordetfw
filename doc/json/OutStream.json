@@ -152,7 +152,7 @@
                     "x": 62,
                     "y": 357,
                     "width": 350,
-                    "height": 212,
+                    "height": 284,
                     "r": 0,
                     "rx": 0,
                     "ry": 0,
@@ -165,16 +165,16 @@
                "fwprop": {
                     "autoid": 2,
                     "type": "note",
-                    "note": "SendOrEnqueue Pckt:\nif (Pckt originated in this application) then {\n     <<AP>> Set Pckt's Seq. Counter to OutStream's Sequence Counter;\n     [d,t,s] = packet's destination, type and sub-type\n     if ([d,s,t] is in DST_SET) then {\n        <<AP>>Set Pckt's type counter attribute to type counter for [d,s,t];\n     } else \n        <<AP>>Set Pckt's Type Counter Attribute to zero;\n    <<AP>>Compute and set Pckt's CRC;\n}\n<<AP>>Hand-over Pckt to middleware;\nif (middleware accepted Pckt) && (Pckt originated in this application) then {\n    increment OutStream's seq. counter;\n    if ([d,s,t] is in DST_SET) then increment type counter for [d,s,t]\n} else\n    push Pckt on PQ; // PQ is guaranteed to be empty in READY"
+                    "note": "SendOrEnqueue Pckt:\nif (Pckt originated in this application) then {\n     g = <<AP>>Get group to which Pckt belongs\n     if (g identifies a legal command/report group) then {\n         <<AP>> Set Pckt's Seq. Counter to seqCounter[g];\n     } else {\n         <<AP>> Report illegal group error;\n         <<AP>> Set Pckt's Seq. Counter to seqCounter[g];\n    }\n     [d,t,s] = packet's destination, type and sub-type\n     if ([d,s,t] is in DST_SET) then {\n        <<AP>>Set Pckt's type counter attribute to type counter for [d,s,t];\n     } else \n        <<AP>>Set Pckt's Type Counter Attribute to zero;\n    <<AP>>Compute and set Pckt's CRC;\n}\n<<AP>>Hand-over Pckt to middleware;\nif (middleware accepted Pckt) && (Pckt originated in this application) then {\n    if (g identifies one of OutStream's group) then increment seqCounter[g];\n    if ([d,s,t] is in DST_SET) then increment type counter for [d,s,t]\n} else\n    push Pckt on PQ; // PQ is guaranteed to be empty in READY"
                },
                "selected": false
           },
           {
                "id": 13,
                "attrs": {
-                    "x": 75,
-                    "y": 11,
-                    "width": 580,
+                    "x": 122,
+                    "y": 26,
+                    "width": 574,
                     "height": 80,
                     "r": 0,
                     "rx": 0,
@@ -188,7 +188,7 @@
                "fwprop": {
                     "autoid": 3,
                     "type": "note",
-                    "note": "- PQ is the packet queue where packets which are waiting to be sent are buffered\n- To each OutStream, one destination group is associated: all out-going packets for that group go through the same OutStream\n- The OutStream maintains the sequence counter for its destination group\n- The OutStream is configured with DST_SET: a set of [destination, type, sub-type] and it maintains the Type Counter for \n   packets whose [destination, type, sub-type] belong to DST_SET\n"
+                    "note": "- PQ is the packet queue where packets which are waiting to be sent are buffered\n- The OutStreams maintain the sequence counters for out-going commands and reports. The current sequence counter for\n   the i-th group is held in seqCounter[i]\n- The OutStreams are configured with DTS_SET: a set of [destination, type, sub-type] and they maintain the Type Counter for \n   packets whose [destination, type, sub-type] belongs to DTS_SET\n"
                },
                "selected": false
           },
@@ -221,8 +221,8 @@
                "attrs": {
                     "x": 417,
                     "y": 359,
-                    "width": 348,
-                    "height": 284,
+                    "width": 366,
+                    "height": 356,
                     "r": 0,
                     "rx": 0,
                     "ry": 0,
@@ -235,7 +235,7 @@
                "fwprop": {
                     "autoid": 4,
                     "type": "note",
-                    "note": "FlushPacketQueue\nwhile (PQ is not empty) {\n  Pckt = oldest packet on PQ;\n  if (Pckt originated in this application) then {\n     <<AP>>Set seq. counter attribute of Pckt to OutStream's Seq. Counter;\n     [d,t,s] = packet's destination, type and sub-type\n     if ([d,s,t] is in DST_SET) then \n         <<AP>>Set Pckt's type counter attribute to type counter for [d,s,t];\n     else \n         <<AP>>Set Pckt's type counter attribute to zero;\n     <<AP>>Compute and set Pckt's CRC;\n   }\n   <<AP>>Hand-over Pckt to middleware;\n   if (middleware accepted Pckt) then {\n       if (Pckt originated in this application) then {\n           increment OutStream's sequence counter;\n           if ([d,s,t] is in DST_SET) then increment type counter for [d,s,t]\n       } \n       remove oldest packet from PQ;\n    } else\n       break;\n}"
+                    "note": "FlushPacketQueue\nwhile (PQ is not empty) {\n  Pckt = oldest packet on PQ;\n  if (Pckt originated in this application) then {\n     g = <<AP>>Get group to which Pckt belongs\n     if (g identifies a legal command or report group) then {\n         <<AP>> Set Pckt's Seq. Counter to seqCounter[g];\n     } else {\n         <<AP>> Report illegal group error;\n         <<AP>> Set Pckt's Seq. Counter to seqCounter[g];\n    }\n     [d,t,s] = packet's destination, type and sub-type\n     if ([d,s,t] is in DST_SET) then \n         <<AP>>Set Pckt's type counter attribute to type counter for [d,s,t];\n     else \n         <<AP>>Set Pckt's type counter attribute to zero;\n     <<AP>>Compute and set Pckt's CRC;\n   }\n   <<AP>>Hand-over Pckt to middleware;\n   if (middleware accepted Pckt) then {\n       if (Pckt originated in this application) then {\n           if (g identifies one of OutStream's group) then increment seqCounter[g];\n           if ([d,s,t] is in DST_SET) then increment type counter for [d,s,t]\n       } \n       remove oldest packet from PQ;\n    } else\n       break;\n}"
                },
                "selected": false
           }
@@ -663,11 +663,11 @@
      ],
      "globals": {
           "paperPanX": 0,
-          "paperPanY": 0,
+          "paperPanY": -60,
           "attrs": {
                "x": 0,
-               "y": 0,
-               "width": 1309,
+               "y": -60,
+               "width": 1375,
                "height": 693,
                "r": 0,
                "rx": 0,
