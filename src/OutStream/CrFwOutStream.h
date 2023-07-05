@@ -85,6 +85,10 @@
  * The first time this function is called with a certain value of i, it returns an
  * OutStream State Machine which has been started but which still needs to be initialized and
  * configured.
+ * 
+ * The first time this function is called, it builts the DTS_SET by calling 
+ * the function <code>#CR_FW_OUTSTREAM_SET_DTS</code>.
+ * 
  * @param outStreamId the identifier of the Base State Machine of the OutStream
  * @return the descriptor of the OutStream State Machine or NULL
  * if the state machine could not be created or if the identifier i is out of range.
@@ -260,7 +264,7 @@ CrFwCounterU1_t CrFwOutStreamGetNOfPendingPckts(FwSmDesc_t smDesc);
 
 /**
  * Return the number of groups associated to the OutStreams.
- * @return the number of groups associated to the OutStream.
+ * @return the number of groups associated to the OutStreams.
  */
 CrFwGroup_t CrFwOutStreamGetNOfGroups();
 
@@ -270,5 +274,51 @@ CrFwGroup_t CrFwOutStreamGetNOfGroups();
  * @return the size of the packet queue of the OutStream.
  */
 CrFwCounterU1_t CrFwOutStreamGetPcktQueueSize(FwSmDesc_t smDesc);
+
+/**
+ * Return the number of type counters maintained by the OutStreams.
+ * @return the number of type counters maintained by the OutStreams.
+ */
+CrFwGroup_t CrFwOutStreamGetNOfTypeCounters();
+
+/**
+ * Return the current type counter for a (destination, type, sub-type)
+ * triplet or zero if the triplet is not in DTS_SET.
+ * The value returned by this function is the type counter which 
+ * the OutStream will allocate to the next out-going packet with
+ * the argument destination, type and sub-type.
+ * If the (destination, type, sub-type is not in DTS_SET, then
+ * zero is returned.
+ * 
+ * This function may only be called after the DTS_SET has been built.
+ * The DTS_SET is built the first time function 
+ * <code>::CrFwOutStreamMake</code> is called.
+ * 
+ * @param dest the packet destination
+ * @param servType the packet service type
+ * @param servSubType the packet service sub-type
+ * @return the type counter for the argument (destination, type,
+ *         sub-type) triplet.
+ */
+CrFwTypeCnt_t CrFwOutStreamGetTypeCounter(CrFwDestSrc_t dest, 
+                                          CrFwServType_t servType,
+                                          CrFwServSubType_t servSubType);
+ 
+/**
+ * Check whether the (destination, type, sub-type) triplet is in 
+ * DTS_SET.
+ * 
+ * This function may only be called after the DTS_SET has been built.
+ * The DTS_SET is built the first time function 
+ * <code>::CrFwOutStreamMake</code> is called.
+ * 
+ * @param dest the packet destination
+ * @param servType the packet service type
+ * @param servSubType the packet service sub-type
+ * @return the number of type counters maintained by the OutStreams.
+ */
+CrFwBool_t CrFwOutStreamIsInDtsSet(CrFwDestSrc_t dest, 
+                                   CrFwServType_t servType,
+                                   CrFwServSubType_t servSubType);
 
 #endif /* CRFW_OUT_STREAM_H_ */

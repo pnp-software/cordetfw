@@ -39,14 +39,14 @@
 /**
  * The number of OutStream components in the application.
  * An application must have at least one OutStream but it can also have more.
- * The value of this constant must be smaller than the range of the <code>::CrFwCounterU1_t</code>
- * integer type.
+ * The value of this constant must be smaller than the range of the 
+ * <code>::CrFwCounterU1_t</code> integer type.
  */
 #define CR_FW_NOF_OUTSTREAM 7
 
 /**
  * Number of destinations for out-going packets.
- * The destinations are specified in #CR_FW_OUTSTREAM_DEST.
+ * The destinations are specified in <code>#CR_FW_OUTSTREAM_DEST</code>.
 */
 #define CR_FW_OUTSTREAM_NOF_DEST 8
 
@@ -57,7 +57,7 @@
  * Each element of this array consists of a pair (dest, outStream)
  * which defines the outStream correspond to destination dest.
  *
- * The size of this array must be equal to #CR_FW_OUTSTREAM_NOF_DEST.
+ * The size of this array must be equal to <code>#CR_FW_OUTSTREAM_NOF_DEST</code>.
  */
 #define CR_FW_OUTSTREAM_DEST {{1,1},\
 							  {2,2},\
@@ -86,7 +86,8 @@
  * The number of groups managed by the OutStream components.
  * The number of groups must be a positive integer.
  * If a packet with a group attribute higher than the value defined here is
- * passed to an OutStream, the error condition #crOutStreamIllGroup is declared.
+ * passed to an OutStream, the error condition 
+ * <code>#crOutStreamIllGroup</code> is declared.
  *
  * The number of groups defined in this file are those used for the test cases
  * of <code>CrFwOutStreamTestCases.h</code>.
@@ -99,7 +100,8 @@
  * t is a service type and s is a service sub-type. 
  * The elements of DTS_SET are those for which the OutStreams maintain a type counter.
  * 
- * A default value of the Set DTS function is provided by function #CrFwOutStreamDefSetDTS.
+ * A default value of the Set DTS function is provided by function 
+ * <code>#CrFwOutStreamDefSetDTS</code>.
  * The Set DTS function must be a function pointers of type:
  * <code>::CrFwSetDst_t</code>.
  */
