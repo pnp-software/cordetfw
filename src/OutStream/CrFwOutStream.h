@@ -3,8 +3,8 @@
  * @ingroup outMngGroup
  * Definition of the OutStream component.
  *
- * An application will normally instantiate one OutStream Component for
- * each report or command destination.
+ * An application instantiates one or more OutStreams to represent the logical
+ * connections through which reports or commands are sent to their destination.
  * An OutStream is implemented by the OutStream State Machine (see figures below)
  * embedded within state CONFIGURED of a Base State Machine.
  *
@@ -14,6 +14,10 @@
  * component of the CORDET Framework.
  *
  * An application can instantiate several OutStream Components.
+ * Each OutStream component is associated to one or more destinations. 
+ * The mapping from the destinations to the OutStreams is in parameter
+ * #CR_FW_OUTSTREAM_DEST.
+ * 
  * Each OutStream instance has an identifier which uniquely identifies it
  * within the set of OutStream Components.
  * This identifier is an integer in the range 0 to: <code>#CR_FW_NOF_OUTSTREAM</code>-1.
@@ -200,33 +204,52 @@ void CrFwOutStreamDefInitAction(FwPrDesc_t prDesc);
 void CrFwOutStreamDefShutdownAction(FwSmDesc_t smDesc);
 
 /**
- * Get the destination for an OutStream.
- * @param smDesc the descriptor of the OutStream State Machine.
- * @return dest the destination associated to the OutStream
+ * Default implementation of Set DST Function for the OutStreams.
+ * The Set DTS Function is responsible for defining the DTS_SET.
+ * The DTS_SET defines the triplets (destination,type,sub-type) 
+ * for which the OutStream maintain a type counter.
+ * 
+ * The Set DTS function computes and returns:
+ * - The number of type counters to be managed by the OutStreams
+ * - The array of destination-type keys for which type counters
+ *   must be maintained
+ * .
+ * This default implementation builds DTS_SET by collecting all 
+ * the types and sub-types (t,s) of the out-going reports defined in
+ * #define CR_FW_OUTCMP_INIT_KIND_DESC and then building all
+ * triplets.
+ * 
+ * This function allocates the memory for array #outStreamDestTypeKey
+ * using malloc. It is therefore only suitable for use during
+ * the application initialization phase.
+ * 
+ * @param outStreamNofTypeCounter the number of type counters (i.e.
+ * the number of triplets (d,t,s) in DTS_SET)
+ * @param outStreamDestTypeKey array of products d*t*s for all
+ * triplets (d,t,s) in DTS_SET  arranged in increasing order
  */
-CrFwDestSrc_t CrFwOutStreamGetDest(FwSmDesc_t smDesc);
+void CrFwOutStreamDefSetDTS(CrFwTypeCnt_t* outStreamNofTypeCounter,
+                            CrFwDestTypeKey_t* outStreamDestTypeKey);
 
 /**
  * Return the value of the sequence counter for one of the groups
- * maintained by an OutStream.
+ * maintained by the OutStreams.
  * The group identifier is passed as an argument to the function call.
  * No check is performed on the validity of the group identifier.
- * @param smDesc the descriptor of the OutStream State Machine.
  * @param group the identifier of the group
  * @return the OutStream sequence counter
  */
-CrFwSeqCnt_t CrFwOutStreamGetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group);
+CrFwSeqCnt_t CrFwOutStreamGetSeqCnt(CrFwGroup_t group);
 
 /**
  * Sets the value of the sequence counter for one of the groups
- * maintained by an OutStream.
+ * maintained by the OutStreams.
  * The group identifier is passed as an argument to the function call.
  * No check is performed on the validity of the group identifier.
- * @param smDesc the descriptor of the OutStream State Machine.
  * @param group the identifier of the group
  * @param seqCnt the OutStream sequence counter
  */
-void CrFwOutStreamSetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group, CrFwSeqCnt_t seqCnt);
+void CrFwOutStreamSetSeqCnt(CrFwGroup_t group, CrFwSeqCnt_t seqCnt);
 
 /**
  * Return the number of packets currently in the packet queue of an OutStream.
@@ -236,11 +259,10 @@ void CrFwOutStreamSetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group, CrFwSeqCnt_t s
 CrFwCounterU1_t CrFwOutStreamGetNOfPendingPckts(FwSmDesc_t smDesc);
 
 /**
- * Return the number of groups associated to the OutStream.
- * @param smDesc the descriptor of the OutStream State Machine.
+ * Return the number of groups associated to the OutStreams.
  * @return the number of groups associated to the OutStream.
  */
-CrFwGroup_t CrFwOutStreamGetNOfGroups(FwSmDesc_t smDesc);
+CrFwGroup_t CrFwOutStreamGetNOfGroups();
 
 /**
  * Return the size of the packet queue of the OutStream.

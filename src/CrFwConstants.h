@@ -282,10 +282,30 @@ typedef CrFwBool_t (*CrFwPcktAvailCheck_t)(CrFwDestSrc_t);
  *
  * The function must not modify the content of the packet.
  * The argument of the function is a pointer to the packet.
- * This pointer is "owned" by the caller and the function should not use after it has
+ * This pointer is "owned" by the caller and the function should not use it after it has
  * returned.
  */
 typedef CrFwBool_t (*CrFwPcktHandover_t)(CrFwPckt_t pckt);
+
+/**
+ * Type for a pointer to a function implement the Set DTS operation of an OutStream.
+ * The Set DTS operation is one of the adaptation points of the framwork.
+ * It Set DTS operation computes the set of triplets (destination, type, sub-type)
+ * for which the application OutStreams and  must maintain the type counters. 
+ * 
+ * A Set DTS Function returns:
+ * - The number of type counters to be managed by the OutStreams
+ * - The array of destination-type keys for which type counters
+ *   must be maintained
+ * .
+ * A destination-type key is a product d*s*t where (d,s,t) is in the DTS set.
+ * The entries in the array are arranged in increasing order.
+ * The memory for the array is allocated by the Set DST function.
+ * 
+ * A defaul value for this function is provided by #CrFwOutStreamDefSetDTS.
+ */
+typedef void (*CrFwSetDst_t)(CrFwTypeCnt_t* nofTypeCounter,
+                            CrFwDestTypeKey_t* destTypeKey)
 
 /** Descriptor for a Packet Queue (PQ) in an OutStream or InStream. */
 struct CrFwPcktQueue {
@@ -465,12 +485,8 @@ typedef struct InStreamData {
 
 /** Type for the data describing an OutStream */
 typedef struct OutStreamData {
-	/** Destination associated to the OutStream. */
-	CrFwDestSrc_t dest;
 	/** Packet queue associated to the OutStream. */
 	struct CrFwPcktQueue pcktQueue;
-	/** Array holding sequence counters for the groups associated to the OutStream */
-	CrFwSeqCnt_t* seqCnt;
 	/** Function which hands over a packet from the OutStream to the middleware. */
 	CrFwPcktHandover_t handoverPckt;
 	/** The packet to be sent out */

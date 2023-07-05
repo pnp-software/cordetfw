@@ -79,6 +79,9 @@ typedef unsigned short CrFwTrackingIndex_t;
 /** Type for the index of a command or report kind. */
 typedef unsigned short CrFwCmdRepKindIndex_t;
 
+/** Type for the destination type key in <code>CrFwOutStream.c</code> and <code>CrFwInStream.c</code>. */
+typedef unsigned int CrFwDestTypeKey_t;
+
 /** Type for the component kind key in <code>CrFwInFactory.c</code> and <code>CrFwOutFactory.c</code>. */
 typedef unsigned int CrFwCmdRepKindKey_t;
 

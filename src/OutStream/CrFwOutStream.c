@@ -49,11 +49,33 @@ static FwSmDesc_t baseOutStreamSmDesc = NULL;
 /** The sizes of the packet queues in the OutStream components. */
 static CrFwCounterU1_t outStreamPcktQueueSize[CR_FW_NOF_OUTSTREAM] = CR_FW_OUTSTREAM_PQSIZE;
 
-/** The destinations associated to the OutStream components. */
-static CrFwDestSrc_t outStreamDest[CR_FW_NOF_OUTSTREAM] = CR_FW_OUTSTREAM_DEST;
+/** The (destination, outStream) pairs */
+static CrFwDestSrc_t outStreamDest[CR_FW_OUTSTREAM_NOF_DEST][2] = CR_FW_OUTSTREAM_DEST;
 
-/** The number of groups associated to the OutStream components. */
-static CrFwGroup_t outStreamNOfGroups[CR_FW_NOF_OUTSTREAM] = CR_FW_OUTSTREAM_NOF_GROUPS;
+/** The sequence counters managed by the OutStreams. */
+static CrFwSeqCnt_t outStreamSeqCounter[CR_FW_OUTSTREAM_NOF_GROUPS];
+
+/** The number of type counters maintained by the OutStreams. */
+static CrFwTypeCnt_t outStreamNofTypeCounter = 0;
+
+/** The type counters managed by the OutStreams. */
+static CrFwTypeCnt_t* outStreamTypeCounter = NULL;
+
+/**
+ * Array of destination-type keys.
+ * A destination-type key is an unsigned integer obtained as the product of: d*s*t, where d,
+ * t, and s are a destination identifier, service type identifier and service sub-type
+ * identifier for which a type counter is maintained by the OutStreams.
+ * The entries in this array are populated by function #CR_FW_OUTSTREAM_SET_DTS. 
+ * They hold all the destination-type triplets for which a type counter is maintained.
+ * The entries in the array are arranged in increasing order so that the array can be 
+ * search through utility function #CrFwFindKeyIndex.
+ * The size of this array should be equal to the value of #outStreamNofTypeCounter.
+*/
+static CrFwDestTypeKey_t* outStreamDestTypeKey = NULL;
+
+/** The function implementing the Set DTS Operation */
+static CrFwSetDst_t outStreamSetDts = CR_FW_OUTSTREAM_SET_DTS;
 
 /** The functions implementing the packet hand-over operations for the OutStream components */
 static CrFwPcktHandover_t outStreamHandoverPckt[CR_FW_NOF_OUTSTREAM] = CR_FW_OUTSTREAM_PCKTHANDOVER;
@@ -143,6 +165,11 @@ FwSmDesc_t CrFwOutStreamMake(CrFwInstanceId_t i) {
 		return NULL;
 	}
 
+	/* If not yet done, create the DTS_SET */
+	if (outStreamNofTypeCounter == 0) {
+		outStreamSetDts(&outStreamNofTypeCounter, outStreamDestTypeKey);
+	}
+	
 	/* If not yet done, create the base OutStream SM */
 	if (baseOutStreamSmDesc == NULL) {
 		/* Extend the Base Component */
@@ -194,7 +221,6 @@ FwSmDesc_t CrFwOutStreamMake(CrFwInstanceId_t i) {
 	outStreamData[i].execProc = execPr;
 	outStreamData[i].instanceId = i;
 	outStreamData[i].typeId = CR_FW_OUTSTREAM_TYPE;
-	outStreamCmpSpecificData[i].dest = outStreamDest[i];
 	outStreamCmpSpecificData[i].handoverPckt = outStreamHandoverPckt[i];
 	outStreamData[i].cmpSpecificData = &outStreamCmpSpecificData[i];
 
@@ -224,10 +250,10 @@ CrFwBool_t CrFwOutStreamIsInBuffering(FwSmDesc_t smDesc) {
 
 /*-----------------------------------------------------------------------------------------*/
 FwSmDesc_t CrFwOutStreamGet(CrFwDestSrc_t dest) {
-	CrFwInstanceId_t i;
-	for (i=0; i<CR_FW_NOF_OUTSTREAM; i++)
-		if (outStreamCmpSpecificData[i].dest == dest)
-			return outStreamDesc[i];
+	unsigned int i;
+	for (i=0; i<CR_FW_OUTSTREAM_NOF_DEST; i++)
+		if (outStreamDest[i][0] == dest)
+			return outStreamDest[i][1];
 
 	CrFwSetAppErrCode(crOutStreamUndefDest);
 	return NULL;
@@ -247,25 +273,14 @@ void CrFwOutStreamConnectionAvail(FwSmDesc_t smDesc) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-CrFwDestSrc_t CrFwOutStreamGetDest(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
-	return cmpSpecificData->dest;
+CrFwSeqCnt_t CrFwOutStreamGetSeqCnt(CrFwGroup_t group) {
+	return outStreamSeqCounter[group];
 }
 
 /*-----------------------------------------------------------------------------------------*/
-CrFwSeqCnt_t CrFwOutStreamGetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group) {
-	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
-	return cmpSpecificData->seqCnt[group];
-}
-
-/*-----------------------------------------------------------------------------------------*/
-void CrFwOutStreamSetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group, CrFwSeqCnt_t seqCnt)
+void CrFwOutStreamSetSeqCnt(CrFwGroup_t group, CrFwSeqCnt_t seqCnt)
 {
-	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
-	cmpSpecificData->seqCnt[group] = seqCnt;
+	outStreamSeqCounter[group] = seqCnt;
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -276,9 +291,8 @@ CrFwCounterU1_t CrFwOutStreamGetNOfPendingPckts(FwSmDesc_t smDesc) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-CrFwGroup_t CrFwOutStreamGetNOfGroups(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	return outStreamNOfGroups[outStreamBaseData->instanceId];
+CrFwGroup_t CrFwOutStreamGetNOfGroups() {
+	return CR_FW_OUTSTREAM_NOF_GROUPS;
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -294,7 +308,6 @@ void CrFwOutStreamDefConfigAction(FwPrDesc_t prDesc) {
 	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
 
 	CrFwPcktQueueReset(&(cmpSpecificData->pcktQueue));
-	cmpSpecificData->dest = outStreamDest[outStreamBaseData->instanceId];
 	cmpSpecificData->handoverPckt = outStreamHandoverPckt[outStreamBaseData->instanceId];
 	outStreamBaseData->outcome = 1;
 }
@@ -304,8 +317,6 @@ void CrFwOutStreamDefShutdownAction(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
 	CrFwPcktQueueShutdown(&(cmpSpecificData->pcktQueue));
-	free(cmpSpecificData->seqCnt);
-	cmpSpecificData->seqCnt = NULL;
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -314,7 +325,6 @@ void CrFwOutStreamDefInitAction(FwPrDesc_t prDesc) {
 	CrFwInstanceId_t i = outStreamBaseData->instanceId;
 	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
 
-	cmpSpecificData->seqCnt = malloc(sizeof(CrFwSeqCnt_t)*outStreamNOfGroups[i]);
 	CrFwPcktQueueInit(&(outStreamCmpSpecificData[i].pcktQueue),outStreamPcktQueueSize[i]);
 	outStreamBaseData->outcome = 1;
 }
@@ -376,11 +386,9 @@ static void FlushPcktQueue(FwSmDesc_t smDesc) {
 
 /*-----------------------------------------------------------------------------------------*/
 static void ResetSeqCounter(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
 	CrFwGroup_t i;
-	for (i=0; i<outStreamNOfGroups[outStreamBaseData->instanceId]; i++)
-		cmpSpecificData->seqCnt[i] = 1;
+	for (i=0; i<CR_FW_OUTSTREAM_NOF_GROUPS; i++)
+		outStreamSeqCounter[i] = 1;
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -428,3 +436,8 @@ static int IsPacketQueueEmpty(FwSmDesc_t smDesc) {
 	return CrFwPcktQueueIsEmpty(&(cmpSpecificData->pcktQueue));
 }
 
+/*-----------------------------------------------------------------------------------------*/
+void CrFwOutStreamDefSetDTS(CrFwTypeCnt_t* outStreamNofTypeCounter, 
+	CrFwDestTypeKey_t* outStreamDestTypeKey) {
+	return;
+}
