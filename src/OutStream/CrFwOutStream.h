@@ -78,7 +78,8 @@
  * creates the i-th OutStream State Machine instance.
  * Subsequent calls returns the same instance.
  *
- * The OutStream identifier i must be in the range: [0, <code>#CR_FW_NOF_OUTSTREAM</code>-1].
+ * The OutStream identifier outStreamId must be in the range: 
+ * [0, <code>#CR_FW_NOF_OUTSTREAM</code>-1].
  * If the identifier is out of range, the function returns NULL and sets the application
  * error code to: <code>::crOutStreamIllId</code>.
  *
@@ -91,7 +92,8 @@
  * 
  * @param outStreamId the identifier of the Base State Machine of the OutStream
  * @return the descriptor of the OutStream State Machine or NULL
- * if the state machine could not be created or if the identifier i is out of range.
+ * if the state machine could not be created or if the identifier outStreamId 
+ * is out of range.
  */
 FwSmDesc_t CrFwOutStreamMake(CrFwInstanceId_t outStreamId);
 
@@ -232,7 +234,7 @@ void CrFwOutStreamDefShutdownAction(FwSmDesc_t smDesc);
  * @param destTypeKey array of products d*t*s for all
  * triplets (d,t,s) in DTS_SET  arranged in increasing order
  */
-void CrFwOutStreamDefSetDTS(CrFwTypeCnt_t* pNofTypeCounter,
+void CrFwOutStreamDefSetDTS(CrFwCounterU2_t* pNofTypeCounter,
                             CrFwDestTypeKey_t* destTypeKey);
 
 /**

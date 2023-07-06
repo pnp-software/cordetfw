@@ -50,7 +50,9 @@ typedef enum {
 	/** InFactory configuration parameters for InCommands are inconsistent (see <code>CrFwAuxInFactoryInCmdConfigCheck.h</code>) */
 	crInFactoryInCmdConfigParInconsistent = 4,
 	/** InFactory configuration parameters for InReports are inconsistent (see <code>CrFwAuxInFactoryInRepConfigCheck.h</code>) */
-	crInFactoryInRepConfigParInconsistent = 5
+	crInFactoryInRepConfigParInconsistent = 5,
+	/** OutStream configuration parameters are inconsistent (see <code>CrFwAuxOutStreamConfigCheck.h</code>) */
+	crOutStreamConfigParInconsistent = 6
 } CrFwConfigCheckOutcome_t;
 
 /**
@@ -110,6 +112,23 @@ CrFwBool_t CrFwAuxOutRegistryConfigCheck();
  * false otherwise.
  */
 CrFwBool_t CrFwAuxOutFactoryConfigCheck();
+
+/**
+ * Check the configuration of the OutStream component.
+ * The following checks are performed on the configuration data in
+ * <code>CrFwOutStreamUserPar.h</code>:
+ * - The outStream identifiers in array CR_FW_OUTSTREAM_DEST are
+ *   smaller than CR_FW_NOF_OUTSTREAM
+ * = The number of outStreams CR_FW_NOF_OUTSTREAM is greater than zero
+ * - The number of destinations CR_FW_OUTSTREAM_NOF_DEST is greater
+ *   than zero
+ * - The packet sizes in CR_FW_OUTSTREAM_PQSIZE are greater than zero
+ * - The number of groups CR_FW_OUTSTREAM_NOF_GROUPS is greater than zero
+ * .
+ * @return true if no errors are detected in the configuration data;
+ * false otherwise.
+ */
+CrFwBool_t CrFwAuxOutStreamConfigCheck();
 
 /**
  * Check the configuration of the InCommand part of the InFactory component.

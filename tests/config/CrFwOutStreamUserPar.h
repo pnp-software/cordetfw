@@ -54,19 +54,22 @@
  * The pairing of destinations to OutStreams.
  * An OutStream is responsible for routing commands or reports to one or 
  * mode destinations.
- * Each element of this array consists of a pair (dest, outStream)
- * which defines the outStream correspond to destination dest.
+ * Each element of this array consists of a pair (dest, outStreamId)
+ * where outStreamId is the identifier of the OutStream correponding
+ * to destination dest.
+ * The value of the outStreamId must be smaller than CR_FW_NOF_OUTSTREAM.
+ * This is checked by the <code>::CrFwAuxOutStreamConfigCheck</code> function.
  *
  * The size of this array must be equal to <code>#CR_FW_OUTSTREAM_NOF_DEST</code>.
  */
-#define CR_FW_OUTSTREAM_DEST {{1,1},\
-							  {2,2},\
-							  {3,3},\
-							  {4,4},\
-							  {5,5},\
-							  {6,6},\
-							  {7,7},\
-							  {8,7}}
+#define CR_FW_OUTSTREAM_DEST {{1,0},\
+							  {2,1},\
+							  {3,2},\
+							  {4,3},\
+							  {5,4},\
+							  {6,5},\
+							  {7,6},\
+							  {8,6}}
 
 /**
  * The sizes of the packet queues in the OutStream component.

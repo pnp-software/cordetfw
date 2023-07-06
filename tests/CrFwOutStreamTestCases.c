@@ -103,8 +103,8 @@ CrFwBool_t CrFwOutStreamTestCase1() {
 	if (!CrFwOutStreamIsInReady(outStream0))
 		return 0;
 
-	for (i=0; i<CrFwOutStreamGetNOfGroups(outStream0); i++)
-		if (CrFwOutStreamGetSeqCnt(outStream0,(CrFwGroup_t)i) != 1)
+	for (i=0; i<CrFwOutStreamGetNOfGroups(); i++)
+		if (CrFwOutStreamGetSeqCnt((CrFwGroup_t)i) != 1)
 			return 0;
 
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 0)
@@ -144,7 +144,7 @@ CrFwBool_t CrFwOutStreamTestCase1() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != CrFwOutStreamGetPcktQueueSize(outStream0))
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream0,0) != 1)
+	if (CrFwOutStreamGetSeqCnt(0) != 1)
 		return 0;
 
 	/* Make a new packet and send it (this overflows the packet queue) */
@@ -157,7 +157,7 @@ CrFwBool_t CrFwOutStreamTestCase1() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != CrFwOutStreamGetPcktQueueSize(outStream0))
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream0,0) != 1)
+	if (CrFwOutStreamGetSeqCnt(0) != 1)
 		return 0;
 	if (CrFwPcktGetSeqCnt(pckt2) != 0)
 		return 0;
@@ -293,24 +293,17 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 	FwSmStart(outStream0);
 	if (!CrFwCmpIsInCreated(outStream0))
 		return 0;
-
 	CrFwCmpInit(outStream0);
 	if (!CrFwCmpIsInInitialized(outStream0))
 		return 0;
-
 	CrFwCmpReset(outStream0);
 	if (!CrFwCmpIsInConfigured(outStream0))
 		return 0;
 	if (!CrFwOutStreamIsInReady(outStream0))
 		return 0;
-
-	if (CrFwOutStreamGetSeqCnt(outStream0,0) != 1)
+	if (CrFwOutStreamGetSeqCnt(0) != 1)
 		return 0;
-
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 0)
-		return 0;
-
-	if (CrFwOutStreamGetDest(outStream0) != 1)
 		return 0;
 
 	/* Configure the Packet Hand-Over Operation to return "hand-over successful" */
@@ -328,7 +321,7 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 0)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream0,0) != 2)
+	if (CrFwOutStreamGetSeqCnt(0) != 2)
 		return 0;
 	if (CrFwPcktGetSeqCnt(pckt1) != 1)
 		return 0;
@@ -350,14 +343,14 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 1)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream0,0) != 2)
+	if (CrFwOutStreamGetSeqCnt(0) != 2)
 		return 0;
 	CrFwOutStreamSend(outStream0, pckt3);
 	if (!CrFwOutStreamIsInBuffering(outStream0))
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 2)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream0,0) != 2)
+	if (CrFwOutStreamGetSeqCnt(0) != 2)
 		return 0;
 	CrFwPcktRelease(pckt2);
 	CrFwPcktRelease(pckt3);
@@ -391,7 +384,7 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 0)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream0,0) != 4)
+	if (CrFwOutStreamGetSeqCnt(0) != 4)
 		return 0;
 
 	/* Configure the Packet Hand-Over Operation to return "hand-over failed" */
@@ -568,7 +561,7 @@ CrFwBool_t CrFwOutStreamTestCase6() {
 	if (!CrFwOutStreamIsInReady(outStream0))
 		return 0;
 
-	if (CrFwOutStreamGetSeqCnt(outStream0,0) != 1)
+	if (CrFwOutStreamGetSeqCnt(0) != 1)
 		return 0;
 
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 0)
@@ -593,7 +586,7 @@ CrFwBool_t CrFwOutStreamTestCase6() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 0)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream0,0) != 1)
+	if (CrFwOutStreamGetSeqCnt(0) != 1)
 		return 0;
 	if (CrFwPcktGetSeqCnt(pckt1) != 100)
 		return 0;
@@ -615,14 +608,14 @@ CrFwBool_t CrFwOutStreamTestCase6() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 1)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream0,0) != 1)
+	if (CrFwOutStreamGetSeqCnt(0) != 1)
 		return 0;
 	CrFwOutStreamSend(outStream0, pckt3);
 	if (!CrFwOutStreamIsInBuffering(outStream0))
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 2)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream0,0) != 1)
+	if (CrFwOutStreamGetSeqCnt(0) != 1)
 		return 0;
 	CrFwPcktRelease(pckt2);
 	CrFwPcktRelease(pckt3);
@@ -636,7 +629,7 @@ CrFwBool_t CrFwOutStreamTestCase6() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 0)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream0,0) != 1)
+	if (CrFwOutStreamGetSeqCnt(0) != 1)
 		return 0;
 	if (CrFwPcktGetSeqCnt(pckt2) != 101)
 		return 0;
@@ -708,8 +701,8 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 	if (FwSmCheckRec(outStream1) != smSuccess)
 		return 0;
 
-	/* Check number of groups of OutStream (this is set in CrFwOutStreamUserPar.h */
-	if (CrFwOutStreamGetNOfGroups(outStream1)!=2)
+	/* Check number of groups of OutStreams (this is set in CrFwOutStreamUserPar.h */
+	if (CrFwOutStreamGetNOfGroups()!=2)
 		return 0;
 
 	/* Start, initialize and reset outStream and check its state */
@@ -720,17 +713,11 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 		return 0;
 	if (!CrFwOutStreamIsInReady(outStream1))
 		return 0;
-
-	if (CrFwOutStreamGetSeqCnt(outStream1,0) != 1)
+	if (CrFwOutStreamGetSeqCnt(0) != 1)
 		return 0;
-
-	if (CrFwOutStreamGetSeqCnt(outStream1,1) != 1)
+	if (CrFwOutStreamGetSeqCnt(1) != 1)
 		return 0;
-
 	if (CrFwOutStreamGetNOfPendingPckts(outStream1) != 0)
-		return 0;
-
-	if (CrFwOutStreamGetDest(outStream1) != 2)
 		return 0;
 
 	/* Configure the Packet Hand-Over Operation to return "hand-over successful" */
@@ -752,7 +739,7 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 	CrFwPcktSetSeqCnt(pckt3,99);
 
 	/* Send the packets to the OutStream and check outcome */
-	CrFwOutStreamSetSeqCnt(outStream1, 1, 2222);
+	CrFwOutStreamSetSeqCnt(1, 2222);
 	CrFwOutStreamSend(outStream1, pckt1);
 	CrFwOutStreamSend(outStream1, pckt2);
 	CrFwOutStreamSend(outStream1, pckt3);
@@ -760,9 +747,9 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream1) != 0)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream1,0) != 2)
+	if (CrFwOutStreamGetSeqCnt(0) != 2)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream1,1) != 2223)
+	if (CrFwOutStreamGetSeqCnt(1) != 2223)
 		return 0;
 	if (CrFwPcktGetSeqCnt(pckt1) != 1)
 		return 0;
@@ -802,9 +789,9 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream1) != 3)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream1,0) != 2)
+	if (CrFwOutStreamGetSeqCnt(0) != 2)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream1,1) != 2223)
+	if (CrFwOutStreamGetSeqCnt(1) != 2223)
 		return 0;
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+1)
 		return 0;
@@ -821,9 +808,9 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream1) != 0)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream1,0) != 3)
+	if (CrFwOutStreamGetSeqCnt(0) != 3)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream1,1) != 2224)
+	if (CrFwOutStreamGetSeqCnt(1) != 2224)
 		return 0;
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+2)
 		return 0;

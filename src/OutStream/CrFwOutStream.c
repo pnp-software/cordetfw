@@ -284,8 +284,10 @@ CrFwBool_t CrFwOutStreamIsInBuffering(FwSmDesc_t smDesc) {
 FwSmDesc_t CrFwOutStreamGet(CrFwDestSrc_t dest) {
 	unsigned int i;
 	for (i=0; i<CR_FW_OUTSTREAM_NOF_DEST; i++)
-		if (outStreamDest[i][0] == dest)
-			return outStreamDest[i][1];
+		if (outStreamDest[i][0] == dest) {
+			assert(outStreamDest[i][1] < CR_FW_NOF_OUTSTREAM);
+			return outStreamDesc[outStreamDest[i][1]];
+		}
 
 	CrFwSetAppErrCode(crOutStreamUndefDest);
 	return NULL;
@@ -523,8 +525,8 @@ static int IsPacketQueueEmpty(FwSmDesc_t smDesc) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwOutStreamDefSetDTS(CrFwTypeCnt_t* pNofTypeCounter, 
-	CrFwDestTypeKey_t* destTypeKey) {
+void CrFwOutStreamDefSetDTS(CrFwCounterU2_t* pNofTypeCounter, 
+							CrFwDestTypeKey_t* destTypeKey) {
 	CrFwOutCmpKindDesc_t outCmpKindDesc[CR_FW_OUTCMP_NKINDS] = CR_FW_OUTCMP_INIT_KIND_DESC;
 	CrFwDestSrc_t dest = 1;
 	CrFwServType_t prevServType = 0;

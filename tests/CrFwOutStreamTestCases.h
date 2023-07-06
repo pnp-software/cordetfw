@@ -216,11 +216,11 @@ CrFwBool_t CrFwOutStreamTestCase6();
 
 /**
  * Test the management of the sequence counters for different groups.
+ * This test assumes that the OutStreams have been configured to have 2 groups.
  * The following actions are performed in this test:
- * - The second OutStream (which must be configured to have more than one destination/source
- *   group) is started and its Packet Hand-Over Operation is configured to return "hand-over successful".
- * - It is checked that the number of groups assigned to the OutStream is
- *   greater than 1
+ * - The second OutStream is started and its Packet Hand-Over Operation is 
+ *   configured to return "hand-over successful".
+ * - It is checked that the number of groups is equal to 2
  * - Two packets belonging to, respectively, the first and second groups are sent to the
  *   OutStream and it is checked that they are successfully flushed and that their sequence counter
  *   is successfully incremented.

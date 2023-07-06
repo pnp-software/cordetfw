@@ -51,6 +51,12 @@ static CrFwCounterU1_t outStreamPcktQueueSize[CR_FW_NOF_OUTSTREAM] = CR_FW_OUTST
 /** The sizes of the POCL in the OutManager components. */
 static CrFwCounterU1_t outManagerPoclSize[CR_FW_NOF_OUTMANAGER] = CR_FW_OUTMANAGER_POCLSIZE;
 
+/** The sizes of the packet queues in the OutStream components. */
+static CrFwCounterU1_t outStreamPcktQueueSize[CR_FW_NOF_OUTSTREAM] = CR_FW_OUTSTREAM_PQSIZE;
+
+/** The (destination, outStream) pairs */
+static CrFwDestSrc_t outStreamDest[CR_FW_OUTSTREAM_NOF_DEST][2] = CR_FW_OUTSTREAM_DEST;
+
 /* -------------------------------------------------------------------------- */
 CrFwConfigCheckOutcome_t CrFwAuxConfigCheck() {
 
@@ -66,7 +72,34 @@ CrFwConfigCheckOutcome_t CrFwAuxConfigCheck() {
 	if (CrFwAuxInFactoryInRepConfigCheck() == 0)
 		return crInFactoryInRepConfigParInconsistent;
 
+	if (CrFwAuxOutStreamConfigCheck() == 0)
+		return crOutStreamConfigParInconsistent;
+
 	return crConsistencyCheckSuccess;
+}
+
+/* -------------------------------------------------------------------------- */
+CrFwBool_t CrFwAuxOutStreamConfigCheck() {
+	unsigned int i;
+
+	if (CR_FW_NOF_OUTSTREAM < 1)
+		return 0;
+
+	if (CR_FW_OUTSTREAM_NOF_DEST < 1)
+		return 0;
+
+	for (i=0; i<CR_FW_OUTSTREAM_NOF_DEST; i++)
+		if (outStreamDest[i][1] >= CR_FW_NOF_OUTSTREAM)
+			return 0;
+
+	for (i=0; i<CR_FW_NOF_OUTSTREAM; i++)
+		if (outStreamPcktQueueSize[i] < 1)
+			return 0;
+
+	if (CR_FW_OUTSTREAM_NOF_GROUPS < 1)
+		return 0;
+
+	return 1;
 }
 
 /* -------------------------------------------------------------------------- */

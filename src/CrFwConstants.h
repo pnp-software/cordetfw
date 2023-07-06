@@ -304,8 +304,8 @@ typedef CrFwBool_t (*CrFwPcktHandover_t)(CrFwPckt_t pckt);
  * 
  * A defaul value for this function is provided by #CrFwOutStreamDefSetDTS.
  */
-typedef void (*CrFwSetDst_t)(CrFwTypeCnt_t* nofTypeCounter,
-                            CrFwDestTypeKey_t* destTypeKey)
+typedef void (*CrFwSetDst_t)(CrFwCounterU2_t* nofTypeCounter,
+                            CrFwDestTypeKey_t* destTypeKey);
 
 /** Descriptor for a Packet Queue (PQ) in an OutStream or InStream. */
 struct CrFwPcktQueue {
