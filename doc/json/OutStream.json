@@ -107,7 +107,7 @@
                     "x": 145,
                     "y": 221,
                     "width": 202,
-                    "height": 68,
+                    "height": 56,
                     "r": 0,
                     "rx": 0,
                     "ry": 0,
@@ -120,7 +120,7 @@
                "fwprop": {
                     "autoid": 1,
                     "type": "note",
-                    "note": "Enqueue Pckt:\n   if (PQ is not full) then push Pckt on PQ;\n   else <<AP>>Report PQ Full;\n      "
+                    "note": "Enqueue Pckt:\n   if (PQ is not full) then push Pckt on PQ;\n   else <<AP>>Report PQ Full;\n"
                },
                "selected": false
           },
@@ -151,8 +151,8 @@
                "attrs": {
                     "x": 62,
                     "y": 357,
-                    "width": 350,
-                    "height": 284,
+                    "width": 332,
+                    "height": 308,
                     "r": 0,
                     "rx": 0,
                     "ry": 0,
@@ -165,7 +165,7 @@
                "fwprop": {
                     "autoid": 2,
                     "type": "note",
-                    "note": "SendOrEnqueue Pckt:\nif (Pckt originated in this application) then {\n     g = <<AP>>Get group to which Pckt belongs\n     if (g identifies a legal command/report group) then {\n         <<AP>> Set Pckt's Seq. Counter to seqCounter[g];\n     } else {\n         <<AP>> Report illegal group error;\n         <<AP>> Set Pckt's Seq. Counter to seqCounter[g];\n    }\n     [d,t,s] = packet's destination, type and sub-type\n     if ([d,s,t] is in DST_SET) then {\n        <<AP>>Set Pckt's type counter attribute to type counter for [d,s,t];\n     } else \n        <<AP>>Set Pckt's Type Counter Attribute to zero;\n    <<AP>>Compute and set Pckt's CRC;\n}\n<<AP>>Hand-over Pckt to middleware;\nif (middleware accepted Pckt) && (Pckt originated in this application) then {\n    if (g identifies one of OutStream's group) then increment seqCounter[g];\n    if ([d,s,t] is in DST_SET) then increment type counter for [d,s,t]\n} else\n    push Pckt on PQ; // PQ is guaranteed to be empty in READY"
+                    "note": "SendOrEnqueue Pckt:\nif (Pckt originated in this application) then {\n     g = <<AP>>Get group to which Pckt belongs\n     if (g identifies a legal command/report group) then {\n         <<AP>> Set Pckt's Seq. Counter to seqCounter[g];\n     } else {\n         <<AP>> Report illegal group error;\n         <<AP>> Set Pckt's Seq. Counter to zero;\n    }\n     [d,t,s] = packet's destination, type and sub-type\n     if ([d,s,t] is in DST_SET) then {\n        <<AP>>Set Pckt's type counter attribute to type counter for [d,s,t];\n     } else \n        <<AP>>Set Pckt's Type Counter Attribute to zero;\n    <<AP>>Compute and set Pckt's CRC;\n}\n<<AP>>Hand-over Pckt to middleware;\nif (middleware rejected Pckt) then {\n    push Pckt on PQ; // PQ is guaranteed to be empty in READY\n} else\n    if (Pckt originated in this application) { \n        if (g identifies one of OutStream's group) then incr. seqCounter[g];\n        if ([d,s,t] is in DST_SET) then increment type counter for [d,s,t]\n    }"
                },
                "selected": false
           },
@@ -219,8 +219,8 @@
           {
                "id": 16,
                "attrs": {
-                    "x": 417,
-                    "y": 359,
+                    "x": 409,
+                    "y": 358,
                     "width": 366,
                     "height": 356,
                     "r": 0,
@@ -235,7 +235,7 @@
                "fwprop": {
                     "autoid": 4,
                     "type": "note",
-                    "note": "FlushPacketQueue\nwhile (PQ is not empty) {\n  Pckt = oldest packet on PQ;\n  if (Pckt originated in this application) then {\n     g = <<AP>>Get group to which Pckt belongs\n     if (g identifies a legal command or report group) then {\n         <<AP>> Set Pckt's Seq. Counter to seqCounter[g];\n     } else {\n         <<AP>> Report illegal group error;\n         <<AP>> Set Pckt's Seq. Counter to seqCounter[g];\n    }\n     [d,t,s] = packet's destination, type and sub-type\n     if ([d,s,t] is in DST_SET) then \n         <<AP>>Set Pckt's type counter attribute to type counter for [d,s,t];\n     else \n         <<AP>>Set Pckt's type counter attribute to zero;\n     <<AP>>Compute and set Pckt's CRC;\n   }\n   <<AP>>Hand-over Pckt to middleware;\n   if (middleware accepted Pckt) then {\n       if (Pckt originated in this application) then {\n           if (g identifies one of OutStream's group) then increment seqCounter[g];\n           if ([d,s,t] is in DST_SET) then increment type counter for [d,s,t]\n       } \n       remove oldest packet from PQ;\n    } else\n       break;\n}"
+                    "note": "FlushPacketQueue\nwhile (PQ is not empty) {\n  Pckt = oldest packet on PQ;\n  if (Pckt originated in this application) then {\n     g = <<AP>>Get group to which Pckt belongs\n     if (g identifies a legal command or report group) then {\n         <<AP>> Set Pckt's Seq. Counter to seqCounter[g];\n     } else {\n         <<AP>> Report illegal group error;\n         <<AP>> Set Pckt's Seq. Counter to zero;\n    }\n     [d,t,s] = packet's destination, type and sub-type\n     if ([d,s,t] is in DST_SET) then \n         <<AP>>Set Pckt's type counter attribute to type counter for [d,s,t];\n     else \n         <<AP>>Set Pckt's type counter attribute to zero;\n     <<AP>>Compute and set Pckt's CRC;\n   }\n   <<AP>>Hand-over Pckt to middleware;\n   if (middleware accepted Pckt) then {\n       if (Pckt originated in this application) then {\n           if (g identifies one of OutStream's group) then increment seqCounter[g];\n           if ([d,s,t] is in DST_SET) then increment type counter for [d,s,t]\n       } \n       remove oldest packet from PQ;\n    } else\n       break;\n}"
                },
                "selected": false
           }
@@ -273,12 +273,12 @@
                     "actionCode": "",
                     "guardDesc": "",
                     "guardAp": false,
-                    "actionDesc": "SeqCounter[i] = 1 for all i ",
+                    "actionDesc": "Set all seq. counters\nand type counters to 1",
                     "actionAp": false,
                     "note": ""
                },
-               "shiftx": 0,
-               "shifty": 0,
+               "shiftx": 4,
+               "shifty": -7,
                "vertexes": [],
                "shiftxy": {
                     "x": 0,
@@ -383,12 +383,12 @@
                     "path": [
                          [
                               "M",
-                              256.8521739130435,
+                              255.6880733944954,
                               216
                          ],
                          [
                               "L",
-                              274.9391304347826,
+                              274.77064220183485,
                               151
                          ]
                     ],
@@ -663,12 +663,12 @@
      ],
      "globals": {
           "paperPanX": 0,
-          "paperPanY": -60,
+          "paperPanY": 0,
           "attrs": {
                "x": 0,
-               "y": -60,
-               "width": 1375,
-               "height": 693,
+               "y": 0,
+               "width": 1195,
+               "height": 618,
                "r": 0,
                "rx": 0,
                "ry": 0,

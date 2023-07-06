@@ -42,7 +42,7 @@
 CrFwBool_t CrFwOutStreamTestCase1() {
 	FwSmDesc_t outStream0, outStreamBis;
 	CrFwPckt_t pckt, pckt1, pckt2;
-	CrFwCounterU2_t i, errRepPosLocal;
+	CrFwCounterU2_t i, errRepPosLocal, i;
 
 	/* Reset error reporting interface */
 	CrFwRepErrStubReset();
@@ -57,11 +57,20 @@ CrFwBool_t CrFwOutStreamTestCase1() {
 		return 0;
 	CrFwSetAppErrCode(crNoAppErr); 	/* reset application error code */
 
+	/* Check that the type counter array has not yet been instantiated */
+	if (CrFwOutStreamGetNOfTypeCounters() != 0)
+		return 0;
+
 	/* Create the first OutStream */
 	outStream0 = CrFwOutStreamMake(0);
 	if (outStream0 == NULL)
 		return 0;
 
+	/* Check that the type counter array has been instantiated 
+	   (expected number is number of (type.sub-type) pairs defined in OutFactoryUserPar.h) )*/
+	if (CrFwOutStreamGetNOfTypeCounters() != 10)
+		return 0;
+	
 	/* Create the first OutStream again and check that the same component is returned */
 	outStreamBis = CrFwOutStreamMake(0);
 	if (outStream0 != outStreamBis)
@@ -107,6 +116,8 @@ CrFwBool_t CrFwOutStreamTestCase1() {
 	/* Make a packet and assign it to the first group */
 	pckt1 = CrFwPcktMake(CrFwPcktGetMaxLength());
 	CrFwPcktSetGroup(pckt1,0);
+	CrFwPcktSetTypeCnt(pckt1,0);
+	CrFwPcktSetSeqCnt(pckt1,0);
 
 	/* Send a packet to the OutStream and check outcome */
 	CrFwOutStreamSend(outStream0, pckt1);
@@ -114,9 +125,11 @@ CrFwBool_t CrFwOutStreamTestCase1() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 1)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream0,0) != 1)
+	if (CrFwOutStreamGetSeqCnt(outStream0) != 1)
 		return 0;
 	if (CrFwPcktGetSeqCnt(pckt1) != 1)
+		return 0;
+	if (CrFwPcktGetTypeCnt(pckt1) != 0)
 		return 0;
 	CrFwPcktRelease(pckt1);
 

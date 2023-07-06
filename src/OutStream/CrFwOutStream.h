@@ -86,7 +86,7 @@
  * OutStream State Machine which has been started but which still needs to be initialized and
  * configured.
  * 
- * The first time this function is called, it builts the DTS_SET by calling 
+ * The first time this function is called, it builds the DTS_SET by calling 
  * the function <code>#CR_FW_OUTSTREAM_SET_DTS</code>.
  * 
  * @param outStreamId the identifier of the Base State Machine of the OutStream
@@ -220,20 +220,20 @@ void CrFwOutStreamDefShutdownAction(FwSmDesc_t smDesc);
  * .
  * This default implementation builds DTS_SET by collecting all 
  * the types and sub-types (t,s) of the out-going reports defined in
- * #define CR_FW_OUTCMP_INIT_KIND_DESC and then building all
- * triplets.
+ * <code>#CR_FW_OUTCMP_INIT_KIND_DESC</code> and then building all
+ * triplets for the case of the destination ID being equal to 1.
  * 
  * This function allocates the memory for array #outStreamDestTypeKey
  * using malloc. It is therefore only suitable for use during
  * the application initialization phase.
  * 
- * @param outStreamNofTypeCounter the number of type counters (i.e.
+ * @param pNofTypeCounter the number of type counters (i.e.
  * the number of triplets (d,t,s) in DTS_SET)
- * @param outStreamDestTypeKey array of products d*t*s for all
+ * @param destTypeKey array of products d*t*s for all
  * triplets (d,t,s) in DTS_SET  arranged in increasing order
  */
-void CrFwOutStreamDefSetDTS(CrFwTypeCnt_t* outStreamNofTypeCounter,
-                            CrFwDestTypeKey_t* outStreamDestTypeKey);
+void CrFwOutStreamDefSetDTS(CrFwTypeCnt_t* pNofTypeCounter,
+                            CrFwDestTypeKey_t* destTypeKey);
 
 /**
  * Return the value of the sequence counter for one of the groups
@@ -279,7 +279,7 @@ CrFwCounterU1_t CrFwOutStreamGetPcktQueueSize(FwSmDesc_t smDesc);
  * Return the number of type counters maintained by the OutStreams.
  * @return the number of type counters maintained by the OutStreams.
  */
-CrFwGroup_t CrFwOutStreamGetNOfTypeCounters();
+CrFwCounterU2_t CrFwOutStreamGetNOfTypeCounters();
 
 /**
  * Return the current type counter for a (destination, type, sub-type)

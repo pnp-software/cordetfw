@@ -79,7 +79,7 @@ typedef unsigned short CrFwTrackingIndex_t;
 /** Type for the index of a command or report kind. */
 typedef unsigned short CrFwCmdRepKindIndex_t;
 
-/** Type for the destination type key in <code>CrFwOutStream.c</code> and <code>CrFwInStream.c</code>. */
+/** Type for the destination type key in <code>CrFwOutStream.c</code>. */
 typedef unsigned int CrFwDestTypeKey_t;
 
 /** Type for the component kind key in <code>CrFwInFactory.c</code> and <code>CrFwOutFactory.c</code>. */
@@ -247,5 +247,8 @@ typedef enum {
 
 /** Maximum value of the discriminant attribute of InReports and InCommands */
 #define CR_FW_MAX_DISCRIMINANT 50
+
+/** Maximum value of the identifiers of destination applications */
+#define CR_FW_MAX_DEST 20
 
 #endif /* CRFW_USERCONSTANTS_H_ */

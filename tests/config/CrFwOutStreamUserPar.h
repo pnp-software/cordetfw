@@ -85,9 +85,12 @@
 /**
  * The number of groups managed by the OutStream components.
  * The number of groups must be a positive integer.
- * If a packet with a group attribute higher than the value defined here is
- * passed to an OutStream, the error condition 
- * <code>#crOutStreamIllGroup</code> is declared.
+ * The packet group identifiers are non-negative integers in increasing
+ * order starting at zero (i.e. they are: 0, 1, 2, ...CR_FW_OUTSTREAM_NOF_GROUPS-1).
+ * Thus, only packet group identifiers smaller than CR_FW_OUTSTREAM_NOF_GROUPS
+ * are legal.
+ * If a packet with an illegal group attribute is passed to an OutStream, 
+ * the error condition <code>#crOutStreamIllGroup</code> is declared.
  *
  * The number of groups defined in this file are those used for the test cases
  * of <code>CrFwOutStreamTestCases.h</code>.

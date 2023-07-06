@@ -20,6 +20,7 @@
 #include<string.h>
 /* Include configuration files */
 #include "CrFwOutStreamUserPar.h"
+#include "CrFwOutFactoryUserPar.h"
 #include "CrFwCmpData.h"
 /* Include framework files */
 #include "CrFwConstants.h"
@@ -43,6 +44,8 @@
 #include "FwPrConfig.h"
 #include "FwPrCore.h"
 
+#include <assert.h>
+
 /** Base OutStream from which all other OutStreams are derived. */
 static FwSmDesc_t baseOutStreamSmDesc = NULL;
 
@@ -56,20 +59,31 @@ static CrFwDestSrc_t outStreamDest[CR_FW_OUTSTREAM_NOF_DEST][2] = CR_FW_OUTSTREA
 static CrFwSeqCnt_t outStreamSeqCounter[CR_FW_OUTSTREAM_NOF_GROUPS];
 
 /** The number of type counters maintained by the OutStreams. */
-static CrFwTypeCnt_t outStreamNofTypeCounter = 0;
+static CrFwCounterU2_t outStreamNofTypeCounter = 0;
 
-/** The type counters managed by the OutStreams. */
+/** 
+ * The type counters managed by the OutStreams. 
+ * This array has (<code>::outStreamNofTypeCounter</code>+1) entries.
+ * The first <code>::outStreamNofTypeCounter</code> entries are the 
+ * type counters. 
+ * The last entry is always equal to zero.
+ */
 static CrFwTypeCnt_t* outStreamTypeCounter = NULL;
 
 /**
  * Array of destination-type keys.
- * A destination-type key is an unsigned integer obtained as the product of: d*s*t, where d,
- * t, and s are a destination identifier, service type identifier and service sub-type
- * identifier for which a type counter is maintained by the OutStreams.
- * The entries in this array are populated by function #CR_FW_OUTSTREAM_SET_DTS. 
+ * A destination-type key is an unsigned integer obtained as the product of: 
+ * 		t*s_max*d_max + s*d_max + d, 
+ * where d, t, and s are a destination identifier, service type identifier and 
+ * service sub-type identifier for which a type counter is maintained by the 
+ * OutStreams and d_max and s_max are the maximum value of d and s (as given
+ * by constants <code>#CR_FW_MAX_DEST</code> and <code>#CR_FW_MAX_SERV_SUBTYPE</code>).
+ * 
+ * The entries in this array are populated by function 
+ * <code>#CR_FW_OUTSTREAM_SET_DTS</code>. 
  * They hold all the destination-type triplets for which a type counter is maintained.
- * The entries in the array are arranged in increasing order so that the array can be 
- * search through utility function #CrFwFindKeyIndex.
+ * The entries in the array are arranged in increasing order so that the arrays can be 
+ * searched through utility function <code>::CrFwFindKeyIndex</code>.
  * The size of this array should be equal to the value of #outStreamNofTypeCounter.
 */
 static CrFwDestTypeKey_t* outStreamDestTypeKey = NULL;
@@ -126,12 +140,14 @@ static void EnqueuePckt(FwSmDesc_t smDesc);
 static void FlushPcktQueue(FwSmDesc_t smDesc);
 
 /**
- * Function which resets to 1 the sequence counter of an out-going packet.
+ * Function which resets to 1 all sequence and type counters of the OutStreams.
  * This function is used as transition action on the transition out of the initial
- * state.
+ * state of an OutStream state machine.
+ * Note that this means that, if an application has more than one OutStream, this 
+ * action will be called multiple times during theapplication's initialization. 
  * @param smDesc the state machine descriptor
  */
-static void ResetSeqCounter(FwSmDesc_t smDesc);
+static void ResetSeqAndTypeCounters(FwSmDesc_t smDesc);
 
 /**
  * Function which first attempts to hand over a packet to the middleware and,
@@ -148,6 +164,22 @@ static void SendOrEnqueue(FwSmDesc_t smDesc);
  * @return 1 if the packet queue is empty; zero otherwise.
  */
 static int IsPacketQueueEmpty(FwSmDesc_t smDesc);
+
+/**
+ * Compute the destination-type key of the argument packet and returns
+ * its position (starting from zero) in the array of destination-type keys
+ * <code>::outStreamDestTypeKey<\code>.
+ * If the destination-type key of the argument packet is not in 
+ * the array <code>::outStreamDestTypeKey<\code>, then th\code>
+ * is returned.
+ * Packets whose destination-type key is not in array 
+ * <code>::outStreamDestTypeKey<\code> are those for which
+ * the type counter does not need to be maintained and can be set to zero.
+ * 
+ * @param pckt the packet whose destination-type key is computed
+ * @return the position of the packet's destination-type key
+ */
+static CrFwTypeCnt_t GetDestTypeKeyPos(CrFwPckt_t pckt);
 
 /*-----------------------------------------------------------------------------------------*/
 FwSmDesc_t CrFwOutStreamMake(CrFwInstanceId_t i) {
@@ -179,7 +211,7 @@ FwSmDesc_t CrFwOutStreamMake(CrFwInstanceId_t i) {
 		FwSmAddState(esm, CR_FW_OUTSTREAM_STATE_READY, 1, NULL, NULL, NULL, NULL);
 		FwSmAddState(esm, CR_FW_OUTSTREAM_STATE_BUFFERING, 2, NULL, NULL, NULL, NULL);
 		FwSmAddChoicePseudoState(esm, CPS_1, 2);
-		FwSmAddTransIpsToSta(esm, CR_FW_OUTSTREAM_STATE_READY, &ResetSeqCounter);
+		FwSmAddTransIpsToSta(esm, CR_FW_OUTSTREAM_STATE_READY, &ResetSeqAndTypeCounters);
 		FwSmAddTransStaToCps(esm, CR_FW_OUTSTREAM_TR_SEND, CR_FW_OUTSTREAM_STATE_READY, CPS_1,
 		                     &SendOrEnqueue, NULL);
 		FwSmAddTransCpsToSta(esm, CPS_1, CR_FW_OUTSTREAM_STATE_READY, NULL, &IsPacketQueueEmpty);
@@ -278,8 +310,7 @@ CrFwSeqCnt_t CrFwOutStreamGetSeqCnt(CrFwGroup_t group) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwOutStreamSetSeqCnt(CrFwGroup_t group, CrFwSeqCnt_t seqCnt)
-{
+void CrFwOutStreamSetSeqCnt(CrFwGroup_t group, CrFwSeqCnt_t seqCnt) {
 	outStreamSeqCounter[group] = seqCnt;
 }
 
@@ -359,25 +390,41 @@ static void FlushPcktQueue(FwSmDesc_t smDesc) {
 	CrFwPckt_t oldestPckt;
 	CrFwPcktQueue_t pcktQueue = &(cmpSpecificData->pcktQueue);
 	CrFwGroup_t oldestPcktGroup = 0;
+	CrFwTypeCnt_t typeCnt;
+	CrFwCounterU2_t destTypeKeyPos;
 	CrFwCrc_t crc;
 
 	while (CrFwPcktQueueIsEmpty(pcktQueue)==0) {
 		oldestPckt = CrFwPcktQueueGetOldest(pcktQueue);
 		if (CrFwPcktGetSrc(oldestPckt) == CR_FW_HOST_APP_ID) { /* pckt originates from host application */
 			oldestPcktGroup = CrFwPcktGetGroup(oldestPckt);
-			if (oldestPcktGroup < outStreamNOfGroups[outStreamBaseData->instanceId]) {
-				CrFwPcktSetSeqCnt(oldestPckt, cmpSpecificData->seqCnt[oldestPcktGroup]);
-				crc = CrFwPcktComputeCrc(oldestPckt);
-				CrFwPcktSetCrc(oldestPckt, crc);
-			} else	/* pckt belongs to a non-existent group */
+			if (oldestPcktGroup < CR_FW_OUTSTREAM_NOF_GROUPS) {
+				CrFwPcktSetSeqCnt(oldestPckt, outStreamSeqCounter[oldestPcktGroup]);
+			} else {	/* pckt belongs to a non-existent group */
 				CrFwRepErrGroup(crOutStreamIllGroup, outStreamBaseData->typeId,
 				                outStreamBaseData->instanceId, oldestPcktGroup);
+				CrFwPcktSetSeqCnt(oldestPckt, 0);
+			}
+
+			/* If pckt has no type counter, destTypeKeyPos will be equal to outStreamNofTypeCounter 
+			   and its type counter will be set to the last element of array outStreamTypeCounter,
+			   which is always equal to zero */
+			destTypeKeyPos = GetDestTypeKeyPos(oldestPckt);
+			assert(destTypeKeyPos <= outStreamNofTypeCounter);
+			typeCnt = outStreamTypeCounter[destTypeKeyPos];
+			CrFwPcktSetTypeCnt(oldestPckt, typeCnt);
+
+			crc = CrFwPcktComputeCrc(oldestPckt);
+			CrFwPcktSetCrc(oldestPckt, crc);
 		}
 		if (cmpSpecificData->handoverPckt(oldestPckt) != 1)
 			return;
-		if (CrFwPcktGetSrc(oldestPckt) == CR_FW_HOST_APP_ID)
-			if (oldestPcktGroup < outStreamNOfGroups[outStreamBaseData->instanceId])
-				cmpSpecificData->seqCnt[oldestPcktGroup]++;
+		if (CrFwPcktGetSrc(oldestPckt) == CR_FW_HOST_APP_ID) {
+			if (oldestPcktGroup < CR_FW_OUTSTREAM_NOF_GROUPS)
+				outStreamSeqCounter[oldestPcktGroup]++;
+			if (destTypeKeyPos == outStreamNofTypeCounter)
+				outStreamTypeCounter[destTypeKeyPos]++;
+		}
 		CrFwPcktQueuePop(pcktQueue);	/* remove packet from PQ */
 		CrFwPcktRelease(oldestPckt);
 	}
@@ -385,10 +432,16 @@ static void FlushPcktQueue(FwSmDesc_t smDesc) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-static void ResetSeqCounter(FwSmDesc_t smDesc) {
+static void ResetSeqAndTypeCounters(FwSmDesc_t smDesc) {
 	CrFwGroup_t i;
+	CrFwTypeCnt_t j;
 	for (i=0; i<CR_FW_OUTSTREAM_NOF_GROUPS; i++)
 		outStreamSeqCounter[i] = 1;
+
+	assert(outStreamNofTypeCounter>0);
+	for (j=0; j<outStreamNofTypeCounter; j++)
+		outStreamTypeCounter[j] = 1;
+	outStreamTypeCounter[outStreamNofTypeCounter] = 0;
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -398,19 +451,34 @@ static void SendOrEnqueue(FwSmDesc_t smDesc) {
 	CrFwPckt_t pckt = cmpSpecificData->pckt;
 	CrFwPckt_t pcktCopy;
 	CrFwPcktLength_t len;
+	CrFwDestSrc_t pcktSrc;
 	CrFwPcktQueue_t pcktQueue;
 	CrFwGroup_t pcktGroup;
+	CrFwTypeCnt_t typeCnt;
+	CrFwCounterU2_t destTypeKeyPos;
 	CrFwCrc_t crc;
 
-	if (CrFwPcktGetSrc(pckt) == CR_FW_HOST_APP_ID) { /* pckt originates from host application */
+	pcktSrc = CrFwPcktGetSrc(pckt);
+	if (pcktSrc == CR_FW_HOST_APP_ID) { /* pckt originates from host application */
 		pcktGroup = CrFwPcktGetGroup(pckt);
-		if (pcktGroup < outStreamNOfGroups[outStreamBaseData->instanceId]) {
-			CrFwPcktSetSeqCnt(pckt, cmpSpecificData->seqCnt[pcktGroup]);
-            crc = CrFwPcktComputeCrc(pckt);
-            CrFwPcktSetCrc(pckt, crc);
-		} else	/* pckt belongs to a non-existent group */
+		if (pcktGroup < CR_FW_OUTSTREAM_NOF_GROUPS) {
+			CrFwPcktSetSeqCnt(pckt, outStreamSeqCounter[pcktGroup]);
+		} else {	/* pckt belongs to a non-existent group */
 			CrFwRepErrGroup(crOutStreamIllGroup, outStreamBaseData->typeId,
 			                outStreamBaseData->instanceId, pcktGroup);
+			CrFwPcktSetSeqCnt(pckt, 0);
+		}
+
+		/* If pckt has no type counter, destTypeKeyPos will be equal to outStreamNofTypeCounter 
+		   and its type counter will be set to the last element of array outStreamTypeCounter,
+		   which is always equal to zero */
+		destTypeKeyPos = GetDestTypeKeyPos(pckt);
+		assert(destTypeKeyPos <= outStreamNofTypeCounter);
+		typeCnt = outStreamTypeCounter[destTypeKeyPos];
+		CrFwPcktSetTypeCnt(pckt, typeCnt);
+
+    	crc = CrFwPcktComputeCrc(pckt);
+        CrFwPcktSetCrc(pckt, crc);
 	}
 	if (cmpSpecificData->handoverPckt(pckt) != 1) {
 		pcktQueue = &(cmpSpecificData->pcktQueue);
@@ -423,10 +491,28 @@ static void SendOrEnqueue(FwSmDesc_t smDesc) {
 		memcpy(pcktCopy,pckt,len);
 		CrFwPcktQueuePush(pcktQueue,pcktCopy);	/* Enqueue packet, queue is empty at entry in READY */
 	} else {
-		if (CrFwPcktGetSrc(pckt) == CR_FW_HOST_APP_ID)
-			if (pcktGroup < outStreamNOfGroups[outStreamBaseData->instanceId])
-				cmpSpecificData->seqCnt[pcktGroup]++;
+		if (pcktSrc == CR_FW_HOST_APP_ID) {
+			if (pcktGroup < CR_FW_OUTSTREAM_NOF_GROUPS)
+				outStreamSeqCounter[pcktGroup]++;
+			if (destTypeKeyPos == outStreamNofTypeCounter)
+				outStreamTypeCounter[destTypeKeyPos]++;
+		}
 	}
+}
+
+/*-----------------------------------------------------------------------------------------*/
+static CrFwTypeCnt_t GetDestTypeKeyPos(CrFwPckt_t pckt) {
+	CrFwDestTypeKey_t key;
+	CrFwDestSrc_t dest;
+	CrFwServType_t type;
+	CrFwServSubType_t subType;
+
+	dest = CrFwPcktGetDest(pckt);
+	type = CrFwPcktGetServType(pckt);
+	subType = CrFwPcktGetServSubType(pckt);
+	key = type * CR_FW_MAX_SERV_SUBTYPE * CR_FW_MAX_DEST + subType * CR_FW_MAX_DEST + dest;
+	
+	return CrFwFindKeyIndex(outStreamDestTypeKey, outStreamNofTypeCounter, key);
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -437,7 +523,70 @@ static int IsPacketQueueEmpty(FwSmDesc_t smDesc) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwOutStreamDefSetDTS(CrFwTypeCnt_t* outStreamNofTypeCounter, 
-	CrFwDestTypeKey_t* outStreamDestTypeKey) {
+void CrFwOutStreamDefSetDTS(CrFwTypeCnt_t* pNofTypeCounter, 
+	CrFwDestTypeKey_t* destTypeKey) {
+	CrFwOutCmpKindDesc_t outCmpKindDesc[CR_FW_OUTCMP_NKINDS] = CR_FW_OUTCMP_INIT_KIND_DESC;
+	CrFwDestSrc_t dest = 1;
+	CrFwServType_t prevServType = 0;
+	CrFwServType_t servType;
+	CrFwServSubType_t prevServSubType = 0;
+	CrFwServSubType_t servSubType;
+	unsigned int i;
+
+	for (i=0; i<CR_FW_OUTCMP_NKINDS; i++) {
+		servType = outCmpKindDesc[i].servType;
+		servSubType = outCmpKindDesc[i].servSubType;
+		if ((servType != prevServType) && (servSubType != prevServSubType))
+			(*pNofTypeCounter)++;
+		prevServType = servType;
+		prevServSubType = servSubType;
+	}
+
+	destTypeKey = malloc(sizeof(CrFwTypeCnt_t) * ((*pNofTypeCounter)+1));
+
+	for (i=0; i<CR_FW_OUTCMP_NKINDS; i++) {
+		servType = outCmpKindDesc[i].servType;
+		servSubType = outCmpKindDesc[i].servSubType;
+		if ((servType != prevServType) && (servSubType != prevServSubType)) {
+			destTypeKey[i] = servType * CR_FW_MAX_SERV_SUBTYPE * CR_FW_MAX_DEST + \
+							 servSubType * CR_FW_MAX_DEST + dest;
+			
+		}
+		prevServType = servType;
+		prevServSubType = servSubType;
+	}
+
+	destTypeKey[*pNofTypeCounter] = 0;
 	return;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwCounterU2_t CrFwOutStreamGetNOfTypeCounters() {
+	return outStreamNofTypeCounter;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwTypeCnt_t CrFwOutStreamGetTypeCounter(CrFwDestSrc_t dest, 
+                                          CrFwServType_t servType,
+                                          CrFwServSubType_t servSubType) {
+	CrFwDestTypeKey_t key;
+	CrFwCounterU2_t pos;
+	key = servType*CR_FW_MAX_SERV_SUBTYPE*CR_FW_MAX_DEST + servSubType*CR_FW_MAX_DEST + dest;
+	pos = CrFwFindKeyIndex(outStreamDestTypeKey, outStreamNofTypeCounter, key);
+	return outStreamTypeCounter[pos];
+}
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwBool_t CrFwOutStreamIsInDtsSet(CrFwDestSrc_t dest, 
+                                   CrFwServType_t servType,
+                                   CrFwServSubType_t servSubType) {
+
+	CrFwDestTypeKey_t key;
+	CrFwCounterU2_t pos;
+	key = servType*CR_FW_MAX_SERV_SUBTYPE*CR_FW_MAX_DEST + servSubType*CR_FW_MAX_DEST + dest;
+	pos = CrFwFindKeyIndex(outStreamDestTypeKey, outStreamNofTypeCounter, key);
+	if (pos == outStreamNofTypeCounter)
+		return 0;
+	else
+		return 1;
 }
