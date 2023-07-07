@@ -89,6 +89,9 @@
  * 
  * The first time this function is called, it builds the DTS_SET by calling 
  * the function <code>#CR_FW_OUTSTREAM_SET_DTS</code>.
+ * The number of elements in the DTS_SET is then used to allocate the memory
+ * for the array holding the type counters (since there is one type counter for
+ * each element of DTS_SET).
  * 
  * @param outStreamId the identifier of the Base State Machine of the OutStream
  * @return the descriptor of the OutStream State Machine or NULL
@@ -115,8 +118,8 @@ CrFwBool_t CrFwOutStreamIsInBuffering(FwSmDesc_t smDesc);
 
 /**
  * Getter function for the OutStream corresponding to the argument destination.
- * Nominally, each OutStream is associated to a certain destination.
- * The binding between an OutStream and its destination is done statically in the
+ * An OutStream is associated to one or more destinations.
+ * The binding between an OutStream and its destinations is done statically in the
  * configuration file <code>CrFwOutStreamUserPar.h</code>.
  *
  * If the value of the destination argument is illegal (i.e. if no
@@ -132,6 +135,25 @@ CrFwBool_t CrFwOutStreamIsInBuffering(FwSmDesc_t smDesc);
  * if the argument destination was illegal or no OutStream had been bound to it.
  */
 FwSmDesc_t CrFwOutStreamGet(CrFwDestSrc_t dest);
+
+/**
+ * Populate the argument array with the destinations associated to the argument 
+ * outStream.
+ * An OutStream is associated to one or more destinations.
+ * The binding between an OutStream and its destinations is done statically in the
+ * array <code>#CR_FW_OUTSTREAM_DEST</code>.
+ * This function scans this array and returns the destinations to which the
+ * argument outStream is associated. 
+ * The argument array <code>arrayDest</code> must be allocated by the caller and
+ * it must have a size of at least <code>#CR_FW_OUTSTREAM_NOF_DEST</code>.
+ * If the argument array is associated to N destinations, the function writes
+ * their identifiers in the first N entries of <code>arrayDest</code> 
+ * and sets all other array entries to zero. 
+ * @param outStream the outStream
+ * @param dests the array of destinations populated by the function (must be
+ * allocated by the caller and have at least CR_FW_OUTSTREAM_NOF_DEST elements)
+ */
+void CrFwOutStreamGetDest(FwSmDesc_t outStream, CrFwDestSrc_t* arrayDest);
 
 /**
  * Send a packet to the OutStream.
@@ -225,17 +247,18 @@ void CrFwOutStreamDefShutdownAction(FwSmDesc_t smDesc);
  * <code>#CR_FW_OUTCMP_INIT_KIND_DESC</code> and then building all
  * triplets for the case of the destination ID being equal to 1.
  * 
- * This function allocates the memory for array #outStreamDestTypeKey
- * using malloc. It is therefore only suitable for use during
+ * This function allocates the memory for array 
+ * <code>#outStreamDestTypeKey</code> using malloc. 
+ * It is therefore only suitable for use during
  * the application initialization phase.
  * 
- * @param pNofTypeCounter the number of type counters (i.e.
- * the number of triplets (d,t,s) in DTS_SET)
- * @param destTypeKey array of products d*t*s for all
+ * @param pNofTypeCounter pointer to variable holding the number of 
+ * type counters (i.e. the number of triplets (d,t,s) in DTS_SET)
+ * @param destTypeKey pointer to array of products d*t*s for all
  * triplets (d,t,s) in DTS_SET  arranged in increasing order
  */
 void CrFwOutStreamDefSetDTS(CrFwCounterU2_t* pNofTypeCounter,
-                            CrFwDestTypeKey_t* destTypeKey);
+                            CrFwDestTypeKey_t** destTypeKey);
 
 /**
  * Return the value of the sequence counter for one of the groups

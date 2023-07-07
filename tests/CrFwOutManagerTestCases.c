@@ -39,6 +39,7 @@
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 /* Include configuration files */
 #include "CrFwOutRegistryUserPar.h"
+#include "CrFwOutStreamUserPar.h"
 #include "CrFwOutManagerUserPar.h"
 #include "CrFwRepErrStub.h"
 #include "CrFwOutFactoryUserPar.h"
@@ -366,13 +367,15 @@ CrFwBool_t CrFwOutManagerTestCase4() {
 	if (!CrFwOutCmpIsInLoaded(stdOutCmp4))
 		return 0;
 
-	/* Set destination of OutComponents to be the same as the destination of the OutStream */
-	CrFwOutCmpSetDest(sampleOutCmp1, CrFwOutStreamGetDest(outStream1));
-	CrFwOutCmpSetDest(sampleOutCmp2, CrFwOutStreamGetDest(outStream1));
-	CrFwOutCmpSetDest(stdOutCmp1, CrFwOutStreamGetDest(outStream1));
-	CrFwOutCmpSetDest(stdOutCmp2, CrFwOutStreamGetDest(outStream1));
-	CrFwOutCmpSetDest(stdOutCmp3, CrFwOutStreamGetDest(outStream1));
-	CrFwOutCmpSetDest(stdOutCmp4, CrFwOutStreamGetDest(outStream1));
+	/* Set destination of OutComponents to be the same as the first destination of the OutStream */
+	CrFwDestSrc_t destArray[CR_FW_OUTSTREAM_NOF_DEST];
+	CrFwOutStreamGetDest(outStream1, destArray);  
+	CrFwOutCmpSetDest(sampleOutCmp1, destArray[0]);
+	CrFwOutCmpSetDest(sampleOutCmp2, destArray[0]);
+	CrFwOutCmpSetDest(stdOutCmp1, destArray[0]);
+	CrFwOutCmpSetDest(stdOutCmp2, destArray[0]);
+	CrFwOutCmpSetDest(stdOutCmp3, destArray[0]);
+	CrFwOutCmpSetDest(stdOutCmp4, destArray[0]);
 
 	/* Set up enable and ready check of the sample OutComponents */
 	CrFwOutCmpSample1SetEnableFlag(1);

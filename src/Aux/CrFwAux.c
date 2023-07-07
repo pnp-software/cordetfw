@@ -45,9 +45,6 @@ static CrFwServDesc_t servDesc[CR_FW_OUTREGISTRY_NSERV] = CR_FW_OUTREGISTRY_INIT
 /** The sizes of the packet queues in the InStream components. */
 static CrFwCounterU1_t inStreamPcktQueueSize[CR_FW_NOF_INSTREAM] = CR_FW_INSTREAM_PQSIZE;
 
-/** The sizes of the packet queues in the OutStream components. */
-static CrFwCounterU1_t outStreamPcktQueueSize[CR_FW_NOF_OUTSTREAM] = CR_FW_OUTSTREAM_PQSIZE;
-
 /** The sizes of the POCL in the OutManager components. */
 static CrFwCounterU1_t outManagerPoclSize[CR_FW_NOF_OUTMANAGER] = CR_FW_OUTMANAGER_POCLSIZE;
 
@@ -88,9 +85,12 @@ CrFwBool_t CrFwAuxOutStreamConfigCheck() {
 	if (CR_FW_OUTSTREAM_NOF_DEST < 1)
 		return 0;
 
-	for (i=0; i<CR_FW_OUTSTREAM_NOF_DEST; i++)
+	for (i=0; i<CR_FW_OUTSTREAM_NOF_DEST; i++) {
 		if (outStreamDest[i][1] >= CR_FW_NOF_OUTSTREAM)
 			return 0;
+		if (outStreamDest[i][0] < 1)
+			return 0;
+	}
 
 	for (i=0; i<CR_FW_NOF_OUTSTREAM; i++)
 		if (outStreamPcktQueueSize[i] < 1)

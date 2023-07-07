@@ -43,6 +43,7 @@
 #include "UtilityFunctions/CrFwUtilityFunctions.h"
 /* Include configuration files */
 #include "CrFwInRegistryUserPar.h"
+#include "CrFwOutStreamUserPar.h"
 #include "CrFwInLoaderUserPar.h"
 #include "CrFwInStreamStub.h"
 #include "CrFwOutStreamStub.h"
@@ -272,8 +273,10 @@ CrFwBool_t CrFwInLoaderTestCase4() {
 	if (CrFwOutStreamGetNOfPendingPckts(outStream) != 0)	/* Check that there are no pending packets */
 		return 0;
 
-	/* Configure InLoader to return destination associated to OutStream */
-	CrFwInLoaderTestCaseSetReroutingDest(CrFwOutStreamGetDest(outStream));
+	/* Configure InLoader to return first destination associated to OutStream */
+	CrFwDestSrc_t destArray[CR_FW_OUTSTREAM_NOF_DEST];
+	CrFwOutStreamGetDest(outStream, destArray);  
+	CrFwInLoaderTestCaseSetReroutingDest(destArray[0]);
 
 	/* Load InStream in the InLoader and execute InLoader*/
 	CrFwInLoaderSetInStream(inStream);

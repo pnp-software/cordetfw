@@ -119,7 +119,9 @@ CrFwBool_t CrFwAuxOutFactoryConfigCheck();
  * <code>CrFwOutStreamUserPar.h</code>:
  * - The outStream identifiers in array CR_FW_OUTSTREAM_DEST are
  *   smaller than CR_FW_NOF_OUTSTREAM
- * = The number of outStreams CR_FW_NOF_OUTSTREAM is greater than zero
+ * - The destination identifiers in array CR_FW_OUTSTREAM_DEST are
+ *   greater than zero
+ * - The number of outStreams CR_FW_NOF_OUTSTREAM is greater than zero
  * - The number of destinations CR_FW_OUTSTREAM_NOF_DEST is greater
  *   than zero
  * - The packet sizes in CR_FW_OUTSTREAM_PQSIZE are greater than zero

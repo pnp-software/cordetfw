@@ -74,8 +74,8 @@ static CrFwTypeCnt_t* outStreamTypeCounter = NULL;
  * Array of destination-type keys.
  * A destination-type key is an unsigned integer obtained as the product of: 
  * 		t*s_max*d_max + s*d_max + d, 
- * where d, t, and s are a destination identifier, service type identifier and 
- * service sub-type identifier for which a type counter is maintained by the 
+ * where d, t, and s are a destination identifier, a service type identifier and 
+ * a service sub-type identifier for which a type counter is maintained by the 
  * OutStreams and d_max and s_max are the maximum value of d and s (as given
  * by constants <code>#CR_FW_MAX_DEST</code> and <code>#CR_FW_MAX_SERV_SUBTYPE</code>).
  * 
@@ -144,7 +144,7 @@ static void FlushPcktQueue(FwSmDesc_t smDesc);
  * This function is used as transition action on the transition out of the initial
  * state of an OutStream state machine.
  * Note that this means that, if an application has more than one OutStream, this 
- * action will be called multiple times during theapplication's initialization. 
+ * action will be called multiple times during the application's initialization. 
  * @param smDesc the state machine descriptor
  */
 static void ResetSeqAndTypeCounters(FwSmDesc_t smDesc);
@@ -197,9 +197,10 @@ FwSmDesc_t CrFwOutStreamMake(CrFwInstanceId_t i) {
 		return NULL;
 	}
 
-	/* If not yet done, create the DTS_SET */
+	/* If not yet done, create the DTS_SET and allocate type counter array */
 	if (outStreamNofTypeCounter == 0) {
-		outStreamSetDts(&outStreamNofTypeCounter, outStreamDestTypeKey);
+		outStreamSetDts(&outStreamNofTypeCounter, &outStreamDestTypeKey);
+		outStreamTypeCounter = malloc(sizeof(CrFwTypeCnt_t) * (outStreamNofTypeCounter + 1));
 	}
 	
 	/* If not yet done, create the base OutStream SM */
@@ -294,6 +295,23 @@ FwSmDesc_t CrFwOutStreamGet(CrFwDestSrc_t dest) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
+void CrFwOutStreamGetDest(FwSmDesc_t outStream, CrFwDestSrc_t* arrayDest) {
+	unsigned int i;
+	unsigned int j = 0;
+	CrFwInstanceId_t outStreamId = CrFwCmpGetInstanceId(outStream);
+	assert(outStreamId < CR_FW_NOF_OUTSTREAM);
+
+	for (i=0; i<CR_FW_OUTSTREAM_NOF_DEST; i++)
+		if (outStreamDest[i][1] == outStreamId) {
+			arrayDest[j] = outStreamDest[i][0];
+			j = j+1;
+		}
+	
+	for (i=j; i<CR_FW_OUTSTREAM_NOF_DEST; i++)
+		arrayDest[i] = 0;
+}
+
+/*-----------------------------------------------------------------------------------------*/
 void CrFwOutStreamSend(FwSmDesc_t smDesc, CrFwPckt_t pckt) {
 	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
@@ -356,7 +374,6 @@ void CrFwOutStreamDefShutdownAction(FwSmDesc_t smDesc) {
 void CrFwOutStreamDefInitAction(FwPrDesc_t prDesc) {
 	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwPrGetData(prDesc);
 	CrFwInstanceId_t i = outStreamBaseData->instanceId;
-	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
 
 	CrFwPcktQueueInit(&(outStreamCmpSpecificData[i].pcktQueue),outStreamPcktQueueSize[i]);
 	outStreamBaseData->outcome = 1;
@@ -435,6 +452,7 @@ static void FlushPcktQueue(FwSmDesc_t smDesc) {
 
 /*-----------------------------------------------------------------------------------------*/
 static void ResetSeqAndTypeCounters(FwSmDesc_t smDesc) {
+	(void)smDesc;
 	CrFwGroup_t i;
 	CrFwTypeCnt_t j;
 	for (i=0; i<CR_FW_OUTSTREAM_NOF_GROUPS; i++)
@@ -526,39 +544,40 @@ static int IsPacketQueueEmpty(FwSmDesc_t smDesc) {
 
 /*-----------------------------------------------------------------------------------------*/
 void CrFwOutStreamDefSetDTS(CrFwCounterU2_t* pNofTypeCounter, 
-							CrFwDestTypeKey_t* destTypeKey) {
+							CrFwDestTypeKey_t** pDestTypeKey) {
 	CrFwOutCmpKindDesc_t outCmpKindDesc[CR_FW_OUTCMP_NKINDS] = CR_FW_OUTCMP_INIT_KIND_DESC;
 	CrFwDestSrc_t dest = 1;
 	CrFwServType_t prevServType = 0;
 	CrFwServType_t servType;
 	CrFwServSubType_t prevServSubType = 0;
 	CrFwServSubType_t servSubType;
-	unsigned int i;
+	unsigned int i, j;
 
 	for (i=0; i<CR_FW_OUTCMP_NKINDS; i++) {
 		servType = outCmpKindDesc[i].servType;
 		servSubType = outCmpKindDesc[i].servSubType;
-		if ((servType != prevServType) && (servSubType != prevServSubType))
+		if ((servType != prevServType) || (servSubType != prevServSubType))
 			(*pNofTypeCounter)++;
 		prevServType = servType;
 		prevServSubType = servSubType;
 	}
 
-	destTypeKey = malloc(sizeof(CrFwTypeCnt_t) * ((*pNofTypeCounter)+1));
+	(*pDestTypeKey) = malloc(sizeof(CrFwTypeCnt_t) * (*pNofTypeCounter));
 
+	j = 0;
 	for (i=0; i<CR_FW_OUTCMP_NKINDS; i++) {
 		servType = outCmpKindDesc[i].servType;
 		servSubType = outCmpKindDesc[i].servSubType;
-		if ((servType != prevServType) && (servSubType != prevServSubType)) {
-			destTypeKey[i] = servType * CR_FW_MAX_SERV_SUBTYPE * CR_FW_MAX_DEST + \
-							 servSubType * CR_FW_MAX_DEST + dest;
-			
+		if ((servType != prevServType) || (servSubType != prevServSubType)) {
+			assert(j<(*pNofTypeCounter));
+			(*pDestTypeKey)[j] = servType * CR_FW_MAX_SERV_SUBTYPE * CR_FW_MAX_DEST + \
+							     servSubType * CR_FW_MAX_DEST + dest;
+			j = j + 1;
 		}
 		prevServType = servType;
 		prevServSubType = servSubType;
 	}
 
-	destTypeKey[*pNofTypeCounter] = 0;
 	return;
 }
 

@@ -298,14 +298,21 @@ typedef CrFwBool_t (*CrFwPcktHandover_t)(CrFwPckt_t pckt);
  * - The array of destination-type keys for which type counters
  *   must be maintained
  * .
- * A destination-type key is a product d*s*t where (d,s,t) is in the DTS set.
- * The entries in the array are arranged in increasing order.
+ * A destination-type key is an unsigned integer obtained as the product of: 
+ * 		t*s_max*d_max + s*d_max + d, 
+ * where d, t, and s are a destination identifier, a service type identifier and 
+ * a service sub-type identifier for which a type counter is maintained by the 
+ * OutStreams and d_max and s_max are the maximum value of d and s (as given
+ * by constants <code>#CR_FW_MAX_DEST</code> and <code>#CR_FW_MAX_SERV_SUBTYPE</code>).
+ * 
+ * The entries in the array returned by the Set DTS Function are arranged in 
+ * increasing order.
  * The memory for the array is allocated by the Set DST function.
  * 
  * A defaul value for this function is provided by #CrFwOutStreamDefSetDTS.
  */
 typedef void (*CrFwSetDst_t)(CrFwCounterU2_t* nofTypeCounter,
-                            CrFwDestTypeKey_t* destTypeKey);
+                            CrFwDestTypeKey_t** destTypeKey);
 
 /** Descriptor for a Packet Queue (PQ) in an OutStream or InStream. */
 struct CrFwPcktQueue {

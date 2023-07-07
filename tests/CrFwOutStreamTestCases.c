@@ -42,7 +42,7 @@
 CrFwBool_t CrFwOutStreamTestCase1() {
 	FwSmDesc_t outStream0, outStreamBis;
 	CrFwPckt_t pckt, pckt1, pckt2;
-	CrFwCounterU2_t i, errRepPosLocal, i;
+	CrFwCounterU2_t i, errRepPosLocal;
 
 	/* Reset error reporting interface */
 	CrFwRepErrStubReset();
@@ -125,9 +125,9 @@ CrFwBool_t CrFwOutStreamTestCase1() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 1)
 		return 0;
-	if (CrFwOutStreamGetSeqCnt(outStream0) != 1)
+	if (CrFwOutStreamGetSeqCnt(0) != 1)
 		return 0;
-	if (CrFwPcktGetSeqCnt(pckt1) != 1)
+	if (CrFwPcktGetSeqCnt(pckt1) != 0)
 		return 0;
 	if (CrFwPcktGetTypeCnt(pckt1) != 0)
 		return 0;
@@ -492,7 +492,7 @@ CrFwBool_t CrFwOutStreamTestCase4() {
 		return 0;
 
 	/* Check response to non-existent destination */
-	if (CrFwOutStreamGet(CR_FW_NOF_OUTSTREAM+1) != NULL)
+	if (CrFwOutStreamGet(255) != NULL)
 		return 0;
 	if (CrFwGetAppErrCode() != crOutStreamUndefDest)
 		return 0;
@@ -565,9 +565,6 @@ CrFwBool_t CrFwOutStreamTestCase6() {
 		return 0;
 
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 0)
-		return 0;
-
-	if (CrFwOutStreamGetDest(outStream0) != 1)
 		return 0;
 
 	/* Configure the Packet Hand-Over Operation to return "hand-over successful" */
@@ -755,7 +752,7 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 		return 0;
 	if (CrFwPcktGetSeqCnt(pckt2) != 2222)
 		return 0;
-	if (CrFwPcktGetSeqCnt(pckt3) != 99)
+	if (CrFwPcktGetSeqCnt(pckt3) != 0)
 		return 0;
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+1)
 		return 0;

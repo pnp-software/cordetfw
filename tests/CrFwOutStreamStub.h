@@ -60,8 +60,7 @@ void CrFwOutStreamStubSetCheckFlag(CrFwBool_t flag);
  * to ensure that default initialization actions are performed.
  * The <code>::CrFwOutStreamDefInitAction</code> function dynamically allocates
  * memory for an internal OutStream data structure. In order to avoid memory
- * leaks, function <code>::CrFwOutStreamDefInitAction</code> is only called if
- * the OutStream data structure has not yet been initialized.
+ * leaks, this function should therefore only be called once for each outStream.
  *
  * @param prDesc the initialization or configuration procedure descriptor (this parameter
  * is not used).

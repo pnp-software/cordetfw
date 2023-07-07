@@ -88,9 +88,7 @@ void CrFwOutStreamStubSetCheckFlag(CrFwBool_t flag) {
 /* ---------------------------------------------------------------------------------------------*/
 void CrFwOutStreamStubInitAction(FwPrDesc_t prDesc) {
 	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwPrGetData(prDesc);
-	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
-	if (cmpSpecificData->seqCnt == NULL)
-		CrFwOutStreamDefInitAction(prDesc);
+	CrFwOutStreamDefInitAction(prDesc);
 	outStreamBaseData->outcome = (CrFwOutcome_t)actionFlag;
 }
 
