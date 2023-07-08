@@ -312,7 +312,7 @@ CrFwCounterU2_t CrFwOutStreamGetNOfTypeCounters();
  * The value returned by this function is the type counter which 
  * the OutStream will allocate to the next out-going packet with
  * the argument destination, type and sub-type.
- * If the (destination, type, sub-type is not in DTS_SET, then
+ * If the (destination, type, sub-type) is not in DTS_SET, then
  * zero is returned.
  * 
  * This function may only be called after the DTS_SET has been built.

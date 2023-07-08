@@ -215,20 +215,29 @@ CrFwBool_t CrFwOutStreamTestCase5();
 CrFwBool_t CrFwOutStreamTestCase6();
 
 /**
- * Test the management of the sequence counters for different groups.
- * This test assumes that the OutStreams have been configured to have 2 groups.
- * The following actions are performed in this test:
+ * Test the management of the sequence counters for different groups and of the
+ * type counters.
+ * This test assumes that the OutStreams have been configured to have 2 groups and that
+ * it uses the default function <code>#CrFwOutStreamDefSetDTS<code> t compute the
+ * the DTS_SET.
  * - The second OutStream is started and its Packet Hand-Over Operation is 
  *   configured to return "hand-over successful".
- * - It is checked that the number of groups is equal to 2
- * - Two packets belonging to, respectively, the first and second groups are sent to the
- *   OutStream and it is checked that they are successfully flushed and that their sequence counter
- *   is successfully incremented.
- * - Two more packets belonging to, respectively, the first and second groups are sent to the
+ * - It is checked that the number of groups is equal to 2 and that the number of type
+ *   counters is consistent with the definition of types and sub-types in
+ *   <code>#CR_FW_OUTCMP_INIT_KIND_DESC</code>.
+ * - It is checked that the default value of the sequence counters is 1
+ * - It is checked that the default type counter is equal to 1 if the packet is in the DTS
+ *   and is equal to 0 if it not in the DTS
+ * - Two packets belonging to different groups and with a non-zero type-counter
+ *   are sent to the OutStream and it is checked that they are successfully 
+ *   flushed and that their sequence counters and type counters are successfully incremented.
+ * - Two more packets belonging to different groups and with a non-zero type-counter are sent to the
  *   OutStream and it is checked that they are successfully flushed and that their sequence counter
  *   is successfully incremented.
  * - A packet belonging to a non-existent group is sent to the OutStream and it is checked
  *   that it is successfully flushed but that an error report is raised.
+ * - A packet not belonging to the DTS_SET is sent to the OutStream and it is checked
+ *   that it is successfully flushed and that its type counter is set to zero.
  * - The Packet Hand-Over Operation is configured to return "hand-over failed",
  *   three packets belonging to, respectively, the first, second and a non-existent group are
  *   sent to the OutStream, and it is checked that they are buffered.

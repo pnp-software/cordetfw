@@ -90,12 +90,19 @@ void CrFwOutStreamStubSetActionFlag(CrFwBool_t flag);
 
 /**
  * Stub function implementing the hand-over operation for the OutStream.
- * This function increments a counter when it is called and returns
- * the value of a pre-defined flag.
+ * This function increments a counter when it is called (the Handover
+ * Counter) and returns the value of a pre-defined flag.
  * The value of the counter can be read with function
  * <code>::CrFwOutStreamStubGetHandoverCnt</code>.
  * The value of the flag can be set with function
  * <code>::CrFwOutStreamStubSetHandoverFlag</code>.
+ * 
+ * The content of the handed-over packet is disregarded with the exception
+ * of its sequence counter and type counter which are stored in 
+ * the Sequence Counter Array and in the Type Counter Array.
+ * Their content can be accessed with functions 
+ * <code>#CrFwOutStreamStubGetSeqCnt</code> and 
+ * <code>#CrFwOutStreamStubGetTypeCnt</code>.
  * @param pckt the packet (not used in this stub)
  * @return the value of flag <code>pcktHandOverFlag</code>
  */
@@ -107,6 +114,22 @@ CrFwBool_t CrFwOutStreamStubPcktHandover(CrFwPckt_t pckt);
  * @return the value of the handover counter
  */
 CrFwCounterU1_t CrFwOutStreamStubGetHandoverCnt();
+
+/**
+ * Return the n-th element of the Sequence Counter Array.
+ * The Sequence Counter Array has a size of 100.
+ * It holds the sequence counters of the 100 most recent packets
+ * handed-over to the OutStream Stub.  
+ */
+CrFwSeqCnt_t CrFwOutStreamStubGetSeqCnt(CrFwCounterU1_t n);
+
+/**
+ * Return the n-th element of the Type Counter Array.
+ * The Sequence Counter Array has a size of 100.
+ * It holds the type counters of the 100 most recent packets
+ * handed-over to the OutStream Stub.  
+ */
+CrFwTypeCnt_t CrFwOutStreamStubGetTypeCnt(CrFwCounterU1_t n);
 
 /**
  * Set the value of the handover flag which determines the outcome of the packet

@@ -684,7 +684,7 @@ CrFwBool_t CrFwOutStreamTestCase6() {
 CrFwBool_t CrFwOutStreamTestCase7() {
 	FwSmDesc_t outStream1;
 	CrFwPckt_t pckt1, pckt2, pckt3;
-	CrFwCounterU2_t errRepPosLocal;
+	CrFwCounterU2_t errRepPosLocal, i;
 
 	/* Retrieve the second OutStream */
 	outStream1 = CrFwOutStreamMake(1);
@@ -702,6 +702,11 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 	if (CrFwOutStreamGetNOfGroups()!=2)
 		return 0;
 
+	/* Check number of type counters (this is set by function CrFwOutStreamDefSetDTS and
+	   is equal to the number of distinct (type,sub-type) pairs in CR_FW_OUTCMP_INIT_KIND_DESC */
+	if (CrFwOutStreamGetNOfTypeCounters()!=10)
+		return 0;
+
 	/* Start, initialize and reset outStream and check its state */
 	FwSmStart(outStream1);
 	CrFwCmpInit(outStream1);
@@ -717,23 +722,64 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 	if (CrFwOutStreamGetNOfPendingPckts(outStream1) != 0)
 		return 0;
 
+	/* Check the initial value of the type counters */
+	if (CrFwOutStreamGetTypeCounter(1,1,1) != 1)	/* (1,1) is a type in CR_FW_OUTCMP_INIT_KIND_DESC */
+		return 0;
+	if (CrFwOutStreamGetTypeCounter(1,5,1) != 1)	/* (5,1) is a type in CR_FW_OUTCMP_INIT_KIND_DESC */
+		return 0;
+	if (CrFwOutStreamGetTypeCounter(1,50,1) != 1)	/* (50,1) is a type in CR_FW_OUTCMP_INIT_KIND_DESC */
+		return 0;
+	if (CrFwOutStreamGetTypeCounter(99,5,1) != 0)	/* destination 99 is not in DTS_SET */
+		return 0;
+	if (CrFwOutStreamGetTypeCounter(1,5,99) != 0)	/* (5,99) is not a type in CR_FW_OUTCMP_INIT_KIND_DESC */
+		return 0;
+	if (CrFwOutStreamGetTypeCounter(1,99,1) != 0)	/* (5,99) is not a type in CR_FW_OUTCMP_INIT_KIND_DESC */
+		return 0;
+
+	/* Check computation of DTS_SET */
+	if (CrFwOutStreamIsInDtsSet(1,1,1) != 1)	/* (1,1) is a type in CR_FW_OUTCMP_INIT_KIND_DESC */
+		return 0;
+	if (CrFwOutStreamIsInDtsSet(1,5,1) != 1)	/* (5,1) is a type in CR_FW_OUTCMP_INIT_KIND_DESC */
+		return 0;
+	if (CrFwOutStreamIsInDtsSet(1,50,1) != 1)	/* (50,1) is a type in CR_FW_OUTCMP_INIT_KIND_DESC */
+		return 0;
+	if (CrFwOutStreamIsInDtsSet(99,5,1) != 0)	/* destination 99 is not in DTS_SET */
+		return 0;
+	if (CrFwOutStreamIsInDtsSet(1,5,99) != 0)	/* (5,99) is not a type in CR_FW_OUTCMP_INIT_KIND_DESC */
+		return 0;
+	if (CrFwOutStreamIsInDtsSet(1,99,1) != 0)	/* (5,99) is not a type in CR_FW_OUTCMP_INIT_KIND_DESC */
+		return 0;
+
 	/* Configure the Packet Hand-Over Operation to return "hand-over successful" */
 	CrFwOutStreamStubSetHandoverFlag(1);
 
 	/* Make three dummy packets, configure them to belong to the first, second and third group and
-	 * with the source equal to the host application */
+	 * with the source equal to the host application. Also configure the first and second packets
+	   to belong to the DTS_SET and the third one to be outside the DTS_SET */
 	pckt1 = CrFwPcktMake(CrFwPcktGetMaxLength());
 	CrFwPcktSetSrc(pckt1,CR_FW_HOST_APP_ID);
 	CrFwPcktSetGroup(pckt1,0);
 	CrFwPcktSetSeqCnt(pckt1,99);
+	CrFwPcktSetDest(pckt1,1);
+	CrFwPcktSetServType(pckt1,5);
+	CrFwPcktSetServSubType(pckt1,1);
+	CrFwPcktSetTypeCnt(pckt1, 1000);
 	pckt2 = CrFwPcktMake(CrFwPcktGetMaxLength());
 	CrFwPcktSetSrc(pckt2,CR_FW_HOST_APP_ID);
 	CrFwPcktSetGroup(pckt2,1);
 	CrFwPcktSetSeqCnt(pckt2,99);
+	CrFwPcktSetDest(pckt2,1);
+	CrFwPcktSetServType(pckt2,5);
+	CrFwPcktSetServSubType(pckt2,99);	/* non-existent sub-type */
+	CrFwPcktSetTypeCnt(pckt2, 2000);
 	pckt3 = CrFwPcktMake(CrFwPcktGetMaxLength());
 	CrFwPcktSetSrc(pckt3,CR_FW_HOST_APP_ID);
 	CrFwPcktSetGroup(pckt3,88);	/* non-existent group */
 	CrFwPcktSetSeqCnt(pckt3,99);
+	CrFwPcktSetDest(pckt3,1);
+	CrFwPcktSetServType(pckt3,5);
+	CrFwPcktSetServSubType(pckt3,1);	
+	CrFwPcktSetTypeCnt(pckt3, 3000);
 
 	/* Send the packets to the OutStream and check outcome */
 	CrFwOutStreamSetSeqCnt(1, 2222);
@@ -750,9 +796,15 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 		return 0;
 	if (CrFwPcktGetSeqCnt(pckt1) != 1)
 		return 0;
+	if (CrFwPcktGetTypeCnt(pckt1) != 1)
+		return 0;
 	if (CrFwPcktGetSeqCnt(pckt2) != 2222)
 		return 0;
+	if (CrFwPcktGetTypeCnt(pckt2) != 0)
+		return 0;
 	if (CrFwPcktGetSeqCnt(pckt3) != 0)
+		return 0;
+	if (CrFwPcktGetTypeCnt(pckt3) != 2)
 		return 0;
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+1)
 		return 0;
@@ -770,14 +822,26 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 	CrFwPcktSetSrc(pckt1,CR_FW_HOST_APP_ID);
 	CrFwPcktSetGroup(pckt1,0);
 	CrFwPcktSetSeqCnt(pckt1,99);
+	CrFwPcktSetDest(pckt1,1);
+	CrFwPcktSetServType(pckt1,5);
+	CrFwPcktSetServSubType(pckt1,1);
+	CrFwPcktSetTypeCnt(pckt1, 1000);
 	pckt2 = CrFwPcktMake(CrFwPcktGetMaxLength());
 	CrFwPcktSetSrc(pckt2,CR_FW_HOST_APP_ID);
 	CrFwPcktSetGroup(pckt2,1);
 	CrFwPcktSetSeqCnt(pckt2,99);
+	CrFwPcktSetDest(pckt2,1);
+	CrFwPcktSetServType(pckt2,5);
+	CrFwPcktSetServSubType(pckt2,99);	/* non-existent sub-type */
+	CrFwPcktSetTypeCnt(pckt2, 2000);
 	pckt3 = CrFwPcktMake(CrFwPcktGetMaxLength());
 	CrFwPcktSetSrc(pckt3,CR_FW_HOST_APP_ID);
 	CrFwPcktSetGroup(pckt3,88);	/* non-existent group */
 	CrFwPcktSetSeqCnt(pckt3,99);
+	CrFwPcktSetDest(pckt3,1);
+	CrFwPcktSetServType(pckt3,5);
+	CrFwPcktSetServSubType(pckt3,1);	
+	CrFwPcktSetTypeCnt(pckt3, 3000);
 
 	CrFwOutStreamSend(outStream1, pckt1);
 	CrFwOutStreamSend(outStream1, pckt2);
@@ -808,6 +872,8 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 	if (CrFwOutStreamGetSeqCnt(0) != 3)
 		return 0;
 	if (CrFwOutStreamGetSeqCnt(1) != 2224)
+		return 0;
+	if (CrFwOutStreamGetTypeCounter(1,5,1) != 4)
 		return 0;
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+2)
 		return 0;
