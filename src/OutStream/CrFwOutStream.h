@@ -204,11 +204,7 @@ void CrFwOutStreamDefConfigAction(FwPrDesc_t prDesc);
 
 /**
  * Default initialization action for an OutStream.
- * This function: (a) allocates the memory for the packet queue of the OutStream;
- * (b) allocates the memory for the array holding the sequence counters for the
- * groups attached to the OutStream; and
- * (c) initializes all data structures implementing the OutStream.
- * Initialization actions have an outcome (see <code>CrFwResetProc.h</code>).
+ * This function allocates the memory for the packet queue of the OutStream.
  * The situation of where the memory allocation fails is not handled and
  * therefore the outcome of this configuration action is always "success".
  *
@@ -221,8 +217,7 @@ void CrFwOutStreamDefInitAction(FwPrDesc_t prDesc);
 
 /**
  * Default shutdown action for an OutStream.
- * This function releases the memory allocated to the packet queue of the OutStream
- * and releases the memory allocated to the array holding the sequence counters.
+ * This function resets the packet queue and releases the memory allocated to it.
  *
  * This function should never be directly called by the end-application.
  * It is declared as a public function so that it may be used in application-specific

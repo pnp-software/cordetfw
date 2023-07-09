@@ -13,3 +13,10 @@
 /doc/pus/PusExtension.out
 /doc/req/UserRequirements.out
 /doc/um/UserManual.out
+*.gcov
+/lcov/**
+/.vscode/launch.json
+/.vscode/settings.json
+/cordetfw.geany
+/coverage.info
+/filtered_coverage.info
