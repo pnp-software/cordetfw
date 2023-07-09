@@ -441,7 +441,7 @@ static void FlushPcktQueue(FwSmDesc_t smDesc) {
 		if (CrFwPcktGetSrc(oldestPckt) == CR_FW_HOST_APP_ID) {
 			if (oldestPcktGroup < CR_FW_OUTSTREAM_NOF_GROUPS)
 				outStreamSeqCounter[oldestPcktGroup]++;
-			if (destTypeKeyPos == outStreamNofTypeCounter)
+			if (destTypeKeyPos < outStreamNofTypeCounter)
 				outStreamTypeCounter[destTypeKeyPos]++;
 		}
 		CrFwPcktQueuePop(pcktQueue);	/* remove packet from PQ */
@@ -514,7 +514,7 @@ static void SendOrEnqueue(FwSmDesc_t smDesc) {
 		if (pcktSrc == CR_FW_HOST_APP_ID) {
 			if (pcktGroup < CR_FW_OUTSTREAM_NOF_GROUPS)
 				outStreamSeqCounter[pcktGroup]++;
-			if (destTypeKeyPos == outStreamNofTypeCounter)
+			if (destTypeKeyPos < outStreamNofTypeCounter)
 				outStreamTypeCounter[destTypeKeyPos]++;
 		}
 	}

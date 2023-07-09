@@ -684,7 +684,8 @@ CrFwBool_t CrFwOutStreamTestCase6() {
 CrFwBool_t CrFwOutStreamTestCase7() {
 	FwSmDesc_t outStream1;
 	CrFwPckt_t pckt1, pckt2, pckt3;
-	CrFwCounterU2_t errRepPosLocal, i;
+	CrFwCounterU2_t errRepPosLocal;
+	CrFwCounterU1_t handoverSuccCnt;
 
 	/* Retrieve the second OutStream */
 	outStream1 = CrFwOutStreamMake(1);
@@ -817,6 +818,9 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 	/* Configure the Packet Hand-Over Operation to return "hand-over failed" */
 	CrFwOutStreamStubSetHandoverFlag(0);
 
+	/* Store the current value of the OutStream packet handover counter */
+	handoverSuccCnt = CrFwOutStreamStubGetHandoverSuccCnt();
+
 	/* Make, configure and send three more packets to the OutStream and check outcome */
 	pckt1 = CrFwPcktMake(CrFwPcktGetMaxLength());
 	CrFwPcktSetSrc(pckt1,CR_FW_HOST_APP_ID);
@@ -856,6 +860,8 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 		return 0;
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+1)
 		return 0;
+	if (CrFwOutStreamStubGetHandoverSuccCnt() != handoverSuccCnt)
+		return 0;
 	CrFwPcktRelease(pckt1);
 	CrFwPcktRelease(pckt2);
 	CrFwPcktRelease(pckt3);
@@ -873,11 +879,19 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 		return 0;
 	if (CrFwOutStreamGetSeqCnt(1) != 2224)
 		return 0;
-	if (CrFwOutStreamGetTypeCounter(1,5,1) != 4)
+	if (CrFwOutStreamGetTypeCounter(1,5,1) != 5)
 		return 0;
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+2)
 		return 0;
 	if (CrFwRepErrStubGetErrCode(errRepPosLocal) != crOutStreamIllGroup)
+		return 0;
+	if (CrFwOutStreamStubGetHandoverSuccCnt() != handoverSuccCnt+3)
+		return 0;
+	if (CrFwOutStreamStubGetTypeCnt(handoverSuccCnt+1) != 3)
+		return 0;
+	if (CrFwOutStreamStubGetTypeCnt(handoverSuccCnt+2) != 0)
+		return 0;
+	if (CrFwOutStreamStubGetTypeCnt(handoverSuccCnt+3) != 4)
 		return 0;
 
 	/* Reset the OutStream and check new state */

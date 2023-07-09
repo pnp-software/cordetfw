@@ -17,6 +17,7 @@
  */
 
 #include <stdlib.h>
+#include <assert.h>
 #include "CrFwOutStreamStub.h"
 #include "CrFwRepErrStub.h"
 /* Include configuration files */
@@ -40,6 +41,12 @@
 /** Counter incremented every time the packet hand-over operation is called */
 static CrFwCounterU1_t pcktHandOverCnt = 0;
 
+/** 
+ * Counter incremented every time the packet hand-over operation is called 
+ * and the packet handover is successful.
+*/
+static CrFwCounterU1_t pcktHandOverSuccCnt = 0;
+
 /** Return value of the packet hand-over operation */
 static CrFwBool_t pcktHandOverFlag = 1;
 
@@ -52,9 +59,24 @@ static CrFwBool_t actionFlag = 1;
 /** Counter incremented by stub Shutdown Operation */
 static CrFwCounterU1_t shutdownCnt = 0;
 
+/** Number of sequence and type counters kept in memory */
+#define CR_FW_OUTSTREAM_STUB_MEM_LEN 100
+
+/** Sequence counters of most recently received packets */
+static CrFwSeqCnt_t seqCnt[CR_FW_OUTSTREAM_STUB_MEM_LEN];
+
+/** Type counters of most recently received packets */
+static CrFwTypeCnt_t typeCnt[CR_FW_OUTSTREAM_STUB_MEM_LEN];
+
 /* ---------------------------------------------------------------------------------------------*/
 CrFwBool_t CrFwOutStreamStubPcktHandover(CrFwPckt_t pckt) {
 	(void)(pckt);
+	if (pcktHandOverFlag == 1) {
+		CrFwCounterU1_t pos = pcktHandOverSuccCnt % CR_FW_OUTSTREAM_STUB_MEM_LEN;
+		seqCnt[pos] = CrFwPcktGetSeqCnt(pckt);
+		typeCnt[pos] = CrFwPcktGetTypeCnt(pckt);
+		pcktHandOverSuccCnt++;
+	}
 	pcktHandOverCnt++;
 	return pcktHandOverFlag;
 }
@@ -62,6 +84,10 @@ CrFwBool_t CrFwOutStreamStubPcktHandover(CrFwPckt_t pckt) {
 /* ---------------------------------------------------------------------------------------------*/
 CrFwCounterU1_t CrFwOutStreamStubGetHandoverCnt() {
 	return pcktHandOverCnt;
+}
+
+CrFwCounterU1_t CrFwOutStreamStubGetHandoverSuccCnt() {
+	return pcktHandOverSuccCnt;
 }
 
 /* ---------------------------------------------------------------------------------------------*/
@@ -108,4 +134,16 @@ void CrFwOutStreamStubSetActionFlag(CrFwBool_t flag) {
 void CrFwOutStreamStubShutdown(FwSmDesc_t smDesc) {
 	shutdownCnt++;
 	CrFwOutStreamDefShutdownAction(smDesc);
+}
+
+/* ---------------------------------------------------------------------------------------------*/
+CrFwSeqCnt_t CrFwOutStreamStubGetSeqCnt(CrFwCounterU1_t n) {
+	assert(n<=CR_FW_OUTSTREAM_STUB_MEM_LEN);
+	return seqCnt[n-1];
+}
+
+/* ---------------------------------------------------------------------------------------------*/
+CrFwSeqCnt_t CrFwOutStreamStubGetTypeCnt(CrFwCounterU1_t n) {
+	assert(n<=CR_FW_OUTSTREAM_STUB_MEM_LEN);
+	return typeCnt[n-1];
 }
