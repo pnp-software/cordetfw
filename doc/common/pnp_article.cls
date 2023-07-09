@@ -306,6 +306,8 @@ E-mail: \href{mailto:pnp-software@pnp-software.com}{\nolinkurl{pnp-software@pnp-
 % Examples:
 % \pnpcsvtable[filter equal={\col}{abcd}]{|l|l|l|}{Example CSV table}{tab:exp}{Col1 & Col2 & Col3}{mydata.csv}{\col1 & \col2 & \col3}
 %
+% \pnpcsvtable[filter=\equal{\Col1}{abcd} \or \not \equal{\Col2}{efgh}]{|l|l|l|}{Example CSV table}{tab:exp}{Col1 & Col2 & Col3}{mydata.csv}{\col1 & \col2 & \col3}
+%
 % \pnpcsvtable[filter not equal={\col}{abcd}]{|l|l|l|}{Example CSV table}{tab:exp}{Col1 & Col2 & Col3}{mydata.csv}{\col1 & \col2 & \col3}
 %
 % \pnpcsvtable[separator=semicolon]{|l|l|l|}{Example CSV table}{tab:exp}{Col1 & Col2 & Col3}{mydata.csv}{\col1 & \col2 & \col3}
