@@ -2,10 +2,10 @@
      "editorVersion": "5.29",
      "states": [
           {
-               "id": 1,
+               "id": 119,
                "attrs": {
                     "x": 431,
-                    "y": 196,
+                    "y": 64,
                     "width": 236,
                     "height": 32,
                     "r": 10,
@@ -41,10 +41,10 @@
                "selected": false
           },
           {
-               "id": 3,
+               "id": 121,
                "attrs": {
                     "x": 537,
-                    "y": 271,
+                    "y": 139,
                     "width": 24,
                     "height": 24,
                     "r": 0,
@@ -65,10 +65,49 @@
                "selected": false
           },
           {
-               "id": 6,
+               "id": 122,
+               "attrs": {
+                    "x": 466,
+                    "y": 205,
+                    "width": 166,
+                    "height": 32,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N2",
+                    "entryFunc": "",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "call function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "<<AP>> g = Group of pckt ",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": "0"
+               },
+               "selected": false
+          },
+          {
+               "id": 124,
                "attrs": {
                     "x": 643,
-                    "y": 255,
+                    "y": 123,
                     "width": 190,
                     "height": 56,
                     "r": 0,
@@ -88,10 +127,10 @@
                "selected": false
           },
           {
-               "id": 8,
+               "id": 126,
                "attrs": {
                     "x": 562,
-                    "y": 280,
+                    "y": 148,
                     "width": 6,
                     "height": 6,
                     "r": 6,
@@ -110,7 +149,115 @@
                "selected": false
           },
           {
-               "id": 15,
+               "id": 127,
+               "attrs": {
+                    "x": 537,
+                    "y": 285,
+                    "width": 24,
+                    "height": 24,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "transform": "r45"
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "choice",
+                    "note": "",
+                    "identifier": "DECISION2"
+               },
+               "selected": false
+          },
+          {
+               "id": 128,
+               "attrs": {
+                    "x": 279,
+                    "y": 275,
+                    "width": 114,
+                    "height": 44,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 3,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N3",
+                    "entryFunc": "",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "call function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "<<AP>>Report\nillegal Group",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": "0"
+               },
+               "selected": false
+          },
+          {
+               "id": 130,
+               "attrs": {
+                    "x": 685,
+                    "y": 199,
+                    "width": 130,
+                    "height": 44,
+                    "r": 0,
+                    "rx": 0,
+                    "ry": 0,
+                    "fill": "#ccccff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100,
+                    "stroke-dasharray": "--"
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "note",
+                    "note": "To each InStream a set \nof groups is associated"
+               },
+               "selected": false
+          },
+          {
+               "id": 132,
+               "attrs": {
+                    "x": 562,
+                    "y": 294,
+                    "width": 6,
+                    "height": 6,
+                    "r": 6,
+                    "rx": 6,
+                    "ry": 6,
+                    "fill": "#000",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 2,
+                    "type": "notedot",
+                    "note": ""
+               },
+               "selected": false
+          },
+          {
+               "id": 133,
                "attrs": {
                     "x": 413,
                     "y": 356,
@@ -149,7 +296,7 @@
                "selected": false
           },
           {
-               "id": 17,
+               "id": 135,
                "attrs": {
                     "x": 537,
                     "y": 436,
@@ -173,7 +320,7 @@
                "selected": false
           },
           {
-               "id": 18,
+               "id": 136,
                "attrs": {
                     "x": 673,
                     "y": 426,
@@ -212,7 +359,7 @@
                "selected": false
           },
           {
-               "id": 20,
+               "id": 138,
                "attrs": {
                     "x": 499,
                     "y": 508,
@@ -251,7 +398,7 @@
                "selected": false
           },
           {
-               "id": 22,
+               "id": 140,
                "attrs": {
                     "x": 537,
                     "y": 591,
@@ -275,7 +422,7 @@
                "selected": false
           },
           {
-               "id": 23,
+               "id": 141,
                "attrs": {
                     "x": 236,
                     "y": 581,
@@ -314,7 +461,7 @@
                "selected": false
           },
           {
-               "id": 25,
+               "id": 143,
                "attrs": {
                     "x": 453,
                     "y": 671,
@@ -353,7 +500,7 @@
                "selected": false
           },
           {
-               "id": 27,
+               "id": 145,
                "attrs": {
                     "x": 537,
                     "y": 752,
@@ -377,7 +524,7 @@
                "selected": false
           },
           {
-               "id": 28,
+               "id": 146,
                "attrs": {
                     "x": 281,
                     "y": 674,
@@ -399,7 +546,7 @@
                "selected": false
           },
           {
-               "id": 29,
+               "id": 147,
                "attrs": {
                     "x": 473,
                     "y": 805,
@@ -421,7 +568,7 @@
                "selected": false
           },
           {
-               "id": 30,
+               "id": 148,
                "attrs": {
                     "x": 589,
                     "y": 569,
@@ -439,7 +586,7 @@
                "fwprop": {
                     "autoid": 3,
                     "type": "note",
-                    "note": "Flag_1: (pckt is the first packet in the group\n               since InSteam was reset) || (seqCounter\n               is equal to one plus the sequence counter\n               of the previous packet)"
+                    "note": "Flag_1: (pckt is the first packet in the group\n               since InSteam was reset) || (seqCounter\n               is equal to one plus the sequence counter\n               of the previous packet in group g)"
                },
                "selected": false
           }
@@ -453,12 +600,12 @@
                          [
                               "M",
                               549,
-                              233
+                              101
                          ],
                          [
                               "L",
                               549,
-                              253
+                              121
                          ]
                     ],
                     "stroke-width": 2,
@@ -483,8 +630,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 1,
-               "stateToID": 3,
+               "stateFromID": 119,
+               "stateToID": 121,
                "selected": false
           },
           {
@@ -495,12 +642,12 @@
                          [
                               "M",
                               549,
-                              310
+                              178
                          ],
                          [
                               "L",
                               549,
-                              348
+                              197
                          ]
                     ],
                     "stroke-width": 2,
@@ -530,8 +677,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 3,
-               "stateToID": 15,
+               "stateFromID": 121,
+               "stateToID": 122,
                "selected": false
           },
           {
@@ -542,12 +689,12 @@
                          [
                               "M",
                               638,
-                              283
+                              151
                          ],
                          [
                               "L",
                               576,
-                              283
+                              151
                          ]
                     ],
                     "stroke-width": 2,
@@ -572,8 +719,197 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 6,
-               "stateToID": 8,
+               "stateFromID": 124,
+               "stateToID": 126,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              549,
+                              242
+                         ],
+                         [
+                              "L",
+                              549,
+                              267
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 122,
+               "stateToID": 127,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              522,
+                              297
+                         ],
+                         [
+                              "L",
+                              401,
+                              297
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "1",
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "g is not a group \nof the InStream ",
+                    "guardAp": false,
+                    "actionDesc": "",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": 0,
+               "shifty": -4,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 127,
+               "stateToID": 128,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              750,
+                              248
+                         ],
+                         [
+                              "L",
+                              750,
+                              297
+                         ],
+                         [
+                              "L",
+                              576,
+                              297
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": "-"
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 750,
+                         "y": 297,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 130,
+               "stateToID": 132,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              549,
+                              324
+                         ],
+                         [
+                              "L",
+                              549,
+                              348
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": "2",
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": "",
+                    "guardDesc": "g is a group of the InStream ",
+                    "guardAp": false,
+                    "actionDesc": "",
+                    "actionAp": false,
+                    "note": ""
+               },
+               "shiftx": 79,
+               "shifty": 7,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 127,
+               "stateToID": 133,
                "selected": false
           },
           {
@@ -614,8 +950,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 15,
-               "stateToID": 17,
+               "stateFromID": 133,
+               "stateToID": 135,
                "selected": false
           },
           {
@@ -661,8 +997,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 17,
-               "stateToID": 18,
+               "stateFromID": 135,
+               "stateToID": 136,
                "selected": false
           },
           {
@@ -708,8 +1044,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 17,
-               "stateToID": 20,
+               "stateFromID": 135,
+               "stateToID": 138,
                "selected": false
           },
           {
@@ -761,8 +1097,71 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 18,
-               "stateToID": 20,
+               "stateFromID": 136,
+               "stateToID": 138,
+               "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              335.82119205298017,
+                              324
+                         ],
+                         [
+                              "L",
+                              335,
+                              448
+                         ],
+                         [
+                              "L",
+                              458,
+                              448
+                         ],
+                         [
+                              "L",
+                              520.2631578947369,
+                              500
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "call function",
+                    "actionType": "call function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [
+                    {
+                         "x": 335,
+                         "y": 448,
+                         "hasMoved": true
+                    },
+                    {
+                         "x": 458,
+                         "y": 448,
+                         "hasMoved": true
+                    }
+               ],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 128,
+               "stateToID": 138,
                "selected": false
           },
           {
@@ -773,12 +1172,12 @@
                          [
                               "M",
                               522,
-                              283
+                              151
                          ],
                          [
                               "L",
                               265,
-                              283
+                              151
                          ],
                          [
                               "L",
@@ -811,12 +1210,12 @@
                     "actionAp": false,
                     "note": ""
                },
-               "shiftx": 137,
-               "shifty": -106,
+               "shiftx": 146,
+               "shifty": -172,
                "vertexes": [
                     {
                          "x": 265,
-                         "y": 283,
+                         "y": 151,
                          "hasMoved": true
                     },
                     {
@@ -829,8 +1228,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 3,
-               "stateToID": 20,
+               "stateFromID": 121,
+               "stateToID": 138,
                "selected": false
           },
           {
@@ -871,8 +1270,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 20,
-               "stateToID": 22,
+               "stateFromID": 138,
+               "stateToID": 140,
                "selected": false
           },
           {
@@ -918,8 +1317,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 22,
-               "stateToID": 23,
+               "stateFromID": 140,
+               "stateToID": 141,
                "selected": false
           },
           {
@@ -965,8 +1364,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 22,
-               "stateToID": 25,
+               "stateFromID": 140,
+               "stateToID": 143,
                "selected": false
           },
           {
@@ -1007,8 +1406,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 25,
-               "stateToID": 27,
+               "stateFromID": 143,
+               "stateToID": 145,
                "selected": false
           },
           {
@@ -1049,8 +1448,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 23,
-               "stateToID": 28,
+               "stateFromID": 141,
+               "stateToID": 146,
                "selected": false
           },
           {
@@ -1107,8 +1506,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 27,
-               "stateToID": 28,
+               "stateFromID": 145,
+               "stateToID": 146,
                "selected": false
           },
           {
@@ -1160,8 +1559,8 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 29,
-               "stateToID": 27,
+               "stateFromID": 147,
+               "stateToID": 145,
                "selected": false
           },
           {
@@ -1182,12 +1581,12 @@
                          [
                               "L",
                               862,
-                              212
+                              80
                          ],
                          [
                               "L",
                               675,
-                              212
+                              80
                          ]
                     ],
                     "stroke-width": 2,
@@ -1210,8 +1609,8 @@
                     "actionAp": false,
                     "note": ""
                },
-               "shiftx": -192,
-               "shifty": 225,
+               "shiftx": -201,
+               "shifty": 288,
                "vertexes": [
                     {
                          "x": 862,
@@ -1220,7 +1619,7 @@
                     },
                     {
                          "x": 862,
-                         "y": 212,
+                         "y": 80,
                          "hasMoved": true
                     }
                ],
@@ -1228,19 +1627,19 @@
                     "x": 0,
                     "y": 0
                },
-               "stateFromID": 27,
-               "stateToID": 1,
+               "stateFromID": 145,
+               "stateToID": 119,
                "selected": false
           }
      ],
      "globals": {
           "paperPanX": 0,
-          "paperPanY": 240,
+          "paperPanY": 60,
           "attrs": {
                "x": 0,
-               "y": 240,
-               "width": 1414,
-               "height": 587,
+               "y": 60,
+               "width": 1374,
+               "height": 617,
                "r": 0,
                "rx": 0,
                "ry": 0,
