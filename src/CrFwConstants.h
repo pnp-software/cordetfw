@@ -476,12 +476,8 @@ typedef struct InLoaderData {
 
 /** Type for the data describing an InStream */
 typedef struct InStreamData {
-	/** Source associated to the InStream. */
-	CrFwDestSrc_t src;
 	/** Packet queue associated to the InStream. */
 	struct CrFwPcktQueue pcktQueue;
-	/** Array holding sequence counters for the groups associated to the InStream */
-	CrFwSeqCnt_t* seqCnt;
 	/** Function which implements the Packet Collect Operation. */
 	CrFwPcktCollect_t collectPckt;
 	/** Function which implements the Packet Available Check Operation. */

@@ -53,7 +53,13 @@ static FwSmDesc_t baseOutStreamSmDesc = NULL;
 static CrFwCounterU1_t outStreamPcktQueueSize[CR_FW_NOF_OUTSTREAM] = CR_FW_OUTSTREAM_PQSIZE;
 
 /** The (destination, outStream) pairs */
-static CrFwDestSrc_t outStreamDest[CR_FW_OUTSTREAM_NOF_DEST][2] = CR_FW_OUTSTREAM_DEST;
+static CrFwDestSrc_t outStreamDestPairs[CR_FW_OUTSTREAM_NOF_DEST][2] = CR_FW_OUTSTREAM_DEST_PAIRS;
+
+/** The destinations associated to each outStream */
+static CrFwDestSrc_t* outStreamDest[CR_FW_NOF_OUTSTREAM];
+
+/** The number of destinations associated to each outStream */
+static CrFwDestSrc_t outStreamNofDest[CR_FW_NOF_OUTSTREAM];
 
 /** The sequence counters managed by the OutStreams. */
 static CrFwSeqCnt_t outStreamSeqCounter[CR_FW_OUTSTREAM_NOF_GROUPS];
@@ -295,20 +301,18 @@ FwSmDesc_t CrFwOutStreamGet(CrFwDestSrc_t dest) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwOutStreamGetDest(FwSmDesc_t outStream, CrFwDestSrc_t* arrayDest) {
-	unsigned int i;
-	unsigned int j = 0;
-	CrFwInstanceId_t outStreamId = CrFwCmpGetInstanceId(outStream);
-	assert(outStreamId < CR_FW_NOF_OUTSTREAM);
+CrFwDestSrc_t CrFwOutStreamGetDest(FwSmDesc_t outStream, CrFwCounterU1_t i) {
+	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(outStream);
+	CrFwInstanceId_t outStreamId = outStreamBaseData->instanceId;
+	assert(i <= outStreamNofDest[outStreamId]);
+	return outStreamDest[i-1];
+}
 
-	for (i=0; i<CR_FW_OUTSTREAM_NOF_DEST; i++)
-		if (outStreamDest[i][1] == outStreamId) {
-			arrayDest[j] = outStreamDest[i][0];
-			j = j+1;
-		}
-	
-	for (i=j; i<CR_FW_OUTSTREAM_NOF_DEST; i++)
-		arrayDest[i] = 0;
+/*-----------------------------------------------------------------------------------------*/
+CrFwCounterU1_t CrFwOutStreamGetNOfDest(FwSmDesc_t outStream) {
+	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(outStream);
+	CrFwInstanceId_t outStreamId = outStreamBaseData->instanceId;
+	return outStreamNofDest[outStreamId];
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -373,9 +377,27 @@ void CrFwOutStreamDefShutdownAction(FwSmDesc_t smDesc) {
 /*-----------------------------------------------------------------------------------------*/
 void CrFwOutStreamDefInitAction(FwPrDesc_t prDesc) {
 	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwPrGetData(prDesc);
-	CrFwInstanceId_t i = outStreamBaseData->instanceId;
+	CrFwInstanceId_t outStreamId = outStreamBaseData->instanceId;
+	unsigned int i, j;
 
-	CrFwPcktQueueInit(&(outStreamCmpSpecificData[i].pcktQueue),outStreamPcktQueueSize[i]);
+	outStreamNofDest[outStreamId] = 0;
+	for (i=0; i<CR_FW_OUTSTREAM_NOF_DEST; i++)
+		if (outStreamDestPairs[i][1] == outStreamId) {
+			outStreamNofDest[outStreamId]++;
+		}
+	
+	assert(outStreamNofDest[outStreamId] > 0);
+	outStreamDesc[outStreamId] = malloc(sizeof(CrFwDestSrc_t) * outStreamNofDest[outStreamId]);
+
+	j = 0;
+	for (i=0; i<CR_FW_OUTSTREAM_NOF_DEST; i++)
+		if (outStreamDestPairs[i][1] == outStreamId) {
+			outStreamDest[outStreamId][j] = outStreamDestPairs[i][0];
+			j++;
+		}
+	assert(j == outStreamNofDest[outStreamId]);
+
+	CrFwPcktQueueInit(&(outStreamCmpSpecificData[outStreamId].pcktQueue),outStreamPcktQueueSize[outStreamId]);
 	outStreamBaseData->outcome = 1;
 }
 

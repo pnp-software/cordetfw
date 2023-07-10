@@ -137,23 +137,37 @@ CrFwBool_t CrFwOutStreamIsInBuffering(FwSmDesc_t smDesc);
 FwSmDesc_t CrFwOutStreamGet(CrFwDestSrc_t dest);
 
 /**
- * Populate the argument array with the destinations associated to the argument 
- * outStream.
- * An OutStream is associated to one or more destinations.
+ * Return the i-th destination associated to the argument outStream.
+ * The value of i must be in the range 1 to N with N being the number of
+ * destinations associated to the outStream as returned by function
+ * <code>::CrFwOutStreamGetNOfDest>/code>.
+ * If this constraint is violated, the return value of the function is
+ * unpredictable.
+ * 
  * The binding between an OutStream and its destinations is done statically in the
  * array <code>#CR_FW_OUTSTREAM_DEST</code>.
- * This function scans this array and returns the destinations to which the
- * argument outStream is associated. 
- * The argument array <code>arrayDest</code> must be allocated by the caller and
- * it must have a size of at least <code>#CR_FW_OUTSTREAM_NOF_DEST</code>.
- * If the argument array is associated to N destinations, the function writes
- * their identifiers in the first N entries of <code>arrayDest</code> 
- * and sets all other array entries to zero. 
+ * The first destination associated to the outStream is the destination
+ * in the first pair of <code>#CR_FW_OUTSTREAM_DEST</code> whicih is
+ * associated to the outStream; the second destination associated to it
+ * is the destination in the second pair; etc.
+ * 
+ * This function may only be called after the outStream has been initialized.
+ * 
  * @param outStream the outStream
- * @param dests the array of destinations populated by the function (must be
- * allocated by the caller and have at least CR_FW_OUTSTREAM_NOF_DEST elements)
+ * @param i the index of the desired destination
+ * @return the i-th destination of the outStream  
  */
-void CrFwOutStreamGetDest(FwSmDesc_t outStream, CrFwDestSrc_t* arrayDest);
+CrFwDestSrc_t CrFwOutStreamGetDest(FwSmDesc_t outStream, CrFwCounterU1_t i);
+
+/**
+ * Return the number of destinations associated to the argument outStream.
+ * The binding between an OutStream and its destinations is done statically in the
+ * array <code>#CR_FW_OUTSTREAM_DEST</code>.
+ * This function may only be called after the outStream has been initialized.
+ * @param outStream the outStream
+ * @return the number of destinations associated to the outStream  
+ */
+CrFwCounterU1_t CrFwOutStreamGetNOfDest(FwSmDesc_t outStream);
 
 /**
  * Send a packet to the OutStream.
@@ -204,7 +218,8 @@ void CrFwOutStreamDefConfigAction(FwPrDesc_t prDesc);
 
 /**
  * Default initialization action for an OutStream.
- * This function allocates the memory for the packet queue of the OutStream.
+ * This function allocates the memory for the packet queue of the OutStream
+ * and for the array holding the destinations associated to the outStream,
  * The situation of where the memory allocation fails is not handled and
  * therefore the outcome of this configuration action is always "success".
  *
@@ -217,7 +232,8 @@ void CrFwOutStreamDefInitAction(FwPrDesc_t prDesc);
 
 /**
  * Default shutdown action for an OutStream.
- * This function resets the packet queue and releases the memory allocated to it.
+ * This function resets the packet queue and releases the memory allocated to it
+ * and to the array holding the destinations associated to the outStream.
  *
  * This function should never be directly called by the end-application.
  * It is declared as a public function so that it may be used in application-specific

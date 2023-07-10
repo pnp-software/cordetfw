@@ -61,29 +61,44 @@
 #define CR_FW_INSTREAM_PQSIZE {3,3,3,3,5,6,7}
 
 /**
- * The number of groups of the InStream components.
+ * The number of groups managed by the InStream components.
  * The number of groups must be a positive integer.
- * This array defines the number of groups of the i-th InStream.
  *
  * The number of groups defined in this file are those used for the test cases
  * of <code>CrFwInStreamTestCases.h</code>.
  */
-#define CR_FW_INSTREAM_NOF_GROUPS {1,1,2,1,1,1,1}
+#define CR_FW_INSTREAM_NOF_GROUPS 2
 
 /**
- * The packet source which is managed by the InStream component.
- * Each InStream is responsible for collecting packets from one packet source.
- * This constant is the initializer for the array which defines the packet source
- * associated to the i-th InStream.
+ * The number of distinct sources from which the InStream components
+ * may receive packets.
+ * The number of sources must be a positive integer.
  *
- * The packet sources defined in this file are those used for the test cases
+ * The number of sources defined in this file are those used for the test cases
  * of <code>CrFwInStreamTestCases.h</code>.
- * The packet source of the last two InStreams must be the same as the host
- * application identifier (<code>#CR_FW_HOST_APP_ID</code>); this is normally
- * illegal but is required for a correct functioning of the socket test cases in
- * <code>CrFwSocketTestCases.h</code>.
  */
-#define CR_FW_INSTREAM_SRC {1,2,3,4,5,10,10}
+#define CR_FW_INSTREAM_NOF_SRCS 8
+
+/**
+ * The association of sources to InStreams.
+ * An InStream is responsible for managing incoming commands or reports  
+ * from one or more sources.
+ * Each element of this array consists of a pair (source, inStreamId)
+ * where inStreamId is the identifier of the InStream correponding
+ * to source 'source'.
+ * The value of the InStreamId must be smaller than CR_FW_NOF_INSTREAM.
+ * This is checked by the <code>::CrFwAuxInStreamConfigCheck</code> function.
+ *
+ * The size of this array must be equal to <code>#CR_FW_INSTREAM_NOF_DEST</code>.
+ */
+#define CR_FW_INSTREAM_SRC   {{1,0},\
+							  {2,1},\
+							  {3,2},\
+							  {4,3},\
+							  {5,4},\
+							  {6,6},\
+							  {7,5},\
+							  {10,6}}
 
 /**
  * The functions implementing  the Packet Collect Operations of the InStream components.

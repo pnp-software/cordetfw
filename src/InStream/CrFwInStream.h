@@ -4,7 +4,7 @@
  * Definition of the InStream component.
  *
  * An InStream is responsible for managing the collection of packets (representing
- * incoming reports or incoming commands) from a certain packet source.
+ * incoming reports or incoming commands) from one or more packet sources.
  * An InStream is implemented by the InStream State Machine (see figures below)
  * embedded within state CONFIGURED of a Base State Machine.
  *
@@ -18,8 +18,6 @@
  * Each InStream instance has an identifier which uniquely identifies it
  * within the set of InStream Components.
  * This identifier is an integer in the range 0 to: <code>#CR_FW_NOF_INSTREAM</code>-1.
- * An application should instantiated one InStream for each source of incoming commands
- * or reports.
  *
  * <b>Mode of Use of an InStream Component</b>
  *
@@ -91,7 +89,7 @@ FwSmDesc_t CrFwInStreamMake(CrFwInstanceId_t inStreamId);
 
 /**
  * Getter function for the InStream corresponding to the argument source.
- * Nominally, each InStream is associated to a certain packet source.
+ * Nominally, each InStream is associated to one or more packet sources.
  * The binding between an InStream and its source is done statically in the
  * configuration file <code>CrFwInStreamUserPar.h</code>.
  *
@@ -153,7 +151,7 @@ CrFwBool_t CrFwInStreamIsInPcktAvail(FwSmDesc_t smDesc);
 /**
  * Default configuration action for an InStream.
  * This function resets the packet queue of the InStream and resets the
- * expected sequence counter associated to the InStream to 
+ * expected sequence counters associated to the InStreams to zero.
  * Configuration actions have an outcome (see <code>CrFwResetProc.h</code>).
  * The outcome of this configuration action is always: "success".
  *
@@ -166,10 +164,7 @@ void CrFwInStreamDefConfigAction(FwPrDesc_t prDesc);
 
 /**
  * Default initialization action for an InStream.
- * This function: (a) allocates the memory for the packet queue of the InStream;
- * (b) allocates the memory for the array holding the sequence counters for the destination/source
- * groups associated to the Instream; and (c) initializes all data structures implementing
- * the InStream.
+ * This function allocates the memory for the packet queue of the InStream.
  * Initialization actions have an outcome (see <code>CrFwResetProc.h</code>).
  * The situation of where the memory allocation fails is not handled and
  * therefore the outcome of this configuration action is always "success".
@@ -183,8 +178,7 @@ void CrFwInStreamDefInitAction(FwPrDesc_t prDesc);
 
 /**
  * Default shutdown action for an InStream.
- * This function releases the memory allocated to the packet queue of the InStream
- * and releases the memory allocated to the array holding the sequence counters.
+ * This function releases the memory allocated to the packet queue of the InStream.
  *
  * This function should never be directly called by the end-application.
  * It is declared as a public function so that it may be used in application-specific
@@ -195,24 +189,22 @@ void CrFwInStreamDefShutdownAction(FwSmDesc_t smDesc);
 
 /**
  * Return the value of the sequence counter of the last packet successfully
- * collected by the InStream for a group.
+ * collected by the InStreams for the argument group.
  * If no packet has yet been collected for that group after the InStream was reset, the
- * sequence counter is equal to zero.
- * @param smDesc the descriptor of the InStream State Machine
+ * sequence counter returned by the function is set equal to zero.
  * @param group the identifier of the group
  * @return the InStream sequence counter
  */
-CrFwSeqCnt_t CrFwInStreamGetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group);
+CrFwSeqCnt_t CrFwInStreamGetSeqCnt(CrFwGroup_t group);
 
 /**
  * Overwrites the sequence counter value of the last packet for a group.
  * Can be used to update the expected sequence counter value for the next
  * packet.
- * @param smDesc the descriptor of the InStream State Machine
  * @param group the identifier of the group
  * @param seqCnt the InStream sequence counter
  */
-void CrFwInStreamSetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group, CrFwSeqCnt_t seqCnt);
+void CrFwInStreamSetSeqCnt(CrFwGroup_t group, CrFwSeqCnt_t seqCnt);
 
 /**
  * Return the number of packets currently in the packet queue of an InStream.
@@ -222,11 +214,10 @@ void CrFwInStreamSetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group, CrFwSeqCnt_t se
 CrFwCounterU1_t CrFwInStreamGetNOfPendingPckts(FwSmDesc_t smDesc);
 
 /**
- * Return the number of groups associated to the InStream.
- * @param smDesc the descriptor of the Base State Machine of the InStream.
+ * Return the number of groups managed by the InStreams.
  * @return the number of groups associated to the InStream.
  */
-CrFwGroup_t CrFwInStreamGetNOfGroups(FwSmDesc_t smDesc);
+CrFwGroup_t CrFwInStreamGetNOfGroups();
 
 /**
  * Return the size of the packet queue of the InStream.

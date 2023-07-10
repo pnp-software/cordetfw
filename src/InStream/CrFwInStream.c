@@ -17,6 +17,7 @@
  */
 
 #include <stdlib.h>
+#include <assert.h>
 /* Include configuration files */
 #include "CrFwInStreamUserPar.h"
 #include "CrFwCmpData.h"
@@ -48,8 +49,8 @@ static FwSmDesc_t baseInStreamSmDesc = NULL;
 /** The sizes of the packet queues in the InStream components. */
 static CrFwCounterU1_t inStreamPcktQueueSize[CR_FW_NOF_INSTREAM] = CR_FW_INSTREAM_PQSIZE;
 
-/** The number of groups associated to the InStream components. */
-static CrFwGroup_t inStreamNOfGroups[CR_FW_NOF_INSTREAM] = CR_FW_INSTREAM_NOF_GROUPS;
+/** The sequence counters managed by the OutStreams. */
+static CrFwSeqCnt_t inStreamSeqCounter[CR_FW_INSTREAM_NOF_GROUPS];
 
 /** The functions implementing the packet hand-over operations for the InStream components. */
 static CrFwPcktCollect_t inStreamPcktCollect[CR_FW_NOF_INSTREAM] = CR_FW_INSTREAM_PCKTCOLLECT;
@@ -72,8 +73,12 @@ static FwPrAction_t inStreamConfigAction[CR_FW_NOF_INSTREAM] = CR_FW_INSTREAM_CO
 /** The functions implementing the shutdown actions for the InStream components. */
 static FwSmAction_t inStreamShutdownAction[CR_FW_NOF_INSTREAM] = CR_FW_INSTREAM_SHUTDOWNACTION;
 
-/** The sources associated to the InStream components. */
-static CrFwDestSrc_t inStreamSrc[CR_FW_NOF_INSTREAM] = CR_FW_INSTREAM_SRC;
+/** The association between sources and inSreams. */
+static CrFwDestSrc_t inStreamSrc[CR_FW_INSTREAM_NOF_SRCS][2] = CR_FW_INSTREAM_SRC;
+
+
+
+
 
 /** The descriptors of the InStream State Machines. */
 static FwSmDesc_t inStreamDesc[CR_FW_NOF_INSTREAM];
@@ -190,7 +195,6 @@ FwSmDesc_t CrFwInStreamMake(CrFwInstanceId_t i) {
 	inStreamData[i].typeId = CR_FW_INSTREAM_TYPE;
 	inStreamCmpSpecificData[i].collectPckt = inStreamPcktCollect[i];
 	inStreamCmpSpecificData[i].isPcktAvail = inStreamPcktAvailCheck[i];
-	inStreamCmpSpecificData[i].src = inStreamSrc[i];
 	inStreamData[i].cmpSpecificData = &inStreamCmpSpecificData[i];
 
 	/* Attach the data to the InStream state machine and to its procedures.
@@ -209,10 +213,10 @@ FwSmDesc_t CrFwInStreamMake(CrFwInstanceId_t i) {
 
 /*-----------------------------------------------------------------------------------------*/
 FwSmDesc_t CrFwInStreamGet(CrFwDestSrc_t src) {
-	CrFwInstanceId_t i;
-	for (i=0; i<CR_FW_NOF_INSTREAM; i++)
-		if (inStreamCmpSpecificData[i].src == src)
-			return inStreamDesc[i];
+	CrFwDestSrc_t i;
+	for (i=0; i<CR_FW_INSTREAM_NOF_SRCS; i++)
+		if (inStreamSrc[i][0] == src)
+			return inStreamSrc[i][1];
 
 	CrFwSetAppErrCode(crInStreamUndefDest);
 	return NULL;
@@ -250,18 +254,15 @@ CrFwDestSrc_t CrFwInStreamGetSrc(FwSmDesc_t smDesc) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-CrFwSeqCnt_t CrFwInStreamGetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group) {
-	CrFwCmpData_t* inStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwInStreamData_t* cmpSpecificData = (CrFwInStreamData_t*)inStreamBaseData->cmpSpecificData;
-	return cmpSpecificData->seqCnt[group];
+CrFwSeqCnt_t CrFwInStreamGetSeqCnt(CrFwGroup_t group) {
+	assert(group < CR_FW_INSTREAM_NOF_GROUPS);
+	return inStreamSeqCounter[group];
 }
 
 /*-----------------------------------------------------------------------------------------*/
-void CrFwInStreamSetSeqCnt(FwSmDesc_t smDesc, CrFwGroup_t group, CrFwSeqCnt_t seqCnt)
-{
-	CrFwCmpData_t* inStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwInStreamData_t* cmpSpecificData = (CrFwInStreamData_t*)inStreamBaseData->cmpSpecificData;
-	cmpSpecificData->seqCnt[group] = seqCnt;
+void CrFwInStreamSetSeqCnt(CrFwGroup_t group, CrFwSeqCnt_t seqCnt) {
+	assert(group < CR_FW_INSTREAM_NOF_GROUPS);
+	inStreamSeqCounter[group] = seqCnt;
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -272,9 +273,8 @@ CrFwCounterU1_t CrFwInStreamGetNOfPendingPckts(FwSmDesc_t smDesc) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
-CrFwGroup_t CrFwInStreamGetNOfGroups(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* inStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	return inStreamNOfGroups[inStreamBaseData->instanceId];
+CrFwGroup_t CrFwInStreamGetNOfGroups() {
+	return CR_FW_INSTREAM_NOF_GROUPS;
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -292,8 +292,8 @@ void CrFwInStreamDefConfigAction(FwPrDesc_t prDesc) {
 
 	CrFwPcktQueueReset(&(cmpSpecificData->pcktQueue));
 	cmpSpecificData->pckt = NULL;
-	for (i=0; i<inStreamNOfGroups[inStreamBaseData->instanceId]; i++)
-		cmpSpecificData->seqCnt[i] = 0;
+	for (i=0; i<CR_FW_INSTREAM_NOF_GROUPS; i++)
+		inStreamSeqCounter[i] = 0;
 	inStreamData->outcome = 1;
 }
 
@@ -303,8 +303,6 @@ void CrFwInStreamDefShutdownAction(FwSmDesc_t smDesc) {
 	CrFwInStreamData_t* cmpSpecificData = (CrFwInStreamData_t*)inStreamBaseData->cmpSpecificData;
 
 	CrFwPcktQueueShutdown(&(cmpSpecificData->pcktQueue));
-	free(cmpSpecificData->seqCnt);
-	cmpSpecificData->seqCnt = NULL;
 	cmpSpecificData->pckt = NULL;
 }
 
@@ -314,7 +312,6 @@ void CrFwInStreamDefInitAction(FwPrDesc_t prDesc) {
 	CrFwInStreamData_t* cmpSpecificData = (CrFwInStreamData_t*)inStreamBaseData->cmpSpecificData;
 	CrFwInstanceId_t i = inStreamBaseData->instanceId;
 
-	cmpSpecificData->seqCnt = malloc(sizeof(CrFwSeqCnt_t)*inStreamNOfGroups[i]);
 	CrFwPcktQueueInit(&(cmpSpecificData->pcktQueue), inStreamPcktQueueSize[i]);
 }
 
