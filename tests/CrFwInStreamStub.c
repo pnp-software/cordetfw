@@ -126,7 +126,9 @@ void CrFwInStreamStubDummyCheck(FwPrDesc_t prDesc) {
 /* ---------------------------------------------------------------------------------------------*/
 void CrFwInStreamStubInitAction(FwPrDesc_t prDesc) {
 	CrFwCmpData_t* inStreamBaseData = (CrFwCmpData_t*)FwPrGetData(prDesc);
-	CrFwInStreamDefInitAction(prDesc);
+	CrFwInstanceId_t inStreamId = inStreamBaseData->instanceId;
+	if (CrFwInStreamGetNOfSrc(CrFwInStreamMake(inStreamId)) == 0)
+		CrFwInStreamDefInitAction(prDesc);
 	inStreamBaseData->outcome = (CrFwOutcome_t)actionFlag;
 }
 

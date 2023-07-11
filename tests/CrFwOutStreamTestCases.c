@@ -227,11 +227,17 @@ CrFwBool_t CrFwOutStreamTestCase2() {
 	if (!CrFwCmpIsInCreated(outStream3))
 		return 0;
 
+	/* Shut down InStream to prevent memory leak when the component is initialized again */
+	CrFwCmpShutdown(outStream3);
+
 	CrFwOutStreamStubSetCheckFlag(1);
 	CrFwOutStreamStubSetActionFlag(0);
 	CrFwCmpInit(outStream3);
 	if (!CrFwCmpIsInCreated(outStream3))
 		return 0;
+
+	/* Shut down InStream to prevent memory leak when the component is initialized again */
+	CrFwCmpShutdown(outStream3);
 
 	CrFwOutStreamStubSetCheckFlag(0);
 	CrFwOutStreamStubSetActionFlag(1);
@@ -239,7 +245,10 @@ CrFwBool_t CrFwOutStreamTestCase2() {
 	if (!CrFwCmpIsInCreated(outStream3))
 		return 0;
 
-	CrFwOutStreamStubSetCheckFlag(1);
+	/* Shut down InStream to prevent memory leak when the component is initialized again */
+	CrFwCmpShutdown(outStream3);
+
+ 	CrFwOutStreamStubSetCheckFlag(1);
 	CrFwOutStreamStubSetActionFlag(1);
 	CrFwCmpInit(outStream3);
 	if (!CrFwCmpIsInInitialized(outStream3))

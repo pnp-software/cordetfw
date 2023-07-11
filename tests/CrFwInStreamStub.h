@@ -111,8 +111,8 @@ void CrFwInStreamStubSetCheckFlag(CrFwBool_t flag);
  * to ensure that default initialization actions are performed.
  * The <code>::CrFwInStreamDefInitAction</code> function dynamically allocates
  * memory for an internal InStream data structure. In order to avoid memory
- * leaks, In order to avoid memory leaks, this function should therefore only 
- * be called once for each outStream..
+ * leaks, the <code>::CrFwInStreamDefInitAction</code> function is only called if
+ * the internal InStream data structures are no allocated.
  *
  * @param prDesc the initialization or configuration procedure descriptor (this parameter
  * is not used).

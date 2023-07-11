@@ -461,9 +461,6 @@ CrFwBool_t CrFwInStreamTestCase5() {
 	if (CrFwInStreamGetSrc(inStream3, 1) != 4)
 		return 0;
 
-	/* Shut down the newly-created InStream */
-	CrFwCmpShutdown(inStream3);
-
 	/* Configure initialization check and action until initialization succeeds */
 	CrFwInStreamStubSetCheckFlag(0);
 	CrFwInStreamStubSetActionFlag(0);
@@ -523,6 +520,9 @@ CrFwBool_t CrFwInStreamTestCase5() {
 	CrFwCmpReset(inStream3);
 	if (!CrFwCmpIsInInitialized(inStream3))
 		return 0;
+
+	/* Shut down the InStream */
+	CrFwCmpShutdown(inStream3);
 
 	/* Check application errors */
 	if (CrFwGetAppErrCode() != crNoAppErr)
