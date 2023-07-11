@@ -112,6 +112,7 @@ void CrFwPcktQueueShutdown(CrFwPcktQueue_t pcktQueue) {
 	CrFwPcktQueueReset(pcktQueue);
 	free(pcktQueue->pckt);
 	pcktQueue->pckt = NULL;
+	pcktQueue->size = 0;
 }
 
 /*-----------------------------------------------------------------------------------------*/

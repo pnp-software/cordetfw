@@ -373,6 +373,7 @@ void CrFwOutStreamDefShutdownAction(FwSmDesc_t smDesc) {
 	CrFwInstanceId_t outStreamId = outStreamBaseData->instanceId;
 	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
 	free(outStreamDest[outStreamId]);
+	outStreamDest[outStreamId] = NULL;
 	outStreamNofDest[outStreamId] = 0;
 	CrFwPcktQueueShutdown(&(cmpSpecificData->pcktQueue));
 }
