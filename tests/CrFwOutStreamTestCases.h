@@ -44,7 +44,7 @@
  * .
  * In all cases, the packet is configured to belong to the first group associated
  * to the OutStream.
- * .
+ * 
  * @verify Error Report: crOutStreamPQFull
  * @verify Application Error: crOutStreamIllId
  * @verify Base SM Transition: IPS->CREATED
@@ -220,7 +220,7 @@ CrFwBool_t CrFwOutStreamTestCase6();
  * Test the management of the sequence counters for different groups and of the
  * type counters.
  * This test assumes that the OutStreams have been configured to have 2 groups and that
- * it uses the default function <code>#CrFwOutStreamDefSetDTS<code> t compute the
+ * it uses the default function <code>#CrFwOutStreamDefSetDTS</code> to compute the
  * the DTS_SET.
  * - The second OutStream is started and its Packet Hand-Over Operation is 
  *   configured to return "hand-over successful".

@@ -168,7 +168,7 @@ void CrFwInStreamSocketPoll(FwSmDesc_t inStream);
  * @param srcs the sources associated to the InStream (not used in this stub)
  * @return the packet
  */
-CrFwPckt_t CrFwInStreamSocketPcktCollect(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* srcs);
+CrFwPckt_t CrFwInStreamSocketPcktCollect(CrFwDestSrc_t nofSrc, CrFwDestSrc_t* srcs);
 
 /**
  * Function implementing the Packet Available Check Operation for the InStream.
@@ -186,7 +186,7 @@ CrFwPckt_t CrFwInStreamSocketPcktCollect(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* s
  * @param srcs the sources associated to the InStream (not used in this stub)
  * @return the value of a predefined flag
  */
-CrFwBool_t CrFwInStreamSocketIsPcktAvail(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* srcs);
+CrFwBool_t CrFwInStreamSocketIsPcktAvail(CrFwDestSrc_t nofSrc, CrFwDestSrc_t* srcs);
 
 /**
  * Set the port number for the socket.

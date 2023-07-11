@@ -256,7 +256,6 @@ CrFwDestSrc_t CrFwInStreamGetSrc(FwSmDesc_t smDesc, CrFwCounterU1_t i);
  * This function may only be called after the argument InStream
  * has been initialized.
  * @param smDesc the descriptor of the Base State Machine of the InStream.
- * @param i the index of the source (starting from 1)
  * @return src the source associated to the OutStream
  */CrFwCounterU1_t CrFwInStreamGetNOfSrc(FwSmDesc_t smDesc);
 

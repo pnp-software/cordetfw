@@ -16,7 +16,7 @@
  * An application can instantiate several OutStream Components.
  * Each OutStream component is associated to one or more destinations. 
  * The mapping from the destinations to the OutStreams is in parameter
- * #CR_FW_OUTSTREAM_DEST.
+ * <code>#CR_FW_OUTSTREAM_DEST_PAIRS</code>.
  * 
  * Each OutStream instance has an identifier which uniquely identifies it
  * within the set of OutStream Components.
@@ -140,14 +140,14 @@ FwSmDesc_t CrFwOutStreamGet(CrFwDestSrc_t dest);
  * Return the i-th destination associated to the argument outStream.
  * The value of i must be in the range 1 to N with N being the number of
  * destinations associated to the outStream as returned by function
- * <code>::CrFwOutStreamGetNOfDest>/code>.
+ * <code>::CrFwOutStreamGetNOfDest</code>.
  * If this constraint is violated, the return value of the function is
  * unpredictable.
  * 
  * The binding between an OutStream and its destinations is done statically in the
- * array <code>#CR_FW_OUTSTREAM_DEST</code>.
+ * array <code>#CR_FW_OUTSTREAM_DEST_PAIRS</code>.
  * The first destination associated to the outStream is the destination
- * in the first pair of <code>#CR_FW_OUTSTREAM_DEST</code> whicih is
+ * in the first pair of <code>#CR_FW_OUTSTREAM_DEST_PAIRS</code> whicih is
  * associated to the outStream; the second destination associated to it
  * is the destination in the second pair; etc.
  * 
@@ -162,7 +162,7 @@ CrFwDestSrc_t CrFwOutStreamGetDest(FwSmDesc_t outStream, CrFwCounterU1_t i);
 /**
  * Return the number of destinations associated to the argument outStream.
  * The binding between an OutStream and its destinations is done statically in the
- * array <code>#CR_FW_OUTSTREAM_DEST</code>.
+ * array <code>#CR_FW_OUTSTREAM_DEST_PAIRS</code>.
  * This function may only be called after the outStream has been initialized.
  * @param outStream the outStream
  * @return the number of destinations associated to the outStream  

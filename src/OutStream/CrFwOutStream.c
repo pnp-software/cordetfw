@@ -174,16 +174,18 @@ static int IsPacketQueueEmpty(FwSmDesc_t smDesc);
 /**
  * Compute the destination-type key of the argument packet and returns
  * its position (starting from zero) in the array of destination-type keys
- * <code>::outStreamDestTypeKey<\code>.
+ * <code>::outStreamDestTypeKey</code>.
  * If the destination-type key of the argument packet is not in 
- * the array <code>::outStreamDestTypeKey<\code>, then th\code>
- * is returned.
+ * the array <code>::outStreamDestTypeKey</code>, then the length of the
+ * of the array is returned.
  * Packets whose destination-type key is not in array 
- * <code>::outStreamDestTypeKey<\code> are those for which
+ * <code>::outStreamDestTypeKey</code> are those for which
  * the type counter does not need to be maintained and can be set to zero.
  * 
  * @param pckt the packet whose destination-type key is computed
- * @return the position of the packet's destination-type key
+ * @return the position of the packet's destination-type key in array
+ * <code>::outStreamDestTypeKey</code> or the array's length if the packet's
+ * destination-type key is not found 
  */
 static CrFwTypeCnt_t GetDestTypeKeyPos(CrFwPckt_t pckt);
 

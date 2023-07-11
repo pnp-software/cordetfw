@@ -86,9 +86,9 @@ static CrFwBool_t actionFlag = 1;
 static CrFwCounterU1_t shutdownCnt = 0;
 
 /* ---------------------------------------------------------------------------------------------*/
-CrFwPckt_t CrFwInStreamStubPcktCollect(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* srcs) {
+CrFwPckt_t CrFwInStreamStubPcktCollect(CrFwDestSrc_t nofSrc, CrFwDestSrc_t* srcs) {
 	CrFwPckt_t pckt;
-	(void)(nofSrcs);
+	(void)(nofSrc);
 	(void)(srcs);
 
 	if (pcktCollectCnt == 0)
@@ -111,8 +111,8 @@ CrFwPckt_t CrFwInStreamStubPcktCollect(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* src
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-CrFwBool_t CrFwInStreamStubIsPcktAvail(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* srcs) {
-	(void)(nofSrcs);
+CrFwBool_t CrFwInStreamStubIsPcktAvail(CrFwDestSrc_t nofSrc, CrFwDestSrc_t* srcs) {
+	(void)(nofSrc);
 	(void)(srcs);
 	return (pcktCollectCnt != 0);
 }

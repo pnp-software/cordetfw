@@ -46,7 +46,7 @@
 
 /**
  * Number of destinations for out-going packets.
- * The destinations are specified in <code>#CR_FW_OUTSTREAM_DEST</code>.
+ * The destinations are specified in <code>#CR_FW_OUTSTREAM_DEST_PAIRS</code>.
 */
 #define CR_FW_OUTSTREAM_NOF_DEST 8
 

@@ -60,7 +60,7 @@
  * @param srcs the sources associated to the InStream (not used in this stub)
  * @return the packet
  */
-CrFwPckt_t CrFwInStreamStubPcktCollect(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* srcs);
+CrFwPckt_t CrFwInStreamStubPcktCollect(CrFwDestSrc_t nofSrc, CrFwDestSrc_t* srcs);
 
 /**
  * Stub function implementing the packet available check operation for the InStream
@@ -72,7 +72,7 @@ CrFwPckt_t CrFwInStreamStubPcktCollect(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* src
  * @param srcs the sources associated to the InStream (not used in this stub)
  * @return the value of a predefined flag
  */
-CrFwBool_t CrFwInStreamStubIsPcktAvail(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* srcs);
+CrFwBool_t CrFwInStreamStubIsPcktAvail(CrFwDestSrc_t nofSrc, CrFwDestSrc_t* srcs);
 
 /**
  * Stub function implementing the shutdown operation for an InStream
@@ -81,7 +81,6 @@ CrFwBool_t CrFwInStreamStubIsPcktAvail(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* src
  * and then calls the default shutdown operation
  * (<code>::CrFwInStreamDefShutdownAction</code>).
  * @param smDesc the descriptor of the InStream state machine
- * @return the value of a predefined flag
  */
 void CrFwInStreamStubShutdown(FwSmDesc_t smDesc);
 

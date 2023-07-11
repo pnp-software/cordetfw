@@ -172,7 +172,7 @@ void CrFwPcktSetSeqCnt(CrFwPckt_t pckt, CrFwSeqCnt_t seqCnt);
  * @param pckt the packet.
  * @param typeCnt the type counter.
  */
-void CrFwPcktSetTypeCnt(CrFwPckt_t pckt, CrFwTypeCnt_t seqCnt);
+void CrFwPcktSetTypeCnt(CrFwPckt_t pckt, CrFwTypeCnt_t typeCnt);
 
 /**
  * Return the type counter of the command or report encapsulated in a packet.
