@@ -164,7 +164,8 @@ void CrFwInStreamDefConfigAction(FwPrDesc_t prDesc);
 
 /**
  * Default initialization action for an InStream.
- * This function allocates the memory for the packet queue of the InStream.
+ * This function allocates the memory for the packet queue of the InStream
+ * and for the array holding the sources associated to the InStream.
  * Initialization actions have an outcome (see <code>CrFwResetProc.h</code>).
  * The situation of where the memory allocation fails is not handled and
  * therefore the outcome of this configuration action is always "success".
@@ -178,7 +179,8 @@ void CrFwInStreamDefInitAction(FwPrDesc_t prDesc);
 
 /**
  * Default shutdown action for an InStream.
- * This function releases the memory allocated to the packet queue of the InStream.
+ * This function releases the memory allocated to the packet queue of the InStream
+ * and to the array holding the sources of the InStream.
  *
  * This function should never be directly called by the end-application.
  * It is declared as a public function so that it may be used in application-specific
@@ -227,12 +229,35 @@ CrFwGroup_t CrFwInStreamGetNOfGroups();
 CrFwCounterU1_t CrFwInStreamGetPcktQueueSize(FwSmDesc_t smDesc);
 
 /**
- * Get the currently defined packet source of an InStream.
- * An InStream can receive packets from one (and only one) source.
+ * Get the i-th packet source of the argument InStream.
+ * An InStream can receive packets from one or more sources.
  * A source has an identifier of type <code>::CrFwDestSrc_t</code>.
+ * The association between packet sources and InStream is done
+ * statically in <code>#CR_FW_INSTREAM_SRC_PAIRS</code>.
+ * The value of i must be between 1 and the number of packets
+ * sources associated to the argument InStream (as returned
+ * by function <code>#CrFwInStreamGetNOfSrc</code>).
+ * If this constraint is violated, the return value of the function
+ * is indeterminate.
+ * This function may only be called after the argument InStream
+ * has been initialized.
  * @param smDesc the descriptor of the Base State Machine of the InStream.
+ * @param i the index of the source (starting from 1)
  * @return src the source associated to the OutStream
  */
-CrFwDestSrc_t CrFwInStreamGetSrc(FwSmDesc_t smDesc);
+CrFwDestSrc_t CrFwInStreamGetSrc(FwSmDesc_t smDesc, CrFwCounterU1_t i);
+
+/**
+ * Get the number of packet sources of the argument InStream.
+ * An InStream can receive packets from one or more sources.
+ * A source has an identifier of type <code>::CrFwDestSrc_t</code>.
+ * The association between packet sources and InStream is done
+ * statically in <code>#CR_FW_INSTREAM_SRC_PAIRS</code>.
+ * This function may only be called after the argument InStream
+ * has been initialized.
+ * @param smDesc the descriptor of the Base State Machine of the InStream.
+ * @param i the index of the source (starting from 1)
+ * @return src the source associated to the OutStream
+ */CrFwCounterU1_t CrFwInStreamGetNOfSrc(FwSmDesc_t smDesc);
 
 #endif /* CRFW_INSTREAM_H_ */

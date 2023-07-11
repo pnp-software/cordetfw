@@ -40,6 +40,8 @@
  * - Send the same packet multiple times until the PQ is full and check that its state
  *   is as expected.
  * - Send one more packet and check that an error report is generated.
+ * - Check that the association between destination and OutStream is correct.
+ * .
  * In all cases, the packet is configured to belong to the first group associated
  * to the OutStream.
  * .

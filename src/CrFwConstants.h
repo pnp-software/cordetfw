@@ -247,30 +247,40 @@ typedef void (*CrFwOutCmpSerialize_t)(FwSmDesc_t);
  * Type for a pointer to a function implementing the Packet Collect Operation of
  * an InStream.
  * The Packet Collect Operation is one of the adaptation points of the framework.
- * A function which implements this operation takes the packet source as its argument and
- * returns a packet collected from the middleware interface associated to the packet
- * source or NULL if no packet could be collected.
+ * A function which implements this operation takes the packet sources attached to
+ * an inStream as its argument and returns a packet collected from the middleware 
+ * interface associated to the packet sources or NULL if no packet could be collected.
  * The packet returned by this function must be created through function
  * <code>::CrFwPcktMake</code> (release of the packet is the responsibility of the
  * user of the InStream).
  *
+ * The packet sources attached to an inStream are passed to the function through two
+ * arguments representing: the number N of packet sources attached to the inStream
+ * and the array holding the N packet sources. 
+ * The array must be allocated by the caller. 
+ * 
  * If there is a need to verify whether a packet is available for collection through
  * the Packet Collect Operation, this can be done using the Packet Available Check Operation.
  *
  */
-typedef CrFwPckt_t (*CrFwPcktCollect_t)(CrFwDestSrc_t);
+typedef CrFwPckt_t (*CrFwPcktCollect_t)(CrFwDestSrc_t, CrFwDestSrc_t*);
 
 /**
  * Type for a pointer to a function implementing the Packet Available Check Operation
  * of an InStream.
  * The Packet Available Check Operation is one of the adaptation points of the framework.
- * A function which implements this operation takes the packet source as its argument and
- * returns 1 if a new packet is available at the middleware interface associated to the packet
- * source or 0 if no packet is available.
- * Hence, a return value of 1 implies that a call to the Packet Collect Operation will return
- * one packet.
+ * A function which implements this operation takes the packet sources attached to an
+ * inStream and returns 1 if a new packet is available at the middleware interface 
+ * from one of the inStream's sources or 0 if no packet is available.
+ * A return value of 1 implies that a call to the Packet Collect Operation will return
+ * at least one packet.
+ * 
+ * The packet sources attached to an inStream are passed to the function through two
+ * arguments representing: the number N of packet sources attached to the inStream
+ * and the array holding the N packet sources. 
+ * The array must be allocated by the caller. 
  */
-typedef CrFwBool_t (*CrFwPcktAvailCheck_t)(CrFwDestSrc_t);
+typedef CrFwBool_t (*CrFwPcktAvailCheck_t)(CrFwDestSrc_t, CrFwDestSrc_t*);
 
 /**
  * Type for a pointer to a function implementing the Packet Hand-Over Operation of

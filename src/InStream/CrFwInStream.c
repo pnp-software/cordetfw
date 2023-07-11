@@ -74,11 +74,13 @@ static FwPrAction_t inStreamConfigAction[CR_FW_NOF_INSTREAM] = CR_FW_INSTREAM_CO
 static FwSmAction_t inStreamShutdownAction[CR_FW_NOF_INSTREAM] = CR_FW_INSTREAM_SHUTDOWNACTION;
 
 /** The association between sources and inSreams. */
-static CrFwDestSrc_t inStreamSrc[CR_FW_INSTREAM_NOF_SRCS][2] = CR_FW_INSTREAM_SRC;
+static CrFwDestSrc_t inStreamSrcPairs[CR_FW_INSTREAM_NOF_SRCS][2] = CR_FW_INSTREAM_SRC_PAIRS;
 
+/** The sources associated to each inStream */
+static CrFwDestSrc_t* inStreamSrc[CR_FW_NOF_INSTREAM];
 
-
-
+/** The number of sources associated to each inStream */
+static CrFwDestSrc_t inStreamNofSrc[CR_FW_NOF_INSTREAM];
 
 /** The descriptors of the InStream State Machines. */
 static FwSmDesc_t inStreamDesc[CR_FW_NOF_INSTREAM];
@@ -99,7 +101,7 @@ static int IsPcktQueueEmpty(FwSmDesc_t smDesc);
 
 /**
  * Function which checks if a packet is available.
- * This function is used as guard for the transition into state WAITING.
+ * This function is used as guard for the transition into state PCKT_AVAIL.
  * @param smDesc the state machine descriptor
  * @return 1 if the packet queue is empty; zero otherwise.
  */
@@ -215,11 +217,26 @@ FwSmDesc_t CrFwInStreamMake(CrFwInstanceId_t i) {
 FwSmDesc_t CrFwInStreamGet(CrFwDestSrc_t src) {
 	CrFwDestSrc_t i;
 	for (i=0; i<CR_FW_INSTREAM_NOF_SRCS; i++)
-		if (inStreamSrc[i][0] == src)
-			return inStreamSrc[i][1];
+		if (inStreamSrcPairs[i][0] == src)
+			return inStreamDesc[inStreamSrcPairs[i][1]];
 
 	CrFwSetAppErrCode(crInStreamUndefDest);
 	return NULL;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwDestSrc_t CrFwInStreamGetSrc(FwSmDesc_t smDesc, CrFwCounterU1_t i) {
+	CrFwCmpData_t* inStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwInstanceId_t inStreamId = inStreamBaseData->instanceId;
+	assert(i <= inStreamNofSrc[inStreamId]);
+	return inStreamSrc[inStreamId][i-1];
+}
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwCounterU1_t CrFwInStreamGetNOfSrc(FwSmDesc_t smDesc) {
+	CrFwCmpData_t* inStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwInstanceId_t inStreamId = inStreamBaseData->instanceId;
+	return inStreamNofSrc[inStreamId];
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -244,13 +261,6 @@ CrFwPckt_t CrFwInStreamGetPckt(FwSmDesc_t smDesc) {
 /*-----------------------------------------------------------------------------------------*/
 void CrFwInStreamPcktAvail(FwSmDesc_t smDesc) {
 	FwSmMakeTrans(smDesc, CR_FW_INSTREAM_TR_PACKET_AVAILABLE);
-}
-
-/*-----------------------------------------------------------------------------------------*/
-CrFwDestSrc_t CrFwInStreamGetSrc(FwSmDesc_t smDesc) {
-	CrFwCmpData_t* inStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
-	CrFwInStreamData_t* cmpSpecificData = (CrFwInStreamData_t*)inStreamBaseData->cmpSpecificData;
-	return cmpSpecificData->src;
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -301,7 +311,11 @@ void CrFwInStreamDefConfigAction(FwPrDesc_t prDesc) {
 void CrFwInStreamDefShutdownAction(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* inStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwInStreamData_t* cmpSpecificData = (CrFwInStreamData_t*)inStreamBaseData->cmpSpecificData;
-
+	CrFwInstanceId_t i = inStreamBaseData->instanceId;
+	
+	free(inStreamSrc[i]);
+	inStreamNofSrc[i] = 0;
+	inStreamSrc[i] = NULL;
 	CrFwPcktQueueShutdown(&(cmpSpecificData->pcktQueue));
 	cmpSpecificData->pckt = NULL;
 }
@@ -310,9 +324,27 @@ void CrFwInStreamDefShutdownAction(FwSmDesc_t smDesc) {
 void CrFwInStreamDefInitAction(FwPrDesc_t prDesc) {
 	CrFwCmpData_t* inStreamBaseData = (CrFwCmpData_t*)FwPrGetData(prDesc);
 	CrFwInStreamData_t* cmpSpecificData = (CrFwInStreamData_t*)inStreamBaseData->cmpSpecificData;
-	CrFwInstanceId_t i = inStreamBaseData->instanceId;
+	CrFwInstanceId_t inStreamId = inStreamBaseData->instanceId;
+	unsigned int i, j;
+	
+	inStreamNofSrc[inStreamId] = 0;
+	for (i=0; i<CR_FW_INSTREAM_NOF_SRCS; i++)
+		if (inStreamSrcPairs[i][1] == inStreamId) {
+			inStreamNofSrc[inStreamId]++;
+		}
+	
+	assert(inStreamNofSrc[inStreamId] > 0);
+	inStreamSrc[inStreamId] = malloc(sizeof(CrFwDestSrc_t) * inStreamNofSrc[inStreamId]);
 
-	CrFwPcktQueueInit(&(cmpSpecificData->pcktQueue), inStreamPcktQueueSize[i]);
+	j = 0;
+	for (i=0; i<CR_FW_INSTREAM_NOF_SRCS; i++)
+		if (inStreamSrcPairs[i][1] == inStreamId) {
+			inStreamSrc[inStreamId][j] = inStreamSrcPairs[i][0];
+			j++;
+		}
+	assert(j == inStreamNofSrc[inStreamId]);
+
+	CrFwPcktQueueInit(&(cmpSpecificData->pcktQueue), inStreamPcktQueueSize[inStreamId]);
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -325,43 +357,47 @@ static void DoActionA(FwSmDesc_t smDesc) {
 /*-----------------------------------------------------------------------------------------*/
 static void DoActionB(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* inStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwInstanceId_t inStreamId = inStreamBaseData->instanceId;
 	CrFwInStreamData_t* cmpSpecificData = (CrFwInStreamData_t*)inStreamBaseData->cmpSpecificData;
-	CrFwDestSrc_t src = cmpSpecificData->src;
 	CrFwPckt_t pckt;
 	CrFwSeqCnt_t seqCnt;
 	CrFwGroup_t group;
+	CrFwDestSrc_t nOfSrcs = inStreamNofSrc[inStreamId];
+	CrFwDestSrc_t* srcs = inStreamSrc[inStreamId];
 
-	while (cmpSpecificData->isPcktAvail(src)) {
-		pckt = cmpSpecificData->collectPckt(src);
+	while (cmpSpecificData->isPcktAvail(nOfSrcs, srcs)) {
+		pckt = cmpSpecificData->collectPckt(nOfSrcs, srcs);
 
 		if (CrFwPcktGetDest(pckt) == CR_FW_HOST_APP_ID) {
 			seqCnt = CrFwPcktGetSeqCnt(pckt);
 			group = CrFwPcktGetGroup(pckt);
-			if (group < inStreamNOfGroups[inStreamBaseData->instanceId]) {
-				if (cmpSpecificData->seqCnt[group] != 0)
-					if ((cmpSpecificData->seqCnt[group]+1) != seqCnt)
+			if (group < CR_FW_INSTREAM_NOF_GROUPS) {
+				if (inStreamSeqCounter[group] != 0)
+					if ((inStreamSeqCounter[group]+1) != seqCnt)
 						CrFwRepErrSeqCnt(crInStreamSCErr, inStreamData->typeId, inStreamData->instanceId,
-						                 (cmpSpecificData->seqCnt[group]+1), seqCnt, pckt);
+										(inStreamSeqCounter[group]+1), seqCnt, pckt);
 
-				cmpSpecificData->seqCnt[group] = seqCnt;
+				inStreamSeqCounter[group] = seqCnt;
 			} else
 				CrFwRepErrGroup(crInStreamIllGroup, inStreamBaseData->typeId,
-				                inStreamBaseData->instanceId, group);
+								inStreamBaseData->instanceId, group);
 		}
-
 		if (CrFwPcktQueuePush(&(cmpSpecificData->pcktQueue), pckt) == 0) {
 			CrFwRepErr(crInStreamPQFull, inStreamData->typeId, inStreamData->instanceId);
 			CrFwPcktRelease(pckt);
 		}
 	}
+
 }
 
 /*-----------------------------------------------------------------------------------------*/
 static int IsPcktAvail(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* inStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwInStreamData_t* cmpSpecificData = (CrFwInStreamData_t*)inStreamBaseData->cmpSpecificData;
-	CrFwDestSrc_t src = cmpSpecificData->src;
-	return cmpSpecificData->isPcktAvail(src);
+	CrFwInstanceId_t inStreamId = inStreamBaseData->instanceId;
+	CrFwDestSrc_t nOfSrcs = inStreamNofSrc[inStreamId];
+	CrFwDestSrc_t* srcs = inStreamSrc[inStreamId];
+	return cmpSpecificData->isPcktAvail(nOfSrcs, srcs);
 }
 
 /*-----------------------------------------------------------------------------------------*/

@@ -257,9 +257,10 @@ CrFwBool_t CrFwSocketTestCase2() {
 	if (!CrFwCmpIsInConfigured(outStream7))
 		return 0;
 
-	/* Send a packet from the server socket to the client socket */
+	/* Send a packet from the server socket to the client socket (i.e. from OutStream7 to InStream6) */
 	pcktSend = CrFwPcktMake(100);
-	CrFwPcktSetSrc(pcktSend,CrFwInStreamGetSrc(inStream6));
+	CrFwPcktSetSrc(pcktSend,CrFwInStreamGetSrc(inStream6,1));
+	CrFwPcktSetDest(pcktSend,CrFwOutStreamGetDest(outStream7,1));
 	pcktSend[90] = 99;	/* marker */
 	CrFwOutStreamSend(outStream7, pcktSend);
 	CrFwPcktRelease(pcktSend);
@@ -274,9 +275,10 @@ CrFwBool_t CrFwSocketTestCase2() {
 		return 0;
 	CrFwPcktRelease(pcktRec);
 
-	/* Send a packet from the client socket to the server socket */
+	/* Send a packet from the client socket to the server socket (i.e. from OutStream6 to InStream7) */
 	pcktSend = CrFwPcktMake(100);
-	CrFwPcktSetSrc(pcktSend,CrFwInStreamGetSrc(inStream7));
+	CrFwPcktSetSrc(pcktSend,CrFwInStreamGetSrc(inStream7,1));
+	CrFwPcktSetDest(pcktSend,CrFwOutStreamGetDest(outStream6,1));
 	pcktSend[90] = 11;	/* marker */
 	CrFwOutStreamSend(outStream6, pcktSend);
 	CrFwPcktRelease(pcktSend);
@@ -312,6 +314,7 @@ CrFwBool_t CrFwSocketTestCase2() {
 CrFwBool_t CrFwSocketTestCase3() {
 	FwSmDesc_t inStream6, inStream7, outStream6, outStream7;
 	CrFwPckt_t pckt1, pckt2, pckt3, pcktRec;
+	CrFwDestSrc_t src;
 
 	/* Reset error reporting interface */
 	CrFwRepErrStubReset();
@@ -391,9 +394,10 @@ CrFwBool_t CrFwSocketTestCase3() {
 	pckt1[90] = 99;	/* marker */
 	pckt2[90] = 98;	/* marker */
 	pckt3[90] = 97;	/* marker */
-	CrFwPcktSetSrc(pckt1,CR_FW_HOST_APP_ID);
-	CrFwPcktSetSrc(pckt2,CR_FW_HOST_APP_ID);
-	CrFwPcktSetSrc(pckt3,CR_FW_HOST_APP_ID);
+	src = CrFwInStreamGetSrc(inStream6, 1);
+	CrFwPcktSetSrc(pckt1,src);
+	CrFwPcktSetSrc(pckt2,src);
+	CrFwPcktSetSrc(pckt3,src);
     CrFwPcktSetGroup(pckt1,0);
     CrFwPcktSetGroup(pckt2,0);
     CrFwPcktSetGroup(pckt3,0);
@@ -429,9 +433,10 @@ CrFwBool_t CrFwSocketTestCase3() {
 	pckt1[90] = 10;	/* marker */
 	pckt2[90] = 11;	/* marker */
 	pckt3[90] = 12;	/* marker */
-	CrFwPcktSetSrc(pckt1,CR_FW_HOST_APP_ID);
-	CrFwPcktSetSrc(pckt2,CR_FW_HOST_APP_ID);
-	CrFwPcktSetSrc(pckt3,CR_FW_HOST_APP_ID);
+	src = CrFwInStreamGetSrc(inStream7, 1);
+	CrFwPcktSetSrc(pckt1,src);
+	CrFwPcktSetSrc(pckt2,src);
+	CrFwPcktSetSrc(pckt3,src);
     CrFwPcktSetGroup(pckt1,0);
     CrFwPcktSetGroup(pckt2,0);
     CrFwPcktSetGroup(pckt3,0);
@@ -485,6 +490,7 @@ CrFwBool_t CrFwSocketTestCase3() {
 CrFwBool_t CrFwSocketTestCase4() {
 	FwSmDesc_t inStream6, inStream7, outStream6, outStream7;
 	CrFwPckt_t sPckt1, sPckt2, sPckt3, cPckt1, cPckt2, cPckt3, pcktRec;
+	CrFwDestSrc_t src;
 
 	/* Reset error reporting interface */
 	CrFwRepErrStubReset();
@@ -564,21 +570,23 @@ CrFwBool_t CrFwSocketTestCase4() {
 	sPckt1[90] = 99;	/* marker */
 	sPckt2[90] = 98;	/* marker */
 	sPckt3[90] = 97;	/* marker */
-	CrFwPcktSetSrc(sPckt1,CR_FW_HOST_APP_ID);
-	CrFwPcktSetSrc(sPckt2,CR_FW_HOST_APP_ID);
-	CrFwPcktSetSrc(sPckt3,CR_FW_HOST_APP_ID);
-    CrFwPcktSetGroup(sPckt1,0);
-    CrFwPcktSetGroup(sPckt2,0);
-    CrFwPcktSetGroup(sPckt3,0);
+	src = CrFwInStreamGetSrc(inStream6, 1);
+	CrFwPcktSetSrc(sPckt1,src);
+	CrFwPcktSetSrc(sPckt2,src);
+	CrFwPcktSetSrc(sPckt3,src);
+    CrFwPcktSetGroup(sPckt1,1);
+    CrFwPcktSetGroup(sPckt2,1);
+    CrFwPcktSetGroup(sPckt3,1);
 	cPckt1 = CrFwPcktMake(100);
 	cPckt2 = CrFwPcktMake(100);
 	cPckt3 = CrFwPcktMake(100);
 	cPckt1[90] = 10;	/* marker */
 	cPckt2[90] = 11;	/* marker */
 	cPckt3[90] = 12;	/* marker */
-	CrFwPcktSetSrc(cPckt1,CR_FW_HOST_APP_ID);
-	CrFwPcktSetSrc(cPckt2,CR_FW_HOST_APP_ID);
-	CrFwPcktSetSrc(cPckt3,CR_FW_HOST_APP_ID);
+	src = CrFwInStreamGetSrc(inStream7, 1);
+	CrFwPcktSetSrc(cPckt1,src);
+	CrFwPcktSetSrc(cPckt2,src);
+	CrFwPcktSetSrc(cPckt3,src);
     CrFwPcktSetGroup(cPckt1,0);
     CrFwPcktSetGroup(cPckt2,0);
     CrFwPcktSetGroup(cPckt3,0);

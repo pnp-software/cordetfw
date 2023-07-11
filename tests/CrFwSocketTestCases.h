@@ -49,8 +49,6 @@ CrFwBool_t CrFwSocketTestCase1();
  * <code>CrFwInStreamUserPar.h</code> and <code>CrFwOutStreamUserPar.h</code>):
  * - InStream6 and OutStream6 are attached to the client socket
  * - InStream7 and OutStream7 are attached to the server socket
- * - The client socket is designed to route incoming packets to InStream6
- * - The server socket is designed to route incoming packets to InStream7
  * .
  * The following actions are performed in this test:
  * - The InStream and OutStreams 6 and 7 which use the <code>CrFwClientSocket.h</code>
@@ -75,8 +73,6 @@ CrFwBool_t CrFwSocketTestCase2();
  * <code>CrFwInStreamUserPar.h</code> and <code>CrFwOutStreamUserPar.h</code>):
  * - InStream6 and OutStream6 are attached to the client socket
  * - InStream7 and OutStream7 are attached to the server socket
- * - The client socket is designed to route incoming packets to InStream6
- * - The server socket is designed to route incoming packets to InStream7
  * .
  * The following actions are performed in this test:
  * - The InStream and OutStreams 6 and 7 which use the <code>CrFwClientSocket.h</code>

@@ -163,10 +163,12 @@ void CrFwInStreamSocketPoll(FwSmDesc_t inStream);
  * If the Read Buffer is empty, this function returns NULL.
  * Note that the logic of the socket-based InStream guarantees that the Read Buffer
  * will always be full when this function is called.
- * @param src the source associated to the InStream (not used in this stub)
+ * @param nofSrc the number of sources associated to the InStream (not used in 
+ * this stub)
+ * @param srcs the sources associated to the InStream (not used in this stub)
  * @return the packet
  */
-CrFwPckt_t CrFwInStreamSocketPcktCollect(CrFwDestSrc_t src);
+CrFwPckt_t CrFwInStreamSocketPcktCollect(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* srcs);
 
 /**
  * Function implementing the Packet Available Check Operation for the InStream.
@@ -179,10 +181,12 @@ CrFwPckt_t CrFwInStreamSocketPcktCollect(CrFwDestSrc_t src);
  * - If the read operation returns a packet, the function stores it in the
  *   Read Buffer and then returns 1.
  * .
- * @param src the source associated to the InStream (not used in this stub)
+ * @param nofSrc the number of sources associated to the InStream (not used in 
+ * this stub)
+ * @param srcs the sources associated to the InStream (not used in this stub)
  * @return the value of a predefined flag
  */
-CrFwBool_t CrFwInStreamSocketIsPcktAvail(CrFwDestSrc_t src);
+CrFwBool_t CrFwInStreamSocketIsPcktAvail(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* srcs);
 
 /**
  * Set the port number for the socket.

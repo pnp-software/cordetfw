@@ -274,9 +274,8 @@ CrFwBool_t CrFwInLoaderTestCase4() {
 		return 0;
 
 	/* Configure InLoader to return first destination associated to OutStream */
-	CrFwDestSrc_t destArray[CR_FW_OUTSTREAM_NOF_DEST];
-	CrFwOutStreamGetDest(outStream, destArray);  
-	CrFwInLoaderTestCaseSetReroutingDest(destArray[0]);
+	CrFwDestSrc_t dest = CrFwOutStreamGetDest(outStream, 1);  
+	CrFwInLoaderTestCaseSetReroutingDest(dest);
 
 	/* Load InStream in the InLoader and execute InLoader*/
 	CrFwInLoaderSetInStream(inStream);

@@ -89,16 +89,16 @@
  * The value of the InStreamId must be smaller than CR_FW_NOF_INSTREAM.
  * This is checked by the <code>::CrFwAuxInStreamConfigCheck</code> function.
  *
- * The size of this array must be equal to <code>#CR_FW_INSTREAM_NOF_DEST</code>.
+ * The size of this array must be equal to <code>#CR_FW_INSTREAM_NOF_SRCS</code>.
  */
-#define CR_FW_INSTREAM_SRC   {{1,0},\
-							  {2,1},\
-							  {3,2},\
-							  {4,3},\
-							  {5,4},\
-							  {6,6},\
-							  {7,5},\
-							  {10,6}}
+#define CR_FW_INSTREAM_SRC_PAIRS   {{1,0},\
+							    	{2,1},\
+							  		{3,2},\
+							  		{4,3},\
+							  		{5,4},\
+							  		{6,0},\
+							  		{7,5},\
+							  		{10,6}}
 
 /**
  * The functions implementing  the Packet Collect Operations of the InStream components.

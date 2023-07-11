@@ -166,7 +166,7 @@ void CrFwClientSocketConfigAction(FwPrDesc_t prDesc);
 /**
  * Poll the client socket to check whether a new packet has arrived.
  * This function should be called periodically by an external scheduler.
- * If there is a pending packet (i.e. of the Read Buffer is full), its source
+ * If there is a pending packet (i.e. if the Read Buffer is full), its source
  * is determined, and then function <code>::CrFwInStreamPcktAvail</code> is
  * called on the InStream associated to that packet source.
  * If there is no pending packet (i.e. if the Read Buffer is empty),
@@ -175,52 +175,50 @@ void CrFwClientSocketConfigAction(FwPrDesc_t prDesc);
  * If a packet is available, it is placed into the Read Buffer, its source
  * is determined, and then function <code>::CrFwInStreamPcktAvail</code> is
  * called on the InStream associated to that packet source.
- * In a realistic implementation, the source of the incoming packet would
- * be determined from the packet itself (which holds its source in its
- * header).
  * This implementation is intended for use with the test cases of
- * <code>CrFwSocketTestCase.h</code> and then the incoming packets are
- * routed to the 6-th InStream.
+ * <code>CrFwSocketTestCase.h</code>.
  */
 void CrFwClientSocketPoll();
 
 /**
  * Function implementing the Packet Collect Operation for the client socket.
- * If the packet in the Read Buffer has a source attribute equal to
- * <code>pcktSrc</code>, this function:
+ * If the packet in the Read Buffer has a source attribute equal to one of those
+ * in <code>pcktSrcs</code>, this function:
  * - creates a packet instance through a call to <code>CrFwPcktMake</code>
  * - copies the content of the Read Buffer into the newly created packet instance
  * - clears the Read Buffer
  * - returns the packet instance
  * .
- * If the Read Buffer holds a packet from a source other then
- * <code>pcktSrc</code>, this function returns NULL.
+ * If the Read Buffer holds a packet from a source other than those in
+ * <code>pcktSrcs</code>, this function returns NULL.
  * Note that the logic of the client socket module guarantees that the Read Buffer
  * will always be full when this function is called.
- * @param pcktSrc the source associated to the InStream
+ * @param nofPcktSrc the number of packet sources associated to the InStream
+ * @param pcktSrcs the sources associated to the InStream
  * @return the packet
  */
-CrFwPckt_t CrFwClientSocketPcktCollect(CrFwDestSrc_t pcktSrc);
+CrFwPckt_t CrFwClientSocketPcktCollect(CrFwDestSrc_t nofPcktSrc, CrFwDestSrc_t* pcktSrcs);
 
 /**
  * Function implementing the Packet Available Check Operation for the client socket.
  * This function implements the following logic:
  * - The function begins by checking the Read Buffer.
- * - If it is full and the source attribute of the packet it contains is equal
- *   to <code>packetSource</code>, the function returns 1.
+ * - If it is full and the source attribute of the packet it contains is equal one of
+ *   sources in <code>pcktSrcs</code>, the function returns 1.
  * - If the Read Buffer is not full or it is full but the source attribute of the
- *   packet it contains is not equal to <code>packetSource</code>, the function
- *   performs a non-blocking read on the socket.
+ *   packet it contains is not equal to any of the sources in <code>pcktSrc</code>, 
+ *   the function performs a non-blocking read on the socket.
  * - If the read operation returns nothing or returns a packet with a source
- *   attribute other than <code>packetSource</code>, the function returns 0.
- * - If the read operation returns a packet with a source attribute equal to
- *   <code>packetSource</code>, the function stores it in the
+ *   attribute other than those in <code>pcktSrcs</code>, the function returns 0.
+ * - If the read operation returns a packet with a source attribute equal to one of
+ *   the sources in <code>pcktSrc</code>, the function stores it in the
  *   Read Buffer and then returns 1.
  * .
- * @param pcktSrc the source associated to the InStream
+ * @param nofPcktSrc the number of packet sources associated to the InStream
+ * @param pcktSrcs the sources associated to the InStream
  * @return the value of a predefined flag
  */
-CrFwBool_t CrFwClientSocketIsPcktAvail(CrFwDestSrc_t pcktSrc);
+CrFwBool_t CrFwClientSocketIsPcktAvail(CrFwDestSrc_t nofPcktSrc, CrFwDestSrc_t* pcktSrcs);
 
 /**
  * Function implementing the hand-over operation for the client socket.

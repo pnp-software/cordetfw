@@ -52,7 +52,9 @@ typedef enum {
 	/** InFactory configuration parameters for InReports are inconsistent (see <code>CrFwAuxInFactoryInRepConfigCheck.h</code>) */
 	crInFactoryInRepConfigParInconsistent = 5,
 	/** OutStream configuration parameters are inconsistent (see <code>CrFwAuxOutStreamConfigCheck.h</code>) */
-	crOutStreamConfigParInconsistent = 6
+	crOutStreamConfigParInconsistent = 6,
+	/** InStream configuration parameters are inconsistent (see <code>CrFwAuxInStreamConfigCheck.h</code>) */
+	crInStreamConfigParInconsistent = 7
 } CrFwConfigCheckOutcome_t;
 
 /**
@@ -117,9 +119,9 @@ CrFwBool_t CrFwAuxOutFactoryConfigCheck();
  * Check the configuration of the OutStream component.
  * The following checks are performed on the configuration data in
  * <code>CrFwOutStreamUserPar.h</code>:
- * - The outStream identifiers in array CR_FW_OUTSTREAM_DEST are
+ * - The outStream identifiers in array CR_FW_OUTSTREAM_DEST_PAIRS are
  *   smaller than CR_FW_NOF_OUTSTREAM
- * - The destination identifiers in array CR_FW_OUTSTREAM_DEST are
+ * - The destination identifiers in array CR_FW_OUTSTREAM_DEST_PAIRS are
  *   greater than zero
  * - The number of outStreams CR_FW_NOF_OUTSTREAM is greater than zero
  * - The number of destinations CR_FW_OUTSTREAM_NOF_DEST is greater
@@ -131,6 +133,25 @@ CrFwBool_t CrFwAuxOutFactoryConfigCheck();
  * false otherwise.
  */
 CrFwBool_t CrFwAuxOutStreamConfigCheck();
+
+/**
+ * Check the configuration of the InStream component.
+ * The following checks are performed on the configuration data in
+ * <code>CrFwInStreamUserPar.h</code>:
+ * - The inStream identifiers in array CR_FW_INSTREAM_SRC_PAIRS are
+ *   smaller than CR_FW_NOF_INSTREAM
+ * - The source identifiers in array CR_FW_INSTREAM_SRC_PAIRS are
+ *   greater than zero
+ * - The number of inStreams CR_FW_NOF_INSTREAM is greater than zero
+ * - The number of sources CR_FW_INSTREAM_NOF_SRC is greater
+ *   than zero
+ * - The packet sizes in CR_FW_INSTREAM_PQSIZE are greater than zero
+ * - The number of groups CR_FW_INSTREAM_NOF_GROUPS is greater than zero
+ * .
+ * @return true if no errors are detected in the configuration data;
+ * false otherwise.
+ */
+CrFwBool_t CrFwAuxInStreamConfigCheck();
 
 /**
  * Check the configuration of the InCommand part of the InFactory component.

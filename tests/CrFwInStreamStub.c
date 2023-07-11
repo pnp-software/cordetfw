@@ -86,9 +86,10 @@ static CrFwBool_t actionFlag = 1;
 static CrFwCounterU1_t shutdownCnt = 0;
 
 /* ---------------------------------------------------------------------------------------------*/
-CrFwPckt_t CrFwInStreamStubPcktCollect(CrFwDestSrc_t src) {
+CrFwPckt_t CrFwInStreamStubPcktCollect(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* srcs) {
 	CrFwPckt_t pckt;
-	(void)(src);
+	(void)(nofSrcs);
+	(void)(srcs);
 
 	if (pcktCollectCnt == 0)
 		return NULL;
@@ -110,8 +111,9 @@ CrFwPckt_t CrFwInStreamStubPcktCollect(CrFwDestSrc_t src) {
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-CrFwBool_t CrFwInStreamStubIsPcktAvail(CrFwDestSrc_t src) {
-	(void)(src);
+CrFwBool_t CrFwInStreamStubIsPcktAvail(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* srcs) {
+	(void)(nofSrcs);
+	(void)(srcs);
 	return (pcktCollectCnt != 0);
 }
 
@@ -124,9 +126,7 @@ void CrFwInStreamStubDummyCheck(FwPrDesc_t prDesc) {
 /* ---------------------------------------------------------------------------------------------*/
 void CrFwInStreamStubInitAction(FwPrDesc_t prDesc) {
 	CrFwCmpData_t* inStreamBaseData = (CrFwCmpData_t*)FwPrGetData(prDesc);
-	CrFwInStreamData_t* cmpSpecificData = (CrFwInStreamData_t*)inStreamBaseData->cmpSpecificData;
-	if (cmpSpecificData->seqCnt == NULL)
-		CrFwInStreamDefInitAction(prDesc);
+	CrFwInStreamDefInitAction(prDesc);
 	inStreamBaseData->outcome = (CrFwOutcome_t)actionFlag;
 }
 

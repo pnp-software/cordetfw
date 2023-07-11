@@ -154,7 +154,7 @@ FwSmDesc_t CrFwOutStreamGet(CrFwDestSrc_t dest);
  * This function may only be called after the outStream has been initialized.
  * 
  * @param outStream the outStream
- * @param i the index of the desired destination
+ * @param i the index of the desired destination (starting from 1)
  * @return the i-th destination of the outStream  
  */
 CrFwDestSrc_t CrFwOutStreamGetDest(FwSmDesc_t outStream, CrFwCounterU1_t i);

@@ -41,7 +41,7 @@
 /* ---------------------------------------------------------------------------------------------*/
 CrFwBool_t CrFwInStreamTestCase1() {
 	FwSmDesc_t inStream0, inStreamBis, inStream[CR_FW_NOF_INSTREAM];
-	CrFwDestSrc_t inStreamSrc[CR_FW_NOF_INSTREAM]=CR_FW_INSTREAM_SRC;
+	CrFwDestSrc_t inStreamSrcPairs[CR_FW_INSTREAM_NOF_SRCS][2] = CR_FW_INSTREAM_SRC_PAIRS;
 	CrFwInstanceId_t i;
 
 	/* Attempt to instantiate an InStream with an illegal identifier */
@@ -76,6 +76,18 @@ CrFwBool_t CrFwInStreamTestCase1() {
 	if (!CrFwCmpIsInInitialized(inStream0))
 		return 0;
 
+	/* Verify sources attached to inStream0 */
+	if (CrFwInStreamGetNOfSrc(inStream0) != 2)	/* Sources of inStream0 are defined in CR_FW_INSTREAM_SRC_PAIRS */
+		return 0;
+	if (CrFwInStreamGetSrc(inStream0, 1) != 1)
+		return 0;
+	if (CrFwInStreamGetSrc(inStream0, 2) != 6)
+		return 0;
+
+	/* Verify packet queue size (defined in CR_FW_INSTREAM_PQSIZE) */
+	if (CrFwInStreamGetPcktQueueSize(inStream0) != 3)
+		return 0;
+
 	/* Reset InStream */
 	CrFwCmpReset(inStream0);
 	if (!CrFwCmpIsInConfigured(inStream0))
@@ -85,7 +97,7 @@ CrFwBool_t CrFwInStreamTestCase1() {
 	if (!CrFwInStreamIsInWaiting(inStream0))
 		return 0;
 
-	if (CrFwInStreamGetSeqCnt(inStream0,0) != 0)
+	if (CrFwInStreamGetSeqCnt(0) != 0)
 		return 0;
 
 	if (CrFwInStreamGetNOfPendingPckts(inStream0) != 0)
@@ -94,11 +106,12 @@ CrFwBool_t CrFwInStreamTestCase1() {
 	/* Check the function to get the InStream as a function of packet source under nominal conditions */
 	for (i=0; i<CR_FW_NOF_INSTREAM; i++)
 		inStream[i] = CrFwInStreamMake(i);
-	if (CrFwInStreamGet(inStreamSrc[0])!=inStream[0])
+	if (CrFwInStreamGet(inStreamSrcPairs[0][0])!=inStream[inStreamSrcPairs[0][1]])
 		return 0;
-	if (CrFwInStreamGet(inStreamSrc[1])!=inStream[1])
+	if (CrFwInStreamGet(inStreamSrcPairs[1][0])!=inStream[inStreamSrcPairs[1][1]])
 		return 0;
-	if (CrFwInStreamGet(inStreamSrc[CR_FW_NOF_INSTREAM-2])!=inStream[CR_FW_NOF_INSTREAM-2])
+	if (CrFwInStreamGet(inStreamSrcPairs[CR_FW_INSTREAM_NOF_SRCS-1][0])!=\
+			inStream[inStreamSrcPairs[CR_FW_INSTREAM_NOF_SRCS-1][1]])
 		return 0;
 
 	/* Check the function to get the InStream as a function of packet source under non-nominal conditions */
@@ -111,7 +124,7 @@ CrFwBool_t CrFwInStreamTestCase1() {
 	CrFwSetAppErrCode(crNoAppErr); 	/* reset application error code */
 
 	/* Check the function to get the number of groups (this is set in CrFwInStreamUserPar.h) */
-	if (CrFwInStreamGetNOfGroups(inStream0) != 1)
+	if (CrFwInStreamGetNOfGroups() != 2)
 		return 0;
 
 	/* Check that all packets have been de-allocated */
@@ -133,6 +146,10 @@ CrFwBool_t CrFwInStreamTestCase2() {
 	/* Retrieve the first InStream */
 	inStream0 = CrFwInStreamMake(0);
 	if (inStream0 == NULL)
+		return 0;
+
+	/* Check packet queue size (defined in CR_FW_INSTREAM_PQSIZE)*/
+	if (CrFwInStreamGetPcktQueueSize(inStream0) != 3)
 		return 0;
 
 	/* Verify that InStream is in WAITING */
@@ -158,18 +175,18 @@ CrFwBool_t CrFwInStreamTestCase2() {
 
 	/* Set up stub to simulate presence of two packets for the host application */
 	CrFwInStreamStubSetPcktDest(CR_FW_HOST_APP_ID);
-	CrFwInStreamStubSetPcktGroup(0);		/* First InStream only has one group */
+	CrFwInStreamStubSetPcktGroup(0);		
 	CrFwInStreamStubSetPcktCollectionCnt(2);
 	CrFwInStreamStubSetPcktSeqCnt(5555);
 
 	/* Send PACKET_AVAILABLE command to InStream */
-	CrFwInStreamSetSeqCnt(inStream0, 0, 5555);
+	CrFwInStreamSetSeqCnt(0, 5555);
 	CrFwInStreamPcktAvail(inStream0);
 	if (!CrFwInStreamIsInPcktAvail(inStream0))
 		return 0;
 	if (CrFwInStreamGetNOfPendingPckts(inStream0) != 2)
 		return 0;
-	if (CrFwInStreamGetSeqCnt(inStream0,0) != (5555+2))
+	if (CrFwInStreamGetSeqCnt(0) != (5555+2))
 		return 0;
 
 	/* Send first GET_PCKT command to InStream */
@@ -225,7 +242,7 @@ CrFwBool_t CrFwInStreamTestCase3() {
 		return 0;
 
 	/* Get current sequence counter value */
-	seqCnt = CrFwInStreamGetSeqCnt(inStream0,0);
+	seqCnt = CrFwInStreamGetSeqCnt(0);
 
 	/* Send PACKET_AVAILABLE command to InStream */
 	CrFwInStreamPcktAvail(inStream0);
@@ -233,7 +250,7 @@ CrFwBool_t CrFwInStreamTestCase3() {
 		return 0;
 	if (CrFwInStreamGetNOfPendingPckts(inStream0) != 1)
 		return 0;
-	if (CrFwInStreamGetSeqCnt(inStream0,0) != seqCnt+1)
+	if (CrFwInStreamGetSeqCnt(0) != seqCnt+1)
 		return 0;
 
 	/* Set up stub to simulate presence of one more packet in the middleware */
@@ -245,7 +262,7 @@ CrFwBool_t CrFwInStreamTestCase3() {
 		return 0;
 	if (CrFwInStreamGetNOfPendingPckts(inStream0) != 2)
 		return 0;
-	if (CrFwInStreamGetSeqCnt(inStream0,0) != seqCnt+2)
+	if (CrFwInStreamGetSeqCnt(0) != seqCnt+2)
 		return 0;
 
 	/* Send SHUTDOWN command to InStream */
@@ -311,7 +328,7 @@ CrFwBool_t CrFwInStreamTestCase4() {
 		return 0;
 	if (CrFwInStreamGetNOfPendingPckts(inStream0) != 1)
 		return 0;
-	if (CrFwInStreamGetSeqCnt(inStream0,0) != 1)
+	if (CrFwInStreamGetSeqCnt(0) != 1)
 		return 0;
 
 	/* Set up stub to simulate presence of one more packet in the middleware */
@@ -329,7 +346,7 @@ CrFwBool_t CrFwInStreamTestCase4() {
 		return 0;
 	if (CrFwInStreamGetNOfPendingPckts(inStream0) != 2)
 		return 0;
-	if (CrFwInStreamGetSeqCnt(inStream0,0) != 10)
+	if (CrFwInStreamGetSeqCnt(0) != 10)
 		return 0;
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+1)
 		return 0;
@@ -361,7 +378,7 @@ CrFwBool_t CrFwInStreamTestCase4() {
 		return 0;
 	if (CrFwInStreamGetNOfPendingPckts(inStream0) != 3)
 		return 0;
-	if (CrFwInStreamGetSeqCnt(inStream0,0) != 10)
+	if (CrFwInStreamGetSeqCnt(0) != 10)
 		return 0;
 	if (CrFwRepErrStubGetPos() != errRepPosLocal)
 		return 0;
@@ -379,7 +396,7 @@ CrFwBool_t CrFwInStreamTestCase4() {
 	CrFwInStreamStubSetPcktDest(CR_FW_HOST_APP_ID);
 	CrFwInStreamStubSetPcktGroup(0);		/* First InStream only has one group */
 	CrFwInStreamStubSetPcktCollectionCnt((CrFwCounterU1_t)(CrFwInStreamGetPcktQueueSize(inStream0) + 1));
-	CrFwInStreamStubSetPcktSeqCnt(CrFwInStreamGetSeqCnt(inStream0,0));	/* no seq. cnt. error */
+	CrFwInStreamStubSetPcktSeqCnt(CrFwInStreamGetSeqCnt(0));	/* no seq. cnt. error */
 
 	/* Store the current value of the error report counter */
 	errRepPosLocal = CrFwRepErrStubGetPos();
@@ -390,7 +407,7 @@ CrFwBool_t CrFwInStreamTestCase4() {
 		return 0;
 	if (CrFwInStreamGetNOfPendingPckts(inStream0) != CrFwInStreamGetPcktQueueSize(inStream0))
 		return 0;
-	if (CrFwInStreamGetSeqCnt(inStream0,0) != (CrFwSeqCnt_t)(10+CrFwInStreamGetPcktQueueSize(inStream0)+1))
+	if (CrFwInStreamGetSeqCnt(0) != (CrFwSeqCnt_t)(10+CrFwInStreamGetPcktQueueSize(inStream0)+1))
 		return 0;
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+1)
 		return 0;
@@ -441,7 +458,7 @@ CrFwBool_t CrFwInStreamTestCase5() {
 		return 0;
 
 	/* Check that the correct source has been loaded */
-	if (CrFwInStreamGetSrc(inStream3) != 4)
+	if (CrFwInStreamGetSrc(inStream3, 1) != 4)
 		return 0;
 
 	/* Shut down the newly-created InStream */
@@ -584,8 +601,8 @@ CrFwBool_t CrFwInStreamTestCase7() {
 		return 0;
 
 	/* Check value of sequence counters */
-	for (i=0; i<CrFwInStreamGetNOfGroups(inStream2); i++)
-		if (CrFwInStreamGetSeqCnt(inStream2,i) != 0)
+	for (i=0; i<CrFwInStreamGetNOfGroups(); i++)
+		if (CrFwInStreamGetSeqCnt(i) != 0)
 			return 0;
 
 	/* Set up stub to simulate presence of two packets for the host application belonging to first group */
@@ -600,7 +617,7 @@ CrFwBool_t CrFwInStreamTestCase7() {
 		return 0;
 	if (CrFwInStreamGetNOfPendingPckts(inStream2) != 2)
 		return 0;
-	if (CrFwInStreamGetSeqCnt(inStream2,0) != 102)
+	if (CrFwInStreamGetSeqCnt(0) != 102)
 		return 0;
 
 	/* Set up stub to simulate presence of packet for the host application belonging to second group */
@@ -615,7 +632,7 @@ CrFwBool_t CrFwInStreamTestCase7() {
 		return 0;
 	if (CrFwInStreamGetNOfPendingPckts(inStream2) != 3)
 		return 0;
-	if (CrFwInStreamGetSeqCnt(inStream2,1) != 201)
+	if (CrFwInStreamGetSeqCnt(1) != 201)
 		return 0;
 
 	/* Send GET_PCKT commands to InStream */
@@ -653,7 +670,7 @@ CrFwBool_t CrFwInStreamTestCase7() {
 
 	/* Set up stub to simulate presence of packet for the host application belonging to non-existent group */
 	CrFwInStreamStubSetPcktDest(CR_FW_HOST_APP_ID);
-	CrFwInStreamStubSetPcktGroup((CrFwGroup_t)(CrFwInStreamGetNOfGroups(inStream2)+1));
+	CrFwInStreamStubSetPcktGroup((CrFwGroup_t)(CrFwInStreamGetNOfGroups()+1));
 	CrFwInStreamStubSetPcktCollectionCnt(1);
 
 	/* Send PACKET_AVAILABLE command to InStream */
@@ -662,9 +679,9 @@ CrFwBool_t CrFwInStreamTestCase7() {
 		return 0;
 	if (CrFwInStreamGetNOfPendingPckts(inStream2) != 1)
 		return 0;
-	if (CrFwInStreamGetSeqCnt(inStream2,0) != 102)
+	if (CrFwInStreamGetSeqCnt(0) != 102)
 		return 0;
-	if (CrFwInStreamGetSeqCnt(inStream2,1) != 201)
+	if (CrFwInStreamGetSeqCnt(1) != 201)
 		return 0;
 
 	if (CrFwRepErrStubGetPos() != errRepPosLocal+1)

@@ -184,9 +184,10 @@ void CrFwInStreamSocketPoll(FwSmDesc_t inStream) {
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-CrFwPckt_t CrFwInStreamSocketPcktCollect(CrFwDestSrc_t src) {
+CrFwPckt_t CrFwInStreamSocketPcktCollect(CrFwDestSrc_t nofSrc, CrFwDestSrc_t* srcs) {
 	CrFwPckt_t pckt;
-	(void)(src);
+	(void)(nofSrc);
+	(void)(srcs);
 
 	if (readBuffer[0] != 0) {
 		pckt = CrFwPcktMake((CrFwPcktLength_t)readBuffer[0]);
@@ -198,9 +199,10 @@ CrFwPckt_t CrFwInStreamSocketPcktCollect(CrFwDestSrc_t src) {
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-CrFwBool_t CrFwInStreamSocketIsPcktAvail(CrFwDestSrc_t src) {
+CrFwBool_t CrFwInStreamSocketIsPcktAvail(CrFwDestSrc_t nofSrc, CrFwDestSrc_t* srcs) {
 	long int n;
-	(void)(src);
+	(void)(nofSrc);
+	(void)(srcs);
 
 	if (readBuffer[0] != 0) {
 		return 1;

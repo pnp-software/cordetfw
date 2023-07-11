@@ -63,13 +63,13 @@
  * The size of this array must be equal to <code>#CR_FW_OUTSTREAM_NOF_DEST</code>.
  */
 #define CR_FW_OUTSTREAM_DEST_PAIRS 	{{1,0},\
-							  		 {2,1},\
+							  		 {2,0},\
 							  		 {3,2},\
 							  		 {4,3},\
 							  		 {5,4},\
 							  		 {6,5},\
 							  		 {7,6},\
-							  		 {8,6}}
+							  		 {8,1}}
 
 /**
  * The sizes of the packet queues in the OutStream component.

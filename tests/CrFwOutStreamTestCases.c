@@ -70,7 +70,7 @@ CrFwBool_t CrFwOutStreamTestCase1() {
 	   (expected number is number of (type.sub-type) pairs defined in OutFactoryUserPar.h) )*/
 	if (CrFwOutStreamGetNOfTypeCounters() != 10)
 		return 0;
-	
+
 	/* Create the first OutStream again and check that the same component is returned */
 	outStreamBis = CrFwOutStreamMake(0);
 	if (outStream0 != outStreamBis)
@@ -107,6 +107,15 @@ CrFwBool_t CrFwOutStreamTestCase1() {
 		if (CrFwOutStreamGetSeqCnt((CrFwGroup_t)i) != 1)
 			return 0;
 
+	/* Check the association between destination and outStream 
+	   (the (dest,outStream) pairs are defined in CR_FW_OUTSTREAM_DEST_PAIRS)*/
+	if (CrFwOutStreamGetNOfDest(outStream0) != 2)
+		return 0;
+	if (CrFwOutStreamGetDest(outStream0,1) != 1)
+		return 0;
+	if (CrFwOutStreamGetDest(outStream0,2) != 2)
+		return 0;
+		
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 0)
 		return 0;
 
@@ -184,6 +193,8 @@ CrFwBool_t CrFwOutStreamTestCase1() {
 	if (CrFwCmpIsStarted(outStream0) != 0)
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 0)
+		return 0;
+	if (CrFwOutStreamGetNOfDest(outStream0) != 0)
 		return 0;
 
 	/* Check that all packets have been de-allocated */
@@ -264,6 +275,9 @@ CrFwBool_t CrFwOutStreamTestCase2() {
 	CrFwCmpReset(outStream3);
 	if (!CrFwCmpIsInInitialized(outStream3))
 		return 0;
+
+	/* Shut down OutStream */	
+	CrFwCmpShutdown(outStream3);
 
 	/* Check application errors */
 	if (CrFwGetAppErrCode() != crNoAppErr)
@@ -471,23 +485,28 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 /* ---------------------------------------------------------------------------------------------*/
 CrFwBool_t CrFwOutStreamTestCase4() {
 	FwSmDesc_t outStream[CR_FW_NOF_OUTSTREAM];
-	CrFwDestSrc_t dest[CR_FW_NOF_OUTSTREAM];
+	CrFwDestSrc_t dest[CR_FW_OUTSTREAM_NOF_DEST];
 	CrFwInstanceId_t i;
 
 	/* Initialize the destinations (the initialization values must be the same as
 	   specified in <code>CrFwOutStreamUserPar.h</code>). */
-	for (i=0; i<CR_FW_NOF_OUTSTREAM; i++)
+	for (i=0; i<CR_FW_OUTSTREAM_NOF_DEST; i++)
 		dest[i] = (CrFwDestSrc_t)(i+1);
 
 	/* Make the OutStreams and associate them to their destinations */
 	for (i=0; i<CR_FW_NOF_OUTSTREAM; i++)
 		outStream[i] = CrFwOutStreamMake(i);
 
-	/* Retrieve the OutStream from their destinations */
-	for (i=0; i<CR_FW_NOF_OUTSTREAM; i++) {
-		if (CrFwOutStreamGet(dest[i]) != outStream[i])
-			return 0;
-	}
+	/* Retrieve the OutStream from their destinations (association between destination
+	   and OutStream is in CR_FW_OUTSTREAM_DEST_PAIRS)*/
+	if (CrFwOutStreamGet(dest[0]) != outStream[0])
+		return 0;
+	if (CrFwOutStreamGet(dest[1]) != outStream[0])
+		return 0;
+	if (CrFwOutStreamGet(dest[2]) != outStream[2])
+		return 0;
+	if (CrFwOutStreamGet(dest[7]) != outStream[1])
+		return 0;
 	if (CrFwGetAppErrCode() != crNoAppErr)
 		return 0;
 
@@ -692,6 +711,15 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 	if (outStream1 == NULL)
 		return 0;
 
+	/* Start, initialize and reset outStream and check its state */
+	FwSmStart(outStream1);
+	CrFwCmpInit(outStream1);
+	CrFwCmpReset(outStream1);
+	if (!CrFwCmpIsInConfigured(outStream1))
+		return 0;
+	if (!CrFwOutStreamIsInReady(outStream1))
+		return 0;
+
 	/* Retrieve error report counter */
 	errRepPosLocal = CrFwRepErrStubGetPos();
 
@@ -701,6 +729,12 @@ CrFwBool_t CrFwOutStreamTestCase7() {
 
 	/* Check number of groups of OutStreams (this is set in CrFwOutStreamUserPar.h */
 	if (CrFwOutStreamGetNOfGroups()!=2)
+		return 0;
+
+	/* Check destination associated to outStream (given by CR_FW_OUTSTREAM_DEST_PAIRS)*/
+	if (CrFwOutStreamGetNOfDest(outStream1) != 1)
+		return 0;
+	if (CrFwOutStreamGetDest(outStream1,1) != 8)
 		return 0;
 
 	/* Check number of type counters (this is set by function CrFwOutStreamDefSetDTS and

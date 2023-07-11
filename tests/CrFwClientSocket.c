@@ -198,11 +198,11 @@ void CrFwClientSocketConfigAction(FwPrDesc_t prDesc) {
 void CrFwClientSocketPoll() {
 	long int n;
 	FwSmDesc_t inStream;
+	CrFwDestSrc_t src;
 
 	if (readBuffer[0] != 0) {
-		/* src = CrFwPcktGetSrc((CrFwPckt_t)readBuffer); */
-		/* inStream = CrFwGetInStream(src); */
-		inStream = CrFwInStreamMake(5);
+		src = CrFwPcktGetSrc((CrFwPckt_t)readBuffer);
+		inStream = CrFwInStreamGet(src); 
 		CrFwInStreamPcktAvail(inStream);
 		return;
 	}
@@ -215,9 +215,8 @@ void CrFwClientSocketPoll() {
 		return;
 	}
 	if (n == readBuffer[0]) {	/* a valid packet has arrived */
-		/* src = CrFwPcktGetSrc((CrFwPckt_t)readBuffer); */
-		/* inStream = CrFwGetInStream(src); */
-		inStream = CrFwInStreamMake(5);
+		src = CrFwPcktGetSrc((CrFwPckt_t)readBuffer);
+		inStream = CrFwInStreamGet(src);
 		CrFwInStreamPcktAvail(inStream);
 		return;
 	}
@@ -229,27 +228,29 @@ void CrFwClientSocketPoll() {
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-CrFwPckt_t CrFwClientSocketPcktCollect(CrFwDestSrc_t src) {
+CrFwPckt_t CrFwClientSocketPcktCollect(CrFwDestSrc_t nofPcktSrc, CrFwDestSrc_t* pcktSrcs) {
 	CrFwPckt_t pckt;
-	CrFwDestSrc_t pcktSrc;
+	CrFwDestSrc_t pcktSrc, i;
 
 	if (readBuffer[0] != 0) {
 		pcktSrc = CrFwPcktGetSrc((CrFwPckt_t)readBuffer);
-		if (src == pcktSrc) {
-			pckt = CrFwPcktMake((CrFwPcktLength_t)readBuffer[0]);
-			memcpy(pckt, readBuffer, readBuffer[0]);
-			readBuffer[0] = 0;
-			return pckt;
-		} else
-			return NULL;
+		for (i=0; i<nofPcktSrc; i++) {
+			if (pcktSrc == pcktSrcs[i]) {
+				pckt = CrFwPcktMake((CrFwPcktLength_t)readBuffer[0]);
+				memcpy(pckt, readBuffer, readBuffer[0]);
+				readBuffer[0] = 0;
+				return pckt;
+			}
+		}
+		return NULL;
 	} else
 		return NULL;
 }
 
 /* ---------------------------------------------------------------------------------------------*/
-CrFwBool_t CrFwClientSocketIsPcktAvail(CrFwDestSrc_t src) {
+CrFwBool_t CrFwClientSocketIsPcktAvail(CrFwDestSrc_t nofPcktSrc, CrFwDestSrc_t* pcktSrcs) {
 	long int n;
-	CrFwDestSrc_t pcktSrc;
+	CrFwDestSrc_t pcktSrc, i;
 
 	if (readBuffer[0] != 0) {
 		return 1;
@@ -265,10 +266,11 @@ CrFwBool_t CrFwClientSocketIsPcktAvail(CrFwDestSrc_t src) {
 	}
 	if (n == readBuffer[0]) {	/* a valid packet has arrived */
 		pcktSrc = CrFwPcktGetSrc((CrFwPckt_t)readBuffer);
-		if (src == pcktSrc)
-			return 1;
-		else
-			return 0;
+		for (i=0; i<nofPcktSrc; i++) {
+			if (pcktSrc == pcktSrcs[i])
+				return 1;
+		}
+		return 0;
 	}
 
 	if (n != readBuffer[0]) {

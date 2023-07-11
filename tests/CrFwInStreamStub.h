@@ -55,20 +55,24 @@
  * - its command/report identifier which is set to the value
  *   loaded with function <code>::CrFwInStreamStubSetPcktCmdRepId</code>.
  * .
- * @param src the source associated to the InStream (not used in this stub)
+ * @param nofSrc the number of sources associated to the InStream (not used in 
+ * this stub)
+ * @param srcs the sources associated to the InStream (not used in this stub)
  * @return the packet
  */
-CrFwPckt_t CrFwInStreamStubPcktCollect(CrFwDestSrc_t src);
+CrFwPckt_t CrFwInStreamStubPcktCollect(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* srcs);
 
 /**
  * Stub function implementing the packet available check operation for the InStream
  * (see <code>CrFwInStream.h</code>).
  * This stub returns true if the packet collection counter is greater
  * than zero.
- * @param src the source associated to the InStream (not used in this stub)
+ * @param nofSrc the number of sources associated to the InStream (not used in 
+ * this stub)
+ * @param srcs the sources associated to the InStream (not used in this stub)
  * @return the value of a predefined flag
  */
-CrFwBool_t CrFwInStreamStubIsPcktAvail(CrFwDestSrc_t src);
+CrFwBool_t CrFwInStreamStubIsPcktAvail(CrFwDestSrc_t nofSrcs, CrFwDestSrc_t* srcs);
 
 /**
  * Stub function implementing the shutdown operation for an InStream
@@ -107,8 +111,8 @@ void CrFwInStreamStubSetCheckFlag(CrFwBool_t flag);
  * to ensure that default initialization actions are performed.
  * The <code>::CrFwInStreamDefInitAction</code> function dynamically allocates
  * memory for an internal InStream data structure. In order to avoid memory
- * leaks, function <code>::CrFwInStreamDefInitAction</code> is only called if
- * the InStream data structure has not yet been initialized.
+ * leaks, In order to avoid memory leaks, this function should therefore only 
+ * be called once for each outStream..
  *
  * @param prDesc the initialization or configuration procedure descriptor (this parameter
  * is not used).

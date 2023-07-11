@@ -368,14 +368,14 @@ CrFwBool_t CrFwOutManagerTestCase4() {
 		return 0;
 
 	/* Set destination of OutComponents to be the same as the first destination of the OutStream */
-	CrFwDestSrc_t destArray[CR_FW_OUTSTREAM_NOF_DEST];
-	CrFwOutStreamGetDest(outStream1, destArray);  
-	CrFwOutCmpSetDest(sampleOutCmp1, destArray[0]);
-	CrFwOutCmpSetDest(sampleOutCmp2, destArray[0]);
-	CrFwOutCmpSetDest(stdOutCmp1, destArray[0]);
-	CrFwOutCmpSetDest(stdOutCmp2, destArray[0]);
-	CrFwOutCmpSetDest(stdOutCmp3, destArray[0]);
-	CrFwOutCmpSetDest(stdOutCmp4, destArray[0]);
+	CrFwDestSrc_t dest = CrFwOutStreamGetDest(outStream1, 1);  
+	CrFwOutStreamGetDest(outStream1, dest);  
+	CrFwOutCmpSetDest(sampleOutCmp1, dest);
+	CrFwOutCmpSetDest(sampleOutCmp2, dest);
+	CrFwOutCmpSetDest(stdOutCmp1, dest);
+	CrFwOutCmpSetDest(stdOutCmp2, dest);
+	CrFwOutCmpSetDest(stdOutCmp3, dest);
+	CrFwOutCmpSetDest(stdOutCmp4, dest);
 
 	/* Set up enable and ready check of the sample OutComponents */
 	CrFwOutCmpSample1SetEnableFlag(1);

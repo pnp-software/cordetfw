@@ -75,6 +75,10 @@ int main() {
 			printf("Consistency check of InCommand parameters in InFactory failed\n");
 		if (configCheckOutcome == crInFactoryInRepConfigParInconsistent)
 			printf("Consistency check of InRepot parameters in InFactory failed\n");
+		if (configCheckOutcome == crInStreamConfigParInconsistent)
+			printf("Consistency check of InStream parameters failed\n");
+		if (configCheckOutcome == crOutStreamConfigParInconsistent)
+			printf("Consistency check of OutSteam parameters failed\n");
 		return EXIT_SUCCESS;
 	}
 	printf("Consistency check of configuration parameters ran successfully...\n");

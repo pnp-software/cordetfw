@@ -52,7 +52,10 @@ static CrFwCounterU1_t outManagerPoclSize[CR_FW_NOF_OUTMANAGER] = CR_FW_OUTMANAG
 static CrFwCounterU1_t outStreamPcktQueueSize[CR_FW_NOF_OUTSTREAM] = CR_FW_OUTSTREAM_PQSIZE;
 
 /** The (destination, outStream) pairs */
-static CrFwDestSrc_t outStreamDest[CR_FW_OUTSTREAM_NOF_DEST][2] = CR_FW_OUTSTREAM_DEST;
+static CrFwDestSrc_t outStreamDest[CR_FW_OUTSTREAM_NOF_DEST][2] = CR_FW_OUTSTREAM_DEST_PAIRS;
+
+/** The (source, inStream) pairs */
+static CrFwDestSrc_t inStreamSrc[CR_FW_INSTREAM_NOF_SRCS][2] = CR_FW_INSTREAM_SRC_PAIRS;
 
 /* -------------------------------------------------------------------------- */
 CrFwConfigCheckOutcome_t CrFwAuxConfigCheck() {
@@ -71,6 +74,9 @@ CrFwConfigCheckOutcome_t CrFwAuxConfigCheck() {
 
 	if (CrFwAuxOutStreamConfigCheck() == 0)
 		return crOutStreamConfigParInconsistent;
+
+	if (CrFwAuxInStreamConfigCheck() == 0)
+		return crInStreamConfigParInconsistent;
 
 	return crConsistencyCheckSuccess;
 }
@@ -97,6 +103,33 @@ CrFwBool_t CrFwAuxOutStreamConfigCheck() {
 			return 0;
 
 	if (CR_FW_OUTSTREAM_NOF_GROUPS < 1)
+		return 0;
+
+	return 1;
+}
+
+/* -------------------------------------------------------------------------- */
+CrFwBool_t CrFwAuxInStreamConfigCheck() {
+	unsigned int i;
+
+	if (CR_FW_NOF_INSTREAM < 1)
+		return 0;
+
+	if (CR_FW_INSTREAM_NOF_SRCS < 1)
+		return 0;
+
+	for (i=0; i<CR_FW_INSTREAM_NOF_SRCS; i++) {
+		if (inStreamSrc[i][1] >= CR_FW_NOF_INSTREAM)
+			return 0;
+		if (inStreamSrc[i][0] < 1)
+			return 0;
+	}
+
+	for (i=0; i<CR_FW_NOF_INSTREAM; i++)
+		if (inStreamPcktQueueSize[i] < 1)
+			return 0;
+
+	if (CR_FW_INSTREAM_NOF_GROUPS < 1)
 		return 0;
 
 	return 1;

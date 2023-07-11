@@ -291,9 +291,9 @@ CrFwBool_t CrFwOutStreamIsInBuffering(FwSmDesc_t smDesc) {
 FwSmDesc_t CrFwOutStreamGet(CrFwDestSrc_t dest) {
 	unsigned int i;
 	for (i=0; i<CR_FW_OUTSTREAM_NOF_DEST; i++)
-		if (outStreamDest[i][0] == dest) {
-			assert(outStreamDest[i][1] < CR_FW_NOF_OUTSTREAM);
-			return outStreamDesc[outStreamDest[i][1]];
+		if (outStreamDestPairs[i][0] == dest) {
+			assert(outStreamDestPairs[i][1] < CR_FW_NOF_OUTSTREAM);
+			return outStreamDesc[outStreamDestPairs[i][1]];
 		}
 
 	CrFwSetAppErrCode(crOutStreamUndefDest);
@@ -305,7 +305,7 @@ CrFwDestSrc_t CrFwOutStreamGetDest(FwSmDesc_t outStream, CrFwCounterU1_t i) {
 	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(outStream);
 	CrFwInstanceId_t outStreamId = outStreamBaseData->instanceId;
 	assert(i <= outStreamNofDest[outStreamId]);
-	return outStreamDest[i-1];
+	return outStreamDest[outStreamId][i-1];
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -370,7 +370,10 @@ void CrFwOutStreamDefConfigAction(FwPrDesc_t prDesc) {
 /*-----------------------------------------------------------------------------------------*/
 void CrFwOutStreamDefShutdownAction(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwInstanceId_t outStreamId = outStreamBaseData->instanceId;
 	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
+	free(outStreamDest[outStreamId]);
+	outStreamNofDest[outStreamId] = 0;
 	CrFwPcktQueueShutdown(&(cmpSpecificData->pcktQueue));
 }
 
@@ -380,6 +383,11 @@ void CrFwOutStreamDefInitAction(FwPrDesc_t prDesc) {
 	CrFwInstanceId_t outStreamId = outStreamBaseData->instanceId;
 	unsigned int i, j;
 
+	if (outStreamNofDest[outStreamId] != 0) {
+		outStreamBaseData->outcome = 1;
+		return;
+	}
+
 	outStreamNofDest[outStreamId] = 0;
 	for (i=0; i<CR_FW_OUTSTREAM_NOF_DEST; i++)
 		if (outStreamDestPairs[i][1] == outStreamId) {
@@ -387,7 +395,7 @@ void CrFwOutStreamDefInitAction(FwPrDesc_t prDesc) {
 		}
 	
 	assert(outStreamNofDest[outStreamId] > 0);
-	outStreamDesc[outStreamId] = malloc(sizeof(CrFwDestSrc_t) * outStreamNofDest[outStreamId]);
+	outStreamDest[outStreamId] = malloc(sizeof(CrFwDestSrc_t) * outStreamNofDest[outStreamId]);
 
 	j = 0;
 	for (i=0; i<CR_FW_OUTSTREAM_NOF_DEST; i++)
