@@ -38,7 +38,7 @@
 
 /**
  * An instance of this type holds the information about an incoming command or report
- * which is being tracked by the OuRegistry.
+ * which is being tracked by the InRegistry.
  */
 typedef struct {
 	/** The identifier of the incoming command or report */
@@ -48,7 +48,7 @@ typedef struct {
 } CrFwTrackedState_t;
 
 /** Array to track the state of incoming commands or reports */
-static CrFwTrackedState_t cmdRepState[CR_FW_OUTREGISTRY_N];
+static CrFwTrackedState_t cmdRepState[CR_FW_INREGISTRY_N];
 
 /** The index of the most recent entry in <code>cmdRepState</code>. */
 static CrFwTrackingIndex_t cmdRepStateIndex = 0;
@@ -85,14 +85,14 @@ FwSmDesc_t CrFwInRegistryMake() {
 	/* Extend the Base Component */
 	inRegistry = FwSmCreateDer(CrFwBaseCmpMake());
 
-	/* Create the Reset Procedure for the OuRegistry Component */
+	/* Create the Reset Procedure for the InRegistry Component */
 	resetPr = FwPrCreateDer(CrFwCmpGetResetProc());
 	FwPrOverrideAction(resetPr, &CrFwBaseCmpDefConfigAction, &InRegistryConfigAction);
 
-	/* Create the Initialization Procedure for the OuRegistry Component */
+	/* Create the Initialization Procedure for the InRegistry Component */
 	initPr = FwPrCreateDer(CrFwCmpGetInitProc());
 
-	/* Override the Shutdown Action for the InStream Component */
+	/* Override the Shutdown Action for the InRegistry Component */
 	FwSmOverrideAction(inRegistry, &CrFwBaseCmpDefShutdownAction, &InRegistryShutdownAction);
 
 	/* Get the Dummy Execution Procedure for the InRegistry Component */
