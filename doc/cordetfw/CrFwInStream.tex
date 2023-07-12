@@ -4,7 +4,7 @@ An application A may receive packets from several sources. The packets may eithe
 
 Although several connections may be managed by the same InStream, a connection can only send its packet to one InStream (i.e. a situation where the same connection is controlled by several InStreams and several InStreams are therefore handling packets from the same source is not allowed).
 
-The InStreams are responsible for checking the sequence counter attributes of incoming packets received by an application. Since sequence counters are incremented according to a packet's group, all packets belonging to the same group must arrive through the same InStream.
+The InStreams are responsible for checking the sequence counter attributes of incoming packets received by an application. As in the case of OutStreams, sequence counters are managed at group level. 
 
 The InStream component is defined as an extension of the Base Component of section \ref{sec:BaseCmp} and it therefore inherits the initialization and configuration logic defined by the Base Component. In the initialization and configuration process, the InStream is linked to the middleware. This process is therefore necessarily application-specific (because the middleware is not specified by the CORDET Framework). However, the CORDET Framework specifies that an InStream component may only become configured (i.e. it may enter state CONFIGURED) after the middleware connection has terminated its own initialization and configuration. This ensures that an InStream only becomes configured after its middleware connection has terminated its own initialization and configuration process.
 

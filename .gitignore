@@ -20,3 +20,5 @@
 /cordetfw.geany
 /coverage.info
 /filtered_coverage.info
+/scripts/__pycache__/**
+/tmp/**

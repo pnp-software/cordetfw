@@ -1,4 +1,4 @@
-The CORDET Framework defines the Application State Machine of figure \ref{fig:ApplicationSM} to model the start-up and shutdown logic of an application. 
+The CORDET Framework defines the Application State Machine of figure \ref{fig:AppSM} to model the start-up and shutdown logic of an application. 
 
 When the application is created, the Application State Machine is in state START\_UP. 
 In this state, the \textit{Application Start-Up Procedure} is executed. 
@@ -18,9 +18,9 @@ Finally, the orderly shutdown of an application is performed by sending command 
 
 \begin{figure}[ht]
  \centering
- \includegraphics[scale=0.4,keepaspectratio=true]{ApplicationSM.png}
+ \includegraphics[scale=0.4,keepaspectratio=true]{AppSM.png}
  \caption{Application State Machine}
- \label{fig:ApplicationSM}
+ \label{fig:AppSM}
 \end{figure}
 
-Applications may (and normally will) define embedded state machines in the states shown in figure \ref{fig:ApplicationSM}. In particular, applications normally have several operational states which would appear as sub-states of NORMAL.
+Applications may (and normally will) define embedded state machines in the states shown in figure \ref{fig:AppSM}. In particular, applications normally have several operational states which would appear as sub-states of NORMAL.

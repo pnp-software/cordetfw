@@ -33,7 +33,7 @@
 %---------------------------------------------
 \newenvironment{crAp}[2]
 {
-\pnpcsvtable[filter equal={\Domain}{Ap#1}]{|l|p{4.7cm}|p{6.9cm}|}{#2}{tab:AP-#1}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}}{CrFwAdaptPoint.csv}{\Domain-\Name & \Title  & \DefaultValue}
+\pnpcsvtable[filter equal={\Domain}{#1}]{|l|p{4.7cm}|p{6.9cm}|}{#2}{tab:AP-#1}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}}{CrFwAdaptPoint.csv}{\Domain-\Name & \Title  & \DefaultValue}
 }
 
 
@@ -66,19 +66,19 @@ This section lists the changes made in the current revision. Changes are classif
 \textbf{Section} & \textbf{Type} & \textbf{Description} \\
 \hline\hline
 \endhead
-3.5 & Clarified relationship between CORDET Applications and PUS Application Processes \\
+3.5 & L & Clarified relationship between CORDET Applications and PUS Application Processes \\
 \hline
 3.8 & L & Added mention of use of Cordet FW on Cheops Payload \\
 \hline
-5.1.1 & NC & Modified command attributes: semantics of Sequence Counter has been changed; Group attribute has been dropped; Type Counter attribute has been added (change driven by need to remain compliant with new PUS Standardof reference [PS-SP]) \\
+5.1.1 & N,C & Modified command attributes: semantics of Sequence Counter has been changed; Group attribute has been dropped; Type Counter attribute has been added (change driven by need to remain compliant with new PUS Standardof reference [PS-SP]) \\
 \hline
-5.2.1 & NC & Modified report attributes: semantics of Sequence Counter has been changed; Group attribute has been dropped; Type Counter attribute has been added (change driven by need to remain compliant with new PUS Standardof reference [PS-SP]) \\
+5.2.1 & N,C & Modified report attributes: semantics of Sequence Counter has been changed; Group attribute has been dropped; Type Counter attribute has been added (change driven by need to remain compliant with new PUS Standardof reference [PS-SP]) \\
 \hline
-6.2 & C & Modified concept of OutStream to correspond to a Destination Group (rather than to a single destination) \\
+6.2 & C & Modified concept of OutStream to allow handling of packets to multiple destinations; modified concept of InStream to allow handling of packets from multiple sources \\
 \hline
-6.2.1 & C & Updated OutStream definition to take account of new sequence counter and type attribute logic \\
+6.2.1 & C & Updated OutStream definition to take account of new sequence counter and type attribute logic and of the possibility to allocate multiple destinations to the same OutStream \\
 \hline
-6.2.2 & C & Updated InStream definition to take account of new sequence counter management logic \\
+6.2.2 & C & Updated InStream definition to take account of new sequence counter management logic and of the possibility to allocate multiple sources to the same InStream \\
 \hline
 \end{longtable}
 
@@ -593,9 +593,9 @@ This section specifies the interfaces through which applications send packets to
 
 The packet interface concept for CORDET applications is illustrated in figure \ref{fig:PcktInterfaceConcept} using an information notation.
 
-The management of the out-going packet interface is performed by one or more OutStream components. An OutStream component encapsulates an out-going interface through which packets are sent to a set of related destinations. An application has one OutStream component for each destination group (see sections \ref{sec:CmdAttributes} and \ref{sec:RepAttributes}) to which it may send packets.
+The management of the out-going packet interface is performed by one or more OutStream components. An OutStream component encapsulates an out-going interface through which packets are sent to a set of related destinations. 
 
-The management of the incoming packet interface is performed by an InStream component. An InStream component encapsulates the incoming interface through which an application receives packets from a certain set of packet sources. An application has one InStream component for each source from which it may receive packets.
+The management of the incoming packet interface is performed by an InStream component. An InStream component encapsulates the incoming interface through which an application receives packets from a set of related packet sources. 
 
 Packets which are received by an InStream in application A and which have application A as their destination are made available to the internal components of application A. Packets which are received by an InStream in application A and which have an application other than A as their destination are instead re-routed. This means that they are handed over to an OutStream for forwarding to another application (either their final destination or another intermediate application on the way to their final destination).
 
@@ -640,7 +640,7 @@ Properties P3 and P4 are verified on the Promela model of the OutStream presente
 \begin{crAp}{IST}{Adaptation Points for InStream Component}
 \end{crAp}
 
-\pagebreak[4]
+
 \begin{crReq}{IST}{Requirements Applicable to InStream Component}
 \end{crReq}
 
