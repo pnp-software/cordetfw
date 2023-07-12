@@ -54,7 +54,9 @@ typedef enum {
 	/** OutStream configuration parameters are inconsistent (see <code>CrFwAuxOutStreamConfigCheck.h</code>) */
 	crOutStreamConfigParInconsistent = 6,
 	/** InStream configuration parameters are inconsistent (see <code>CrFwAuxInStreamConfigCheck.h</code>) */
-	crInStreamConfigParInconsistent = 7
+	crInStreamConfigParInconsistent = 7,
+	/** InRegistry configuration parameters are inconsistent (see <code>CrFwAuxInRegistryConfigCheck.h</code>) */
+	crInRegistryConfigParInconsistent = 8
 } CrFwConfigCheckOutcome_t;
 
 /**
@@ -174,23 +176,15 @@ CrFwBool_t CrFwAuxInStreamConfigCheck();
 CrFwBool_t CrFwAuxInFactoryInCmdConfigCheck();
 
 /**
- * Check the configuration of the InReport part of the InFactory component.
+ * Check the configuration of the InRegistry component.
  * The following checks are performed on the configuration data in
- * <code>CrFwInFactoryUserPar.h</code>:
- * - CR_FW_INFACTORY_MAX_NOF_INREP is greater than zero if CR_FW_INREP_NKINDS is greater than zero
- * - The service types are listed in increasing order in the service descriptor
- *   initializer (<code>CR_FW_INREP_INIT_KIND_DESC</code>)
- * - The service sub-types within a type are listed in increasing order in the service
- *   descriptor initializer (<code>CR_FW_INREP_INIT_KIND_DESC</code>)
- * - The discriminant values within a type/sub-type are listed in increasing order
- *   in the service descriptor initializer (<code>CR_FW_INREP_INIT_KIND_DESC</code>)
- * - The values of the service types, sub-types and discriminant are lower than
- * 	 <code>#CR_FW_MAX_SERV_TYPE</code>, <code>#CR_FW_MAX_SERV_SUBTYPE</code> and
- * 	 <code>#CR_FW_MAX_DISCRIMINANT</code>.
+ * <code>CrFwInRegistryUserPar.h</code>:
+ * - The maximum number of trackable InCommands and InReports as given by
+ *   parameter <code>#CR_FW_INREGISTRY_N</code> is greater than zero.
  * .
  * @return true if no errors are detected in the configuration data;
  * false otherwise.
  */
-CrFwBool_t CrFwAuxInFactoryInRepConfigCheck();
+CrFwBool_t CrFwAuxInFactoryInRegistryConfigCheck();
 
 #endif /* CRFW_AUX_H_ */

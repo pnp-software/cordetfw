@@ -23,6 +23,7 @@
 #include "CrFwAux.h"
 #include "OutCmp/CrFwOutCmp.h"
 /* Include configuration files */
+#include "CrFwInRegistryUserPar.h"
 #include "CrFwOutRegistryUserPar.h"
 #include "CrFwOutFactoryUserPar.h"
 #include "CrFwInFactoryUserPar.h"
@@ -77,6 +78,9 @@ CrFwConfigCheckOutcome_t CrFwAuxConfigCheck() {
 
 	if (CrFwAuxInStreamConfigCheck() == 0)
 		return crInStreamConfigParInconsistent;
+
+	if (CrFwAuxInRegistryConfigCheck() == 0)
+		return crInRegistryConfigParInconsistent;
 
 	return crConsistencyCheckSuccess;
 }
@@ -327,5 +331,12 @@ CrFwBool_t CrFwAuxInFactoryInRepConfigCheck() {
 			return 0;
 	}
 
+	return 1;
+}
+
+CrFwBool_t CrFwAuxInFactoryInRegistryConfigCheck() {
+	if (CR_FW_INREGISTRY_N < 1)
+		return 0;
+	
 	return 1;
 }
