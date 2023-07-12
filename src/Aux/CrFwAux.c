@@ -334,7 +334,7 @@ CrFwBool_t CrFwAuxInFactoryInRepConfigCheck() {
 	return 1;
 }
 
-CrFwBool_t CrFwAuxInFactoryInRegistryConfigCheck() {
+CrFwBool_t CrFwAuxInRegistryConfigCheck() {
 	if (CR_FW_INREGISTRY_N < 1)
 		return 0;
 	

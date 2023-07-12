@@ -185,6 +185,6 @@ CrFwBool_t CrFwAuxInFactoryInCmdConfigCheck();
  * @return true if no errors are detected in the configuration data;
  * false otherwise.
  */
-CrFwBool_t CrFwAuxInFactoryInRegistryConfigCheck();
+CrFwBool_t CrFwAuxInRegistryConfigCheck();
 
 #endif /* CRFW_AUX_H_ */
