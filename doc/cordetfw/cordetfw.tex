@@ -36,6 +36,8 @@
 \pnpcsvtable[filter equal={\Domain}{#1}]{|l|p{4.7cm}|p{6.9cm}|}{#2}{tab:AP-#1}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value}}{CrFwAdaptPoint.csv}{\Domain-\Name & \Title  & \DefaultValue}
 }
 
+% changes in issue 2 of UM and issue 3 of Definition Document
+\newcommand{\chgC}[1]{{\color{red}{#1}}{}} 		
 
 
 
@@ -333,7 +335,7 @@ In some cases, the definition of an adaptation point is accompanied by the defin
 
 To each framework requirement an \textit{identifier} is attached.
 The requirement identifier takes the following form: x-y/t where 'x' is an acronym identifying the function to which the requirement applies; 'y' is a unique identifier within that function; and 't' identifies the requirement type. 
-The type is designated by one single letter as follows: 'STD' for the Standard Requirements, 'AP' for the Adaptation Requirements, 'CNS' for the Usage Constraint Requirements and 'PRP' for the Property Requirements.
+The type is designated by one single letter as follows: 'S' for the Standard Requirements, 'A' for the Adaptation Requirements, 'C' for the Usage Constraint Requirements and 'P' for the Property Requirements.
 
 The specification of the framework includes a \textit{behavioural model} of the framework which describes its behaviour and identifies the adaptation points where application developers can extend this behaviour to match their requirements.  
 
@@ -372,7 +374,7 @@ In spite of its origin in the space industry, the PUS is suitable for a wider ra
 
 The models of the CORDET Components are based on models defined in past research projects (see references [CR-AS] and [CR-CR) and on the OBS Framework Design Patterns (see reference [CR-OB]). 
 
-An earlier version of the CORDET Framework was used as the basis for the definition and design of an industrial-quality framework for the diagnostic instruments of a major pharmaceutical company. Version 1.0.0 was used for the implementation of the on-board software of the Cheops Satellite. The viability of the design patterns and concepts behind the CORDET Framework is therefore demonstrated at industrial level. 
+An earlier version of the CORDET Framework was used as the basis for the definition and design of an industrial-quality framework for the diagnostic instruments of a major pharmaceutical company. \chgC{Version 1.0.0 was used for the implementation of the on-board software of the Cheops Satellite}. The viability of the design patterns and concepts behind the CORDET Framework is therefore demonstrated at industrial level. 
 
 %=======================================================================================
 \section{Application Start-Up and Shut-Down}\label{sec:AppStartUpAndShutdown}
@@ -599,9 +601,9 @@ This section specifies the interfaces through which applications send packets to
 
 The packet interface concept for CORDET applications is illustrated in figure \ref{fig:PcktInterfaceConcept} using an information notation.
 
-The management of the out-going packet interface is performed by one or more OutStream components. An OutStream component encapsulates an out-going interface through which packets are sent to a set of related destinations. 
+The management of the out-going packet interface is performed by \chgC{one or more OutStream components. An OutStream component encapsulates an out-going interface through which packets are sent to a set of related destinations. }
 
-The management of the incoming packet interface is performed by an InStream component. An InStream component encapsulates the incoming interface through which an application receives packets from a set of related packet sources. 
+The management of the incoming packet interface is performed by an InStream component. \chgC{An InStream component encapsulates the incoming interface through which an application receives packets from a set of related packet sources. }
 
 Packets which are received by an InStream in application A and which have application A as their destination are made available to the internal components of application A. Packets which are received by an InStream in application A and which have an application other than A as their destination are instead re-routed. This means that they are handed over to an OutStream for forwarding to another application (either their final destination or another intermediate application on the way to their final destination).
 
@@ -724,7 +726,6 @@ The OutFactory component does not define any adaptation points in addition to th
 \begin{crReq}{OLD}{Requirements Applicable to OutLoader Component}
 \end{crReq}
 
-\newpage
 %---------------------------------------------------------------------------------
 \subsubsection{The OutManager Component}\label{sec:OutManager}
 \input{CrFwOutManager.tex}
@@ -746,6 +747,7 @@ The OutFactory component does not define any adaptation points in addition to th
 \end{crReq}
 
 %---------------------------------------------------------------------------------
+\newpage
 \subsection{Management of Incoming Commands and Reports}\label{sec:ManagementOfIncomingCmdAndRep}
 \input{CrFwManagementOfIncomingCmdAndRep.tex}
 

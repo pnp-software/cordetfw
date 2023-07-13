@@ -12,6 +12,7 @@
 
 \newcommand{\chgC}[1]{{\color{red}{#1}}{}} 		% changes in issue 3
 
+
 % =======================================================================
 %\listofchanges
 \tableofcontents
@@ -47,7 +48,7 @@ The CORDET Framework is specified in reference [CR-SP]. This specification is im
 The main features of the C2 Implementation are:
 \input{CrFwMainFeatures.tex}
 
-The behaviour of the CORDET components is modelled by means of state machines and procedures (activitiy diagrams). The semantics of the state machines and procedure is the one defined by the FW Profile of reference [FW-SP]. The C2 Implementation of the CORDET Framework implements these state machines and procedures using a C-language implementation of the FW Profile \footnote{The implementation of the FW Profile state machines and procedure is also available as a separate and self-contained delivery under the name of C1 Implementation, see reference [FW-SP]}. 
+The behaviour of the CORDET components is modelled by means of state machines and procedures (activity diagrams). The semantics of the state machines and procedures is the one defined by the FW Profile of reference [FW-SP]. The C2 Implementation of the CORDET Framework implements these state machines and procedures using a C-language implementation of the FW Profile \footnote{The implementation of the FW Profile state machines and procedures is also available as a separate and self-contained delivery under the name of C1 Implementation, see reference [FW-SP]}. 
 
 %------------------------------------------------------------------------------------------
 \section{Installation \& Content Overview}\label{sec:InstAndContentOverview}
@@ -85,7 +86,7 @@ Note that the C1 Implementation consists of three modules covering the implement
 
 %--------------------------------------------------------------------------------------------
 \subsection{Dependency on External Libraries}
-The C2 Implementation (namely the CORDET Components in directory \texttt{/src}) only needs the \texttt{stdlib} and the \texttt{string} libraries of the C language and the State Machine and Procedure Modules of the C1 Implementation of the FW Profile. The C1 Implementation modules are delivered together with the C2 Implementation (see previous section). 
+The C2 Implementation (namely the CORDET Components in directory \texttt{/src}) only needs the \texttt{stdlib} and the \texttt{string} libraries of the C language and the State Machine and Procedure Modules of the C1 Implementation of the FW Profile. The C1 Implementation modules are delivered together with the C2 Implementation (see previous section). \chgC{Some components use the C-language assert macro to support validation tests. They need the C-language \texttt{assert} library.}
 
 The Test Suite (namely the modules in directory \texttt{/tests}) use additional libraries and POSIX services. In particular, the shell scripts which are delivered with the C2 Implementation (see section \ref{sec:script}) to generate the executable for the Test Suite need an implementation of the POSIX library. The scripts link the POSIX library with option \texttt{-lpthread}. Users with different implementations of the POSIX library will have to modify the scripts accordingly. Users without a POSIX library implementation will not be able to build the Test Suite (but will, of course, still be able to use the CORDET Components in their own applications).
 
@@ -187,14 +188,21 @@ The Test Suite runs to completion; all test cases are declared to have completed
 \hline
 6 & Run GCov on all the C2 Implementation Files to which coverage requirements apply &
 For each C2 Implementation File to which coverage requirements apply, a \texttt{*.c.gcov}
-file is created and the file shows full statement and branch coverage with exception of
-branches entered as a result of a failure of \texttt{malloc} \\
+file is created and the file shows full statement and branch coverage with exception discussed below \\
 \hline
 \end{longtable}
 
+\chgC{
+With reference to point 1, it is noted that with Doxygen version used for the current release (1.8.17), errors like: "warning: return type of member acceptThreadEntry is not documented" are expected and are due to a bug in doxygen.
+}
+
 With reference to point 5, it is noted that, depending on the test timing, Valgrind may report 3 possible memory leaks originating in function \texttt{pthread\_create}. This is due to the fact that the test cases in module \texttt{CrFwSocketTestCase} create threads but do not join them before terminating. This potential leak does not affect the framework code and is therefore accepted.
 
-The \texttt{RunAcceptanceTest.sh} shell script (not included in the delivery for end customers) automatically executes all the procedure steps described in the table and it generates a test report which is included in directory \texttt{\\reports} of the delivery file.
+\chgC{
+With reference to point 6, it is noted that some branches remain uncovered where the \texttt{assert} maco is called and that there are two lines in \texttt{CrFwUtilityFunctions.c} where full decision coverage cannot be achieved by design. This is justified in comments embedded in the file itself.
+
+The \texttt{Release.sh} shell script (not included in the delivery for end customers) automatically executes all the procedure steps described in the table and it generates log files which are included in directory \texttt{docs/log} of the delivery file.
+}
 
 %------------------------------------------------------------------------------------
 \subsection{Support Scripts}\label{sec:script}
@@ -425,7 +433,7 @@ As an example consider the CORDET Components. All these components share the sam
 
 Using an object-oriented terminology, one could say that the C2 Implementation offers a base class implementing the generic initialization and reset behaviour of all components and it offers derived classes to represent the initialization and reset behaviour of specific component types.
 
-Note, finally, that the C1 Implementation also supports an extension mechanism for procedures as well as for state machines. This procedure extension mechanism is not used in the C2 Implementation and is therefore not discussed further in this document. 
+Note, finally, that the C1 Implementation also supports an extension mechanism for procedures as well as for state machines. \chgC{The procedure extension mechanism is similar to the state machine extension mechanism in that it allows a procedure to be cloned and it allows the actions and guards in the clone to be overridden with new actions and guards}. 
 
 %=============================================================================================
 \section{Component Model}\label{sec:CmpModel}\label{sec:BaseCmp}
@@ -547,7 +555,7 @@ OutRegistry & Tracking of the state of outgoing commands and reports. See sectio
 %-------------------------------------------------------------------------------------------
 \subsection{Component Implementation}\label{sec:CmpImpl} 
 
-Each component is implemented in either one single C module or in a small number of C modules. The modules implementing a component are gathered in a dedicated sub-directory which carries the name of the component. Thus, for instance, the modules implementing the Base Component are stored in a sub-directory called: \texttt{src/CrFramework/BaseCmp}.
+Each component is implemented in either one single C module or in a small number of C modules. The modules implementing a component are gathered in a dedicated sub-directory which carries the name of the component. Thus, for instance, the modules implementing the Base Component are stored in a sub-directory called: \chgC{\texttt{src/BaseCmp}}.
 
 From a syntactical point of view, a Framework Component is represented by the descriptor of its state machine (a variable of type \texttt{FwSmDesc\_t}, see section \ref{sec:SmAndPrModel}). Thus, syntactically, all framework components are of the same type (i.e. they are all represented by variables of type \texttt{FwSmDesc\_t}). 
 
@@ -638,13 +646,13 @@ Four types of Adaptation Points (AP) are supported by the C2 Implementation:
 \item Define Type: a framework component uses a variables of a type defined as a \texttt{typedef} and application developers may override the default type definition.
 \end{itemize}
 
-The adaptable part of the framework is located in the \chgC{\texttt{/cr/src/tests/config}} directory of the C2 Implementation delivery (see section \ref{sec:InstAndContentOverview}. This directory holds: (a) a number of header files which define all the \texttt{\#DEFINE} constants and function pointers of the framework; and (b) a number of C body files which implement the interfaces which are left open at framework level. Thus, during the framework instantiation process, application developers adapt the framework components by updating the content of the files in the \chgC{\texttt{/cr/src/tests/config}} directory. The initial content of these files in the C2 Implementation delivery is that used for the Test Suite of the C2 Implementation (see \ref{sec:TestSuite}). 
+The adaptable part of the framework is located in the \chgC{\texttt{/tests/config}} directory of the C2 Implementation delivery (see section \ref{sec:InstAndContentOverview}. This directory holds: (a) a number of header files which define all the \texttt{\#DEFINE} constants and function pointers of the framework; and (b) a number of C body files which implement the interfaces which are left open at framework level. Thus, during the framework instantiation process, application developers adapt the framework components by updating the content of the files in the \chgC{\texttt{/tests/config}} directory. The initial content of these files in the C2 Implementation delivery is that used for the Test Suite of the C2 Implementation (see \ref{sec:TestSuite}). 
 
 \chgC{
 The \texttt{\#DEFINE} constants are mostly defined in header files with names like \texttt{CrFwXyzUserPar.h} where 'Xyz' is the name of a framework component. Thus, for instance, file \texttt{CrFwInStreamUserPar.h} holds the \texttt{\#DEFINE} constants for the InStream components. The internal consistency of the values of the \texttt{\#DEFINE} constants is verified through a configuration check (see section \ref{sec:ConfigCheck}.
 }
 
-Appendix \ref{sec:AdaptationPoints} lists the adaptation points of the framework component. Their detailed description is in the Doxygen documentation of the header and interface files which implement the adaptation points. 
+Appendix \ref{sec:AdaptationPoints} lists the adaptation points of the framework components. Their detailed description is in the Doxygen documentation of the header and interface files which implement the adaptation points. 
 
 Where applicable, the doxygen comments attached to the \texttt{\#DEFINE} constants and function pointers also identify their default values. For the implementation of the interface files, only test stubs are provided as default by the framework.
 
@@ -757,6 +765,8 @@ Group Attribute & \texttt{Group} attribute in \texttt{CrFwOutCmp} and \texttt{Cr
 \hline
 Sequence Counter Attribute & \texttt{SeqCnt} attribute in \texttt{CrFwInCmd} module. Value set when the component is created by its factory and accessible through getter function. Attribute is not present in \texttt{CrFwOutCmp} module since the sequence counter of out-going commands is set at the time the command is sent out. \\
 \hline
+Type Counter Attribute & \chgC{\texttt{TypeCnt} attribute in \texttt{CrFwPckt} interface. Value set when a packet is sent out by its OutStream. Attribute is only present at packet level.} \\
+\hline
 Acknowledge Level Attribute & \texttt{AckLevel} attribute in \texttt{CrFwOutCmp} and \texttt{CrFwInCmd} modules. Value controllable and accessible through setter and getter functions in \texttt{CrFwOutCmp} module but only accessible in read mode in \texttt{CrFwInCmd} module. \\
 \hline
 Discriminant Attribute & \texttt{Discriminant} attribute in \texttt{CrFwOutCmp} and \texttt{CrFwInCmd} modules. Value set when component is created by its factory and accessible through getter function. Update possible through a setter function in \texttt{CrFwOutCmp} module.  \\
@@ -818,6 +828,8 @@ Group Attribute & \texttt{Group} attribute in \texttt{CrFwOutCmp} and \texttt{Cr
 \hline
 Sequence Counter Attribute & \texttt{SeqCnt} attribute in \texttt{CrFwInRep} module. Value set when the component is created by its factory and accessible through getter function. Attribute is not present in \texttt{CrFwOutCmp} module since the sequence counter of out-going reports is set at the time the report is sent out. \\
 \hline
+Type Counter Attribute & \chgC{\texttt{TypeCnt} attribute in \texttt{CrFwPckt} interface. Value set when a packet is sent out by its OutStream. Attribute is only present at packet level.} \\
+\hline
 Discriminant Attribute & \texttt{Discriminant} attribute in \texttt{CrFwOutCmp} and \texttt{CrFwInRep} modules. Value set when component is created by its factory and accessible through getter function. Update possible through a setter function in \texttt{CrFwOutCmp} module. \\
 \hline
 Report Parameter Attributes & These attributes are application-specific.  \\
@@ -877,7 +889,7 @@ The layout of packets is entirely defined at application level. The C2 Implement
 
 Packet creation is managed through two functions (\texttt{CrFwPcktMake} and \texttt{CrFwPcktRelease}) which can be used to, respectively, create and release a packet. The creation function takes as an argument the length of the packet. Function \texttt{CrFwPcktIsAvail} can be used to query the interface for the availability of a packet of a given length. The implementation of these functions is left open. In the simple case of an application developer who is not concerned about dynamic memory allocation, these functions can be implemented simply as wrappers for \texttt{malloc} and \texttt{free}. Other users who wish to avoid dynamic memory allocation operations at run-time must implement their own memory management scheme.
 
-For each command or report attribute, the packet interface \texttt{CrFwPckt.h} specifies a function to read and write the value of the attribute. The implementation of these functions depends on the way the attributes of commands and reports are encoded in a packet. The implementation of these functions (i.e. the body file \texttt{CrFwPckt.c}) must therefore be provided by application developers. A stub implementation, which is used in the Test Suite of the C2 Implementation, is provided in the configuration directory \texttt{/cr/src/CrConfigTestSuite}.
+For each command or report attribute, the packet interface \texttt{CrFwPckt.h} specifies a function to read and write the value of the attribute. The implementation of these functions depends on the way the attributes of commands and reports are encoded in a packet. The implementation of these functions (i.e. the body file \texttt{CrFwPckt.c}) must therefore be provided by application developers. A stub implementation, which is used in the Test Suite of the C2 Implementation, is provided in the configuration directory \chgC{\texttt{/src/CrConfigTestSuite}}.
 
 Since the framework provides one single interface for decoding and encoding packets, the simplest option for application developers is to use the same layout for all packets used by the application, irrespective of their type or of their destination or source. If this is not possible, then the getter and setter functions of interface \texttt{CrFwPckt.h} must implement logic which makes their outcome dependent on the content of the packet itself. Thus, for instance, if different packet sources use different layouts, the getter functions will have to inspect the source of a packet before deciding how to decode the value of a packet's attribute. In the case of the setter functions, this approach requires that the order in which the packet attributes are set be specified. The only place in the CORDET Framework where packets are configured is the function to create a new OutComponent (\texttt{CrFwOutFactoryMakeOutCmp}). This function accordingly guarantees the order in which the packet attribute are set (the order is: packet report/command flag (which determines whether the packet holds a report or a command), packet source (i.e. the host application), packet group, packet type, packet sub-type, and packet discriminant).
 
@@ -1263,13 +1275,13 @@ After all activities listed in the table have been performed, the application de
 If the guidelines of section \ref{sec:fwSrcCode} are followed, the software of the instantiated framework will be organized as follows:
 
 \begin{enumerate}
-\item One directory (normally called \texttt{CrFramework}) holding the invariant part of the framework software. This directory can be a copy of the \texttt{CrFramework} in the Delivery File (see section \ref{sec:fwSrcCode}).
-\item One directory (normally called \texttt{FwProfile}) holding the code implementing the state machine and procedure behaviour. This directory can be a copy of the \texttt{FwProfile} in the Delivery File (see section \ref{sec:fwSrcCode}).
+\item One directory \chgC{holding the invariant part of the framework software. This directory can be a copy of the \texttt{src}} in the Delivery File (see section \ref{sec:fwSrcCode}).
+\item One directory \chgC{holding the code implementing the state machine and procedure behaviour. This directory can be a copy of the \texttt{lib/FwProfile}} directory in the Delivery File (see section \ref{sec:fwSrcCode}).
 \item One directory (normally called \texttt{CrConfig$\langle Name \rangle$} where "\texttt{Name}" is the name of the target application) holding the adaptable part of the framework software customized for the target application. This directory may be obtained by taking the \texttt{Config} directory in the Delivery File (\texttt{CrConfigTestSuite}) and then modifying its content as specified in the implementation steps.
 \item One directory holding the application-specific software.
 \end{enumerate}
 
-In general, it is the responsibility of the user to ensure that the configuration information provided during the instantiation process is complete and consistent. A full check of completeness and consistency is not possible. However, the C2 Implementation offers module \texttt{CrFwAux} which implements a partial consistency check for the information in the \texttt{*UserPar} header files. Application developers should use this configuration check in the initial phase and can then remove it from their executable once confidence has been achieved that the configuration data are correct and complete.
+In general, it is the responsibility of the user to ensure that the configuration information provided during the instantiation process is complete and consistent. A full check of completeness and consistency is not possible. However, the C2 Implementation offers module \texttt{CrFwAux} which implements a partial consistency check for the information in the \texttt{*UserPar} header files \chgC{(see also section \ref{sec:ConfigCheck})}. Application developers should use this configuration check in the initial phase and can then remove it from their executable once confidence has been achieved that the configuration data are correct and complete.
 
 
 \begin{landscape}
@@ -1292,21 +1304,21 @@ The adaptation model of the C2 Implementation is described in section \ref{sec:A
 
 \begin{itemize}
 \item The left-most column in the table gives the identifier of the adaptation point. \item The middle column briefly describes the adaptation point.
-\item The right-most column describes the location in the delivery file directory \texttt{/cr/src/CrConfigTestSuite} where the adaptation point is implemented.
+\item The right-most column describes \chgC{how the adaptation point is implemented}.
 \end{itemize}
 
-With reference to the last point, it is recalled that all adaptation points are implemented as either \texttt{\#define} constants or \texttt{typedef} definitions in C header files in directory \texttt{/cr/src/CrConfigTestSuite} or as C body files in this same directory implementing framework interfaces.
+With reference to the last point, it is recalled that all adaptation points are implemented as either \texttt{\#define} constants or \texttt{typedef} definitions in C header files in directory \chgC{\texttt{tests/config}} or as C body files in this same directory implementing framework interfaces.
 
-Table \ref{tab:AP} only provides a summary view of the adaptation points. Their detailed definition is contained in the doxygen documentation of the files in the configuration directory \texttt{/cr/src/CrConfigTestSuite}.  
+Table \ref{tab:AP} only provides a summary view of the adaptation points. Their detailed definition is contained in the doxygen documentation of the files in the configuration directory \chgC{\texttt{tests/config}}.  
+
 
 \begin{landscape}
 
-\pnpcsvtable[filter not equal={\CTwoCat}{0}]{|l|p{7.2cm}|p{10.4cm}|}{C2 Implementation Adaptation Points}{tab:AP}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Implementation}}{../cordetfw/CordetFwAP.csv}{\CTwoCat-\CTwoId & \AP & \CTwoImpl}
+\pnpcsvtable{|l|p{7.2cm}|p{10.4cm}|}{C2 Implementation Adaptation Points}{tab:APC2}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Implementation}}{../cordetfw/CrFwAdaptPoint.csv}{\Domain-\Name & \Title & \Implementation}
 
 \end{landscape}
 
-
-
+%[filter equal={\Kind}{IMP}]
 
 \end{document}          
 

@@ -32,6 +32,7 @@ Internal Representation and Handling of Commands and Reports & The PUS does not 
 \hline
 \end{longtable}
 
+\chgC{
 In the CORDET Framework, a provider or user of services is called a \textit{CORDET application}. A CORDET application is identified by a single identifier. This identifier is used to designate the application in all its roles (source and/or receiver of commands and/or reports). 
 
 In the PUS, the concept of \textit{application process} serves a similar purpose in the sense that commands and reports are sent and received by application processes (see section 5.4.2.1 of reference [PS-SP]). However, when an application process acts as source of reports and sink for commands (i.e. when it acts as a service provider), it is identified by an 11-bit integer called the \textit{Application Process Idengifier} or APID. When, instead, an application process acts as source of commands and sink for reports (i.e. when it acts as a service user), it is identified by a 16-bit integer called the \textit{Application Process User Identifier}. Thus, in the PUS world, the same physical application may be represented by different identifiers depending on its role. This means that mapping the identifier of a CORDET application to the identifiers of the corresponding PUS application processes is not straightforward.  
@@ -46,3 +47,4 @@ The mapping from the identifier of a CORDET application to the corresponding ide
 \end{itemize}
 
 Applications which do not need to achieve PUS compliance, can disregard the group concept and simply define one single group for each application.
+}
