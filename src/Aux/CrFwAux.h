@@ -56,7 +56,11 @@ typedef enum {
 	/** InStream configuration parameters are inconsistent (see <code>CrFwAuxInStreamConfigCheck.h</code>) */
 	crInStreamConfigParInconsistent = 7,
 	/** InRegistry configuration parameters are inconsistent (see <code>CrFwAuxInRegistryConfigCheck.h</code>) */
-	crInRegistryConfigParInconsistent = 8
+	crInRegistryConfigParInconsistent = 8,
+	/** InManager configuration parameters are inconsistent (see <code>CrFwAuxInManagerConfigCheck.h</code>) */
+	crInManagerConfigParInconsistent = 9,
+	/** OutManager configuration parameters are inconsistent (see <code>CrFwAuxOutManagerConfigCheck.h</code>) */
+	crOutManagerConfigParInconsistent = 10
 } CrFwConfigCheckOutcome_t;
 
 /**
@@ -87,7 +91,6 @@ CrFwConfigCheckOutcome_t CrFwAuxConfigCheck();
  *   is smaller than or equal to the upper bound.
  * - The size of the InStream packet queue is greater than zero.
  * - The size of the OutStream packet queue is greater than zero.
- * - The size of the Pending OutComponent List (POCL) is greater than zero.
  * .
  * @return true if no errors are detected in the configuration data;
  * false otherwise.
@@ -186,5 +189,30 @@ CrFwBool_t CrFwAuxInFactoryInCmdConfigCheck();
  * false otherwise.
  */
 CrFwBool_t CrFwAuxInRegistryConfigCheck();
+
+/**
+ * Check the configuration of the InManager component.
+ * The following checks are performed on the configuration data in
+ * <code>CrFwInManagerPar.h</code>:
+ * - The number of InManagers is greater than zero
+ * - The size of each PCRL is greater than zero
+ * .
+ * @return true if no errors are detected in the configuration data;
+ * false otherwise.
+ */
+CrFwBool_t CrFwAuxInManagerConfigCheck();
+
+/**
+ * Check the configuration of the OutManager component.
+ * The following checks are performed on the configuration data in
+ * <code>CrFwOutManagerPar.h</code>:
+ * - The number of OutManagers is greater than zero
+ * - The size of each POCL is greater than zero
+ * .
+ * @return true if no errors are detected in the configuration data;
+ * false otherwise.
+ */
+CrFwBool_t CrFwAuxOutManagerConfigCheck();
+
 
 #endif /* CRFW_AUX_H_ */

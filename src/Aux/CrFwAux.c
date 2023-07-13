@@ -24,6 +24,7 @@
 #include "OutCmp/CrFwOutCmp.h"
 /* Include configuration files */
 #include "CrFwInRegistryUserPar.h"
+#include "CrFwInManagerUserPar.h"
 #include "CrFwOutRegistryUserPar.h"
 #include "CrFwOutFactoryUserPar.h"
 #include "CrFwInFactoryUserPar.h"
@@ -58,6 +59,10 @@ static CrFwDestSrc_t outStreamDest[CR_FW_OUTSTREAM_NOF_DEST][2] = CR_FW_OUTSTREA
 /** The (source, inStream) pairs */
 static CrFwDestSrc_t inStreamSrc[CR_FW_INSTREAM_NOF_SRCS][2] = CR_FW_INSTREAM_SRC_PAIRS;
 
+/** The InManager packet queue sizes */
+static CrFwDestSrc_t inManagerPcrlSize[CR_FW_NOF_INMANAGER] = CR_FW_INMANAGER_PCRLSIZE;
+
+
 /* -------------------------------------------------------------------------- */
 CrFwConfigCheckOutcome_t CrFwAuxConfigCheck() {
 
@@ -81,6 +86,12 @@ CrFwConfigCheckOutcome_t CrFwAuxConfigCheck() {
 
 	if (CrFwAuxInRegistryConfigCheck() == 0)
 		return crInRegistryConfigParInconsistent;
+
+	if (CrFwAuxInManagerConfigCheck() == 0)
+		return crInManagerConfigParInconsistent;
+
+	if (CrFwAuxOutManagerConfigCheck() == 0)
+		return crOutManagerConfigParInconsistent;
 
 	return crConsistencyCheckSuccess;
 }
@@ -153,13 +164,9 @@ CrFwBool_t CrFwAuxOutRegistryConfigCheck() {
 
 	for (i=0; i<(CR_FW_OUTREGISTRY_NSERV-1); i++) {
 		if (servDesc[i].servType > servDesc[i+1].servType)
-			/* The following can be dead code, depending on the specific
-			 * instantiation of the FW Profile.*/
 			return 0;
 		if (servDesc[i].servType == servDesc[i+1].servType)
 			if (servDesc[i].servSubType > servDesc[i+1].servSubType)
-				/* The following can be dead code, depending on the specific
-				 * instantiation of the FW Profile.*/
 				return 0;
 	}
 
@@ -177,8 +184,6 @@ CrFwBool_t CrFwAuxOutRegistryConfigCheck() {
 				break;
 		}
 		if (found == 0)
-			/* The following can be dead code, depending on the specific
-			 * instantiation of the FW Profile.*/
 			return 0;
 	}
 
@@ -188,21 +193,11 @@ CrFwBool_t CrFwAuxOutRegistryConfigCheck() {
     }
 
 	for (k=0; k<CR_FW_NOF_INSTREAM; k++)
-		/* The following can be dead code, depending on the specific
-		 * instantiation of the FW Profile.*/
 		if (inStreamPcktQueueSize[k]<1)
 			return 0;
 
 	for (k=0; k<CR_FW_NOF_OUTSTREAM; k++)
-		/* The following can be dead code, depending on the specific
-		 * instantiation of the FW Profile.*/
 		if (outStreamPcktQueueSize[k]<1)
-			return 0;
-
-	for (k=0; k<CR_FW_NOF_OUTMANAGER; k++)
-		/* The following can be dead code, depending on the specific
-		 * instantiation of the FW Profile.*/
-		if (outManagerPoclSize[k]<1)
 			return 0;
 
 	return 1;
@@ -334,9 +329,36 @@ CrFwBool_t CrFwAuxInFactoryInRepConfigCheck() {
 	return 1;
 }
 
+/* -------------------------------------------------------------------------- */
 CrFwBool_t CrFwAuxInRegistryConfigCheck() {
 	if (CR_FW_INREGISTRY_N < 1)
 		return 0;
 	
 	return 1;
+}
+
+/* -------------------------------------------------------------------------- */
+CrFwBool_t CrFwAuxInManagerConfigCheck() {
+	unsigned int i;
+
+	if (CR_FW_NOF_INMANAGER < 1)
+		return 0;
+	
+	for (i=0; i<CR_FW_NOF_INMANAGER; i++)
+		if (inManagerPcrlSize[i] < 1)
+			return 0;
+			
+	return 1;
+}
+
+CrFwBool_t CrFwAuxOutManagerConfigCheck() {
+	unsigned int i;
+
+	if (CR_FW_NOF_OUTMANAGER < 1)
+		return 0;
+	
+	for (i=0; i<CR_FW_NOF_OUTMANAGER; i++)
+		if (outManagerPoclSize[i] < 1)
+			return 0;
+			
 }
