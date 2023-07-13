@@ -41,10 +41,10 @@ from Format import convertEditToLatex
 
 
 #===============================================================================
-# Create table with the adaptation points
+# Create table with all adaptation points
 def generateCrFwAPs():
     with open(generatedTablesDir+'/CrFwAdaptPoint.csv', 'w') as fd:
-        fd.write('Domain|Name|Title|Implementation|DefaultValue|Remarks\n')
+        fd.write('Domain|Name|Title|Implementation|DefaultValue|Kind|Remarks\n')
         adaptPointsSorted = sorted(adaptPoints, key=lambda d: d['domain']+d['name'])
         for ap in adaptPointsSorted:
             if ap['application'] != CrFwAppId:
@@ -59,6 +59,7 @@ def generateCrFwAPs():
                      convertEditToLatex(ap['title']) + '|' +
                      convertEditToLatex(ap['implementation']) + '|' +
                      convertEditToLatex(ap['value']) + '|' +
+                     convertEditToLatex(ap['p_kind']) + '|' +
                      convertEditToLatex(ap['remarks']) + '\n')
 
 
