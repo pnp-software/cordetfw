@@ -2,13 +2,15 @@
 
 \begin{document}
 
-\SetDocIssue{1.0}
+\SetDocIssue{2.0}
 \SetDocRefNumber{PP-UM-COR-0002}
 \SetDocTitle{The CORDET Framework}
 \SetDocSubtitle{User Manual}
 \SetDocAuthor{Alessandro Pasetti}
 \SetCheckedBy{n.a.}
 \maketitle
+
+\newcommand{\chgC}[1]{{\color{red}{#1}}{}} 		% changes in issue 3
 
 % =======================================================================
 %\listofchanges
@@ -24,8 +26,6 @@
 The documents referenced in the present document are listed in the table below.
 
 \listofreferencedocs{\CrUm}
-
-
 
 
 %==========================================================================================
@@ -638,7 +638,11 @@ Four types of Adaptation Points (AP) are supported by the C2 Implementation:
 \item Define Type: a framework component uses a variables of a type defined as a \texttt{typedef} and application developers may override the default type definition.
 \end{itemize}
 
-The adaptable part of the framework is located in the \texttt{/cr/src/CrConfigTestSuite} directory of the C2 Implementation delivery (see section \ref{sec:InstAndContentOverview}. This directory holds: (a) a number of header files which define all the \texttt{\#DEFINE} constants and function pointers of the framework; and (b) a number of C body files which implement the interfaces which are left open at framework level. Thus, during the framework instantiation process, application developers adapt the framework components by updating the content of the files in the \texttt{/cr/src/CrConfigTestSuite} directory. The initial content of these files in the C2 Implementation delivery is that used for the Test Suite of the C2 Implementation (see \ref{sec:TestSuite}). 
+The adaptable part of the framework is located in the \chgC{\texttt{/cr/src/tests/config}} directory of the C2 Implementation delivery (see section \ref{sec:InstAndContentOverview}. This directory holds: (a) a number of header files which define all the \texttt{\#DEFINE} constants and function pointers of the framework; and (b) a number of C body files which implement the interfaces which are left open at framework level. Thus, during the framework instantiation process, application developers adapt the framework components by updating the content of the files in the \chgC{\texttt{/cr/src/tests/config}} directory. The initial content of these files in the C2 Implementation delivery is that used for the Test Suite of the C2 Implementation (see \ref{sec:TestSuite}). 
+
+\chgC{
+The \texttt{\#DEFINE} constants are mostly defined in header files with names like \texttt{CrFwXyzUserPar.h} where 'Xyz' is the name of a framework component. Thus, for instance, file \texttt{CrFwInStreamUserPar.h} holds the \texttt{\#DEFINE} constants for the InStream components. The internal consistency of the values of the \texttt{\#DEFINE} constants is verified through a configuration check (see section \ref{sec:ConfigCheck}.
+}
 
 Appendix \ref{sec:AdaptationPoints} lists the adaptation points of the framework component. Their detailed description is in the Doxygen documentation of the header and interface files which implement the adaptation points. 
 
@@ -675,7 +679,7 @@ If N instances may be instantiated (with N greater than 1), the factory function
 
 For non-singleton components, the maximum number of instances which can be created is an adaptation point.
 
-The memory resources for the components subject to early instantiation are allocated through calls to \texttt{malloc}. This is acceptable because these calls are only performed in the application start-up phase and for a fixed and statically pre-defined number of times. Hence, it is possible to guarantee by static analysis that all \texttt{malloc} calls will succeed and predictability of behaviour is thus ensured (see also discussion in section \ref{sec:MemMng}).
+The memory resources for the components subject to early instantiation are allocated through calls to \texttt{malloc}. This is acceptable because these calls are only performed in the application start-up phase and for a fixed and statically pre-defined number of times. Hence, it is possible to guarantee by static analysis that all \texttt{malloc} calls will succeed and predictability of behaviour is thus ensured (see also discussion in section \ref{sec:MemMng}). For this reason, \texttt{malloc} failures are not handled by the framework.
 
 The instantiation of a component subject to early instantiation is irreversible: the resources which are allocated to the component will only be released if the application is terminated. Note in particular that the Shutdown Procedure of the Application Start-Up State Machine (see section \ref{sec:AppStartUp}) does \underline{not} release the resources claimed during the early component instantiation process. 
 
@@ -696,6 +700,22 @@ Note that, if a failure of the \texttt{Make} operation represents an error, this
 The C2 Implementation implements the \textit{Application State Machine} in module \texttt{CrFwAppSm}. The three procedures controlled by the \textit{Application State Machine} are not provided by the C2 Implementation because they are application-specific. The C2 Implementation provides three header files \texttt{CrFwAppStartUpProc.h}, \texttt{CrFwAppResetProc.h}, and \texttt{CrFwAppShutdownProc.h} which defines the point of access to the three procedures. Application developers should provide implementations for these three header files as part of the framework instantiation process.
 
 Also as part of the framework instantiation process, application developers may want to add behaviour to the four states of the \textit{Application State Machine} by embedding state machines within these states. Embedding of state machines is done using function \texttt{FwSmEmbed} defined by the C1 Implementation (see reference [FW-SP]).
+
+%----------------------------------------------------------------------------------------
+\chgC{
+\subsection{Application Configuration Check}\label{sec:ConfigCheck}
+The configuration of an application instantiated from the framework is defined by the way its adaptation points have been closed. Some of the adaptation points consist of \texttt{\#DEFINE} constants. Their values are sometimes subject to constraints. Some of these constraints are defined at framework specification level in reference [CR-SP] while others emerge at implementation level. In reference [CR-SP], consistency with the specificaton-level constraints is enforced in the initialization and configuration checks of the framework components. 
+
+In the C2 implementation, all configuration consistency checks have been implemented in a set of \textit{configuration check functions} declared in header \texttt{Aux.h}. The configuration check functions have names like \texttt{CrFwAuxXyzConfigCheck} where 'Xyz' is the name of the framework component whose \texttt{\#DEFINE} constants are being checked. An application can run all configuration checls by calling function \texttt{CrFwAuxConfigCheck}. 
+
+Since the consistency checks only handle statically defined information, they only need to be run during the application development phase and can be left out of the deployment version of an application.
+
+For simplicity and efficiency, checks which are implemented in the configuration check functions are not duplicated in components' initialization and configuration checks.
+
+
+
+
+}
 
 %===========================================================================
 \section{Command and Report Concepts}\label{sec:CmdAndRepModel}
