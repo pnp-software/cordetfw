@@ -48,10 +48,10 @@
  * The OutLoader component is derived from the Base Component and it therefore
  * inherits its Initialization Procedure (see <code>CrFwInitProc.h</code>).
  * The initialization procedure must be configured with two actions:
- * the Initialization Action and the Initiation Check.
+ * the Initialization Action and the Initialization Check.
  * This constant defines the function implementing the Initialization Check
  * for the the OutLoader component.
- * This value of this constant must be a function pointer of type:
+ * The value of this constant must be a function pointer of type:
  * <code>FwPrAction_t</code>.
  * As default value for this adaptation point, function <code>::CrFwBaseCmpDefInitCheck</code>
  * defined on the Base Component may be used.
@@ -66,10 +66,10 @@
  * The OutLoader component is derived from the Base Component and it therefore
  * inherits its Initialization Procedure (see <code>CrFwInitProc.h</code>).
  * The initialization procedure must be configured with two actions:
- * the Initialization Action and the Initiation Check.
+ * the Initialization Action and the Initialization Check.
  * This constant defines the function implementing the Initialization Action
  * for the the OutLoader component.
- * This value of this constant must be a function pointer of type:
+ * The value of this constant must be a function pointer of type:
  * <code>FwPrAction_t</code>.
  * As default value for this adaptation point, function <code>::CrFwBaseCmpDefInitAction</code>
  * defined on the Base Component may be used.
