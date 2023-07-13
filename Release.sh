@@ -106,14 +106,14 @@ cp ${CF_DOC}/req/UserRequirements.pdf ${OUT_DOCS}
 # ====================================================================================
 echo "Create Doxygen Documentation"
 (cd ${CF_DOC}/doxygen &&
-	doxygen $DOXYFILE > doxygen_generation.log)
+	doxygen $DOXYFILE > ${OUT_LOG}/doxygen_generation.log)
 cp -ar ${CF_DOC}/doxygen/html ${OUT_DOCS}/doxygen
 
 # ====================================================================================
 # Redirect both stdout and stderr to the AcceptanceTestReport.log file
 echo "Run Release Acceptance Tests"
 (make clean;
- make test && make run-test)
+ make test > make_testsuite.log 2>&1 && make run-test > make_run_testsuite.log 2>&1)
 
 gcov -b -o ./bin/src/BaseCmp CrFwBaseCmp >> ${OUT_LOG}/CodeCoverage_Report.txt
 gcov -b -o ./bin/src/BaseCmp CrFwDummyExecProc >> ${OUT_LOG}/CodeCoverage_Report.txt
