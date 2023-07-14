@@ -236,16 +236,38 @@ typedef enum {
 /** The identifier of the host application */
 #define CR_FW_HOST_APP_ID 10
 
-/** The number of bits reserved for the application identifier in a command or report identifier */
+/** 
+ * The number of bits reserved for the application identifier in a command or report identifier.
+ * This parameter is used by the make function for OutComponents 
+ * (<code>::CrFwOutFactoryMakeOutCmp</code>).
+ */
 #define CR_FW_NBITS_APP_ID 4
 
-/** Maximum value of the service type attribute of InReports and InCommands */
+/** 
+ * Maximum value of the service type attribute of InReports and InCommands.
+ * This must be consistent with the service types defined in <code>CrFwInFactoryUserPar.h</code>.
+ * Consistency is checked by functions <code>::CrFwAuxInFactoryInRepConfigCheck</code> and
+ * <code>::CrFwAuxInFactoryInCmdConfigCheck</code> and
+ * <code>::CrFwAuxOutFactoryConfigCheck</code>.
+ */
 #define CR_FW_MAX_SERV_TYPE 100
 
-/** Maximum value of the service sub-type attribute of InReports and InCommands */
+/** 
+ * Maximum value of the service sub-type attribute of InReports and InCommands.
+ * This must be consistent with the service types defined in <code>CrFwInFactoryUserPar.h</code>.
+ * Consistency is checked by functions <code>::CrFwAuxInFactoryInRepConfigCheck</code> and
+ * <code>::CrFwAuxInFactoryInCmdConfigCheck</code> and
+ * <code>::CrFwAuxOutFactoryConfigCheck</code>.
+ */
 #define CR_FW_MAX_SERV_SUBTYPE 20
 
-/** Maximum value of the discriminant attribute of InReports and InCommands */
+/** 
+ * Maximum value of the discriminant attribute of InReports and InCommands.
+ * This must be consistent with the service types defined in <code>CrFwInFactoryUserPar.h</code>.
+ * Consistency is checked by functions <code>::CrFwAuxInFactoryInRepConfigCheck</code> and
+ * <code>::CrFwAuxInFactoryInCmdConfigCheck</code> and
+ * <code>::CrFwAuxOutFactoryConfigCheck</code>.
+ */
 #define CR_FW_MAX_DISCRIMINANT 50
 
 /** Maximum value of the identifiers of destination applications */
