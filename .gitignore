@@ -22,3 +22,5 @@
 /filtered_coverage.info
 /scripts/__pycache__/**
 /tmp/**
+/doc/cordetfw/cordetfw.pdf
+/doc/um/UserManual.pdf

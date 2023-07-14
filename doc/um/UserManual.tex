@@ -1300,12 +1300,17 @@ This section has been deleted.
 \appendix
 %===========================================================================
 \section{Adaptation Points}\label{sec:AdaptationPoints}
-The adaptation model of the C2 Implementation is described in section \ref{sec:AdaptationModel}. This appendix lists the adaptation points offered by the framework in table \ref{tab:AP}. The table is organized as follows:
+The adaptation model of the C2 Implementation is described in section \ref{sec:AdaptationModel}. The table in this appendix lists the adaptation points offered by the framework. The table is organized as follows:
 
 \begin{itemize}
-\item The left-most column in the table gives the identifier of the adaptation point. \item The middle column briefly describes the adaptation point.
+\item The left-most column in the table gives the identifier of the adaptation point. 
+\item The middle column briefly describes the adaptation point.
 \item The right-most column describes \chgC{how the adaptation point is implemented}.
 \end{itemize}
+
+\chgC{
+Adaptation points whose identifier starts with 'C2-' have been defined during the framework implementation. The other adaptation points were instead defined at framework specification level in reference [CR-SP].
+}
 
 With reference to the last point, it is recalled that all adaptation points are implemented as either \texttt{\#define} constants or \texttt{typedef} definitions in C header files in directory \chgC{\texttt{tests/config}} or as C body files in this same directory implementing framework interfaces.
 
@@ -1314,7 +1319,7 @@ Table \ref{tab:AP} only provides a summary view of the adaptation points. Their 
 
 \begin{landscape}
 
-\pnpcsvtable{|l|p{7.2cm}|p{10.4cm}|}{C2 Implementation Adaptation Points}{tab:APC2}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Implementation}}{../cordetfw/CrFwAdaptPoint.csv}{\Domain-\Name & \Title & \Implementation}
+\pnpcsvtable{|l|p{7.2cm}|p{10.4cm}|}{C2 Implementation Adaptation Points}{tab:AP}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Implementation}}{../cordetfw/CrFwAdaptPoint.csv}{\Domain-\Name & \Title & \Implementation}
 
 \end{landscape}
 
