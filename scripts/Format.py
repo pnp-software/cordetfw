@@ -27,8 +27,8 @@ pattern_bullets = re.compile('((\n^-\s.+$)+)', re.MULTILINE)
 # rendered in edit representation (e.g. '#cat:dom:name').
 # One such regex pattern is created for each project holding the categories
 # for that project.
-cats = 'AdaptPoint|DataItem|DataItemType|InCommand|Packet|PacketPar|DerPacket|EnumType|EnumValue|Model|OutComponent|Service'
-pattern_edit = re.compile('#('+cats+'):([a-zA-Z0-9_]+):([a-zA-Z0-9_]+)')
+cats = 'Requirement|AdaptPoint|DataItem|DataItemType|InCommand|Packet|PacketPar|DerPacket|EnumType|EnumValue|Model|OutComponent|Service'
+pattern_edit = re.compile('#('+cats+'):([a-zA-Z0-9_\-\.]+):([a-zA-Z0-9_\-\.]+)')
 
 # Regex expression to match non-visible UTF characters
 # NB: In Python, 'strange' characters in a string are rendered as one of:
@@ -112,9 +112,16 @@ def convertEditToLatex(s):
     def editToLatex(match):
         if match.group(1) == 'Model':
             return '\\ref{fig:'+match.group(3)+'}'
-        else:
-            return match.group(2)+':'+match.group(3)
-    
+        if match.group(1) == 'Requirement':
+            return match.group(2)+'-'+match.group(3)
+        if match.group(1) == 'AdaptPoint':
+            if match.group(2).startswith('AP-'):
+                return match.group(2)[3:]+'-'+match.group(3)
+            else:
+                return match.group(2)+'-'+match.group(3)
+        print('Unrecognized category: '+match.group(1))
+        return match.group(2)+':'+match.group(3)
+                
     s_ref = pattern_edit.sub(editToLatex, s)
     s_md = markdown_to_latex(s_ref)
     return frmtString(s_md)
