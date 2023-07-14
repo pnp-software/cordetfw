@@ -35,9 +35,23 @@ import copy
 import zipfile
 
 from Config import specItems, generatedTablesDir, requirements, adaptPoints, \
-                   domNameToSpecItem, CrFwAppId
+                   domNameToSpecItem, CrFwAppId, infoItems
 from Format import convertEditToLatex
 
+
+#===============================================================================
+# Create table with the instantiation steps
+def generateCrFwInstSteps():
+    with open(generatedTablesDir+'/CrFwInstSteps.csv', 'w') as fd:
+        fd.write('ID|Title|SpecificationStep|ImplementationStep\n')
+        infoItemsSorted = sorted(infoItems, key=lambda d: d['domain']+d['name'])
+        for infoItem in infoItemsSorted:
+            if infoItem['domain'] != 'FwInst':
+                continue
+            fd.write(infoItem['name'] + '|' +
+                     convertEditToLatex(infoItem['title']) + '|' +
+                     convertEditToLatex(infoItem['value']) + '|' +
+                     convertEditToLatex(infoItem['implementation']) + '\n')
 
 
 #===============================================================================
@@ -118,6 +132,8 @@ def procCordetFw(cordetFwPrFile):
             if not row['status'] in ('NEW', 'CNF', 'MOD'):
                 continue
             specItems[row['id']] = row
+            if row['cat'] == 'InfoItem':
+                infoItems.append(row)
             if row['cat'] == 'Requirement':
                 requirements.append(row)
             if row['cat'] == 'AdaptPoint':
@@ -127,6 +143,7 @@ def procCordetFw(cordetFwPrFile):
     # Build tables required for the Cordet FW Documents
     generateCrFwReqs()
     generateCrFwAPs()
+    generateCrFwInstSteps()
     
         
 #===============================================================================

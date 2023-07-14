@@ -17,6 +17,9 @@ CrFwAppId = '3'
 # The list of requirements
 requirements = []
 
+# The list of info items
+infoItems = []
+
 # The list of adaptation points
 adaptPoints = []
 
