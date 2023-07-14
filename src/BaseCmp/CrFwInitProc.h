@@ -105,10 +105,6 @@ void CrFwBaseCmpDefInitCheck(FwPrDesc_t prDesc);
  * Components which extend the Base Component (and which therefore must also extend
  * the CIP) may want to override this function to implement their own initialization
  * behaviour).
- *
- * Traceability information (this information is intended to be processed automatically):
- * - CrFwBaseCmpDefInitCheck, AP, A4.1-2
- * .
  * @param prDesc the CIP descriptor
  */
 void CrFwBaseCmpDefInitAction(FwPrDesc_t prDesc);
