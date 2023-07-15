@@ -937,7 +937,9 @@ Consider next the case of a packet which is sent by application A to application
 \subsubsection{The OutStream Component}\label{sec:OutStream}
 \input{../cordetfw/CrFwOutStream.tex}
 
-The C2 Implementation implements the OutStream component in module \texttt{CrFwOutStream}. 
+The C2 Implementation implements the OutStream component in module \texttt{CrFwOutStream}. \chgC{The application can instantiate multiple OutStreams. The number of OutStreams is an adaptation point (C2-OST-01). Since an OutStream is primarily defined by the functions through which it hands over packets to the middleware, it is expected that an OutStream is defined for each kind of middleware interface for out-going packets.} 
+
+\chgC{During framework instantiation, the user must associate an OutStream to each potential packet destination. This is done through the \texttt{\#define} constant \texttt{CR\_FW\_OUTSTREAM\_DEST\_PAIRS} in \texttt{CrFwOutStreamUserPar.h} (adaptation point C2-OST-03). Thus, to each command or report destination, one (and only one) OutStream component is associated}. Function \texttt{CrFwOutStreamGet} lets a user retrieve the OutStream corresponding to a certain command or report destination. 
 
 
 %---------------------------------------------------------------------------------
@@ -951,17 +953,11 @@ In the C2 Implementation, the OutStreamRegistry component is merged with the Out
 \subsubsection{The InStream Component}\label{sec:InStream}
 \input{../cordetfw/CrFwInStream.tex}
 
-The C2 Implementation implements the InStream component in module \texttt{CrFwInStream}. This implementation follows the specification of the CORDET Framework with one restriction: an InStream component can only handle packets from one single packet source. Thus, an application must instantiate one InStream for each source from which it may receive packets. More precisely, the rules for deciding the number of InStreams in an application are as follows:
+The C2 Implementation implements the InStream component in module \texttt{CrFwInStream}. \chgC{The application can instantiate multiple InStreams. The number of InStreams is an adaptation point (C2-IST-01). Since an InStream is primarily defined by the functions through which it collects packets from the middleware, it is expected that an InStream is defined for each kind of middleware interface for incoming packets.} 
 
-\begin{itemize}
-\item[R1]{If an application receives packets from source S1, then it must have a dedicated InStream for source S1.}
-\item[R2]{If an application re-routes packets from source S2 to other destinations, then it must have a dedicated InStream for source S2.}
-\item[R3]{If an application receives packets from a source S and also re-routes packets from the same source S, then it must use the same InStream for both kinds of packets.}
-\end{itemize}
+\chgC{During framework instantiation, the user must associate an InStream to each potential packet source. This is done through the \texttt{\#define} constant \texttt{CR\_FW\_INSTREAM\_SRC\_PAIRS} in \texttt{CrFwInStreamUserPar.h} (adaptation point C2-IST-03). Thus, to each command or report source, one (and only one) InStream component is associated}. Function \texttt{CrFwInStreamGet} lets a user retrieve the InStream corresponding to a certain command or report source. 
 
-Thus, for each command or report source, one (and only one) InStream component must be instantiated by an application. Function \texttt{CrFwInStreamGet} lets a user retrieve the InStream corresponding to a certain command or report source. 
-
-If an invalid source is provided to the \texttt{CrFwInStreamGet} operation, nothing is returned by the operation itself but this is not treated as an error by the \texttt{CrFwInStreamGet} operation. If the use of an invalid packet source represents an error, this must be handled by the caller of \texttt{CrFwInStreamGet}.
+If an invalid source is provided to the \texttt{CrFwInStreamGet} operation, nothing is returned by the operation itself but this is not treated as an error by the \texttt{CrFwInStreamGet} operation. If the use of an invalid packet source represents an error, this must be handled by the caller of \texttt{CrFwInStreamGet}. 
 
 The collection of packets from the middleware is mediated by two functions which implement two framework adaptation points: function \texttt{CrFwPcktCollect\_t} implements the Packet Collection Operation and function CrFwPcktAvailCheck\_t implements the Packet Available Check Operation. 
 
