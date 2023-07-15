@@ -58,7 +58,11 @@ static CrFwCmpData_t inLoaderData;
 /** The component-specific data for the InLoader */
 static CrFwInLoaderData_t inLoaderCmpSpecificData;
 
-/** Pointer to function which checks the legality of the packet destination. */
+/** 
+ * Pointer to function which takes a packet's destination as argument and returns 
+ * the destination to which a packet should be re-routed or zero if the destination
+ * is invalid. 
+ */
 static CrFwInLoaderGetReroutingDest_t getReroutingDest = CR_FW_INLOADER_DET_REROUTING_DEST;
 
 /** Pointer to function which selects the InManager. */
