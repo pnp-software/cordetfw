@@ -88,6 +88,16 @@ All & E & Fixed editorials in text of adaptation points and requirements \\
 \hline
 6.2.1 & N & Added adaptation point to get group of incoming packet \\
 \hline
+7.1.1 & C & Updated definition of adaptation point OCM-16 to bring it line with implementation; added adaptation point OCM-19 to cover operation to access attributes of OutComponents; added adaptation point to get current time; modified Sent Packet Procedure to show operation to get current time as an adaptation point; added adaptation point OCM-20 to get current time  \\
+\hline
+7.1.2 & N & Corrected statement about setting of OutComopnent's time-stamp; added adaptation point OFT-01 to cover the kinds of OutComponents supported by an application \\
+\hline
+7.2.1 & N & Added adaptation point IFT-01 to cover the kinds of InReports and InCommands supported by an application \\
+\hline
+7.2.3 & C & Adaptation points ICM-18 to 20 have been moved to adaptation point IFT-01 (TBC); adaptation point ICM-21 has been extended to cover all all operations to access InCommand attributes \\
+\hline
+7.2.4 & C & Adaptation point IRP-08 to 10 have been moved to adaptation point IFT-01 (TBC); adaptation point IRP-11 has been extended to cover all all operations to access InCommand attributes \\
+\hline
 \end{longtable}
 
 \begin{longtable}{|p{1.5cm}|p{1cm}|p{8cm}|}
@@ -709,9 +719,12 @@ The \texttt{Make} operation of the OutFactory sets the values of the following a
 \item The source attribute is set to the identifier of the host application.
 \end{itemize}
 
-Thus, a command or report component which is returned by the OutFactory has valid and correct values for the following attributes: service type, command or report sub-type,  discriminant,  identifier, and source. Other attributes must be set as part of the command or report configuration by the host application. Note, however, that the time stamp is set by the OutLoader at the time the OutComponent is loaded in the OutManager (see next section) and the sequence counter is set by the OutStream directly on the out-going packet at the time the packet is handed over to the middleware (see section \ref{sec:OutStream}).
+Thus, a command or report component which is returned by the OutFactory has valid and correct values for the following attributes: service type, command or report sub-type,  discriminant,  identifier, and source. Other attributes must be set as part of the command or report configuration by the host application. Note, however, that the time stamp is set \chgC{at the time the OutComponent is serialized (see section \ref{sec:OutComponent})} and the sequence counter is set by the OutStream directly on the out-going packet at the time the packet is handed over to the middleware (see section \ref{sec:OutStream}).
 
-The OutFactory component does not define any adaptation points in addition to those applicable to generic factory components (see section \ref{sec:CmpInst}). 
+\chgC{The maximum number of OutComponents which a factory may generate is an adaptation point. The range of OutComponent kinds that an OutFactory can generate, namely the set of OutComponent service types, service sub-types and discriminants which the OutFactory recognizes and for which it can generate an OutComponent through its \texttt{make} operation is another adaptation point of the framework. The OutFactory must additionally support the adaptation points defined for a generic factory component (see section \ref{sec:CmpInst}). 
+
+\begin{crAp}{OFT}{Adaptation Points for OutFactory Component}
+\end{crAp}
 
 \begin{crReq}{OFT}{Requirements Applicable to OutFactory Component}
 \end{crReq}
@@ -766,7 +779,10 @@ Depending on the allocation policy used internally in the InFactory, the InComma
 
 A command or report component which is returned by the InFactory has valid values for the following attributes: service type, command or report sub-type, and discriminant. All other attributes must be set as part of the command configuration which is performed under the control of the InLoader (see next section).
 
-The InFactory component does not define any adaptation points in addition to those applicable to generic factory components (see section \ref{sec:CmpInst}). 
+\chgC{The maximum number of InReporta and of InCommands which an InFactory may generate is an adaptation point. The range of InReport and InCommand kinds that an InFactory can generate, namely the set of InReport/InCommand service types, service sub-types and discriminants which the InFactory recognizes and for which it can generate an InReport/InCommand through its \texttt{make} operation is another adaptation point of the framework. The InFactory must additionally support the adaptation points defined for a generic factory component (see section \ref{sec:CmpInst}). 
+
+\begin{crAp}{IFT}{Adaptation Points for InFactory Component}
+\end{crAp}
 
 \begin{crReq}{IFT}{Requirements Applicable to InFactory Component}
 \end{crReq}

@@ -1,5 +1,5 @@
 {
-     "editorVersion": "5.22",
+     "editorVersion": "5.29",
      "states": [
           {
                "id": 1,
@@ -28,8 +28,8 @@
                "attrs": {
                     "x": 399,
                     "y": 110,
-                    "width": 186,
-                    "height": 30,
+                    "width": 188,
+                    "height": 32,
                     "r": 10,
                     "rx": 10,
                     "ry": 10,
@@ -65,10 +65,10 @@
           {
                "id": 4,
                "attrs": {
-                    "x": 392,
-                    "y": 176,
-                    "width": 200,
-                    "height": 30,
+                    "x": 415,
+                    "y": 170,
+                    "width": 154,
+                    "height": 44,
                     "r": 10,
                     "rx": 10,
                     "ry": 10,
@@ -91,7 +91,7 @@
                     "entryCode": "",
                     "doCode": "",
                     "exitCode": "",
-                    "entryDesc": "Get destination of OutComponent",
+                    "entryDesc": "<<AP>>Get destination\nattribute of OutComponent",
                     "doDesc": "",
                     "exitDesc": "",
                     "entryAp": false,
@@ -107,7 +107,7 @@
                     "x": 407,
                     "y": 245,
                     "width": 170,
-                    "height": 42,
+                    "height": 44,
                     "r": 10,
                     "rx": 10,
                     "ry": 10,
@@ -146,7 +146,7 @@
                     "x": 579,
                     "y": 378,
                     "width": 128,
-                    "height": 42,
+                    "height": 44,
                     "r": 10,
                     "rx": 10,
                     "ry": 10,
@@ -206,10 +206,10 @@
           {
                "id": 11,
                "attrs": {
-                    "x": 263,
-                    "y": 321,
-                    "width": 158,
-                    "height": 42,
+                    "x": 260,
+                    "y": 326,
+                    "width": 164,
+                    "height": 32,
                     "r": 10,
                     "rx": 10,
                     "ry": 10,
@@ -232,7 +232,7 @@
                     "entryCode": "",
                     "doCode": "",
                     "exitCode": "",
-                    "entryDesc": "Set time-stamp of\nOutComponent to current time",
+                    "entryDesc": "<<AP>> Get Current Time",
                     "doDesc": "",
                     "exitDesc": "",
                     "entryAp": false,
@@ -248,7 +248,7 @@
                     "x": 594,
                     "y": 464,
                     "width": 98,
-                    "height": 42,
+                    "height": 44,
                     "r": 10,
                     "rx": 10,
                     "ry": 10,
@@ -285,9 +285,9 @@
                "id": 15,
                "attrs": {
                     "x": 265,
-                    "y": 418,
+                    "y": 464,
                     "width": 154,
-                    "height": 42,
+                    "height": 44,
                     "r": 10,
                     "rx": 10,
                     "ry": 10,
@@ -324,9 +324,9 @@
                "id": 17,
                "attrs": {
                     "x": 277,
-                    "y": 517,
+                    "y": 539,
                     "width": 130,
-                    "height": 42,
+                    "height": 44,
                     "r": 10,
                     "rx": 10,
                     "ry": 10,
@@ -365,7 +365,7 @@
                     "x": 258,
                     "y": 617,
                     "width": 168,
-                    "height": 30,
+                    "height": 32,
                     "r": 10,
                     "rx": 10,
                     "ry": 10,
@@ -426,7 +426,7 @@
                     "x": 600,
                     "y": 164,
                     "width": 142,
-                    "height": 54,
+                    "height": 56,
                     "r": 0,
                     "rx": 0,
                     "ry": 0,
@@ -471,7 +471,7 @@
                     "x": 459,
                     "y": 533,
                     "width": 160,
-                    "height": 54,
+                    "height": 56,
                     "r": 0,
                     "rx": 0,
                     "ry": 0,
@@ -516,7 +516,7 @@
                     "x": 405,
                     "y": 658,
                     "width": 236,
-                    "height": 30,
+                    "height": 32,
                     "r": 0,
                     "rx": 0,
                     "ry": 0,
@@ -554,6 +554,45 @@
                     "note": ""
                },
                "selected": false
+          },
+          {
+               "id": 91,
+               "attrs": {
+                    "x": 254,
+                    "y": 388,
+                    "width": 176,
+                    "height": 44,
+                    "r": 10,
+                    "rx": 10,
+                    "ry": 10,
+                    "fill": "#fff",
+                    "stroke": "#666",
+                    "stroke-width": 1,
+                    "fill-opacity": 100
+               },
+               "fwprop": {
+                    "autoid": 10,
+                    "type": "state",
+                    "note": "",
+                    "identifier": "N10",
+                    "entryFunc": "",
+                    "doFunc": "",
+                    "exitFunc": "",
+                    "entryType": "call function",
+                    "doType": "call function",
+                    "exitType": "call function",
+                    "entryCode": "",
+                    "doCode": "",
+                    "exitCode": "",
+                    "entryDesc": "<<AP>> Set Time Stamp of\nOutComponent to the current time",
+                    "doDesc": "",
+                    "exitDesc": "",
+                    "entryAp": false,
+                    "doAp": false,
+                    "exitAp": false,
+                    "embedSmId": null
+               },
+               "selected": false
           }
      ],
      "connections": [
@@ -565,12 +604,12 @@
                          [
                               "M",
                               345,
-                              125
+                              125.1190476190476
                          ],
                          [
                               "L",
                               391,
-                              125.00000000000001
+                              125.39285714285721
                          ]
                     ],
                     "stroke-width": 2,
@@ -606,13 +645,13 @@
                     "path": [
                          [
                               "M",
-                              492,
-                              145
+                              492.6818181818182,
+                              147
                          ],
                          [
                               "L",
-                              492,
-                              168
+                              492.45454545454544,
+                              162
                          ]
                     ],
                     "stroke-width": 2,
@@ -649,7 +688,7 @@
                          [
                               "M",
                               492,
-                              211
+                              219
                          ],
                          [
                               "L",
@@ -691,7 +730,7 @@
                          [
                               "M",
                               492,
-                              292
+                              294
                          ],
                          [
                               "L",
@@ -795,7 +834,7 @@
                          ],
                          [
                               "L",
-                              429,
+                              432,
                               342
                          ]
                     ],
@@ -838,7 +877,7 @@
                          [
                               "M",
                               643,
-                              425
+                              427
                          ],
                          [
                               "L",
@@ -880,12 +919,12 @@
                          [
                               "M",
                               342,
-                              368
+                              363
                          ],
                          [
                               "L",
                               342,
-                              410
+                              380
                          ]
                     ],
                     "stroke-width": 2,
@@ -911,7 +950,7 @@
                     "y": 0
                },
                "stateFromID": 11,
-               "stateToID": 15,
+               "stateToID": 91,
                "selected": false
           },
           {
@@ -922,12 +961,12 @@
                          [
                               "M",
                               342,
-                              465
+                              513
                          ],
                          [
                               "L",
                               342,
-                              509
+                              531
                          ]
                     ],
                     "stroke-width": 2,
@@ -964,7 +1003,7 @@
                          [
                               "M",
                               342,
-                              564
+                              588
                          ],
                          [
                               "L",
@@ -1006,12 +1045,12 @@
                          [
                               "M",
                               431,
-                              632
+                              632.7043189368771
                          ],
                          [
                               "L",
                               622,
-                              632
+                              632.0697674418604
                          ]
                     ],
                     "stroke-width": 2,
@@ -1048,7 +1087,7 @@
                          [
                               "M",
                               643,
-                              511
+                              513
                          ],
                          [
                               "L",
@@ -1090,7 +1129,7 @@
                          [
                               "M",
                               671,
-                              223
+                              225
                          ],
                          [
                               "L",
@@ -1196,7 +1235,7 @@
                          [
                               "M",
                               400,
-                              673
+                              673.3204419889504
                          ],
                          [
                               "L",
@@ -1240,6 +1279,48 @@
                "stateFromID": 28,
                "stateToID": 30,
                "selected": false
+          },
+          {
+               "attrs": {
+                    "fill": "none",
+                    "stroke": "#000",
+                    "path": [
+                         [
+                              "M",
+                              342,
+                              437
+                         ],
+                         [
+                              "L",
+                              342,
+                              456
+                         ]
+                    ],
+                    "stroke-width": 2,
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-dasharray": ""
+               },
+               "fwprop": {
+                    "order": 1,
+                    "identifier": "",
+                    "guardFunc": "",
+                    "actionFunc": "",
+                    "guardType": "function",
+                    "actionType": "function",
+                    "guardCode": "",
+                    "actionCode": ""
+               },
+               "shiftx": 0,
+               "shifty": 0,
+               "vertexes": [],
+               "shiftxy": {
+                    "x": 0,
+                    "y": 0
+               },
+               "stateFromID": 91,
+               "stateToID": 15,
+               "selected": false
           }
      ],
      "globals": {
@@ -1248,8 +1329,8 @@
           "attrs": {
                "x": 0,
                "y": 60,
-               "width": 1394,
-               "height": 709,
+               "width": 1111,
+               "height": 644,
                "r": 0,
                "rx": 0,
                "ry": 0,
