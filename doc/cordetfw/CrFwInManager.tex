@@ -22,7 +22,9 @@ The InManager component is defined as an extension of the Base Component of sect
 
 After the \texttt{Terminate} command, the state of the InCommand or InReport is reported to the InRegistry using the latter \texttt{Update} operation (see section \ref{sec:InRegistry}). InCommands which have terminated execution are removed from the PCRL and are returned to the InFactory. InReports are returned to the InFactory after their first execution. The \textit{Execution Procedure} of the InManager is shown in figure \ref{fig:InManagerExecution}.
 
-Normally, the InManager is embedded within a Real Time Container (see reference [FW-SP]) which is responsible for executing it. Thus, an application that is required to process commands and reports at different levels of priority should use several InManagers (one for each level of priority) and should allocate them to Real Time Containers with a matching priority.
+\chgC{
+An application may instantiate multiple InManagers. This is typically done if there is a need to process different sets of InCommands with different levels of priority. If, for instance, some InCommands only need to be processed at low frequency whereas others must be processed at hgh frequency, then: (a) two InManagers M1 and M2 are instantiated; (b) M1 is scheduled to be executed at high frequency and M2 is scheduled to be executed at low frequency and (c) the InLoader is configured such that commands with a high execution frequency requirement are loaded in M1 whereas commands with a low executiom frequency requirement are loaded in M2. The number of InManager instantiated in an application is an adaptation point. 
+}
 
 \begin{figure}[H]
  \centering

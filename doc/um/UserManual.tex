@@ -637,7 +637,9 @@ The C2 Implementation offers a set of generic components which application devel
 
 The Adaptation Points are therefore the points where application developers may modify the pre-defined behaviour of the framework components. In some cases, the C2 Implementation pre-defines a default value for an Adaptation Point which application developers may either take unchanged or may modify. In other cases, no default behaviour is defined at framework level. 
 
-Four types of Adaptation Points (AP) are supported by the C2 Implementation:
+\chgC{
+The Adaptation Points are defined as part of the framework specification in reference [CS-SP]. In the C2 implementation there are four ways in which these adaptation points are implemented:
+}
 
 \begin{itemize}
 \item Define Constant: a framework component uses a \texttt{\#DEFINE} constant whose value may be overridden by application developers.
@@ -1009,9 +1011,7 @@ The C2 Implementation implements the OutManager component in module \texttt{CrFw
 
 As noted above, at CORDET Framework level, there is no requirement covering the order in which the OutComponents loaded into an OutManager are processed when the OutManager is executed. The C2 implementation, however, enforces the following ordering constraint. If OutComponents C1 to Cn are successfully loaded into an OutManager through through successive calls to its \texttt{Load} operation and if this sequence of \texttt{Load} operations is not interrupted by an execution of the OutManager, then, when the OutManager is executed next, the OutComponents C1 to Cn will be processed in the order in which they have been loaded.
 
-\chgC{
-An application may instantiate multiple OutManagers. This is typically done if there is a need to process different sets of out-going commands/reports with different levels of priority. If, for instance, some OutComponents only need to be processed at low frequency whereas others must be processed at hgh frequency, then: (a) two OutManagers M1 and M2 are instantiated; (b) M1 is scheduled to be executed at high frequency and M2 is scheduled to be executed at low frequency and (c) the OutComponents with a high execution frequency requirement are loaded in M1 whereas those with a low executiom frequency requirement are loaded in M2. The number of OutManager instantiated in an application is an adaptation point (C2-OMG-01). 
-}
+
 
 %---------------------------------------------------------------------------------
 \section{The OutRegistry Component}\label{sec:OutRegistry}
@@ -1065,9 +1065,6 @@ The C2 Implementation implements the InManager component in module \texttt{CrFwI
 
 As noted above, at CORDET Framework level, there is no requirement covering the order in which the InReports or InCommands loaded into an InManager are processed when the InManager is executed. The C2 implementation, however, enforces the following ordering constraint. If InReports/InCommands C1 to Cn are successfully loaded into an InManager through successive calls to its \texttt{Load} operation and if this sequence of \texttt{Load} operations is not interrupted by an execution of the InManager, then, when the InManager is executed next, the InReports/InCommands C1 to Cn will be processed in the order in which they have been loaded.
 
-\chgC{
-An application may instantiate multiple InManagers. This is typically done if there is a need to process different sets of InCommands with different levels of priority. If, for instance, some InCommands only need to be processed at low frequency whereas others must be processed at hgh frequency, then: (a) two InManagers M1 and M2 are instantiated; (b) M1 is scheduled to be executed at high frequency and M2 is scheduled to be executed at low frequency and (c) the InLoader is configured such that commands with a high execution frequency requirement are loaded in M1 whereas commands with a low executiom frequency requirement are loaded in M2. The number of InManager instantiated in an application is an adaptation point (C2-IMG-01). 
-}
 
 %=================================================================================
 \section{The InRegistry Component}\label{sec:InRegistry}
@@ -1304,6 +1301,19 @@ The table in the next page breaks up steps S1 and S2 into sub-steps. To each S1 
 
 After all activities listed in the table have been performed, the application developer should have: (a) a complete specification of the framework-dependent part of his application and (b) a close-out for all adaptation points offered by the framework. The latter means that the framework components are ready for deployment in the target application. 
 
+\chgC{
+There are two equivalent ways to check that the framework instantiation process has been completed:
+
+\begin{itemize}
+\item Step S1 is completed when all framework adaptation points defined in reference [CR-SP] and listed in appendix \ref{sec:AdaptationPoints} have been closed 
+\item Step S2 is completed when:
+	\begin{itemize}
+	\item All \texttt{\#define} constants in all \texttt{CrFwXyzUserPar.h} files of directory \texttt{tests/config} have been given values adequate for the target application
+	\item Implementations adequate for the target application have been provided for all interface modules defined in \texttt{tests/config}
+	\end{itemize}
+\end{itemize}
+}
+
 If the guidelines of section \ref{sec:fwSrcCode} are followed, the software of the instantiated framework will be organized as follows:
 
 \begin{enumerate}
@@ -1313,7 +1323,7 @@ If the guidelines of section \ref{sec:fwSrcCode} are followed, the software of t
 \item One directory holding the application-specific software.
 \end{enumerate}
 
-In general, it is the responsibility of the user to ensure that the configuration information provided during the instantiation process is complete and consistent. A full check of completeness and consistency is not possible. However, the C2 Implementation offers module \texttt{CrFwAux} which implements a partial consistency check for the information in the \texttt{*UserPar} header files \chgC{(see also section \ref{sec:ConfigCheck})}. Application developers should use this configuration check in the initial phase and can then remove it from their executable once confidence has been achieved that the configuration data are correct and complete.
+In general, it is the responsibility of the user to ensure that the configuration information provided during the instantiation process is complete and consistent. A \chgC{fully automated} check of completeness and consistency is not possible. However, the C2 Implementation offers module \texttt{CrFwAux} which implements a partial consistency check for the information in the \texttt{*UserPar} header files \chgC{(see also section \ref{sec:ConfigCheck})}. Application developers should use this configuration check in the initial phase and can then remove it from their executable once confidence has been achieved that the configuration data are correct and complete.
 
 
 \begin{landscape}
@@ -1337,7 +1347,7 @@ This section has been deleted.
 \appendix
 %===========================================================================
 \section{Adaptation Points}\label{sec:AdaptationPoints}
-The adaptation model of the C2 Implementation is described in section \ref{sec:AdaptationModel}. \chgC{The tables in this appendix list the adaptation points offered by the framework. The tables} are organized as follows:
+The adaptation model of the C2 Implementation is described in section \ref{sec:AdaptationModel}. The table in this appendix lists the adaptation points offered by the framework. The table is organized as follows:
 
 \begin{itemize}
 \item The left-most column in the table gives the identifier of the adaptation point. 
@@ -1347,20 +1357,12 @@ The adaptation model of the C2 Implementation is described in section \ref{sec:A
 
 With reference to the last point, it is recalled that all adaptation points are implemented as either \texttt{\#define} constants or \texttt{typedef} definitions in C header files in directory \chgC{\texttt{tests/config}} or as C body files in this same directory implementing framework interfaces.
 
-\chgC{
-Adaptation points in table \ref{tab:AP} were defined at framework specification level. They are described in reference [CR-SP] where the framework is specified. Adaptation points in \ref{tab:C2} have instead been defined during the framework implementation process. They are described in the main body of the present document.
-}
-
-The two tables in this appendix only provides a summary view of the adaptation points. Their detailed definition is contained in the doxygen documentation of the files in the configuration directory \chgC{\texttt{tests/config}}. \chgC{The file applicable to each adaptation point is referenced in the adaptation point description in the tables.}
+The table in this appendix only provides a summary view of the adaptation points. Their detailed definition is contained in the doxygen documentation of the files in the configuration directory \chgC{\texttt{tests/config}}. \chgC{The file applicable to each adaptation point is referenced in the adaptation point description in the tables.}
 
 
 \begin{landscape}
 
 \pnpcsvtable[filter equal={\Kind}{SPC}]{|l|p{7.2cm}|p{10.4cm}|}{Specification-Level Adaptation Points}{tab:AP}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Implementation}}{../cordetfw/CrFwAdaptPoint.csv}{\Domain-\Name & \Title & \Implementation}
-
-\newpage
-
-\pnpcsvtable[filter equal={\Kind}{IMP}]{|l|p{7.2cm}|p{10.4cm}|}{C2 Implementation Adaptation Points}{tab:C2}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Implementation}}{../cordetfw/CrFwAdaptPoint.csv}{\Domain-\Name & \Title & \Implementation}
 
 \end{landscape}
 

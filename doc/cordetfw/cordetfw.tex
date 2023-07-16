@@ -82,9 +82,9 @@ All & E & Fixed editorials in text of adaptation points and requirements \\
 \hline
 6.2.1 & C & Updated OutStream definition to take account of new sequence counter and type attribute logic and of the possibility to allocate multiple destinations to the same OutStream \\
 \hline
-6.2.1 & N & Added adaptation point to get group of out-going packet \\
+6.2.1 & N & Added adaptation point OST-14 to get group of out-going packet; added adaptation point OST-15 to define association between OutStreams and packet destinations \\
 \hline
-6.2.2 & C & Updated InStream definition to take account of new sequence counter management logic and of the possibility to allocate multiple sources to the same InStream \\
+6.2.2 & C & Updated InStream definition to take account of new sequence counter management logic and of the possibility to allocate multiple sources to the same InStream; added adaptation point IST-14 to define association between InStreams and packet sources \\
 \hline
 6.2.1 & N & Added adaptation point to get group of incoming packet \\
 \hline
@@ -92,11 +92,15 @@ All & E & Fixed editorials in text of adaptation points and requirements \\
 \hline
 7.1.2 & N & Corrected statement about setting of OutComopnent's time-stamp; added adaptation point OFT-01 to cover the kinds of OutComponents supported by an application \\
 \hline
+7.1.4 & L,N & Modified discussion of number of OutManagers in application and added  new adaptation point OMG-09 to cover number of OutManagers \\
+\hline
 7.2.1 & N & Added adaptation point IFT-01 to cover the kinds of InReports and InCommands supported by an application \\
 \hline
-7.2.3 & C & Adaptation points ICM-18 to 20 have been moved to adaptation point IFT-01 (TBC); adaptation point ICM-21 has been extended to cover all all operations to access InCommand attributes \\
+7.2.3 & C & Adaptation points ICM-18 to 20 have been moved to adaptation point IFT-01 (TBC); adaptation point ICM-21 has been extended to cover all all operations to access InCommand attributes; definition of adaptation points ICM-01, 02 and 04 has been modified to match C2 implementation of framework \\
 \hline
-7.2.4 & C & Adaptation point IRP-08 to 10 have been moved to adaptation point IFT-01 (TBC); adaptation point IRP-11 has been extended to cover all all operations to access InCommand attributes \\
+7.2.4 & C & Adaptation point IRP-08 to 10 have been moved to adaptation point IFT-01 (TBC); adaptation point IRP-11 has been extended to cover all operations to access InCommand attributes; definition of adaptation points IRP-01, 02 and 04 has been modified to match C2 implementation of framework \\
+\hline
+7.2.5 & L,N & Modified discussion of number of InManagers in application and added  new adaptation point IMG-09 to cover number of InManagers \\
 \hline
 \end{longtable}
 
@@ -721,7 +725,9 @@ The \texttt{Make} operation of the OutFactory sets the values of the following a
 
 Thus, a command or report component which is returned by the OutFactory has valid and correct values for the following attributes: service type, command or report sub-type,  discriminant,  identifier, and source. Other attributes must be set as part of the command or report configuration by the host application. Note, however, that the time stamp is set \chgC{at the time the OutComponent is serialized (see section \ref{sec:OutComponent})} and the sequence counter is set by the OutStream directly on the out-going packet at the time the packet is handed over to the middleware (see section \ref{sec:OutStream}).
 
-\chgC{The maximum number of OutComponents which a factory may generate is an adaptation point. The range of OutComponent kinds that an OutFactory can generate, namely the set of OutComponent service types, service sub-types and discriminants which the OutFactory recognizes and for which it can generate an OutComponent through its \texttt{make} operation is another adaptation point of the framework. The OutFactory must additionally support the adaptation points defined for a generic factory component (see section \ref{sec:CmpInst}). 
+\chgC{
+The maximum number of OutComponents which a factory may generate is an adaptation point. The range of OutComponent kinds that an OutFactory can generate, namely the set of OutComponent service types, service sub-types and discriminants which the OutFactory recognizes and for which it can generate an OutComponent through its \texttt{make} operation is another adaptation point of the framework. The OutFactory must additionally support the adaptation points defined for a generic factory component (see section \ref{sec:CmpInst}). 
+}
 
 \begin{crAp}{OFT}{Adaptation Points for OutFactory Component}
 \end{crAp}
@@ -779,7 +785,9 @@ Depending on the allocation policy used internally in the InFactory, the InComma
 
 A command or report component which is returned by the InFactory has valid values for the following attributes: service type, command or report sub-type, and discriminant. All other attributes must be set as part of the command configuration which is performed under the control of the InLoader (see next section).
 
-\chgC{The maximum number of InReporta and of InCommands which an InFactory may generate is an adaptation point. The range of InReport and InCommand kinds that an InFactory can generate, namely the set of InReport/InCommand service types, service sub-types and discriminants which the InFactory recognizes and for which it can generate an InReport/InCommand through its \texttt{make} operation is another adaptation point of the framework. The InFactory must additionally support the adaptation points defined for a generic factory component (see section \ref{sec:CmpInst}). 
+\chgC{
+The maximum number of InReporta and of InCommands which an InFactory may generate is an adaptation point. The range of InReport and InCommand kinds that an InFactory can generate, namely the set of InReport/InCommand service types, service sub-types and discriminants which the InFactory recognizes and for which it can generate an InReport/InCommand through its \texttt{make} operation is another adaptation point of the framework. The InFactory must additionally support the adaptation points defined for a generic factory component (see section \ref{sec:CmpInst}). 
+}
 
 \begin{crAp}{IFT}{Adaptation Points for InFactory Component}
 \end{crAp}

@@ -1,6 +1,6 @@
 The InCommand component encapsulates an incoming command in a provider application. This component enforces the generic behaviour that is common to all incoming commands irrespective of their type and it provides read-only access to a command's attributes. The InCommand component is an extension of the Base Component of section \ref{sec:BaseCmp}. 
 
-Incoming commands must be accepted before they can be executed (see section \ref{sec:CmdLifecycle}). The acceptance check is implemented partly by the InLoader (see section \ref{sec:InLoader}) and partly by the initialization and configuration checks of the InCommand itself.
+Incoming commands must be accepted before they can be executed (see section \ref{sec:CmdLifecycle}). The acceptance check is implemented partly by the InLoader (see section \ref{sec:InLoader}) and partly by the \chgC{configuration check} of the InCommand itself.
 
 The behaviour of a command that has been accepted is modelled by the state machine shown in figure \ref{fig:InCommand} (the \textit{InCommand State Machine}). This state machine is embedded within the CONFIGURED state of the Base State Machine. 
 
