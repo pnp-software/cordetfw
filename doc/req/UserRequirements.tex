@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\SetDocIssue{1.0}
+\SetDocIssue{2.0}
 \SetDocRefNumber{PP-SP-COR-0002}
 \SetDocTitle{The CORDET Framework}
 \SetDocSubtitle{User Requirements}
@@ -88,7 +88,7 @@ This document defines, justifies and verifies the user requirements for the \tex
 
 A service is implemented by a set of commands through which an application is asked to perform certain activities and by a set of reports through which an application gives visibility over its internal state. The CORDET Framework defines the components to receive, send, distribute, and process commands and reports. The CORDET Framework is defined in reference [CR-SP]. 
 
-\subsection{Intended Use of C1 Implementation}\label{sec:intendedUse}
+\subsection{Intended Use of C2 Implementation}\label{sec:intendedUse}
 Although the C2 Implementation can be used wherever there is a need to implement a system of distributed applications which exchange CORDET service requests, the high reliability of the implementation, the emphasis placed on formally specifying and verifying its expected behaviour, and the small demands on memory and processing resources mean that the C2 Implementation is especially well-suited for implementing mission-critical embedded applications within a service-oriented distributed architecture. 
 
 Thus, the intended use of the C2 Implementation is to support the implementation of the CORDET service concept for mission-critical embedded applications.
@@ -96,7 +96,7 @@ Thus, the intended use of the C2 Implementation is to support the implementation
 \subsection{Requirement Definition}\label{sec:reqDef}
 Requirements are defined in tables with the following format:
 
-\hspace{0.2cm}\textbf{CR-'x'/'V' \hspace{0.9cm} $\langle$Requirement Title$\rangle$}
+\hspace{0.2cm}\textbf{\hspace{1cm}CR-'x'/'V' \hspace{0.9cm} $\langle$Requirement Title$\rangle$}
 \vspace{-10pt}
 
 \begin{longtable}{p{2.7cm}P{8.5cm}}
@@ -195,7 +195,7 @@ An implementation of the CORDET Framework should cover the first two types of re
 %=============================================================================
 
 \begin{fwReq}{C2 Adaptation Points}{R}
-{The C2 Implementation shall support the adaptation points listed in table \ref{tab:implC2Ap}.}
+{The C2 Implementation shall support the adaptation points listed in table \ref{tab:AP}.}
 %-----------------------------------------------------------------------------
 {These adaptation points arise as a result of the design choices made for the C2 Implementation.}
 %-----------------------------------------------------------------------------
@@ -440,7 +440,7 @@ The requirements often refer to state machine or procedure diagrams. A complete 
 
 \begin{landscape}
 
-\pnpcsvtable[filter equal={\Type}{S}]{|>{\centering\arraybackslash}p{0.9cm}|>{\raggedright}p{4.9cm}|p{6.9cm}|p{6.9cm}|}{Implementation of CORDET Framework Requirements}{tab:implCrFwReq}{\textbf{ID} & \textbf{Requirement Text} & \textbf{Requirement Implementation} & \textbf{Requirement Verification}}{../cordetfw/CordetFwReq.csv}{\Category-\Id & \Text & \Implementation & \Verification}
+\pnpcsvtable[filter equal={\Kind}{S}]{|>{\centering\arraybackslash}p{0.9cm}|>{\raggedright}p{4.9cm}|p{6.9cm}|p{6.9cm}|}{Implementation of CORDET Framework Requirements}{tab:implCrFwReq}{\textbf{ID} & \textbf{Requirement Text} & \textbf{Requirement Implementation} & \textbf{Requirement Verification}}{../cordetfw/CrFwRequirement.csv}{\Domain-\Name & \Text & \Implementation & \Verification}
 
 \end{landscape}
 
@@ -457,7 +457,7 @@ For each adaptation point, the last column in the table either describes how the
 
 \begin{itemize}
 \item Adaptation points which are "closed at framework level" and which are therefore not present in the C2 Implementation. This is the case when component B is derived (through the extension mechanism of the FW Profile) from component A and component A has defined an adaptation point which is inherited by component B but which component B closes (i.e. the value of the adaptation point on component B is fixed and cannot be modified by users of the framework). Thus, for instance, the Execution Procedure is an adaptation point for the Base Component (BAS-6) but the framework components which are derived from the Base Component have a specific Execution Procedure which is not intended to be modified by application developers and therefore "close" the adaptation point BAS-6 defined on the Base Component.
-\item Adaptation points which have been mapped to other adaptation points which are specific to the C2 Implementation. In these cases, the last column in the table identifies the C2 Implementation adaptation point (the full list of C2 Implementation Points is provided in appendix \ref{sec:implC2Ap}).
+\item \chgC{Deleted}
 \item Adaptation points which are closed as a result of the design choices made by the C2 Implementation. This is, for instance, the case for the adaptation points for the OutStreamRegistry. In the C2 Implementation, this component has been merged with the OutStream component and hence its adaptation points have been merged with those of the OutStream.
 \end{itemize}
 
@@ -466,7 +466,7 @@ The definitions of the CORDET adaptation points often refer to state machine or 
 
 \begin{landscape}
 
-\pnpcsvtable[filter not equal={\Category}{0}]{|l|p{4.2cm}|p{5.0cm}|p{8.4cm}|}{CORDET Adaptation Points}{tab:implCrFwAp}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value} & \textbf{Implementation}}{../cordetfw/CordetFwAP.csv}{\Category-\Id & \AP & \DefValue & \CTwoImpl}
+\pnpcsvtable[filter equal={\Kind}{SPC}]{|l|p{4.2cm}|p{5.0cm}|p{8.4cm}|}{CORDET Adaptation Points}{tab:implCrFwAp}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Default Value} & \textbf{Implementation}}{../cordetfw/CrFwAdaptPoint.csv}{\Domain-\Name & \Title & \DefaultValue & \Implementation}
 
 \end{landscape}
 
@@ -474,25 +474,16 @@ The definitions of the CORDET adaptation points often refer to state machine or 
 
 %======================================================================================
 \section{C2 Adaptation Points}\label{sec:implC2Ap}
-The C2 Implementation implements the adaptation points of the CORDET Framework.
-Table \ref{tab:implCrFwAp} lists the adaptation points of the CORDET Framework as they are defined in reference [CR-SP] and, for each adaptation point, it describes how the adaptation point is implemented in the C2 Implementation. 
-
-Besides the adaptation points defined by the CORDET Framework, the C2 Implementation also provides a number of additional adaptation points which arise as a result of the design choices made for the C2 Implementation. These adaptaton points are called \textit{C2 Adaptation Points} and are listed in table \ref{tab:implC2Ap}. The last column in the table shows how each adaptation point is implemented and which default value (if any) is offered for it by the C2 Implementation.
-
-The definitions of the C2 adaptation points often refer to state machine or procedure diagrams. A complete list of the diagrams of the state machines and procedures which define the behaviour of the CORDET components can be found in section \ref{sec:smAndProcDiagrams}.
-
-\begin{landscape}
-
-\pnpcsvtable[filter not equal={\CTwoCat}{0}]{|l|p{5.2cm}|p{13.0cm}|}{C2 Adaptation Points}{tab:implC2Ap}{\textbf{AP ID} & \textbf{Adaptation Point} & \textbf{Implementation}}{../cordetfw/CordetFwAP.csv}{\CTwoCat-\CTwoId & \AP & \CTwoImpl}
-
-\end{landscape}
+\chgC{
+This section has been deleted (C2 adaptation points have been moved to the specification level and are not covered in section \ref{sec:implCrFwAp}.
+}
 
 
 
 
 %======================================================================================
 \section{CORDET Framework Behaviour}\label{sec:verCrFwBehaviour}
-The C2 Implementation implements the behaviour of the CORDET Framework. The behaviour of the CORDET Framework is defined through a set of state machines and procedures (see \ref{sec:smAndProcDiagrams} for a full list of their diagrams). Thus, the C2 Implementation implements the behaviour of the CORDET Framework state machines and procedures. This section provides the verification evidence which demonstrates correct implementation of the CORDET Framework state machines and procedures.  
+The C2 Implementation implements the behaviour of the CORDET Framework. The behaviour of the CORDET Framework is defined through a set of state machines and procedures (see \chgC{appendix} \ref{sec:smAndProcDiagrams} for a full list of their diagrams). Thus, the C2 Implementation implements the behaviour of the CORDET Framework state machines and procedures. This section provides the verification evidence which demonstrates correct implementation of the CORDET Framework state machines and procedures.  
 
 
 %--------------------------------------------------------------------------------------
@@ -894,7 +885,7 @@ For convenience, this appendix shows all the state machine and procedure diagram
 
 \begin{figure}[h]
  \centering
- \includegraphics[scale=0.45,keepaspectratio=true]{ApplicationSM.png}
+ \includegraphics[scale=0.45,keepaspectratio=true]{AppSM.png}
  \caption{Application State Machine}
  \label{fig:ApplicationSM}
 \end{figure}
