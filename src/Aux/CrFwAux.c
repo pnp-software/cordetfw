@@ -351,6 +351,7 @@ CrFwBool_t CrFwAuxInManagerConfigCheck() {
 	return 1;
 }
 
+/* -------------------------------------------------------------------------- */
 CrFwBool_t CrFwAuxOutManagerConfigCheck() {
 	unsigned int i;
 
@@ -361,4 +362,5 @@ CrFwBool_t CrFwAuxOutManagerConfigCheck() {
 		if (outManagerPoclSize[i] < 1)
 			return 0;
 			
+	return 1;
 }
