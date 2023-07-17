@@ -10,6 +10,9 @@
 \SetCheckedBy{n.a.}
 \maketitle
 
+% changes in issue 2 of UM and REQ and issue 3 of Definition Document
+\newcommand{\chgC}[1]{{\color{red}{#1}}{}} 		
+
 %---------------------------------------------
 % Define Environment for Requirement Tables without Notes
 % Par #1: Requirement Title
@@ -404,7 +407,7 @@ of the C2 Implementation. This is not possible because memory occupation depends
 {The Test Suite is implemented in a set of Test Cases defined in \texttt{CrFwXxxTestCases.h} where \texttt{Xxx} is the name of a component type. The \texttt{main} program for the Test Suite is in \texttt{CrFwTestSuite.h}.} 
 %-----------------------------------------------------------------------------
 {The Acceptance Test Procedure of the C2 Implementation (see [CR-UM]) uses the \texttt{gcov} tool to measure the statement and branch coverage of the Test Suite. Note that the C2 Implementation does not use any boolean expressions in the decision 
-points of the code (e.g. in the \texttt{if} clauses). Decisions are always taken on the basis of the outcome of the evaluation of a single primitive Boolean condition. Hence, branch coverage implies condition coverage. In a few cases, the design may make full coverage impossible to achieve. The reason for the partial coverage is explained in comments in the code which are extracted and printed in the test report.}
+points of the code (e.g. in the \texttt{if} clauses). Decisions are always taken on the basis of the outcome of the evaluation of a single primitive Boolean condition. Hence, branch coverage implies condition coverage. \chgC{In a few cases, calls to the \texttt{assert} macro or the code design may make full coverage impossible to achieve. In the latter case, the reason for the partial coverage is explained in comments in the code which are extracted and printed in the test report.} }
 %-----------------------------------------------------------------------------
 \end{fwReq}
 
@@ -424,7 +427,7 @@ points of the code (e.g. in the \texttt{if} clauses). Decisions are always taken
 %-----------------------------------------------------------------------------
 {See verification.} 
 %-----------------------------------------------------------------------------
-{Inspection of the C2 Implementation files shows that no external modules other than \texttt{stdlib} and \texttt{string} and the state machine modules \texttt{FwSm*.h} and the procedure modules \texttt{FwPr*.h} of the C1 Implementation are used. The compilation and linking process for the Test Suite shows that no other libraries need be linked.}
+{Inspection of the C2 Implementation files shows that no external modules other than \texttt{stdlib} and \texttt{string} and the state machine modules \texttt{FwSm*.h} and the procedure modules \texttt{FwPr*.h} of the C1 Implementation are used. The compilation and linking process for the Test Suite shows that no other libraries need be linked. \chgC{Some modules use the \texttt{assert} macro for verification purposes but this can be disabled for the final deployment.}}
 %-----------------------------------------------------------------------------
 \end{fwReq}
 

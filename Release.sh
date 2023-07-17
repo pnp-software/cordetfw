@@ -17,7 +17,12 @@
 # 6. Run the release acceptance tests 
 # 7. Creates the delivery file
 #
+# Example of command to execute script: ./Release.sh -v=1.1.0 -f=./lib/fwprofile -c=.
+#
 #====================================================================================
+
+read -p "Only continue if Cordet Editor Project has been exported to Download directory"
+read -p "Only continue if all FW Profile diagrams have been exported"
 
 showHelp() {
     echo "Options: "
@@ -82,6 +87,10 @@ CF_SRC="${CF_PATH}/src"
 DOXYFILE="C2Impl_TestSuite.doxyfile"
 
 # ====================================================================================
+echo "Process Cordet Editor Project File"
+python3 ${CF_PATH}/scripts/CrFwGenerator.py
+
+# ====================================================================================
 echo "PDF Generation - User Manual"
 (cd ${CF_DOC}/um &&
  pdflatex -shell-escape -interaction=nonstopmode -halt-on-error UserManual.tex > latex_user_manual.log &&
@@ -105,15 +114,19 @@ cp ${CF_DOC}/req/UserRequirements.pdf ${OUT_DOCS}
 
 # ====================================================================================
 echo "Create Doxygen Documentation"
+set -x
 (cd ${CF_DOC}/doxygen &&
-	doxygen $DOXYFILE > ${OUT_LOG}/doxygen_generation.log)
+	doxygen $DOXYFILE > doxygen_generation.log)
 cp -ar ${CF_DOC}/doxygen/html ${OUT_DOCS}/doxygen
-
+cp -ar ${CF_DOC}/doxygen/doxygen_generation.log ${OUT_LOG}/doxygen_generation.log
+set +x
 # ====================================================================================
 # Redirect both stdout and stderr to the AcceptanceTestReport.log file
 echo "Run Release Acceptance Tests"
 (make clean;
  make test > make_testsuite.log 2>&1 && make run-test > make_run_testsuite.log 2>&1)
+ mv make_testsuite.log ${OUT_LOG}/make_testsuite.log
+ mv make_run_testsuite.log ${OUT_LOG}/make_run_testsuite.log
 
 gcov -b -o ./bin/src/BaseCmp CrFwBaseCmp >> ${OUT_LOG}/CodeCoverage_Report.txt
 gcov -b -o ./bin/src/BaseCmp CrFwDummyExecProc >> ${OUT_LOG}/CodeCoverage_Report.txt
@@ -134,7 +147,7 @@ gcov -b -o ./bin/src/OutRegistry CrFwOutRegistry >> ${OUT_LOG}/CodeCoverage_Repo
 gcov -b -o ./bin/src/OutStream CrFwOutStream >> ${OUT_LOG}/CodeCoverage_Report.txt
 gcov -b -o ./bin/src/Pckt CrFwPcktQueue >> ${OUT_LOG}/CodeCoverage_Report.txt
 gcov -b -o ./bin/src/UtilityFunctions CrFwUtilityFunctions >> ${OUT_LOG}/CodeCoverage_Report.txt
-gcov -b -o ./bin/src/AppSm CrFwAppSm >> ${OUT_LOG}/CodeCoverage_Report.txt
+gcov -b -o ./bin/src/AppStartUp CrFwAppSm >> ${OUT_LOG}/CodeCoverage_Report.txt
 
 echo "Running valgrind..."
 valgrind --leak-check=yes ./bin/testsuite > ${OUT_LOG}/TestSuite_Valgrind_Report.txt 2>&1
@@ -155,7 +168,7 @@ cp -ar ${CF_PATH}/tests ${OUT}
 cp -ar ${FW_PATH}/src ${OUT}/lib/fwprofile
 
 ( cd ${OUT};
-  zip -r ./CordetFw_C2_Impl_MPLv2_${VERSION}.zip .)
+  zip -r ./CordetFw_C2_Impl_MPLv2_${VERSION}.zip . >/dev/null 2>&1)
 
 # ====================================================================================
 

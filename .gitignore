@@ -24,3 +24,5 @@
 /tmp/**
 /doc/cordetfw/cordetfw.pdf
 /doc/um/UserManual.pdf
+/zip/**
+/doc/req/UserRequirements.pdf
