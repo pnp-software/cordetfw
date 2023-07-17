@@ -44,7 +44,7 @@
  * The embedded state machines are adaptation points for the framework.
  * They are defined in <code>CrFwAppSmUserPar.h</code>.
  *
- * @image html ApplicationSM.png
+ * @image html AppSM.png
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
