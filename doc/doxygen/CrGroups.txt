@@ -16,7 +16,7 @@
  * Implementation of the Application State Machine.
  * The Application State Machine implements the application start-up behaviour
  * (see figures below).
- * @image html ApplicationSM.png 
+ * @image html AppSM.png 
  */
 
 /** @defgroup baseCmpGroup Base Component
