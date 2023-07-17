@@ -1,11 +1,11 @@
 Id|Title|Nr|A|B|C|D|E|F|Issue|Remark|CrSp|CrUm|CrRq
 |||||||||||||
-[CR-SP]|The CORDET Framework – Specification |PP-DF-COR-002|||||||2.0|||RD|RD
-[CR-UM]|The CORDET Framework – User Manual|PP-UM-COR-002|||||||1.0||RD||RD
-[CR-RQ]|The CORDET Framework – Requirements|PP-SP-COR-0002|||||||1.0||RD|RD|
+[CR-SP]|The CORDET Framework – Specification |PP-DF-COR-002|||||||3|||RD|RD
+[CR-UM]|The CORDET Framework – User Manual|PP-UM-COR-002|||||||2||RD||RD
+[CR-RQ]|The CORDET Framework – Requirements|PP-SP-COR-0002|||||||2||RD|RD|
 [CR-AS]|The ASSERT Project Web Site, \url{http://www.esa.int/TEC/Software_engineering_and_standardisation/TECJQ9UXBQE_0.html}||||||||||RD||
 [CR-OB]|The OBS Framework Design Patterns, \url{https://www.pnp-software.com/ObsFramework/doc/indexDesignPatterns.html}||||||||||||
 [CR-CR]|The CORDET Project Web Site, \url{https://www.pnp-software.com/cordet/}||||||||||||
 [FW-SP]|The Framework Profile (available from: \url{www.pnp-software.com/fwprofile})|Release|||||||1.3.1||RD|RD|RD
 [PS-SP]|Ground Systems and Operations, Telemetry and Telecommand Packet Utilization Standard |ECSS-E-70-41C|||||||C||RD|RD|RD
-[PX-SP]|The PUS Extension of the CORDET Framework (available from: \url{www.pnp-software.com/cordetfw})|Release|||||||0.2||RD|RD|RD
+[PX-SP]|The PUS Extension of the CORDET Framework (available from: \url{www.pnp-software.com/cordetfw})|Release|||||||0.2||||
