@@ -28,6 +28,8 @@
 /**
  * The maximum number of out-going commands or reports which can be tracked by the OutRegistry.
  * This constant must be smaller than the range of <code>::CrFwTrackingIndex_t</code>.
+ * 
+ * @AP ORG-01: Maximum Number of Trackable Commands/Reports for OutRegistry 
  */
 #define CR_FW_OUTREGISTRY_N 64
 
@@ -37,6 +39,10 @@
  * a number of sub-types.
  * This constant defines the total number of [service type, service sub-type] pairs supported
  * by the application.
+ * Its value must be consistent with the number of service type/sub-types defined in
+ * <code>#CR_FW_OUTCMP_INIT_KIND_DESC</code> (consistency is verified by one of the
+ * configuration checks in <code>CrFwAux.h</code>).
+ * 
  * This constant must be smaller than the range of: <code>CrFwCmdRepIndex_t</code>.
  */
 #define CR_FW_OUTREGISTRY_NSERV 10

@@ -48,6 +48,9 @@
  *
  * This constant is used as the size of a statically declared array.
  * Hence, a value of zero may not be allowed by some compilers.
+ * 
+ * @AP IFT-01: Maximum Number of InReports which can be allocated by InFactory
+ * @AP IFT-02: Maximum Number of InCommands which can be allocated by InFactory
  */
 #define CR_FW_INCMD_NKINDS 3
 
@@ -113,6 +116,15 @@
  * The initializer values defined below are those which are used for the framework Test Suite.
  * The function pointers in the last row are those of the Sample InCommand defined in
  * <code>CrFwInCommandSample1.h</code>.
+ * 
+ * @AP ICM-03: Configuration Check in Reset Procedure of InCommand 
+ * @AP ICM-07: Ready Check of InCommand 
+ * @AP ICM-08: Start Action of InCommand 
+ * @AP ICM-09: Progress Action of InCommand 
+ * @AP ICM-10: Termination Action of InCommand 
+ * @AP ICM-11: Abort Action of InCommand 
+ * @AP IFT-03: InReport Kinds Supported by InFactory 
+ * @AP IFT-04: InCommand Kinds Supported by InFactory 
  */
 #define CR_FW_INCMD_INIT_KIND_DESC \
 	{ {8, 1, 1, &CrFwInCmdDefValidityCheck, &CrFwSmCheckAlwaysTrue, &CrFwSmEmptyAction, \
@@ -161,6 +173,9 @@
  * The initializer values defined below are those which are used for the framework Test Suite.
  * The function pointers in the last row are those of the Sample InReport defined in
  * <code>CrFwInReportSample1.h</code>.
+ * 
+ * @AP IRP-03: Configuration Check in Reset Procedure of InReport
+ * @AP IRP-07: Update Action of InReport
  */
 #define CR_FW_INREP_INIT_KIND_DESC \
 	{ {5, 1, 1, &CrFwPrEmptyAction, &CrFwInRepDefValidityCheck}, \

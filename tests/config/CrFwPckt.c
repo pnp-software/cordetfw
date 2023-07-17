@@ -34,6 +34,21 @@
  *
  * The CRC-related functions assume the CRC to be at the end of the packet and
  * always compute a dummy value of 0xFFFF for the CRC of a packet.
+ * 
+ * @AP ICM-18: Operation to Access Attributes of an InCommand
+ * @AP ILD-10: Operation to Get Packet Destination 
+ * @AP ILD-13: Operation to Get Packet Type 
+ * @AP IRP-11: Operation to Access Attributes of an InReport
+ * @AP OCM-10: Acknowledge Level Attribute of OutComponent
+ * @AP OCM-19: Operation to Access Attributes of an OutComponent 
+ * @AP IST-07: Operation to Get Packet Source from Incoming Packet 
+ * @AP IST-08: Operation to Get Packet Sequence Counter from Incoming Packet 
+ * @AP IST-13: Operation to get Group to which Incoming Packet belongs
+ * @AP OLD-09: Operation to set Set Time-Stamp in Outgoing Packets  
+ * @AP OST-09: Operation to set Sequence Counter in Outgoing Packets
+ * @AP OST-10: Operation to set Type Counter in Outgoing Packets 
+ * @AP OST-14: Operation to get Group to which Out-Going Packet belongs 
+ * @AP OST-13: Operation to Compute and Set a Packet's CRC
  *
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>

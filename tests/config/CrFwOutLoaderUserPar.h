@@ -28,6 +28,8 @@
  *
  * The OutManager Selection Operation defined in this file is the one used for the test cases
  * of <code>CrFwOutLoaderTestCases.h</code>.
+ * 
+ * @AP OLD-07: OutManager Selection Operation 
  */
 #define CR_FW_OUTLOADER_OUTMANAGER_SELECT &CrFwOutLoaderDefOutManagerSelect
 
@@ -40,6 +42,8 @@
  *
  * The OutManager Activation Operation defined in this file is the one used for the test cases
  * of <code>CrFwOutLoaderTestCases.h</code>.
+ * 
+ * @AP OLD-08: OutManager Activation Operation  
  */
 #define CR_FW_OUTLOADER_OUTMANAGER_ACTIVATE &CrFwOutLoadDefOutManagerActivate
 
@@ -58,6 +62,8 @@
  *
  * The value of the constant in this file is the one used for the test cases
  * of <code>CrFwOutLoaderTestCases.h</code>.
+ * 
+ * @AP OLD-01: Initialization Check in Initialization Procedure of OutLoader 
  */
 #define CR_FW_OUTLOADER_INITCHECK &CrFwBaseCmpDefInitCheck
 
@@ -76,6 +82,8 @@
  *
  * The value of the constant in this file is the one used for the test cases
  * of <code>CrFwOutLoaderTestCases.h</code>.
+ * 
+ * @AP OLD-02: Initialization Action in Initialization Procedure of OutLoader 
  */
 #define CR_FW_OUTLOADER_INITACTION &CrFwBaseCmpDefInitAction
 
@@ -94,6 +102,8 @@
  *
  * The value of the constant in this file is the one used for the test cases
  * of <code>CrFwOutLoaderTestCases.h</code>.
+ * 
+ * @AP OLD-03: Configuration Check in Reset Procedure of OutLoader 
  */
 #define CR_FW_OUTLOADER_CONFIGCHECK &CrFwBaseCmpDefConfigCheck
 
@@ -112,6 +122,8 @@
  *
  * The value of the constant in this file is the one used for the test cases
  * of <code>CrFwOutLoaderTestCases.h</code>.
+ * 
+ * @AP OLD-04: Configuration Action in Reset Procedure of OutLoader 
  */
 #define CR_FW_OUTLOADER_CONFIGACTION &CrFwBaseCmpDefConfigAction
 
@@ -127,6 +139,8 @@
  *
  * The value of the constant in this file is the one used for the test cases
  * of <code>CrFwOutLoaderTestCases.h</code>.
+ * 
+ * @AP OLD-05: Shutdown Action of OutLoader 
  */
 #define CR_FW_OUTLOADER_SHUTDOWNACTION &CrFwBaseCmpDefShutdownAction
 

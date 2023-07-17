@@ -16,6 +16,15 @@
  * a fixed size.
  * The array is managed as a ring-buffer.
  * Functions are provide to let external components access the InCommand Outcome Report array.
+ * 
+ * @AP ICM-12: Operation to Report Start Failed for InCommand 
+ * @AP ICM-13: Operation to Report Start Successful for InCommand 
+ * @AP ICM-14: Operation to Report Progress Failed for InCommand 
+ * @AP ICM-15: Operation to Report Progress Successful for InCommand 
+ * @AP ICM-16: Operation to Report Termination Failed for InCommand 
+ * @AP ICM-17: Operation to Report Termination Successful for InCommand 
+ * @AP ILD-14: Operation to Report Acceptance Failure
+ * @AP ILD-15: Operation to Report Acceptance Success
  *
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>

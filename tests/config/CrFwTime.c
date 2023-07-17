@@ -15,6 +15,8 @@
  * time function <code>::CrFwGetCurrentTimeStamp</code> is called.
  * This function represents the "current time" and its value is returned
  * by the various time getter functions defined by this interface.
+ * 
+ * @AP OCM-20: Operations to Get the Current Time 
  *
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>

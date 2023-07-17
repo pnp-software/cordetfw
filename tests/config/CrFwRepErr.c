@@ -15,6 +15,14 @@
  * a fixed size.
  * The array is managed as a ring-buffer.
  * Functions are provide to let external components access the error array.
+ * 
+ * @AP ILD-12: Operation to Report Packet Destination Invalid 
+ * @AP IMG-08: Operation to Report PCRL of InManager Full 
+ * @AP IST-09: Operation to Report Sequence Counter Error 
+ * @AP IST-10: Operation to Report Packet Queue Full  
+ * @AP OCM-18: Operation to Report Invalid Destination of an OutComponent
+ * @AP OMG-08: Operation to Report POCL of OutManager Full 
+ * @AP OST-12: Operation to Report Packet Queue Full 
  *
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>

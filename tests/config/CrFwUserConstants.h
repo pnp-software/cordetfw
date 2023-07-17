@@ -228,12 +228,13 @@ typedef enum {
 } CrFwAppErrCode_t;
 
 /**
- * The maximum number of packets which can be created with the default packet implementation.
+ * The maximum number of packets which can be created with the default implementation of the
+ * packet access interface in <code>CrFwPckt.c</code>.
  * The value of this constant must not exceed the range of the <code>CrFwCounterU2_t</code> type.
  */
 #define CR_FW_MAX_NOF_PCKTS 12
 
-/** The identifier of the host application */
+/** The identifier of the host application (i.e. of the application instantiated from the framework) */
 #define CR_FW_HOST_APP_ID 10
 
 /** 

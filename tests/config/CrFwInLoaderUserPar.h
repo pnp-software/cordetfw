@@ -35,6 +35,9 @@
  * The function which determines the re-routing destination of a packet.
  * This function must conform to the prototype defined by <code>::CrFwInLoaderGetReroutingDest_t</code>.
  * The function specified here is the re-routing destination function used for the Test Suite.
+ * 
+ * @AP ILD-09: Operation to Determine Re-Routing Destination of Packets
+ * @AP ILD-11: Operation to Check Packet Destination Validity 
  */
 #define CR_FW_INLOADER_DET_REROUTING_DEST CrFwInLoaderTestCaseGetReroutingDestination
 
@@ -43,6 +46,8 @@
  * This function must conform to the prototype defined by <code>::CrFwInLoaderGetInManager_t</code>.
  * The function specified here is the default re-routing destination function defined in
  * <code>CrFwInLoader.h</code>.
+ * 
+ * @AP ILD-17: Operation to Select InManager where Incoming Report or Command is Loaded 
  */
 #define CR_FW_INLOADER_SEL_INMANAGER CrFwInLoaderDefGetInManager
 

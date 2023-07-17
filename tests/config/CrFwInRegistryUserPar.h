@@ -22,6 +22,8 @@
 /**
  * The maximum number of commands or reports which can be tracked by the InRegistry.
  * This constant must be smaller than the range of <code>::CrFwTrackingIndex_t</code>.
+ * 
+ * @AP IRG-01: Maximum Number of Trackable InCommands/InReports in InRegistry
  */
 #define CR_FW_INREGISTRY_N 64
 

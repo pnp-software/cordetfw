@@ -17,6 +17,10 @@
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
  * @copyright P&P Software GmbH, 2013, All Rights Reserved
  *
+ * @AP AST-01: Application Start-Up Procedure
+ * @AP AST-02: Application Reset Procedure
+ * @AP AST-03: Application Shutdown Procedure
+ * 
  * This file is part of the CORDET Framework.
  *
  * This Source Code Form is subject to the terms of the Mozilla Public

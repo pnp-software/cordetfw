@@ -29,6 +29,8 @@
  *
  * The value of the adaptation point defined in this file is the one used for the test cases
  * of <code>CrFwAppSmTestCases.h</code>.
+ * 
+ * @AP AST-04:  State Machine Embedded in state START_UP of Application State Machine 
  */
 #define CR_FW_APPSM_STARTUP_ESM CrFwAppSmTestCasesGetStartUpEsm()
 
@@ -40,6 +42,8 @@
  *
  * The value of the adaptation point defined in this file is the one used for the test cases
  * of <code>CrFwAppSmTestCases.h</code>.
+ * 
+ * @AP AST-05: State Machine Embedded in state NORMAL of Application State Machine
  */
 #define CR_FW_APPSM_NORMAL_ESM CrFwAppSmTestCasesGetNormalEsm()
 
@@ -51,6 +55,8 @@
  *
  * The value of the adaptation point defined in this file is the one used for the test cases
  * of <code>CrFwAppSmTestCases.h</code>.
+ * 
+ * @AP AST-06: State Machine Embedded in state RESET of Application State Machine 
  */
 #define CR_FW_APPSM_RESET_ESM CrFwAppSmTestCasesGetResetEsm()
 
@@ -62,6 +68,8 @@
  *
  * The value of the adaptation point defined in this file is the one used for the test cases
  * of <code>CrFwAppSmTestCases.h</code>.
+ * 
+ * @AP AST-07: State Machine Embedded in state SHUTDOWN of Application State Machine 
  */
 #define CR_FW_APPSM_SHUTDOWN_ESM NULL
 

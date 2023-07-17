@@ -40,6 +40,8 @@
  *
  * The number of OutManager components defined in this file is the one used for the test cases
  * of <code>CrFwOutManagerTestCases.h</code>.
+ * 
+ * @AP OMG-09: Number of OutManagers 
  */
 #define CR_FW_NOF_OUTMANAGER 4
 
@@ -52,6 +54,8 @@
  *
  * The POCL sizes defined in this file are those used for the test cases
  * of <code>CrFwOutManagerTestCases.h</code>.
+ * 
+ * @AP OMG-01: Size of POCL of OutManager 
  */
 #define CR_FW_OUTMANAGER_POCLSIZE {3,4,5,6}
 

@@ -34,6 +34,8 @@
  *
  * The number of InManager components defined in this file is the one used for the test cases
  * of <code>CrFwInManagerTestCases.h</code>.
+ * 
+ * @AP IMG-09: Number of InManagers in Application 
  */
 #define CR_FW_NOF_INMANAGER 3
 
@@ -46,6 +48,8 @@
  *
  * The PCRL sizes defined in this file are those used for the test cases
  * of <code>CrFwInManagerTestCases.h</code>.
+ * 
+ * @AP IMG-01: Size of PCRL of InManager 
  */
 #define CR_FW_INMANAGER_PCRLSIZE {3,4,5}
 

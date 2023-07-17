@@ -57,6 +57,8 @@
  *
  * The packet queue sizes defined in this file are those used for the test cases
  * of <code>CrFwInStreamTestCases.h</code>.
+ * 
+ * @AP IST-01: Size of the Packet Queue in InStream 
  */
 #define CR_FW_INSTREAM_PQSIZE {3,3,3,3,5,6,7}
 
@@ -90,6 +92,8 @@
  * This is checked by the <code>::CrFwAuxInStreamConfigCheck</code> function.
  *
  * The size of this array must be equal to <code>#CR_FW_INSTREAM_NOF_SRCS</code>.
+ * 
+ * @AP IST-14: Association of Packet Sources to their InStreams 
  */
 #define CR_FW_INSTREAM_SRC_PAIRS   {{1,0},\
 							    	{2,1},\
@@ -112,6 +116,8 @@
  * The packet collection operations defined in this file are the ones provided
  * by the InStream stub of <code>CrFwInStreamStub.h</code> and by the
  * socket-based InStream of <code>CrFwInStreamSocket.h</code>.
+ * 
+ * @AP IST-11: Packet Collect Operation for InStream 
  */
 #define CR_FW_INSTREAM_PCKTCOLLECT {&CrFwInStreamStubPcktCollect,  \
 									&CrFwInStreamStubPcktCollect,  \
@@ -136,6 +142,8 @@
  * The packet available check operations defined in this file are the ones provided
  * by the InStream stub of <code>CrFwInStreamStub.h</code> and by the
  * socket-based InStream of <code>CrFwInStreamSocket.h</code>.
+ * 
+ * @AP IST-12: Packet Available Check Operation for InStream 
  */
 #define CR_FW_INSTREAM_PCKTAVAILCHECK {&CrFwInStreamStubIsPcktAvail,  \
 									   &CrFwInStreamStubIsPcktAvail,  \
@@ -168,6 +176,8 @@
  * <code>CrFwInStreamSocket.h</code>.
  * Applications may need to use different functions which also cover
  * the initialization of the middleware.
+ * 
+ * @AP IST-02: Initialization Check in Initialization Procedure of InStream 
  */
 #define CR_FW_INSTREAM_INITCHECK {&CrFwBaseCmpDefInitCheck, \
 								  &CrFwBaseCmpDefInitCheck, \
@@ -203,6 +213,8 @@
  * <code>CrFwInStreamSocket.h</code>.
  * Applications may need to use different functions which also include
  * the initialization of the middleware.
+ * 
+ * @AP IST-03: Initialization Action in Initialization Procedure of InStream 
  */
 #define CR_FW_INSTREAM_INITACTION {&CrFwInStreamDefInitAction, \
 								   &CrFwInStreamDefInitAction, \
@@ -268,6 +280,8 @@
  * <code>CrFwInStreamSocket.h</code>.
  * Applications may need to use different functions which also cover
  * the configuration of the middleware.
+ * 
+ * @AP IST-04: Configuration Action in Initialization Procedure of InStream 
  */
 #define CR_FW_INSTREAM_CONFIGACTION {&CrFwInStreamDefConfigAction, \
 								     &CrFwInStreamDefConfigAction, \
@@ -301,6 +315,8 @@
  * <code>CrFwInStreamSocket.h</code>.
  * Applications may need to use different functions which also cover
  * the shutdown of the middleware.
+ * 
+ * @AP IST-05: Shutdown Action in Initialization Procedure of InStream 
  */
 #define CR_FW_INSTREAM_SHUTDOWNACTION {&CrFwInStreamDefShutdownAction, \
 							     	   &CrFwInStreamStubShutdown, \

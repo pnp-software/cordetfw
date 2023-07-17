@@ -61,6 +61,9 @@
  * This is checked by the <code>::CrFwAuxOutStreamConfigCheck</code> function.
  *
  * The size of this array must be equal to <code>#CR_FW_OUTSTREAM_NOF_DEST</code>.
+ * 
+ * @AP OSR-07: Get OutStream Operation of OutStreamRegistry 
+ * @AP OST-15: Association of Packet Destinations to their OutStreams 
  */
 #define CR_FW_OUTSTREAM_DEST_PAIRS 	{{1,0},\
 							  		 {2,0},\
@@ -82,6 +85,8 @@
  *
  * The packet sizes defined in this file are those used for the test cases
  * of <code>CrFwOutStreamTestCases.h</code>.
+ * 
+ * @AP OST-01: Packet Queue Size for OutStream 
  */
 #define CR_FW_OUTSTREAM_PQSIZE {3,3,3,3,5,5,5}
 
@@ -110,6 +115,8 @@
  * <code>#CrFwOutStreamDefSetDTS</code>.
  * The Set DTS function must be a function pointers of type:
  * <code>::CrFwSetDst_t</code>.
+ * 
+ * @AP OST-11: Type Counter Set DST_SET
  */
 #define CR_FW_OUTSTREAM_SET_DTS &CrFwOutStreamDefSetDTS
 
@@ -125,6 +132,8 @@
  *
  * The packet handover functions defined in this file are those used for the test cases
  * of <code>CrFwOutStreamTestCases.h</code>.
+ * 
+ * @AP OST-08: Packet Hand-Over Operation of OutStream 
  */
 #define CR_FW_OUTSTREAM_PCKTHANDOVER {&CrFwOutStreamStubPcktHandover, \
 									  &CrFwOutStreamStubPcktHandover, \
@@ -171,6 +180,8 @@
  * This function initializes the internal data structures for the OutStream.
  * An application-specific Initialization Action should therefore include a call
  * to this function.
+ * 
+ * @AP OST-03: Initialization Action in Initialization Procedure of OutStream 
  */
 #define CR_FW_OUTSTREAM_INITACTION {&CrFwOutStreamDefInitAction, \
 								   &CrFwOutStreamDefInitAction, \
@@ -192,6 +203,8 @@
  * <code>FwPrAction_t</code>.
  * Function <code>::CrFwBaseCmpDefConfigCheck</code> can be used as a default
  * implementation for this function.
+ * 
+ * @AP OST-04: Configuration Check in Reset Procedure of OutStream 
  */
 #define CR_FW_OUTSTREAM_CONFIGCHECK {&CrFwBaseCmpDefConfigCheck, \
 								    &CrFwBaseCmpDefConfigCheck, \
@@ -217,6 +230,8 @@
  * This function resets the internal data structures for the OutStream.
  * An application-specific Configuration Action should therefore include a call
  * to this function.
+ * 
+ * @AP OST-05: Configuration Action in Reset Procedure of OutStream 
  */
 #define CR_FW_OUTSTREAM_CONFIGACTION {&CrFwOutStreamDefConfigAction, \
 								     &CrFwOutStreamDefConfigAction, \
@@ -239,6 +254,8 @@
  * This function releases the memory resources used by the OutStream.
  * An application-specific Shutdown Action should therefore include a call
  * to this function.
+ * 
+ * @AP OST-06: Shutdown Action in OutStream 
  */
 #define CR_FW_OUTSTREAM_SHUTDOWNACTION {&CrFwOutStreamDefShutdownAction, \
 							     	   &CrFwOutStreamStubShutdown, \

@@ -25,6 +25,8 @@
 /**
  * The maximum number of OutComponents which may be allocated at any one time.
  * This constant must be smaller than the range of <code>::CrFwOutFactoryPoolIndex_t</code>.
+ * 
+ * @AP OFT-01: Maximum Number of OuComponents which can be allocated by InFactory 
  */
 #define CR_FW_OUTFACTORY_MAX_NOF_OUTCMP 10
 
@@ -104,6 +106,17 @@
  * The initializer values defined below are which are used for the framework Test Suite.
  * The function pointers in the last row are those of the Sample OutComponent defined in
  * <code>CrFwOutCmpSample1.h</code>.
+ * 
+ * @AP OCM-07: Service Type Attribute of OutComponent 
+ * @AP OCM-08: Command/Report Sub-Type Attribute of OutComponent 
+ * @AP OCM-11: Discriminant Attribute of OutComponent 
+ * @AP OCM-13: Enable Check Operation of OutComponent 
+ * @AP OCM-14: Ready Check Operation of OutComponent 
+ * @AP OCM-15: Repeat Check Operation of OutComponent 
+ * @AP OCM-16: Update Action Operation of OutComponent 
+ * @AP OCM-17: Serialize Action Operation of OutComponent 
+ * @AP OFT-02: OutComponent Kinds Supported by OutFactory
+ * 
  */
 #define CR_FW_OUTCMP_INIT_KIND_DESC \
 	{ {1, 1, 0, 2, 100, &CrFwOutCmpDefEnableCheck, &CrFwSmCheckAlwaysTrue, \
