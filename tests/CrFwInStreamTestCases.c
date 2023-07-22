@@ -461,6 +461,9 @@ CrFwBool_t CrFwInStreamTestCase5() {
 	if (CrFwInStreamGetSrc(inStream3, 1) != 4)
 		return 0;
 
+	/* Shut down the newly-created InStream */
+	CrFwCmpShutdown(inStream3);
+
 	/* Configure initialization check and action until initialization succeeds */
 	CrFwInStreamStubSetCheckFlag(0);
 	CrFwInStreamStubSetActionFlag(0);
