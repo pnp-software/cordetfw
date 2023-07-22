@@ -178,7 +178,6 @@ CrFwGroup_t CrFwOutCmpGetGroup(FwSmDesc_t smDesc);
  * with this function.
  * @param smDesc the descriptor of the Base State Machine of the OutComponent
  * @param group the group
- * @return the group of the OutComponent
  */
 void CrFwOutCmpSetGroup(FwSmDesc_t smDesc, CrFwGroup_t group);
 

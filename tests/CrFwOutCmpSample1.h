@@ -66,7 +66,6 @@ CrFwBool_t CrFwOutCmpSample1RepeatCheck(FwSmDesc_t smDesc);
  * The value of the Sample 1 Counter is set through function
  * <code>::CrFwOutCmpSample1SetCounter</code>.
  * @param smDesc the descriptor of the OutComponent state machine
- * @return the value of the Repeat Flag
  */
 void CrFwOutCmpSample1UpdateAction(FwSmDesc_t smDesc);
 
@@ -79,7 +78,6 @@ void CrFwOutCmpSample1UpdateAction(FwSmDesc_t smDesc);
  * The value of the Sample 1 Counter is set through function
  * <code>::CrFwOutCmpSample1SetCounter</code>.
  * @param smDesc the descriptor of the OutComponent state machine
- * @return the value of the Enable Flag
  */
 void CrFwOutCmpSample1Serialize(FwSmDesc_t smDesc);
 
