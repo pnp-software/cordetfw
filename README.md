@@ -19,7 +19,7 @@ These characteristics make the C2 Implementation especially well-suited for use 
 The C2 Implementation of the CORDET Framework has been used by the Dept. of Astrophysics at the University of Vienna for the development of the payload software of the **CHEOPS satellite**; it is being used for the development of a payload application on the **SMILE satellite**; and it is baselined for use in the development of a payload application on the **ARIEL satellite**.
 
 # Web Site
-An introduction to the CORDET Framework and its documentation can be found [here][https://pnp-software.com/cordetfw].
+An introduction to the CORDET Framework and its documentation can be found [here](https://pnp-software.com/cordetfw).
 
 # PUS Extension
 The Packet Utilization Standard (PUS) has been introduced by the European Space Agency (ESA) to define the protocol through which on-board applications make their services available to each other and to the ground. The CORDET Framework uses the service concept of the PUS. Its **PUS Extension** provides implementations for the most commonly used PUS services. The PUS Extension of the CORDET Framework is currently under development and will be published in a dedicated repository in the near future. Access to the development version of the PUS Extension of the CORDET Framework is available [on request](mailto:pnp-software@pnp-software.com).
