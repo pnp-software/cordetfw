@@ -116,7 +116,7 @@ cp ${CF_DOC}/req/UserRequirements.pdf ${OUT_DOCS}
 echo "Create Doxygen Documentation"
 set -x
 (cd ${CF_DOC}/doxygen &&
-	doxygen $DOXYFILE > doxygen_generation.log)
+	doxygen $DOXYFILE > doxygen_generation.log 2>&1)
 cp -ar ${CF_DOC}/doxygen/html ${OUT_DOCS}/doxygen
 cp -ar ${CF_DOC}/doxygen/doxygen_generation.log ${OUT_LOG}/doxygen_generation.log
 set +x
