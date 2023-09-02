@@ -28,7 +28,7 @@
 
 /* Include framework files */
 #include "CrFwConstants.h"
-#include "Aux/CrFwAux.h"
+#include "UtilityFunctions/CrFwAux.h"
 /* Include test suite files */
 #include "CrFwBaseCmpTestCases.h"
 #include "CrFwPacketTestCases.h"

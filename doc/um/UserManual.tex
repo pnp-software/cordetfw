@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\SetDocIssue{2.0}
+\SetDocIssue{3.0}
 \SetDocRefNumber{PP-UM-COR-0002}
 \SetDocTitle{The CORDET Framework}
 \SetDocSubtitle{User Manual}
@@ -720,7 +720,7 @@ Also as part of the framework instantiation process, application developers may 
 \subsection{Application Configuration Check}\label{sec:ConfigCheck}
 The configuration of an application instantiated from the framework is defined by the way its adaptation points have been closed. Some of the adaptation points consist of \texttt{\#DEFINE} constants. Their values are sometimes subject to constraints. Some of these constraints are defined at framework specification level in reference [CR-SP] while others emerge at implementation level. In reference [CR-SP], consistency with the specificaton-level constraints is enforced in the initialization and configuration checks of the framework components. 
 
-In the C2 implementation, all configuration consistency checks have been implemented in a set of \textit{configuration check functions} declared in header \texttt{Aux.h}. The configuration check functions have names like \texttt{CrFwAuxXyzConfigCheck} where 'Xyz' is the name of the framework component whose \texttt{\#DEFINE} constants are being checked. An application can run all configuration checls by calling function \texttt{CrFwAuxConfigCheck}. 
+In the C2 implementation, all configuration consistency checks have been implemented in a set of \textit{configuration check functions} declared in header \texttt{CrFwAux.h}. The configuration check functions have names like \texttt{CrFwAuxXyzConfigCheck} where 'Xyz' is the name of the framework component whose \texttt{\#DEFINE} constants are being checked. An application can run all configuration checls by calling function \texttt{CrFwAuxConfigCheck}. 
 
 Since the consistency checks only handle statically defined information, they only need to be run during the application development phase and can be left out of the deployment version of an application.
 
