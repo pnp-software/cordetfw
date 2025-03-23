@@ -5,7 +5,7 @@
  *
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
- * @copyright P&P Software GmbH, 2013, All Rights Reserved
+ * @copyright P&P Software GmbH, 2025, All Rights Reserved
  *
  * This file is part of the CORDET Framework.
  *
@@ -119,7 +119,6 @@ CrFwOutcome_t CrFwGetSmOutcome(FwSmDesc_t smDesc);
  */
 FwSmBool_t CrFwIsSmOutcomeZero(FwSmDesc_t smDesc);
 
-
 /**
  * Convenience function to check whether the outcome of the last check or action
  * is equal to 1 ("true").
@@ -215,5 +214,24 @@ void CrFwSmSuccessAction(FwSmDesc_t smDesc);
  */
 CrFwCounterU2_t CrFwFindKeyIndex(CrFwCounterU3_t* keyValArray,
         CrFwCounterU2_t length, CrFwCounterU3_t targetKey);
+
+/**
+ * Convenience function to compute the CRC-CCITT-FALSE (also known as CRC-16-CCITT-FALSE) 
+ * CRC over the next N bytes of an array of bytes.
+ * This function is used where the CRC of a very long array is computed in chunks.
+ * The argument <code>crc</code> is the CRC over the first part of the array.
+ * The argument data is the pointer to the next N bytes of the array.
+ * The functionCRC over the first part of the array is <code>crc</code>.
+ * 
+ * If there is a need to compute the CRC over one single array of length N, 
+ * crcPrev should be set to 0xFFFF. 
+ * 
+ * The function performs no checks on the validity of the array pointer it is passed.
+ * @param crc CRC over the previous chunk of data
+ * @param data next chunk of data array over which the CRC should be computed 
+ * @param N length of the next chunk of data 
+ * @return the CRC computed over the argument array
+ */
+CrFwCrc_t CrFwUpdateCrc(CrFwCrc_t crc, unsigned char* data, CrFwCounterU3_t N);
 
 #endif /* CRFW_UTILITY_FUNCTIONS_H_ */

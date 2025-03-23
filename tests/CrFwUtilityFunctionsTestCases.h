@@ -58,9 +58,14 @@ CrFwBool_t CrFwUtilityFunctionsTestCase1();
  *   verified that it returns without doing anything.
  * - Function <code>::CrFwSmSuccessAction</code> is called with a command as dummy argument and it is
  *   verified that it returns after setting its success outcome to 1.
+ * - Function <code>::CrFwComputeCrc</code> is called on the test data of section B.1.5 of the 
+ *   PUS-C Standard
  * .
  * @return true if the test was successful, false otherwise.
  */
 CrFwBool_t CrFwUtilityFunctionsTestCase2();
+
+
+
 
 #endif /* CRFW_UTILITYFUNCTIONS_TESTCASES_H_ */

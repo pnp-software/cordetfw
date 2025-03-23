@@ -111,7 +111,8 @@ CrFwBool_t CrFwUtilityFunctionsTestCase1() {
 CrFwBool_t CrFwUtilityFunctionsTestCase2() {
     FwSmDesc_t inFactory, inCmd1;
     CrFwPckt_t pckt1;
-    CrFwCrc_t crc;
+    CrFwCrc_t crc, crc1;
+	unsigned char crcTestData[8];
 
     /* Instantiate the InFactory */
     inFactory = CrFwInFactoryMake();
@@ -154,5 +155,48 @@ CrFwBool_t CrFwUtilityFunctionsTestCase2() {
 	if (CrFwGetAppErrCode() != crNoAppErr)
 		return 0;
 
+	/* Verify CRC computation (see test data in section B.1.5 of PUS C Standard)*/
+	crcTestData[0] = 0;
+	crcTestData[1] = 0;
+	crc = 0xFFFF;
+	if (CrFwUpdateCrc(crc, crcTestData, 2) != 0x1D0F)
+		return 0;
+
+	crcTestData[0] = 0;
+	crcTestData[1] = 0;
+	crcTestData[2] = 0;
+	crc = 0xFFFF;
+	if (CrFwUpdateCrc(crc, crcTestData, 3) != 0xCC9C)
+		return 0;
+
+	crcTestData[0] = 0xAB;
+	crcTestData[1] = 0xCD;
+	crcTestData[2] = 0xEF;
+	crcTestData[3] = 0x01;
+	crc = 0xFFFF;
+	if (CrFwUpdateCrc(crc, crcTestData, 4) != 0x04A2)
+		return 0;
+	
+	crcTestData[0] = 0x14;
+	crcTestData[1] = 0x56;
+	crcTestData[2] = 0xF8;
+	crcTestData[3] = 0x9A;
+	crcTestData[4] = 0x00;
+	crcTestData[5] = 0x01;
+	crc = 0xFFFF;
+	if (CrFwUpdateCrc(crc, crcTestData, 6) != 0x7FD5)
+		return 0;
+
+	/* Compute the CRC in two chunks */
+	crcTestData[0] = 0x14;
+	crcTestData[1] = 0x56;
+	crcTestData[2] = 0xF8;
+	crc = 0xFFFF;
+	crc1 = CrFwUpdateCrc(crc, crcTestData, 3);
+	crcTestData[0] = 0x9A;
+	crcTestData[1] = 0x00;
+	crcTestData[2] = 0x01;
+	if (CrFwUpdateCrc(crc1, crcTestData, 3) != 0x7FD5)
+		return 0;
 	return 1;
 }

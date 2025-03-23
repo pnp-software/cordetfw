@@ -301,6 +301,9 @@ CrFwInstanceId_t CrFwPcktGetCmdRepId(CrFwPckt_t pckt);
 
 /**
  * Compute the CRC in the command or report encapsulated in a packet.
+ * Computation of the CRC can be done using the utility function 
+ * <code>::CrFwComputeCrc</code>.
+ * This test implementation simply returns 0xFFFF.
  * @param pckt the packet.
  * @return the command or report CRC.
  */
