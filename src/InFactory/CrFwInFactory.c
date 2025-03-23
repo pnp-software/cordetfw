@@ -212,8 +212,13 @@ FwSmDesc_t CrFwInFactoryMakeInCmd(CrFwPckt_t pckt) {
 	targetKey = (CrFwCmdRepKindKey_t)(type*CR_FW_MAX_DISCRIMINANT*CR_FW_MAX_SERV_SUBTYPE+subType*CR_FW_MAX_DISCRIMINANT+discriminant);
 	kindIndex = CrFwFindKeyIndex(inCmdKindKey, CR_FW_INCMD_NKINDS, targetKey);
 	if (kindIndex == CR_FW_INCMD_NKINDS) {
-		CrFwSetAppErrCode(crIllInCmdKind);
-		return NULL;
+		/* Check if (type, subtype) pair is supported for all discriminant values */
+		targetKey = (CrFwCmdRepKindKey_t)(type*CR_FW_MAX_DISCRIMINANT*CR_FW_MAX_SERV_SUBTYPE+subType*CR_FW_MAX_DISCRIMINANT);
+		kindIndex = CrFwFindKeyIndex(inCmdKindKey, CR_FW_INCMD_NKINDS, targetKey);
+		if (kindIndex == CR_FW_INCMD_NKINDS) {
+			CrFwSetAppErrCode(crIllInCmdKind);
+			return NULL;
+		}
 	}
 
 	expectedLen = inCmdKindDesc[kindIndex].expLength;
@@ -284,8 +289,13 @@ FwSmDesc_t CrFwInFactoryMakeInRep(CrFwPckt_t pckt) {
 	targetKey = (CrFwCmdRepKindKey_t)(type*CR_FW_MAX_DISCRIMINANT*CR_FW_MAX_SERV_SUBTYPE+subType*CR_FW_MAX_DISCRIMINANT+discriminant);
 	kindIndex = CrFwFindKeyIndex(inRepKindKey, CR_FW_INREP_NKINDS, targetKey);
 	if (kindIndex == CR_FW_INREP_NKINDS) {
-		CrFwSetAppErrCode(crIllInRepKind);
-		return NULL;
+		/* Check if (type, subtype) pair is supported for all discriminant values */
+		targetKey = (CrFwCmdRepKindKey_t)(type*CR_FW_MAX_DISCRIMINANT*CR_FW_MAX_SERV_SUBTYPE+subType*CR_FW_MAX_DISCRIMINANT);
+		kindIndex = CrFwFindKeyIndex(inRepKindKey, CR_FW_INREP_NKINDS, targetKey);
+		if (kindIndex == CR_FW_INREP_NKINDS) {
+			CrFwSetAppErrCode(crIllInRepKind);
+			return NULL;	
+		}
 	}
 
 	expectedLen = inRepKindDesc[kindIndex].expLength;

@@ -76,12 +76,18 @@
  * discriminant].
  *
  * Each line in this initializer describes one incoming command kind.
+ * If the discriminant field is different from zero, then the line describes the characteristics
+ * of the command of that specific kind (as identified by the triplet
+ * [service type, service sub-type, discriminant]).
+ * If, instead, the discriminant is equal to zero, then the line describes the default characteristics
+ * of all commmands of the given type and sub-type.
+ *
  * The elements in each line are as follows:
  * - The service type.
  * - The service sub-type.
  * - The discriminant value. A value of zero indicates either that no discriminant is
  *   associated to commands of that type and sub-type or else that all commands of
- *   this type and sub-type have the same characteristics.
+ *   that type and sub-type have the same characteristics.
  * - The expected length of the incoming command. A value of zero indicates that the length
  *   of the command is not statically known.
  * - The function implementing the Validity Check Operation for this kind of incoming command
@@ -146,12 +152,18 @@
  * discriminant].
  *
  * Each line in this initializer describes one incoming report kind.
+ * If the discriminant field is different from zero, then the line describes the characteristics
+ * of the report of that specific kind (as identified by the triplet
+ * [service type, service sub-type, discriminant]).
+ * If, instead, the discriminant is equal to zero, then the line describes the default characteristics
+ * of all reports of the given type and sub-type.
+ * 
  * The elements in each line are as follows:
  * - The service type.
  * - The service sub-type.
  * - The discriminant value. A value of zero indicates either that no discriminant is
  *   associated to reports of that type and sub-type or else that all reports of
- *   this type and sub-type have the same characteristics.
+ *   that type and sub-type have the same characteristics.
  * - The expected length of the incoming report. A value of zero indicates that the length
  *   of the report is not statically known.
  * - The function implementing the Update Action Operation for this kind of incoming report

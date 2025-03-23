@@ -176,11 +176,17 @@ FwSmDesc_t CrFwOutFactoryMakeOutCmp(CrFwServType_t type, CrFwServSubType_t subTy
 		return NULL;
 	}
 
+	/* Check if (type,sub-type, discriminant) pair is supported with any discriminant value */
 	targetKey = (CrFwCmdRepKindKey_t)(type*CR_FW_MAX_DISCRIMINANT*CR_FW_MAX_SERV_SUBTYPE+subType*CR_FW_MAX_DISCRIMINANT+discriminant);
 	kindIndex = CrFwFindKeyIndex(outCmpKindKey, CR_FW_OUTCMP_NKINDS, targetKey);
 	if (kindIndex == CR_FW_OUTCMP_NKINDS) {
-		CrFwSetAppErrCode(crIllOutCmpKind);
-		return NULL;
+		/* Check if (type,subtype) without discriminant is supported */
+		targetKey = (CrFwCmdRepKindKey_t)(type*CR_FW_MAX_DISCRIMINANT*CR_FW_MAX_SERV_SUBTYPE+subType*CR_FW_MAX_DISCRIMINANT);
+		kindIndex = CrFwFindKeyIndex(outCmpKindKey, CR_FW_OUTCMP_NKINDS, targetKey);
+		if (kindIndex == CR_FW_OUTCMP_NKINDS) {
+			CrFwSetAppErrCode(crIllOutCmpKind);
+			return NULL;
+		}	
 	}
 
 	if (length == 0)
@@ -188,7 +194,7 @@ FwSmDesc_t CrFwOutFactoryMakeOutCmp(CrFwServType_t type, CrFwServSubType_t subTy
 	else
 	    len = length;
 
-	pckt = CrFwPcktMake(len);	/* The packet length is assumed to be non-negative */
+	pckt = CrFwPcktMake(len);	/* The packet length is assumed to be greater than zero */
 	if (pckt == NULL) {
 		CrFwSetAppErrCode(crOutCmpAllocationFail);
 		return NULL;

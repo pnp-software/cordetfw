@@ -211,7 +211,7 @@ CrFwBool_t CrFwOutFactoryTestCase3() {
 	outCmp1 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
 	id = CrFwCmpGetInstanceId(outCmp1);
 	outCmp2 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
-	outCmp3 = CrFwOutFactoryMakeOutCmp(5,1,2,0);
+	outCmp3 = CrFwOutFactoryMakeOutCmp(5,4,20,0);	/* Triplet (5,4,0) is defined  but not (5,4,20) */
 	if (CrFwOutFactoryGetNOfAllocatedOutCmp() != 3)
 		return 0;
 

@@ -62,7 +62,7 @@
  * type/sub-type have a length of 50 bytes.
  * The following three lines describes reports of the same type/sub-type but with discriminants
  * equal to, respectively, 3, 5 and 7. These reports have characteristics which deviate from the
- * default for defined at line 13 (for example, their length is, respectively, 100, 99 and 98
+ * default defined at line 13 (for example, their length is, respectively, 100, 99 and 98
  * bytes instead of the default value of 50 defined at line 13).
  *
  * The elements in each line are as follows:

@@ -135,7 +135,7 @@ CrFwBool_t CrFwInFactoryTestCase2() {
 
 	/* attempt to retrieve an InCommand with undefined discriminant */
 	inCmdPckt = CrFwPcktMake(40);
-	CrFwPcktSetServType(inCmdPckt,50);
+	CrFwPcktSetServType(inCmdPckt,8);
 	CrFwPcktSetServSubType(inCmdPckt,1);
 	CrFwPcktSetDiscriminant(inCmdPckt,3);
 	inCmd = CrFwInFactoryMakeInCmd(inCmdPckt);
@@ -411,9 +411,9 @@ CrFwBool_t CrFwInFactoryTestCase5() {
 
 	/* attempt to retrieve an InReport with undefined discriminant */
 	inRepPckt = CrFwPcktMake(100);
-	CrFwPcktSetServType(inRepPckt,40);
+	CrFwPcktSetServType(inRepPckt,5);
 	CrFwPcktSetServSubType(inRepPckt,1);
-	CrFwPcktSetDiscriminant(inRepPckt,3);
+	CrFwPcktSetDiscriminant(inRepPckt,4);
 	inRep = CrFwInFactoryMakeInRep(inRepPckt);
 	if (inRep != NULL)
 		return 0;

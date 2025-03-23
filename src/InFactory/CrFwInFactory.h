@@ -148,6 +148,13 @@ FwSmDesc_t CrFwInFactoryMakeInRep(CrFwPckt_t pckt);
  *   this is not the case. the application error code is set to <code>::crIllInCmdLen</code> 
  *   and NULL is returned.
  * .
+ * If t, s and d are, respectively, the type, subtype and discriminant of the 
+ * incoming command, the command kind is declared to be supported in two cases: 
+ * (a) the triplet (t, s, d) is present in <code>::CR_FW_INCMD_INIT_KIND_DESC</code>, or
+ * (b) The triplet (t, s, 0) is present in <code>::CR_FW_INCMD_INIT_KIND_DESC</code>.
+ * Case (b) corresponds to a situation where all discriminant values for (t, s) are
+ * supported.
+ * 
  * If the InCommand kind and length are legal, this function configures the InCommand
  * using configuration information from <code>CrFwInFactoryUserPar</code>.
  *

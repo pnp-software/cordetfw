@@ -85,6 +85,10 @@ FwSmDesc_t CrFwOutFactoryMake();
  * for the last one (length) a dummy value of zero is possible.
  * Given the type, sub-type and discriminant, the function looks for a matching entry in the
  * <code>::CR_FW_OUTCMP_INIT_KIND_DESC</code> initializer.
+ * A matching entry is declared in two cases:
+ * - The triplet (type,subtype, disc) is present in <code>::CR_FW_OUTCMP_INIT_KIND_DESC</code>, or
+ * - The triplet (type,subtype,0) is present in <code>::CR_FW_OUTCMP_INIT_KIND_DESC</code>
+ * .
  * If no matching entry is found (i.e. if no entry is found with the same values of type, sub-type
  * and discriminant), then the function sets the application error code to <code>crOutCmpAllocationFail</code>
  * and returns a value of NULL.
