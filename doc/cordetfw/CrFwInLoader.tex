@@ -18,9 +18,9 @@ The determination of the re-routing destination depends on the connection topolo
 
 If the packet destination is the host application, then the incoming packet is processed by the \textit{Load Command/Report Procedure}. This procedures is shown as activity diagrams in figure \ref{fig:InLoaderLoadCommandReport}. Its logic can be summarized as follows.
 
-The procedures begin by retrieving the command or report type from the packet. The type is given by the triplet: [service type, service sub-type, discriminant]. This is an adaptation point because it requires knowledge of the packet layout. If the packet type is not valid (i.e. if it is not supported by the host application), then the packet is rejected and the incoming command or report is deemed to have failed its Acceptance Check.
+The procedure begins by retrieving the command or report type from the packet. The type is given by the triplet: [service type, service sub-type, discriminant]. If the packet type is valid, the procedure checks that its length is consistent with its type. If the packet type is not valid (i.e. if it is not supported by the host application) or has a length inconsistent with its type, then the packet is rejected and the incoming command or report is deemed to have failed its Acceptance Check. The type and length check is an adaptation point because it requires knowledge of the packet layout and of the relationship between packet type and packet length.
 
-If the packet type is valid, it is used to retrieve an InCommand or InReport instance from the InFactory (it is recalled that the type determines whether the packet holds a command or a report). The InCommand or InReport instance is retrieved from the InFactory using its \texttt{Make} operation. If the creation of the InCommand or InReport instance fails, the packet is rejected and the incoming command or report is deemed to have failed its Acceptance Check.
+If the packet type is valid and its length is consistent with its length, an InCommand or InReport instance is retrieved from the InFactory (it is recalled that the type determines whether the packet holds a command or a report). The InCommand or InReport instance is retrieved from the InFactory using its \texttt{Make} operation. If the creation of the InCommand or InReport instance fails (perhaps because too many InCommands or InReports are currenty allocated), the packet is rejected and the incoming command or report is deemed to have failed its Acceptance Check.
 
 If the creation of the InCommand or InReport instance succeeds, the packet is deserialized to configure the InCommand or InReport instance. After the deserialization has been completed, the InCommand or InReport is initialized and reset. The reset process is used as part of the acceptance check for the incoming command or report. If the information in the packet was syntactically correct and complete and if its CRC attribute is correct, then the initialization and reset operations succeed and the InCommand or InReport enters state CONFIGURED.
 
@@ -35,7 +35,7 @@ If the \texttt{Load} operation in the InManager fails, the InCommand or InReport
 
 Thus, in summary, an InCommand or InReport is deemed to have failed its Acceptance Check if any of the following conditions is satisfied:
 \begin{itemize}
-\item The incoming packet holding the InCommand or InReport has an invalid type;
+\item The incoming packet holding the InCommand or InReport has an invalid type or its length is inconsistent with its type;
 \item The InFactory fails to return a component to hold the InCommand or InReport encapsulated in the incoming packet;
 \item The InCommand or InReport fails to enter state CONFIGURED;
 \item The InCommand or InReport fails to be loaded into the InManager.

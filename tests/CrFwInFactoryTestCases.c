@@ -134,7 +134,7 @@ CrFwBool_t CrFwInFactoryTestCase2() {
 	CrFwPcktRelease(inCmdPckt);
 
 	/* attempt to retrieve an InCommand with undefined discriminant */
-	inCmdPckt = CrFwPcktMake(100);
+	inCmdPckt = CrFwPcktMake(40);
 	CrFwPcktSetServType(inCmdPckt,50);
 	CrFwPcktSetServSubType(inCmdPckt,1);
 	CrFwPcktSetDiscriminant(inCmdPckt,3);
@@ -146,6 +146,19 @@ CrFwBool_t CrFwInFactoryTestCase2() {
 	CrFwSetAppErrCode(crNoAppErr);
 	CrFwPcktRelease(inCmdPckt);
 
+	/* attempt to retrieve an InCommand with illegal length */
+	inCmdPckt = CrFwPcktMake(41);
+	CrFwPcktSetServType(inCmdPckt,8);
+	CrFwPcktSetServSubType(inCmdPckt,1);
+	CrFwPcktSetDiscriminant(inCmdPckt,2);
+	inCmd = CrFwInFactoryMakeInCmd(inCmdPckt);
+	if (inCmd != NULL)
+		return 0;
+	if (CrFwGetAppErrCode() != crIllInCmdLen)
+		return 0;
+	CrFwSetAppErrCode(crNoAppErr);
+	CrFwPcktRelease(inCmdPckt);
+	
 	/* Create CR_FW_INFACTORY_MAX_NOF_INCMD InCommand and then attempt to create one more */
 	for (i=0; i<CR_FW_INFACTORY_MAX_NOF_INCMD; i++) {
 		inCmdPckt = CrFwPcktMake(100);
@@ -209,7 +222,7 @@ CrFwBool_t CrFwInFactoryTestCase3() {
 	CrFwPcktSetCmdRepId(pckt1,101);
 	inCmd1 = CrFwInFactoryMakeInCmd(pckt1);
 
-	pckt2 = CrFwPcktMake(100);
+	pckt2 = CrFwPcktMake(40);
 	CrFwPcktSetServType(pckt2,8);
 	CrFwPcktSetServSubType(pckt2,1);
 	CrFwPcktSetDiscriminant(pckt2,2);
@@ -245,7 +258,7 @@ CrFwBool_t CrFwInFactoryTestCase3() {
 	CrFwPcktSetDiscriminant(pckt1,1);
 	inCmd1 = CrFwInFactoryMakeInCmd(pckt1);
 
-	pckt2 = CrFwPcktMake(100);
+	pckt2 = CrFwPcktMake(40);
 	CrFwPcktSetServType(pckt2,8);
 	CrFwPcktSetServSubType(pckt2,1);
 	CrFwPcktSetDiscriminant(pckt2,2);
@@ -304,7 +317,7 @@ CrFwBool_t CrFwInFactoryTestCase4() {
 	CrFwPcktSetDiscriminant(pckt1,1);
 	inCmd1 = CrFwInFactoryMakeInCmd(pckt1);
 
-	pckt2 = CrFwPcktMake(100);
+	pckt2 = CrFwPcktMake(40);
 	CrFwPcktSetServType(pckt2,8);
 	CrFwPcktSetServSubType(pckt2,1);
 	CrFwPcktSetDiscriminant(pckt2,2);
@@ -409,6 +422,19 @@ CrFwBool_t CrFwInFactoryTestCase5() {
 	CrFwSetAppErrCode(crNoAppErr);
 	CrFwPcktRelease(inRepPckt);
 
+	/* attempt to retrieve an InReport with an illegal length */
+	inRepPckt = CrFwPcktMake(51);
+	CrFwPcktSetServType(inRepPckt,5);
+	CrFwPcktSetServSubType(inRepPckt,1);
+	CrFwPcktSetDiscriminant(inRepPckt,3);
+	inRep = CrFwInFactoryMakeInRep(inRepPckt);
+	if (inRep != NULL)
+		return 0;
+	if (CrFwGetAppErrCode() != crIllInRepLen)
+		return 0;
+	CrFwSetAppErrCode(crNoAppErr);
+	CrFwPcktRelease(inRepPckt);
+
 	/* Create CR_FW_INFACTORY_MAX_NOF_INREP InReport and then attempt to create one more */
 	for (i=0; i<CR_FW_INFACTORY_MAX_NOF_INREP; i++) {
 		inRepPckt = CrFwPcktMake(100);
@@ -478,7 +504,7 @@ CrFwBool_t CrFwInFactoryTestCase6() {
 	CrFwPcktSetCmdRepId(pckt2, 102);
 	inRep2 = CrFwInFactoryMakeInRep(pckt2);
 
-	pckt3 = CrFwPcktMake(100);
+	pckt3 = CrFwPcktMake(50);
 	CrFwPcktSetServType(pckt3,5);
 	CrFwPcktSetServSubType(pckt3,1);
 	CrFwPcktSetDiscriminant(pckt3,3);
@@ -513,7 +539,7 @@ CrFwBool_t CrFwInFactoryTestCase6() {
 	CrFwPcktSetDiscriminant(pckt2,2);
 	inRep2 = CrFwInFactoryMakeInRep(pckt2);
 
-	pckt3 = CrFwPcktMake(100);
+	pckt3 = CrFwPcktMake(50);
 	CrFwPcktSetServType(pckt3,5);
 	CrFwPcktSetServSubType(pckt3,1);
 	CrFwPcktSetDiscriminant(pckt3,3);
@@ -572,7 +598,7 @@ CrFwBool_t CrFwInFactoryTestCase7() {
 	CrFwPcktSetDiscriminant(pckt2,2);
 	inRep2 = CrFwInFactoryMakeInRep(pckt2);
 
-	pckt3 = CrFwPcktMake(100);
+	pckt3 = CrFwPcktMake(50);
 	CrFwPcktSetServType(pckt3,5);
 	CrFwPcktSetServSubType(pckt3,1);
 	CrFwPcktSetDiscriminant(pckt3,3);

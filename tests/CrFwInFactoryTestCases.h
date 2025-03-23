@@ -55,6 +55,7 @@ CrFwBool_t CrFwInFactoryTestCase1();
  *   which is not defined in <code>CrFwInFactoryUserPar.h</code>).
  * - Attempt to retrieve an InCommand of an undefined discriminant (i.e. a discriminant
  *   which is not defined in <code>CrFwInFactoryUserPar.h</code>).
+ * - Attempt to retrieve an InCommand with an illegal length
  * - Create <code>#CR_FW_INFACTORY_MAX_NOF_INCMD</code> InCommands and then
  *   attempt to create one more InCommand (this should fail because at most
  *   <code>#CR_FW_INFACTORY_MAX_NOF_INCMD</code> InCommands can be created.
@@ -109,6 +110,8 @@ CrFwBool_t CrFwInFactoryTestCase4();
  * - Attempt to retrieve an InReport of an undefined service sub-type (i.e. a service sub-type
  *   which is not defined in <code>CrFwInFactoryUserPar.h</code>).
  * - Attempt to retrieve an InReport of an undefined discriminant (i.e. a discriminant
+ *   which is not defined in <code>CrFwInFactoryUserPar.h</code>).
+ * - Attempt to retrieve an InReport with an illegal length (i.e. a length
  *   which is not defined in <code>CrFwInFactoryUserPar.h</code>).
  * - Create <code>#CR_FW_INFACTORY_MAX_NOF_INREP</code> InReports and then
  *   attempt to create one more InReport (this should fail because at most

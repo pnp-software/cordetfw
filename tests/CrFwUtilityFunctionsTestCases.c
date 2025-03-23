@@ -124,7 +124,7 @@ CrFwBool_t CrFwUtilityFunctionsTestCase2() {
         return 0;
 
     /* Allocate two InCommands of which one has the correct CRC and one the incorrect CRC */
-    pckt1 = CrFwPcktMake(100);
+    pckt1 = CrFwPcktMake(40);
     CrFwPcktSetServType(pckt1,8);
     CrFwPcktSetServSubType(pckt1,1);
     CrFwPcktSetDiscriminant(pckt1,2);

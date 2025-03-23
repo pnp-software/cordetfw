@@ -21,7 +21,8 @@
  *
  * The acceptance check is split into four sub-checks:
  * -# The type/sub-type/discriminant of the incoming command or report is valid (i.e. it is
- *    defined in <code>CrFwInFactoryUserPar.h</code> and is therefore known to the application);
+ *    defined in <code>CrFwInFactoryUserPar.h</code> and is therefore known to the application)
+ *    and is consistent with the packet length;
  * -# The InFactory has sufficient resources to provide an InCommand or InReport component
  *    to hold the command or report encapsulated in the packet;
  * -# The InCommand or InReport is successfully configured (i.e. it enters state CONFIGURED);

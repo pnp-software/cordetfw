@@ -224,7 +224,11 @@ typedef enum {
 	/** An InCommand release request has encountered an error (see <code>::CrFwInFactoryReleaseInCmd</code>). */
 	crInCmdRelErr = 23,
 	/** A framework function has been called with an illegal InManager identifier. */
-	crInManagerIllId = 24
+	crInManagerIllId = 24,
+	/** The actual length of an InCmd packet does not match its expected length (see <code>::CrFwInFactoryMakeInCmd</code>). */
+	crIllInCmdLen = 25,
+	/** The actual length of an InReport packet does not match its expected length (see <code>::CrFwInFactoryMakeInCmd</code>). */
+	crIllInRepLen = 26
 } CrFwAppErrCode_t;
 
 /**

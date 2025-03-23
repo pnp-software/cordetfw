@@ -182,14 +182,14 @@ static void InLoaderLoadCmdRep(CrFwPckt_t pckt) {
 
 	if (CrFwPcktGetCmdRepType(pckt) == crCmdType) {
 		inCmp = CrFwInFactoryMakeInCmd(pckt);
-		if (inCmp == NULL) {	/* InCmd had invalid type or no more resources are available */
+		if (inCmp == NULL) {	/* InCmd had invalid type, or inconsistent length or no more resources are available */
 			CrFwRepInCmdOutcomeCreFail(crCmdAckCreFail, 0, pckt);
 			CrFwPcktRelease(pckt);
 			return;
 		}
 	} else {
 		inCmp = CrFwInFactoryMakeInRep(pckt);
-		if (inCmp == NULL) {	/* InRep had invalid type or no more resources are available */
+		if (inCmp == NULL) {	/* InRep had invalid type, or inconsistent length or no more resources are available */
 			CrFwRepErrPckt(crInLoaderCreFail, inLoaderData.typeId,inLoaderData.instanceId, pckt);
 			CrFwPcktRelease(pckt);
 			return;

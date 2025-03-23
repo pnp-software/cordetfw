@@ -353,6 +353,8 @@ typedef struct {
 	CrFwServSubType_t servSubType;
 	/** The discriminant value (or zero if no discriminant for this type/sub-type) */
 	CrFwDiscriminant_t discriminant;
+	/** The expected length of the report (or zero if length is not statically known) */
+	CrFwPcktLength_t expLength;
 	/** The pointer to the function implementing the Update Action Operation */
 	CrFwInRepUpdateAction_t updateAction;
 	/** The pointer to the function implementing the Validity Check Operation */
@@ -371,6 +373,8 @@ typedef struct {
 	CrFwServSubType_t servSubType;
 	/** The discriminant value (or zero if no discriminant for this type/sub-type) */
 	CrFwDiscriminant_t discriminant;
+	/** The expected length of the command (or zero if length is not statically known) */
+	CrFwPcktLength_t expLength;
 	/** The pointer to the function implementing the Validity Check Operation */
 	CrFwInCmdValidityCheck_t isValid;
 	/** The pointer to the function implementing the Ready Check Operation */

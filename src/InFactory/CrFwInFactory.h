@@ -94,10 +94,17 @@ FwSmDesc_t CrFwInFactoryMake();
  * The packet holds all the information about the incoming report.
  * In particular, it holds the information about the report kind (as determined
  * by the triplet: [service type, service sub-type, discriminant]).
- * This function checks the report kind and, if it finds that it is illegal,
- * it returns NULL and sets the application error code to: <code>::crIllInRepKind</code>).
- * If instead the command is legal, this function uses it to configure the InReport.
- * The configuration information is retrieved from <code>CrFwInFactoryUserPar</code>.
+ * This function checks the report kind and its length:
+ * - If the report kind is not defined in <code>CrFwInFactoryUserPar.h</code>, the
+ *   function sets the application error code to <code>::crIllInRepKind</code> and
+ *   returns NULL
+ * - If an expected length is defined for the report kind, it is verified that the
+ *   actual length of the report packet is the same as its expected length and, if
+ *   this is not the case. the application error code is set to <code>::crIllInCmdLen</code> 
+ *   and NULL is returned.
+ * .
+ * If the report kind and length are legal, this function configures the report
+ * using configuration information from <code>CrFwInFactoryUserPar</code>.
  *
  * If the allocation of the memory for the new InReport fails, the function
  * returns NULL.
@@ -130,11 +137,19 @@ FwSmDesc_t CrFwInFactoryMakeInRep(CrFwPckt_t pckt);
  * The packet is passed as an argument to this function.
  * The packet holds all the information about the incoming command.
  * In particular, it holds the information about the command kind (as determined
- * by the triplet: [service type, service sub-type, discriminant]).
- * This function checks the command kind and, if it finds that it is illegal,
- * it returns NULL and sets the application error code to: <code>::crIllInCmdKind</code>).
- * If instead the command is legal, this function uses it to configure the InCommand.
- * The configuration information is retrieved from <code>CrFwInFactoryUserPar</code>.
+ * by the triplet: [service type, service sub-type, discriminant]) and the
+ * command length.
+ * This function checks the command kind and its length:
+ * - If the command kind is not defined in <code>CrFwInFactoryUserPar.h</code>, the
+ *   function sets the application error code to <code>::crIllInCmdKind</code> and
+ *   returns NULL
+ * - If an expected length is defined for the command kind, it is verified that the
+ *   actual length of the command packet is the same as its expected length and, if
+ *   this is not the case. the application error code is set to <code>::crIllInCmdLen</code> 
+ *   and NULL is returned.
+ * .
+ * If the InCommand kind and length are legal, this function configures the InCommand
+ * using configuration information from <code>CrFwInFactoryUserPar</code>.
  *
  * The Progress Step of the InCommands returned by this function is initialized to 0.
  * Likewise, the completion status of the progress action of the InCommand is initialized

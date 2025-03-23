@@ -199,6 +199,7 @@ FwSmDesc_t CrFwInFactoryMakeInCmd(CrFwPckt_t pckt) {
 	CrFwServType_t type;
 	CrFwServSubType_t subType;
 	CrFwDiscriminant_t discriminant;
+	CrFwPcktLength_t expectedLen, actualLen;
 
 	if (nextInCmdFreePos == CR_FW_INFACTORY_MAX_NOF_INCMD) {	/* All positions are occupied */
 		CrFwSetAppErrCode(crInCmdAllocationFail);
@@ -214,6 +215,16 @@ FwSmDesc_t CrFwInFactoryMakeInCmd(CrFwPckt_t pckt) {
 		CrFwSetAppErrCode(crIllInCmdKind);
 		return NULL;
 	}
+
+	expectedLen = inCmdKindDesc[kindIndex].expLength;
+	actualLen = CrFwPcktGetLength(pckt);
+	if (expectedLen != 0) {
+		if (expectedLen != actualLen) {
+			CrFwSetAppErrCode(crIllInCmdLen);
+			return NULL;
+		}
+	}
+
 	freePos = nextInCmdFreePos;
 
 	inCmdData[freePos].instanceId = CrFwPcktGetCmdRepId(pckt);
@@ -260,6 +271,7 @@ FwSmDesc_t CrFwInFactoryMakeInRep(CrFwPckt_t pckt) {
 	CrFwServType_t type;
 	CrFwServSubType_t subType;
 	CrFwDiscriminant_t discriminant;
+	CrFwPcktLength_t expectedLen, actualLen;
 
 	if (nextInRepFreePos == CR_FW_INFACTORY_MAX_NOF_INREP) {	/* All positions are occupied */
 		CrFwSetAppErrCode(crInRepAllocationFail);
@@ -275,6 +287,16 @@ FwSmDesc_t CrFwInFactoryMakeInRep(CrFwPckt_t pckt) {
 		CrFwSetAppErrCode(crIllInRepKind);
 		return NULL;
 	}
+
+	expectedLen = inRepKindDesc[kindIndex].expLength;
+	actualLen = CrFwPcktGetLength(pckt);
+	if (expectedLen != 0) {
+		if (expectedLen != actualLen) {
+			CrFwSetAppErrCode(crIllInRepLen);
+			return NULL;
+		}
+	}
+
 	freePos = nextInRepFreePos;
 
 	inRepCmpSpecificData[freePos].updateAction = inRepKindDesc[kindIndex].updateAction;

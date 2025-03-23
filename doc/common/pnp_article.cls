@@ -109,7 +109,7 @@
 \lhead{ \includegraphics[scale=0.25,keepaspectratio=true]{logoPnP_2.png}}
 \chead{\url{www.pnp-software.com} \\}
 \rhead{\GetDocRefNumber \\ Revision \GetDocIssue \\ Date \today}
-\lfoot{\textcopyright2019 P\&P Software GmbH. All Rights Reserved.}
+\lfoot{\textcopyright2025 P\&P Software GmbH. All Rights Reserved.}
 \cfoot{\vspace{5mm}
 %{\color{red}\verbatiminput{../commercial/LicensedTo.txt}}
 }

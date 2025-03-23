@@ -80,8 +80,10 @@
  * - The service type.
  * - The service sub-type.
  * - The discriminant value. A value of zero indicates either that no discriminant is
- *   associated to commands/reports of that type and sub-type or else that all commands/reports of
+ *   associated to commands of that type and sub-type or else that all commands of
  *   this type and sub-type have the same characteristics.
+ * - The expected length of the incoming command. A value of zero indicates that the length
+ *   of the command is not statically known.
  * - The function implementing the Validity Check Operation for this kind of incoming command
  *   (this must be a function pointer of type <code>::CrFwInCmdValidityCheck_t</code>;
  *   function <code>::CrFwPrCheckAlwaysTrue</code> can be used as a default).
@@ -127,11 +129,11 @@
  * @AP IFT-04: InCommand Kinds Supported by InFactory 
  */
 #define CR_FW_INCMD_INIT_KIND_DESC \
-	{ {8, 1, 1, &CrFwInCmdDefValidityCheck, &CrFwSmCheckAlwaysTrue, &CrFwSmEmptyAction, \
+	{ {8, 1, 1, 0, &CrFwInCmdDefValidityCheck, &CrFwSmCheckAlwaysTrue, &CrFwSmEmptyAction, \
 						&CrFwSmEmptyAction, &CrFwSmSuccessAction, &CrFwSmEmptyAction}, \
-	  {8, 1, 2, &CrFwInCmdDefValidityCheck, &CrFwSmCheckAlwaysTrue, &CrFwSmEmptyAction, \
+	  {8, 1, 2, 40, &CrFwInCmdDefValidityCheck, &CrFwSmCheckAlwaysTrue, &CrFwSmEmptyAction, \
 						&CrFwSmEmptyAction, &CrFwSmSuccessAction, &CrFwSmEmptyAction}, \
-	  {50, 1, 0, &CrFwInCmdSample1ValidityCheck, &CrFwInCmdSample1ReadyCheck, &CrFwInCmdSample1StartAction, \
+	  {50, 1, 0, 0, &CrFwInCmdSample1ValidityCheck, &CrFwInCmdSample1ReadyCheck, &CrFwInCmdSample1StartAction, \
 						&CrFwInCmdSample1ProgressAction, &CrFwInCmdSample1TerminationAction, &CrFwInCmdSample1AbortAction} \
 	}
 
@@ -148,8 +150,10 @@
  * - The service type.
  * - The service sub-type.
  * - The discriminant value. A value of zero indicates either that no discriminant is
- *   associated to commands/reports of that type and sub-type or else that all commands/reports of
+ *   associated to reports of that type and sub-type or else that all reports of
  *   this type and sub-type have the same characteristics.
+ * - The expected length of the incoming report. A value of zero indicates that the length
+ *   of the report is not statically known.
  * - The function implementing the Update Action Operation for this kind of incoming report
  *   (this must be a function pointer of type <code>::CrFwInRepUpdateAction_t</code>;
  *   function <code>::CrFwPrEmptyAction</code> can be used as a default).
@@ -178,10 +182,10 @@
  * @AP IRP-07: Update Action of InReport
  */
 #define CR_FW_INREP_INIT_KIND_DESC \
-	{ {5, 1, 1, &CrFwPrEmptyAction, &CrFwInRepDefValidityCheck}, \
-	  {5, 1, 2, &CrFwPrEmptyAction, &CrFwInRepDefValidityCheck}, \
-	  {5, 1, 3, &CrFwPrEmptyAction, &CrFwPrCheckAlwaysTrue}, \
-	  {40, 1, 0, &CrFwInRepSample1UpdateAction, &CrFwInRepSample1ValidityCheck} \
+	{ {5, 1, 1, 0, &CrFwPrEmptyAction, &CrFwInRepDefValidityCheck}, \
+	  {5, 1, 2, 0, &CrFwPrEmptyAction, &CrFwInRepDefValidityCheck}, \
+	  {5, 1, 3, 50, &CrFwPrEmptyAction, &CrFwPrCheckAlwaysTrue}, \
+	  {40, 1, 0, 0, &CrFwInRepSample1UpdateAction, &CrFwInRepSample1ValidityCheck} \
 	}
 
 #endif /* CRFW_INFACTORY_USERPAR_H_ */
