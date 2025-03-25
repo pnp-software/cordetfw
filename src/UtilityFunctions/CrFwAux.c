@@ -301,29 +301,34 @@ CrFwBool_t CrFwAuxInFactoryInRepConfigCheck() {
 	if ((CR_FW_INFACTORY_MAX_NOF_INREP < 1) && (CR_FW_INREP_NKINDS > 0))
 		return 0;
 
-	for (i=0; i<(CR_FW_INREP_NKINDS-1); i++) {
-		if (inRepKindDesc[i].servType > inRepKindDesc[i+1].servType)
-			return 0;
-
-		if (inRepKindDesc[i].servType == inRepKindDesc[i+1].servType)
-			if (inRepKindDesc[i].servSubType > inRepKindDesc[i+1].servSubType)
+	if (CR_FW_INREP_NKINDS > 1) {
+		for (i=0; i<(CR_FW_INREP_NKINDS-1); i++) {
+			if (inRepKindDesc[i].servType > inRepKindDesc[i+1].servType)
 				return 0;
 
-		if (inRepKindDesc[i].servType == inRepKindDesc[i+1].servType)
-			if (inRepKindDesc[i].servSubType == inRepKindDesc[i+1].servSubType)
-				if (inRepKindDesc[i].discriminant > inRepKindDesc[i+1].discriminant)
+			if (inRepKindDesc[i].servType == inRepKindDesc[i+1].servType)
+				if (inRepKindDesc[i].servSubType > inRepKindDesc[i+1].servSubType)
 					return 0;
+
+			if (inRepKindDesc[i].servType == inRepKindDesc[i+1].servType)
+				if (inRepKindDesc[i].servSubType == inRepKindDesc[i+1].servSubType)
+					if (inRepKindDesc[i].discriminant > inRepKindDesc[i+1].discriminant)
+						return 0;
+		}
 	}
 
-	for (i=0; i<CR_FW_INREP_NKINDS; i++) {
-		if (inRepKindDesc[i].servType > CR_FW_MAX_SERV_TYPE)
-			return 0;
 
-		if (inRepKindDesc[i].servSubType > CR_FW_MAX_SERV_SUBTYPE)
-			return 0;
+	if (CR_FW_INREP_NKINDS > 0) {
+		for (i=0; i<CR_FW_INREP_NKINDS; i++) {
+			if (inRepKindDesc[i].servType > CR_FW_MAX_SERV_TYPE)
+				return 0;
 
-		if (inRepKindDesc[i].discriminant > CR_FW_MAX_DISCRIMINANT)
-			return 0;
+			if (inRepKindDesc[i].servSubType > CR_FW_MAX_SERV_SUBTYPE)
+				return 0;
+
+			if (inRepKindDesc[i].discriminant > CR_FW_MAX_DISCRIMINANT)
+				return 0;
+		}
 	}
 
 	return 1;
