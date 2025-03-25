@@ -485,9 +485,9 @@ static void FlushPcktQueue(FwSmDesc_t smDesc) {
 
 /*-----------------------------------------------------------------------------------------*/
 static void ResetSeqAndTypeCounters(FwSmDesc_t smDesc) {
-	(void)smDesc;
 	CrFwGroup_t i;
 	CrFwTypeCnt_t j;
+	(void)smDesc;
 	for (i=0; i<CR_FW_OUTSTREAM_NOF_GROUPS; i++)
 		outStreamSeqCounter[i] = 1;
 
