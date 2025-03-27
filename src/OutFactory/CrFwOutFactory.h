@@ -90,7 +90,7 @@ FwSmDesc_t CrFwOutFactoryMake();
  * - The triplet (type,subtype,0) is present in <code>::CR_FW_OUTCMP_INIT_KIND_DESC</code>
  * .
  * If no matching entry is found (i.e. if no entry is found with the same values of type, sub-type
- * and discriminant), then the function sets the application error code to <code>crOutCmpAllocationFail</code>
+ * and discriminant), then the function sets raises an error report of type <code>::crOutFactIllKind</code>
  * and returns a value of NULL.
  * If instead a matching entry is found, two options are possible:
  * - If the length parameter is set to zero, then the function creates and returns an OutComponent with the
@@ -149,8 +149,11 @@ FwSmDesc_t CrFwOutFactoryMake();
  * memory which is created when the OutFactory is initialized (see
  * <code>::OutFactoryInitAction</code>).
  * If no free memory is available in the factory pool, this function returns NULL.
- * Allocation memory failure results in the application error code being set
- * to <code>crOutCmpAllocationFail</code>.
+ * Allocation memory failure results in the error report <code>::crOutFactNoRes</code>
+ * being raised.
+ * 
+ * If the argument packet is NULL, the component sets the application error code to
+ * <code>::crOutCmpAllocationFail</code> and returns NULL.
  *
  * When an OutComponent created by this function is no longer needed, it should be
  * returned to the factory by calling <code>CrFwOutCmpRelease</code>.

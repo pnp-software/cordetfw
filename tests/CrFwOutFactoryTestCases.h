@@ -72,7 +72,8 @@ CrFwBool_t CrFwOutFactoryTestCase1();
  *   attempt to create one more OutComponent (this should fail because at most
  *   <code>#CR_FW_OUTFACTORY_MAX_NOF_OUTCMP</code> OutComponents can be created.
  * .
- * @verify Application Error: crIllOutCmpKind
+ * @verify Error Report: crOutFactNoRes
+ * @verify Error Report: crOutCmpIllKind
  * @verify Application Error: crOutCmpAllocationFail
  *
  * @return true if the test was successful, false otherwise.

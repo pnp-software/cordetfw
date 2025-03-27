@@ -32,6 +32,7 @@
 #include "OutRegistry/CrFwOutRegistry.h"
 #include "CrFwOutFactory.h"
 #include "CrFwTime.h"
+#include "CrFwRepErr.h"
 /* Include FW Profile files */
 #include "FwPrConfig.h"
 #include "FwPrDCreate.h"
@@ -172,7 +173,8 @@ FwSmDesc_t CrFwOutFactoryMakeOutCmp(CrFwServType_t type, CrFwServSubType_t subTy
 	CrFwPcktLength_t len;
 
 	if (nextFreePos == CR_FW_OUTFACTORY_MAX_NOF_OUTCMP) {	/* All positions are occupied */
-		CrFwSetAppErrCode(crOutCmpAllocationFail);
+		CrFwRepErrKind(crOutFactNoRes, outFactoryData.typeId, outFactoryData.instanceId, type,
+		               subType, discriminant);
 		return NULL;
 	}
 
@@ -184,7 +186,8 @@ FwSmDesc_t CrFwOutFactoryMakeOutCmp(CrFwServType_t type, CrFwServSubType_t subTy
 		targetKey = (CrFwCmdRepKindKey_t)(type*CR_FW_MAX_DISCRIMINANT*CR_FW_MAX_SERV_SUBTYPE+subType*CR_FW_MAX_DISCRIMINANT);
 		kindIndex = CrFwFindKeyIndex(outCmpKindKey, CR_FW_OUTCMP_NKINDS, targetKey);
 		if (kindIndex == CR_FW_OUTCMP_NKINDS) {
-			CrFwSetAppErrCode(crIllOutCmpKind);
+			CrFwRepErrKind(crOutCmpIllKind, outFactoryData.typeId, outFactoryData.instanceId, type,
+				           subType, discriminant);
 			return NULL;
 		}	
 	}
@@ -196,7 +199,8 @@ FwSmDesc_t CrFwOutFactoryMakeOutCmp(CrFwServType_t type, CrFwServSubType_t subTy
 
 	pckt = CrFwPcktMake(len);	/* The packet length is assumed to be greater than zero */
 	if (pckt == NULL) {
-		CrFwSetAppErrCode(crOutCmpAllocationFail);
+		CrFwRepErrKind(crOutCmpAllocationFail, outFactoryData.typeId, outFactoryData.instanceId, type,
+			subType, discriminant);
 		return NULL;
 	}
 

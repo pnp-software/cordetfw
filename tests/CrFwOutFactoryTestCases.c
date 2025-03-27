@@ -80,7 +80,8 @@ CrFwBool_t CrFwOutFactoryTestCase1() {
 /*--------------------------------------------------------------------------------*/
 CrFwBool_t CrFwOutFactoryTestCase2() {
 	FwSmDesc_t outFactory, outCmp;
-	CrFwCounterU2_t i;
+	CrFwCounterU2_t i, errRepPosLocal;
+	CrFwCounterU1_t* errRepPar;
 	FwSmDesc_t outCmpArray[CR_FW_OUTFACTORY_MAX_NOF_OUTCMP];
 	CrFwPckt_t pckt[100];  /* it is assumed that CR_FW_MAX_NOF_PCKTS is smaller than 100 */
 
@@ -95,53 +96,75 @@ CrFwBool_t CrFwOutFactoryTestCase2() {
 	if (!CrFwCmpIsInConfigured(outFactory))
 		return 0;
 
+	/* Store the current value of the error report counter */
+	errRepPosLocal = CrFwRepErrStubGetPos();
+
 	/* attempt to retrieve an OutComponent with invalid but in-range type */
-	outCmp = CrFwOutFactoryMakeOutCmp(2,2,1,0);
+	outCmp = CrFwOutFactoryMakeOutCmp(3,2,1,0);
 	if (outCmp != NULL)
 		return 0;
-	if (CrFwGetAppErrCode() != crIllOutCmpKind)
+
+	/* Check that an error report has been generated */
+	if (CrFwRepErrStubGetPos() != errRepPosLocal+1)
 		return 0;
-	CrFwSetAppErrCode(crNoAppErr);
+	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crOutCmpIllKind)
+		return 0;
+	if (CrFwRepErrStubGetTypeId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != CR_FW_OUTFACTORY_TYPE)
+		return 0;
+	if (CrFwRepErrStubGetInstanceId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != 0)
+		return 0;
+	errRepPar = CrFwRepErrStubGetParArray(CrFwRepErrStubGetPos()-1);
+	if (errRepPar[0] != 3)
+		return 0;
+	if (errRepPar[1] != 2)
+		return 0;
+	if (errRepPar[2] != 1)
+		return 0;
 
 	/* attempt to retrieve an OutComponent with out-of-range type */
 	outCmp = CrFwOutFactoryMakeOutCmp(51,2,1,0);
 	if (outCmp != NULL)
 		return 0;
-	if (CrFwGetAppErrCode() != crIllOutCmpKind)
+	if (CrFwRepErrStubGetPos() != errRepPosLocal+2)
 		return 0;
-	CrFwSetAppErrCode(crNoAppErr);
+	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crOutCmpIllKind)
+		return 0;
 
 	/* attempt to retrieve an OutComponent with invalid but in-range sub-type */
 	outCmp = CrFwOutFactoryMakeOutCmp(1,3,1,0);
 	if (outCmp != NULL)
 		return 0;
-	if (CrFwGetAppErrCode() != crIllOutCmpKind)
+	if (CrFwRepErrStubGetPos() != errRepPosLocal+3)
 		return 0;
-	CrFwSetAppErrCode(crNoAppErr);
+	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crOutCmpIllKind)
+		return 0;
 
 	/* attempt to retrieve an OutComponent with out-of-range sub-type */
 	outCmp = CrFwOutFactoryMakeOutCmp(5,5,1,0);
 	if (outCmp != NULL)
 		return 0;
-	if (CrFwGetAppErrCode() != crIllOutCmpKind)
+	if (CrFwRepErrStubGetPos() != errRepPosLocal+4)
 		return 0;
-	CrFwSetAppErrCode(crNoAppErr);
+	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crOutCmpIllKind)
+		return 0;
 
 	/* attempt to retrieve an OutComponent with invalid but in-range discriminant */
 	outCmp = CrFwOutFactoryMakeOutCmp(5,2,15,0);
 	if (outCmp != NULL)
 		return 0;
-	if (CrFwGetAppErrCode() != crIllOutCmpKind)
+	if (CrFwRepErrStubGetPos() != errRepPosLocal+5)
 		return 0;
-	CrFwSetAppErrCode(crNoAppErr);
+	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crOutCmpIllKind)
+		return 0;
 
 	/* attempt to retrieve an OutComponent with out-of-range sub-type */
 	outCmp = CrFwOutFactoryMakeOutCmp(5,2,40,0);
 	if (outCmp != NULL)
 		return 0;
-	if (CrFwGetAppErrCode() != crIllOutCmpKind)
+	if (CrFwRepErrStubGetPos() != errRepPosLocal+6)
 		return 0;
-	CrFwSetAppErrCode(crNoAppErr);
+	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crOutCmpIllKind)
+		return 0;
 
 	/* Create CR_FW_MAX_NOF_PCKTS packets and then attempt to create an OutComponent */
 	for (i=0; i<CR_FW_MAX_NOF_PCKTS; i++) {
@@ -150,12 +173,25 @@ CrFwBool_t CrFwOutFactoryTestCase2() {
 			return 0;
 	}
 
-	outCmp = CrFwOutFactoryMakeOutCmp(1,1,0,0);
+	outCmp = CrFwOutFactoryMakeOutCmp(1,8,5,0);
 	if (outCmp != NULL)
 		return 0;
-	if (CrFwGetAppErrCode() != crOutCmpAllocationFail)
+	if (CrFwRepErrStubGetPos() != errRepPosLocal+7)
 		return 0;
-	CrFwSetAppErrCode(crNoAppErr);
+	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crOutCmpAllocationFail)
+		return 0;
+	if (CrFwRepErrStubGetTypeId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != CR_FW_OUTFACTORY_TYPE)
+		return 0;
+	if (CrFwRepErrStubGetInstanceId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != 0)
+		return 0;
+	errRepPar = CrFwRepErrStubGetParArray(CrFwRepErrStubGetPos()-1);
+	if (errRepPar[0] != 1)
+		return 0;
+	if (errRepPar[1] != 8)
+		return 0;
+	if (errRepPar[2] != 5)
+		return 0;
+	CrFwSetAppErrCode(crNoAppErr); 	/* Set as part of call to CrFwOutFactoryMakeOutCmp() */
 
 	/* Release all packets */
 	for (i=0; i<CR_FW_MAX_NOF_PCKTS; i++)
@@ -168,12 +204,24 @@ CrFwBool_t CrFwOutFactoryTestCase2() {
 			return 0;
 	}
 
-	outCmp = CrFwOutFactoryMakeOutCmp(1,1,0,0);
+	outCmp = CrFwOutFactoryMakeOutCmp(5,1,2,0);
 	if (outCmp != NULL)
 		return 0;
-	if (CrFwGetAppErrCode() != crOutCmpAllocationFail)
+	if (CrFwRepErrStubGetPos() != errRepPosLocal+8)
 		return 0;
-	CrFwSetAppErrCode(crNoAppErr);
+	if (CrFwRepErrStubGetErrCode((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != crOutFactNoRes)
+		return 0;
+	if (CrFwRepErrStubGetTypeId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != CR_FW_OUTFACTORY_TYPE)
+		return 0;
+	if (CrFwRepErrStubGetInstanceId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != 0)
+		return 0;
+	errRepPar = CrFwRepErrStubGetParArray(CrFwRepErrStubGetPos()-1);
+	if (errRepPar[0] != 5)
+		return 0;
+	if (errRepPar[1] != 1)
+		return 0;
+	if (errRepPar[2] != 2)
+		return 0;
 
 	/* Release all OutComponents */
 	for (i=0; i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP; i++)

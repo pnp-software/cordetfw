@@ -66,7 +66,7 @@ CrFwRepErrCode_t CrFwRepErrStubGetErrCode(CrFwCounterU2_t errRepPos);
 CrFwTypeId_t CrFwRepErrStubGetTypeId(CrFwCounterU2_t errRepPos);
 
 /**
- * Return the type identifier of the error report at position
+ * Return the instance identifier of the error report at position
  * <code>errRepPos</code>.
  * This function is provided for convenience during testing.
  * It is not part of the error reporting interface.

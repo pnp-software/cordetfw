@@ -149,7 +149,13 @@ typedef enum {
 	/** An InReport could not be created due to insufficient resources or illegal type/sub-type/discriminant */
 	crInLoaderCreFail = 13,
 	/** An InReport could not be loaded in its InManager */
-	crInLoaderLdFail = 14
+	crInLoaderLdFail = 14,
+	/** The OutFactory could not allocate an OutComponent due to lack of resources (see <code>CrFwOutFactory.h</code>) */
+	crOutFactNoRes = 15,
+	/** The OutFactory was asked to return an OutComponent of illegal kind (see <code>CrFwOutFactory.h</code>) */
+	crOutCmpIllKind = 16,
+	/** A packet allocation for an OutComponent has failed (see <code>::CrFwOutFactoryMakeOutCmp</code>) */
+	crOutCmpAllocationFail = 17
 } CrFwRepErrCode_t;
 
 /**
@@ -195,8 +201,6 @@ typedef enum {
 	crInStreamIllId = 8,
 	/** An OutComponent function was called on an object which is not an OutComponent. */
 	crNotOutCmp = 9,
-	/** An OutComponent allocation request has failed (see <code>::CrFwOutFactoryMakeOutCmp</code>). */
-	crOutCmpAllocationFail = 10,
 	/** An OutComponent release request has encountered an error (see <code>::CrFwOutFactoryReleaseOutCmp</code>). */
 	crOutCmpRelErr = 11,
 	/** A framework function was called with an illegal service type */
@@ -207,8 +211,6 @@ typedef enum {
 	crIllDiscriminant = 14,
 	/** A framework function was called with an illegal type/sub-type pair for an OutComponent */
 	crIllOutCmpType = 15,
-	/** A framework function was called with an illegal type/sub-type/discriminant triplet for an OutComponent */
-	crIllOutCmpKind = 16,
 	/** A framework function has been called with an illegal OutManager identifier. */
 	crOutManagerIllId = 17,
 	/** A framework function was called with an illegal type/sub-type/discriminant triplet for an InCommand */
