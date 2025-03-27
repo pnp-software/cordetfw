@@ -104,12 +104,18 @@ FwSmDesc_t CrFwInFactoryMake();
  *   and NULL is returned.
  * .
  * If the report kind and length are legal, this function configures the report
- * using configuration information from <code>CrFwInFactoryUserPar</code>.
+ * using configuration information from <code>::CrFwInFactoryUserPar</code>.
  *
  * If the allocation of the memory for the new InReport fails, the function
  * returns NULL.
  * Allocation memory failure results in the application error code being set
- * to <code>crInRepAllocationFail</code>.
+ * to <code>::crInRepAllocationFail</code>.
+ * 
+ * This function reports error situations through the "application error code"
+ * mechanism of <code>::CrFwGetAppErrCode</code> rather than through the "error
+ * reporting interface" of module <code>::CrFwRepErr</code> because error 
+ * reporting through that interface is done by the InLoader component which 
+ * calls the functions of the InFactory to create InReport components.
  *
  * When an InReport created by this function is no longer needed,
  * it should be returned to the factory by calling <code>CrFwInRepReleaseInRep</code>.
@@ -168,6 +174,12 @@ FwSmDesc_t CrFwInFactoryMakeInRep(CrFwPckt_t pckt);
  * returns NULL.
  * Allocation memory failure results in the application error code being set
  * to <code>::crInCmdAllocationFail</code>.
+ *
+ * This function reports error situations through the "application error code"
+ * mechanism of <code>::CrFwGetAppErrCode</code> rather than through the "error
+ * reporting interface" of module <code>::CrFwRepErr</code> because error 
+ * reporting through that interface is done by the InLoader component which 
+ * calls the functions of the InFactory to create InReport components.
  *
  * When an InCommand created by this function is no longer needed,
  * it should be returned to the factory by calling <code>::CrFwInFactoryReleaseInCmd</code>.

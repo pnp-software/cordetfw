@@ -113,6 +113,10 @@ FwSmDesc_t CrFwOutLoaderMake();
  * After execution of this function, the OutComponent must not be used by the caller
  * because it has either been released (if the load operation in the OutManager was
  * not successful) or will be released by the OutManager after it is executed.
+ * 
+ * This function does not raise an error report if the load operation fails
+ * because this is done by the OutManager's load operation 
+ * (see <code>::CrFwOutManagerLoad</code>). 
  *
  * @image html OutLoaderLoad.png
  * @param outCmp the descriptor of the OutComponent to be loaded in the OutManager

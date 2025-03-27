@@ -1,9 +1,16 @@
 /**
  * @file
  * @ingroup crOpenIfGroup
- * Interface for reporting an error detected by a framework component.
- * When a framework component encounters an error, it reports it by calling one of
- * the functions defined by this header file (error report).
+ * Interface for reporting an exogenous error detected by a framework component.
+ * An exogenous error is an error which arises as a direct or indirect result
+ * of an application having received an illegal input from its user (e.g. a 
+ * command with a non-existent type).
+ * Exogenous errors stand in contrast to design/implementation errors in the
+ * application. These are handled through the Application Error interface of
+ * <code>::CrFwGetAppErrCode</code>.
+ * 
+ * When a framework component encounters an exogenous error, it reports it by 
+ * calling one of the functions defined by this header file (error report).
  *
  * An error report is defined by the following attributes:
  * - The error code: a positive integer which identifies the type of
@@ -33,7 +40,7 @@
  *
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
  * @author Alessandro Pasetti <pasetti@pnp-software.com>
- * @copyright P&P Software GmbH, 2013, All Rights Reserved
+ * @copyright P&P Software GmbH, 2025, All Rights Reserved
  *
  * This file is part of the CORDET Framework.
  *
