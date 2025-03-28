@@ -118,26 +118,4 @@ CrFwSeqCnt_t CrFwRepErrStubGetExpSeqCnt(CrFwCounterU2_t errRepPos);
  */
 CrFwSeqCnt_t CrFwRepErrStubGetActualSeqCnt(CrFwCounterU2_t errRepPos);
 
-/**
- * Return the secondary instance identifier associated to the error report at
- * position <code>errRepPos</code>.
- * This function assumes that the error report at position
- * <code>errRepPos</code> was created with a call to
- * <code>::CrFwRepErrInstanceIdAndOutcome</code>.
- * @param errRepPos the position in the error reporting array
- * @return the secondary instance identifier
- */
-CrFwInstanceId_t CrFwRepErrStubGetSecondatyInstanceId(CrFwCounterU2_t errRepPos);
-
-/**
- * Return the outcome associated to the error report at
- * position <code>errRepPos</code>.
- * This function assumes that the error report at position
- * <code>errRepPos</code> was created with a call to
- * <code>::CrFwRepErrInstanceIdAndOutcome</code>.
- * @param errRepPos the position in the error reporting array
- * @return the value of the outcome
- */
-CrFwOutcome_t CrFwRepErrStubGetOutcome(CrFwCounterU2_t errRepPos);
-
 #endif /* CRFW_REPERRSTUB_H_ */

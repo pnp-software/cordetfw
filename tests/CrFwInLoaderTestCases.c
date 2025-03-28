@@ -215,8 +215,6 @@ CrFwBool_t CrFwInLoaderTestCase3() {
 		return 0;
 	if (CrFwRepErrStubGetInstanceId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != 0)
 		return 0;
-	if (CrFwRepErrStubGetSecondatyInstanceId((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != 111)
-		return 0;
 	if (CrFwRepErrStubGetDest((CrFwCounterU2_t)(CrFwRepErrStubGetPos()-1)) != CR_FW_HOST_APP_ID+1)
 		return 0;
 

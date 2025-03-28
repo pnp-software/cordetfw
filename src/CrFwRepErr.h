@@ -108,21 +108,6 @@ void CrFwRepErrSeqCnt(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId, CrFwInstanc
                       CrFwSeqCnt_t expSeqCnt, CrFwSeqCnt_t actSeqCnt, CrFwPckt_t pckt);
 
 /**
- * Report an error which has two parameters attached to it representing the instance identifier
- * of a component other than the originator of the error report (the secondary instance
- * identifier) and the outcome field of a component's data.
- * This function generate an error report with two parameters.
- * @param errCode the error code
- * @param instanceId the instance identifier of the component which raises the error report
- * @param typeId the type identifier of the component which raises the error report
- * @param secondaryInstanceId instance identifier of a component other than the originator of the error
- * report
- * @param outcome outcome field of a component's data
- */
-void CrFwRepErrInstanceIdAndOutcome(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
-                                    CrFwInstanceId_t instanceId, CrFwInstanceId_t secondaryInstanceId, CrFwOutcome_t outcome);
-
-/**
  * Report an error which has three parameters attached to it representing the instance identifier
  * of a component other than the originator of the error report (the secondary instance
  * identifier), a command or report destination and a command or report packet.
