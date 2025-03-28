@@ -161,9 +161,9 @@ void CrFwRepErrCmd(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
 
 
 /**
- * Report an error which has three parameters attached to it representing the kind of a report
- * or command as given by the triplet [type, sub-type, discriminant].
- * This function generate an error report with three parameters.
+ * Report an error which has four parameters attached to it representing the kind of a report
+ * or command as given by the triplet [type, sub-type, discriminant] and its length in bytes.
+ * This function generate an error report with four parameters. 
  * @param errCode the error code
  * @param instanceId the instance identifier of the component which raises the error report
  * @param typeId the type identifier of the component which raises the error report
@@ -173,7 +173,7 @@ void CrFwRepErrCmd(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
  */
 void CrFwRepErrKind(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
                                     CrFwInstanceId_t instanceId, CrFwServType_t  servType,
-									CrFwServSubType_t servSubType, CrFwDiscriminant_t disc);
-
+									CrFwServSubType_t servSubType, CrFwDiscriminant_t disc,
+                                    CrFwPcktLength_t len);
 
 #endif /* CRFW_REPERR_H_ */

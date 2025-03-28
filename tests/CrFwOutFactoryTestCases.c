@@ -222,6 +222,8 @@ CrFwBool_t CrFwOutFactoryTestCase2() {
 		return 0;
 	if (errRepPar[2] != 2)
 		return 0;
+	if (errRepPar[3] != 0)
+		return 0;
 
 	/* Release all OutComponents */
 	for (i=0; i<CR_FW_OUTFACTORY_MAX_NOF_OUTCMP; i++)

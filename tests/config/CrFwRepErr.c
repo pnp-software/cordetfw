@@ -230,7 +230,8 @@ void CrFwRepErrCmd(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
 /*-----------------------------------------------------------------------------------------*/
 void CrFwRepErrKind(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
                                     CrFwInstanceId_t instanceId, CrFwServType_t  servType,
-									CrFwServSubType_t servSubType, CrFwDiscriminant_t disc) {
+									CrFwServSubType_t servSubType, CrFwDiscriminant_t disc,
+                                    CrFwPcktLength_t len) {
 	CrFwCounterU1_t i;
 
 	errRepArray[errRepPos].errCode = errCode;
@@ -239,7 +240,8 @@ void CrFwRepErrKind(CrFwRepErrCode_t errCode, CrFwTypeId_t typeId,
 	errRepArray[errRepPos].par[0] = (CrFwCounterU1_t)(servType % 256);;
 	errRepArray[errRepPos].par[1] = (CrFwCounterU1_t)(servSubType % 256);
 	errRepArray[errRepPos].par[2] = (CrFwCounterU1_t)(disc % 256);
-	for (i=3; i<CR_FW_ERR_REP_PAR_SIZE; i++)
+	errRepArray[errRepPos].par[3] = (CrFwCounterU1_t)(len % 256);
+	for (i=4; i<CR_FW_ERR_REP_PAR_SIZE; i++)
 		errRepArray[errRepPos].par[i] = 255;
 
 	errRepPos = (CrFwCounterU2_t)((errRepPos + 1) % CR_FW_ERR_REP_ARRAY_SIZE);

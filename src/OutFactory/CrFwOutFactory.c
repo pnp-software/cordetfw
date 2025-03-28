@@ -174,7 +174,7 @@ FwSmDesc_t CrFwOutFactoryMakeOutCmp(CrFwServType_t type, CrFwServSubType_t subTy
 
 	if (nextFreePos == CR_FW_OUTFACTORY_MAX_NOF_OUTCMP) {	/* All positions are occupied */
 		CrFwRepErrKind(crOutFactNoRes, outFactoryData.typeId, outFactoryData.instanceId, type,
-		               subType, discriminant);
+		               subType, discriminant, length);
 		return NULL;
 	}
 
@@ -187,7 +187,7 @@ FwSmDesc_t CrFwOutFactoryMakeOutCmp(CrFwServType_t type, CrFwServSubType_t subTy
 		kindIndex = CrFwFindKeyIndex(outCmpKindKey, CR_FW_OUTCMP_NKINDS, targetKey);
 		if (kindIndex == CR_FW_OUTCMP_NKINDS) {
 			CrFwRepErrKind(crOutCmpIllKind, outFactoryData.typeId, outFactoryData.instanceId, type,
-				           subType, discriminant);
+				           subType, discriminant, length);
 			return NULL;
 		}	
 	}
@@ -200,7 +200,7 @@ FwSmDesc_t CrFwOutFactoryMakeOutCmp(CrFwServType_t type, CrFwServSubType_t subTy
 	pckt = CrFwPcktMake(len);	/* The packet length is assumed to be greater than zero */
 	if (pckt == NULL) {
 		CrFwRepErrKind(crOutCmpAllocationFail, outFactoryData.typeId, outFactoryData.instanceId, type,
-			subType, discriminant);
+			subType, discriminant, length);
 		return NULL;
 	}
 
