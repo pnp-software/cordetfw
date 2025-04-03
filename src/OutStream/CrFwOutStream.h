@@ -312,6 +312,24 @@ CrFwGroup_t CrFwOutStreamGetNOfGroups();
 CrFwCounterU1_t CrFwOutStreamGetPcktQueueSize(FwSmDesc_t smDesc);
 
 /**
+ * Return the number of bytes which the OutStream successfully handed over 
+ * to the middleware since it was last reset.
+ * @param smDesc the descriptor of the OutStream State Machine.
+ * @return the number of bytes which the OutStream successfully handed over 
+ * to the middleware since it was last reset.
+ */
+CrFwCounterU3_t CrFwOutStreamGetNOfHandedOverBytes(FwSmDesc_t smDesc);
+
+/**
+ * Return the number of packets which the OutStream successfully handed over 
+ * to the middleware since it was last reset.
+ * @param smDesc the descriptor of the OutStream State Machine.
+ * @return the number of packets which the OutStream successfully handed over 
+ * to the middleware since it was last reset.
+ */
+CrFwCounterU3_t CrFwOutStreamGetNOfHandedOverPckts(FwSmDesc_t smDesc);
+
+/**
  * Return the number of type counters maintained by the OutStreams.
  * @return the number of type counters maintained by the OutStreams.
  */

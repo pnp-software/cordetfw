@@ -510,6 +510,10 @@ typedef struct OutStreamData {
 	CrFwPcktHandover_t handoverPckt;
 	/** The packet to be sent out */
 	CrFwPckt_t pckt;
+	/** Number of packets successfully handed over to the middleware since OutStream was last reset */
+	CrFwCounterU3_t nOfHandedOverPckts;
+	/** Number of bytes successfully handed over to the middleware since OutStream was last reset */
+	CrFwCounterU3_t nOfHandedOverBytes;
 } CrFwOutStreamData_t;
 
 /** Type for the data describing an InCommand */
