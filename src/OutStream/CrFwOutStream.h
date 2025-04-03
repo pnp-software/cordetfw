@@ -45,6 +45,13 @@
  * If at the time the Send command is received, the middleware is not ready to receive
  * the packet, the packet is stored in Packet Queue.
  * The next attempt to send it out will be made when command ConnectionAvailable is sent.
+ * 
+ * An OutStream maintains counters of packets which have been successfully handed over to the
+ * middleware since the OutStream was last reset and of the total number of bytes which
+ * have been successfully handed over to the middleware.
+ * These counters can be accessed through functions 
+ * <code>::CrFwOutStreamGetNOfHandedOverBytes</code> and 
+ * <code>::CrFwOutStreamGetNOfHandedOverPckts</code>.
  *
  * @image html OutStream.png
  * @author Vaclav Cechticky <vaclav.cechticky@pnp-software.com>
@@ -183,8 +190,8 @@ CrFwCounterU1_t CrFwOutStreamGetNOfDest(FwSmDesc_t outStream);
  * If the Packet Queue is full, the packet is released and error
  * <code>::crOutStreamPQFull</code> is generated.
  *
- * If packet cannot be sent to the middleware  (or to make a copy of the packet and buffer the copy internally
- * if the middleware is currently not available).
+ * When a packet is successfully sent to the middleware, the counters of handed-over
+ * bytes and handed-over packets are incremented accordingly.
  *
  * The argument <code>pckt</code> is a pointer to the out-going packet.
  * This pointer is "owned" by the caller of function <code>CrFwOutStreamSend</code>
@@ -204,7 +211,8 @@ void CrFwOutStreamConnectionAvail(FwSmDesc_t smDesc);
 
 /**
  * Default configuration action for an OutStream.
- * This function resets the packet queue of the OutStream.
+ * This function resets the packet queue of the OutStream and the counters
+ * of handed over bytes and packets.
  *
  * Configuration actions have an outcome (see <code>CrFwResetProc.h</code>).
  * The outcome of this configuration action is always "success".
@@ -232,8 +240,10 @@ void CrFwOutStreamDefInitAction(FwPrDesc_t prDesc);
 
 /**
  * Default shutdown action for an OutStream.
- * This function resets the packet queue and releases the memory allocated to it
- * and to the array holding the destinations associated to the outStream.
+ * This function resets the packet queue  and the counters
+ * of handed over bytes and packets and then it releases the memory allocated 
+ * to the packet queue and to the array holding the destinations associated 
+ * to the outStream.
  *
  * This function should never be directly called by the end-application.
  * It is declared as a public function so that it may be used in application-specific

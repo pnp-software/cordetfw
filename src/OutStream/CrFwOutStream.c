@@ -318,6 +318,19 @@ CrFwCounterU1_t CrFwOutStreamGetNOfDest(FwSmDesc_t outStream) {
 }
 
 /*-----------------------------------------------------------------------------------------*/
+CrFwCounterU3_t CrFwOutStreamGetNOfHandedOverBytes(FwSmDesc_t smDesc) {
+	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
+	return cmpSpecificData->nOfHandedOverBytes;
+}
+
+CrFwCounterU3_t CrFwOutStreamGetNOfHandedOverPckts(FwSmDesc_t smDesc) {
+	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
+	return cmpSpecificData->nOfHandedOverPckts;
+}
+
+/*-----------------------------------------------------------------------------------------*/
 void CrFwOutStreamSend(FwSmDesc_t smDesc, CrFwPckt_t pckt) {
 	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
@@ -365,6 +378,8 @@ void CrFwOutStreamDefConfigAction(FwPrDesc_t prDesc) {
 	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
 
 	CrFwPcktQueueReset(&(cmpSpecificData->pcktQueue));
+	cmpSpecificData->nOfHandedOverBytes = 0;
+	cmpSpecificData->nOfHandedOverPckts = 0;
 	cmpSpecificData->handoverPckt = outStreamHandoverPckt[outStreamBaseData->instanceId];
 	outStreamBaseData->outcome = 1;
 }
@@ -377,6 +392,8 @@ void CrFwOutStreamDefShutdownAction(FwSmDesc_t smDesc) {
 	free(outStreamDest[outStreamId]);
 	outStreamDest[outStreamId] = NULL;
 	outStreamNofDest[outStreamId] = 0;
+	cmpSpecificData->nOfHandedOverBytes = 0;
+	cmpSpecificData->nOfHandedOverPckts = 0;
 	CrFwPcktQueueShutdown(&(cmpSpecificData->pcktQueue));
 }
 
@@ -440,6 +457,7 @@ static void FlushPcktQueue(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
 	CrFwPckt_t oldestPckt;
+	CrFwPcktLength_t oldestPcktLen;
 	CrFwPcktQueue_t pcktQueue = &(cmpSpecificData->pcktQueue);
 	CrFwGroup_t oldestPcktGroup = 0;
 	CrFwTypeCnt_t typeCnt;
@@ -448,6 +466,7 @@ static void FlushPcktQueue(FwSmDesc_t smDesc) {
 
 	while (CrFwPcktQueueIsEmpty(pcktQueue)==0) {
 		oldestPckt = CrFwPcktQueueGetOldest(pcktQueue);
+		oldestPcktLen = CrFwPcktGetLength(oldestPckt);
 		if (CrFwPcktGetSrc(oldestPckt) == CR_FW_HOST_APP_ID) { /* pckt originates from host application */
 			oldestPcktGroup = CrFwPcktGetGroup(oldestPckt);
 			if (oldestPcktGroup < CR_FW_OUTSTREAM_NOF_GROUPS) {
@@ -477,6 +496,8 @@ static void FlushPcktQueue(FwSmDesc_t smDesc) {
 			if (destTypeKeyPos < outStreamNofTypeCounter)
 				outStreamTypeCounter[destTypeKeyPos]++;
 		}
+		cmpSpecificData->nOfHandedOverPckts++;
+		cmpSpecificData->nOfHandedOverBytes += oldestPcktLen;
 		CrFwPcktQueuePop(pcktQueue);	/* remove packet from PQ */
 		CrFwPcktRelease(oldestPckt);
 	}
@@ -502,6 +523,7 @@ static void SendOrEnqueue(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* outStreamBaseData = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwOutStreamData_t* cmpSpecificData = (CrFwOutStreamData_t*)outStreamBaseData->cmpSpecificData;
 	CrFwPckt_t pckt = cmpSpecificData->pckt;
+	CrFwPcktLength_t pcktLen = CrFwPcktGetLength(pckt);
 	CrFwPckt_t pcktCopy;
 	CrFwPcktLength_t len;
 	CrFwDestSrc_t pcktSrc;
@@ -536,7 +558,7 @@ static void SendOrEnqueue(FwSmDesc_t smDesc) {
 	if (cmpSpecificData->handoverPckt(pckt) != 1) {
 		pcktQueue = &(cmpSpecificData->pcktQueue);
 		len = CrFwPcktGetLength(pckt);
-		pcktCopy = CrFwPcktMake(len);
+		pcktCopy = CrFwPcktMake(len);	/* Will eventually be released by FlushPcktQueue */
 		if (pcktCopy == NULL) {
 			CrFwRepErr(crOutStreamNoMorePckt, outStreamBaseData->typeId, outStreamBaseData->instanceId);
 			return;
@@ -544,6 +566,8 @@ static void SendOrEnqueue(FwSmDesc_t smDesc) {
 		memcpy(pcktCopy,pckt,len);
 		CrFwPcktQueuePush(pcktQueue,pcktCopy);	/* Enqueue packet, queue is empty at entry in READY */
 	} else {
+		cmpSpecificData->nOfHandedOverPckts++;
+		cmpSpecificData->nOfHandedOverBytes += pcktLen;
 		if (pcktSrc == CR_FW_HOST_APP_ID) {
 			if (pcktGroup < CR_FW_OUTSTREAM_NOF_GROUPS)
 				outStreamSeqCounter[pcktGroup]++;

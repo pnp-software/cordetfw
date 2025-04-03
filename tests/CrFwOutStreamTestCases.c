@@ -103,6 +103,13 @@ CrFwBool_t CrFwOutStreamTestCase1() {
 	if (!CrFwOutStreamIsInReady(outStream0))
 		return 0;
 
+	/* Check that handed-over counters are zero */
+	if (CrFwOutStreamGetNOfHandedOverBytes(outStream0) != 0) 
+		return 0;
+	if (CrFwOutStreamGetNOfHandedOverPckts(outStream0) != 0)
+		return 0;		
+
+	/* Check initial value of sequence counters */
 	for (i=0; i<CrFwOutStreamGetNOfGroups(); i++)
 		if (CrFwOutStreamGetSeqCnt((CrFwGroup_t)i) != 1)
 			return 0;
@@ -141,6 +148,12 @@ CrFwBool_t CrFwOutStreamTestCase1() {
 	if (CrFwPcktGetTypeCnt(pckt1) != 0)
 		return 0;
 	CrFwPcktRelease(pckt1);
+
+	/* Check that handed-over counters are zero */
+	if (CrFwOutStreamGetNOfHandedOverBytes(outStream0) != 0) 
+		return 0;
+	if (CrFwOutStreamGetNOfHandedOverPckts(outStream0) != 0)
+		return 0;		
 
 	/* Fill up packet queue */
 	for (i=1; i<CrFwOutStreamGetPcktQueueSize(outStream0); i++) {
@@ -302,6 +315,7 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 	CrFwPckt_t  pcktArray[CR_FW_MAX_NOF_PCKTS];
 	CrFwCounterU2_t i;
 	CrFwCounterU2_t errRepPosLocal;
+	CrFwPcktLength_t len;
 
 	/* Retrieve the first OutStream */
 	outStream0 = CrFwOutStreamMake(0);
@@ -335,6 +349,7 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 	/* Make a dummy packet and configure it to belong to the first group and
 	 * with the source equal to the host application */
 	pckt1 = CrFwPcktMake(CrFwPcktGetMaxLength());
+	len = CrFwPcktGetLength(pckt1);
 	CrFwPcktSetSrc(pckt1,CR_FW_HOST_APP_ID);
 	CrFwPcktSetGroup(pckt1,0);
 
@@ -348,6 +363,10 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 		return 0;
 	if (CrFwPcktGetSeqCnt(pckt1) != 1)
 		return 0;
+	if (CrFwOutStreamGetNOfHandedOverBytes(outStream0) != len) 
+		return 0;
+	if (CrFwOutStreamGetNOfHandedOverPckts(outStream0) != 1)
+		return 0;		
 	CrFwPcktRelease(pckt1);
 
 	/* Configure the Packet Hand-Over Operation to return "hand-over failed" */
@@ -375,6 +394,12 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 		return 0;
 	if (CrFwOutStreamGetSeqCnt(0) != 2)
 		return 0;
+	if (CrFwOutStreamGetNOfHandedOverBytes(outStream0) != len) 
+		return 0;
+	if (CrFwOutStreamGetNOfHandedOverPckts(outStream0) != 1)
+		return 0;	
+	len += CrFwPcktGetLength(pckt2);	
+	len += CrFwPcktGetLength(pckt3);	
 	CrFwPcktRelease(pckt2);
 	CrFwPcktRelease(pckt3);
 
@@ -409,6 +434,10 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 		return 0;
 	if (CrFwOutStreamGetSeqCnt(0) != 4)
 		return 0;
+	if (CrFwOutStreamGetNOfHandedOverBytes(outStream0) != len) 
+		return 0;
+	if (CrFwOutStreamGetNOfHandedOverPckts(outStream0) != 3)
+		return 0;		
 
 	/* Configure the Packet Hand-Over Operation to return "hand-over failed" */
 	CrFwOutStreamStubSetHandoverFlag(0);
@@ -431,6 +460,10 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != CrFwOutStreamGetPcktQueueSize(outStream0))
 		return 0;
+	if (CrFwOutStreamGetNOfHandedOverBytes(outStream0) != len) 
+		return 0;
+	if (CrFwOutStreamGetNOfHandedOverPckts(outStream0) != 3)
+		return 0;		
 
 	/* Configure the Packet Hand-Over Operation to return "hand-over successful" */
 	CrFwOutStreamStubSetHandoverFlag(1);
@@ -441,6 +474,12 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 0)
 		return 0;
+	if (CrFwOutStreamGetNOfHandedOverBytes(outStream0) != 
+			(CrFwCounterU3_t)(len+CrFwOutStreamGetPcktQueueSize(outStream0)*CrFwPcktGetMaxLength())) 
+		return 0;
+	if (CrFwOutStreamGetNOfHandedOverPckts(outStream0) != 
+			(CrFwCounterU3_t)(3+CrFwOutStreamGetPcktQueueSize(outStream0)))
+		return 0;		
 
 	/* Configure the middleware to be not ready to receive packets,
 	 * empty the packet factory and then attempt to send one more packet to the OutStream
@@ -475,6 +514,10 @@ CrFwBool_t CrFwOutStreamTestCase3() {
 		return 0;
 	if (CrFwOutStreamGetNOfPendingPckts(outStream0) != 0)
 		return 0;
+	if (CrFwOutStreamGetNOfHandedOverBytes(outStream0) != 0) 
+		return 0;
+	if (CrFwOutStreamGetNOfHandedOverPckts(outStream0) != 0)
+		return 0;		
 
 	/* Check that all packets have been de-allocated */
 	if (CrFwPcktGetNOfAllocated() != 0)

@@ -33,10 +33,11 @@
  *   occasions.
  * - Check that the OutStream is correctly configured.
  * - Initialize and configure the OutStream and bring its state machine to state CONFIGURED-READY
+ * - Check that the counters of handed over bytes and packets are zero
  * - Check that the OutStream sequence counters and PQ size are correct
  * - Configure the Packet Hand-Over Operation to return "hand-over failed", send a packet
- *   to the OutStream and check that the PQ state is correctly updated and that the
- *   OutStream goes to state BUFFERING.
+ *   to the OutStream and check that the PQ state is correctly updated; that the
+ *   OutStream goes to state BUFFERING; and that the hand-over counters remains at zero.
  * - Send the same packet multiple times until the PQ is full and check that its state
  *   is as expected.
  * - Send one more packet and check that an error report is generated.
@@ -103,10 +104,10 @@ CrFwBool_t CrFwOutStreamTestCase2();
  * - It is checked that the destination assigned to the OutStream is correctly
  *   reported by the OutStream
  * - A packet is sent to the OutStream and it is checked that it is successfully
- *   flushed.
+ *   flushed and that the hand-over counters of the OutStream are correctly incremented.
  * - The Packet Hand-Over Operation is configured to return "hand-over failed",
  *   two packets are sent to the OutStream, and it is checked that they are
- *   buffered.
+ *   buffered and that the hand-over counters are not incremented.
  * - The packet factory is configured to be empty and then a packet is sent to the
  *   OutStream and it is checked that error <code>::crOutStreamNoMorePckt</code> is raised.
  * - The ConnectionAvailable signal is sent to the OutStream and it is checked that
