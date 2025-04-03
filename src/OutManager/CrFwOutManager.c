@@ -167,6 +167,7 @@ static void OutManagerExecAction(FwPrDesc_t prDesc) {
 
 			if (outCmpState != crOutRegistryPending) {
 				CrFwOutRegistryUpdateState(outCmp,outCmpState);
+				outManagerCSData->sizeOfOutCmpInPocl -= CrFwOutCmpGetLength(outCmp); 
 				CrFwOutFactoryReleaseOutCmp(outCmp);
 				outManagerCSData->pocl[i] = NULL;
 				outManagerCSData->nOfOutCmpInPocl--;
@@ -207,6 +208,7 @@ CrFwBool_t CrFwOutManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t outCmp) {
 	/* POCL is not full --> load outCmp */
 	outManagerCSData->pocl[freePos] = outCmp;
 	outManagerCSData->nOfOutCmpInPocl++;
+	outManagerCSData->sizeOfOutCmpInPocl += CrFwOutCmpGetLength(outCmp);
 	outManagerCSData->nOfLoadedOutCmp++;
 
 	/* Start tracking OutComponent */
@@ -233,6 +235,7 @@ static void OutManagerInitAction(FwPrDesc_t initPr) {
 	for (i=0; i<outManagerPoclSize[id]; i++)
 		outManagerCSData->pocl[i] = NULL;
 	outManagerCSData->nOfOutCmpInPocl = 0;
+	outManagerCSData->sizeOfOutCmpInPocl = 0;
 	outManagerDataLocal->outcome = 1;
 }
 
@@ -250,6 +253,7 @@ static void OutManagerConfigAction(FwPrDesc_t initPr) {
 		}
 	}
 	outManagerCSData->nOfOutCmpInPocl = 0;
+	outManagerCSData->sizeOfOutCmpInPocl = 0;
 	outManagerCSData->nOfLoadedOutCmp = 0;
 	outManagerCSData->nextFreePoclPos = 0;
 	outManagerDataLocal->outcome = 1;
@@ -270,6 +274,7 @@ static void OutManagerShutdownAction(FwSmDesc_t smDesc) {
 	}
 	free(outManagerCSData->pocl);
 	outManagerCSData->nOfOutCmpInPocl = 0;
+	outManagerCSData->sizeOfOutCmpInPocl = 0;
 }
 
 /*-----------------------------------------------------------------------------------------*/
@@ -277,6 +282,13 @@ CrFwCounterU1_t CrFwOutManagerGetNOfPendingOutCmp(FwSmDesc_t smDesc) {
 	CrFwCmpData_t* outManagerDataLocal = (CrFwCmpData_t*)FwSmGetData(smDesc);
 	CrFwOutManagerData_t* outManagerCSData = (CrFwOutManagerData_t*)outManagerDataLocal->cmpSpecificData;
 	return outManagerCSData->nOfOutCmpInPocl;
+}
+
+/*-----------------------------------------------------------------------------------------*/
+CrFwCounterU3_t CrFwOutManagerGetSizeOfPendingOutCmp(FwSmDesc_t smDesc) {
+	CrFwCmpData_t* outManagerDataLocal = (CrFwCmpData_t*)FwSmGetData(smDesc);
+	CrFwOutManagerData_t* outManagerCSData = (CrFwOutManagerData_t*)outManagerDataLocal->cmpSpecificData;
+	return outManagerCSData->sizeOfOutCmpInPocl;
 }
 
 /*-----------------------------------------------------------------------------------------*/

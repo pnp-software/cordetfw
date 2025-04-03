@@ -145,6 +145,14 @@ CrFwBool_t CrFwOutManagerLoad(FwSmDesc_t smDesc, FwSmDesc_t outCmp);
 CrFwCounterU1_t CrFwOutManagerGetNOfPendingOutCmp(FwSmDesc_t smDesc);
 
 /**
+ * Return the total size (in bytes) of OutComponents currently in the POCL 
+ * of an OutManager.
+ * @param smDesc the descriptor of the OutManager State Machine.
+ * @return the size (in bytes) of OutComponents currently in the POCL of an OutManager.
+ */
+CrFwCounterU3_t CrFwOutManagerGetSizeOfPendingOutCmp(FwSmDesc_t smDesc);
+
+/**
  * Return the number of OutComponents successfully loaded in the POCL of an OutManager
  * since the OutManager was last reset.
  * @param smDesc the descriptor of the OutManager State Machine.
@@ -158,5 +166,6 @@ CrFwCounterU2_t CrFwOutManagerGetNOfLoadedOutCmp(FwSmDesc_t smDesc);
  * @return the size of the POCL of an OutManager.
  */
 CrFwCounterU1_t CrFwOutManagerGetPOCLSize(FwSmDesc_t smDesc);
+
 
 #endif /* CRFW_OUT_MANAGER_H_ */

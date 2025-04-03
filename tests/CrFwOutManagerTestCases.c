@@ -75,6 +75,8 @@ CrFwBool_t CrFwOutManagerTestCase1() {
 		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager1) != 0)
 		return 0;
+	if (CrFwOutManagerGetSizeOfPendingOutCmp(outManager1) != 0)
+		return 0;
 
 	/* Check counter of loaded OutComponents */
 	if (CrFwOutManagerGetNOfLoadedOutCmp(outManager1) != 0)
@@ -106,6 +108,7 @@ CrFwBool_t CrFwOutManagerTestCase2() {
 	FwSmDesc_t outManager2, outFactory;
 	FwSmDesc_t outCmp1, outCmp2, outCmp3, outCmp4, outCmp5;
 	CrFwCounterU2_t errRepPosLocal;
+	CrFwPcktLength_t len;
 
 	/* Instantiate the second OutManager */
 	outManager2 = CrFwOutManagerMake(1);
@@ -129,27 +132,39 @@ CrFwBool_t CrFwOutManagerTestCase2() {
 
 	/* Create and load four OutComponents (this should fill the OutManager */
 	outCmp1 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
+	len = CrFwOutCmpGetLength(outCmp1);
 	if (CrFwOutManagerLoad(outManager2, outCmp1) != 1)
 		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager2) != 1)
 		return 0;
+	if (CrFwOutManagerGetSizeOfPendingOutCmp(outManager2) != len)
+		return 0;
 
 	outCmp2 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
+	len += CrFwOutCmpGetLength(outCmp2);
 	if (CrFwOutManagerLoad(outManager2, outCmp2) != 1)
 		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager2) != 2)
 		return 0;
+	if (CrFwOutManagerGetSizeOfPendingOutCmp(outManager2) != len)
+		return 0;
 
 	outCmp3 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
+	len += CrFwOutCmpGetLength(outCmp3);
 	if (CrFwOutManagerLoad(outManager2, outCmp3) != 1)
 		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager2) != 3)
 		return 0;
+	if (CrFwOutManagerGetSizeOfPendingOutCmp(outManager2) != len)
+		return 0;
 
 	outCmp4 = CrFwOutFactoryMakeOutCmp(1,1,0,0);
+	len += CrFwOutCmpGetLength(outCmp4);
 	if (CrFwOutManagerLoad(outManager2, outCmp4) != 1)
 		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager2) != 4)
+		return 0;
+	if (CrFwOutManagerGetSizeOfPendingOutCmp(outManager2) != len)
 		return 0;
 
 	/* Store the current value of the error report counter */
@@ -160,6 +175,8 @@ CrFwBool_t CrFwOutManagerTestCase2() {
 	if (CrFwOutManagerLoad(outManager2, outCmp5) != 0)
 		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager2) != 4)
+		return 0;
+	if (CrFwOutManagerGetSizeOfPendingOutCmp(outManager2) != len)
 		return 0;
 
 	/* Check that an error report has been generated */
@@ -178,6 +195,8 @@ CrFwBool_t CrFwOutManagerTestCase2() {
 		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager2) != 0)
 		return 0;
+	if (CrFwOutManagerGetSizeOfPendingOutCmp(outManager2) != 0)
+		return 0;	
 	if (CrFwPcktGetNOfAllocated() != 0)
 		return 0;
 
@@ -197,6 +216,7 @@ CrFwBool_t CrFwOutManagerTestCase3() {
 	FwSmDesc_t outManager1, outRegistry, outFactory;
 	FwSmDesc_t sampleOutCmp;
 	FwSmCounterU3_t execCnt;
+	CrFwCounterU3_t outCmpLen;
 
 	/* Instantiate the first OutManager */
 	outManager1 = CrFwOutManagerMake(0);
@@ -256,6 +276,8 @@ CrFwBool_t CrFwOutManagerTestCase3() {
 		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager1) != 0)
 		return 0;
+	if (CrFwOutManagerGetSizeOfPendingOutCmp(outManager1) != 0)
+		return 0;
 	if (CrFwOutRegistryGetState(CrFwCmpGetInstanceId(sampleOutCmp)) != crOutRegistryAborted)
 		return 0;
 
@@ -265,12 +287,15 @@ CrFwBool_t CrFwOutManagerTestCase3() {
 
 	/* Re-allocate, re-load Sample OutComponent in OutManager, and re-register is with OutRegistry */
 	sampleOutCmp = CrFwOutFactoryMakeOutCmp(50,1,0,0);
+	outCmpLen = CrFwOutCmpGetLength(sampleOutCmp);
 	CrFwCmpReset(sampleOutCmp);
 	if (!CrFwOutCmpIsInLoaded(sampleOutCmp))
 		return 0;
 	if (CrFwOutManagerLoad(outManager1, sampleOutCmp) != 1)
 		return 0;
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager1) != 1)
+		return 0;
+	if (CrFwOutManagerGetSizeOfPendingOutCmp(outManager1) != outCmpLen)
 		return 0;
 
 	/* Make Sample OutComponent enabled but not ready */
@@ -289,6 +314,8 @@ CrFwBool_t CrFwOutManagerTestCase3() {
 
 	/* Check that Sample OutComponent is still loaded */
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager1) != 1)
+		return 0;
+	if (CrFwOutManagerGetSizeOfPendingOutCmp(outManager1) != outCmpLen)
 		return 0;
 	if (CrFwOutRegistryGetState(CrFwCmpGetInstanceId(sampleOutCmp)) != crOutRegistryPending)
 		return 0;
@@ -315,6 +342,7 @@ CrFwBool_t CrFwOutManagerTestCase3() {
 CrFwBool_t CrFwOutManagerTestCase4() {
 	FwSmDesc_t outManager4, outRegistry, outFactory, outStream1;
 	FwSmDesc_t sampleOutCmp1, sampleOutCmp2, stdOutCmp1, stdOutCmp2, stdOutCmp3, stdOutCmp4;
+	CrFwCounterU3_t outCmpLen;
 
 	/* Instantiate the second OutManager */
 	outManager4 = CrFwOutManagerMake(3);
@@ -386,12 +414,22 @@ CrFwBool_t CrFwOutManagerTestCase4() {
 	CrFwOutManagerLoad(outManager4, stdOutCmp1);
 	CrFwOutManagerLoad(outManager4, sampleOutCmp2);
 	CrFwOutManagerLoad(outManager4, stdOutCmp2);
+
+	outCmpLen = CrFwOutCmpGetLength(sampleOutCmp1);
+	outCmpLen += CrFwOutCmpGetLength(stdOutCmp1);
+	outCmpLen += CrFwOutCmpGetLength(sampleOutCmp2);
+	outCmpLen += CrFwOutCmpGetLength(stdOutCmp2);
+
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager4) != 4)
+		return 0;
+	if (CrFwOutManagerGetSizeOfPendingOutCmp(outManager4) != outCmpLen)
 		return 0;
 	if (CrFwOutManagerGetNOfLoadedOutCmp(outManager4) != 4)
 		return 0;
 
 	/* Execute the OutManager twice */
+	outCmpLen -= CrFwOutCmpGetLength(stdOutCmp1);	/* This component will be removed from the POCL */
+	outCmpLen -= CrFwOutCmpGetLength(stdOutCmp2);	/* This component will be removed from the POCL */
 	CrFwCmpExecute(outManager4);
 	CrFwCmpExecute(outManager4);
 
@@ -408,6 +446,8 @@ CrFwBool_t CrFwOutManagerTestCase4() {
 	/* Check that Sample OutComponents are still loaded */
 	if (CrFwOutManagerGetNOfPendingOutCmp(outManager4) != 2)
 		return 0;
+	if (CrFwOutManagerGetSizeOfPendingOutCmp(outManager4) != outCmpLen)
+		return 0;	
 	if (CrFwOutRegistryGetState(CrFwCmpGetInstanceId(sampleOutCmp1)) != crOutRegistryPending)
 		return 0;
 	if (CrFwOutRegistryGetState(CrFwCmpGetInstanceId(sampleOutCmp2)) != crOutRegistryPending)

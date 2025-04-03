@@ -469,10 +469,12 @@ typedef struct InManagerData {
 typedef struct OutManagerData {
 	/** Pending OutComponent List (POCL) for the OutManager. */
 	FwSmDesc_t* pocl;
-	/** Number of successfully loaded OutComponents */
+	/** Number of successfully loaded OutComponents since OutManager was last reset */
 	CrFwCounterU2_t nOfLoadedOutCmp;
 	/** Number of OutComponents currently in POCL */
 	CrFwCounterU1_t nOfOutCmpInPocl;
+	/** Total size in bytes of OutComponents currently in POCL */
+	CrFwPcktLength_t sizeOfOutCmpInPocl;
 	/**
 	 * Next free position in the POCL.
 	 * This is the position at which the next OutComponent loaded into the OutManager

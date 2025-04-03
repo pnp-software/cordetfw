@@ -29,6 +29,7 @@
  * - The instance identifier and the type identifier of the OutManager is checked.
  * - It is checked that the POCL is empty and has the expected size.
  * - It is checked that the counter of loaded OutComponents is equal to zero.
+ * - It is checked that the number and size of currently loaded OutComponents is zero.
  * - An attempt is made to create an OutManager with an illegal identifier and it is
  *   verified that this results in the application error code being set.
  * .
@@ -47,7 +48,7 @@ CrFwBool_t CrFwOutManagerTestCase1();
  * - The second OutManager is created, initialized and configured.
  * - The OutFactory is created, initialized and configured.
  * - The instance identifier of the OutManager is checked.
- * - OutComponents are loaded into the OutManager and it is checked that the number of loaded
+ * - OutComponents are loaded into the OutManager and it is checked that the number and size of loaded
  *   OutComponents is correctly reported.
  * - When the number of loaded OutComponents exceeds the size of the OutManager's POCL, it is checked
  *   that the correct error report is generated.
