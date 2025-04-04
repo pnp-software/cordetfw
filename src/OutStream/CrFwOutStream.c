@@ -619,7 +619,7 @@ void CrFwOutStreamDefSetDTS(CrFwCounterU2_t* pNofTypeCounter,
 		prevServSubType = servSubType;
 	}
 
-	(*pDestTypeKey) = malloc(sizeof(CrFwTypeCnt_t) * (*pNofTypeCounter));
+	(*pDestTypeKey) = malloc(sizeof(CrFwDestTypeKey_t) * (*pNofTypeCounter));
 
 	j = 0;
 	for (i=0; i<CR_FW_OUTCMP_NKINDS; i++) {
