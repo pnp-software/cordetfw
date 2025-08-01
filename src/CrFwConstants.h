@@ -298,10 +298,10 @@ typedef CrFwBool_t (*CrFwPcktAvailCheck_t)(CrFwDestSrc_t, CrFwDestSrc_t*);
 typedef CrFwBool_t (*CrFwPcktHandover_t)(CrFwPckt_t pckt);
 
 /**
- * Type for a pointer to a function implement the Set DTS operation of an OutStream.
+ * Type for a pointer to a function implementing the <i>Set DTS</i> operation of an OutStream.
  * The Set DTS operation is one of the adaptation points of the framwork.
- * It Set DTS operation computes the set of triplets (destination, type, sub-type)
- * for which the application OutStreams and  must maintain the type counters. 
+ * The Set DTS operation computes the set of triplets (destination, type, sub-type)
+ * for which the application OutStreams must maintain the type counters. 
  * 
  * A Set DTS Function returns:
  * - The number of type counters to be managed by the OutStreams
