@@ -435,15 +435,15 @@ typedef struct {
     CrFwDiscriminant_t upperBoundDisc;
 	/** Index of the next service type or zero when this is the last service type */
 	CrFwCmdRepIndex_t nextServType;
-	/** Number of discriminant values for this [type, sub-type] pair in the next row */
+	/** The enable state for the service type (see <code>CrFwOutRegistry.h</code>) */
 	CrFwBool_t isServTypeEnabled;
 	/** The enable state for the service sub-type (see <code>CrFwOutRegistry.h</code>) */
 	CrFwBool_t isServSubTypeEnabled;
 	/**
 	 * The enable state for the discriminants in the range [lowerBoundDisc,lowerBoundDisc].
-	 * This is intended to be an array of bits such that each bit represents a discriminant
+	 * This is intended to be an array of bytes such that each byte represents a discriminant
 	 * value within the range [lowerBoundDisc,lowerBoundDisc].
-	 * If the bit is equal to 1, the discriminant value is enabled; otherwise it is disabled.
+	 * If the byte is equal to 1, the discriminant value is enabled; otherwise it is disabled.
 	 */
 	unsigned char* isDiscriminantEnabled;
 } CrFwServDesc_t;
