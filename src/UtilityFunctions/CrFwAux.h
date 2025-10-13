@@ -113,7 +113,7 @@ CrFwBool_t CrFwAuxOutRegistryConfigCheck();
  *   service type, sub-types and discriminant values defined in the
  *   <code>#CR_FW_OUTREGISTRY_INIT_SERV_DESC</code>.
  * - The packet lengths specified in <code>#CR_FW_OUTCMP_INIT_KIND_DESC</code> are
- *   greater than zero.
+ *   greater than zero when the discriminant is non-zero
  * .
  * @return true if no errors are detected in the configuration data;
  * false otherwise.

@@ -229,7 +229,8 @@ CrFwBool_t CrFwAuxOutFactoryConfigCheck() {
 					return 0;
 
 		if (outCmpKindDesc[i].pcktLength < 1)
-			return 0;
+			if (outCmpKindDesc[i].discriminant != 0)
+				return 0;
 	}
 
 	for (i=0; i<CR_FW_OUTCMP_NKINDS; i++) {

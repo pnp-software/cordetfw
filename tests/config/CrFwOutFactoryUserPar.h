@@ -96,7 +96,7 @@
  * - The service types must be listed in increasing order.
  * - The service sub-types within a service type must be listed in increasing order.
  * - The discriminant values within a service type/sub-type must be listed in increasing order.
- * - The packet length must be greater than zero.
+ * - The packet length must be greater than zero if the packet discriminant is non-zero.
  * - The packet length must be sufficiently large to ensure that all packet attributes can
  *   be stored in the packet.
  * .
