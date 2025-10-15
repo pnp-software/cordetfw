@@ -95,7 +95,7 @@ FwSmDesc_t CrFwInStreamMake(CrFwInstanceId_t inStreamId);
  *
  * If the value of the source argument is illegal (i.e. if no
  * InStream has been bound to it), this function returns NULL and sets the
- * application error code to: <code>::crInStreamUndefDest</code>.
+ * application error code to: <code>::crInStreamUndefSrc</code>.
  *
  * This function should only be called after all InStreams have been built through
  * calls to function <code>::CrFwInStreamMake</code>.

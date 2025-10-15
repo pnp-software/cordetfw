@@ -220,7 +220,7 @@ FwSmDesc_t CrFwInStreamGet(CrFwDestSrc_t src) {
 		if (inStreamSrcPairs[i][0] == src)
 			return inStreamDesc[inStreamSrcPairs[i][1]];
 
-	CrFwSetAppErrCode(crInStreamUndefDest);
+	CrFwSetAppErrCode(crInStreamUndefSrc);
 	return NULL;
 }
 

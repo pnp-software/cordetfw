@@ -119,7 +119,7 @@ CrFwBool_t CrFwInStreamTestCase1() {
 		return 0;
 	if (CrFwInStreamGet(0)!=NULL)	/* No packet source has identifier zero */
 		return 0;
-	if (CrFwGetAppErrCode() != crInStreamUndefDest)
+	if (CrFwGetAppErrCode() != crInStreamUndefSrc)
 		return 0;
 	CrFwSetAppErrCode(crNoAppErr); 	/* reset application error code */
 

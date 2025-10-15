@@ -190,7 +190,7 @@ typedef enum {
 	 * A framework function has been called with a source attribute which is not
 	 * associated to any InStream.
 	 */
-	crInStreamUndefDest = 4,
+	crInStreamUndefSrc = 4,
 	/** A packet allocation request has failed (see <code>::CrFwPcktMake</code>). */
 	crPcktAllocationFail = 5,
 	/** A packet release request has encountered an error (see <code>::CrFwPcktRelease</code>). */
