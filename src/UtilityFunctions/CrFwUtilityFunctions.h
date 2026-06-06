@@ -221,10 +221,10 @@ CrFwCounterU2_t CrFwFindKeyIndex(CrFwCounterU3_t* keyValArray,
  * This function is used where the CRC of a very long array is computed in chunks.
  * The argument <code>crc</code> is the CRC over the first part of the array.
  * The argument data is the pointer to the next N bytes of the array.
- * The functionCRC over the first part of the array is <code>crc</code>.
+ * The CRC over the first part of the array is in argument <code>crc</code>.
  * 
  * If there is a need to compute the CRC over one single array of length N, 
- * crcPrev should be set to 0xFFFF. 
+ * argument <code>crc</code> should be set to 0xFFFF. 
  * 
  * The function performs no checks on the validity of the array pointer it is passed.
  * @param crc CRC over the previous chunk of data
